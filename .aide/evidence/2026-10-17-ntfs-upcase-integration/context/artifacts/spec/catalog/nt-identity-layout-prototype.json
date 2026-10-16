@@ -1,0 +1,38 @@
+{
+  "schema": "org.disked.private-identity-layout-profile/1",
+  "work_id": "DE-W030",
+  "status": "private borrowed fixture queries; not native identity/provider admission",
+  "base_revision": "852e22ef1aa2893126dcbf11615a30a6464b9fda",
+  "execution": "Reuse the existing StorageQueryPort transport, immediate errors, known-byte receipts, cancellation and pending/exception quarantine. Separate methods/fixture profile; the existing StorageFrame, owned reader, graph, frontend and product do not dispatch these methods. No opens, media content reads, writes, elevation or device-number targeting. Full/mixed native pointer tables remain refused.",
+  "identifiers": "StorageDeviceIdProperty: one eight-byte header and at most one body, selected Version 16, total size 16..4096, up to 32 descriptors of at most 256 identifier bytes. Bounds and nonoverlap for relative NextOffset; final next offset zero. Preserve exact bytes, code/type/association, unsupported enums, duplicate entries and raw receipts. No clone merge or physical identity claim.",
+  "alignment": "StorageAccessAlignmentProperty: one 28-byte reply, selected Version/Size 28. Logical 1..65536, physical 1..1048576, physical/logical integral ratio, sector offset in range/aligned, cache offset in range or zero for absent cache. Non-power-of-two sectors remain legitimate. This reported alignment is not an independently established geometry or raw access grant.",
+  "layout": "IOCTL_DISK_GET_DRIVE_LAYOUT_EX: initial 192 bytes, double only after documented buffer errors, at most seven calls ending at 12288 bytes. Failed buffers never supply growth counts. Selected pinned SDK has 48-byte prefix and 144-byte entries, at most 64. Preserve MBR/GPT/RAW, unused entries, signed range bounds, original GPT Name[36] units, unsigned attributes and all raw entry bytes. Unknown styles are unsupported. Inconsistent counts/styles and invalid signed ranges refuse; duplicates, overlaps, zero identities and usable-range disagreement remain explicit issues. Neither RewritePartition nor OS-reported GUID/signature grants effects. OS layout is not independently decoded raw metadata.",
+  "sdk": "Bind ABI to installed SDK 10.0.19041.0, C++14, selected _WIN32_WINNT/WINVER 0x0501 declarations; layout padding/new conditional fields remain uninterpreted raw bytes. Documented API floors do not qualify XP/Vista or any host. Actual exact ABI/build/import/fixture evidence is required on x64/x86.",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-storage_device_id_descriptor",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddstor/ns-ntddstor-_storage_identifier",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-storage_access_alignment_descriptor",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-drive_layout_information_ex",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-partition_information_ex",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_drive_layout_ex"
+  ],
+  "claims": {
+    "physical_identity": "unknown",
+    "physical_admission": false,
+    "mutation_authority": false,
+    "provider_admitted": false,
+    "owned_reader_admitted": false,
+    "raw_metadata_independently_verified": false,
+    "owner_accepted": false,
+    "unit_complete": false
+  },
+  "required_checks": [
+    "Independent exact SDK/control/byte fixtures on x64 and x86.",
+    "No construction/native/mixed-table dispatch; handle validation and reuse refusal.",
+    "Bounded identifier chains/version/count/size and lossless duplicate/unknown evidence.",
+    "Reported sector/cache alignment arithmetic and non-power-of-two sectors.",
+    "MBR/GPT/RAW layouts, signed overflow, unknown styles, finite growth, original names, attributes and conflicts.",
+    "Immediate errors, cancellation, pending invalid counts and callback exception quarantine.",
+    "Existing metadata/frame/owned-worker regressions, exact source/build/import/artifact identities and unchanged product inputs or a new product regression run."
+  ]
+}

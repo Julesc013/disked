@@ -1,0 +1,189 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.acquisition-case-export-outcome-prototype/1"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "refused",
+        "failed",
+        "cancelled",
+        "completed",
+        "unknown"
+      ]
+    },
+    "source_state": {
+      "type": "string",
+      "enum": [
+        "not_observed",
+        "unresolved",
+        "matched",
+        "changed"
+      ]
+    },
+    "diagnostic": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "maxLength": 256
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "org.disked.report-export-outcome-prototype/1"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "refused",
+            "failed",
+            "cancelled",
+            "completed"
+          ]
+        },
+        "diagnostic": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "maxLength": 256
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "admission",
+            "revalidation",
+            "creation",
+            "write",
+            "flush",
+            "readback",
+            "verification",
+            "completed"
+          ]
+        },
+        "output_state": {
+          "type": "string",
+          "enum": [
+            "not_created",
+            "uncertain",
+            "created"
+          ]
+        },
+        "submitted_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "written_bytes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "read_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "verified_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "flush": {
+          "type": "string",
+          "enum": [
+            "not_attempted",
+            "uncertain",
+            "api_confirmed"
+          ]
+        },
+        "uncertain_effect": {
+          "type": "boolean"
+        },
+        "worker_exit": {
+          "type": "string",
+          "const": "unobserved"
+        },
+        "physical_backing_qualified": {
+          "type": "boolean",
+          "const": false
+        },
+        "power_loss_persistence": {
+          "type": "string",
+          "const": "not_established"
+        },
+        "source_preservation": {
+          "type": "string",
+          "const": "not_established"
+        },
+        "authenticity": {
+          "type": "string",
+          "const": "not_established"
+        }
+      },
+      "required": [
+        "schema",
+        "status",
+        "diagnostic",
+        "phase",
+        "output_state",
+        "submitted_bytes",
+        "written_bytes",
+        "read_bytes",
+        "verified_bytes",
+        "flush",
+        "uncertain_effect",
+        "worker_exit",
+        "physical_backing_qualified",
+        "power_loss_persistence",
+        "source_preservation",
+        "authenticity"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "string",
+      "const": "recorded-acquisition-case-support-export"
+    },
+    "authenticity": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "current_image_verification": {
+      "type": "string",
+      "const": "not_performed"
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "source_state",
+    "diagnostic",
+    "output",
+    "scope",
+    "authenticity",
+    "current_image_verification"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-case-export-outcome:1",
+  "title": "Private joint export outcome: output effects and source applicability remain separate",
+  "$comment": "No public worker ID/exit/reconnect qualification. Completion constraints and bounded counters apply automatically."
+}

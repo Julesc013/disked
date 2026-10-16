@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "capture_id": {
+      "type": "string",
+      "minLength": 46,
+      "maxLength": 65,
+      "pattern": "^fat-capture:[0-9a-f]{32}:[1-9][0-9]{0,19}$",
+      "x-disked-scalar": "fat-capture-id"
+    }
+  },
+  "required": [
+    "capture_id"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-capture-release-parameters:1",
+  "title": "command-capture-release-parameters"
+}

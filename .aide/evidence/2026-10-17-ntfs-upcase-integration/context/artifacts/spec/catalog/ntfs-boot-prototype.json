@@ -1,0 +1,33 @@
+{
+  "schema": "org.disked.ntfs-boot-profile/1",
+  "work_id": "DE-W077",
+  "status": "expected-contract-before-code",
+  "base_revision": "ebbf8d0f420137c7c6817589e3d9ccc8ed35cdd9",
+  "scope": "Advance original NTFS inspection with supplied-byte boot geometry and checked initial MFT/MFTMirr record candidates. This complements DE-W076; no attribute/runlist traversal, arbitrary MFT record indexing, source/provider/frontend or storage effect admission follows.",
+  "ownership": "Extend private portable/ntfs/ntfs.h with a boot observation and independently authored C90 boot.c. Reuse checked byte/u64 primitives. Domain-specific protected-input/JSON probe helpers serve the existing record probe and new boot probe; no native calls in portable code or speculative source hierarchy.",
+  "inputs": "Explicit caller-supplied NTFS3.0/3.1 context, stable borrowed boot bytes and exact available volume-window byte bound. Boot bytes do not establish filesystem version or current source identity. Invalid API arguments or view above4096 bytes return existing status with result unchanged. Below512 bytes returns advisory truncated observation without consulting input bytes.",
+  "fields": "Preserve raw OEM/marker/geometry/sector field, MFT and mirror LCN, raw record/index encoding bytes, serial/checksum and selected BPB values. Logical sector is a power of two from512 through4096. Require the whole selected logical sector; short/overlong logical views are observations with length diagnostics. Observe required-zero BPB fields14..20,22..23,32..35; uninterpreted other bytes remain in the borrowed raw view.",
+  "encodings": "Cluster byte1..128 is a positive power-of-two sector count; byte244..255 represents2^(256-byte) sectors. Larger extended exponent/profile sizes are unsupported, not silently clamped. Selected cluster budget is2MiB. Record/index bytes1..127 mean a positive power-of-two cluster count; bytes225..247 mean2^(256-byte) bytes,512 through2^31. Decode explicitly from unsigned bytes without implementation-defined signed-char conversion or invalid shifts. Preserve calculated sizes; record budget support follows DE-W076's49152 limit independently of valid geometry. No INDX decoder is claimed.",
+  "spans": "The raw BPB sector field describes the data bound: data_bytes=field*sector_bytes. For the selected last-backup profile, media_span_bytes=data_bytes+sector_bytes and backup candidate offset=data_bytes. Both checked64-bit results are separate from raw field and outer available length; never silently clamp to the supplied window. Allocation clusters=floor(field/sectors_per_cluster). Record candidate offsets=LCN*cluster_bytes; require LCN inside complete allocation clusters, the whole record span inside data_bytes, and candidate spans disjoint from the primary logical boot sector and each other. These are bootstrap candidates, not confirmed MFT membership or a formula for later fragmented records.",
+  "diagnostics": "Return DE_OK with independent issue flags/raw facts for bounded malformed or unsupported metadata. Failed checked arithmetic preserves raw values, withdraws dependent validity and does not publish wrapped results. Missing55AA marker and nonzero mismatching additive boot checksum are advisory; neither alone withdraws geometric interpretation. Geometry validity, known record/index sizes, record budget support, valid seed addresses and usable MFT bootstrap are independent properties. A positive geometric result does not establish recognition of every NTFS feature, bootability, coherent acquisition, mountability or authority.",
+  "source_reconciliation": "The primary kernel reader and creator confirm large-cluster encoding and the extra last backup sector; older reader limits are not a format-wide ceiling. Windows NTFS_VOLUME_DATA_BUFFER is a native observation API, not the on-disk boot layout. Retain exact references and distinctions; do not execute upstream tools or copy their implementation.",
+  "limits": {"boot_view_bytes":4096,"logical_sector_bytes_min":512,"logical_sector_bytes_max":4096,"cluster_bytes_max":2097152,"record_bytes_max":49152},
+  "acceptance": [
+    "Independent Python struct/integer fixtures across all supported sector/cluster and signed record encodings, every raw encoding byte, advisory marker/checksum, BPB fields, high raw64 values and nonzero available bounds.",
+    "Exact data/media/backup and MFT/mirror seed span oracles; minimum/full-cluster, record crossing, partial allocation tail, sector/cluster/LCN multiply/add overflow and available length boundaries never wrap or clamp.",
+    "All prefix truncations, selected-sector lengths, over-budget and API error sentinels over actual protected/read-only inputs; existing964 record cases remain applicable after the test-only helper extraction.",
+    "Actual pinned native build, both standalone private-header/record regressions as selected, C90 syntax/import/build-boundary/context/source checks and appropriate tooling evidence. Unrun hosts, volume/provider/writer, owner/full0.1.0 claims remain unverified."
+  ],
+  "sources": [
+    "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/ntfs.h",
+    "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/super.c",
+    "https://github.com/tuxera/ntfs-3g/blob/7f0f841fc52cf719106c5c93bafe465004e36816/ntfsprogs/mkntfs.c",
+    "https://github.com/tuxera/ntfs-3g/blob/5d4a3f6f8ba36482662f2c42c99dce20d49d9b7e/libntfs-3g/bootsect.c",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-ntfs_volume_data_buffer"
+  ],
+  "expected_outputs_defined_before_evaluation": true,
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

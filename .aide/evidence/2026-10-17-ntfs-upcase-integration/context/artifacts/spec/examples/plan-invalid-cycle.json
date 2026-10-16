@@ -1,0 +1,41 @@
+{
+  "schema": "org.disked.plan/1",
+  "id": "fixture-plan-1",
+  "basis_revision": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "target_id": "fake:disk-1",
+  "target_fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "provider_closure_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "required_features": [
+    "image-only"
+  ],
+  "steps": [
+    {
+      "id": "step-1",
+      "operation": "table.gpt.repair",
+      "target_id": "fake:disk-1",
+      "provider_id": "fake:gpt",
+      "depends_on": [
+        "step-1"
+      ],
+      "parameters": {
+        "copy": "backup-from-selected-primary"
+      },
+      "preconditions": [
+        "identity-current",
+        "image-exclusive"
+      ],
+      "postconditions": [
+        "gpt-copies-match",
+        "unrelated-bytes-preserved"
+      ],
+      "safe_cancel_after": true
+    }
+  ],
+  "recovery_class": "backup-required",
+  "recovery_reference": "fixture:external-capsule",
+  "loss_report_digest": null,
+  "acknowledgements": [],
+  "execution_environment": "image-sandbox",
+  "status": "proposed"
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:response:1",
+  "title": "response",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.response/1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "accepted_running",
+        "refused",
+        "failed",
+        "unknown",
+        "recovery_required"
+      ]
+    },
+    "operation_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:disked:schema:diagnostic:1"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "request_id",
+    "status",
+    "operation_id",
+    "result",
+    "diagnostics",
+    "evidence"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted_running"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

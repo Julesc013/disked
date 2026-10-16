@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fake-operation-record:1",
+  "title": "Private DE-W016 fake-operation-record producer",
+  "description": "Fake-only provisional encoding. Semantic validation checks bounded integers, identities and dimensional consistency; the native history reader additionally replays the entire chain. Not a production journal or authenticated receipt.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "enum": [
+        "org.disked.fake-operation-record/1"
+      ]
+    },
+    "state": {
+      "$ref": "urn:disked:schema:fake-operation:1"
+    },
+    "previous": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "state",
+    "previous",
+    "digest"
+  ],
+  "additionalProperties": false
+}

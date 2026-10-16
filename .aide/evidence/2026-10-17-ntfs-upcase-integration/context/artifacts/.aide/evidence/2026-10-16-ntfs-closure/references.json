@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-10-15T21:04:49.263737+00:00",
+  "source_use": "Functional NTFS facts only; independent implementation and generated images. No fetched source is compiled or executed.",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-list-entry",
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-record-header",
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/master-file-table",
+    "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/attrlist.c",
+    "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/attrib.c"
+  ],
+  "facts": [
+    "The list descriptor belongs to the base FILE; its resident or nonresident value describes other attribute extents. The list itself is not enumerated by its own entries in the inspected NTFS-3G lookup.",
+    "The inspected kernel loads a nonresident list only from a VCN0 descriptor, decodes its run mapping and reads its exact declared data value. A bounded profile must report larger values/closures explicitly rather than invent a contiguous layout.",
+    "Only first extents provide authoritative stream sizes; retain the previous byte-granular initialized-size reconciliation instead of imposing cluster rounding from older documentation.",
+    "Missing full references are dependency facts. Source reads require already validated MFT coverage, exact generation/reference matching, retained byte provenance and rereads; no contiguous-index guess or stale-reference retry."
+  ]
+}

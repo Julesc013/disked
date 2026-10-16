@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:requirement:1",
+  "title": "requirement",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "spec": {
+      "type": "string",
+      "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+      },
+      "minItems": 1
+    },
+    "implementation_status": {
+      "const": "evidence_owned_elsewhere"
+    }
+  },
+  "required": [
+    "id",
+    "spec",
+    "statement",
+    "verification",
+    "test_ids",
+    "implementation_status"
+  ],
+  "additionalProperties": false
+}

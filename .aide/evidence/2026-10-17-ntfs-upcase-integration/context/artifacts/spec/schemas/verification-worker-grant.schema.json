@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "properties": {
+    "definition_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "x-disked-scalar": "sha256-digest"
+    },
+    "case_read": {
+      "type": "boolean",
+      "const": true
+    },
+    "image_read": {
+      "type": "boolean",
+      "const": true
+    },
+    "map_read": {
+      "type": "boolean",
+      "const": true
+    },
+    "store_write": {
+      "type": "boolean",
+      "const": true
+    },
+    "host_effects": {
+      "type": "boolean",
+      "const": true
+    },
+    "private_metadata": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "required": [
+    "definition_digest",
+    "case_read",
+    "image_read",
+    "map_read",
+    "store_write",
+    "host_effects",
+    "private_metadata"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-worker-grant:1",
+  "title": "Exact-definition private read/store/host metadata grant declaration"
+}

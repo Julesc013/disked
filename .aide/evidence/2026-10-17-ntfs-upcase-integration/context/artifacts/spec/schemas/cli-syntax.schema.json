@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:cli-syntax:1",
+  "title": "cli-syntax",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.cli-syntax/1"
+    },
+    "status": {
+      "const": "proposed"
+    },
+    "global_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "spellings": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(--[a-z][a-z0-9-]*|-[a-z])$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "value_arity": {
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "repeatable": {
+            "const": false
+          },
+          "field": {
+            "enum": [
+              "frontend",
+              "format",
+              "interactive",
+              "terminal_presentation"
+            ]
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "sets": {
+            "type": "object",
+            "properties": {
+              "frontend": {
+                "enum": [
+                  "auto",
+                  "cli",
+                  "tui",
+                  "gui",
+                  "plain"
+                ]
+              },
+              "format": {
+                "enum": [
+                  "human",
+                  "json",
+                  "ndjson"
+                ]
+              },
+              "interactive": {
+                "enum": [
+                  "auto",
+                  "yes",
+                  "no"
+                ]
+              },
+              "help": {
+                "type": "boolean"
+              },
+              "terminal_presentation": {
+                "enum": [
+                  "auto",
+                  "linear",
+                  "screen"
+                ]
+              }
+            },
+            "required": [],
+            "additionalProperties": false,
+            "minProperties": 1
+          }
+        },
+        "required": [
+          "id",
+          "spellings",
+          "value_arity",
+          "repeatable"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "value_arity": {
+                "const": 1
+              }
+            },
+            "required": [
+              "field",
+              "choices"
+            ],
+            "not": {
+              "required": [
+                "sets"
+              ]
+            }
+          },
+          {
+            "properties": {
+              "value_arity": {
+                "const": 0
+              }
+            },
+            "required": [
+              "sets"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "field"
+                  ]
+                },
+                {
+                  "required": [
+                    "choices"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "reserved_options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(--[a-z][a-z0-9-]*|-[a-z])$"
+      },
+      "uniqueItems": true
+    },
+    "reserved_command_entries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "retired_command_spellings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "spelling": {
+            "type": "string",
+            "minLength": 1
+          },
+          "former_command_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "spelling",
+          "former_command_id",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "word": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "word",
+          "aliases"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "global_options",
+    "reserved_options",
+    "reserved_command_entries",
+    "retired_command_spellings",
+    "domains"
+  ],
+  "additionalProperties": false
+}

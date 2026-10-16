@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fake-operation:1",
+  "title": "Private DE-W016 fake-operation producer",
+  "description": "Fake-only provisional encoding. Semantic validation checks bounded integers, identities and dimensional consistency; the native history reader additionally replays the entire chain. Not a production journal or authenticated receipt.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "enum": [
+        "org.disked.fake-operation/1"
+      ]
+    },
+    "scope": {
+      "enum": [
+        "fake-only"
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "pattern": "^fake-op:[0-9a-f]{32}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^fake-op:[0-9a-f]{32}:attempt:1$"
+        },
+        "worker_epoch": {
+          "type": "string",
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        "fixture_id": {
+          "enum": [
+            "fake:complete",
+            "fake:verification-failure",
+            "fake:cancel-checkpoint",
+            "fake:unknown"
+          ]
+        },
+        "host_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "input_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "image_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "process_id": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "process_created": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "provider_id": {
+          "enum": [
+            "provider.fake.bootstrap/1"
+          ]
+        },
+        "target_profile": {
+          "enum": [
+            "windows.nt10.x64.win32"
+          ]
+        }
+      },
+      "required": [
+        "operation_id",
+        "attempt_id",
+        "worker_epoch",
+        "fixture_id",
+        "host_id",
+        "source_revision",
+        "input_digest",
+        "image_digest",
+        "process_id",
+        "process_created",
+        "provider_id",
+        "target_profile"
+      ],
+      "additionalProperties": false
+    },
+    "sequence": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,19}$"
+    },
+    "phase": {
+      "enum": [
+        "pending",
+        "prepared",
+        "in_flight",
+        "observed",
+        "finished"
+      ]
+    },
+    "logical_state": {
+      "enum": [
+        "pending",
+        "active",
+        "completed",
+        "unresolved"
+      ]
+    },
+    "attempt_state": {
+      "enum": [
+        "prepared",
+        "dispatched",
+        "observing",
+        "finished"
+      ]
+    },
+    "effect_certainty": {
+      "enum": [
+        "not_started",
+        "in_flight",
+        "observed"
+      ]
+    },
+    "cancellation": {
+      "enum": [
+        "not_requested",
+        "requested",
+        "acknowledged"
+      ]
+    },
+    "recovery": {
+      "enum": [
+        "unnecessary",
+        "required"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        null,
+        "succeeded",
+        "cancelled",
+        "verification_failed"
+      ]
+    },
+    "synthetic_effect_count": {
+      "enum": [
+        null,
+        "0",
+        "1"
+      ]
+    },
+    "last_event": {
+      "enum": [
+        "initialized",
+        "prepared",
+        "effect_dispatched",
+        "effect_observed",
+        "verified",
+        "verification_failed",
+        "cancel_requested",
+        "cancel_acknowledged"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "scope",
+    "binding",
+    "sequence",
+    "phase",
+    "logical_state",
+    "attempt_state",
+    "effect_certainty",
+    "cancellation",
+    "recovery",
+    "outcome",
+    "synthetic_effect_count",
+    "last_event"
+  ],
+  "additionalProperties": false
+}

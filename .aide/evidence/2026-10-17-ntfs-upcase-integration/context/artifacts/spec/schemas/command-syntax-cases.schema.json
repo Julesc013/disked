@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-syntax-cases:1",
+  "title": "command-syntax-cases",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.command-syntax-cases/1"
+    },
+    "status": {
+      "const": "definition_only"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "native_execution": {
+      "const": "not_run"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "equivalent_argv": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          },
+          "expected": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "command",
+                  "help",
+                  "error"
+                ]
+              },
+              "command_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "operands": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "named_options": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "controls": {
+                "type": "object",
+                "properties": {
+                  "frontend": {
+                    "enum": [
+                      "auto",
+                      "cli",
+                      "tui",
+                      "gui",
+                      "plain"
+                    ]
+                  },
+                  "format": {
+                    "enum": [
+                      "human",
+                      "json",
+                      "ndjson"
+                    ]
+                  },
+                  "interactive": {
+                    "enum": [
+                      "auto",
+                      "yes",
+                      "no"
+                    ]
+                  },
+                  "terminal_presentation": {
+                    "enum": [
+                      "auto",
+                      "linear",
+                      "screen"
+                    ]
+                  }
+                },
+                "required": [],
+                "additionalProperties": false
+              },
+              "code": {
+                "enum": [
+                  "unknown_option",
+                  "invalid_option_value",
+                  "duplicate_option",
+                  "argument_conflict",
+                  "missing_option_value",
+                  "command_not_found",
+                  "option_not_applicable",
+                  "retired_command",
+                  "unexpected_operand"
+                ]
+              },
+              "help_requested": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "kind"
+            ],
+            "additionalProperties": false,
+            "oneOf": [
+              {
+                "properties": {
+                  "kind": {
+                    "const": "command"
+                  }
+                },
+                "required": [
+                  "command_id",
+                  "operands",
+                  "named_options",
+                  "controls"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "domain"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "code"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "help_requested"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "help"
+                  }
+                },
+                "required": [
+                  "controls"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "code"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "operands"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "named_options"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "help_requested"
+                      ]
+                    }
+                  ]
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "command_id"
+                    ],
+                    "not": {
+                      "required": [
+                        "domain"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "domain"
+                    ],
+                    "not": {
+                      "required": [
+                        "command_id"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "error"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "command_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "domain"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "operands"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "named_options"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "controls"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "equivalent_argv",
+          "expected",
+          "notes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "scope",
+    "native_execution",
+    "groups"
+  ],
+  "additionalProperties": false
+}

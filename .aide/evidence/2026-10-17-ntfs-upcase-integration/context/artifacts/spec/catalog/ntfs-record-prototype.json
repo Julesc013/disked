@@ -1,0 +1,41 @@
+{
+  "schema": "org.disked.ntfs-record-profile/1",
+  "work_id": "DE-W076",
+  "status": "private-prototype-contract",
+  "base_revision": "5507c4121481fb3acdd39ef4696332a27ebcd482",
+  "scope": "Advance the original NTFS scope with a bounded supplied-byte FILE record envelope and update-sequence validation/restoration primitive. No boot geometry, attribute/runlist traversal, native opening, filesystem verdict, source authority, writer or frontend admission follows.",
+  "ownership": "Private C90 portable/ntfs/ntfs.h and record.c use the existing checked byte/u64 representation. Native probe and independent generated-byte tests own their oracles. No packed native-struct casts, native64 requirement, duplicate arithmetic or speculative source tree.",
+  "format": "Explicit NTFS major/minor context; selected profile covers3.0/3.1 common FILE headers. Observe exact raw signature, sequence, attribute offset, flags, used/allocated sizes, base reference and next-attribute identifier. Preserve uninterpreted flags/reserved bytes. The common header ends at42 bytes; variable USA may begin at42 or48 and must precede attributes. No record-number-extension interpretation.",
+  "fixups": "Use512-byte sequence strides independently of physical-sector geometry. The on-disk USA count is a count of16-bit entries: record_bytes/512+1. Require aligned array offset at least42, complete exact array ending at or before byte510, and every protected tail equal to the first USA word before any restoration. Preserve mismatched-tail count and original bytes; do not partially repair a torn record.",
+  "source_discrepancy": "Microsoft MULTI_SECTOR_HEADER's member description calls array size bytes, while its detailed size formula uses ushort entries. The primary Linux implementation/layout independently confirm a word count. This contract explicitly selects the on-disk entry-count interpretation and records the discrepancy rather than copying the inconsistent prose.",
+  "limits": {
+    "record_bytes": 49152,
+    "stride_bytes": 512,
+    "header_bytes": 42
+  },
+  "api": "Observe returns DE_OK plus issue bits for a bounded malformed record, retaining raw values when available. Invalid API arguments and oversized budget return the existing checked status with observation unchanged. Restoration revalidates the supplied original record, requires a complete consistent FILE envelope for the selected version and sufficient separate output storage, validates all tails before copying, then restores only tail words in caller-owned RAM. Reject exact/partial source/output overlap using portable pointer equality over bounded spans; preserve input, output and result on restoration failure.",
+  "relationships": "Require a complete512-multiple record within the selected budget, exact allocated-size equality, used<=allocated, aligned first-attribute offset after the USA, and room for an attribute end marker. A valid envelope/fixup is not valid attributes, a complete filesystem, an atomic read, current identity or authority. Unknown flag bits remain raw observations, not extra permissions.",
+  "acceptance": [
+    "Independent Python byte/struct oracles across512/1024/4096/49152-byte records, both header layouts, every stride tail, boundary USA placements, raw64 values and uninterpreted bytes/flags.",
+    "Truncated records/header/array, odd/overlapping/out-of-first-stride offsets, missing/extra USA entries, bad signature/version/header relationships and one/many mismatched tails retain exact diagnostics without reading outside input.",
+    "Successful restoration matches independent bytes; invalid record/version/budget/capacity and source/output overlap leave all destination/result sentinels unchanged. Guard/read-only input and bounded generated mutations exercise the actual C90 implementation.",
+    "Actual selected compiler/build/launch/header/import/context/tooling and artifact identities. Original failures stay retained; no owner, legacy-host, NTFS volume/provider or full0.1.0 qualification is manufactured."
+  ],
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/multi-sector-header",
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-record-segment-header",
+    "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/ntfs.h",
+    "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/fsntfs.c"
+  ],
+  "source_use": "Functional format references only; independently authored implementation/tests. No upstream code imported or executed.",
+  "later_gates": [
+    "Boot/MFT addressing, attributes, runlists, names/security/compression/encryption and complete volume observations.",
+    "Held source, contained reader, common frontend and all original platform/storage operations.",
+    "Owner/provider/physical writer/recovery and release qualification."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "expected_outputs_defined_before_evaluation": true
+}

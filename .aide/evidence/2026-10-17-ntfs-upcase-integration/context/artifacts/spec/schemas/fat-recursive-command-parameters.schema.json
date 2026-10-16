@@ -1,0 +1,220 @@
+{
+  "type": "object",
+  "properties": {
+    "phase": {
+      "type": "string",
+      "enum": [
+        "prepare",
+        "execute"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "destination": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "ledger": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "volume_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 0,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "volume_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 512,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "fat_copy": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 0,
+      "x-disked-maximum": 4294967295
+    },
+    "capture_epoch": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "oem_code_page": {
+      "type": "string",
+      "enum": [
+        "437",
+        "850"
+      ]
+    },
+    "name_selection": {
+      "type": "string",
+      "enum": [
+        "long_or_short",
+        "short",
+        "identity"
+      ]
+    },
+    "unrepresentable_name": {
+      "type": "string",
+      "enum": [
+        "refuse",
+        "identity"
+      ]
+    },
+    "time_interpretation": {
+      "type": "string",
+      "enum": [
+        "preserve_raw",
+        "fixed_offset"
+      ]
+    },
+    "utc_offset_minutes": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]{0,2})$",
+      "maxLength": 4
+    },
+    "definition": {
+      "type": "object",
+      "$ref": "urn:disked:schema:fat-tree-review-prototype:1",
+      "x-disked-byte-budget": 32768
+    },
+    "definition_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "minLength": 71,
+      "maxLength": 71
+    },
+    "allow_source_read": {
+      "type": "boolean"
+    },
+    "allow_destination_write": {
+      "type": "boolean"
+    },
+    "allow_ledger_write": {
+      "type": "boolean"
+    },
+    "allow_operation_write": {
+      "type": "boolean"
+    },
+    "allow_host_effects": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "phase"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fat-recursive-command-parameters:1",
+  "title": "Provisional complete create-only recursive FAT extraction command",
+  "x-disked-form-discriminator": "phase",
+  "x-disked-form-default": "prepare",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "prepare"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source",
+          "destination",
+          "ledger",
+          "state_directory",
+          "volume_offset",
+          "volume_bytes",
+          "fat_copy",
+          "capture_epoch",
+          "oem_code_page"
+        ],
+        "properties": {
+          "definition": false,
+          "definition_digest": false,
+          "allow_source_read": false,
+          "allow_destination_write": false,
+          "allow_ledger_write": false,
+          "allow_operation_write": false,
+          "allow_host_effects": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "execute"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "definition",
+          "definition_digest",
+          "allow_source_read",
+          "allow_destination_write",
+          "allow_ledger_write",
+          "allow_operation_write",
+          "allow_host_effects"
+        ],
+        "properties": {
+          "source": false,
+          "destination": false,
+          "ledger": false,
+          "state_directory": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "capture_epoch": false,
+          "oem_code_page": false,
+          "name_selection": false,
+          "unrepresentable_name": false,
+          "time_interpretation": false,
+          "utc_offset_minutes": false,
+          "allow_source_read": {
+            "const": true
+          },
+          "allow_destination_write": {
+            "const": true
+          },
+          "allow_ledger_write": {
+            "const": true
+          },
+          "allow_operation_write": {
+            "const": true
+          },
+          "allow_host_effects": {
+            "const": true
+          }
+        }
+      }
+    }
+  ],
+  "x-disked-u64-window": [
+    "volume_offset",
+    "volume_bytes"
+  ]
+}

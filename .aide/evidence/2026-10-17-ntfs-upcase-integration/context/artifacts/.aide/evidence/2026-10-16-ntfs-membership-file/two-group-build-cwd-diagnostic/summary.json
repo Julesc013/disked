@@ -1,0 +1,41 @@
+{
+  "status": "diagnostic-pass-original-unexplained",
+  "not_qualification": true,
+  "recorded_at": "2026-10-16T10:53:55.470783+00:00",
+  "purpose": "One CTest reproduction with original failed build-directory working directory, using unchanged90e246d9 binaries and raw worker/elapsed recording before unchanged assertions.25 direct worker samples did not reproduce the failure. No fresh product campaign.",
+  "stages": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-file\\two-group-build-cwd-diagnostic\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-two-group-build-cwd-diagnostic-build"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.4597054999321699,
+      "log": "configure.log"
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-two-group-build-cwd-diagnostic-build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--stop-on-failure",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-file\\two-group-build-cwd-diagnostic\\junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 48.29109610011801,
+      "log": "native.log"
+    }
+  ],
+  "inputs_unchanged": true
+}

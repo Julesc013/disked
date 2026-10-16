@@ -1,0 +1,434 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.acquisition-plan-prototype/1"
+    },
+    "capture_epoch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "read"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "identity-epoch"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "destination": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "create-write"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "readback-sha256"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "map": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "create-append"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "ordered-hash-chain"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "host": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "observe"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "identity-epoch"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "executable": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "read"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "identity-epoch"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        },
+        "provider": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "access": {
+              "const": "observe"
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+            },
+            "verification": {
+              "const": "identity-epoch"
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "access",
+            "start",
+            "end",
+            "aliases",
+            "failure_domain",
+            "verification"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "source",
+        "destination",
+        "map",
+        "host",
+        "executable",
+        "provider"
+      ],
+      "additionalProperties": false
+    },
+    "bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "chunk_bytes": {
+      "enum": [
+        "4096",
+        "65536",
+        "1048576"
+      ]
+    },
+    "read_policy": {
+      "enum": [
+        "ordinary",
+        "failing-read-mostly"
+      ]
+    },
+    "retry_limit": {
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "substitution": {
+      "enum": [
+        "stop",
+        "zero-fill"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "capture_epoch",
+    "resources",
+    "bytes",
+    "chunk_bytes",
+    "read_policy",
+    "retry_limit",
+    "substitution"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-plan-prototype:1",
+  "title": "Private acquisition plan review profile",
+  "description": "Producer/review shape only. Native semantic validation additionally enforces signed-64 size, bounded map count, per-role access/footprint/verification, complete nonconflicting aliases and failing-media policy before effects. Not a production plan/journal ABI."
+}

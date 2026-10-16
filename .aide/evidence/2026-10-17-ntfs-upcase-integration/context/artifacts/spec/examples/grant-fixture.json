@@ -1,0 +1,33 @@
+{
+  "schema": "org.disked.work-grant/1",
+  "work_id": "DE-W010",
+  "base_revision": "EXAMPLE_NOT_A_REAL_COMMIT",
+  "spec_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "grantor": "fixture:not-an-approval",
+  "issued_at": "2026-09-17T12:00:00Z",
+  "allowed_paths": [
+    "fixture-only/"
+  ],
+  "allowed_actions": [
+    "read-fixture"
+  ],
+  "forbidden_operations": [
+    "raw physical-device access",
+    "administrator/root execution",
+    "customer-data access",
+    "release signing",
+    "unrequested GitHub mutation",
+    "automatic protected-branch promotion",
+    "executing fetched scripts",
+    "claiming unrun tests passed"
+  ],
+  "physical_devices": false,
+  "elevation": false,
+  "network": "none",
+  "release_signing": false,
+  "budget": {
+    "max_input_bytes": 100000,
+    "max_worker_attempts": 1
+  },
+  "expires_at": "2026-09-18T12:00:00Z"
+}

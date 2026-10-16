@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fake-operation-event:1",
+  "title": "Fake operation event producer",
+  "description": "Provisional bounded observation of a validated fake record. Semantic validation binds envelope identity/sequence and verifies state/record digest.",
+  "allOf": [
+    {
+      "$ref": "urn:disked:schema:event:1"
+    }
+  ],
+  "properties": {
+    "type": {
+      "enum": [
+        "fake.operation.record",
+        "fake.operation.snapshot"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fake-operation-event/1"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "observer_epoch": {
+          "type": "string",
+          "pattern": "^watch:[0-9a-f]{32}$"
+        },
+        "record": {
+          "$ref": "urn:disked:schema:fake-operation-record:1"
+        }
+      },
+      "required": [
+        "schema",
+        "request_id",
+        "observer_epoch",
+        "record"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
