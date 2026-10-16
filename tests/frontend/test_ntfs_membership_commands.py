@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'images'))
 from ntfs_membership_fixture import MembershipVolume, filename, index_entry, ref
 from test_ntfs_directory_commands import CAPS, DIRECTORY, display, prefix
 from test_ntfs_commands import canonical, digest, write, file_digest, Gui, wait, Gate
+from protocol_trace import ProtocolTrace
 
 
 def stable(response):
@@ -312,28 +313,8 @@ def main():
                 if diagnostic:assert diagnostic in [d['code'] for d in result['diagnostics']],result
             launch('normal-fault-isolation',['--json','image','inspect',str(path),*options(v)],settings={'DISKED_NTFS_COMMAND_TEST_HANG':'1'})
             gate=Gate();process=subprocess.Popen([str(a.fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=a.root,env=dict(env,DISKED_NTFS_COMMAND_TEST_GATE=gate.name));messages=queue.Queue()
-            late_start=time.monotonic();late_lock=threading.Lock();late_frames=[]
-            late_log=a.output.with_name(a.output.stem+'-late-trace.jsonl')
-            def late_event(kind,**values):
-                with late_lock:
-                    with late_log.open('a',encoding='utf-8',newline='\n') as log:
-                        log.write(json.dumps(dict(seconds=time.monotonic()-late_start,kind=kind,**values))+'\n')
-            def receive_late():
-                try:
-                    for raw in process.stdout:
-                        frame=a.output.with_name(a.output.stem+'-late-frame-'+str(len(late_frames))+'.json')
-                        frame.write_bytes(raw);late_frames.append(frame.name);value=json.loads(raw)
-                        late_event('frame',request_id=value.get('request_id'),status=value.get('status'),diagnostics=value.get('diagnostics'),raw=frame.name)
-                        messages.put(value)
-                except BaseException as error:late_event('receiver_error',error=repr(error))
-            threading.Thread(target=receive_late,daemon=True).start()
-            def send(request):
-                late_event('send',request_id=request['request_id'],command=request['command'])
-                process.stdin.write(canonical(request)+b'\n');process.stdin.flush()
-            def get_message(timeout):
-                value=messages.get(timeout=timeout)
-                late_event('dequeue',request_id=value.get('request_id'),status=value.get('status'),remaining=messages.qsize())
-                return value
+            trace=ProtocolTrace(process,a.output,canonical);messages=trace.messages
+            late_event=trace.event;send=trace.send;get_message=trace.get
             try:
                 before=file_digest(path);send(wire(params(v,path)));gate.entered();late_event('gate_entered');expired=get_message(6)
                 assert expired['status']=='unknown' and expired['diagnostics'][0]['code']=='request_wait_expired'
@@ -352,9 +333,10 @@ def main():
                 process.stdin.close();code=process.wait(timeout=8);stderr=process.stderr.read()
                 late_event('normal_exit_observation',code=code,stderr_bytes=len(stderr))
                 assert code==6 and not stderr
-                assert file_digest(path)==before;record('late-retains-source-slot',expired=expired,trace=str(late_log),frames=late_frames)
+                assert file_digest(path)==before;record('late-retains-source-slot',expired=expired,trace=str(trace.log),frames=trace.frames)
             except BaseException as error:
                 late_event('failure',error=repr(error),parent_returncode=process.poll(),queued=messages.qsize())
+                trace.snapshot('failure_pending_responses')
                 raise
             finally:
                 gate.release();gate.close()

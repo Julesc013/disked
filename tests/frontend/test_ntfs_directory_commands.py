@@ -5,6 +5,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from ntfs_directory_fixture import DirectoryVolume,ref,filename,index_entry
 from test_ntfs_directory import cases as directory_cases
 from test_ntfs_commands import canonical,digest,write,file_digest,Gui,wait,Gate
+from protocol_trace import ProtocolTrace
 
 CAPS=dict(read_requests='512',read_bytes='2097152',retained_bytes='524288',attributes='4096',runs='4096',output_bytes='1048576')
 DIRECTORY=dict(entries='4096',blocks='128',bitmap_bytes='65536')
@@ -280,27 +281,33 @@ def main():
                 if diagnostic:assert diagnostic in [d['code'] for d in value['diagnostics']],value
             launch('normal-fault-isolation',['--json','image','inspect',str(path),*options(v)],settings={'DISKED_NTFS_COMMAND_TEST_HANG':'1'})
             gate=Gate();process=subprocess.Popen([str(a.fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=a.root,env=dict(env,DISKED_NTFS_COMMAND_TEST_GATE=gate.name));messages=queue.Queue()
-            thread=threading.Thread(target=lambda:[messages.put(json.loads(line)) for line in process.stdout],daemon=True);thread.start()
-            def send(value):process.stdin.write(canonical(value)+b'\n');process.stdin.flush()
+            trace=ProtocolTrace(process,a.output,canonical);messages=trace.messages;send=trace.send
             try:
-                send(wire(params(v,path)));gate.entered();expired=messages.get(timeout=6)
+                send(wire(params(v,path)));gate.entered();trace.event('gate_entered');expired=trace.get(6)
                 assert expired['status']=='unknown' and expired['diagnostics'][0]['code']=='request_wait_expired'
                 try:
                     with path.open('r+b'):raise AssertionError('Source writable before actual worker completion')
                 except PermissionError:pass
-                send(wire(params(v,path),'busy'));assert messages.get(timeout=2)['diagnostics'][0]['code']=='request_resource_limit'
-                request=wire({},'essential');request['command']='command.list';send(request);assert messages.get(timeout=2)['status']=='completed'
-                gate.release();after=None
+                send(wire(params(v,path),'busy'));assert trace.get(2)['diagnostics'][0]['code']=='request_resource_limit'
+                request=wire({},'essential');request['command']='command.list';send(request);assert trace.get(2)['status']=='completed'
+                trace.event('gate_release');gate.release();after=None
                 for _ in range(35):
-                    time.sleep(.1);send(wire(params(v,path),'fresh'));after=messages.get(timeout=3)
+                    time.sleep(.1);send(wire(params(v,path),'fresh'));after=trace.get(3)
                     if after['status']=='completed':break
                     assert after['diagnostics'][0]['code']=='request_resource_limit'
+                trace.event('final_assertion',has_after=after is not None,after_status=after and after['status'],queue_empty=messages.empty(),queued=messages.qsize())
                 assert after and after['status']=='completed' and messages.empty()
-                process.stdin.close();assert process.wait(timeout=8)==6 and not process.stderr.read()
+                process.stdin.close();code=process.wait(timeout=8);stderr=process.stderr.read();trace.event('normal_exit_observation',code=code,stderr_bytes=len(stderr));assert code==6 and not stderr
                 record('late-retains-source-slot',expired=expired)
+            except BaseException as error:
+                trace.event('failure',error=repr(error));trace.snapshot('failure_pending_responses');raise
             finally:
                 gate.release();gate.close()
-                if process.poll() is None:process.kill();process.wait(timeout=5)
+                if process.poll() is None:
+                    if not process.stdin.closed:process.stdin.close()
+                    try:code=process.wait(timeout=15);trace.event('failure_exit_observation',code=code)
+                    except subprocess.TimeoutExpired:trace.event('parent_still_running',pid=process.pid);raise
+                trace.snapshot('teardown_observation')
             assert file_digest(path)==before
             for argv in (['help','--json'],['build','inspect','--json'],['command','list','--json']):launch('essential-'+argv[0],argv,exe=a.fault,settings={'DISKED_NTFS_COMMAND_TEST_OPEN_GUARD':'1'})
             passed=True

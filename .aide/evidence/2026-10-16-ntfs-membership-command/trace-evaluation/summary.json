@@ -1,0 +1,66 @@
+{
+  "recorded_at": "2026-10-16T13:37:13.748403+00:00",
+  "status": "pass",
+  "scope": "Two traced full frontend groups against exact faee native binaries, including original fault preludes. Diagnostic/working evidence, not fresh qualification.",
+  "binary_source_revision": "faeeb805cdf81b1f8ab83af04a1b330d8680b375",
+  "inputs": {
+    "tests/frontend/protocol_trace.py": "sha256:80271b8a2b7561d287c9aa7dadbcfa76fb21ff21dd6d2121f2257ae0212ac330",
+    "tests/frontend/test_ntfs_directory_commands.py": "sha256:fe99d83bdf51acbb1d2279026852f8ca05bdfefb33206a1b715668ec3f31852d",
+    "tests/frontend/test_ntfs_membership_commands.py": "sha256:24e54e356e0e68dcdc3d451a043db20c59f9117311170b7a925c1c12e461d4a0"
+  },
+  "artifacts": {
+    "disked.exe": "sha256:e0cb0f6a4db621a55e29d34d9c7c6d5f0b0ab9903fae3679331f05304e5643d3",
+    "disked_ntfs_test.exe": "sha256:902c2da3007091d4ef7ede133c9628b44abab5973d5a9abe6f1bea03aad7858f",
+    "ntfs_inspection_probe.exe": "sha256:be3c9d766dacfb9f80f7d4521f7d4d7bc0bc572fe9c6f0366968fdbd0bc0974c",
+    "ntfs_worker_probe.exe": "sha256:38f82547ad1d09f0a235a68e7da39bff64c130003ed2671938c9745908196dd0"
+  },
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "D:\\Projects\\DiskEd\\disked\\tests\\frontend\\test_ntfs_directory_commands.py",
+        "--exe",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\disked.exe",
+        "--fault",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\disked_ntfs_test.exe",
+        "--worker",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\ntfs_worker_probe.exe",
+        "--probe",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\ntfs_inspection_probe.exe",
+        "--root",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-command\\trace-evaluation\\directory-cases.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 33.81037490000017,
+      "log": "directory.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "D:\\Projects\\DiskEd\\disked\\tests\\frontend\\test_ntfs_membership_commands.py",
+        "--exe",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\disked.exe",
+        "--fault",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\disked_ntfs_test.exe",
+        "--worker",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\ntfs_worker_probe.exe",
+        "--probe",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-membership-command-qualification-faeeb805\\build\\Release\\ntfs_inspection_probe.exe",
+        "--root",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-command\\trace-evaluation\\membership-cases.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 37.37879960006103,
+      "log": "membership.log"
+    }
+  ],
+  "original_failure_causes_established": false,
+  "owner_accepted": false,
+  "inputs_unchanged": true
+}

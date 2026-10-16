@@ -29,7 +29,7 @@ content hash. Retained test receipts separately hash the generated source file
 before and after a test. Finite observation and reread agreement do not establish
 an atomic or current-source snapshot.
 
-The first exact-source candidate,8a1c17e0, passed53 selected native groups and
+The first exact-source candidate, 8a1c17e0, passed 53 selected native groups and
 headers/C90/import observations, but full tooling had five temporary-fixture
 errors and a source-free review found malformed-row validation gaps. It was not
 integrated. The common port now checks mandatory row shapes and references;
@@ -42,3 +42,12 @@ diagnostic passed with unchanged limits. The main harness now retains every
 frame and final assertion/exit observations. The subsequent working run passes;
 this does not establish the original failure cause. Fresh qualification remains
 required. Prior failures and unverified platforms remain explicitly retained.
+
+The guarded faeeb805 candidate later stopped in the existing directory late-reply
+test: one selected group passed, one failed and 51 were not run. The test's 3s
+receive timed out; its old failure cleanup did not retain any reply that might have arrived later. No
+integration followed. Both directory and membership tests now share a trace
+helper that retains frames/queue/exit state; successful admission limits remain
+unchanged. A fixed 24-case native diagnostic and full traced 100/126-case groups
+pass against that same binary. Their results do not explain the original delay.
+Fresh qualification of the traced source is still required.

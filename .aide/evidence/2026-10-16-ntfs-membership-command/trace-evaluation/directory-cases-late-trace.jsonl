@@ -1,0 +1,17 @@
+{"seconds": 0.02167890011332929, "kind": "send", "request_id": "ntfs-directory:req", "command": "image.inspect"}
+{"seconds": 0.02310900017619133, "kind": "gate_entered"}
+{"seconds": 4.032465500058606, "kind": "frame", "request_id": "ntfs-directory:req", "status": "unknown", "diagnostics": [{"code": "request_wait_expired", "message_key": "disked.request_wait_expired", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "directory-cases-late-frame-0.json"}
+{"seconds": 4.032706700032577, "kind": "dequeue", "request_id": "ntfs-directory:req", "status": "unknown", "remaining": 0}
+{"seconds": 4.033287200145423, "kind": "send", "request_id": "busy", "command": "image.inspect"}
+{"seconds": 4.034001900115982, "kind": "frame", "request_id": "busy", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "directory-cases-late-frame-1.json"}
+{"seconds": 4.034136900212616, "kind": "dequeue", "request_id": "busy", "status": "refused", "remaining": 0}
+{"seconds": 4.03423190000467, "kind": "send", "request_id": "essential", "command": "command.list"}
+{"seconds": 4.036582100205123, "kind": "frame", "request_id": "essential", "status": "completed", "diagnostics": [], "raw": "directory-cases-late-frame-2.json"}
+{"seconds": 4.036709000123665, "kind": "dequeue", "request_id": "essential", "status": "completed", "remaining": 0}
+{"seconds": 4.03680510004051, "kind": "gate_release"}
+{"seconds": 4.13703850004822, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.322596900165081, "kind": "frame", "request_id": "fresh", "status": "completed", "diagnostics": [], "raw": "directory-cases-late-frame-3.json"}
+{"seconds": 4.322798800189048, "kind": "dequeue", "request_id": "fresh", "status": "completed", "remaining": 0}
+{"seconds": 4.322936000069603, "kind": "final_assertion", "has_after": true, "after_status": "completed", "queue_empty": true, "queued": 0}
+{"seconds": 4.3284732000902295, "kind": "normal_exit_observation", "code": 6, "stderr_bytes": 0}
+{"seconds": 4.328672300092876, "kind": "teardown_observation", "pending": [], "parent_returncode": 6, "receiver_alive": false, "receiver_error": null}

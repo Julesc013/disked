@@ -1,0 +1,17 @@
+{"seconds": 0.0006631999276578426, "kind": "send", "request_id": "ntfs-directory:req", "command": "image.inspect"}
+{"seconds": 0.01792780007235706, "kind": "gate_entered"}
+{"seconds": 4.017701500095427, "kind": "frame", "request_id": "ntfs-directory:req", "status": "unknown", "diagnostics": [{"code": "request_wait_expired", "message_key": "disked.request_wait_expired", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "protocol-late-frame-0.json"}
+{"seconds": 4.017906500026584, "kind": "dequeue", "request_id": "ntfs-directory:req", "status": "unknown", "remaining": 0}
+{"seconds": 4.018556599970907, "kind": "source_remains_pinned"}
+{"seconds": 4.01867359993048, "kind": "send", "request_id": "busy", "command": "image.inspect"}
+{"seconds": 4.0197654000949115, "kind": "frame", "request_id": "busy", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "protocol-late-frame-1.json"}
+{"seconds": 4.01990450010635, "kind": "dequeue", "request_id": "busy", "status": "refused", "remaining": 0}
+{"seconds": 4.020029499894008, "kind": "send", "request_id": "essential", "command": "command.list"}
+{"seconds": 4.0223817999940366, "kind": "frame", "request_id": "essential", "status": "completed", "diagnostics": [], "raw": "protocol-late-frame-2.json"}
+{"seconds": 4.02250609989278, "kind": "dequeue", "request_id": "essential", "status": "completed", "remaining": 0}
+{"seconds": 4.022604800062254, "kind": "gate_release"}
+{"seconds": 4.123201899928972, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.207110400078818, "kind": "frame", "request_id": "fresh", "status": "completed", "diagnostics": [], "raw": "protocol-late-frame-3.json"}
+{"seconds": 4.207271300023422, "kind": "dequeue", "request_id": "fresh", "status": "completed", "remaining": 0}
+{"seconds": 4.207397799938917, "kind": "original_final_assertion", "after_status": "completed", "queue_empty": true}
+{"seconds": 4.212903799954802, "kind": "final_observation", "pending": [], "parent_returncode": 6, "receiver_alive": false, "receiver_error": null}

@@ -1,0 +1,20 @@
+{"seconds": 0.0004086000844836235, "kind": "send", "request_id": "ntfs-directory:req", "command": "image.inspect"}
+{"seconds": 0.017248899908736348, "kind": "gate_entered"}
+{"seconds": 4.029053699923679, "kind": "frame", "request_id": "ntfs-directory:req", "status": "unknown", "diagnostics": [{"code": "request_wait_expired", "message_key": "disked.request_wait_expired", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "protocol-late-frame-0.json"}
+{"seconds": 4.029227399965748, "kind": "dequeue", "request_id": "ntfs-directory:req", "status": "unknown", "remaining": 0}
+{"seconds": 4.029942699940875, "kind": "source_remains_pinned"}
+{"seconds": 4.030067899962887, "kind": "send", "request_id": "busy", "command": "image.inspect"}
+{"seconds": 4.031030199956149, "kind": "frame", "request_id": "busy", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "protocol-late-frame-1.json"}
+{"seconds": 4.031144900014624, "kind": "dequeue", "request_id": "busy", "status": "refused", "remaining": 0}
+{"seconds": 4.031234599882737, "kind": "send", "request_id": "essential", "command": "command.list"}
+{"seconds": 4.033651199890301, "kind": "frame", "request_id": "essential", "status": "completed", "diagnostics": [], "raw": "protocol-late-frame-2.json"}
+{"seconds": 4.0337763000279665, "kind": "dequeue", "request_id": "essential", "status": "completed", "remaining": 0}
+{"seconds": 4.033878199988976, "kind": "gate_release"}
+{"seconds": 4.134466300019994, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.135185499908403, "kind": "frame", "request_id": "fresh", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "protocol-late-frame-3.json"}
+{"seconds": 4.135377499973401, "kind": "dequeue", "request_id": "fresh", "status": "refused", "remaining": 0}
+{"seconds": 4.236076300032437, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.338423500070348, "kind": "frame", "request_id": "fresh", "status": "completed", "diagnostics": [], "raw": "protocol-late-frame-4.json"}
+{"seconds": 4.3386689000763, "kind": "dequeue", "request_id": "fresh", "status": "completed", "remaining": 0}
+{"seconds": 4.338795399991795, "kind": "original_final_assertion", "after_status": "completed", "queue_empty": true}
+{"seconds": 4.3444439000450075, "kind": "final_observation", "pending": [], "parent_returncode": 6, "receiver_alive": false, "receiver_error": null}
