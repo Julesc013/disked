@@ -22,9 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W098: expose bounded NTFS raw-name correspondence through existing
-  common command/frontends with explicit target limits, projections and outcomes.
-  [Contract](spec/catalog/ntfs-membership-command-prototype.json).
+- [x] DE-W098 common NTFS correspondence command: exact `01feae81` passes
+  53/168 selected x64 groups, 126 new cases, 67 headers/C90/13 imports and
+  249 tooling tests (two skips). Namespace/lookup/content, original platforms/
+  storage and owner/release gates remain. [Review](.aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md).
 
 - [x] DE-W097 owned NTFS correspondence reader: exact `06b63a89` passes 34/167
   selected x64 groups/310 worker cases/67 headers/C90/13 imports/247 tooling tests

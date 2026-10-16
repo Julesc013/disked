@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.14
+  version: 0.1.5-proposed.15
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-16T12:09:39.949807+00:00'
-  scope: DE-W097 owned membership reader qualification; frontend and original platform/storage/release gates remain
+  at: '2026-10-16T14:05:05.877908+00:00'
+  scope: DE-W098 bounded public membership qualification; original platform/storage/release gates remain
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -39,7 +39,7 @@ sources:
 
 # Implementation sequence and first usable release
 
-Current development position, 16 October 2026: DE-W093 admits bounded NTFS
+Current development position, 17 October 2026: DE-W093 admits bounded NTFS
 directory-index inspection through the existing common Windows x64 frontends.
 Exact source `6efc9a5b` passes all 163 registered native groups; qualification is
 retained in the implementation repository at
@@ -59,8 +59,11 @@ its eleven-group Win32 supplement remains private evidence. See
 DE-W097 contains membership in the existing owned reader at `06b63a89`, with
 310 cases and all 34 selected native groups of 167 registered passing. Its private
 Win32 supplement passes twelve groups. See the worker contract/review; this does
-not qualify a full current suite or release. Frontend membership admission,
-collation, complete namespace, lookup and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
+not qualify a full current suite or release. DE-W098 subsequently admits bounded
+raw-name correspondence through common Windows x64 frontends at `01feae81`,
+with all 53 selected groups of 168 registered and 126 new command cases passing.
+See `catalog/ntfs-membership-command-prototype.json` and its source-bound review.
+Collation, complete namespace, lookup/content and original platforms remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
 repository. Later exFAT and full native qualification supersede W075's old failure
 as an active integration blocker; the original failed campaigns and unknown
 causes remain. Owner, original platforms/storage 0.1.0, recovery and release

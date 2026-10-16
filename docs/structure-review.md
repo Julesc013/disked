@@ -95,12 +95,22 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Common membership command `01feae81` passes all 53 selected x64 groups of
+168 registered, 126 new command/frontend cases, 67 headers/C90/13 imports
+and 249 tooling tests (two skips). [Review](../.aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md)
+supports source integration after metadata closure. No production files or
+directories were added; the ownership assessment remains. No fresh Win32 or
+other-host qualification was run. Complete namespace/collation/lookup/content,
+all original platforms/storage, owner acceptance and release gates remain.
+
+The preceding private worker results below retain their exact earlier scope.
+
 Owned membership reader `06b63a89` passes all 34 selected x64 groups of 167
 registered, 310 new worker cases, 67 header checks/C90/13 executable imports
 and 247 tooling tests (two skips). The private Win32 supplement passes twelve
 groups/ten headers/seven executables. [Review](../.aide/evidence/2026-10-16-ntfs-membership-worker/REVIEW.md)
 supports source integration after metadata closure; the programme owns actual
-Git state. Public membership admission remains DE-W098. Earlier unexplained
+Git state. Public admission is qualified separately by DE-W098 above. Earlier unexplained
 failures and native file-symlink limitations remain retained and unresolved.
 
 Held-file correspondence at `c1511f80` passes the predefined 31/166 affected

@@ -1,0 +1,20 @@
+{"seconds": 0.04136489983648062, "kind": "send", "request_id": "membership:req", "command": "image.inspect"}
+{"seconds": 0.04340029996819794, "kind": "gate_entered"}
+{"seconds": 4.047295099822804, "kind": "frame", "request_id": "membership:req", "status": "unknown", "diagnostics": [{"code": "request_wait_expired", "message_key": "disked.request_wait_expired", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "ntfs-membership-command-cases-late-frame-0.json"}
+{"seconds": 4.0475392998196185, "kind": "dequeue", "request_id": "membership:req", "status": "unknown", "remaining": 0}
+{"seconds": 4.0482362997718155, "kind": "send", "request_id": "busy", "command": "image.inspect"}
+{"seconds": 4.049040799960494, "kind": "frame", "request_id": "busy", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "ntfs-membership-command-cases-late-frame-1.json"}
+{"seconds": 4.049182299990207, "kind": "dequeue", "request_id": "busy", "status": "refused", "remaining": 0}
+{"seconds": 4.049277199897915, "kind": "send", "request_id": "essential", "command": "command.list"}
+{"seconds": 4.052232899935916, "kind": "frame", "request_id": "essential", "status": "completed", "diagnostics": [], "raw": "ntfs-membership-command-cases-late-frame-2.json"}
+{"seconds": 4.052420499967411, "kind": "dequeue", "request_id": "essential", "status": "completed", "remaining": 0}
+{"seconds": 4.052593399770558, "kind": "gate_release"}
+{"seconds": 4.152818899834529, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.153850099770352, "kind": "frame", "request_id": "fresh", "status": "refused", "diagnostics": [{"code": "request_resource_limit", "message_key": "disked.request_resource_limit", "parameters": {}, "platform_code": null, "remediation": [], "severity": "error"}], "raw": "ntfs-membership-command-cases-late-frame-3.json"}
+{"seconds": 4.154043799964711, "kind": "dequeue", "request_id": "fresh", "status": "refused", "remaining": 0}
+{"seconds": 4.254311199998483, "kind": "send", "request_id": "fresh", "command": "image.inspect"}
+{"seconds": 4.357746899826452, "kind": "frame", "request_id": "fresh", "status": "completed", "diagnostics": [], "raw": "ntfs-membership-command-cases-late-frame-4.json"}
+{"seconds": 4.35794679983519, "kind": "dequeue", "request_id": "fresh", "status": "completed", "remaining": 0}
+{"seconds": 4.358100899960846, "kind": "final_assertion", "has_after": true, "after_status": "completed", "queue_empty": true, "queued": 0}
+{"seconds": 4.363662299932912, "kind": "normal_exit_observation", "code": 6, "stderr_bytes": 0}
+{"seconds": 4.401367799844593, "kind": "teardown_observation", "parent_returncode": 6, "queued": 0}

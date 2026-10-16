@@ -6,10 +6,14 @@ The contract defines exact controls, bounded projections and mismatch outcomes
 before implementation. One command registry, source opener, worker host and
 frontend action path remain authoritative.
 
-The working build passes 126 independent command/frontend cases and both older
-NTFS command groups. Actual responses of about 157 KB display through the common
-frontends. Fresh exact-source qualification of the predefined 53 affected groups
-from 168 registered groups and implementing-agent review remain pending.
+Exact `01feae81` passes all 53 predefined affected x64 groups of 168
+registered, including 126 new command/frontend cases and 26 source receipts.
+The all-target build, 67 header checks, C90/13 imports and 249 tooling tests
+(two skips) pass. Actual approximately 157 KB responses display through CLI,
+protocol, GUI, TUI and shell. This is selected current evidence, not a full
+168-group or new Win32 qualification. [Review](../.aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md)
+supports source integration after metadata closure; the programme records
+actual Git writes. Owner acceptance remains separate.
 
 The first run found and retained an outcome-classification defect: the provider's
 existing `observed_stable` aggregate includes applicability, so a complete valid
@@ -40,8 +44,8 @@ An expanded working run later failed the combined late-slot/queue assertion
 without enough original state to determine its cause. One focused same-binary
 diagnostic passed with unchanged limits. The main harness now retains every
 frame and final assertion/exit observations. The subsequent working run passes;
-this does not establish the original failure cause. Fresh qualification remains
-required. Prior failures and unverified platforms remain explicitly retained.
+this does not establish the original failure cause. The exact-source qualification
+recorded above follows that working run. Prior failures and unverified platforms remain explicitly retained.
 
 The guarded faeeb805 candidate later stopped in the existing directory late-reply
 test: one selected group passed, one failed and 51 were not run. The test's 3s
@@ -50,4 +54,4 @@ integration followed. Both directory and membership tests now share a trace
 helper that retains frames/queue/exit state; successful admission limits remain
 unchanged. A fixed 24-case native diagnostic and full traced 100/126-case groups
 pass against that same binary. Their results do not explain the original delay.
-Fresh qualification of the traced source is still required.
+The exact-source qualification above follows the traced checkpoint; original delay causes remain unknown.
