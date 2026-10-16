@@ -52,6 +52,8 @@ int main() {
                          V::object()
                              .put("port_called", V::boolean_value(called))
                              .put("exit_code", V::number(std::to_string(out.exit_code)))
+                             .put("wire_bytes", V::number(std::to_string(
+                                                    disked::response_frame(out.response).size())))
                              .put("response", out.response),
                          limits)
                   << '\n';

@@ -36,8 +36,9 @@ json::Limits full_limits() {
 }
 json::Limits output_limits() {
     auto limits = full_limits();
-    limits.bytes = ntfs_inspection_response_bytes;
+    limits.bytes = ntfs_inspection_response_bytes - 1; // Include the framing LF.
     limits.values = 65536;
+    limits.string_bytes = 32768;
     return limits;
 }
 std::string digest(const V &value) {
@@ -113,6 +114,95 @@ void project_closures(V &observation) {
         }
     }
 }
+std::string display_name(const V &value) {
+    if (value.kind != V::Kind::string || value.text.size() > 1020 || value.text.size() % 4 ||
+        value.text.find_first_not_of("0123456789abcdef") != std::string::npos)
+        throw std::invalid_argument("ntfs_result_name");
+    const char hex[] = "0123456789abcdef";
+    auto digit = [&](char c) { return static_cast<unsigned>(std::string(hex).find(c)); };
+    std::string result;
+    for (std::size_t i = 0; i < value.text.size(); i += 4) {
+        const auto unit = (digit(value.text[i]) << 4) | digit(value.text[i + 1]) |
+                          (digit(value.text[i + 2]) << 12) | (digit(value.text[i + 3]) << 8);
+        if (unit >= 32 && unit < 127) {
+            if (unit == '"' || unit == '\\')
+                result += '\\';
+            result += static_cast<char>(unit);
+        } else {
+            result += "\\u";
+            for (int shift = 12; shift >= 0; shift -= 4)
+                result += hex[(unit >> shift) & 15];
+        }
+    }
+    return result;
+}
+void project_directory(V &observation) {
+    project_record(observation.fields.at("directory_record"));
+    const auto &queries = field(observation, "directory_stream_queries");
+    auto query_rows = rows(queries, queries, 4096, 16);
+    observation.put("directory_stream_queries", std::move(query_rows));
+    auto &directory = observation.fields.at("directory");
+    if (directory.kind == V::Kind::null)
+        return; // A legitimate bootstrap refusal never observed a directory.
+    if (field(directory, "schema").text != "org.disked.ntfs-index-collection/1")
+        throw std::invalid_argument("ntfs_result_shape");
+    directory.put("original_schema", field(directory, "schema"))
+        .put("schema", V::string("org.disked.ntfs-index-projection/1"))
+        .put("name_display_encoding", V::string("escaped-utf16le-code-units/1"));
+    const auto &streams = field(directory, "streams");
+    auto projected = streams;
+    for (auto &stream : projected.items) {
+        for (const auto key : {"runs", "parts"}) {
+            const auto &original = field(stream, key);
+            auto replacement = rows(original, original, std::string(key) == "runs" ? 8192 : 32768,
+                                    std::string(key) == "runs" ? 64 : 128);
+            stream.put(key, std::move(replacement));
+        }
+    }
+    auto stream_rows = rows(streams, projected, 65536, 16);
+    directory.put("streams", std::move(stream_rows));
+    const auto &blocks = field(directory, "blocks");
+    auto block_rows = rows(blocks, blocks, 65536, 128);
+    directory.put("blocks", std::move(block_rows));
+    const auto &entries = field(directory, "entries");
+    auto named = entries;
+    for (auto &entry : named.items)
+        if (const auto *name = entry.find("name_hex"))
+            entry.put("name_display", V::string(display_name(*name)));
+    auto entry_rows = rows(entries, named, 65536, 256);
+    directory.put("entries", std::move(entry_rows));
+}
+void bind_directory_result(const V &file, const NtfsInspectionRequest &request) {
+    const auto &observation = field(file, "observation"), &capture = field(file, "capture"),
+               &domain = field(capture, "domain");
+    const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
+                         : request.profile == NtfsFileProfile::Version30 ? "3.0"
+                                                                         : "3.1";
+    if (field(observation, "schema").text != "org.disked.ntfs-directory-observation-prototype/1" ||
+        integer(observation, "volume_offset") != request.volume_offset ||
+        integer(observation, "volume_bytes") != request.volume_bytes ||
+        integer(observation, "requested_directory_reference") != request.directory_reference ||
+        integer(domain, "volume_offset") != request.volume_offset ||
+        integer(domain, "volume_bytes") != request.volume_bytes ||
+        integer(domain, "directory_reference") != request.directory_reference ||
+        field(capture, "selector").text != version || field(domain, "selector").text != version)
+        throw std::invalid_argument("ntfs_result_binding");
+    const auto limits = ntfs_inspection_capture_limits(request.kind);
+    const auto &bound = field(domain, "limits");
+    if (integer(bound, "read_requests") != limits.read_requests ||
+        integer(bound, "read_bytes") != limits.read_bytes ||
+        integer(bound, "retained_bytes") != limits.retained_bytes ||
+        integer(bound, "attributes") != limits.attributes ||
+        integer(bound, "runs") != limits.runs ||
+        integer(bound, "output_bytes") != limits.output_bytes)
+        throw std::invalid_argument("ntfs_result_binding");
+    const auto directory = ntfs_inspection_directory_limits();
+    const auto &selected = field(domain, "directory_limits");
+    if (integer(selected, "entries") != directory.entries ||
+        integer(selected, "blocks") != directory.blocks ||
+        integer(selected, "bitmap_bytes") != directory.bitmap_bytes)
+        throw std::invalid_argument("ntfs_result_binding");
+}
 Outcome failure(const std::string &request, const std::string &code, int exit_code) {
     auto out = refused(request, code, exit_code);
     if (exit_code == 4)
@@ -124,14 +214,46 @@ Outcome failure(const std::string &request, const std::string &code, int exit_co
 } // namespace
 bool ntfs_inspection_parameters(const V &parameters) {
     const auto *view = parameters.find("view");
-    return view && view->kind == V::Kind::string && view->text == "ntfs";
+    return view && view->kind == V::Kind::string &&
+           (view->text == "ntfs" || view->text == "ntfs-directory");
+}
+NtfsCaptureLimits ntfs_inspection_capture_limits(NtfsSnapshotKind kind) {
+    NtfsCaptureLimits limits;
+    if (kind == NtfsSnapshotKind::Directory) {
+        limits.read_requests = 512;
+        limits.read_bytes = 2097152;
+        limits.retained_bytes = 524288;
+        limits.attributes = limits.runs = 4096;
+    } else if (kind != NtfsSnapshotKind::Bootstrap)
+        throw std::invalid_argument("ntfs_inspection_kind");
+    return limits;
+}
+NtfsDirectoryLimits ntfs_inspection_directory_limits() {
+    return NtfsDirectoryLimits{4096, 128, 65536};
+}
+void validate_ntfs_inspection_request(const NtfsInspectionRequest &request) {
+    if (request.path.empty() || request.path.size() > 32768 ||
+        request.path.find('\0') != request.path.npos || !json::valid_utf8(request.path) ||
+        request.volume_bytes < 512 || request.volume_offset > 0x7fffffffffffffffULL ||
+        request.volume_bytes > 0x7fffffffffffffffULL - request.volume_offset ||
+        (request.profile != NtfsFileProfile::Automatic &&
+         request.profile != NtfsFileProfile::Version30 &&
+         request.profile != NtfsFileProfile::Version31))
+        throw std::invalid_argument("ntfs_inspection_input");
+    ntfs_inspection_capture_limits(request.kind);
+    if ((request.kind == NtfsSnapshotKind::Bootstrap && request.directory_reference) ||
+        (request.directory_reference && !(request.directory_reference >> 48)))
+        throw std::invalid_argument("ntfs_inspection_reference");
 }
 bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) {
     try {
         if (parameters.kind != V::Kind::object || !ntfs_inspection_parameters(parameters))
             return false;
-        const std::set<std::string> keys = {"path", "view", "volume_offset", "volume_bytes",
-                                            "ntfs_version"};
+        const bool directory = field(parameters, "view").text == "ntfs-directory";
+        std::set<std::string> keys = {"path", "view", "volume_offset", "volume_bytes",
+                                      "ntfs_version"};
+        if (directory)
+            keys.insert("directory_reference");
         for (const auto &entry : parameters.fields)
             if (!keys.count(entry.first))
                 return false;
@@ -140,6 +262,11 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
             path.text.find('\0') != path.text.npos || !json::valid_utf8(path.text))
             return false;
         NtfsInspectionRequest selected;
+        if (directory) {
+            selected.kind = NtfsSnapshotKind::Directory;
+            if (parameters.find("directory_reference"))
+                selected.directory_reference = integer(parameters, "directory_reference");
+        }
         selected.path = path.text;
         selected.volume_offset = integer(parameters, "volume_offset");
         selected.volume_bytes = integer(parameters, "volume_bytes");
@@ -157,6 +284,7 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
             else if (version->text != "auto")
                 return false;
         }
+        validate_ntfs_inspection_request(selected);
         result = std::move(selected);
         return true;
     } catch (const std::exception &) {
@@ -164,34 +292,49 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
     }
 }
 V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRequest &request) {
-    if (field(read.file, "schema").text != "org.disked.ntfs-file-capture/1" ||
+    validate_ntfs_inspection_request(request);
+    const bool directory = request.kind == NtfsSnapshotKind::Directory;
+    if (field(read.file, "schema").text != (directory ? "org.disked.ntfs-directory-file-capture/1"
+                                                      : "org.disked.ntfs-file-capture/1") ||
         flag(read.file, "authorizes_effects") || flag(read.file, "product_dispatch_admitted"))
         throw std::invalid_argument("ntfs_result_shape");
+    if (directory)
+        bind_directory_result(read.file, request);
     const auto &original = field(read.file, "observation");
     auto observation = original;
     observation.put("original_schema", field(original, "schema"))
-        .put("schema", V::string("org.disked.ntfs-bootstrap-projection/1"));
+        .put("schema", V::string(directory ? "org.disked.ntfs-directory-projection/1"
+                                           : "org.disked.ntfs-bootstrap-projection/1"));
     const auto &regions = field(original, "regions");
     observation.put("regions", rows(regions, regions, 32768, 128));
     for (const auto key : {"primary", "mirror", "volume_record"})
         project_record(observation.fields.at(key));
     project_closures(observation);
+    if (directory)
+        project_directory(observation);
     const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
                          : request.profile == NtfsFileProfile::Version30 ? "3.0"
                                                                          : "3.1";
-    return V::object()
-        .put("schema", V::string("org.disked.ntfs-inspection/1"))
-        .put("command", V::string("image.inspect"))
-        .put("scope", V::string("ordinary-local-file-ntfs"))
-        .put("applicability_scope", V::string("boot-mft0-mirror0-volume-information"))
-        .put("requested_version", V::string(version))
-        .put("file_sha256", V::string(digest(read.file)))
-        .put("capture_sha256", V::string(digest(field(read.file, "capture"))))
-        .put("observation", std::move(observation))
-        .put("capture", field(read.file, "capture"))
-        .put("context", read.context)
-        .put("worker", read.worker)
-        .put("authorizes_effects", V::boolean_value(false));
+    auto result = V::object()
+                      .put("schema", V::string(directory ? "org.disked.ntfs-directory-inspection/1"
+                                                         : "org.disked.ntfs-inspection/1"))
+                      .put("command", V::string("image.inspect"))
+                      .put("scope", V::string(directory ? "ordinary-local-file-ntfs-directory"
+                                                        : "ordinary-local-file-ntfs"))
+                      .put("applicability_scope",
+                           V::string(directory ? "single-directory-index-envelope"
+                                               : "boot-mft0-mirror0-volume-information"))
+                      .put("requested_version", V::string(version))
+                      .put("file_sha256", V::string(digest(read.file)))
+                      .put("capture_sha256", V::string(digest(field(read.file, "capture"))))
+                      .put("observation", std::move(observation))
+                      .put("capture", field(read.file, "capture"))
+                      .put("context", read.context)
+                      .put("worker", read.worker)
+                      .put("authorizes_effects", V::boolean_value(false));
+    if (directory)
+        result.put("requested_directory_reference", number(request.directory_reference));
+    return result;
 }
 Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters,
                                  const NtfsInspectionPort &port) {
@@ -213,9 +356,12 @@ Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters
                     .items.front()
                     .put("platform_code", number(read.platform_code));
             if (read.worker.kind != V::Kind::null)
-                out.response.put("result", V::object()
-                                               .put("scope", V::string("ordinary-local-file-ntfs"))
-                                               .put("worker", read.worker));
+                out.response.put(
+                    "result", V::object()
+                                  .put("scope", V::string(input.kind == NtfsSnapshotKind::Directory
+                                                              ? "ordinary-local-file-ntfs-directory"
+                                                              : "ordinary-local-file-ntfs"))
+                                  .put("worker", read.worker));
             json::dump(out.response, output_limits());
             return out;
         }

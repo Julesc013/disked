@@ -33,4 +33,30 @@ class NtfsCommand(unittest.TestCase):
             with self.subTest(view=view),self.assertRaises(sc.SpecError):
                 self.bundle.validate(schema,dict(row,ntfs_version='auto'))
 
+    def test_directory_reference_is_root_or_complete_u64(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        value=dict(path='generated.img',view='ntfs-directory',volume_offset='173',volume_bytes='512')
+        for reference in (None,'0',str(1<<48),str((1<<64)-1)):
+            row=dict(value)
+            if reference is not None:row['directory_reference']=reference
+            for version in ('auto','3.0','3.1'):self.bundle.validate(schema,dict(row,ntfs_version=version))
+        for reference in ('1',str((1<<48)-1),str(1<<64),'01','-1',True,None):
+            with self.subTest(reference=reference),self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema,dict(value,directory_reference=reference))
+
+    def test_directory_controls_do_not_expand_other_views(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        for view in (None,'map','fat','exfat','ntfs'):
+            row=dict(path='generated.img',directory_reference='0')
+            if view:row['view']=view
+            if view in ('fat','exfat','ntfs'):row.update(volume_offset='0',volume_bytes='512')
+            with self.subTest(view=view),self.assertRaises(sc.SpecError):self.bundle.validate(schema,row)
+
+    def test_directory_window_and_unrelated_options(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        value=dict(path='generated.img',view='ntfs-directory',volume_offset='0',volume_bytes='512')
+        self.bundle.validate(schema,dict(value,volume_offset=str((1<<63)-1-512)))
+        for key,selected in [('volume_offset',str((1<<63)-512)),('volume_bytes','511'),('fat_copy','0'),('retain_capture','no'),('upcase_format','auto'),('logical_block_bytes','512')]:
+            with self.subTest(key=key),self.assertRaises(sc.SpecError):self.bundle.validate(schema,dict(value,**{key:selected}))
+
 if __name__=='__main__':unittest.main()

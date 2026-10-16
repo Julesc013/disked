@@ -7,21 +7,28 @@ import sys
 import time
 from console_tui_fixture import k,w,Callback,checked,configure,snapshot,key,active,info,Coord
 
+buffer_row_limit=1000
+
 def current_text():
     handle=active()
     try:
         value=info(handle);count=value.size.X*max(value.cursor.Y+1,value.window.Bottom+1)
-        # This fixture configures exactly 240 columns and 1000 rows. The shared
+        # This fixture configures 240 columns and a bounded owned buffer. The shared
         # small-console observer's 64K character prefix cannot cover an image
         # receipt padded into that console; inspect the whole bounded fixture.
-        assert 0<count<=240000
+        assert 0<count<=240*buffer_row_limit
         buffer=C.create_unicode_buffer(count+1);got=w.DWORD()
         checked(k.ReadConsoleOutputCharacterW(handle,buffer,count,Coord(0,0),C.byref(got)))
         return '\n'.join(buffer[i:min(i+value.size.X,got.value)].rstrip() for i in range(0,got.value,value.size.X))
     finally:k.CloseHandle(handle)
 
-def run(exe,frontend,command,path,unit,report,options=None,followup=None):
-    configure(k.GetStdHandle(-11),240,25);before=snapshot();process=None
+def run(exe,frontend,command,path,unit,report,options=None,followup=None,buffer_rows=1000):
+    global buffer_row_limit
+    assert buffer_rows in (1000,8000)
+    buffer_row_limit=buffer_rows
+    configure(k.GetStdHandle(-11),240,25)
+    if buffer_rows!=1000:checked(k.SetConsoleScreenBufferSize(k.GetStdHandle(-11),Coord(240,buffer_rows)))
+    before=snapshot();process=None
     handler=Callback(lambda _:True);checked(k.SetConsoleCtrlHandler(handler,True))
     unit_options=[] if unit=='-' else ['--logical-block-bytes',unit]
     flags=['shell','--terminal=linear'] if frontend=='shell' else ['--tui','--terminal=linear',*command.split('.'),path,*unit_options]
@@ -74,7 +81,7 @@ def run(exe,frontend,command,path,unit,report,options=None,followup=None):
 
 if __name__=='__main__':
     result={};code=0
-    try:run(*sys.argv[1:6],result,json.loads(sys.argv[7]) if len(sys.argv)>7 else None)
+    try:run(*sys.argv[1:6],result,json.loads(sys.argv[7]) if len(sys.argv)>7 else None,buffer_rows=int(sys.argv[8]) if len(sys.argv)>8 else 1000)
     except Exception as error:result['fixture_error']=str(error);code=1
     Path(sys.argv[6]).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(code)

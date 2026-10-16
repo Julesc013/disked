@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-image-inspect-parameters:1",
+  "title": "command-image-inspect-parameters",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "logical_block_bytes": {
+      "type": "string",
+      "enum": [
+        "512",
+        "4096"
+      ]
+    },
+    "view": {
+      "type": "string",
+      "enum": [
+        "map",
+        "fat",
+        "exfat",
+        "ntfs",
+        "ntfs-directory"
+      ]
+    },
+    "volume_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64"
+    },
+    "volume_bytes": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,19}$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1
+    },
+    "fat_copy": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-maximum": 4294967295
+    },
+    "allocation_scan": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "auxiliary_checks": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "name_code_page": {
+      "type": "string",
+      "enum": [
+        "437",
+        "850",
+        "932"
+      ]
+    },
+    "lookup": {
+      "type": "object",
+      "properties": {
+        "directory": {
+          "type": "string",
+          "pattern": "^(?:[0-9]|[1-9][0-9]|1[01][0-9]|12[0-7])$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-maximum": 127
+        },
+        "names": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "pattern": "^[^\\u0000]+$",
+            "x-disked-utf16-maximum": 255
+          }
+        }
+      },
+      "required": [
+        "directory",
+        "names"
+      ],
+      "additionalProperties": false,
+      "x-disked-byte-budget": 16384,
+      "x-disked-value-budget": 64,
+      "x-disked-depth-budget": 4,
+      "x-disked-string-budget": 2048
+    },
+    "allocation_window": {
+      "type": "object",
+      "properties": {
+        "first_cluster": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 2,
+          "x-disked-maximum": 268435446
+        },
+        "clusters": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 8192
+        }
+      },
+      "required": [
+        "first_cluster",
+        "clusters"
+      ],
+      "additionalProperties": false,
+      "x-disked-byte-budget": 256,
+      "x-disked-value-budget": 8,
+      "x-disked-depth-budget": 3,
+      "x-disked-string-budget": 20
+    },
+    "retain_capture": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "upcase_format": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "compressed",
+        "literal"
+      ]
+    },
+    "ntfs_version": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "3.0",
+        "3.1"
+      ]
+    },
+    "directory_reference": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "if": {
+        "const": "0"
+      },
+      "else": {
+        "type": "string",
+        "x-disked-scalar": "decimal-u64",
+        "x-disked-minimum": 281474976710656
+      }
+    }
+  },
+  "required": [
+    "path"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "map"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "upcase_format": false,
+          "ntfs_version": false,
+          "directory_reference": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "fat"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "upcase_format": false,
+          "ntfs_version": false,
+          "directory_reference": false
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "lookup"
+        ]
+      },
+      "then": {
+        "required": [
+          "name_code_page"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "allocation_window"
+        ]
+      },
+      "then": {
+        "properties": {
+          "allocation_scan": {
+            "enum": [
+              "no"
+            ],
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "exfat"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "volume_bytes": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$",
+            "maxLength": 20,
+            "x-disked-scalar": "decimal-u64",
+            "x-disked-minimum": 512
+          },
+          "ntfs_version": false,
+          "directory_reference": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "ntfs"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "upcase_format": false,
+          "volume_bytes": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$",
+            "maxLength": 20,
+            "x-disked-scalar": "decimal-u64",
+            "x-disked-minimum": 512
+          },
+          "directory_reference": false
+        },
+        "x-disked-u64-window": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "x-disked-window-maximum": "9223372036854775807"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "ntfs-directory"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "upcase_format": false,
+          "volume_bytes": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$",
+            "maxLength": 20,
+            "x-disked-scalar": "decimal-u64",
+            "x-disked-minimum": 512
+          }
+        },
+        "x-disked-u64-window": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "x-disked-window-maximum": "9223372036854775807"
+      }
+    }
+  ],
+  "x-disked-form-discriminator": "view",
+  "x-disked-form-default": "map",
+  "x-disked-u64-window": [
+    "volume_offset",
+    "volume_bytes"
+  ]
+}

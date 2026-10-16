@@ -91,6 +91,7 @@
 - [ntfs-capture-prototype.json](ntfs-capture-prototype.json)
 - [ntfs-closure-prototype.json](ntfs-closure-prototype.json)
 - [ntfs-command-prototype.json](ntfs-command-prototype.json)
+- [ntfs-directory-command-prototype.json](ntfs-directory-command-prototype.json)
 - [ntfs-directory-file-prototype.json](ntfs-directory-file-prototype.json)
 - [ntfs-directory-prototype.json](ntfs-directory-prototype.json)
 - [ntfs-directory-worker-prototype.json](ntfs-directory-worker-prototype.json)

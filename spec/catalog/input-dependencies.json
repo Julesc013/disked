@@ -15042,6 +15042,95 @@
         "DE-037",
         "DE-050"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-directory-command-prototype.json",
+      "path": "spec/catalog/ntfs-directory-command-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-worker-prototype.json",
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-directory-command.md",
+      "path": "docs/ntfs-directory-command.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-worker-prototype.json",
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_ntfs_directory_commands.py",
+      "path": "tests/frontend/test_ntfs_directory_commands.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-command-prototype.json",
+        "tests/images/ntfs_directory_fixture.py",
+        "tests/frontend/test_ntfs_commands.py",
+        "tests/frontend/image_console_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-command-prototype.json",
+        "tests/frontend/test_ntfs_directory_commands.py",
+        "CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-command-prototype.json",
+        "tests/frontend/test_ntfs_directory_commands.py",
+        "CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
     }
   ]
 }

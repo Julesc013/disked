@@ -5,18 +5,20 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.64 prototype selects 26 command identities, including read-only
+The current dev.65 prototype selects 26 command identities, including read-only
 GPT repair previews, recorded acquisition support export, contained historical
 acquired-image verification and create-only ordinary-image recursive FAT extraction.
 The [recursive command guide](fat-recursive-command.md) describes its separate
 review/grants and retained operation lifecycle. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
-The public NTFS inspection remains a bounded bootstrap observation. The
-private [attribute-list](ntfs-list.md), [stream](ntfs-stream.md),
-[protected-index](ntfs-block.md) and [directory](ntfs-directory.md) prototypes
-have their own source-bound evidence. Those private APIs do not by themselves
-admit directory, namespace or content commands.
+NTFS inspection includes the existing bootstrap and the new bounded
+[directory-index view](ntfs-directory-command.md). The current working corpus
+passes 100 directory command/frontend checks; clean-source qualification is
+pending. The private [attribute-list](ntfs-list.md), [stream](ntfs-stream.md),
+[protected-index](ntfs-block.md) and [directory](ntfs-directory.md) APIs retain
+their own source-bound evidence. An observed index does not establish a complete
+namespace, lookup, target membership, collation, content or storage authority.
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.

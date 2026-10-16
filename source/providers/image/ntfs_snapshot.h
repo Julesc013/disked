@@ -7,7 +7,6 @@ namespace disked {
 namespace nt_inventory {
 class NtfsWorker;
 }
-enum class NtfsSnapshotKind { Bootstrap, Directory };
 struct NtfsSnapshotInput {
     std::uint64_t capture_epoch = 0, volume_offset = 0, volume_bytes = 0;
     std::string path;

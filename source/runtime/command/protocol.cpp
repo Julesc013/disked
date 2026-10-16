@@ -115,6 +115,7 @@ bool verification_response(const Value& response) {
 }
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
+    if(ntfs_inspection_response(response)){limits.bytes=524287;limits.values=65536;limits.depth=48;return limits;}
     if(fat_recursive_response(response)){limits.bytes=2097151;limits.values=131072;limits.depth=40;limits.string_bytes=65536;return limits;}
     if(fat_tree_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;limits.string_bytes=393216;return limits;}
     if(fat_capture_response(response)){limits.bytes=524288;limits.values=8192;limits.depth=40;limits.string_bytes=393216;return limits;}
@@ -128,6 +129,11 @@ bool fat_inspection_response(const Value& response) {
 bool exfat_inspection_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
     const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-exfat";
+}
+bool ntfs_inspection_response(const Value& response) {
+    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto* scope=result->find("scope");return string(scope) &&
+        (scope->text=="ordinary-local-file-ntfs" || scope->text=="ordinary-local-file-ntfs-directory");
 }
 bool fat_capture_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;

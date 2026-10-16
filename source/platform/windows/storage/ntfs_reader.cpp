@@ -117,6 +117,7 @@ NtfsInspectionRead inspect_ntfs_image(const NtfsInspectionRequest &request) {
     std::unique_ptr<Source> source;
     std::unique_ptr<nt_inventory::NtfsWorker> worker;
     try {
+        validate_ntfs_inspection_request(request);
 #ifdef DISKED_NTFS_COMMAND_TESTING
         if (GetEnvironmentVariableW(L"DISKED_NTFS_COMMAND_TEST_OPEN_GUARD", nullptr, 0))
             throw f::Error("ntfs_source_open_forbidden");
@@ -132,6 +133,11 @@ NtfsInspectionRead inspect_ntfs_image(const NtfsInspectionRequest &request) {
         input.volume_offset = request.volume_offset;
         input.volume_bytes = request.volume_bytes;
         input.profile = request.profile;
+        input.kind = request.kind;
+        input.directory_reference = request.directory_reference;
+        input.limits = ntfs_inspection_capture_limits(request.kind);
+        if (request.kind == NtfsSnapshotKind::Directory)
+            input.directory_limits = ntfs_inspection_directory_limits();
 #ifdef DISKED_NTFS_COMMAND_TESTING
         if (GetEnvironmentVariableW(L"DISKED_NTFS_COMMAND_TEST_VERIFY_CHANGED", nullptr, 0))
             input.fixture.put("capture_fault", V::string("metadata"));

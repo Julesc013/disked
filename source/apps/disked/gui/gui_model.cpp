@@ -179,8 +179,9 @@ std::string GuiModel::detail_text() const {
     const bool tree=fat_tree_response(outcome_.response) || fat_tree_response(earlier_);
     const bool fat=tree || fat_inspection_response(outcome_.response) || fat_inspection_response(earlier_);
     const bool exfat=exfat_inspection_response(outcome_.response) || exfat_inspection_response(earlier_);
+    const bool ntfs=ntfs_inspection_response(outcome_.response) || ntfs_inspection_response(earlier_);
     const bool capture=tree || fat_capture_response(outcome_.response) || fat_capture_response(earlier_);
-    const bool expanded=recursive || capture || fat || exfat || structured_form || acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_) || report_response(outcome_.response) || report_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_);
+    const bool expanded=recursive || capture || fat || exfat || ntfs || structured_form || acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_) || report_response(outcome_.response) || report_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_);
     if(expanded)limits.bytes=2*1048575+1024;
     if(recursive) {limits.bytes=2*2097151+1024;limits.values=2*131072+16;limits.depth=40;limits.string_bytes=65536;}
     if(fat || exfat) {limits.values=2*65536+16;limits.depth=40;}
@@ -192,6 +193,7 @@ std::string GuiModel::detail_text() const {
         limits.bytes+=6*65536+4096;limits.values+=2*8192+256;limits.string_bytes=65536;
     }
     if(capture) {limits.depth=40;limits.string_bytes=393216;}
+    if(ntfs) {limits.values=(std::max)(limits.values,std::size_t(2*65536+16));limits.depth=(std::max)(limits.depth,std::size_t(52));}
     if(session_.cached_observations()) {
         const auto cached=cached_observation_view_limits();limits.bytes=(std::max)(limits.bytes,2*cached.bytes+4096);
         limits.values=(std::max)(limits.values,2*cached.values+64);limits.depth=(std::max)(limits.depth,std::size_t(35));

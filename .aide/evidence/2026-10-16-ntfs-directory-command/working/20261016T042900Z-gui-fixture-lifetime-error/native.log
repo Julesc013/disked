@@ -1,0 +1,96 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/report-phases-build
+    Start 1: image.ntfs_commands
+1/2 Test #1: image.ntfs_commands ..............   Passed   16.34 sec
+    Start 2: image.ntfs_directory_commands
+2/2 Test #2: image.ntfs_directory_commands ....***Failed   19.47 sec
+CASE cli-0
+CASE stdio-0
+CASE cli-1
+CASE stdio-1
+CASE cli-2
+CASE stdio-2
+CASE cli-3
+CASE stdio-3
+CASE cli-4
+CASE stdio-4
+CASE cli-5
+CASE stdio-5
+CASE cli-6
+CASE stdio-6
+CASE cli-7
+CASE stdio-7
+CASE cli-8
+CASE stdio-8
+CASE cli-9
+CASE stdio-9
+CASE cli-10
+CASE stdio-10
+CASE cli-11
+CASE stdio-11
+CASE cli-12
+CASE stdio-12
+CASE cli-13
+CASE stdio-13
+CASE cli-14
+CASE stdio-14
+CASE cli-15
+CASE stdio-15
+CASE cli-16
+CASE stdio-16
+CASE cli-17
+CASE stdio-17
+CASE cli-18
+CASE stdio-18
+CASE cli-19
+CASE stdio-19
+CASE cli-20
+CASE stdio-20
+CASE cli-21
+CASE stdio-21
+CASE independent-worker
+CASE pure-port
+CASE independent-worker
+CASE pure-port
+CASE independent-worker
+CASE large-human-cli
+CASE ndjson
+Exception ignored while calling weakref callback <finalize object at 0x243e82ccc80; dead>:
+Traceback (most recent call last):
+  File "C:\Program Files\Python314\Lib\weakref.py", line 490, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 961, in _cleanup
+    cls._rmtree(name, ignore_errors=ignore_errors)
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 956, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "C:\Program Files\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+  File "C:\Program Files\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 946, in onexc
+    cls._rmtree(path, ignore_errors=ignore_errors,
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 956, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "C:\Program Files\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+  File "C:\Program Files\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+  File "C:\Program Files\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-gui-u2z4hef1'
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_directory_commands.py", line 286, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_directory_commands.py", line 191, in main
+    with Gui(a.exe,['--gui','image','inspect',str(path),*options(v)]) as ui:
+         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'gui_fixture.Gui' object does not support the context manager protocol (missed __exit__ method)
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  35.82 sec
+
+The following tests FAILED:
+	  2 - image.ntfs_directory_commands (Failed)
+Errors while running CTest
