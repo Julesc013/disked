@@ -59,4 +59,24 @@ class NtfsCommand(unittest.TestCase):
         for key,selected in [('volume_offset',str((1<<63)-512)),('volume_bytes','511'),('fat_copy','0'),('retain_capture','no'),('upcase_format','auto'),('logical_block_bytes','512')]:
             with self.subTest(key=key),self.assertRaises(sc.SpecError):self.bundle.validate(schema,dict(value,**{key:selected}))
 
+    def test_membership_target_limits_and_window(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        value=dict(path='generated.img',view='ntfs-membership',volume_offset='0',volume_bytes='512')
+        for limit in (None,'1','64','256'):
+            row=dict(value)
+            if limit is not None:row['ntfs_target_limit']=limit
+            for version in ('auto','3.0','3.1'):
+                self.bundle.validate(schema,dict(row,ntfs_version=version,directory_reference=str(1<<48)))
+        for key,invalid in [('ntfs_target_limit','0'),('ntfs_target_limit','257'),('ntfs_target_limit','01'),('ntfs_target_limit',True),('ntfs_target_limit',None),('ntfs_target_limit',str(1<<64)),('directory_reference','1'),('volume_bytes','511'),('volume_offset',str((1<<63)-512)),('fat_copy','0'),('retain_capture','no')]:
+            with self.subTest(key=key,value=invalid),self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema,dict(value,**{key:invalid}))
+
+    def test_membership_limit_does_not_expand_old_views(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        for view in (None,'map','fat','exfat','ntfs','ntfs-directory'):
+            value=dict(path='generated.img',ntfs_target_limit='64')
+            if view is not None:value['view']=view
+            if view not in (None,'map'):value.update(volume_offset='0',volume_bytes='512')
+            with self.subTest(view=view),self.assertRaises(sc.SpecError):self.bundle.validate(schema,value)
+
 if __name__=='__main__':unittest.main()

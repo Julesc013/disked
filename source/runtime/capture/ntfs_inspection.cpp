@@ -75,7 +75,8 @@ V rows(const V &original, const V &projected, std::size_t budget, std::size_t ma
         .put("omitted", number(original.items.size() - count))
         .put("sha256", V::string(digest(original)));
 }
-void project_record(V &record) {
+void project_record(V &record, std::size_t maximum = 128, std::size_t budget = 65536,
+                    std::size_t run_maximum = 64, std::size_t run_budget = 8192) {
     const auto *original = record.find("attributes");
     if (!original)
         return;
@@ -84,10 +85,10 @@ void project_record(V &record) {
     auto projected = *original;
     for (auto &attribute : projected.items) {
         if (const auto *runs = attribute.find("runs"))
-            attribute.put("runs", rows(*runs, *runs, 8192, 64));
+            attribute.put("runs", rows(*runs, *runs, run_budget, run_maximum));
     }
     // Compute the complete replacement before invalidating the original pointer.
-    auto replacement = rows(*original, projected, 65536, 128);
+    auto replacement = rows(*original, projected, budget, maximum);
     record.put("attributes", std::move(replacement));
 }
 void project_closures(V &observation) {
@@ -172,13 +173,69 @@ void project_directory(V &observation) {
     auto entry_rows = rows(entries, named, 65536, 256);
     directory.put("entries", std::move(entry_rows));
 }
+void project_membership(V &observation) {
+    auto &membership = observation.fields.at("membership");
+    if (membership.kind == V::Kind::null)
+        return;
+    if (field(membership, "schema").text != "org.disked.ntfs-name-correspondence/1")
+        throw std::invalid_argument("ntfs_result_shape");
+    membership.put("original_schema", field(membership, "schema"))
+        .put("schema", V::string("org.disked.ntfs-name-correspondence-projection/1"))
+        .put("name_display_encoding", V::string("escaped-utf16le-code-units/1"));
+    const auto &targets = field(membership, "targets");
+    auto projected = targets;
+    for (auto &target : projected.items) {
+        if (target.find("record"))
+            project_record(target.fields.at("record"), 32, 16384, 32, 4096);
+        if (const auto *extensions = target.find("extensions")) {
+            auto records = *extensions;
+            for (auto &record : records.items)
+                project_record(record, 32, 16384, 32, 4096);
+            auto selected = rows(*extensions, records, 16384, 32);
+            target.put("extensions", std::move(selected));
+        }
+        if (!target.find("inventory") || target.fields.at("inventory").kind == V::Kind::null)
+            continue;
+        auto &inventory = target.fields.at("inventory");
+        if (field(inventory, "schema").text != "org.disked.ntfs-filename-collection-prototype/1")
+            throw std::invalid_argument("ntfs_result_shape");
+        inventory.put("original_schema", field(inventory, "schema"))
+            .put("schema", V::string("org.disked.ntfs-filename-projection/1"));
+        const auto &names = field(inventory, "names");
+        auto named = names;
+        for (auto &name : named.items)
+            name.put("name_display", V::string(display_name(field(name, "name_hex"))));
+        auto name_rows = rows(names, named, 32768, 128);
+        inventory.put("names", std::move(name_rows));
+        for (const auto *key : {"records", "required_records"}) {
+            const auto &original = field(inventory, key);
+            const bool records = std::string(key) == "records";
+            auto selected = rows(original, original, records ? 8192 : 4096, records ? 128 : 64);
+            inventory.put(key, std::move(selected));
+        }
+    }
+    auto selected = rows(targets, projected, 131072, 64);
+    membership.put("targets", std::move(selected));
+    const auto &edges = field(membership, "edges");
+    auto edge_rows = rows(edges, edges, 32768, 256);
+    membership.put("edges", std::move(edge_rows));
+}
+const char *scope(NtfsSnapshotKind kind) {
+    if (kind == NtfsSnapshotKind::Membership)
+        return "ordinary-local-file-ntfs-membership";
+    return kind == NtfsSnapshotKind::Directory ? "ordinary-local-file-ntfs-directory"
+                                               : "ordinary-local-file-ntfs";
+}
 void bind_directory_result(const V &file, const NtfsInspectionRequest &request) {
     const auto &observation = field(file, "observation"), &capture = field(file, "capture"),
                &domain = field(capture, "domain");
     const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
                          : request.profile == NtfsFileProfile::Version30 ? "3.0"
                                                                          : "3.1";
-    if (field(observation, "schema").text != "org.disked.ntfs-directory-observation-prototype/1" ||
+    const bool membership = request.kind == NtfsSnapshotKind::Membership;
+    if (field(observation, "schema").text !=
+            (membership ? "org.disked.ntfs-membership-observation-prototype/1"
+                        : "org.disked.ntfs-directory-observation-prototype/1") ||
         integer(observation, "volume_offset") != request.volume_offset ||
         integer(observation, "volume_bytes") != request.volume_bytes ||
         integer(observation, "requested_directory_reference") != request.directory_reference ||
@@ -186,6 +243,12 @@ void bind_directory_result(const V &file, const NtfsInspectionRequest &request) 
         integer(domain, "volume_bytes") != request.volume_bytes ||
         integer(domain, "directory_reference") != request.directory_reference ||
         field(capture, "selector").text != version || field(domain, "selector").text != version)
+        throw std::invalid_argument("ntfs_result_binding");
+    if (membership && (integer(observation, "requested_target_limit") != request.target_limit ||
+                       integer(domain, "target_limit") != request.target_limit))
+        throw std::invalid_argument("ntfs_result_binding");
+    if (membership && field(observation, "membership").kind != V::Kind::null &&
+        integer(field(observation, "membership"), "target_limit") != request.target_limit)
         throw std::invalid_argument("ntfs_result_binding");
     const auto limits = ntfs_inspection_capture_limits(request.kind);
     const auto &bound = field(domain, "limits");
@@ -215,11 +278,12 @@ Outcome failure(const std::string &request, const std::string &code, int exit_co
 bool ntfs_inspection_parameters(const V &parameters) {
     const auto *view = parameters.find("view");
     return view && view->kind == V::Kind::string &&
-           (view->text == "ntfs" || view->text == "ntfs-directory");
+           (view->text == "ntfs" || view->text == "ntfs-directory" ||
+            view->text == "ntfs-membership");
 }
 NtfsCaptureLimits ntfs_inspection_capture_limits(NtfsSnapshotKind kind) {
     NtfsCaptureLimits limits;
-    if (kind == NtfsSnapshotKind::Directory) {
+    if (kind == NtfsSnapshotKind::Directory || kind == NtfsSnapshotKind::Membership) {
         limits.read_requests = 512;
         limits.read_bytes = 2097152;
         limits.retained_bytes = 524288;
@@ -241,6 +305,9 @@ void validate_ntfs_inspection_request(const NtfsInspectionRequest &request) {
          request.profile != NtfsFileProfile::Version31))
         throw std::invalid_argument("ntfs_inspection_input");
     ntfs_inspection_capture_limits(request.kind);
+    if (!request.target_limit || request.target_limit > 256 ||
+        (request.kind != NtfsSnapshotKind::Membership && request.target_limit != 64))
+        throw std::invalid_argument("ntfs_inspection_target_limit");
     if ((request.kind == NtfsSnapshotKind::Bootstrap && request.directory_reference) ||
         (request.directory_reference && !(request.directory_reference >> 48)))
         throw std::invalid_argument("ntfs_inspection_reference");
@@ -249,11 +316,14 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
     try {
         if (parameters.kind != V::Kind::object || !ntfs_inspection_parameters(parameters))
             return false;
-        const bool directory = field(parameters, "view").text == "ntfs-directory";
+        const bool membership = field(parameters, "view").text == "ntfs-membership";
+        const bool directory = membership || field(parameters, "view").text == "ntfs-directory";
         std::set<std::string> keys = {"path", "view", "volume_offset", "volume_bytes",
                                       "ntfs_version"};
         if (directory)
             keys.insert("directory_reference");
+        if (membership)
+            keys.insert("ntfs_target_limit");
         for (const auto &entry : parameters.fields)
             if (!keys.count(entry.first))
                 return false;
@@ -263,9 +333,15 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
             return false;
         NtfsInspectionRequest selected;
         if (directory) {
-            selected.kind = NtfsSnapshotKind::Directory;
+            selected.kind = membership ? NtfsSnapshotKind::Membership : NtfsSnapshotKind::Directory;
             if (parameters.find("directory_reference"))
                 selected.directory_reference = integer(parameters, "directory_reference");
+        }
+        if (membership && parameters.find("ntfs_target_limit")) {
+            const auto target_limit = integer(parameters, "ntfs_target_limit");
+            if (!target_limit || target_limit > 256)
+                return false;
+            selected.target_limit = static_cast<std::size_t>(target_limit);
         }
         selected.path = path.text;
         selected.volume_offset = integer(parameters, "volume_offset");
@@ -293,9 +369,11 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
 }
 V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRequest &request) {
     validate_ntfs_inspection_request(request);
-    const bool directory = request.kind == NtfsSnapshotKind::Directory;
-    if (field(read.file, "schema").text != (directory ? "org.disked.ntfs-directory-file-capture/1"
-                                                      : "org.disked.ntfs-file-capture/1") ||
+    const bool membership = request.kind == NtfsSnapshotKind::Membership;
+    const bool directory = membership || request.kind == NtfsSnapshotKind::Directory;
+    if (field(read.file, "schema").text != (membership ? "org.disked.ntfs-membership-file-capture/1"
+                                            : directory ? "org.disked.ntfs-directory-file-capture/1"
+                                                        : "org.disked.ntfs-file-capture/1") ||
         flag(read.file, "authorizes_effects") || flag(read.file, "product_dispatch_admitted"))
         throw std::invalid_argument("ntfs_result_shape");
     if (directory)
@@ -303,8 +381,9 @@ V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRe
     const auto &original = field(read.file, "observation");
     auto observation = original;
     observation.put("original_schema", field(original, "schema"))
-        .put("schema", V::string(directory ? "org.disked.ntfs-directory-projection/1"
-                                           : "org.disked.ntfs-bootstrap-projection/1"));
+        .put("schema", V::string(membership  ? "org.disked.ntfs-membership-projection/1"
+                                 : directory ? "org.disked.ntfs-directory-projection/1"
+                                             : "org.disked.ntfs-bootstrap-projection/1"));
     const auto &regions = field(original, "regions");
     observation.put("regions", rows(regions, regions, 32768, 128));
     for (const auto key : {"primary", "mirror", "volume_record"})
@@ -312,28 +391,34 @@ V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRe
     project_closures(observation);
     if (directory)
         project_directory(observation);
+    if (membership)
+        project_membership(observation);
     const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
                          : request.profile == NtfsFileProfile::Version30 ? "3.0"
                                                                          : "3.1";
-    auto result = V::object()
-                      .put("schema", V::string(directory ? "org.disked.ntfs-directory-inspection/1"
-                                                         : "org.disked.ntfs-inspection/1"))
-                      .put("command", V::string("image.inspect"))
-                      .put("scope", V::string(directory ? "ordinary-local-file-ntfs-directory"
-                                                        : "ordinary-local-file-ntfs"))
-                      .put("applicability_scope",
-                           V::string(directory ? "single-directory-index-envelope"
-                                               : "boot-mft0-mirror0-volume-information"))
-                      .put("requested_version", V::string(version))
-                      .put("file_sha256", V::string(digest(read.file)))
-                      .put("capture_sha256", V::string(digest(field(read.file, "capture"))))
-                      .put("observation", std::move(observation))
-                      .put("capture", field(read.file, "capture"))
-                      .put("context", read.context)
-                      .put("worker", read.worker)
-                      .put("authorizes_effects", V::boolean_value(false));
+    auto result =
+        V::object()
+            .put("schema", V::string(membership  ? "org.disked.ntfs-membership-inspection/1"
+                                     : directory ? "org.disked.ntfs-directory-inspection/1"
+                                                 : "org.disked.ntfs-inspection/1"))
+            .put("command", V::string("image.inspect"))
+            .put("scope", V::string(scope(request.kind)))
+            .put("applicability_scope",
+                 V::string(membership  ? "single-directory-raw-name-correspondence"
+                           : directory ? "single-directory-index-envelope"
+                                       : "boot-mft0-mirror0-volume-information"))
+            .put("requested_version", V::string(version))
+            .put("file_sha256", V::string(digest(read.file)))
+            .put("capture_sha256", V::string(digest(field(read.file, "capture"))))
+            .put("observation", std::move(observation))
+            .put("capture", field(read.file, "capture"))
+            .put("context", read.context)
+            .put("worker", read.worker)
+            .put("authorizes_effects", V::boolean_value(false));
     if (directory)
         result.put("requested_directory_reference", number(request.directory_reference));
+    if (membership)
+        result.put("requested_target_limit", number(request.target_limit));
     return result;
 }
 Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters,
@@ -356,12 +441,9 @@ Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters
                     .items.front()
                     .put("platform_code", number(read.platform_code));
             if (read.worker.kind != V::Kind::null)
-                out.response.put(
-                    "result", V::object()
-                                  .put("scope", V::string(input.kind == NtfsSnapshotKind::Directory
-                                                              ? "ordinary-local-file-ntfs-directory"
-                                                              : "ordinary-local-file-ntfs"))
-                                  .put("worker", read.worker));
+                out.response.put("result", V::object()
+                                               .put("scope", V::string(scope(input.kind)))
+                                               .put("worker", read.worker));
             json::dump(out.response, output_limits());
             return out;
         }
@@ -370,13 +452,23 @@ Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters
         const bool changed =
             !flag(capture, "metadata_equal") || !flag(capture, "binding_checks_ok") ||
             !flag(capture, "replay_equal") || !flag(capture, "profile_selection_equal");
+        const bool mismatch =
+            input.kind == NtfsSnapshotKind::Membership && !changed &&
+            flag(observation, "complete") && !flag(observation, "applicable") &&
+            flag(observation, "reread_equal") && flag(capture, "metadata_complete") &&
+            field(observation, "diagnostic").text == "ntfs_membership_name_mismatch" &&
+            flag(field(observation, "membership"), "collection_complete") &&
+            !flag(field(observation, "membership"), "all_edges_matched");
         const bool incomplete = !flag(observation, "complete") ||
-                                !flag(observation, "applicable") ||
-                                !flag(capture, "observed_stable");
+                                (!flag(observation, "applicable") && !mismatch) ||
+                                (!flag(capture, "observed_stable") && !mismatch);
         auto out = completed(request, project_ntfs_inspection(read, input));
-        if (changed || incomplete) {
+        if (changed || incomplete || mismatch) {
             out.exit_code = 4;
             out.response.put("status", V::string("failed"));
+            if (mismatch)
+                out.response.fields.at("diagnostics")
+                    .items.push_back(diagnostic("ntfs_membership_name_mismatch"));
             if (incomplete)
                 out.response.fields.at("diagnostics")
                     .items.push_back(diagnostic("ntfs_capture_incomplete"));

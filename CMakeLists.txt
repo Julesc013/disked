@@ -571,6 +571,10 @@ if(BUILD_TESTING)
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_ntfs_test>" --worker "$<TARGET_FILE:ntfs_worker_probe>" --probe "$<TARGET_FILE:ntfs_inspection_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
     --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-directory-command-cases.json")
   set_tests_properties(image.ntfs_directory_commands PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME image.ntfs_membership_commands COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_ntfs_membership_commands.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_ntfs_test>" --worker "$<TARGET_FILE:ntfs_worker_probe>" --probe "$<TARGET_FILE:ntfs_inspection_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-membership-command-cases.json")
+  set_tests_properties(image.ntfs_membership_commands PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   private_header_check(disked_exfat_inspection runtime/capture/exfat_inspection.h)
   private_header_check(disked_exfat_reader platform/windows/storage/exfat_reader.h)
   bootstrap_executable(disked_exfat_test)

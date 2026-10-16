@@ -15870,6 +15870,42 @@
         "DE-042",
         "DE-045"
       ]
+    },
+    {
+      "id": "tests/frontend/test_ntfs_membership_commands.py",
+      "path": "tests/frontend/test_ntfs_membership_commands.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/test_ntfs_directory_commands.py",
+        "tests/images/ntfs_membership_fixture.py",
+        "tests/frontend/test_ntfs_commands.py"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-036",
+        "DE-037",
+        "DE-042",
+        "DE-045"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-membership-command/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-membership-command/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-command-prototype.json",
+        "tests/frontend/test_ntfs_membership_commands.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037",
+        "DE-042",
+        "DE-074"
+      ]
     }
   ]
 }

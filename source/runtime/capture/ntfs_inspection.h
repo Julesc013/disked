@@ -1,6 +1,7 @@
 #pragma once
 #include "ntfs_directory.h"
 #include "runtime/command/protocol.h"
+#include <cstddef>
 #include <functional>
 
 namespace disked {
@@ -10,6 +11,7 @@ struct NtfsInspectionRequest {
     NtfsFileProfile profile = NtfsFileProfile::Automatic;
     NtfsSnapshotKind kind = NtfsSnapshotKind::Bootstrap;
     std::uint64_t directory_reference = 0;
+    std::size_t target_limit = 64;
 };
 struct NtfsInspectionRead {
     enum class Status { Captured, Refused, Unresolved };

@@ -133,7 +133,7 @@ bool exfat_inspection_response(const Value& response) {
 bool ntfs_inspection_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
     const auto* scope=result->find("scope");return string(scope) &&
-        (scope->text=="ordinary-local-file-ntfs" || scope->text=="ordinary-local-file-ntfs-directory");
+        (scope->text=="ordinary-local-file-ntfs" || scope->text=="ordinary-local-file-ntfs-directory" || scope->text=="ordinary-local-file-ntfs-membership");
 }
 bool fat_capture_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
