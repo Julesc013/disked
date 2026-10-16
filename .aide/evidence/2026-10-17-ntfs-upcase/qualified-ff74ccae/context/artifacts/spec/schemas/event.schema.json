@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:event:1",
+  "title": "event",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.event/1"
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Decimal string; semantic validation additionally enforces <= 18446744073709551615."
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "operation_id",
+    "sequence",
+    "type",
+    "payload"
+  ],
+  "additionalProperties": false
+}

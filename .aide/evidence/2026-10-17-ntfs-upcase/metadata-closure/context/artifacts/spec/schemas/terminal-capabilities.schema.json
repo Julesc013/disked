@@ -1,0 +1,281 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.terminal-capabilities/1"
+    },
+    "source": {
+      "enum": [
+        "synthetic",
+        "observed"
+      ]
+    },
+    "target_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backend": {
+      "enum": [
+        "plain",
+        "native-console",
+        "dos-local",
+        "vt",
+        "serial",
+        "unknown"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "terminal",
+            "pipe",
+            "file",
+            "absent",
+            "unknown"
+          ]
+        },
+        "encoding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interactive": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "encoding",
+        "interactive"
+      ],
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "terminal",
+            "pipe",
+            "file",
+            "absent",
+            "unknown"
+          ]
+        },
+        "encoding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interactive": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "encoding",
+        "interactive"
+      ],
+      "additionalProperties": false
+    },
+    "diagnostics": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "terminal",
+            "pipe",
+            "file",
+            "absent",
+            "unknown"
+          ]
+        },
+        "encoding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interactive": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "encoding",
+        "interactive"
+      ],
+      "additionalProperties": false
+    },
+    "viewport": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "rows": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ],
+      "additionalProperties": false
+    },
+    "backing_buffer": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "rows": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ],
+      "additionalProperties": false
+    },
+    "cursor_addressing": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "colour": {
+      "enum": [
+        "unknown",
+        "mono",
+        "16",
+        "256",
+        "truecolour"
+      ]
+    },
+    "glyphs": {
+      "enum": [
+        "unknown",
+        "ascii",
+        "legacy",
+        "unicode"
+      ]
+    },
+    "keyboard_events": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "mouse_events": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "resize_events": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "paste_detection": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "alternate_screen": {
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "screen_owner": {
+      "enum": [
+        "none",
+        "caller",
+        "disked",
+        "unknown"
+      ]
+    },
+    "prefer_linear": {
+      "type": "boolean"
+    },
+    "reduce_motion": {
+      "type": "boolean"
+    },
+    "resource_budget_reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "source",
+    "target_profile",
+    "backend",
+    "input",
+    "output",
+    "diagnostics",
+    "viewport",
+    "backing_buffer",
+    "cursor_addressing",
+    "colour",
+    "glyphs",
+    "keyboard_events",
+    "mouse_events",
+    "resize_events",
+    "paste_detection",
+    "alternate_screen",
+    "screen_owner",
+    "prefer_linear",
+    "reduce_motion",
+    "resource_budget_reference",
+    "evidence"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:terminal-capabilities:1",
+  "title": "terminal-capabilities"
+}

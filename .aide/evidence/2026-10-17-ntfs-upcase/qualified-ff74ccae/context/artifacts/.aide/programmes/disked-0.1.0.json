@@ -1,0 +1,2025 @@
+{
+  "schema": "org.disked.development-programme/1",
+  "product_version": "0.1.0",
+  "status": "active",
+  "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
+  "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
+  "scope_source": "User selected: All currently specified platforms and storage operations.",
+  "review_policy": "Continue local implementation across units after recorded tests and agent review; keep owner acceptance and release/storage privilege gates separate.",
+  "review_policy_source": "Explicit user answer in the 2026-10-06 goal conversation.",
+  "development_branch": "dev",
+  "repository_workflow": {
+    "source": "User instruction, 2026-10-12 Australia/Sydney: continue; work on dev and merge to main to keep the remote up to date.",
+    "development": "Commit and push development checkpoints to origin/dev; retain tested source identities and incomplete work accurately.",
+    "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
+    "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
+    "latest_integration": {
+      "work_id": "DE-W098",
+      "checkpoint_revision": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+      "tested_native_source_revision": "01feae81e3b22fdd9147e7f4fa2e53e621a11b9f",
+      "recorded_at": "2026-10-16T14:08:34.195565+00:00",
+      "execution_identity": "BLACKGLASS-WIN1\\Jules",
+      "github_account": "Julesc013",
+      "branches": {
+        "dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+        "main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+        "origin/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+        "origin/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
+      },
+      "remote_refs": {
+        "refs/heads/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+        "refs/heads/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
+      },
+      "source": "Authorized dev push, fast-forward main and main push succeeded; exact local/remote refs verified without force. Following integration-receipt commit is metadata only.",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-membership-command/qualified-01feae81/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md",
+      "native_groups": 53,
+      "registered_native_groups": 168,
+      "full_native_suite_run": false,
+      "selected_native_suite_complete": true,
+      "membership_command_cases": 126,
+      "source_receipts": 26,
+      "standalone_headers": 67,
+      "unique_x64_executables": 13,
+      "tooling_tests_run": 249,
+      "tooling_skipped": 2,
+      "fresh_win32_campaign_run": false,
+      "full_win32_product_qualified": false,
+      "native_unverified": ".aide/evidence/2026-10-16-ntfs-membership-command/native-unverified.json",
+      "prior_failures_retained": true,
+      "earlier_intermittent_failure_causes_established": false,
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "release_published": false
+    }
+  },
+  "permitted": [
+    "Local implementation",
+    "Builds and tests",
+    "Repairs",
+    "Fake providers",
+    "Ordinary disposable image fixtures",
+    "Local commits and resumable handoffs",
+    "Push development checkpoints to origin/dev",
+    "Merge tested and agent-reviewed checkpoints to main and push origin/main"
+  ],
+  "separate_authority": [
+    "Physical-device access",
+    "Elevation",
+    "Customer data",
+    "Software installation",
+    "Release signing",
+    "Release artifact publication",
+    "Owner acceptance",
+    "Independent safety qualification"
+  ],
+  "baseline_owner_accepted": false,
+  "implementation_owner_accepted": false,
+  "current_work": "DE-W099",
+  "completed_development": [
+    "DE-W010",
+    "DE-W013",
+    "DE-W014",
+    "DE-W015",
+    "DE-W016",
+    "DE-W012",
+    "DE-W017",
+    "DE-W020",
+    "DE-W021",
+    "DE-W022",
+    "DE-W023",
+    "DE-W024",
+    "DE-W063",
+    "DE-W057",
+    "DE-W058",
+    "DE-W064",
+    "DE-W065",
+    "DE-W066",
+    "DE-W067",
+    "DE-W068",
+    "DE-W069",
+    "DE-W072",
+    "DE-W073",
+    "DE-W074",
+    "DE-W076",
+    "DE-W077",
+    "DE-W078",
+    "DE-W079",
+    "DE-W081",
+    "DE-W082",
+    "DE-W083",
+    "DE-W084",
+    "DE-W085",
+    "DE-W086",
+    "DE-W087",
+    "DE-W088",
+    "DE-W089",
+    "DE-W075",
+    "DE-W091",
+    "DE-W092",
+    "DE-W093",
+    "DE-W094",
+    "DE-W095",
+    "DE-W096",
+    "DE-W097",
+    "DE-W098"
+  ],
+  "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
+  "next_action": "Implement and qualify the W099 supplied-table primitive and independent guarded comparisons, then bind actual FILE10 bytes to the same NTFS capture before namespace or lookup admission. Preserve all original scope, retained availability failures and owner/privilege/release gates.",
+  "verified_slices": [
+    {
+      "work_id": "DE-W012",
+      "scope": "Native descriptor parser, static completion/help and bounded synchronous machine protocol",
+      "source_revision": "e4cdaeda0281cff9505e09f6c3a19abe5463a403",
+      "evidence": ".aide/evidence/2026-10-06-native-protocol/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-protocol/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Async operation/attempt/epoch payloads and wait/reconnect admission remain tied to DE-W016/017."
+    },
+    {
+      "work_id": "DE-W011",
+      "scope": "Native policy, standard-channel observations, real local launches and inherited-console preservation",
+      "source_revision": "90f91e1a2f529c12106fc46925f8c51b6b59f10e",
+      "evidence": ".aide/evidence/2026-10-06-native-invocation/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-invocation/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Explorer, ConPTY/terminal/remote, other Windows profiles, subsystem alternatives and visible no-flash qualification. DE-DEC-002 remains proposed."
+    },
+    {
+      "work_id": "DE-W013",
+      "scope": "Immutable fake graph, typed frontend actions, identity selection and revision-bound CLI/stdio observation commands",
+      "source_revision": "0d9e82588dfc574dbca168d843cd9195a97bbc30",
+      "evidence": ".aide/evidence/2026-10-06-native-graph/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-graph/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner review; GUI/TUI parity, async admission and real providers belong to subsequent units."
+    },
+    {
+      "work_id": "DE-W014",
+      "scope": "Native-console screen and linear TUI, shared-service forms, bounded rendering and actual caller-state restoration",
+      "source_revision": "5012d858064ab3635e3ea0422e41345cbcf72a78",
+      "evidence": ".aide/evidence/2026-10-06-native-tui/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-tui/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Screen-reader, ConPTY, VT, remote, legacy-host and forced-termination qualification remain unverified; other terminal backends remain programme work."
+    },
+    {
+      "work_id": "DE-W015",
+      "scope": "Native Win32 fake navigator/inspector, descriptor forms, explicit review/submit, keyboard traversal and actual-window evidence",
+      "source_revision": "b4774f03d739c5a932a9f4343c37d26dcc7bdda7",
+      "evidence": ".aide/evidence/2026-10-06-native-gui/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-gui/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "High-contrast-on, screen-reader, per-monitor DPI, other Windows, remote/Explorer and clean-VM qualification remain unverified. Host-injected modules are separate from the application loader boundary."
+    },
+    {
+      "work_id": "DE-W016",
+      "scope": "Same-file unprivileged fake worker, explicit private evidence store, cancellation, reconnect and uncertain outcome projection",
+      "source_revision": "3e790d51cb96b4b6e2c779d4a482a8172ab44dfe",
+      "evidence": ".aide/evidence/2026-10-06-native-worker/reproduction-3e790d51/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-worker/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Production journal, privilege authority, event watching, aggregate resource/hang containment and other hosts remain unqualified."
+    },
+    {
+      "work_id": "DE-W019",
+      "scope": "Native Windows explicit shell, literal editing, canonical review/dispatch, cached completion, session-only history and console restoration",
+      "source_revision": "9ba3311ff948319841fe881a7e0c8a4ec5036312",
+      "evidence": ".aide/evidence/2026-10-07-native-shell/reproduction-9ba3311f/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-native-shell/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Human entry/correction/recall evaluation and additional keyboard/terminal profiles remain unqualified. Combined hangs/resource limits proceed in DE-W017; production plans/storage remain unavailable."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Interactive fake-operation request containment and per-user/Windows-session worker process/committed-memory ceilings",
+      "source_revision": "ee7cfb6984c1049cad3b3bdc53fa615687c4f244",
+      "evidence": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-resilience/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "DE-W017 remains active: synchronous CLI/stdio file waits, whole-frontend memory, event/slow-consumer backpressure, full destinations and the combined provider-fault campaign. Other hosts and production storage remain unqualified."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Bounded CLI/stdio fake-operation callback waits and standard-output backpressure with retained uncertain operations",
+      "source_revision": "a30313c09f4ba8de5770fea041ae1c71db015f55",
+      "evidence": ".aide/evidence/2026-10-07-transport-containment/reproduction-a30313c0/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-transport-containment/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Whole-frontend memory, full destinations, public event streams and the combined provider-fault campaign. Other hosts and production storage remain unqualified."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "State-store full/partial/flush boundary injections and truthful unresolved claim/cancellation receipts",
+      "source_revision": "b8de3be9094718c0170f5cd2980abd0b6d3448d5",
+      "evidence": ".aide/evidence/2026-10-07-store-failures/reproduction-b8de3be9/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-store-failures/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Frontend memory enforcement, combined provider failures and public event-stream scope; no real full-filesystem, power-loss, other-host or production-storage qualification."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Frontend committed-memory admission, inherited host policy, maximum bounded protocol/UI workloads and shared worker ancestry",
+      "source_revision": "07fd5dc67670a75dc0eeb6a7031953289ee268c1",
+      "evidence": ".aide/evidence/2026-10-07-frontend-memory/reproduction-07fd5dc6/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-frontend-memory/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Combined provider failures and public event-stream scope; no full unit, all-allocation failure handling, host-total-memory, real storage, power-loss or other-host qualification."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Private observation-capture epochs, retained snapshots, bounded notices and combined native producer-failure campaign across frontends",
+      "source_revision": "eb042ca0172920182b3427378adab13c18802e40",
+      "evidence": ".aide/evidence/2026-10-07-observation-capture/reproduction-eb042ca0/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-observation-capture/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Public event payloads, negotiation and reconnect; no complete unit, production observer/storage admission, real full-filesystem/power-loss or other-host qualification."
+    },
+    {
+      "work_id": "DE-W012",
+      "scope": "Local Windows fake-provider command/protocol and resilience criteria, including bounded event watching, negotiated live NDJSON, digest-bound reconnect and GUI/TUI/shell parity",
+      "source_revision": "de67d1f7bcf20127fad219ab7a195e07528cc18e",
+      "evidence": ".aide/evidence/2026-10-07-operation-watch/reproduction-de67d1f7/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-operation-watch/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance; production/remote event protocols, real storage/persistence/power loss and additional platform qualification remain separate programme work."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Local Windows fake-provider command/protocol and resilience criteria, including bounded event watching, negotiated live NDJSON, digest-bound reconnect and GUI/TUI/shell parity",
+      "source_revision": "de67d1f7bcf20127fad219ab7a195e07528cc18e",
+      "evidence": ".aide/evidence/2026-10-07-operation-watch/reproduction-de67d1f7/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-operation-watch/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance; production/remote event protocols, real storage/persistence/power loss and additional platform qualification remain separate programme work."
+    },
+    {
+      "work_id": "DE-W018",
+      "scope": "Private C90 exact-address, checked arithmetic, little-endian and inert-byte controls on installed GCC/MSVC x64 and MSVC x86",
+      "source_revision": "cca910c16635e1fe3cf9ff2729c006150100d258",
+      "evidence": ".aide/evidence/2026-10-07-primitive-probes/reproduction-cca910c1/results.json",
+      "review": ".aide/evidence/2026-10-07-primitive-probes/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Historical compilers/CPU/loader/terminal launches and product parser admission remain unverified; DE-W018 stays active."
+    },
+    {
+      "work_id": "DE-W020",
+      "scope": "Internal C90 checked arithmetic, bounded views/endian access and named half-open extents; three compiler controls and native C/C++ guard-page verification",
+      "source_revision": "aaac4d4fc712d3c03d2a9960e949a13a5c83995e",
+      "evidence": ".aide/evidence/2026-10-07-portable-core/reproduction-aaac4d4f/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-portable-core/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance; real historical/other-target qualification and future format/provider admission remain separate."
+    },
+    {
+      "work_id": "DE-W021",
+      "scope": "Internal C90 bounded read-only MBR/EBR observations over immutable synthetic blocks; common two-entry EBR profile",
+      "source_revision": "7c8466877f1caab46747d73afbbcaf29f6720955",
+      "evidence": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-mbr-ebr/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance, external differential/coverage-fuzz campaign, historical profiles and coherent image/provider integration remain separate."
+    },
+    {
+      "work_id": "DE-W022",
+      "scope": "Private C90 GPT header/array/encoding observations and comparison without copy selection; three modern compiler controls",
+      "source_revision": "ad88098941dcad2e1b4056d892a324c59683edaa",
+      "evidence": ".aide/evidence/2026-10-07-gpt/reproduction-ad880989/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-gpt/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance, external differential/coverage fuzzing, historical/small-memory profiles and coherent image/provider integration remain separate."
+    },
+    {
+      "work_id": "DE-W023",
+      "scope": "Synthetic corpus, bounded external observations and fatal sanitizer mutation/replay campaign",
+      "source_revision": "c0e52fd383cd9a776219ce2d1c3b1e7204fd1624",
+      "evidence": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-parser-campaign/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance, coverage-guided fuzzing, additional platforms and coherent image/provider integration remain separate."
+    },
+    {
+      "work_id": "DE-W024",
+      "scope": "Private captured-map integration over immutable byte prefixes with explicit geometry and bounded retained findings",
+      "source_revision": "5e033f206eb241c157e211d454a1fed6a3c9338d",
+      "evidence": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-image-observation/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "W024 remains active: file capture, source-consistency evidence, command admission and actual frontend image parity."
+    },
+    {
+      "work_id": "DE-W024",
+      "scope": "Private Windows ordinary-file capture, source/geometry/coverage evidence and metadata-region interpretation",
+      "source_revision": "d0229f7a52e79a938cc6b3389be96366f686e389",
+      "evidence": ".aide/evidence/2026-10-08-image-file-capture/reproduction-d0229f7a/clean-results.json",
+      "review": ".aide/evidence/2026-10-08-image-file-capture/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "W024 remains active: shared command admission and actual frontend image parity."
+    },
+    {
+      "work_id": "DE-W024",
+      "scope": "Initial Windows shared raw-file inspection/verification with actual CLI/stdio/GUI/TUI/shell parity and bounded wait/late-result controls",
+      "source_revision": "ca9486334e03cb893263a051b2149f765cb1c81c",
+      "evidence": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-results.json",
+      "review": ".aide/evidence/2026-10-08-image-commands/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Physical and other-host/platform qualification, actual changing-media/hot-removal, atomic/whole-image capture, containers and independent safety/owner acceptance remain separate."
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "99d9befbddc1be89dc0a717ecf4fb0cb7a9d2302",
+      "scope": "Native private acquisition pipeline and in-memory port fault tests",
+      "evidence": ".aide/evidence/2026-10-08-acquisition-pipeline/reproduction-99d9befb/clean-results.json",
+      "review": ".aide/evidence/2026-10-08-acquisition-pipeline/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "0f6552a95f04d66dfa94d34b96d922b82466d687",
+      "scope": "Private Windows ordinary-file acquisition and matching-generation resume",
+      "evidence": ".aide/evidence/2026-10-09-file-acquisition/reproduction-0f6552a9/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-file-acquisition/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "e835a0322392fa941939cb067eb05df86660f370",
+      "scope": "Private Windows detached acquisition worker, exact-definition grants, checkpoint cancellation/reconnect and capture/attempt provenance",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-worker/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "9a9de03aab09aa87f28e0c445408c719acb281c1",
+      "scope": "Private shared acquisition prepare/execute schema, CLI/stdio/form decoder adapter and ordinary-file worker contract",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-commands/reproduction-9a9de03a/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-commands/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "eae515b0d0c4a6fe60eba4e6fe2f4158e08c772b",
+      "scope": "Public explicit acquisition inspect/cancel and bounded CLI/stdio watch; portable definition-bound event reader",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-operations/reproduction-eae515b0/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-operations/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "7bb3eb4b58fe7976a36fd005a40d37e7ac5c20af",
+      "scope": "Phase-specific GUI/TUI acquisition forms and actual private native prepare/review/submit copies",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-forms/reproduction-7bb3eb4b/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-forms/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "54328453e355b0522e4cb2581a8887247a18efd8",
+      "scope": "Public ordinary-file acquisition across CLI/stdio/GUI/TUI/shell, full structured shell definitions, bounded interactive watch and actual checkpoint cancellation/resume",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-public/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "ce9ae70f28e6e8c7d6408563fd3508d51d263164",
+      "scope": "Private native binary journal framing and bounded source scanner with independent byte/corruption/torn-tail vectors",
+      "evidence": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-journal-codec/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "8ec0404f95209e2582f08609f338a7da352a1e2b",
+      "scope": "Private immutable fake-model plan definitions, typed resource/dependency bindings, composable recovery properties and separate data-bound receipts",
+      "evidence": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-plan-definitions/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "09bb6cb5c39f75a3fb81a3678ebf258930656419",
+      "scope": "Closed native fake-memory guarded journal/effect model, explicit stable/volatile crash fates, resource/capture/attempt guards, cancellation and retained journal generations",
+      "evidence": ".aide/evidence/2026-10-09-guarded-journal-model/reproduction-09bb6cb5/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-guarded-journal-model/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "0aed6f813a58947a413d73a51c0c4f12e005f84e",
+      "scope": "Private bounded semantic binary journal declaration reader: immutable payload/header/publisher bindings, receipt references, event/capture/attempt ordering, recovery and prefix-preserving rejection",
+      "evidence": ".aide/evidence/2026-10-09-journal-semantics/reproduction-0aed6f81/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-journal-semantics/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "028d3c3c3ea20846e07e880b29c0bef9cce8ca2e",
+      "scope": "Private native model-history binary producer, action-time capture/flush/exit proofs, copied retained prefixes and prefix-preserving declaration rejection",
+      "evidence": ".aide/evidence/2026-10-09-model-binary-producer/reproduction-028d3c3c/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-model-binary-producer/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "5adb71431d3b048eafc04d7de43fdc874f96466b",
+      "scope": "Repeated-crash journal reconstruction preserves current-attempt exit proofs and clears old intention/proof state on checkpoint admission, with independent crash/fault/resource cuts",
+      "evidence": ".aide/evidence/2026-10-09-journal-crash-audit/reproduction-5adb7143/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-journal-crash-audit/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W063",
+      "source_revision": "67cbcb7c8f4d4106b82fcc89f4d820fb9fc1f25f",
+      "scope": "Independent nonempty staging inventory and bounded strict ZIP completeness verification, full compressed-stream/descriptor/record-layout checks and actual one-executable native staging",
+      "evidence": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-artifact-checker/REVIEW.md",
+      "unit_complete": true,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W032",
+      "source_revision": "8e29f3275f070562c6c9141e79c804ef8c9d8286",
+      "scope": "Private native bounded observation collection, exact declared target/provider/capture bindings, request/retirement separation and consent-selected support omissions against independent owned fixtures",
+      "evidence": ".aide/evidence/2026-10-09-health-observation/reproduction-8e29f327/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-health-observation/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W032",
+      "source_revision": "24051c3105d763cc155c90b1825ef195f74defdc",
+      "scope": "Provisional compiled fake health command through shared target/revision-bound CLI/stdio/GUI/TUI/shell service; bounded collection, explicit unavailable/partial results and consent-selected support payload",
+      "evidence": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-fake-health-command/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "e9b8fc99accdcce6a1481e4026790b56c1c13148",
+      "scope": "Private native immutable fixture case observations, private custody binding and independently hashed consent-selected support projection",
+      "evidence": ".aide/evidence/2026-10-09-case-evidence/reproduction-e9b8fc99/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-case-evidence/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "46eb65c4768f4053db1fd4b3249589c331e6254c",
+      "scope": "Private typed support-file export and native ordinary-file no-clobber/flush/readback, report-specific strong ancestor pinning and actual owned race/cut observations",
+      "evidence": ".aide/evidence/2026-10-09-report-export/reproduction-46eb65c4/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-report-export/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "68bdb6f7a6200e8ddd8bde28c07f9d14b6697dab",
+      "scope": "Shared native ordinary-file strong ancestor pins and all-generation/path checks; no weak fallback; baseline defects and clean affected frontend/export regressions",
+      "evidence": ".aide/evidence/2026-10-09-parent-pins/reproduction-68bdb6f7/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-parent-pins/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W033",
+      "source_revision": "291b7ce76f3ea63dbb29466cf81c8c22935dc495",
+      "scope": "Shared strong worker-state/code-parent coordination, all-path/generation guards and retained post-creation admission uncertainty; complete Windows development regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-worker-store/reproduction-291b7ce7/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-worker-store/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "327b8ae8b817eb5eaa3f2f796bc7c08bd038504c",
+      "scope": "Private immutable recorded-acquisition case, native read-only metadata/resource binding, all-policy typed support projection and actual selected-artifact export; complete Windows development regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-acquisition-cases/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "1d38bdcde80207483ef7242c686217e5fc712bff",
+      "scope": "Immutable joint recorded-acquisition case/source/output admission with native read checks, separate retained effects/applicability and strict private schemas; complete Windows development regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-joint-export/reproduction-1d38bdcd/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-joint-export/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "c81d330a4e160dcee23b29069a8ad894df396c03",
+      "scope": "Private same-executable report-worker admission and owned retained /2 state, distinct cancellation observation, no restart/cleanup on uncertain effects and complete Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-report-worker/reproduction-c81d330a/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-report-worker/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "dd4cf58046d34ee4dae09a604be7b899b5c6ddd1",
+      "scope": "Provisional exact prepare/execute export contract and inward service; native reference/array checks, actual cancellation/unknown terminal output and complete Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-export-command/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "6a69c4472710e8d1866e9e2f2b81bc412f5d8323",
+      "scope": "Private exact report operation inspect/cancel/watch, retained row/progress validation, reconnect/snapshot/reader/quota contracts and actual delayed/cancelled/unresolved workers; complete Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-report-watch/reproduction-6a69c447/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-report-watch/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "1f80711f9bfe9d8a18a1cf92878f98a117c8f0d9",
+      "scope": "Native product recorded-acquisition report export, common bounded request service, actual CLI/stdio/GUI/TUI/shell prepare/execute/watch/reconnect and occupied callback timeout; complete Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-product-export/reproduction-1f80711f/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-product-export/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W015",
+      "source_revision": "a47fbd5c0149a83117ed69caff93ce35b89ddd38",
+      "scope": "Shared owned GUI capture redraw/client RGB guard, real frame-only regression, native inventory/review/minimum captures and complete Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-gui-capture/reproduction-a47fbd5c/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-gui-capture/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "53e4269cf88ad85aeec31258e2bc8e58149f2057",
+      "scope": "Private current acquired-image/map read-only verifier, exact plan/output generations, before/after resources and separate case applicability, real generated bytes/metadata/sharing and full Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-09-image-verification/reproduction-53e4269c/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-image-verification/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "992b2d0a95e9e61e39395250d66ff4ec8adeb18c",
+      "scope": "Private immutable verification observations and exact case/raw-request/history/code/resource binding, all sixteen typed disclosures and native reviewed support exports, actual stale-source/image effects and full Windows regression cohort",
+      "evidence": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-image-observation/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "9a3a1b3899ce55305c3f492fe61649bc38f7200e",
+      "scope": "Private bounded historical image-verification collections, lossless raw metadata, exact observer/chain/restore relationships and explicitly granted selected support/private ordinary-file retention and reload",
+      "evidence": ".aide/evidence/2026-10-10-image-collection/reproduction-9a3a1b38/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-image-collection/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "736028ba92cd4201ccaa71ff56eed8aede391a5c",
+      "scope": "Private contained same-file ordinary-image verification worker, exact inputs/authority/process identity, finite progress/history cursor, cancellation timing and typed collection retention/faults",
+      "evidence": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-verification-worker/REVIEW.md",
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "178da19408530799d3add84f10f8c9d1447aac64",
+      "scope": "Shared provisional image.verify command, strict producer relationships and finite negotiated observation using actual private owned Windows workers; product adapter/frontend admission remains open.",
+      "evidence": ".aide/evidence/2026-10-10-verification-commands/reproduction-178da194/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-verification-commands/REVIEW.md",
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "ac34bb1b4221fba084e739aee79b42d6b7ed344a",
+      "scope": "Proposed native acquired-image verification, bounded callbacks, actual CLI/stdio/GUI/TUI/shell execution/watch and native view/disconnect/reply/cancel/retention faults; full unit/owner/platform/storage gates remain open.",
+      "evidence": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-product-verification/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Full DE-W034, owner/platform/storage and later joined-report admission gates remain open."
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "2b4e67e2c4a98ad800d29b210448dd5db0f6ebbb",
+      "scope": "Immutable typed acquisition/retained-verification join and private native two-source redacted support export; no new public/product admission.",
+      "evidence": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-verification-case-export/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Full DE-W034, owner/platform/storage and common joined-report admission gates remain open."
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "70318464b1c59ea8ea353c737a07f5c2f0f1a5cc",
+      "scope": "Strict joined-report producers and contained private Windows report worker; common public/frontend selection remains gated.",
+      "evidence": ".aide/evidence/2026-10-10-joined-report-worker/reproduction-70318464/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-joined-report-worker/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Historical private-worker qualification; full DE-W034 and owner/platform/storage gates remain open. Public joined admission has separate later evidence."
+    },
+    {
+      "work_id": "DE-W034",
+      "source_revision": "ec30be78ba9e9f61dc578ff67b9d0af186166145",
+      "scope": "Explicit provisional joined report through shared public commands and actual CLI/stdio/GUI/TUI/shell, with exact authority and bounded producer/transport/render closure.",
+      "evidence": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-results.json",
+      "review": ".aide/evidence/2026-10-10-joined-report-public/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Historical public joined-report qualification; full DE-W034 and owner/platform/storage gates remain open."
+    },
+    {
+      "work_id": "DE-W060",
+      "source_revision": "92d72bb7a7a1b312b74db9dcbeccba9bdda94548",
+      "scope": "Exact local Setup product/recipe source mapping and owned-directory native payload/extraction equality.",
+      "evidence": ".aide/evidence/2026-10-10-setup-fixtures/reproduction-92d72bb/results.json",
+      "review": ".aide/evidence/2026-10-10-setup-fixtures/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Historical first package fixture candidate; maximum-tested-reader ambiguity corrected in the later source. Full DE-W060 and live/owner gates remain open."
+    },
+    {
+      "work_id": "DE-W060",
+      "source_revision": "e1683b1093bf810edfdf5911acaca3c510b28bf6",
+      "scope": "Exact local Setup product/recipe source mapping and owned-directory native payload/extraction equality.",
+      "evidence": ".aide/evidence/2026-10-10-setup-fixtures/reproduction-e1683b1/results.json",
+      "review": ".aide/evidence/2026-10-10-setup-fixtures/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W060",
+      "source_revision": "23079a5a0d7c18d30706491b5862f9c675724e24",
+      "scope": "Private C ABI read-only source consumer of 84 exact CoreStatic inputs under DiskEd-owned CMake; real ZIP/ABI/ownership/refusal evidence separate from installed SDK and live lifecycle.",
+      "evidence": ".aide/evidence/2026-10-10-setup-source-consumer/reproduction-23079a5/results.json",
+      "review": ".aide/evidence/2026-10-10-setup-source-consumer/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W062",
+      "source_revision": "d4102abd5a1ea619b5123210bd8b801cb8657ea2",
+      "scope": "Private native payload-free product-bound H and unchanged dev.36 D in an independently verified deterministic offline ZIP; generated-view servicing ownership/capture/dependency previews without a live effect port.",
+      "evidence": ".aide/evidence/2026-10-10-carrier-fixtures/reproduction-d4102ab/results.json",
+      "review": ".aide/evidence/2026-10-10-carrier-fixtures/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W030",
+      "source_revision": "17129e6eaa6cfb5786cbf1f022fb38eb25fd286f",
+      "scope": "Private native Win32 volume namespace/mount adapter with exact bounded reply parsing, lossless UTF-16 and honest unknown physical identity; injected x64/x86 API campaigns only.",
+      "evidence": ".aide/evidence/2026-10-10-nt-volume-namespace/reproduction-17129e6/results.json",
+      "review": ".aide/evidence/2026-10-10-nt-volume-namespace/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Common capture publication/partial coverage separated from exact owned reader retirement; namespace graph projection remains next.",
+      "source_revision": "2d753baec32c443e121c462ac9b19fa002edb114",
+      "evidence": ".aide/evidence/2026-10-10-capture-publication/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-capture-publication/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Namespace-to-node graph projection, native identity/topology, live/provider/product/platform admission and owner/full-unit qualification."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private namespace observation graph with lossless names, source/epoch/context/frame-bound IDs, unknown physical identity, partial complete-cache policy and exact owned exit-only retirement.",
+      "source_revision": "3463fb238c38f4dbe085061c7980aaf7eaab53d2",
+      "evidence": ".aide/evidence/2026-10-10-namespace-graph/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-namespace-graph/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Injected native identity/topology; observation frontend, live/product/provider/platform admission; owner/full-unit acceptance."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private injected borrowed-handle storage descriptor/device-number/geometry/length/volume-extent frames and common graph; finite buffers/calls, pending batch quarantine and candidate conflicts without physical authority.",
+      "source_revision": "e469d70f8845ae4659b335d61a6527b70b695dff",
+      "evidence": ".aide/evidence/2026-10-10-storage-queries/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-storage-queries/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owned-reader integration and startup/retry reconciliation; observation frontend, native identity/raw layout, live/product/provider/platform admission and owner/full-unit acceptance."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Shared owned namespace/metadata observation host, bounded pure receipt reconstruction, actual context-bound graph and prepared-session startup/exit/retry reconciliation.",
+      "source_revision": "16259b7a3d6ba19cf23b6305f16118bd9bc6955d",
+      "evidence": ".aide/evidence/2026-10-10-storage-worker/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-storage-worker/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Observation frontend; native identity/raw layout; live/product/provider/platform admission and owner/full-unit acceptance."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Compiled private cached observation semantics in existing frontend models and owner-requested source naming/placement map.",
+      "source_revision": "8f55d8671a4c8ef936195cf68fa1f601db7eeed7",
+      "evidence": ".aide/evidence/2026-10-10-observation-frontend/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-observation-frontend/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Native identity/raw layout, actual new-profile visible interfaces, live/product/provider/protocol/platform admission and owner/full-unit acceptance."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private borrowed device ID, reported alignment and OS-layout query fixtures on x64/x86; affected private regressions.",
+      "source_revision": "b853621bc3d8ed789356782cb759c6d4f2a9a2ae",
+      "evidence": ".aide/evidence/2026-10-10-identity-queries/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-identity-queries/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Integrate private fixture-qualified device ID/alignment/OS-layout receipts into immutable owned frames and graph context, retaining independent raw-media comparison and composite identity as separate work. Preserve actual-interface/provider/protocol/platform/owner/storage/release gates; full all-specified-platform/storage 0.1.0 stays active."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private /2 owned ID/alignment/OS-layout frames, pure receipt reconstruction and bounded graph details; all private Windows regressions.",
+      "source_revision": "6b883c016fd354398b777a50f0662b617f5100b7",
+      "evidence": ".aide/evidence/2026-10-10-identity-frame/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-identity-frame/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify the /2 owned identity/layout observations in existing cached frontend models and independent raw MBR/GPT/EBR comparisons over disposable images. Preserve composite physical identity, live/product/provider/protocol/platform and owner/storage/release gates; full all-specified-platform/storage 0.1.0 remains active."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Shared host-neutral text input, removal of shell-to-TUI model dependency, complete source guide and corrected private probe; product regressions retained with exact equality of all 404 product inputs",
+      "source_revision": "67f3cfb0703418f16c08071b51238fde5348193d",
+      "product_source_revision": "3f648127b7716a34e7c5fdf6c391165fa44764d1",
+      "evidence": ".aide/evidence/2026-10-10-source-layout/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-source-layout/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "New /2 interface/raw comparison, composite identity, live/provider/public/platform and full-unit/all-platform/storage gates remain separate."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private immutable raw MBR/EBR/GPT layout and pure common-field comparison over ordinary generated images; existing injected query regressions",
+      "source_revision": "4400cb7119f36a9159b647e809e1fa76f766167f",
+      "evidence": ".aide/evidence/2026-10-10-raw-layout/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-raw-layout/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify IdentityLayout /2 observations in the existing cached frontend models, then bind the raw comparison to owned image-reader and storage-frame provenance. Preserve separate composite physical identity, live/provider/product/public/platform and owner/storage/release gates; all specified platforms/storage 0.1.0 remains active."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private cached IdentityLayout /2 GUI/TUI/shell/actual human CLI, original /1 and owned-frame/worker regressions, fresh dev41 product build/full suite",
+      "source_revision": "829de03cd8652323d7ab8b6f6828a5e410a0b594",
+      "evidence": ".aide/evidence/2026-10-10-identity-frontend/validation-summary.json",
+      "review": ".aide/evidence/2026-10-10-identity-frontend/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Bind the private raw-layout comparison to owned ordinary-image-reader and storage-frame provenance, then develop composite identity/freshness within its existing gates. Preserve separate physical/live/provider/product/public/platform and owner/storage/release authority. All specified platforms and storage operations remain the full 0.1.0 scope."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private owned ordinary-image/layout provenance, independently reconstructed bytes, typed owned storage frames and conservative pure joins; shared reader regressions on x64/x86",
+      "source_revision": "c30b68343bbd2a1d073d0c661dc6705a9e885c48",
+      "evidence": ".aide/evidence/2026-10-12-owned-layout/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-owned-layout/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Develop composite identifier/freshness observations from the retained private reader receipts, preserving weak identifiers, contradictions, aliases and unknown physical association. Continue the full all-platform/storage 0.1.0 scope within existing provider, physical/live, public, host/platform, owner and storage/release authority gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Owned private composite reported identity and epoch comparison from /2 reader frames, /1 rejection, complete identifiers/partition names, weak/colliding/conflicting reports; x64/x86 campaigns and fresh dev41 product regressions",
+      "source_revision": "8ca6053d038928dc83ad1a6115b0df27fb403ba8",
+      "evidence": ".aide/evidence/2026-10-12-composite-identity/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-composite-identity/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Carry immutable composite observations and explicit epoch comparisons into the cached observation interfaces using owned injected readers and ordinary disposable images. Preserve complete original evidence, weak/ambiguous/conflicting states and unknown physical association/freshness. Define capture epoch domains before cross-session continuity or reconnect claims. Continue the full all-platform/storage 0.1.0 scope within separate live/physical/provider/public/host/owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Sealed native coordinator epoch domains in keys/graphs/owned identity/raw joins; foreign-domain rejection, actual u64 exhaustion, original x64/x86 reader regressions and fresh dev41 product/reducer qualification",
+      "source_revision": "f1edd134cccfe08d1393c72e2c1354b0e5d11458",
+      "evidence": ".aide/evidence/2026-10-12-capture-domain/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-capture-domain/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Project bounded composite identity/comparison summaries and complete evidence references into the existing cached observation interfaces, preserving native coordinator domains, exact current/stale focus, weak/colliding/conflicting reports, unknown physical association/freshness and explicit overflow refusal. Retain full all-platform/storage 0.1.0 scope and separate live/physical/provider/public/host/owner/storage/release gates; no reconnect authority from serialized labels."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private immutable compact identity graph projection, complete native reference resolution, explicit bounded comparisons and current/last-complete cached model coverage; clean x64/x86/product regressions",
+      "source_revision": "d3c23fc073417ad4207ec0abdf9c49764e40219f",
+      "evidence": ".aide/evidence/2026-10-12-identity-projection/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-identity-projection/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Integrate the immutable composite projection into actual owned NT adapter/coordinator retention and cached publication, preserving exact current/last-complete evidence ownership, native domains, complete reference resolution, repeated partial/late/retry/outstanding-reader behavior and unchanged budgets. Keep the full all-platform/storage 0.1.0 scope and separate live/physical/provider/public/historical-host/owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private owned identity adapter publication with matching immutable current/last-complete native evidence, explicit bounded prior selections, pure references and cached model qualification; clean x64/x86/product regressions",
+      "source_revision": "4666c6f7aa30cbadb60e7724cf14806f652b70bc",
+      "evidence": ".aide/evidence/2026-10-12-identity-adapter/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-identity-adapter/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Connect accepted owned inventory and retained native evidence to the existing serialized frontend observation port, including mixed namespace/storage captures, consumer publication failure and retry without polling during presentation or losing matching evidence. Preserve /1 and /2 defaults, native domains, bounded owners, explicit comparisons and existing budgets. Keep the full all-platform/storage 0.1.0 scope and separate live/physical/provider/public/product/historical-host/owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private mixed owned native inventory publication and cached aliased frontend observation port; exact frame/reference backing retained by generic snapshots, explicit advancement/retirement and retry; clean x64/x86/product evidence",
+      "source_revision": "2e2f1fb84a21c7f0d92d51e72e8d89e33880ce61",
+      "evidence": ".aide/evidence/2026-10-12-inventory-port/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-inventory-port/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Build and verify a private injected-reader composition through actual Windows GUI/TUI/shell renderers over a prepared mixed inventory publication. Check original inert details/focus/manual cached refresh, native lifecycle/teardown and full retained frame/reference resolution. Keep fake-only product defaults and explicit source advancement/retirement; preserve IDs, native domains, comparisons and resource/display/process limits. Continue all specified platforms and storage operations for 0.1.0 with separate owner/live/provider/public/product/platform/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private actual owned Windows GUI/TUI/linear shell over frozen mixed injected native inventory; complete backing through source-session/host teardown, profile labels, inert names/focus/manual refresh/refusals and bounded launcher; clean x64/Win32/product evidence",
+      "source_revision": "a72454e9bfc2aecb8d576b4bd8a8cbbc9279381d",
+      "evidence": ".aide/evidence/2026-10-12-inventory-frontend/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-inventory-frontend/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Define and implement an explicit serialized observation-pump/refresh contract for changing injected native publications in actual Windows frontend hosts. Keep reader advancement outside cached getters and CompletionPoll, preserve source coverage and exact evidence/selection across pending/partial/late/cancel/retirement and host teardown, and qualify the bounded active-refresh composition. Preserve fake-only product defaults, stable IDs and resource/display/process limits. Continue the full all-platform/storage 0.1.0 programme with separate live/physical/provider/public/product/platform/accessibility/owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private explicit serialized native reader advancement in actual Windows GUI/TUI/linear shell, exact cached delivery/stale reviews/held backing, finite reader failure/retirement and unchanged Fake defaults; source-bound x64/Win32/product evidence",
+      "source_revision": "6e4c20591afb31389b95afe91dfc4037cde2a4e4",
+      "fixture_correction_source_revision": "8cf67f0db2b3d0a507f1ce578dded86f3a1272f9",
+      "qualified_repository_revision": "8cf67f0db2b3d0a507f1ce578dded86f3a1272f9",
+      "evidence": ".aide/evidence/2026-10-12-inventory-advance/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-inventory-advance/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Investigate the retained joined-report process-exit delay without weakening waits or inferring exit from completed receipts. Qualify actual screen-mode TUI delivery and frontend callback-failure teardown with pending owned readers and exact late-operation request binding. Keep serialized application advancement separate from cached getters and CompletionPoll, preserve original budgets and Fake product defaults, and continue the full all-platform/storage 0.1.0 programme with separate live/physical/provider/public/product/platform/accessibility/owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private actual screen TUI native delivery and escaping pending-reader application callback failure in GUI/linear and screen TUI/shell, exact review/old owner retention/error4/unavailable model sample/independent exit/restored original console; same-source x64/Win32/product evidence",
+      "source_revision": "b42c23fdebddcff7ba65f5179bb61e3848eaf40b",
+      "evidence": ".aide/evidence/2026-10-12-inventory-host/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-inventory-host/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify actual native observation delivery with a separately bound pending read-only operation and independently polled completion, preserving request identity and the older view/result in GUI/TUI and the original shell transcript. Keep CompletionPoll independent of source advancement; no durable-reconnect or storage-write admission. Investigate the previously retained parallel joined-report worker exit delay without weakening its 3000-ms wait or inferring exit from finished receipts. Continue the full all-platform/storage 0.1.0 programme with separate owner/live/physical/provider/public/product/other-host/accessibility/storage/release gates."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private independently controlled deferred read-only completion through native snapshot updates at f7b4376f: GUI, linear/screen TUI and linear shell preserve the exact original target.inspect request, typed parameters, reviewed revision and complete old result; null operation ID. GUI/TUI late results are separate from the new view, shell retains its original request/result transcript. Closing before completion retains an explicitly queued, undelivered result while actual outstanding readers are retired separately. Two x64/Win32 campaigns: 446 processes/11802 assertions, fresh same-source dev.41 x64 build/launch/imports, 77 serial product groups, 213 tooling passes/2 skips and 1075 structural checks. This is synchronously computed and privately withheld interface delivery, not production asynchronous storage execution or durable reconnect. DE-W030 partial, implementer review only; all owner/storage/platform/release gates remain separate.",
+      "source_revision": "f7b4376fe4ec4a88d07252f3feb25ee97e654a14",
+      "evidence": ".aide/evidence/2026-10-12-inventory-completion/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-inventory-completion/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Investigate the previously retained parallel frontend.joined_report reader-exit delay without weakening its 3000-ms wait or treating finished receipts as process exit. Preserve native reader ownership and the full all-platform/storage 0.1.0 programme; progress independently where possible, keeping owner/live/physical/provider/public/product/other-host/accessibility/storage/release gates separate."
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Private actual bounded report exit-wait diagnostics, five owned process/fault journeys and current test source against separately identified unchanged native producer; original parallel cause remains unknown",
+      "source_revision": "b5d6ddfca183d95408d488a17773fd433f59f20c",
+      "producer_source_revision": "f7b4376fe4ec4a88d07252f3feb25ee97e654a14",
+      "evidence": ".aide/evidence/2026-10-12-report-exit-diagnostics/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-report-exit-diagnostics/README.md",
+      "owner_accepted": false,
+      "remaining": "Finite instrumented parallel observation if needed; full0.1.0 and all separate admission gates remain."
+    },
+    {
+      "work_id": "DE-W041",
+      "scope": "Private immutable GPT-copy repair planning at 6b025fdc98e47f6f5d2e56fb67ee42be1a3dd9af: independently expected capture digest, explicit authoritative source and declared disagreement decision, preserved target layout, owned exact byte patches and scoped shared-parser simulation. Sixteen independent Python byte/CRC tests pass107 native runs; clean current dev.41 build/launch/imports passes 78 product groups in one parallel4 campaign,213toolpasses/twoskips/1077structural checks,417source/blob and410product inputs. Source map covers188files once. No image allocation proportional to geometry, file/provider/writer/public-command/journal/recovery admission. DE-W041 partial; owner and full all-platform/storage0.1.0 gates stay open.",
+      "source_revision": "6b025fdc98e47f6f5d2e56fb67ee42be1a3dd9af",
+      "evidence": ".aide/evidence/2026-10-12-gpt-repair-planning/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-gpt-repair-planning/README.md",
+      "owner_accepted": false,
+      "remaining": "Reproduce and repair independent execution-context memory admission using owned Windows job/process fixtures while preserving every per-process/resource limit and typed refusal. Keep the original parallel exit-delay cause unknown unless actual evidence establishes it. Continue GPT footprint/review/admission/image execution work only at the applicable journal/writer/authority gates; preserve full all-platform/storage0.1.0 scope."
+    },
+    {
+      "work_id": "DE-W017",
+      "scope": "Independent compatible Windows frontend caller jobs at 98a5b593f410ae1f63994e7c07c9c138ecd26b0e: verified fresh child retains256MiB per-process cap and every inherited host restriction; shared worker4/128MiB/512MiB quotas unchanged. Twelve native memory/real-product/guard cases and one focused disconnected-client quota test pass, plus78parallel product groups,213toolpasses/twoskips/1079structure and exact current build/launch/import/source evidence. No storage privilege, worker relocation, arbitrary/older-host, owner or full0.1.0 admission.",
+      "source_revision": "98a5b593f410ae1f63994e7c07c9c138ecd26b0e",
+      "evidence": ".aide/evidence/2026-10-12-job-coexistence/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-job-coexistence/README.md",
+      "owner_accepted": false,
+      "remaining": "Review/fetch the overdue AIDE weekly dev source update and passive schema compatibility, recording the published Lite1.0.0 constrained release separately from full AIDE/runtime/consumer qualification. Continue full all-platform/storage0.1.0 implementation with owner/journal/writer/physical/elevation/customer/install/sign/release gates separate. The older parallel joined-report exit-delay cause remains unknown."
+    },
+    {
+      "work_id": "DE-W041",
+      "scope": "Ordinary-local-file GPT repair preview at 3ff136f19138ac50dfedcc1c841cccd9ecec1fbc: explicit selected authoritative copy, independently recomputed owned capture binding, five bounded metadata regions and stable rereads, exact immutable patch/plan digests and no output creation or effects. Actual CLI/stdio/GUI/linear-TUI/shell and timeout-slot journeys pass59 independent native cases, one clean dev.42 x64 build/launch/import campaign passes 79 parallel4 product groups, 213tooling passes/2skips/1085structural checks, 425source/blob and418product inputs. Source map covers190files once. Writer/recovery/baseline owner/platform/provider/full0.1.0 admission remain separate; DE-W041 partial.",
+      "source_revision": "3ff136f19138ac50dfedcc1c841cccd9ecec1fbc",
+      "evidence": ".aide/evidence/2026-10-12-gpt-repair-command/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-gpt-repair-command/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue independent image planner/review/receipt and runtime/platform work under the full all-platform/storage0.1.0 goal. Actual image mutation must wait for the concrete journal/durability, original-metadata backup, exact-plan review/grant/admission and independent verification gates. Preserve opaque observation epochs separately from non-unique planning timestamps. Owner/physical/elevation/customer/install/sign/release and untested-host/accessibility qualification remain open."
+    },
+    {
+      "work_id": "DE-W041",
+      "scope": "Private create-only GPT image execution at b890f9d3afd4ff5080e48bf470ce74a418afcc90: exact independent basis/plan/controller review/grant, actual held file/root/code identities, complete original metadata backup, proposed binary intentions before exact bounded patches and target flush/recapture before completions. Fresh190cases include70 actual own-process exits, all 28 normal-run native write/flush boundaries, partial writes/failed or lost acknowledgements, mid-chunk faults, cancellation, no-change, malformed/torn/forged history, foreign bytes and unsafe identity/path refusals. Independent full-image/backup/journal byte oracles and read-only reopening pass. Clean dev.42 x64 build/launch/imports passes 80parallel4 product groups,213tooling passes/2skips/1087structural checks,432source/blob and425product inputs. Source map194files once. Product repair stays read-only; production journal/writer, power-loss/recovery/owner/full0.1.0 qualification remain open.",
+      "source_revision": "b890f9d3afd4ff5080e48bf470ce74a418afcc90",
+      "evidence": ".aide/evidence/2026-10-12-gpt-owned-effects/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-gpt-owned-effects/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue concrete image recovery/review/admission and remaining platform/storage work under the full all-platform/storage0.1.0 goal. A production writer still requires accepted journal/durability, exact resource/code/authority closure, independent backup placement and postcondition qualification. Read-only history inspection supplies no replay/restore/retirement authority. Keep owner/physical/elevation/customer/install/sign/release and untested-host gates separate."
+    },
+    {
+      "work_id": "DE-W042",
+      "scope": "Private DE-W042 interrupted owned-image GPT restoration at b2c6a4e3fa0d4e0c678612617d90ef1797c13c69: read-only immutable whole-image observation, original plan/manifest/backup/journal/code binding, separately validated new review/grant, CREATE_NEW attempt journal and exact reverse patches with native target flush/full-image recapture. 138 focused cases include 51 actual restoration-process exits, all 24 normal-run write/flush boundaries, partial effects, changed review snapshots, replaced objects, journal collisions and interrupted 1 MiB arrays followed by fresh attempts. Original backups/journals and earlier restoration logs remain unchanged. Fresh 190-case original-execution regression and 81 parallel-4 native groups pass; clean dev.42 build/launch/imports retain 213 tooling passes/2 skips/1089 structural checks, 436 source/blob and 429 product inputs, and 196 current source files mapped once. Restoration returns the exact possibly damaged original fixture, not healthy-GPT or general rollback qualification. Product recovery/writes, production journal/durability, independent hardware protection, owner and full 0.1.0 remain open.",
+      "source_revision": "b2c6a4e3fa0d4e0c678612617d90ef1797c13c69",
+      "evidence": ".aide/evidence/2026-10-12-gpt-restoration/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-gpt-restoration/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue bounded DE-W042 read-only inspection of restoration histories and evidence applicability, with explicit semantic receipt/event checks and independent corruption/interruption fixtures. Preserve fresh observation/review/grant requirements and exact resource/code closure for another attempt. Broader recovery/resume, accepted production journal/durability, independent backup placement, real provider/platform and full all-platform/storage0.1.0 qualification remain open; keep owner/physical/elevation/customer/install/sign/release gates separate."
+    },
+    {
+      "work_id": "DE-W042",
+      "scope": "Private DE-W042 read-only GPT restoration history inspection at 6c4393b9122a3151b997bde8228e6cd2ffe909c7: exact retained original/pre-restoration observations reconstruct the immutable reviewed definition; current image/artifact state stays separate from accepted receipt/event history. A distinct GENERIC_READ-only existing-store adapter preserves original/new file identities and the same creator executable generation. Independent 121-case semantic/framing/current-state fixtures and 124 inspections within the 138 restoration cases pass, including checksum-valid critical forgeries, torn/corrupt/post-seal histories, old-artifact applicability, native read failures and aliased/replaced store refusals. Fresh 190 execution cases and 82 parallel-4 native groups pass; exact clean dev.42 build/launch/imports retain 213 tooling passes/2 skips/1091 structural checks and 438 source/blob/431 product inputs, with 196 source files mapped once. No inspection writes, replay, product writer/recovery, historical-generation compatibility, physical/power-loss/owner or full 0.1.0 qualification.",
+      "source_revision": "6c4393b9122a3151b997bde8228e6cd2ffe909c7",
+      "evidence": ".aide/evidence/2026-10-12-gpt-restoration-inspection/validation-summary.json",
+      "review": ".aide/evidence/2026-10-12-gpt-restoration-inspection/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Apply the supplied 2026-10-12 structure/release review through targeted build/include/dependency and contributor clarity changes, preserving the existing ownership tree, public IDs and historical evidence. Continue the full all-platform/storage0.1.0 programme and broader DE-W042 recovery/resume qualification; production journal/durability, independent protection, real providers/hosts, owner/physical/elevation/customer/install/sign/release gates remain separate."
+    },
+    {
+      "work_id": "DE-W010",
+      "scope": "Structure maintenance: narrow core targets and bounded generated dependency/header checks qualified at7f86f6bf;84native groups,16checker fixtures,5standalone headers and215tooling runs(213pass2skip). Most module-qualified includes and shared GUI/TUI invariants remain pending.",
+      "source_revision": "7f86f6bfdf45e0b79420f1c451a797ce2f70514a",
+      "evidence": ".aide/evidence/2026-10-12-build-boundaries/summary.json",
+      "review": ".aide/evidence/2026-10-12-build-boundaries/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue SR-03 module-qualified includes/usage requirements and SR-04 shared presentation invariants with native regression evidence. Keep all-platform/storage0.1.0 and separate owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W015",
+      "scope": "Shared GUI/TUI pending request/view correlation and command-view eligibility at055bd850;85native groups,34native rule cases/8cross-model tests,7standalone headers and213tooling passes/2skips. Normal public semantics preserved; private malformed discovery/identity fail closed. SR-03 and full programme remain open.",
+      "source_revision": "055bd850e03b723c9b8afa63cb1c803107f466eb",
+      "evidence": ".aide/evidence/2026-10-12-shared-presentation/summary.json",
+      "review": ".aide/evidence/2026-10-12-shared-presentation/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue SR-03 module-qualified includes/narrow usage requirements using generated boundary checks; retain current source ownership and exact native evidence. Continue broader DE-W042 and full all-platform/storage0.1.0 with separate owner/storage/release gates."
+    },
+    {
+      "work_id": "DE-W010",
+      "scope": "Private qualified-header namespace/compile visibility at 3598ac40:85 native groups,29 checker fixtures,7 header compilations,20 standalone Windows adapter compiles; algorithm/effect behavior unchanged. Source196files kept;80 main headers owned/17 standalone.213 toolpasses/2 skips. Full programme remains open.",
+      "source_revision": "3598ac40b79972969ea1ce8585e38a05733e2d87",
+      "evidence": ".aide/evidence/2026-10-13-qualified-headers/summary.json",
+      "review": ".aide/evidence/2026-10-13-qualified-headers/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue broader DE-W042 recovery/resume and next canonical work under the full all-platform/storage0.1.0 programme. Current source ownership/naming is established; add concrete capability code rather than another general structure review. Production journal/durability, independent protection, provider/host/owner/physical/elevation/customer/install/sign/release gates remain separate."
+    },
+    {
+      "work_id": "DE-W025",
+      "scope": "Supplied-byte C90 FAT12/16/32 boot geometry, allocation entries and bounded chain prefixes at 97a377d7; 19 methods/1,335 cases, protected bounds, 87 native groups, eight headers and GCC 15.2 syntax checks. Private library/probe only; no directory, extraction, frontend or mount/writer admission.",
+      "source_revision": "97a377d7f88c20372c8308874c9831c389d9a91e",
+      "evidence": ".aide/evidence/2026-10-13-fat-allocation/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-allocation/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue lossless FAT directory/name observations, then whole-allocation/file-extent and ordinary-volume capture/frontend work. Broader recovery/production journal, full platform scope, owner and storage/release gates remain open."
+    },
+    {
+      "work_id": "DE-W026",
+      "scope": "Private C90 FAT directory/name metadata at 205e6cd8: 19 methods/6,790 cases, protected full/partial records, 89 native groups and eight headers pass; original allocation behavior retained. Correlation, Unicode, canonical text and display stay separate; no traversal/provider/frontend/lookup/writer admission.",
+      "source_revision": "205e6cd851c8e1b8c34af4bb5113299aa46a077c",
+      "evidence": ".aide/evidence/2026-10-13-fat-directory/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-directory/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue bounded FAT directory traversal/cross-cluster streaming, whole allocation/file extents and ordinary-volume capture/frontend admission. Preserve full platform/storage scope and separate journal, owner, physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W027",
+      "scope": "Bounded FAT volume/tree and file extents at f98712a4: selected-copy streaming cells, cross-cluster names, referenced-tree cross-links and ordinary Windows file capture. 20 methods/149 cases, 91 native groups and 10 headers; no lookup/extraction/frontend/mount/writer or full filesystem/host admission.",
+      "source_revision": "f98712a44ccf993c54e6d67b23a445ecdfa1725c",
+      "evidence": ".aide/evidence/2026-10-13-fat-capture/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-capture/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify global FAT allocation/namespace and actual worker/command/frontend volume inspection. Preserve file-content extraction, consumer/platform, production journal/recovery and owner/physical/elevation/customer/install/sign/release gates; full all-platform/storage0.1.0 remains active."
+    },
+    {
+      "work_id": "DE-W028",
+      "scope": "Optional paged global FAT allocation at 0e414ccd: full/prefix category counts, raw/copy disagreement, incoming links, cycles and unreferenced ownership applicability. 13 methods/86 cases, 92 native groups; default tree 149 cases unchanged. No whole-health, auxiliary/namespace/extraction/frontend/mount/writer/full release admission.",
+      "source_revision": "0e414ccd49f5905b0d1ae2ce554fa72d9fe2e04a",
+      "evidence": ".aide/evidence/2026-10-13-fat-allocation-scan/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-allocation-scan/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify FAT header/FSInfo/backup and namespace/consumer semantics, then actual contained worker/command/frontend volume inspection and extraction. Continue the full all-platform/storage 0.1.0 programme with separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W029",
+      "scope": "Private FAT header/FSInfo/backup observations at 87e7e246: advisory and driver state, explicit record/copy/raw agreement, count/hint applicability and partial outcomes. 14 methods/257 cases, 94 native groups, 10 headers; no mount/extraction/product frontend/writer/health or full 0.1.0 admission.",
+      "source_revision": "87e7e246bc66a0429e93b2cebf83b1d6f61a91f0",
+      "evidence": ".aide/evidence/2026-10-13-fat-auxiliary/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-auxiliary/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Qualify FAT namespace/consumer rules and larger/chunked coverage, then extraction and actual contained worker/command/frontend volume inspection. Preserve the full all-platform/storage 0.1.0 scope and separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W036",
+      "scope": "Private FAT namespace/explicit Windows CP437/850/932 API/rule model at 330c223c: original aliases, collisions, one-component local-ID lookup and honest coverage/applicability. 14 methods/171 cases, 95 native groups and12 headers; no mount, extraction, public command or actual storage-consumer admission.",
+      "source_revision": "330c223c6f184cce9cb8a922f1364118a039def6",
+      "evidence": ".aide/evidence/2026-10-13-fat-namespace/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-namespace/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue bounded/chunked FAT coverage and actual contained worker/command/frontend inspection, then explicit extraction and further consumer/host qualification. Preserve full all-platform/storage 0.1.0 scope and separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W037",
+      "scope": "Private owned FAT reader at 56effc8f: exact expected source/window, copied region/frame/receipt reconstruction and actual process/domain-bound immutable snapshots; cancellation/late/hang/exit-only retirement. 11 methods/109 cases, 96 native groups and 15 headers; no public FAT command/consumer/extraction/storage admission.",
+      "source_revision": "56effc8f4d35ec4ae519453ad288d8da725945ed",
+      "evidence": ".aide/evidence/2026-10-13-fat-worker/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-worker/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Admit the contained FAT reader through the shared image command and actual CLI/stdio/GUI/TUI/shell fixtures, then larger/chunked coverage, extraction and further consumer/host/platform/storage qualification. Preserve full all-platform/storage 0.1.0 and separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W038",
+      "scope": "Explicit FAT image inspection at 57cfd113: shared typed CLI/stdio/GUI/TUI/shell controls, contained ordinary-file read-only captures, source/coverage/query outcomes, bounded hash-bound details and actual process retirement; 62 focused cases/97 native groups/17 headers.",
+      "source_revision": "57cfd1132a3544a4a4ca393e0666ee4489fa5644",
+      "evidence": ".aide/evidence/2026-10-13-fat-command/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-command/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Implement larger/chunked FAT coverage, explicit retained-capture retrieval and extraction, then further consumer/host/platform/storage qualification. Preserve full all-platform/storage0.1.0 and separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W039",
+      "scope": "Explicit FAT allocation windows at 543826fe: bounded high-index intervals, category/copy/covered-graph facts, actual file/process binding and five frontend journeys; 34 interval cases / 44 command cases / 99 native groups / 17 headers.",
+      "source_revision": "543826fe09591b1bc470b212f5a1bb667daee216",
+      "evidence": ".aide/evidence/2026-10-13-fat-window/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-window/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue larger directory/namespace and coherent multi-window coverage, retained capture retrieval/extraction and further consumer/host/platform/storage qualification. Preserve full original all-platform/storage0.1.0 and separate production journal/recovery, owner/physical/elevation/customer/install/sign/release gates."
+    },
+    {
+      "work_id": "DE-W044",
+      "scope": "Exact retained FAT frames and source-independent byte retrieval at4d3dc0a3;68 native command/frontend cases,91 synthetic store checks/400 concurrent reads,8MiB/43 chunks,101 native groups/18 headers and224 tooling passes/two skips.",
+      "source_revision": "4d3dc0a3cb1597289926cb6e010c57f7156b285d",
+      "evidence": ".aide/evidence/2026-10-13-fat-retention/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-retention/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Continue coherent larger directory/namespace and multi-window traversal, payload extraction and further platform/storage work under the original full0.1.0 goal. Retention is current-process metadata only. Production journal/recovery, owner/physical/elevation/customer/install/sign/release gates remain separate."
+    },
+    {
+      "work_id": "DE-W045",
+      "scope": "Private supplied-reader FAT content maps/windows",
+      "source_revision": "b1a6772ea258a698419d22a72e113c0d16298e01",
+      "evidence": ".aide/evidence/2026-10-13-fat-content/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-content/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Native held-source/epoch/freshness and contained payload worker/public extraction, larger coherent traversal, other hosts and full product/storage/release."
+    },
+    {
+      "work_id": "DE-W046",
+      "scope": "Held ordinary-file and owned-worker FAT content windows",
+      "source_revision": "955e26f36e4d9bbbc5ce68f2f02cec7323ab9b22",
+      "evidence": ".aide/evidence/2026-10-13-fat-content-file/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-content-file/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Public extraction and destination effects with truthful source consistency, larger coherent traversal, other hosts and full product/storage/release."
+    },
+    {
+      "work_id": "DE-W047",
+      "scope": "Complete mapped FAT byte-content extraction through checkpointed destinations",
+      "source_revision": "20ecddbd153a2a016b02d8c49c4092ddedc99f9e",
+      "evidence": ".aide/evidence/2026-10-13-fat-extraction/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-extraction/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Public command/frontend admission, recursive metadata fidelity and further mapped sources, larger coherent traversal, other hosts and full product/storage/release."
+    },
+    {
+      "work_id": "DE-W048",
+      "scope": "Shared complete mapped FAT extraction command and exact logical definitions",
+      "source_revision": "8d1905b9756d73148ea6b6227445a19c105117df",
+      "evidence": ".aide/evidence/2026-10-13-fat-extraction-command/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-extraction-command/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Larger coherent filesystem traversal, recursive metadata fidelity, logical evidence-case export, other formats/hosts and full product/storage/release."
+    },
+    {
+      "work_id": "DE-W049",
+      "scope": "Logical extraction cases, independent map/destination verification and historical joined support",
+      "source_revision": "a70417672ec6da675a403e1cd95495aff3e89e2e",
+      "evidence": ".aide/evidence/2026-10-13-logical-extraction-evidence/summary.json",
+      "review": ".aide/evidence/2026-10-13-logical-extraction-evidence/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Larger coherent traversal, recursive/metadata fidelity, further formats/hosts, production/storage/owner/release and full all-platform/storage0.1.0."
+    },
+    {
+      "work_id": "DE-W052",
+      "scope": "Private supplied-cell allocation continuation across pages, preserving old capture/selector semantics",
+      "source_revision": "112aa1e980861c050f66fef8d9ea9000658e4cc8",
+      "evidence": ".aide/evidence/2026-10-13-fat-walk/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-walk/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Coherent source/epoch-bound paged directory traversal, recursive extraction/metadata fidelity, other formats/hosts and all separate authority/release gates."
+    },
+    {
+      "work_id": "DE-W053",
+      "scope": "Source/epoch-bound directory pages, complete larger trees and lossless metadata/name continuation through supplied region/applicability ports",
+      "source_revision": "b770b3feecb92532c6cc884ec2ea5dbb0455a1f9",
+      "evidence": ".aide/evidence/2026-10-13-fat-traversal/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-traversal/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Held native source and contained paged workers, public traversal/recursive extraction and metadata fidelity, other formats/hosts and all separate authority/release gates."
+    },
+    {
+      "work_id": "DE-W054",
+      "scope": "Held ordinary-file tree pages, bounded actual owned child transport and independent parent replay",
+      "source_revision": "54376be566024e04e1438a3f68fbd4c4646e34a4",
+      "evidence": ".aide/evidence/2026-10-13-fat-tree-file/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-tree-file/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Public traversal/recursive extraction and metadata restoration, further formats/hosts and all separate authority/release gates."
+    },
+    {
+      "work_id": "DE-W055",
+      "scope": "Shared ordinary-file FAT tree sessions and negotiated NDJSON streaming across actual interfaces",
+      "source_revision": "19aca432a102682e80a66a50fb71b39ab4564d54",
+      "evidence": ".aide/evidence/2026-10-13-fat-tree-sessions/summary.json",
+      "review": ".aide/evidence/2026-10-13-fat-tree-sessions/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Recursive extraction/metadata restoration and all remaining original formats/hosts/operations and separate authority gates."
+    },
+    {
+      "work_id": "DE-W056",
+      "scope": "Native create-only recursive FAT extraction, original metadata evidence, owned writer lifetime and source-free history inspection",
+      "source_revision": "243f748e6a6af62469b184614d4d623b8ad239ea",
+      "evidence": ".aide/evidence/2026-10-14-fat-recursive-qualification/summary.json",
+      "review": ".aide/evidence/2026-10-14-fat-recursive-qualification/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Public recursive command/service admission, persistent lifecycle, further host/provider profiles and production/storage/release gates."
+    },
+    {
+      "work_id": "DE-W057",
+      "scope": "Normal ordinary-file recursive FAT command/durable-operation service and actual all-frontend/failure contracts in the recorded Windows lane",
+      "source_revision": "087f95b464670fa03de185d6e98a15e83eaa71dd",
+      "evidence": ".aide/evidence/2026-10-14-fat-recursive-command-qualification/summary.json",
+      "review": ".aide/evidence/2026-10-14-fat-recursive-command-qualification/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Other host/provider/storage and production/release/owner gates remain; full0.1.0 unfinished."
+    },
+    {
+      "work_id": "DE-W058",
+      "scope": "Private C90 borrowed supplied-byte exFAT1.00 boot region/geometry/allocation cells; no host IO, mount, traversal, repair, writer or product dispatch. Preserve full all-platform/storage0.1.0 programme.",
+      "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
+      "evidence": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Bitmap/upcase/directory/source/tree/provider/host and every remaining original platform/storage operation, plus separate owner/privilege/release gates."
+    },
+    {
+      "work_id": "DE-W064",
+      "scope": "Private supplied-byte exFAT directory metadata, names/timestamps/stream observations",
+      "source_revision": "44c8b090b709a76b44ad0e349f647950629c447c",
+      "evidence": ".aide/evidence/2026-10-14-exfat-directory-qualified/followup/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-directory-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Bitmap/upcase/source/tree/provider and all original platform/storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W065",
+      "scope": "Private supplied-byte exFAT bitmap descriptor and bounded interval availability",
+      "source_revision": "be410d9566ac0ad2b04fa25353a7f5808732ef6d",
+      "evidence": ".aide/evidence/2026-10-14-exfat-allocation-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-allocation-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Upcase/source/root/activeFAT/tree/provider/host/writer and every original0.1.0gate."
+    },
+    {
+      "work_id": "DE-W066",
+      "scope": "Private C90 supplied-byte upcase descriptor/stream/map and volume-specific name hash/full comparison; 244 independent scenarios, 9,503,025 mapping comparisons and 263 name pairs. 15 selected native groups, one header and 242 tooling tests with two skips; prior full suite separately retained.",
+      "source_revision": "e43f00fb494cd12727fc52fcf82cb040a85cde2c",
+      "evidence": ".aide/evidence/2026-10-14-exfat-upcase-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-upcase-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Root/system cardinality, active FAT/bitmap/upcase chains, held-source/capture binding, coherent namespace/tree/content, providers/other hosts/writers and original full 0.1.0."
+    },
+    {
+      "work_id": "DE-W067",
+      "scope": "Private supplied-region exFAT root/active-system metadata: 121 independent image cases/9 methods, 19 selected fresh native groups, one header, imports/context/source and 242 tooling tests with two skips. Exact clean sparse closure includes every registered/build input; no fresh complete native suite/archive checkout claim.",
+      "source_revision": "bba3d600001109ad4dd370d5320f9bcda2d06e6e",
+      "evidence": ".aide/evidence/2026-10-14-exfat-capture-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-capture-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Actual held native source/worker, paged namespace/tree, NameHash/full comparison and file content/ValidDataLength, frontend/extraction, other platforms/storage/writers and original full0.1.0."
+    },
+    {
+      "work_id": "DE-W068",
+      "scope": "Private held read-only ordinary-image exFAT binding/replay and failure prefixes; 60 native cases/7 methods, 20 selected native groups, one header and 242 tooling tests with two skips. Exact clean sparse inputs, normal/fault artifacts; actual file-symlink fixture unverified without privilege.",
+      "source_revision": "c73c687019c982d930148807e8497dd11976ea1a",
+      "evidence": ".aide/evidence/2026-10-14-exfat-file-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-file-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "unverified": [
+        {
+          "check": "actual-file-symlink",
+          "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-ljhw1q3u\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-ljhw1q3u\\\\owned-link.img'"
+        }
+      ],
+      "remaining": "Contained owned process/frame/retirement and common frontend; paged namespaces/tree/content/ValidDataLength/extraction, unavailable reparse fixture, other platforms/storage, production writer/recovery and original full0.1.0."
+    },
+    {
+      "work_id": "DE-W069",
+      "scope": "Private contained ordinary-image exFAT reader, strict replay and owned attempt/process binding; fresh full139native groups after shared retirement change,69reader cases/6methods, 63file cases/8methods and242tooling tests with 2skips.",
+      "source_revision": "cce05d172c89f0a71dba5ee1cc0698307f8c686e",
+      "evidence": ".aide/evidence/2026-10-14-exfat-worker-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-worker-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "unverified": [
+        {
+          "check": "actual-file-symlink",
+          "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-link.img'"
+        }
+      ],
+      "remaining": "Normal frontend admission, automatic upcase selection, complete namespace/tree/content/ValidDataLength/extraction, unavailable symlink/other hosts, original full0.1.0 storage, physical writer/recovery and owner/release gates."
+    },
+    {
+      "work_id": "DE-W072",
+      "source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
+      "scope": "Selected Windows ordinary-image exFAT root/active-system commands and cooperating-worker lease repair; 141 native groups, 48 headers, 242 tooling tests (two skipped), plus four ambiguous UI cases.",
+      "evidence": ".aide/evidence/2026-10-14-worker-leases-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-worker-leases-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance, exFAT namespace/tree/file content and ValidDataLength, all remaining platforms/storage/release and full original0.1.0."
+    },
+    {
+      "work_id": "DE-W073",
+      "scope": "Private supplied-directory namespace observations and queries using the exact validated volume upcase bytes. This is the next part of the original filesystem capability scope, not a replacement for full exFAT tree/content, held-source/worker/frontend, other platforms or storage operations.",
+      "source_revision": "2545d078b8dd6fc5335cf38314013be3d4c2fc7c",
+      "probe_source_revision": "84d0c227eaaa1a76ac318aeb70e2da22a641698e",
+      "evidence": ".aide/evidence/2026-10-15-exfat-namespace/qualified-2545d078/summary.json",
+      "supplement": ".aide/evidence/2026-10-15-exfat-namespace/qualified-84d0c227-word-bounds/summary.json",
+      "review": ".aide/evidence/2026-10-15-exfat-namespace/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Coherent stream/tree, ValidDataLength content, held-source/worker/frontend, other platforms/storage and full0.1.0 gates."
+    },
+    {
+      "work_id": "DE-W074",
+      "scope": "Private supplied-reader coherent exFAT tree/logical contents, owned root capture and existing Windows ordinary-image prototype",
+      "source_revision": "2cd2e2e1fefa09f3ef50625933a0d4bc652aeee3",
+      "evidence": ".aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json",
+      "supplement": ".aide/evidence/2026-10-15-exfat-tree/qualified-limits-9c2d2b09/summary.json",
+      "review": ".aide/evidence/2026-10-15-exfat-tree/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Held-source/worker/frontend tree admission, paging/backpressure, unavailable symlink and all remaining original platforms/storage/release gates."
+    },
+    {
+      "work_id": "DE-W076",
+      "source_revision": "c0749e221b06f89c0aff78bc0af3eceed01b0f84",
+      "scope": "Private supplied-byte NTFS FILE-envelope/fixup validation and separate-RAM restoration; 964 independent generated cases/8 API argument checks per launch, 11 portable regression groups, one standalone header and strict WSL C90 syntax checks.",
+      "evidence": ".aide/evidence/2026-10-15-ntfs-record/applicability.json",
+      "review": ".aide/evidence/2026-10-15-ntfs-record/REVIEW.md",
+      "manifest_source_revision": "ce5efdaef96f5973d78c9cc021f5de2d4d13e38a",
+      "native_campaign_status": "fail_manifest_only",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "remaining": "NTFS boot/MFT addressing, attributes/runlists, source/provider/frontend and original platform/storage scope; W075/report-preparation, physical writer/recovery and release gates remain open."
+    },
+    {
+      "work_id": "DE-W077",
+      "source_revision": "aefee4cd3b2df41b4411c8259729e2731460b48e",
+      "scope": "Private supplied-byte NTFS boot geometry/signed encodings and checked MFT/mirror seed candidates;1729 boot/964 record cases,12 selected portable groups,one header,242 tooling(two skips) and strict C90/import/context/source checks.",
+      "evidence": ".aide/evidence/2026-10-15-ntfs-boot/qualified-aefee4cd/summary.json",
+      "review": ".aide/evidence/2026-10-15-ntfs-boot/REVIEW.md",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "remaining": "NTFS attributes/runlists and coherent source/provider/frontend, other original platforms/storage, W075/report preparation, owner/physical writer/recovery and release gates."
+    },
+    {
+      "work_id": "DE-W078",
+      "source_revision": "6daed9fd9dd2a642e04d727000e31b8b70253dda",
+      "scope": "Private supplied-byte post-fixup NTFS attribute envelopes and canonical checked mapping pairs;259 attribute/632 mapping/1729 boot/964 record cases,14 selected portable groups,one header,242 tooling(two skips) and strict C90/import/context/source checks.",
+      "evidence": ".aide/evidence/2026-10-15-ntfs-attributes/qualified-6daed9fd/summary.json",
+      "review": ".aide/evidence/2026-10-15-ntfs-attributes/REVIEW.md",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "remaining": "Attribute-list extension joining, payload/namespace/content and coherent source/provider/frontend, other original platforms/storage, W075/report preparation, owner/physical writer/recovery and release."
+    },
+    {
+      "work_id": "DE-W079",
+      "scope": "Supplied-reader NTFS boot/primary-mirror FILE0/attributes/mappings and mapped FILE3 volume version;154 cases on x64 and x86/WOW64.",
+      "source_revision": "000ecb77359bad835522f6a5d488c13baea0ef94",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-capture/qualified-000ecb77/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-capture/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Original attribute-list/extents/payload/namespace/content and actual held-source/profile/worker/frontend admission; all other original platforms/storage and separate owner/physical/release gates."
+    },
+    {
+      "work_id": "DE-W081",
+      "scope": "Held ordinary-file NTFS bootstrap with native/retained profile selection, source/pin checks, byte provenance and lock release;73 cases/nine methods on x64 and x86/WOW64.",
+      "source_revision": "777fd71fe509c8b9961ffec4f726b32dce2305f1",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-file/qualified-777fd71f/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-file/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Actual file-symlink privilege, contained worker/public transport/frontends, complete NTFS metadata/namespace/content and all original platform/storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W082",
+      "scope": "Owned NTFS bootstrap reader/frame over existing host; strict replay/source/process/domain and actual exited-child publication, immutable retention,106 cases/eight methods,20 selected x64 native groups.",
+      "source_revision": "e164f86335f16e87f5e40ab7077cd550acb1aa5a",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-worker/qualified-e164f863/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-worker/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Shared frontend admission, original attribute-list/metadata/namespace/content and platform/storage scope; W075 whole-branch main qualification, owner and release/storage gates remain."
+    },
+    {
+      "work_id": "DE-W033",
+      "scope": "Pure reviewed raw/logical acquisition routing across CLI/stdio/GUI/TUI/shell timeout/failure;74 checks/10 frontend replies and complete153-group native regression.",
+      "source_revision": "813924fa06ac5e77225467c28183e72cdb763d30",
+      "evidence": ".aide/evidence/2026-10-16-acquisition-routing/qualified-813924fa/summary.json",
+      "review": ".aide/evidence/2026-10-16-acquisition-routing/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Spontaneous latency cause, full work-unit/acquisition/other-host/original storage scope and all separate owner/privilege/release gates."
+    },
+    {
+      "work_id": "DE-W083",
+      "scope": "Owned NTFS bootstrap image.inspect view across CLI/stdio/GUI/TUI/shell,50 cases and complete154-group current native regression; explicit original-list projection and code/process/epoch binding.",
+      "source_revision": "b985adf2f05281b3cfa82db7f47799f128b8fbdd",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-command/qualified-b985adf2/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-command/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Attribute-list/MFT metadata/namespace/content, other hosts and remaining original platform/storage0.1.0; physical/owner/writer/recovery/Setup/release gates."
+    },
+    {
+      "work_id": "DE-W084",
+      "scope": "Private supplied-byte attribute-list entries only;561 protected-byte cases and selected NTFS/neighbor reader/frontend regressions.",
+      "source_revision": "65ca67d9f1acd9fe4798fe561de1767b73446e8a",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-list/qualified-65ca67d9/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-list/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "MFT extension/reference joining, namespace/content and all original platform/storage0.1.0; storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W085",
+      "scope": "Private captured-record ordinary stream joining and complete validated missing-reference discovery;298 protected-record cases with owned-output lifetime checks.",
+      "source_revision": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-join/qualified-23ceeb24/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-join/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Native MFT/nonresident-list acquisition and provenance, namespace/content and original full platform/storage0.1.0; storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W086",
+      "scope": "Source-bound NTFS MFT/Volume list/extension closure;134 new cases;157-group full campaign plus exact-input metadata-only boundary correction.",
+      "source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+      "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+      "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+      "original_campaign_passed": false,
+      "all_applicable_group_failures_resolved": true,
+      "owner_accepted": false,
+      "remaining": "General MFT/namespace/content, original all-platform/storage0.1.0, production writer/recovery, CI/Setup and separate owner/privilege/release gates."
+    },
+    {
+      "work_id": "DE-W087",
+      "scope": "Private supplied-byte NTFS filename/root/index-entry envelopes;1,502 guarded cases and selected reader/frontend regressions.",
+      "source_revision": "3df1a1c7c30dabb39bba394321eff993b0e3431f",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-index/failed-3df1a1c7/summary.json",
+      "tooling_correction_revision": "cd65edcce290e02bd58c9712999033ebb70dc4f9",
+      "tooling_correction_evidence": ".aide/evidence/2026-10-16-ntfs-index/tooling-correction-cd65edcc/summary.json",
+      "original_campaign_passed": false,
+      "all_applicable_failures_resolved": true,
+      "review": ".aide/evidence/2026-10-16-ntfs-index/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Protected INDX blocks, source-bound record/index acquisition, namespace/content and original all-platform/storage0.1.0; separate owner/privilege/release gates."
+    },
+    {
+      "work_id": "DE-W088",
+      "scope": "Private supplied-byte INDX observation/restoration/entry cursor and shared FILE tail mechanics",
+      "source_revision": "1a5f4f701d33f2311298392e20388c132bed844f",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-block/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Source-bound directory/index acquisition, namespace/content, historical targets and original platform/storage0.1.0 remain; Win32 evidence is parser-only."
+    },
+    {
+      "work_id": "DE-W089",
+      "scope": "Private supplied-reader source-bound NTFS directory index/bitmap graph acquisition and framing",
+      "source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory/qualified-7bb6153a/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory/win32-corrected-7bb6153a/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-directory/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Native held-file/worker/frontends and complete namespace/content; all original platforms/storage and separate owner/release/privilege gates."
+    },
+    {
+      "work_id": "DE-W075",
+      "scope": "Private held ordinary-file exFAT coherent-tree capture/replay; current native re-review",
+      "source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory/qualified-7bb6153a/summary.json",
+      "review": ".aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Paged/backpressure and contained tree transport/frontend; actual file symlink privilege, other platforms/storage and separate owner/release gates."
+    },
+    {
+      "work_id": "DE-W091",
+      "scope": "Private Windows held-file directory acquisition, automatic profile-prefix continuation and pure replay",
+      "source_revision": "4156accfa906943ad14e61061954b01c48e08207",
+      "qualification_recipe_revision": "1e8d1087045291be509f0d6257e28428323ef3ff",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-file/qualified-4156accf/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-file/win32-4156accf/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md",
+      "full_native_suite_run": false,
+      "owner_accepted": false,
+      "remaining": "Owned directory worker/snapshot/frontend admission and namespace/content; all original platforms/storage and separate owner/release/privilege gates."
+    },
+    {
+      "work_id": "DE-W092",
+      "scope": "Private NTFS directory retained-frame reconstruction and owned Windows worker",
+      "source_revision": "1001d4638b2cded0df29f76469d7e3bda44cd8b7",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/qualified-1001d463/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/win32-1001d463/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md",
+      "full_native_suite_run": false,
+      "owner_accepted": false,
+      "remaining": "Public directory/frontend admission and namespace/content; original platforms/storage0.1.0 and separate owner/release/storage gates."
+    },
+    {
+      "work_id": "DE-W093",
+      "scope": "Bounded NTFS directory-index command and common Windows x64 frontends",
+      "source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
+      "qualification_recipe_exception": {
+        "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
+        "source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
+        "source_sha256": "sha256:f9a6d91d8908d0e2e05a82f48bf0c8e044b45877b8be46445b4729af8e7589bd",
+        "effective_revision": "235c168df739cf227b892cbf7da29c6dcb1344b3",
+        "effective_sha256": "sha256:e7c56334cac4827474ca6f872527cebeeb1419947c54479272b6ac4d9e43194d",
+        "reason": "Correct stale reporting count 50 to unchanged actual 58 and add verified native-stage reuse; production code, fixtures and native test expectations unchanged.",
+        "failed_phase": "failed-counter/summary.json",
+        "reused_artifacts_unchanged": true
+      },
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/qualified-6efc9a5b/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/win32-6efc9a5b/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md",
+      "full_native_suite_run": true,
+      "owner_accepted": false,
+      "remaining": "Namespace/target membership/collation/lookup/content; all original platforms/storage and separate owner/release/storage gates."
+    },
+    {
+      "work_id": "DE-W094",
+      "scope": "Private captured NTFS filename-instance inventory and shared attribute selection",
+      "source_revision": "189801696f022929257873c394e9a6b8d7d49dfc",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-names/qualified-18980169/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-names/win32-18980169/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-names/REVIEW.md",
+      "full_native_suite_run": true,
+      "prior_failed_campaign": ".aide/evidence/2026-10-16-ntfs-names/failed-d2e51792/observation-summary.json",
+      "original_timeout_cause_established": false,
+      "owner_accepted": false,
+      "remaining": "Native membership, collation/namespace/lookup/content, original platforms/storage and separate gates."
+    },
+    {
+      "work_id": "DE-W095",
+      "scope": "Private supplied-source exact directory/target filename correspondence; existing native/public forms unchanged",
+      "source_revision": "a12711156d9c28ca91971c6d5cc51be7dc71bf41",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-membership/qualified-a1271115/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-membership/win32-a1271115/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-membership/REVIEW.md",
+      "native_groups": 165,
+      "registered_native_groups": 165,
+      "full_native_suite_run": true,
+      "membership_cases": 193,
+      "filename_cases": 247,
+      "stream_cases": 298,
+      "standalone_headers": 67,
+      "tooling_tests": 247,
+      "tooling_skipped": 2,
+      "private_win32_groups": 10,
+      "win32_headers": 10,
+      "unique_x64_executables": 13,
+      "unique_win32_executables": 7,
+      "owner_accepted": false,
+      "remaining": "Native held-file/worker/frontend admission, collation/lookup/namespace/content, all original platforms/storage and owner/release/storage gates remain."
+    },
+    {
+      "work_id": "DE-W096",
+      "scope": "Private held-file exact directory/target name correspondence; existing workers/public forms unchanged",
+      "source_revision": "c1511f80c0e407a755d40cd956b7b467bd4afade",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-membership-file/qualified-c1511f80/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-membership-file/win32-c1511f80/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-membership-file/REVIEW.md",
+      "native_groups": 31,
+      "registered_native_groups": 166,
+      "full_native_suite_run": false,
+      "membership_file_cases": 496,
+      "standalone_headers": 67,
+      "tooling_tests": 247,
+      "tooling_skipped": 2,
+      "private_win32_groups": 11,
+      "win32_headers": 10,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W097",
+      "scope": "Private owned-worker/frame/immutable snapshot membership; public decoder unchanged",
+      "source_revision": "06b63a89f2ad12aacac2474e8185f2f8d4ec971b",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-membership-worker/qualified-06b63a89/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-membership-worker/win32-06b63a89/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-membership-worker/REVIEW.md",
+      "native_groups": 34,
+      "registered_native_groups": 167,
+      "full_native_suite_run": false,
+      "membership_worker_cases": 310,
+      "membership_file_cases": 496,
+      "standalone_headers": 67,
+      "tooling_tests": 247,
+      "tooling_skipped": 2,
+      "private_win32_groups": 12,
+      "win32_headers": 10,
+      "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W098",
+      "scope": "Public bounded NTFS raw-name correspondence through existing common frontends",
+      "source_revision": "01feae81e3b22fdd9147e7f4fa2e53e621a11b9f",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-membership-command/qualified-01feae81/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md",
+      "native_groups": 53,
+      "registered_native_groups": 168,
+      "full_native_suite_run": false,
+      "membership_command_cases": 126,
+      "source_receipts": 26,
+      "standalone_headers": 67,
+      "tooling_tests": 249,
+      "tooling_skipped": 2,
+      "fresh_win32_qualification": false,
+      "owner_accepted": false
+    }
+  ],
+  "runner_status_observation": {
+    "path": ".aide/evidence/2026-10-08-image-commands/runner-status.json",
+    "status": "active",
+    "reason": null,
+    "worker_changed_status": false
+  },
+  "runner_status_history": [
+    {
+      "path": ".aide/evidence/2026-10-08-image-file-capture/runner-status.json",
+      "status": "blocked",
+      "reason": null,
+      "observed_at": "2026-10-07T21:53:23Z"
+    }
+  ],
+  "gui_repaint_observation": {
+    "base_revision": "5d8803220f9231073f94276e57145f8955a828c5",
+    "executable_source_revision": "1f80711f9bfe9d8a18a1cf92878f98a117c8f0d9",
+    "evidence": ".aide/evidence/2026-10-09-gui-repaint/README.md",
+    "scope": "Owned-window capture helper repaired and tested using client/visible-button interior RGB guards; complete visual/accessibility/DPI/platform qualification remains open",
+    "implemented": true,
+    "owner_accepted": false,
+    "repair_source_revision": "a47fbd5c0149a83117ed69caff93ce35b89ddd38",
+    "repair_evidence": ".aide/evidence/2026-10-09-gui-capture/REVIEW.md"
+  },
+  "joined_report_exit_diagnostic": {
+    "evidence": ".aide/evidence/2026-10-12-joined-report-waits/validation-summary.json",
+    "source_revision": "f7b4376fe4ec4a88d07252f3feb25ee97e654a14",
+    "checks": 281,
+    "observed_waits": 6,
+    "original_failure_cause_established": false,
+    "production_fix": false
+  },
+  "aide_weekly_review": {
+    "source_revision": "58a888c07832cbf4edfaf64dfbd165fcb00e618e",
+    "aide_revision": "6f2abc4cd69e0d94f86a00495cb8feeebe20398a",
+    "review_date": "2026-10-12",
+    "next_review_date": "2026-10-19",
+    "evidence": ".aide/evidence/2026-10-12-aide-weekly/validation-summary.json",
+    "validated_workunits": 36,
+    "selected_stable_consumer_qualified": false,
+    "upstream_code_executed": false
+  },
+  "structure_review_followup": {
+    "observed_at": "2026-10-15T13:53:45.490422+00:00",
+    "base_revision": "d473a63fe6ceee92da44271c73d98e09d967eff5",
+    "guide": "docs/structure-review.md",
+    "evidence": ".aide/evidence/2026-10-16-structure-status/observation.json",
+    "assessment": "Keep five source owners, explicit model names and CLI folder. SR-01/02/03/06/07 addressed; demonstrated SR-04 invariants shared. SR-05 composition/test seams and SR-08 upstream qualification remain. Current guide consolidated; historical contents and failures retained.",
+    "scope_change": false,
+    "owner_accepted": false,
+    "release_ready": false,
+    "next_action": "Continue current_work and next_action; targeted app/service/test-seam cleanup and upstream Windows qualification remain. Historical delays retain their own failed evidence and unknown original cause."
+  },
+  "last_integration": {
+    "work_id": "DE-W098",
+    "checkpoint_revision": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+    "tested_native_source_revision": "01feae81e3b22fdd9147e7f4fa2e53e621a11b9f",
+    "recorded_at": "2026-10-16T14:08:34.195565+00:00",
+    "execution_identity": "BLACKGLASS-WIN1\\Jules",
+    "github_account": "Julesc013",
+    "branches": {
+      "dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+      "main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+      "origin/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+      "origin/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
+    },
+    "remote_refs": {
+      "refs/heads/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+      "refs/heads/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
+    },
+    "source": "Authorized dev push, fast-forward main and main push succeeded; exact local/remote refs verified without force. Following integration-receipt commit is metadata only.",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-membership-command/qualified-01feae81/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md",
+    "native_groups": 53,
+    "registered_native_groups": 168,
+    "full_native_suite_run": false,
+    "selected_native_suite_complete": true,
+    "membership_command_cases": 126,
+    "source_receipts": 26,
+    "standalone_headers": 67,
+    "unique_x64_executables": 13,
+    "tooling_tests_run": 249,
+    "tooling_skipped": 2,
+    "fresh_win32_campaign_run": false,
+    "full_win32_product_qualified": false,
+    "native_unverified": ".aide/evidence/2026-10-16-ntfs-membership-command/native-unverified.json",
+    "prior_failures_retained": true,
+    "earlier_intermittent_failure_causes_established": false,
+    "owner_accepted": false,
+    "full_0_1_0_complete": false,
+    "release_published": false
+  },
+  "in_progress_slice": {
+    "work_id": "DE-W099",
+    "base_revision": "c3a3b15dcf389d92f3b7ceee37c32293a1912e70",
+    "contract": "spec/catalog/ntfs-upcase-prototype.json",
+    "state": "Exact1aec097e all-target x64 build passes, but selected run stops at build.boundaries because canonical closed NTFS source policy omitted the required new upcase.c. Candidate private Win32 two groups pass327680 mappings/2520 comparisons/78 guards. Failure retained; exact source-set correction and fresh qualification pending.",
+    "qualification_pending": true,
+    "owner_accepted": false,
+    "full_0_1_0_complete": false
+  },
+  "w058_final_qualification": {
+    "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
+    "evidence": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/summary.json",
+    "review": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md",
+    "owner_accepted": false
+  },
+  "integration_history": [
+    {
+      "work_id": "DE-W069",
+      "tested_source_revision": "cce05d172c89f0a71dba5ee1cc0698307f8c686e",
+      "qualification_commit": "2cfd5f08d3b182752f66b6a06b8e65a0ecd7531c",
+      "merge_revision": "83d56829638052496a28fab209f77fc41a4bb1fa",
+      "remote_main": "83d56829638052496a28fab209f77fc41a4bb1fa",
+      "remote_dev": "83d56829638052496a28fab209f77fc41a4bb1fa",
+      "observed_at": "2026-10-14T02:16:37.676987+00:00",
+      "runtime_test_build_unchanged_from_tested_revision": true,
+      "unverified": [
+        "Actual file-symlink fixture unavailable without privilege; retained as unverified."
+      ],
+      "owner_accepted": false,
+      "release_published": false
+    },
+    {
+      "checkpoint_revision": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+      "tested_source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
+      "recorded_at": "2026-10-14T10:18:47.383391+00:00",
+      "branches": {
+        "dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b"
+      },
+      "source": "Successful authorized git push origin/dev and origin/main; fast-forward integration, no force push."
+    },
+    {
+      "work_id": "DE-W074",
+      "checkpoint_revision": "3fb2073704d77aa7ae6283a40432356cad31a0cb",
+      "tested_source_revision": "2cd2e2e1fefa09f3ef50625933a0d4bc652aeee3",
+      "recorded_at": "2026-10-14T21:31:53.200047+00:00",
+      "branches": {
+        "dev": "3fb2073704d77aa7ae6283a40432356cad31a0cb",
+        "main": "3fb2073704d77aa7ae6283a40432356cad31a0cb",
+        "origin/dev": "3fb2073704d77aa7ae6283a40432356cad31a0cb",
+        "origin/main": "3fb2073704d77aa7ae6283a40432356cad31a0cb"
+      },
+      "source": "Successful authorized fast-forward and pushes to origin/dev and origin/main; no force push.",
+      "evidence": ".aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "release_published": false
+    },
+    {
+      "work_id": "DE-W033",
+      "checkpoint_revision": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+      "tested_source_revision": "813924fa06ac5e77225467c28183e72cdb763d30",
+      "recorded_at": "2026-10-15T18:14:18.870540+00:00",
+      "branches": {
+        "dev": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+        "main": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+        "origin/dev": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+        "origin/main": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8"
+      },
+      "remote_refs": {
+        "refs/heads/dev": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+        "refs/heads/main": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8"
+      },
+      "source": "Successful authorized push to dev, fast-forward main and push main, followed by read-only local/remote ref confirmation. No force push.",
+      "evidence": ".aide/evidence/2026-10-16-acquisition-routing/qualified-813924fa/summary.json",
+      "review": ".aide/evidence/2026-10-16-acquisition-routing/REVIEW.md",
+      "native_groups_passed": 153,
+      "standalone_headers": 57,
+      "tooling_tests_run": 242,
+      "tooling_skipped": 2,
+      "native_test_build_contract_inputs_unchanged": true,
+      "review_metadata_inputs_changed": [
+        ".aide/programmes/disked-0.1.0.json",
+        "docs/structure-review.md"
+      ],
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "release_published": false,
+      "original_timing_cause_established": false,
+      "gate_reconciliation": "The W082/W075 source-integration hold is reviewed against the concrete corrected phase/routing contracts and one complete current153-group regression, with no deadline or expected-result weakening. Earlier campaigns remain failures and the original latency cause is not declared resolved. This closes current source qualification, not historical latency investigation, full-unit/owner acceptance or release qualification."
+    },
+    {
+      "work_id": "DE-W083",
+      "checkpoint_revision": "a53816660e24d6368d15fc6e4dd9bb8069c56822",
+      "tested_source_revision": "b985adf2f05281b3cfa82db7f47799f128b8fbdd",
+      "recorded_at": "2026-10-15T19:23:49.751327+00:00",
+      "branches": {
+        "dev": "a53816660e24d6368d15fc6e4dd9bb8069c56822",
+        "main": "a53816660e24d6368d15fc6e4dd9bb8069c56822",
+        "origin/dev": "a53816660e24d6368d15fc6e4dd9bb8069c56822",
+        "origin/main": "a53816660e24d6368d15fc6e4dd9bb8069c56822"
+      },
+      "remote_refs": {
+        "refs/heads/dev": "a53816660e24d6368d15fc6e4dd9bb8069c56822",
+        "refs/heads/main": "a53816660e24d6368d15fc6e4dd9bb8069c56822"
+      },
+      "source": "Successful authorized dev push, fast-forward main and main push followed by exact local/remote ref verification. No force push; this receipt update changes metadata only.",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-command/qualified-b985adf2/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-command/REVIEW.md",
+      "native_groups": 154,
+      "ntfs_cases": 50,
+      "standalone_headers": 59,
+      "tooling_tests": 244,
+      "implementation_and_parameter_inputs_unchanged": true,
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "release_published": false,
+      "original_delay_cause_established": false
+    }
+  ],
+  "latest_development_push": {
+    "branch": "dev",
+    "revision": "c30f7977beabb95c1974d0ae0cef20a775561e80",
+    "observed_at": "2026-10-15T23:25:10.681772+00:00",
+    "verified_remote_write": true,
+    "main_updated": true,
+    "release_published": false,
+    "source": "Exact refs confirm reviewed source/evidence integration;subsequent receipt commit is metadata only."
+  },
+  "latest_setup_observation": {
+    "evidence": ".aide/evidence/2026-10-16-exfat-tree-review/hosted-observations.json",
+    "observed_at": "2026-10-16T02:04:37.572444+00:00",
+    "pull": {
+      "number": 237,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "6869eb328d314730f079f7a6430e15f5f5965378",
+      "url": "https://github.com/Julesc013/universal-setup/pull/237"
+    },
+    "checks": [
+      {
+        "name": "specification",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943445",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": "2026-10-16T01:57:30Z"
+      },
+      {
+        "name": "sanitizer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943435",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": "2026-10-16T02:02:02Z"
+      },
+      {
+        "name": "fuzz-smoke",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943315",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": "2026-10-16T01:57:41Z"
+      },
+      {
+        "name": "native-windows",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943291",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": null
+      },
+      {
+        "name": "native-macos",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943257",
+        "started_at": "2026-10-16T01:57:16Z",
+        "completed_at": "2026-10-16T02:03:45Z"
+      },
+      {
+        "name": "native-linux",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943211",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": null
+      },
+      {
+        "name": "native-windows-win32",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Julesc013/universal-setup/actions/runs/38837873974/job/116770943030",
+        "started_at": "2026-10-16T01:57:15Z",
+        "completed_at": null
+      }
+    ],
+    "qualification": "pending",
+    "local_setup_qualification": false,
+    "release_published": false
+  },
+  "report_prepare_correction": {
+    "work_id": "DE-W034",
+    "source_base": "89cd7b88691a661cc6d2da53e2af9b19a1f0d234",
+    "evidence": ".aide/evidence/2026-10-15-report-prepare-phases/working/summary.json",
+    "status": "diagnostic-implemented",
+    "original_bounds_preserved": true,
+    "normal_commands_unchanged": true,
+    "full_native_qualified": false,
+    "original_cause_established": false,
+    "owner_accepted": false
+  },
+  "retained_incomplete_work": [],
+  "integration_review": {
+    "work_id": "DE-W098",
+    "status": "source-integrated",
+    "checkpoint_revision": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+    "tested_native_source_revision": "01feae81e3b22fdd9147e7f4fa2e53e621a11b9f",
+    "review": ".aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md",
+    "receipt": ".aide/evidence/2026-10-16-ntfs-membership-command-integration/repository.json",
+    "owner_accepted": false
+  },
+  "next_work_preparation": {
+    "candidate_scope": "Private C90 supplied-byte NTFS3.0/3.1 uppercase-table envelope, exact code-unit mapping and independent raw/mapped name comparison. A prerequisite for volume-bound namespace/collation/lookup, not those complete capabilities. No native I/O, allocation, source authority, command change or public ABI admission. Original all-platform/storage0.1.0 remains required.",
+    "execution_contract_defined": true,
+    "implementation_started": true,
+    "authorizes_effects": false
+  },
+  "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
+  "latest_dev_push": {
+    "revision": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
+    "verified": true,
+    "source": "Reviewed W098 source/evidence pushed and exact dev/main local/remote refs verified. Following receipt is metadata only."
+  },
+  "historical_native_campaigns": [
+    {
+      "work_id": "DE-W075",
+      "recorded_state": {
+        "work_id": "DE-W075",
+        "base_revision": "c03c2d5e9fdc72a62cbb50984824e24288d06be2",
+        "state": "Exact11e6f625 build/51 headers/242 tooling(two skips)/imports/context/source checks pass. Complete145 native campaign has144 passes and one joined-report prepare request_wait_expired failure. Six bounded read-only samples on its retained fixture complete identically in0.10-0.17s with no effects; cause unresolved. No live campaign; W075 integration/full0.1.0 withheld.",
+        "contract": "spec/catalog/exfat-tree-file-prototype.json",
+        "owner_accepted": false,
+        "working_evidence": ".aide/evidence/2026-10-15-exfat-tree-file/working/summary.json",
+        "exact_campaign": {
+          "source_revision": "11e6f6258a966b716a58a3336ff07aea8bf60e70",
+          "exec_session": 81609,
+          "directory": ".aide-local/exfat-tree-file-exact-11e6f625",
+          "status": "fail",
+          "expected_native_groups": 145,
+          "scope": "Complete exact-source campaign; old failures and diagnostic passes retained, no admission until terminal results/review.",
+          "observed_at": "2026-10-14T23:23:48.284955+00:00",
+          "completed_groups_observed": 48,
+          "failed_groups_observed": [
+            "22/145 Test  #22: frontend.joined_report ....................***Failed   12.86 sec"
+          ],
+          "stage_observed": "native",
+          "exit_code": 8,
+          "native_passed": 144,
+          "native_failed": [
+            "frontend.joined_report"
+          ],
+          "exec_session_closed": true,
+          "post_native_session_closed": true,
+          "post_native_session": 26397,
+          "evidence": ".aide/evidence/2026-10-15-native-delays/failed-11e6f625/observation-summary.json"
+        },
+        "timing_diagnostic": {
+          "evidence": ".aide/evidence/2026-10-15-native-delays/timing-working/acquisition-timing-observation/summary.json",
+          "qualification": false,
+          "source_state": "working",
+          "native_regression_groups": 1,
+          "timed_resume_seconds": 29.984,
+          "map_flush_seconds": 19.177,
+          "destination_flush_seconds": 8.988,
+          "original_failure_cause_established": false,
+          "original_deadlines_changed": false,
+          "normal_timing_control_ignored": true
+        },
+        "failed_group_retest": {
+          "status": "pass",
+          "source_revision": "39d514f1a606290c63a6a63b2ce9e6d5d6e3e673",
+          "groups": 8,
+          "failed": [],
+          "inputs_unchanged": true,
+          "full_native_qualified": false,
+          "original_campaign_failed": true,
+          "original_cause_established": false,
+          "qualification": false,
+          "owner_accepted": false,
+          "evidence": ".aide/evidence/2026-10-15-native-delays/retest-39d514f1/summary.json"
+        },
+        "previous_exact_campaigns": [
+          {
+            "source_revision": "39d514f1a606290c63a6a63b2ce9e6d5d6e3e673",
+            "exec_session": 47980,
+            "directory": ".aide-local/exfat-tree-file-exact-39d514f1",
+            "status": "fail",
+            "expected_native_groups": 145,
+            "exit_code": 8,
+            "native_passed": 137,
+            "native_failed": [
+              "frontend.product_verification",
+              "frontend.product_export",
+              "frontend.joined_report",
+              "evidence.acquisition_export",
+              "evidence.image_verification_collection",
+              "evidence.verification_commands",
+              "frontend.fat_extraction",
+              "evidence.logical_extraction"
+            ],
+            "exec_session_closed": true,
+            "evidence": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json"
+          }
+        ],
+        "current_observed_issue": {
+          "group": "frontend.joined_report",
+          "command": "evidence.export prepare",
+          "diagnostic": "request_wait_expired",
+          "invocation_exit_code": 6,
+          "test_elapsed_seconds": 12.86,
+          "fixture": ".aide-local/exfat-tree-file-exact-11e6f625/source/.aide-local/disked-acq-worker-_zqxk64f",
+          "cause_established": false,
+          "test_deadlines_changed": false
+        },
+        "joined_prepare_profile": {
+          "evidence": ".aide/evidence/2026-10-15-native-delays/joined-prepare-11e6f625/summary.json",
+          "samples": 6,
+          "elapsed_seconds_min": 0.103225,
+          "elapsed_seconds_max": 0.165,
+          "all_responses_identical": true,
+          "source_preserved": true,
+          "no_effects": true,
+          "qualification": false,
+          "original_cause_established": false
+        }
+      },
+      "current_projection_superseded_by": ".aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md",
+      "original_failures_remain_failed": true,
+      "cause_established": false
+    }
+  ],
+  "latest_metadata_sync": {
+    "work_id": "DE-W075",
+    "scope": "Metadata-only current-source qualification projection and editorial/hosted status reconciliation",
+    "checkpoint_revision": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+    "tested_native_source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+    "recorded_at": "2026-10-16T02:08:28.100318+00:00",
+    "execution_identity": "BLACKGLASS-WIN1\\Jules",
+    "github_account": "Julesc013",
+    "branches": {
+      "dev": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+      "main": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+      "origin/dev": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+      "origin/main": "fa88354dae6f82979d388fd6653e78f911e9c62a"
+    },
+    "remote_refs": {
+      "refs/heads/dev": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+      "refs/heads/main": "fa88354dae6f82979d388fd6653e78f911e9c62a"
+    },
+    "source": "Authorized dev/main pushes succeeded and exact refs verified; no force push. Following receipt commit is metadata only.",
+    "native_groups": 160,
+    "tree_file_cases": 46,
+    "tree_file_methods": 8,
+    "tooling_tests": 244,
+    "tooling_skipped": 2,
+    "owner_accepted": false,
+    "full_0_1_0_complete": false,
+    "release_published": false,
+    "original_delay_cause_established": false
+  },
+  "latest_hosted_observation": {
+    "evidence": ".aide/evidence/2026-10-17-ntfs-upcase/hosted-observations.json",
+    "observed_at": "2026-10-16T14:21:37.176211+00:00",
+    "setup_head": "da8666a08327816b7ac9ed3b16474688d4176a66",
+    "setup_checks_passed": 6,
+    "setup_completed_non_success": [
+      "native-windows"
+    ],
+    "local_setup_qualified": false,
+    "upstream_writes": false
+  }
+}

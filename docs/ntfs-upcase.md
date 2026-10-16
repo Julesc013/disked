@@ -31,3 +31,7 @@ qualify a historical compiler or installed filesystem provider.
 The [reference record](../.aide/evidence/2026-10-17-ntfs-upcase/references.json)
 distinguishes format references from adopted dependencies. No upstream
 implementation is copied, compiled or executed.
+
+The [agent review](../.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md) links exact
+source and successful selected x64/Win32 results, retained activation failure and
+unverified platforms/capabilities. This is source review, not owner acceptance.

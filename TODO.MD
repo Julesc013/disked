@@ -22,9 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W099 supplied NTFS uppercase table and raw/mapped comparison: contract
-  and independent expected recipe defined; native qualification pending. Actual
-  volume-table capture, namespace/lookup/content and original0.1.0 remain.
+- [x] DE-W099 private supplied NTFS table: exact `ff74ccae` passes21/170
+  selected x64 groups,327680 mappings,2520 comparisons,78 guard cases,67 headers/
+  C90/four imports and249 tooling(two skips); private Win32 two groups/two headers.
+  Actual volume capture,namespace/lookup/content and original0.1.0 remain.
+  [Review](.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md).
 
 - [x] DE-W098 common NTFS correspondence command: exact `01feae81` passes
   53/168 selected x64 groups, 126 new cases, 67 headers/C90/13 imports and

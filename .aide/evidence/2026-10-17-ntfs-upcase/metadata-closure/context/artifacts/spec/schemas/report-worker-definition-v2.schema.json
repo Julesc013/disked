@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-definition:2",
+  "title": "Provisional joined-source report worker definition",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "export", "store", "host_id", "image_digest", "source_revision", "input_digest", "target_profile"],
+  "properties": {
+    "schema": {"const": "org.disked.report-worker-definition-prototype/2"},
+    "export": {"$ref": "urn:disked:schema:acquisition-verification-export-definition:1"},
+    "store": {"$ref": "urn:disked:schema:report-worker-definition:1#/properties/store"},
+    "host_id": {"$ref": "urn:disked:schema:report-worker-definition:1#/properties/host_id"},
+    "image_digest": {"$ref": "urn:disked:schema:report-worker-definition:1#/properties/image_digest"},
+    "source_revision": {"$ref": "urn:disked:schema:report-worker-definition:1#/properties/source_revision"},
+    "input_digest": {"$ref": "urn:disked:schema:report-worker-definition:1#/properties/input_digest"},
+    "target_profile": {"const": "windows.nt10.x64.win32"}
+  }
+}

@@ -33,15 +33,14 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **324 current source files** at `06b63a89`: 36 portable, 143 runtime, 68 provider,
-63 platform and 14 application files. This includes the private correspondence collector and held-file adapter; their source-bound qualification is below. The longest repository-relative source
-path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
-The path check finds no case collisions, Windows reserved basenames or trailing
-space/dot components. These measurements do not qualify legacy path limits,
-build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-membership-worker/source-inventory.json) and
-[current path checks](../.aide/evidence/2026-10-16-ntfs-membership-worker/path-audit.json) bind these observations;
-the earlier assessment remains retained in the 16 October structure evidence.
+There are **325 source files** at `ff74ccae`: 37 portable,143 runtime,68 provider,
+63 platform and14 application files. The new file is the supplied NTFS table
+primitive in the existing portable owner; no production directory was added. The
+longest repository-relative source path remains62 characters. Case,Windows reserved
+basename and trailing space/dot checks pass. These measurements do not qualify
+every legacy filesystem,compiler or generated build path.
+[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase/source-inventory.json) and
+[path checks](../.aide/evidence/2026-10-17-ntfs-upcase/path-audit.json) bind these facts.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -94,6 +93,13 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Private NTFS table source `ff74ccae` passes21/170 selected x64 groups,327680
+mapping observations,2520 comparisons and78 guard cases, plus67 headers/C90/four
+imports and249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
+headers pass. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md)
+records the complete scope. This adds no command or namespace/lookup admission.
+The full current suite,other platforms and all original0.1.0 remain unqualified.
 
 Common membership command `01feae81` passes all 53 selected x64 groups of
 168 registered, 126 new command/frontend cases, 67 headers/C90/13 imports
@@ -181,19 +187,15 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The read-only Universal Setup snapshot at `2026-10-16T12:14:19.373921+00:00` finds
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
-`1fddc570`. Six of seven checks passed; native Windows failed. Its
-untraced and traced source-free interrupted-repair checks failed; later dependent
-checks were skipped or could not retain missing receipts. The retained log does
-not establish the underlying cause. [Snapshot and current job](../.aide/evidence/2026-10-16-ntfs-membership-worker/hosted-observations.json)
-are read-only observations, not local lifecycle qualification. The older
-`f69c2240` failure remains at its recorded revision in W096 evidence. Setup
-main/dev remain protected at tree `b836676c`; both queried release collections
-are empty.
-DiskEd's inspected Setup source pin remains `2e64f654`; no upstream branch,
-settings or pin changed. Hosted checks do not qualify local lifecycle,
-installation/repair/recovery or a DiskEd release.
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase/hosted-final-observations.json)
+records draft/open/unmerged [PR237](https://github.com/Julesc013/universal-setup/pull/237)
+at `8b9082e2`, observed `2026-10-16T14:50:33.462369+00:00`. Six checks succeeded;
+remaining check state: native-windows=IN_PROGRESS. This candidate is not qualified by pending
+checks. The separately retained `da8666a0` candidate failed native Windows with
+missing-artifact and receipt-file-count errors; the underlying repair/recovery
+cause was not established. Its failure remains failed. Both queried release
+collections are empty. DiskEd's Setup source pin remains `2e64f654`; no upstream
+writes,installation or local lifecycle qualification were performed.
 
 The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

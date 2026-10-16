@@ -1,0 +1,460 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.acquisition-case-export-definition-prototype/1"
+    },
+    "case": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 41,
+          "pattern": "^image-op:[0-9a-f]{32}$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "operation_id",
+        "revision"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "effect": {
+      "$ref": "#/$defs/effect"
+    }
+  },
+  "required": [
+    "schema",
+    "case",
+    "source",
+    "effect"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-case-export-definition:1",
+  "title": "Provisional joint acquisition-case/export definition; public worker admission pending",
+  "$comment": "Strict private producer/review shape. Semantic u64, byte/depth/value bounds and field relationships apply automatically. Native reconstruction proves resource applicability; schema validity authenticates no actor and authorizes no effect.",
+  "$defs": {
+    "generation": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "file_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "volume_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        }
+      },
+      "required": [
+        "created",
+        "file_id",
+        "volume_id"
+      ],
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "changed": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "created": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "file_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "hardlinks": {
+          "type": "string",
+          "const": "1"
+        },
+        "volume_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "written": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        }
+      },
+      "required": [
+        "attributes",
+        "bytes",
+        "changed",
+        "created",
+        "file_id",
+        "hardlinks",
+        "volume_id",
+        "written"
+      ],
+      "additionalProperties": false
+    },
+    "store": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "generation": {
+          "$ref": "#/$defs/generation"
+        },
+        "children": {
+          "type": "array",
+          "const": [
+            "acquisition.request",
+            "acquisition.records",
+            "acquisition.cancel",
+            "acquisition.admission"
+          ]
+        },
+        "access": {
+          "type": "string",
+          "const": "create-owned-metadata"
+        },
+        "failure_domain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960
+        }
+      },
+      "required": [
+        "path",
+        "generation",
+        "children",
+        "access",
+        "failure_domain"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "org.disked.file-acquisition-case-source-prototype/1"
+        },
+        "access": {
+          "type": "string",
+          "const": "read"
+        },
+        "store": {
+          "$ref": "#/$defs/store"
+        },
+        "ancestors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 120,
+          "items": {
+            "$ref": "#/$defs/generation"
+          }
+        },
+        "files": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "const": "acquisition.request"
+                },
+                "metadata": {
+                  "$ref": "#/$defs/metadata"
+                },
+                "digest": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "name",
+                "metadata",
+                "digest"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "const": "acquisition.records"
+                },
+                "metadata": {
+                  "$ref": "#/$defs/metadata"
+                },
+                "digest": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "name",
+                "metadata",
+                "digest"
+              ],
+              "additionalProperties": false
+            }
+          ],
+          "items": false
+        },
+        "case_revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "provenance": {
+          "type": "string",
+          "const": "ordinary-file-read-and-record-validation"
+        },
+        "authenticity": {
+          "type": "string",
+          "const": "not_established"
+        }
+      },
+      "required": [
+        "schema",
+        "access",
+        "store",
+        "ancestors",
+        "files",
+        "case_revision",
+        "provenance",
+        "authenticity"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "identifiers": {
+          "type": "boolean"
+        },
+        "raw_values": {
+          "type": "boolean"
+        },
+        "interpretations": {
+          "type": "boolean"
+        },
+        "customer_data": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "identifiers",
+        "raw_values",
+        "interpretations",
+        "customer_data"
+      ],
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "properties": {
+        "bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "encoding": {
+          "type": "string",
+          "const": "private-case-json-utf8-lf/1"
+        },
+        "scope": {
+          "type": "string",
+          "const": "recorded-acquisition-case-support"
+        }
+      },
+      "required": [
+        "bytes",
+        "digest",
+        "policy",
+        "encoding",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "destination": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "access": {
+          "type": "string",
+          "const": "create-write"
+        },
+        "verification": {
+          "type": "string",
+          "const": "readback-sha256"
+        }
+      },
+      "required": [
+        "identity",
+        "epoch",
+        "location",
+        "access",
+        "verification"
+      ],
+      "additionalProperties": false
+    },
+    "producer": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "access": {
+          "type": "string",
+          "const": "read"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "identity",
+        "epoch",
+        "location",
+        "access",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "effect": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "org.disked.report-export-definition-prototype/1"
+        },
+        "artifact": {
+          "$ref": "#/$defs/artifact"
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "destination": {
+              "$ref": "#/$defs/destination"
+            },
+            "producer": {
+              "$ref": "#/$defs/producer"
+            }
+          },
+          "required": [
+            "destination",
+            "producer"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "artifact",
+        "resources"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

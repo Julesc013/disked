@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-15T23:29:30.402330+00:00",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-name",
+      "access": "Read through web tool; NTFS3.0/3.1 developer notes."
+    },
+    {
+      "url": "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/ntfs.h",
+      "local_observation": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-namespace-references\\linux-ntfs.h",
+      "sha256": "sha256:cba697587926a59770bc04962769b8b15b2d9267ec78d379d6cb719e5ee706c4",
+      "use": "Functional format reference only; no upstream code copied, compiled or executed in product."
+    },
+    {
+      "url": "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/index.c",
+      "local_observation": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-namespace-references\\linux-index.c",
+      "sha256": "sha256:44bbe7cc6e85236b36e09e8ac2abb7a50b819ec154e05ea6cd6d96d244a34107",
+      "use": "Functional format reference only; no upstream code copied, compiled or executed in product."
+    }
+  ],
+  "use": "Functional format references only; no upstream implementation copied, compiled or executed.",
+  "reconciliation": "Pinned Linux ntfs3 ntfs.h INDEX_BUFFER and index.c index_buf_check/index_hdr_check distinguish a40-byte INDX header, index header at24, USA and expected VBN. The explicit bounded DiskEd profile additionally keeps the array before the first stride tail and entry area. This does not establish source or filesystem authority."
+}

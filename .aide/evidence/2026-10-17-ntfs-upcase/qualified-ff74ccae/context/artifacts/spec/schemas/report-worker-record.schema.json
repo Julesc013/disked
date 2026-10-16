@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-record:2",
+  "title": "Private report worker record producer conformance",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.report-worker-record-prototype/2"
+    },
+    "state": {
+      "$ref": "urn:disked:schema:report-worker-state:2"
+    },
+    "previous": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "state",
+    "previous",
+    "digest"
+  ],
+  "additionalProperties": false,
+  "description": "Canonical UTF-8 row digest and bounded state validated automatically. Exact retained header and sequence/phase/binding history additionally require the native reader/profile; hashes authenticate no actor."
+}

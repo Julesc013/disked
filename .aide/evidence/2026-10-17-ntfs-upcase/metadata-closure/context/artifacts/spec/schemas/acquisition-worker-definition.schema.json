@@ -1,0 +1,218 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.acquisition-worker-definition/1"
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "destination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "map": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "resume": {
+          "type": "boolean"
+        },
+        "explicit_options": {
+          "type": "boolean",
+          "const": true
+        },
+        "chunk_bytes": {
+          "type": "string",
+          "enum": [
+            "4096",
+            "65536",
+            "1048576"
+          ]
+        },
+        "retry_limit": {
+          "type": "string",
+          "enum": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "read_policy": {
+          "type": "string",
+          "enum": [
+            "ordinary",
+            "failing-read-mostly"
+          ]
+        },
+        "substitution": {
+          "type": "string",
+          "enum": [
+            "stop",
+            "zero-fill"
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "destination",
+        "map",
+        "resume",
+        "explicit_options",
+        "chunk_bytes",
+        "retry_limit",
+        "read_policy",
+        "substitution"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "read_policy": {
+                "const": "failing-read-mostly"
+              }
+            },
+            "required": [
+              "read_policy"
+            ]
+          },
+          "then": {
+            "properties": {
+              "retry_limit": {
+                "const": "0"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "$ref": "urn:disked:schema:acquisition-plan-prototype:1"
+    },
+    "store": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "x-disked-scalar": "local-state-directory"
+        },
+        "generation": {
+          "type": "object",
+          "properties": {
+            "volume_id": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$",
+              "x-disked-scalar": "decimal-u64"
+            },
+            "file_id": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 32,
+              "x-disked-scalar": "file-generation-id",
+              "pattern": "^[0-9a-f]{32}$"
+            },
+            "created": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$",
+              "x-disked-scalar": "decimal-u64"
+            }
+          },
+          "required": [
+            "volume_id",
+            "file_id",
+            "created"
+          ],
+          "additionalProperties": false
+        },
+        "access": {
+          "type": "string",
+          "const": "create-owned-metadata"
+        },
+        "children": {
+          "type": "array",
+          "const": [
+            "acquisition.request",
+            "acquisition.records",
+            "acquisition.cancel",
+            "acquisition.admission"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "failure_domain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": [
+        "path",
+        "generation",
+        "access",
+        "children",
+        "failure_domain"
+      ],
+      "additionalProperties": false
+    },
+    "host_id": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "x-disked-scalar": "record-digest",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "image_digest": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "x-disked-scalar": "record-digest",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_revision": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "x-disked-scalar": "source-revision",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "input_digest": {
+      "type": "string",
+      "minLength": 71,
+      "maxLength": 71,
+      "x-disked-scalar": "sha256-digest",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "target_profile": {
+      "type": "string",
+      "const": "windows.nt10.x64.win32"
+    }
+  },
+  "required": [
+    "schema",
+    "request",
+    "plan",
+    "store",
+    "host_id",
+    "image_digest",
+    "source_revision",
+    "input_digest",
+    "target_profile"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-worker-definition:1",
+  "title": "Private acquisition operation definition; not the production plan ABI"
+}

@@ -1,0 +1,1074 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fat-recursive-response-prototype:1",
+  "title": "Provisional recursive FAT common-service response producer",
+  "description": "Strict response shape, separate from compatible consumers. Semantic checks bind response status/identity, review hashes, receipts and outcomes. No native freshness, actor authentication, production ABI or physical admission follows from schema validity.",
+  "allOf": [
+    {
+      "$ref": "urn:disked:schema:response:1"
+    },
+    {
+      "properties": {
+        "result": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/preparation"
+            },
+            {
+              "$ref": "#/$defs/execution"
+            },
+            {
+              "$ref": "#/$defs/unresolved"
+            },
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "$ref": "#/$defs/watch"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "preparation": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "$ref": "urn:disked:schema:fat-tree-review-prototype:1"
+        },
+        "definition_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "preparation": {
+          "$ref": "#/$defs/admission"
+        },
+        "phase": {
+          "const": "prepare"
+        },
+        "execution_admitted": {
+          "const": false
+        },
+        "scope": {
+          "const": "ordinary-local-fat-tree-extraction"
+        },
+        "request_kind": {
+          "const": "recursive-preparation"
+        }
+      },
+      "required": [
+        "definition",
+        "definition_digest",
+        "preparation",
+        "phase",
+        "execution_admitted",
+        "scope",
+        "request_kind"
+      ],
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-controller-observation-prototype/1"
+        },
+        "status": {
+          "enum": [
+            "dispatch_pending",
+            "not_dispatched",
+            "accepted_running",
+            "completed",
+            "refused",
+            "unknown"
+          ]
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^tree-op:[0-9a-f]{32}$"
+            }
+          ]
+        },
+        "controller": {
+          "type": "object",
+          "properties": {
+            "pid": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "created": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "observation": {
+              "enum": [
+                "running",
+                "exited",
+                "not_started",
+                "not_present",
+                "unavailable",
+                "reused_identity",
+                "code_mismatch"
+              ]
+            },
+            "exit_code": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                }
+              ]
+            }
+          },
+          "required": [
+            "pid",
+            "created",
+            "observation"
+          ],
+          "additionalProperties": false
+        },
+        "reply": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/receipt"
+            }
+          ]
+        },
+        "diagnostic": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "scope": {
+          "const": "ordinary-local-fat-tree-extraction"
+        },
+        "request_kind": {
+          "const": "recursive-execution"
+        }
+      },
+      "required": [
+        "schema",
+        "status",
+        "operation_id",
+        "controller",
+        "reply",
+        "diagnostic",
+        "scope",
+        "request_kind"
+      ],
+      "additionalProperties": false
+    },
+    "unresolved": {
+      "type": "object",
+      "properties": {
+        "request_state": {
+          "const": "unresolved"
+        },
+        "state_directory": {
+          "type": "string"
+        },
+        "definition_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "scope": {
+          "const": "ordinary-local-fat-tree-extraction"
+        },
+        "request_kind": {
+          "const": "recursive-execution"
+        }
+      },
+      "required": [
+        "request_state",
+        "scope",
+        "request_kind"
+      ],
+      "additionalProperties": false
+    },
+    "admission": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-admission-observation-prototype/1"
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^tree-op:[0-9a-f]{32}$"
+            }
+          ]
+        },
+        "worker": {
+          "$ref": "#/$defs/worker"
+        },
+        "review_digest": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          ]
+        },
+        "store_effects_possible": {
+          "type": "boolean"
+        },
+        "admission_failed": {
+          "type": "boolean"
+        },
+        "diagnostic": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "persistent_reconnect_qualified": {
+          "const": false
+        }
+      },
+      "required": [
+        "schema",
+        "operation_id",
+        "worker",
+        "review_digest",
+        "store_effects_possible",
+        "admission_failed",
+        "diagnostic",
+        "persistent_reconnect_qualified"
+      ],
+      "additionalProperties": false
+    },
+    "worker": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-extraction-worker-observation/1"
+        },
+        "admitted": {
+          "type": "boolean"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^fat-tree-write-attempt:[0-9a-f]{32}$"
+        },
+        "cancellation_requested": {
+          "type": "boolean"
+        },
+        "capture_epoch": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "claims": {
+          "type": "object",
+          "properties": {
+            "compiled_effects_capable": {
+              "const": true
+            },
+            "durable_reconnect": {
+              "const": false
+            },
+            "live_namespace": {
+              "const": false
+            },
+            "mutation_authority": {
+              "const": false
+            },
+            "physical_admission": {
+              "const": false
+            }
+          },
+          "required": [
+            "compiled_effects_capable",
+            "durable_reconnect",
+            "live_namespace",
+            "mutation_authority",
+            "physical_admission"
+          ],
+          "additionalProperties": false
+        },
+        "code_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "dependencies_retained": {
+          "type": "boolean"
+        },
+        "diagnostic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effects_possible": {
+          "type": "boolean"
+        },
+        "grant_sent": {
+          "type": "boolean"
+        },
+        "observer_epoch": {
+          "type": "string",
+          "pattern": "^observer:[0-9a-f]{32}$"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:disked:schema:fat-tree-operation-event-prototype:1#/$defs/outcome"
+            }
+          ]
+        },
+        "phase": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "prepared",
+                "outcome",
+                "cancelled",
+                "unavailable"
+              ]
+            }
+          ]
+        },
+        "preparation": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "definition_digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "definition_digest"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "progress_pulse": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "request_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "const": "org.disked.fat-tree-extraction-worker-final/1"
+                },
+                "phase": {
+                  "enum": [
+                    "prepared",
+                    "outcome",
+                    "cancelled",
+                    "unavailable"
+                  ]
+                },
+                "publication_sha256": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "schema",
+                "phase",
+                "publication_sha256"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "awaiting_grant",
+            "accepted_running",
+            "completed",
+            "unknown"
+          ]
+        },
+        "worker": {
+          "type": "object",
+          "properties": {
+            "pid": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "created": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "observation": {
+              "enum": [
+                "running",
+                "exited",
+                "not_started",
+                "not_present",
+                "unavailable",
+                "reused_identity",
+                "code_mismatch"
+              ]
+            },
+            "exit_code": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                }
+              ]
+            }
+          },
+          "required": [
+            "pid",
+            "created",
+            "observation"
+          ],
+          "additionalProperties": false
+        },
+        "worker_epoch": {
+          "type": "string",
+          "pattern": "^worker:[0-9a-f]{32}$"
+        }
+      },
+      "required": [
+        "schema",
+        "admitted",
+        "attempt_id",
+        "cancellation_requested",
+        "capture_epoch",
+        "claims",
+        "code_sha256",
+        "dependencies_retained",
+        "diagnostic",
+        "effects_possible",
+        "grant_sent",
+        "observer_epoch",
+        "outcome",
+        "phase",
+        "preparation",
+        "progress_pulse",
+        "request_digest",
+        "result",
+        "retired",
+        "status",
+        "worker",
+        "worker_epoch"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-controller-reply-prototype/1"
+        },
+        "input_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "code_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "host_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "review_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "controller": {
+          "type": "object",
+          "properties": {
+            "pid": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "created": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            }
+          },
+          "required": [
+            "pid",
+            "created"
+          ],
+          "additionalProperties": false
+        },
+        "phase": {
+          "enum": [
+            "admitted",
+            "finished",
+            "refused",
+            "unresolved"
+          ]
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^tree-op:[0-9a-f]{32}$"
+            }
+          ]
+        },
+        "admission": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/admission"
+            }
+          ]
+        },
+        "diagnostic": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "input_digest",
+        "code_sha256",
+        "host_id",
+        "review_digest",
+        "controller",
+        "phase",
+        "operation_id",
+        "admission",
+        "diagnostic"
+      ],
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-reconnect-observation-prototype/1"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unknown"
+          ]
+        },
+        "cancellation_request": {
+          "enum": [
+            "not_requested",
+            "not_admitted",
+            "requested",
+            "too_late_recorded"
+          ]
+        },
+        "history": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/history"
+            }
+          ]
+        },
+        "controller": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "pid": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "created": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "observation": {
+                  "enum": [
+                    "running",
+                    "exited",
+                    "not_started",
+                    "not_present",
+                    "unavailable",
+                    "reused_identity",
+                    "code_mismatch"
+                  ]
+                },
+                "exit_code": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "pid",
+                "created",
+                "observation"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "writer": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "pid": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "created": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "observation": {
+                  "enum": [
+                    "running",
+                    "exited",
+                    "not_started",
+                    "not_present",
+                    "unavailable",
+                    "reused_identity",
+                    "code_mismatch"
+                  ]
+                },
+                "exit_code": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "pid",
+                "created",
+                "observation"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "diagnostic": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "claims": {
+          "type": "object",
+          "properties": {
+            "authenticity": {
+              "const": "not_established"
+            },
+            "source_access": {
+              "const": false
+            },
+            "destination_access": {
+              "const": false
+            },
+            "mutation_authority": {
+              "const": false
+            },
+            "replay_authority": {
+              "const": false
+            }
+          },
+          "required": [
+            "authenticity",
+            "source_access",
+            "destination_access",
+            "mutation_authority",
+            "replay_authority"
+          ],
+          "additionalProperties": false
+        },
+        "scope": {
+          "const": "ordinary-local-fat-tree-extraction"
+        },
+        "request_kind": {
+          "const": "operation-observation"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_id",
+        "status",
+        "cancellation_request",
+        "history",
+        "controller",
+        "writer",
+        "diagnostic",
+        "claims"
+      ],
+      "additionalProperties": false
+    },
+    "watch": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-operation-watch-prototype/1"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "status": {
+          "enum": [
+            "unknown",
+            "following_boundary",
+            "recorded_terminal",
+            "observer_closed"
+          ]
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/cursor"
+            }
+          ]
+        },
+        "events": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "urn:disked:schema:fat-tree-operation-event-prototype:1"
+          }
+        },
+        "observation": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/observation"
+            }
+          ]
+        },
+        "diagnostic": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "polls": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "scope": {
+          "const": "ordinary-local-fat-tree-extraction"
+        },
+        "request_kind": {
+          "const": "operation-observation"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_id",
+        "status",
+        "cursor",
+        "events",
+        "observation",
+        "diagnostic",
+        "polls",
+        "scope",
+        "request_kind"
+      ],
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-operation-history-prototype/1"
+        },
+        "state": {
+          "enum": [
+            "truncated",
+            "recorded_uncertain",
+            "recorded_complete",
+            "recorded_partial",
+            "recorded_exit_unresolved",
+            "recorded_outcome_pending_exit",
+            "unresolved",
+            "recorded_active"
+          ]
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "review_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "records": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "admitted_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "last_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "last_worker": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:disked:schema:fat-tree-operation-event-prototype:1#/$defs/worker"
+            }
+          ]
+        },
+        "tail": {
+          "type": "object",
+          "properties": {
+            "bytes": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "admitted": {
+              "const": false
+            }
+          },
+          "required": [
+            "bytes",
+            "sha256",
+            "admitted"
+          ],
+          "additionalProperties": false
+        },
+        "claims": {
+          "type": "object",
+          "properties": {
+            "authenticity": {
+              "const": "not_established"
+            },
+            "current_source_verification": {
+              "const": "not_performed"
+            },
+            "current_destination_verification": {
+              "const": "not_performed"
+            },
+            "worker_exit": {
+              "const": "recorded-declaration-only"
+            },
+            "mutation_authority": {
+              "const": false
+            },
+            "replay_authority": {
+              "const": false
+            }
+          },
+          "required": [
+            "authenticity",
+            "current_source_verification",
+            "current_destination_verification",
+            "worker_exit",
+            "mutation_authority",
+            "replay_authority"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "state",
+        "operation_id",
+        "review_digest",
+        "records",
+        "admitted_bytes",
+        "last_digest",
+        "last_worker",
+        "tail",
+        "claims"
+      ],
+      "additionalProperties": false
+    },
+    "cursor": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "observer_epoch": {
+          "type": "string",
+          "pattern": "^watch:[0-9a-f]{32}$"
+        },
+        "worker_epoch": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^worker:[0-9a-f]{32}$"
+            }
+          ]
+        },
+        "header_digest": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          ]
+        },
+        "review_digest": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          ]
+        },
+        "sequence": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "last_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "events": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "event_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "initialized": {
+          "type": "boolean"
+        },
+        "closed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "operation_id",
+        "observer_epoch",
+        "worker_epoch",
+        "header_digest",
+        "review_digest",
+        "sequence",
+        "last_digest",
+        "events",
+        "event_bytes",
+        "initialized",
+        "closed"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

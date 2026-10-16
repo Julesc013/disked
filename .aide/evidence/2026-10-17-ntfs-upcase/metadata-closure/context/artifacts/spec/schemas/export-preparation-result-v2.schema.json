@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:export-preparation-result:2",
+  "title": "Provisional joined-report preparation; no execution admission",
+  "type": "object", "additionalProperties": false,
+  "required": ["definition", "definition_digest", "phase", "execution_admitted", "scope", "authenticity", "custody_authentication", "current_image_state", "power_loss_persistence"],
+  "properties": {
+    "definition": {"$ref": "urn:disked:schema:report-worker-definition:2"},
+    "definition_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "phase": {"const": "prepare"}, "execution_admitted": {"const": false},
+    "scope": {"const": "recorded-acquisition-verification-support-export"},
+    "authenticity": {"const": "not_established"}, "custody_authentication": {"const": "not_established"},
+    "current_image_state": {"const": "not_established"}, "power_loss_persistence": {"const": "not_established"}
+  }
+}

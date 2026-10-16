@@ -1,0 +1,261 @@
+{
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "const": "recorded-acquired-image-verification"
+    },
+    "authenticity": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "latest_image_state": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "source_preservation": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "physical_admission": {
+      "type": "boolean",
+      "const": false
+    },
+    "mutation_authority": {
+      "type": "boolean",
+      "const": false
+    },
+    "request_kind": {
+      "type": "string",
+      "enum": [
+        "verification-execution",
+        "operation-observation"
+      ]
+    },
+    "definition": {
+      "$ref": "urn:disked:schema:verification-worker-definition:1"
+    },
+    "definition_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "x-disked-scalar": "sha256-digest"
+    },
+    "state": {
+      "anyOf": [
+        {
+          "$ref": "urn:disked:schema:verification-worker-state:1"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "history_complete": {
+      "type": "boolean"
+    },
+    "worker_observation": {
+      "type": "string",
+      "enum": [
+        "running",
+        "exited",
+        "unavailable",
+        "reused_identity",
+        "changed_image_path"
+      ]
+    },
+    "cancellation_request": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "too_late"
+      ]
+    },
+    "admission": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "collection_validation": {
+      "type": "string",
+      "const": "passed"
+    },
+    "attachment_applicability": {
+      "type": "string",
+      "enum": [
+        "applicable",
+        "changed",
+        "unavailable"
+      ]
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "request_state": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "observer_epoch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 38,
+      "pattern": "^watch:[0-9a-f]{32}$"
+    },
+    "last_sequence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "worker_epoch": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "urn:disked:schema:verification-operation-event:1"
+      }
+    },
+    "last_validated_state": {
+      "$ref": "urn:disked:schema:verification-worker-state:1"
+    },
+    "request_binding": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 42,
+          "pattern": "^verify-op:[0-9a-f]{32}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^attempt:[0-9a-f]{32}$"
+        },
+        "worker_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        "capture_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^capture:[0-9a-f]{32}$"
+        },
+        "definition_digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "x-disked-scalar": "sha256-digest"
+        },
+        "host_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "verifier": {
+          "type": "object",
+          "properties": {
+            "source_revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40,
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "input_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "configuration_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "image_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "target_profile": {
+              "type": "string",
+              "const": "windows.nt10.x64.win32"
+            },
+            "source_state": {
+              "type": "string",
+              "enum": [
+                "clean",
+                "dirty",
+                "exported"
+              ]
+            }
+          },
+          "required": [
+            "source_revision",
+            "input_digest",
+            "configuration_digest",
+            "image_digest",
+            "target_profile",
+            "source_state"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "operation_id",
+        "attempt_id",
+        "worker_epoch",
+        "capture_epoch",
+        "definition_digest",
+        "host_id",
+        "verifier"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "scope",
+    "authenticity",
+    "latest_image_state",
+    "source_preservation",
+    "physical_admission",
+    "mutation_authority",
+    "request_kind"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-operation-result:1",
+  "title": "Provisional strict verification execution/observation result; logical verdict separate"
+}

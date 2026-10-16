@@ -1,0 +1,350 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.verification-worker-state-prototype/1"
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 42,
+          "pattern": "^verify-op:[0-9a-f]{32}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^attempt:[0-9a-f]{32}$"
+        },
+        "worker_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        "capture_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^capture:[0-9a-f]{32}$"
+        },
+        "definition_digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "x-disked-scalar": "sha256-digest"
+        },
+        "host_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "verifier": {
+          "type": "object",
+          "properties": {
+            "source_revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40,
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "input_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "configuration_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "image_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "target_profile": {
+              "type": "string",
+              "const": "windows.nt10.x64.win32"
+            },
+            "source_state": {
+              "type": "string",
+              "enum": [
+                "clean",
+                "dirty",
+                "exported"
+              ]
+            }
+          },
+          "required": [
+            "source_revision",
+            "input_digest",
+            "configuration_digest",
+            "image_digest",
+            "target_profile",
+            "source_state"
+          ],
+          "additionalProperties": false
+        },
+        "process_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "process_created": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        }
+      },
+      "required": [
+        "operation_id",
+        "attempt_id",
+        "worker_epoch",
+        "capture_epoch",
+        "definition_digest",
+        "host_id",
+        "verifier",
+        "process_id",
+        "process_created"
+      ],
+      "additionalProperties": false
+    },
+    "sequence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "prepared",
+        "verifying",
+        "persisting",
+        "finished"
+      ]
+    },
+    "cancellation_observation": {
+      "type": "string",
+      "enum": [
+        "not_observed",
+        "observed"
+      ]
+    },
+    "observed_filetime": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "quiescent": {
+      "type": "boolean"
+    },
+    "disposition": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "cancelled",
+        "refused",
+        "unknown"
+      ]
+    },
+    "progress": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "consumed_map_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "covered_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "read_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "source_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        },
+        "substituted_bytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "x-disked-scalar": "decimal-u64"
+        }
+      },
+      "required": [
+        "records",
+        "consumed_map_bytes",
+        "covered_bytes",
+        "read_bytes",
+        "source_bytes",
+        "substituted_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "$ref": "urn:disked:schema:acquired-image-verification-outcome:1"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retention": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "empty",
+            "in_flight",
+            "verified",
+            "uncertain"
+          ]
+        },
+        "bytes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$",
+              "x-disked-scalar": "decimal-u64"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "digest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "collection_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "flush": {
+          "type": "string",
+          "enum": [
+            "not_attempted",
+            "uncertain",
+            "api_confirmed"
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "bytes",
+        "digest",
+        "collection_revision",
+        "observation_revision",
+        "flush"
+      ],
+      "additionalProperties": false
+    },
+    "diagnostic": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_]*$"
+    }
+  },
+  "required": [
+    "schema",
+    "binding",
+    "sequence",
+    "phase",
+    "cancellation_observation",
+    "observed_filetime",
+    "quiescent",
+    "disposition",
+    "progress",
+    "outcome",
+    "retention",
+    "diagnostic"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-worker-state:1",
+  "title": "Strict producer verification state; header/history/application validation remains necessary"
+}

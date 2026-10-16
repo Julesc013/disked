@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "properties": {
+    "definition_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "case_read": {
+      "type": "boolean",
+      "const": true
+    },
+    "report_write": {
+      "type": "boolean",
+      "const": true
+    },
+    "store_write": {
+      "type": "boolean",
+      "const": true
+    },
+    "host_effects": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "required": [
+    "definition_digest",
+    "case_read",
+    "report_write",
+    "store_write",
+    "host_effects"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-grant:1",
+  "title": "Private explicit report-worker effect declarations",
+  "description": "Execution declarations bound to the exact wrapper definition digest. Does not authenticate an operator or provide physical/elevated authority."
+}

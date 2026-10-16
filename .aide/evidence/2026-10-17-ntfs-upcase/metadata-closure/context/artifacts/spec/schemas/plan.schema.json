@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:plan:1",
+  "title": "plan",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.plan/1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basis_revision": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "policy_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "provider_closure_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "required_features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provider_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "preconditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "postconditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "safe_cancel_after": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "operation",
+          "target_id",
+          "provider_id",
+          "depends_on",
+          "parameters",
+          "preconditions",
+          "postconditions",
+          "safe_cancel_after"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "recovery_class": {
+      "type": "string",
+      "enum": [
+        "read-only",
+        "replayable",
+        "resumable",
+        "rollback-capable",
+        "forward-only",
+        "backup-required",
+        "forensic-best-effort"
+      ]
+    },
+    "recovery_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "loss_report_digest": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "acknowledgements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "execution_environment": {
+      "type": "string",
+      "enum": [
+        "fake",
+        "image-sandbox",
+        "online",
+        "offline"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "reviewed",
+        "admitted"
+      ]
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "basis_revision",
+    "target_id",
+    "target_fingerprint",
+    "policy_digest",
+    "provider_closure_digest",
+    "required_features",
+    "steps",
+    "recovery_class",
+    "recovery_reference",
+    "loss_report_digest",
+    "acknowledgements",
+    "execution_environment",
+    "status"
+  ],
+  "additionalProperties": false
+}

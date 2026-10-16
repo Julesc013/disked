@@ -1,0 +1,46 @@
+{
+  "schema": "org.disked.ntfs-command-profile/1",
+  "work_id": "DE-W083",
+  "status": "locally-qualified-windows-x64-prototype",
+  "base_revision": "0be854c924e4fe6478c6547d23c0a32b9c8f2056",
+  "scope": "Expose the existing owned ordinary-file NTFS bootstrap through image.inspect and common CLI/stdio/GUI/TUI/shell actions. Continue the original full platform/storage scope; namespace, contents, storage effects and other hosts retain their work and gates.",
+  "ownership": "runtime/capture owns typed NTFS inspection request/read/port, validation, bounded projection and command outcomes. Move the existing private NtfsFileProfile enum into the existing runtime/capture/ntfs_capture.h so both the provider and inspection port consume one inward-owned type. platform/windows/storage binds the existing NtfsWorker; apps/disked composes it and Windows entry selects its compiled role. Extend the existing catalog/schema, not a second registry or scheduler.",
+  "invocation": "image.inspect PATH --view ntfs requires explicit decimal-u64 volume-offset and volume-bytes at least512, with their sum at most9223372036854775807. Add --ntfs-version auto|3.0|3.1, default auto only for ntfs. Map/FAT/exFAT forms remain unchanged and reject this option. NTFS rejects FAT/upcase/logical-block/retention controls and unrelated expected-revision/plan/provider options before source access. Extend the existing u64-window annotation with an optional exact decimal-string x-disked-window-maximum; omission preserves the current u64 limit. Compiled validation and spec tooling must agree.",
+  "native_binding": "Pin read-only ordinary-file source and ancestors before obtaining metadata. Reuse the verified NtfsWorker, exact source precondition, nonzero capture epoch, original NtfsCaptureLimits, owned executable/process/job and strict retained-byte replay. The source opens for content in the released owned child. Preserve callback/session/source and occupied request slot until actual exit; frontend timeout returns unknown without replacement, replay or late unsolicited delivery. No raw devices, elevation, mount, install, source mutation or output creation.",
+  "projection": "org.disked.ntfs-inspection/1 carries command image.inspect, scope ordinary-local-file-ntfs, applicability_scope boot-mft0-mirror0-volume-information, requested_version, original file/capture canonical SHA256, complete capture/context/retirement and an explicitly versioned org.disked.ntfs-bootstrap-projection/1 observation retaining original_schema. Preserve all bootstrap scalar facts. Replace regions with a prefix wrapper capped128 rows/32768 encoded bytes. Preserve the existing MFT summary including its decimal-string runs count; actual mapping lists remain in the primary/mirror attribute observations. For each observed primary/mirror/volume_record, project each present attribute run list at64/8192 and then the attribute list at128/65536. A wrapper contains items, decimal-string total/returned/omitted and sha256 of the ORIGINAL complete list before nested projection. Prefix charges are compact canonical row bytes plus one delimiter. Empty/unobserved records remain inspectable without invented lists. Bound original file/observation context under the existing8MiB private value limits; complete response including envelope must fit524288 bytes or produce failed4 ntfs_report_limit. Counts and hashes distinguish presentation omission from acquisition completeness. No full filesystem health, atomic snapshot, current-source access, writer or stable storage ABI claim.",
+  "outcomes": "Applicable, complete, observed-stable bootstrap with metadata/binding/replay/profile agreement returns completed0. Incomplete, unsupported, budget-limited, version-mismatched or malformed metadata that withdraws bootstrap applicability returns failed4 ntfs_capture_incomplete and retains the specific observation diagnostic. Preserve the existing DE-W077 distinction: boot55AA/checksum issues are advisory and may accompany completed0 when the bootstrap remains applicable; this is not a whole-filesystem health result. Source disagreement separately returns failed4 ntfs_source_changed. Invalid CLI schema relationships return refused2 invalid_option_value (missing required input: missing_parameter); constructed invalid known-field service parameters return refused2 invalid_parameter, before opening source. Existing registry preflight rejects an unknown parameter with refused2 unexpected_parameter; the pure inspection decoder uses invalid_parameter for its invalid shape. Path/profile/service unavailability returns refused3; actual owned reader publication/wait/binding uncertainty returns unknown6 with actual worker state where available. Unexpected implementation failure returns failed4 internal_error. No durable operation ID is allocated for this read-only request.",
+  "testing": "Generated ordinary images only. Define independent3.0/3.1 auto/explicit/mismatch, fragmented/nonzero-window, malformed boot/record/attribute/version and projection expectations before evaluation. Exercise native CLI/stdio and actual owned GUI/TUI/shell, inert review, source preservation, strict invalid requests before source, normal binary ignoring private controls, source/change/read errors, corrupted reply, hang and controlled late completion with pinned source/occupied slot/cached discovery/no unsolicited result. Separate existing NTFS snapshot/file/worker fault libraries and a private fault product from normal code. Pure-port tests verify nested original-list digests, exact prefix counts/budgets, incomplete shapes and output ceilings. Run applicable existing map/FAT/exFAT/shared frontend/worker tests and one complete clean current native campaign after shared app changes. Preserve every original failure; do not increase deadlines or weaken expected outcomes.",
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "expected_outputs_defined_before_evaluation": true,
+  "contract_amendment": {
+    "reason": "The first product test exposed the new projection treating the existing mft.runs scalar count as an array. The authoritative NTFS reader defines the mapping lists inside attributes. Preserve the scalar and test the real lists; byte/count/time limits and required frontend/NTFS scope are unchanged.",
+    "prior_contract": ".aide/evidence/2026-10-16-ntfs-command/working/first-failed/contract.json",
+    "prior_native_exit_code": 8,
+    "prior_native_passed": false
+  },
+  "advisory_reconciliation": {
+    "authority": "spec/catalog/ntfs-boot-prototype.json#diagnostics",
+    "reason": "The second native run passes all six version/profile CLI/stdio pairs, then the test incorrectly expects an advisory missing55AA marker to withdraw bootstrap applicability. Preserve the existing geometry/bootstrap contract; add explicit advisory success with issue flags and a separate invalid-sector failure.",
+    "failure": ".aide/evidence/2026-10-16-ntfs-command/working/advisory-expectation-failed/native-corrected.log",
+    "limits_weakened": false
+  },
+  "protocol_reconciliation": {
+    "reason": "The extended working test confirms identity binding and both invalid protocol relationships, then incorrectly expects the generic invalid_parameter code for an unknown field. Preserve the existing command preflight unexpected_parameter outcome; no runtime or exit-policy change.",
+    "failure": ".aide/evidence/2026-10-16-ntfs-command/working/protocol-expectation-failed/native-identity.log"
+  },
+  "qualification": {
+    "source_revision": "b985adf2f05281b3cfa82db7f47799f128b8fbdd",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-command/qualified-b985adf2/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-command/REVIEW.md",
+    "native_groups": 154,
+    "ntfs_cases": 50,
+    "standalone_headers": 59,
+    "tooling_tests": 244,
+    "tooling_skipped": 2,
+    "owner_accepted": false,
+    "full_0_1_0_complete": false
+  },
+  "closure_extension": "DE-W086 extends the same path with source-bound resident/nonresident lists and MFT/Volume extension closure. See ntfs-closure-prototype.json. Preserve scalar mft.runs; project record_closures.*.extensions (nested record attributes/runs) at128/65536, join.records/parts at128/32768 and join.runs/required_records at64/8192 with original-list SHA256 and exact total/returned/omitted. Earlier qualification remains revision-bound, not evidence of this extension."
+}

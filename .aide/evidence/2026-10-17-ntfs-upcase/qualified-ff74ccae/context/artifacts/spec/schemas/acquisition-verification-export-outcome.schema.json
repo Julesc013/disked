@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-verification-export-outcome:1",
+  "title": "Provisional joined source observations and independent output outcome",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "status", "diagnostic", "source_checks", "source_observations", "output", "scope", "authenticity", "custody_authentication", "current_image_state", "power_loss_persistence"],
+  "properties": {
+    "schema": {"const": "org.disked.acquisition-verification-export-outcome-prototype/1"},
+    "status": {"enum": ["refused", "failed", "cancelled", "completed", "unknown"]},
+    "diagnostic": {"type": ["null", "string"], "maxLength": 256},
+    "source_checks": {"$ref": "#/$defs/u64"},
+    "source_observations": {
+      "type": "object", "additionalProperties": false, "required": ["case", "collection"],
+      "properties": {"case": {"$ref": "#/$defs/observation"}, "collection": {"$ref": "#/$defs/observation"}}
+    },
+    "output": {"$ref": "urn:disked:schema:acquisition-case-export-outcome:1#/properties/output"},
+    "scope": {"const": "recorded-acquisition-verification-support-export"},
+    "authenticity": {"const": "not_established"},
+    "custody_authentication": {"const": "not_established"},
+    "current_image_state": {"const": "not_established"},
+    "power_loss_persistence": {"const": "not_established"}
+  },
+  "$defs": {
+    "u64": {"type": "string", "pattern": "^(0|[1-9][0-9]{0,19})$"},
+    "observation": {
+      "type": "object", "additionalProperties": false, "required": ["state", "check_sequence"],
+      "properties": {"state": {"enum": ["not_observed", "matched", "changed", "unresolved"]}, "check_sequence": {"$ref": "#/$defs/u64"}}
+    }
+  }
+}

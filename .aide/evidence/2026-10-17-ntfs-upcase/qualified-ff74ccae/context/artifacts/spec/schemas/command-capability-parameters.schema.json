@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-capability-parameters:1",
+  "title": "command-capability-parameters",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    }
+  },
+  "required": [
+    "target_id",
+    "operation"
+  ],
+  "additionalProperties": false
+}

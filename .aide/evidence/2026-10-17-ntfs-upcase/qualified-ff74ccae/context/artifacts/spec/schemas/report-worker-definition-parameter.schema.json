@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-definition-parameter:1",
+  "title": "Closed provisional command parameter: explicit acquisition-only or joined worker definition",
+  "type": "object",
+  "required": ["schema"],
+  "properties": {
+    "schema": {"enum": ["org.disked.report-worker-definition-prototype/1", "org.disked.report-worker-definition-prototype/2"]}
+  },
+  "allOf": [{
+    "if": {"properties": {"schema": {"const": "org.disked.report-worker-definition-prototype/1"}}},
+    "then": {"$ref": "urn:disked:schema:report-worker-definition:1"},
+    "else": {"$ref": "urn:disked:schema:report-worker-definition:2"}
+  }]
+}

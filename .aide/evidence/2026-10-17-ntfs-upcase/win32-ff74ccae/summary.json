@@ -1,0 +1,126 @@
+{
+  "status": "pass",
+  "source_revision": "ff74ccae18764ef54a6ad16a472ec59779e87b1c",
+  "observed_at": "2026-10-16T14:42:37.177373+00:00",
+  "host": "Windows-10-10.0.19045-SP0",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "Win32,version=10.0.19041.0",
+        "-T",
+        "v143,version=14.44.35207,host=x64",
+        "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 8.671566900098696,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 8.388753600185737,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 2.1765829001087695,
+      "log": "native.log"
+    },
+    {
+      "name": "headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/headers",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\Release\\ntfs_upcase_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 0.3431511998642236,
+      "log": "headers.log"
+    },
+    {
+      "name": "imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/imports",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\Release\\ntfs_upcase_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 0.07953660003840923,
+      "log": "imports.log"
+    },
+    {
+      "name": "dependents",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/dependents",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\Release\\ntfs_upcase_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 0.07252879999577999,
+      "log": "dependents.log"
+    }
+  ],
+  "recipe_sha256": "sha256:85cde2801f2452bde32c1117b29bf1dbeb0c0fe75688c49e1c75ba3629e059e5",
+  "scope": "Two private supplied-table tests and C/C++ NTFS headers under Win32/WOW64. Actual closure derived from same-source x64 codemodel. Not full Win32 product,16-bit/DOS, big-endian or historical-host qualification.",
+  "full_win32_product_qualified": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "native_groups": 2,
+  "mapping_units": 327680,
+  "comparison_cases": 2520,
+  "artifact": {
+    "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\Release\\ntfs_upcase_probe.exe",
+    "sha256": "sha256:1045a43befef5e0b37cb22a29afce3deb98f40736efd804844183dd66bfbd4ed",
+    "bytes": 248320
+  },
+  "header_artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\ntfs_fixture_headers.dir\\Release\\header.c.obj",
+      "sha256": "sha256:8ef73ae60dc524e4b8578a7775137a50882f0da0d0612a14c0587cc62d867c01"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-win32-ff74ccae\\build\\ntfs_fixture_headers.dir\\Release\\header.cpp.obj",
+      "sha256": "sha256:a34b5dac91cb7c922d3e7cb68a7808bfc8d9f1dcd563902710bb8c5130b6b7c3"
+    }
+  ],
+  "inputs_unchanged": true,
+  "checkout_clean": true
+}

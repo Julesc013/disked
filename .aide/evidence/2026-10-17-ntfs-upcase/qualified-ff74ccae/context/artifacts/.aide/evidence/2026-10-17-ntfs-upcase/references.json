@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-16T14:21:37.176211+00:00",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/super.c",
+      "bytes": 49949,
+      "sha256": "sha256:71b006972da0e39dbc11c32016fbb53a7c411efb6b9fbcc03f0f518135a11bac",
+      "retrieval": "GitHub read-only contents API; raw download returned HTTP429."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/upcase.c",
+      "bytes": 2401,
+      "sha256": "sha256:daad6dc03944129302bb9a4988976a7241a18071f4824fa4cdf34f64696e4acd",
+      "retrieval": "GitHub read-only contents API; raw download returned HTTP429."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/b04c3bd0-79dc-4e58-b8ed-74f19fc2ea0a",
+      "scope": "Microsoft identifies $UpCase as the uppercase table for collation; read with web tool, raw page bytes not bound here."
+    }
+  ],
+  "use": "Functional format references only; no upstream implementation copied, compiled or executed.",
+  "interpretation": "Pinned NTFS3 super.c requires65536 unsigned16-bit entries. upcase.c supplies comparison context, but its ASCII shortcut and optional raw tie-break are not adopted as universal filesystem policy. This primitive reads all supplied entries exactly and returns both orders separately. No complete namespace/collation or source-binding claim."
+}

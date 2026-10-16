@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-15T20:15:36.893398+00:00",
+  "source_use": "Functional format facts only; independently authored implementation/fixtures. No fetched code is compiled or executed.",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/mft-segment-reference",
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-record-segment-header",
+    "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-list-entry",
+    "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/attrib.c"
+  ],
+  "findings": [
+    "MFT references retain a48-bit record index and16-bit sequence; zero sequence is reserved. A referenced FILE sequence must match exactly, never act as a wildcard.",
+    "Base FILE has zero base reference; an extension carries the exact base reference. Existing bounded restoration validates every update-sequence tail.",
+    "Pinned attribute lookup matches instance, type and case-sensitive original name; the first nonresident extent owns stream sizes. Continuation size fields are not authoritative.",
+    "This unit verifies supplied capture-context assertions and raw record relationships, not physical provenance, freshness, namespace, allocation ownership or authority. Native acquisition must establish those assertions separately."
+  ]
+}

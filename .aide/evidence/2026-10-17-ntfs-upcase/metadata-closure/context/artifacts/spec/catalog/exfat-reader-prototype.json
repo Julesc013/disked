@@ -1,0 +1,23 @@
+{
+  "schema": "org.disked.exfat-reader-profile/1",
+  "work_id": "DE-W058",
+  "status": "locally-qualified-private-supplied-byte-decoder",
+  "base_revision": "548152f679a67b54dbcdf67a4de9d88a76c255d2",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+  "scope": "Private C90 borrowed supplied-byte exFAT1.00 boot region/geometry/allocation cells; no host IO, mount, traversal, repair, writer or product dispatch. Preserve full all-platform/storage0.1.0 programme.",
+  "ownership": "source/portable/exfat/exfat.h and boot.c behind the existing checked/view layer; no alternate FAT decoder or public ABI.",
+  "api": "Caller supplies one bounded12-sector region and separately available volume bytes. Decode exact raw fields, main/backup role, issues and usability. No native64 type, allocation proportional to geometry or host callback. Invalid call/overlong view preserves output; truncated metadata returns observation with explicit issues.",
+  "bounds": "Maximum49152 supplied bytes (12*4096). Read fixed512 prefix only when present; sector shift9..12 and cluster shift0..25-sector. Exact12-sector bound for checksum validation; no inferred reading beyond borrowed bytes.",
+  "validation": "Recognize exact signature/jump/name/zero prefix; validate revision1.00 profile, one/two FAT structural flags without asserting TexFAT transactions, percent0..100/255, root/data/table ranges and checked u64 byte conversions. FAT length enough for clusterCount+2 four-byte cells; cluster count exactly min(floor((volumeLength-heapOffset)/clusterSectors),2^32-11). No usable geometry unless complete checksum and required field constraints pass. Backup flag/percent facts explicitly stale.",
+  "checksum": "Independent32bit rotate-right-one/add byte modulo2^32 over11 sectors, omit byte106/107/112 only in boot sector. Every32bit word of sector11 must match. Extended-sector signatures and reserved-sector bytes have separate issues; undefined OEM/boot/excess bytes retain raw bytes and enter checksum.",
+  "allocation": "Supplied4byte cells classify headers, next within cluster bounds, bad/end and raw invalid/free/unallocated observations. The allocation bitmap is authoritative for allocated/free state and remains unimplemented; a zero FAT cell alone proves no free allocation. No FAT-chain or NoFatChain support claim yet.",
+  "acceptance": [
+    "Independent Python integer/byte/checksum geometry oracle with sector512/1024/2048/4096, single/twoFAT, main/backup, min/max/u64overflow and exact region boundaries.",
+    "Truncation and inaccessible-tail/overlong views preserve output/bounds; mutations with recomputed checksum still reject contradictory geometry/version/flags/root/table.",
+    "All checksum words, excluded mutable fields, OEM/extended/reserved bytes and unchanged caller input verified; twoFAT does not qualify TexFAT switching.",
+    "Exact native compiler/header/import/artifact and regression evidence; no filesystem health, physical/provider/frontend/other-host/full0.1.0 qualification."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false
+}

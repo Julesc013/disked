@@ -1,0 +1,35 @@
+#pragma once
+#include "region_reader.h"
+#include "fat_namespace.h"
+#include "runtime/command/json.h"
+#include <cstdint>
+#include <string>
+
+namespace disked {
+struct FatAllocationWindow {
+    std::uint32_t first_cluster = 0, clusters = 0;
+};
+struct FatCaptureLimits {
+    std::size_t nodes = 128, depth = 8, chain_clusters = 1024, total_clusters = 4096;
+    std::size_t records = 4096, read_requests = 8192, read_bytes = 2097152;
+    std::size_t orphan_groups = 128, output_bytes = 1048576, compare_copies = 16;
+    std::size_t allocation_clusters = 262144, allocation_findings = 128;
+};
+struct FatCaptureRequest {
+    std::string source_id;
+    std::uint64_t epoch = 0, source_bytes = 0, volume_offset = 0, volume_bytes = 0;
+    std::uint32_t fat_copy = 0;
+    bool allocation_scan = false;
+    FatAllocationWindow allocation_window;
+    bool auxiliary_checks = false;
+    const FatNameConsumer *namespace_consumer = nullptr;
+    std::vector<FatNameQuery> namespace_queries;
+    FatNamespaceLimits namespace_limits;
+    FatCaptureLimits limits;
+};
+// Private supplied-reader observation. Limits/geometry are checked; returned
+// JSON owns all metadata. No source identity/freshness, extraction or writer grant.
+json::Value observe_fat_volume(const FatCaptureRequest &, const RegionReader &);
+void validate_fat_capture_request(const FatCaptureRequest &);
+void withdraw_fat_allocation_window_applicability(json::Value &);
+} // namespace disked

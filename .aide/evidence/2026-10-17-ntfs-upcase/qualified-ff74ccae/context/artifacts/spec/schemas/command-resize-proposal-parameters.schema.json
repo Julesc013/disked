@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-resize-proposal-parameters:1",
+  "title": "command-resize-proposal-parameters",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "length": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*(B|KiB|MiB|GiB|TiB)$",
+      "x-disked-scalar": "positive-byte-quantity"
+    }
+  },
+  "required": [
+    "target_id",
+    "length"
+  ],
+  "additionalProperties": false
+}

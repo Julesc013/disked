@@ -1,0 +1,379 @@
+{
+  "schema": "org.disked.invocation-fixtures/1",
+  "scope": "pure policy oracle; native OS launch not tested",
+  "cases": [
+    {
+      "id": "machine-bare",
+      "inputs": {
+        "format": "json"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "json",
+        "interactive": false,
+        "reason": "machine-output"
+      }
+    },
+    {
+      "id": "conflict-gui-json",
+      "inputs": {
+        "frontend": "gui",
+        "format": "json"
+      },
+      "expected": {
+        "error": "argument_conflict"
+      }
+    },
+    {
+      "id": "explicit-gui-redirect",
+      "inputs": {
+        "frontend": "gui",
+        "stdout": "pipe",
+        "display": true,
+        "gui_available": true
+      },
+      "expected": {
+        "frontend": "gui",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-frontend"
+      }
+    },
+    {
+      "id": "explicit-gui-missing",
+      "inputs": {
+        "frontend": "gui",
+        "gui_available": false
+      },
+      "expected": {
+        "error": "frontend_unavailable"
+      }
+    },
+    {
+      "id": "explicit-tui-headless",
+      "inputs": {
+        "frontend": "tui",
+        "terminal": "none"
+      },
+      "expected": {
+        "error": "frontend_unavailable"
+      }
+    },
+    {
+      "id": "command-terminal",
+      "inputs": {
+        "command": true,
+        "terminal": "capable",
+        "console_owner": "caller"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": false,
+        "reason": "explicit-command"
+      }
+    },
+    {
+      "id": "bare-inherited-terminal",
+      "inputs": {
+        "terminal": "capable",
+        "console_owner": "caller"
+      },
+      "expected": {
+        "frontend": "tui",
+        "format": "human",
+        "interactive": true,
+        "reason": "interactive-terminal"
+      }
+    },
+    {
+      "id": "desktop-with-created-console",
+      "inputs": {
+        "terminal": "capable",
+        "console_owner": "self",
+        "desktop": true,
+        "display": true,
+        "gui_available": true
+      },
+      "expected": {
+        "frontend": "gui",
+        "format": "human",
+        "interactive": true,
+        "reason": "desktop-activation"
+      }
+    },
+    {
+      "id": "bare-piped",
+      "inputs": {
+        "stdin": "pipe",
+        "terminal": "capable"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": false,
+        "reason": "redirected-stream"
+      }
+    },
+    {
+      "id": "no-handles-desktop",
+      "inputs": {
+        "stdin": "absent",
+        "stdout": "absent",
+        "display": true,
+        "gui_available": true,
+        "desktop": true
+      },
+      "expected": {
+        "frontend": "gui",
+        "format": "human",
+        "interactive": true,
+        "reason": "desktop-activation"
+      }
+    },
+    {
+      "id": "dumb-terminal",
+      "inputs": {
+        "terminal": "limited",
+        "console_owner": "caller"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "limited-terminal"
+      }
+    },
+    {
+      "id": "bare-headless",
+      "inputs": {
+        "terminal": "none",
+        "display": false
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
+    },
+    {
+      "id": "unknown-created-console",
+      "inputs": {
+        "terminal": "capable",
+        "console_owner": "unknown",
+        "display": false
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "ambiguous-launch"
+      }
+    },
+    {
+      "id": "auto-desktop-missing-gui",
+      "inputs": {
+        "desktop": true,
+        "display": true,
+        "gui_available": false,
+        "terminal": "none"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
+    },
+    {
+      "id": "explicit-cli",
+      "inputs": {
+        "frontend": "cli",
+        "terminal": "capable"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": false,
+        "reason": "explicit-frontend"
+      }
+    },
+    {
+      "id": "machine-conflicting-interactive",
+      "inputs": {
+        "format": "json",
+        "interactive": "yes"
+      },
+      "expected": {
+        "error": "argument_conflict"
+      }
+    },
+    {
+      "id": "explicit-tui-limited",
+      "inputs": {
+        "frontend": "tui",
+        "terminal": "limited"
+      },
+      "expected": {
+        "frontend": "tui",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-frontend"
+      }
+    },
+    {
+      "id": "domain-command-desktop",
+      "inputs": {
+        "command": true,
+        "desktop": true,
+        "display": true
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": false,
+        "reason": "explicit-command"
+      }
+    },
+    {
+      "id": "explicit-no-interaction",
+      "inputs": {
+        "interactive": "no",
+        "terminal": "capable",
+        "console_owner": "caller"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": false,
+        "reason": "noninteractive-request"
+      }
+    },
+    {
+      "id": "explicit-tui-no-interaction",
+      "inputs": {
+        "frontend": "tui",
+        "interactive": "no",
+        "terminal": "capable"
+      },
+      "expected": {
+        "error": "argument_conflict"
+      }
+    },
+    {
+      "id": "explicit-gui-no-interaction",
+      "inputs": {
+        "frontend": "gui",
+        "interactive": "no",
+        "gui_available": true,
+        "display": true
+      },
+      "expected": {
+        "error": "argument_conflict"
+      }
+    },
+    {
+      "id": "explicit-cli-prompts",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "capable"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-frontend"
+      }
+    },
+    {
+      "id": "inferred-cli-prompts",
+      "inputs": {
+        "command": true,
+        "interactive": "yes",
+        "terminal": "limited"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-command"
+      }
+    },
+    {
+      "id": "explicit-prompts-no-channel",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "none"
+      },
+      "expected": {
+        "error": "interaction_unavailable"
+      }
+    },
+    {
+      "id": "explicit-prompts-redirected",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "capable",
+        "stdout": "pipe"
+      },
+      "expected": {
+        "error": "interaction_unavailable"
+      }
+    },
+    {
+      "id": "explicit-tui-not-composed",
+      "inputs": {
+        "frontend": "tui",
+        "terminal": "capable",
+        "tui_available": false
+      },
+      "expected": {
+        "error": "frontend_unavailable"
+      }
+    },
+    {
+      "id": "auto-tui-not-composed",
+      "inputs": {
+        "terminal": "capable",
+        "console_owner": "caller",
+        "tui_available": false
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "tui-unavailable"
+      }
+    },
+    {
+      "id": "bare-absent-handles",
+      "inputs": {
+        "stdin": "absent",
+        "stdout": "absent"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
+    },
+    {
+      "id": "bare-invalid-handles",
+      "inputs": {
+        "stdin": "invalid",
+        "stdout": "invalid"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
+    }
+  ]
+}

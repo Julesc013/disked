@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:input-registry:1",
+  "title": "input-registry:1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.input-registry/1"
+    },
+    "always": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:disked:schema:required-input:1"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "always",
+    "inputs"
+  ],
+  "additionalProperties": false
+}

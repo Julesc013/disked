@@ -1,0 +1,404 @@
+Start testing: Oct 17 01:45 AUS Eastern Daylight Time
+----------------------------------------------------------
+21/170 Testing: build.boundaries
+21/170 Test: build.boundaries
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tools/check-build-boundaries.py" "--root" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source" "--build" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/build-boundaries.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"build.boundaries" start time: Oct 17 01:45 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+{
+  "status": "PASS",
+  "target_count": 309,
+  "compiled_source_entries": 716,
+  "quoted_include_edges": 8410,
+  "violations": []
+}
+<end of output>
+Test time =   5.76 sec
+----------------------------------------------------------
+Test Passed.
+"build.boundaries" end time: Oct 17 01:45 AUS Eastern Daylight Time
+"build.boundaries" time elapsed: 00:00:05
+----------------------------------------------------------
+
+22/170 Testing: build.boundary_checker
+22/170 Test: build.boundary_checker
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "-m" "unittest" "discover" "-s" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/tools" "-p" "test_build_boundaries.py" "-v"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"build.boundary_checker" start time: Oct 17 01:45 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_ambiguous_header_even_if_compiler_would_pick_first (test_build_boundaries.BoundaryTests.test_ambiguous_header_even_if_compiler_would_pick_first) ... ok
+test_bare_cross_module_header_is_rejected_even_if_it_resolves (test_build_boundaries.BoundaryTests.test_bare_cross_module_header_is_rejected_even_if_it_resolves) ... ok
+test_build_dependency_does_not_supply_compile_visibility (test_build_boundaries.BoundaryTests.test_build_dependency_does_not_supply_compile_visibility) ... ok
+test_compile_only_false_guard_does_not_add_dependency (test_build_boundaries.BoundaryTests.test_compile_only_false_guard_does_not_add_dependency) ... ok
+test_compile_only_guard_cannot_be_redefined (test_build_boundaries.BoundaryTests.test_compile_only_guard_cannot_be_redefined) ... ok
+test_dynamic_crt_does_not_satisfy_static_crt (test_build_boundaries.BoundaryTests.test_dynamic_crt_does_not_satisfy_static_crt) ... ok
+test_equivalent_msvc_dash_options (test_build_boundaries.BoundaryTests.test_equivalent_msvc_dash_options) ... ok
+test_exported_header_requires_owner (test_build_boundaries.BoundaryTests.test_exported_header_requires_owner) ... ok
+test_file_api_reply_must_belong_to_checkout (test_build_boundaries.BoundaryTests.test_file_api_reply_must_belong_to_checkout) ... ok
+test_frontend_model_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_frontend_model_cannot_depend_on_provider) ... ok
+test_header_ownership_requires_codemodel_source (test_build_boundaries.BoundaryTests.test_header_ownership_requires_codemodel_source) ... ok
+test_json_cannot_absorb_command_implementation (test_build_boundaries.BoundaryTests.test_json_cannot_absorb_command_implementation) ... ok
+test_missing_header (test_build_boundaries.BoundaryTests.test_missing_header) ... ok
+test_mixed_library_cannot_bypass_layer_check (test_build_boundaries.BoundaryTests.test_mixed_library_cannot_bypass_layer_check) ... ok
+test_per_target_c90_contract (test_build_boundaries.BoundaryTests.test_per_target_c90_contract) ... ok
+test_per_target_options_cannot_be_weakened (test_build_boundaries.BoundaryTests.test_per_target_options_cannot_be_weakened) ... ok
+test_per_target_standard_cannot_be_changed (test_build_boundaries.BoundaryTests.test_per_target_standard_cannot_be_changed) ... ok
+test_portable_cannot_depend_on_runtime (test_build_boundaries.BoundaryTests.test_portable_cannot_depend_on_runtime) ... ok
+test_private_link_does_not_leak_headers_to_consumer (test_build_boundaries.BoundaryTests.test_private_link_does_not_leak_headers_to_consumer) ... ok
+test_projection_cannot_be_missing (test_build_boundaries.BoundaryTests.test_projection_cannot_be_missing) ... ok
+test_public_interface_supplies_transitive_headers (test_build_boundaries.BoundaryTests.test_public_interface_supplies_transitive_headers) ... ok
+test_qualified_header_visibility (test_build_boundaries.BoundaryTests.test_qualified_header_visibility) ... ok
+test_runtime_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_depend_on_provider) ... ok
+test_runtime_cannot_include_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_include_provider) ... ok
+test_transitive_consumer_contamination (test_build_boundaries.BoundaryTests.test_transitive_consumer_contamination) ... ok
+test_unexported_header_is_private (test_build_boundaries.BoundaryTests.test_unexported_header_is_private) ... ok
+test_unknown_guard_stays_conservative (test_build_boundaries.BoundaryTests.test_unknown_guard_stays_conservative) ... ok
+test_unknown_usage_target_refuses (test_build_boundaries.BoundaryTests.test_unknown_usage_target_refuses) ... ok
+test_unresolved_build_dependency (test_build_boundaries.BoundaryTests.test_unresolved_build_dependency) ... ok
+test_valid_generated_graph_and_header_resolution (test_build_boundaries.BoundaryTests.test_valid_generated_graph_and_header_resolution) ... ok
+test_weakened_compiler_options (test_build_boundaries.BoundaryTests.test_weakened_compiler_options) ... ok
+test_wrong_case_does_not_qualify_portable_header_spelling (test_build_boundaries.BoundaryTests.test_wrong_case_does_not_qualify_portable_header_spelling) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.313s
+
+OK
+<end of output>
+Test time =   0.51 sec
+----------------------------------------------------------
+Test Passed.
+"build.boundary_checker" end time: Oct 17 01:45 AUS Eastern Daylight Time
+"build.boundary_checker" time elapsed: 00:00:00
+----------------------------------------------------------
+
+74/170 Testing: portable.ntfs_record
+74/170 Test: portable.ntfs_record
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_record.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_record_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-record-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_record" start time: Oct 17 01:45 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+964 supplied-byte NTFS record cases passed; guard-page/read-only input; no volume/provider claim
+<end of output>
+Test time =   1.07 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_record" end time: Oct 17 01:45 AUS Eastern Daylight Time
+"portable.ntfs_record" time elapsed: 00:00:01
+----------------------------------------------------------
+
+75/170 Testing: portable.ntfs_boot
+75/170 Test: portable.ntfs_boot
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_boot.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_boot_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-boot-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_boot" start time: Oct 17 01:45 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+1729 NTFS boot/seed cases passed; protected read-only bytes; no volume/provider claim
+<end of output>
+Test time =   1.50 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_boot" end time: Oct 17 01:45 AUS Eastern Daylight Time
+"portable.ntfs_boot" time elapsed: 00:00:01
+----------------------------------------------------------
+
+76/170 Testing: portable.ntfs_index
+76/170 Test: portable.ntfs_index
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_index.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_index_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-index-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_index" start time: Oct 17 01:45 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+1502 guarded filename/index cases passed
+<end of output>
+Test time =   5.07 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_index" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_index" time elapsed: 00:00:05
+----------------------------------------------------------
+
+77/170 Testing: portable.ntfs_upcase
+77/170 Test: portable.ntfs_upcase
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_upcase.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_upcase_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-upcase-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_upcase" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+{"status": "pass", "mapping_units": 327680, "comparison_cases": 2520}
+<end of output>
+Test time =   0.47 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_upcase" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_upcase" time elapsed: 00:00:00
+----------------------------------------------------------
+
+78/170 Testing: portable.ntfs_upcase_guard
+78/170 Test: portable.ntfs_upcase_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_upcase_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_upcase_guard" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+{"status":"pass","guard_cases":78}
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_upcase_guard" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_upcase_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/170 Testing: portable.ntfs_block
+79/170 Test: portable.ntfs_block
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_block.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_block_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-block-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_block" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+1230 guarded INDX cases passed
+<end of output>
+Test time =   3.32 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_block" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_block" time elapsed: 00:00:03
+----------------------------------------------------------
+
+80/170 Testing: portable.ntfs_list
+80/170 Test: portable.ntfs_list
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_list.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_list_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-list-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_list" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+561 protected-byte NTFS list cases passed
+<end of output>
+Test time =   1.28 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_list" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_list" time elapsed: 00:00:01
+----------------------------------------------------------
+
+81/170 Testing: portable.ntfs_attributes
+81/170 Test: portable.ntfs_attributes
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_attributes.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_attributes_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-attributes-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_attributes" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+259 post-fixup NTFS attribute cases passed; no volume/content authority
+<end of output>
+Test time =   0.54 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_attributes" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_attributes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+82/170 Testing: portable.ntfs_runlist
+82/170 Test: portable.ntfs_runlist
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_ntfs_runlist.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_attributes_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-runlist-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.ntfs_runlist" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+632 canonical NTFS mapping cases passed; no source/content authority
+<end of output>
+Test time =   0.55 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_runlist" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.ntfs_runlist" time elapsed: 00:00:00
+----------------------------------------------------------
+
+83/170 Testing: image.ntfs_names
+83/170 Test: image.ntfs_names
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_names.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_names_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-names-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_names" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+247 protected filename-instance cases passed
+<end of output>
+Test time =   1.50 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_names" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_names" time elapsed: 00:00:01
+----------------------------------------------------------
+
+84/170 Testing: image.ntfs_stream
+84/170 Test: image.ntfs_stream
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_stream.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_stream_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-stream-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_stream" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+298 protected-record stream cases passed
+<end of output>
+Test time =   1.00 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_stream" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_stream" time elapsed: 00:00:00
+----------------------------------------------------------
+
+85/170 Testing: image.ntfs_capture
+85/170 Test: image.ntfs_capture
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_capture.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_capture_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-capture-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_capture" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Passed 155 independent supplied-reader NTFS capture cases.
+<end of output>
+Test time =   0.66 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_capture" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_capture" time elapsed: 00:00:00
+----------------------------------------------------------
+
+86/170 Testing: image.ntfs_closure
+86/170 Test: image.ntfs_closure
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_closure.py" "--capture" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_capture_probe.exe" "--join" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_stream_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-closure-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_closure" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+134 source/binding closure cases passed
+<end of output>
+Test time =   1.05 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_closure" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_closure" time elapsed: 00:00:01
+----------------------------------------------------------
+
+87/170 Testing: image.ntfs_directory
+87/170 Test: image.ntfs_directory
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_directory.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_capture_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-directory-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_directory" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+227 guarded source-bound directory cases passed
+<end of output>
+Test time =   1.73 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_directory" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_directory" time elapsed: 00:00:01
+----------------------------------------------------------
+
+88/170 Testing: image.ntfs_membership
+88/170 Test: image.ntfs_membership
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/images/test_ntfs_membership.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/ntfs_capture_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/ntfs-membership-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"image.ntfs_membership" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+193 guarded source-bound membership cases passed
+<end of output>
+Test time =   1.87 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_membership" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"image.ntfs_membership" time elapsed: 00:00:01
+----------------------------------------------------------
+
+95/170 Testing: portable.exfat_upcase
+95/170 Test: portable.exfat_upcase
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_exfat_upcase.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/exfat_upcase_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/exfat-upcase-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.exfat_upcase" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_api_budget_offset_capacity_and_pending_drain (__main__.Tests.test_api_budget_offset_capacity_and_pending_drain) ... ok
+test_complete_literal_compressed_and_all_mappings (__main__.Tests.test_complete_literal_compressed_and_all_mappings) ... ok
+test_descriptor_and_invalid_lengths (__main__.Tests.test_descriptor_and_invalid_lengths) ... ok
+test_descriptor_types_clusters_and_capacity (__main__.Tests.test_descriptor_types_clusters_and_capacity) ... ok
+test_every_word_and_run_split (__main__.Tests.test_every_word_and_run_split) ... ok
+test_literal_one_byte_streaming (__main__.Tests.test_literal_one_byte_streaming) ... ok
+test_name_lengths_volume_maps_and_collision (__main__.Tests.test_name_lengths_volume_maps_and_collision) ... ok
+test_rehashed_malformed_and_checksum (__main__.Tests.test_rehashed_malformed_and_checksum) ... ok
+test_seeded_custom_maps_and_every_compressed_byte (__main__.Tests.test_seeded_custom_maps_and_every_compressed_byte) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.906s
+
+OK
+<end of output>
+Test time =   3.07 sec
+----------------------------------------------------------
+Test Passed.
+"portable.exfat_upcase" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.exfat_upcase" time elapsed: 00:00:03
+----------------------------------------------------------
+
+96/170 Testing: portable.exfat_upcase_guard
+96/170 Test: portable.exfat_upcase_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/exfat_upcase_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.exfat_upcase_guard" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+guard passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"portable.exfat_upcase_guard" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.exfat_upcase_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+136/170 Testing: portable.checked
+136/170 Test: portable.checked
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-member-source/tests/property/test_primitives.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/portable_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.checked" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_aliases_and_invalid_internal_objects (__main__.Portable.test_aliases_and_invalid_internal_objects) ... ok
+test_bounded_views (__main__.Portable.test_bounded_views) ... ok
+test_checked_arithmetic (__main__.Portable.test_checked_arithmetic) ... ok
+test_endian_reads_writes (__main__.Portable.test_endian_reads_writes) ... ok
+test_extents_and_units (__main__.Portable.test_extents_and_units) ... ok
+test_space_geometry_and_overlap (__main__.Portable.test_space_geometry_and_overlap) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.140s
+
+OK
+<end of output>
+Test time =   0.33 sec
+----------------------------------------------------------
+Test Passed.
+"portable.checked" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.checked" time elapsed: 00:00:00
+----------------------------------------------------------
+
+137/170 Testing: portable.c_cpp_linkage
+137/170 Test: portable.c_cpp_linkage
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build/Release/portable_cpp.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-qualification-ff74ccae/build
+"portable.c_cpp_linkage" start time: Oct 17 01:46 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+C/C++ linkage and actual read-only/no-access page boundaries passed.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"portable.c_cpp_linkage" end time: Oct 17 01:46 AUS Eastern Daylight Time
+"portable.c_cpp_linkage" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 17 01:46 AUS Eastern Daylight Time
