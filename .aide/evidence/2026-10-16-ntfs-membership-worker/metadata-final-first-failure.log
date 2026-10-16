@@ -1,0 +1,20 @@
+index 0
+check 0
+verify-manifest 0
+source-map 0
+context 0
+verify-context 0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\close-membership-worker-review.py", line 25, in <module>
+    save(root/'final-closure.json',dict(status='pass',recorded_at=datetime.now(timezone.utc).isoformat(),tested_native_source_revision=source,implementation_build_tests_contracts_unchanged=True,all_other_recorded_inputs_unchanged=True,metadata_only_exceptions=sorted(exceptions),full_native_suite_run=False,selected_native_groups=34,registered_native_groups=167,stages=stages,hosted_snapshot_observed_at=read(root/'hosted-observations.json')['observed_at'],owner_accepted=False,release_qualified=False))
+                                                                                                                                                                                                                                                                                                                                                                                                                    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\close-membership-worker-review.py", line 7, in read
+    def read(p):return json.loads(Path(p).read_bytes())
+                                  ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '.aide\\evidence\\2026-10-16-ntfs-membership-worker\\hosted-observations.json'

@@ -11,6 +11,7 @@ This is the publication layer for people using and developing DiskEd. The normat
 | [Source file map](source-map.md) | Find every current source file and planned ownership boundary. |
 | [Code structure](code-structure.md) | Naming, style, dependency direction and future ownership rules. |
 | [Structure and release assessment](structure-review.md) | Supplied-review disposition, current evidence and remaining release gates. |
+| [Owned NTFS correspondence reader](ntfs-membership-worker.md) | Private process/snapshot boundary, source-free reconstruction and qualified evidence. |
 | [Held-file NTFS name correspondence](ntfs-membership-file.md) | Private ordinary-source binding, profile-prefix reuse, replay and source-bound qualification. |
 | [NTFS directory-name correspondence](ntfs-membership.md) | Private source-bound exact index/target comparison, qualified evidence and remaining native/namespace gates. |
 | [Captured NTFS filename instances](ntfs-names.md) | Private lossless attribute inventory and declared record dependencies. |

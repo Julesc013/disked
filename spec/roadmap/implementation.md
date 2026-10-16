@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.13
+  version: 0.1.5-proposed.14
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-16T11:18:12.270955+00:00'
-  scope: DE-W096 held-file membership qualification; worker/frontend and original platform/storage/release gates remain
+  at: '2026-10-16T12:09:39.949807+00:00'
+  scope: DE-W097 owned membership reader qualification; frontend and original platform/storage/release gates remain
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -56,8 +56,11 @@ DE-W096 adds private held-file correspondence at `c1511f80`, with all 31
 predefined affected groups of 166 registered and 496 native cases passing;
 its eleven-group Win32 supplement remains private evidence. See
 `catalog/ntfs-membership-file-prototype.json` and its source-bound review.
-Worker/frontend membership admission, collation, complete namespace, lookup
-and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
+DE-W097 contains membership in the existing owned reader at `06b63a89`, with
+310 cases and all 34 selected native groups of 167 registered passing. Its private
+Win32 supplement passes twelve groups. See the worker contract/review; this does
+not qualify a full current suite or release. Frontend membership admission,
+collation, complete namespace, lookup and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
 repository. Later exFAT and full native qualification supersede W075's old failure
 as an active integration blocker; the original failed campaigns and unknown
 causes remain. Owner, original platforms/storage 0.1.0, recovery and release

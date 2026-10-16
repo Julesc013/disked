@@ -23,7 +23,11 @@ is also required. This does not become a full current-suite or full Win32 run.
 Earlier request/worker availability failures remain retained and unexplained;
 raw failure state must be saved before assertions. No thresholds are relaxed.
 
-The working native run passes 310 cases across twelve methods and both existing
-bootstrap/directory worker regression groups. Fresh exact-source qualification
-and implementing-agent review remain pending.
+Exact `06b63a89` passes 310 new cases across twelve methods, all 34 predefined
+affected x64 groups of 167 registered, 67 header checks, C90/13 executable imports
+and 247 tooling tests (two skips). The private Win32 supplement passes twelve
+groups/ten headers/seven executables. This is selected evidence; full current
+suite, full Win32 product and other hosts remain unqualified.
+[Implementing-agent review](../.aide/evidence/2026-10-16-ntfs-membership-worker/REVIEW.md) retains limitations
+and earlier unexplained failures without changing their outcomes.
 Owner acceptance and every original 0.1.0 platform/storage/release gate remain.
