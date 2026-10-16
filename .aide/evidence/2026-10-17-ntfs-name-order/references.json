@@ -1,0 +1,30 @@
+{
+  "status": "research-only-not-execution-contract",
+  "observed_at": "2026-10-16T20:21:17.830325+00:00",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/b04c3bd0-79dc-4e58-b8ed-74f19fc2ea0a",
+      "observation": "Microsoft identifies $UpCase as used for filename collation."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/wsl/case-sensitivity",
+      "observation": "Microsoft describes per-directory case-sensitive behavior on supported Windows hosts."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file",
+      "observation": "Windows naming and namespace semantics require explicit interpretation rather than arbitrary host normalization."
+    }
+  ],
+  "inferences": [
+    "A captured name namespace byte and mapped equality alone do not establish current host case policy or uniqueness.",
+    "Same-capture table/directory byte identity is required before deriving a joint observation.",
+    "A bounded necessary-order observation may report raw and mapped relationships without declaring full NTFS index collation,alias resolution or lookup admission. Exact output contract and independent expected fixtures must precede implementation."
+  ],
+  "limitations": [
+    "No native host/directory case flag queried or changed.",
+    "No license-bearing upstream code copied, compiled or executed.",
+    "No canonical contract,source,tests or qualification input changed by this research.",
+    "Current DE-W102 campaign and review boundary still govern."
+  ],
+  "use": "Format/context references and explicit conservative inferences only. No upstream implementation copied or executed; this contract does not claim full NTFS collation."
+}

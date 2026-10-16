@@ -22,6 +22,9 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W103 same-capture NTFS directory/table name-order observations and
+  non-resolving candidate groups. [Contract](spec/catalog/ntfs-name-order-prototype.json);
+  implementation and qualification pending.
 - [x] DE-W102 complete public NTFS table observation: exact `61f8f2f2` passes all
   174 x64 groups, 119 command cases, 67 headers/C90/14 imports and 251 tooling (two skips).
   Private Win32 fifteen groups/eleven headers/nine imports pass. Original startup

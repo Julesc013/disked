@@ -10643,6 +10643,109 @@
         ".aide/evidence/2026-10-17-ntfs-upcase-command/startup-diagnostic-aff0e95a/summary.json",
         ".aide/evidence/2026-10-17-ntfs-upcase-command/observed-working/summary.json"
       ]
+    },
+    {
+      "id": "DE-W103",
+      "title": "Observe directory name orders with the same-capture NTFS table",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W102",
+        "DE-W100",
+        "DE-W087"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Same-capture supplied-region NTFS3.0/3.1 directory/table primary name-order observations and non-resolving candidate groups. Not full collation, namespace validity, host policy, alias resolution, lookup, native admission or effects. Original all-platform/storage0.1.0 remains the goal.",
+        "Add observe_ntfs_name_order(NtfsDirectoryRequest,RegionReader) through the existing source-owning Observer, with a private CaptureKind only. Do not append a NtfsSnapshotKind, open a source, change a native frame or admit a command. Own the name-order algorithm and its private declarations in runtime/capture/ntfs_name_order.cpp/.h; no new directory, Unicode service or parallel collector. Existing modes retain their exact outputs and read order.",
+        "Use existing request/directory validation and finite maxima unchanged. Copy controls and reader before the first callback. Collect boot/primary/mirror/MFT/Volume, the selected complete I30 directory, then the complete FILE10 table under one source/window/epoch, one region ledger and final reread pass. Reuse the qualified directory and table closures. Do not combine independent observations or introduce a mirror, host-locale or ASCII fallback.",
+        "In this new mode only, before UpCase nonresident list content reads reject its allocation overlap with directory list and I30 stream allocations; before table content reads reject table allocation overlap with those same resources. Reuse checked physical_ranges with ntfs_name_order_physical_alias. Existing boot/mirror/self/MFT/list alias checks and diagnostics remain. This checks selected participating allocations, not global ownership.",
+        "Preserve complete directory and table reports, raw regions, discovered references, closures, attempted counters and original hashes. Root schema org.disked.ntfs-name-order-observation-prototype/1 adds name_order to the existing shared facts. requested_directory_reference, directory_record/directory/queries and upcase_record/upcase are present even when unreached. name_order is null until both complete ingredients are available. Source identity inputs remain assertions in this supplied-reader API; atomic_snapshot,current_source_authority,effects_authorized stay false.",
+        "The private helper accepts the immutable request and complete retained directory/table plus the Observer charge callback and owned output reference. Require exact source_id/epoch/window agreement and a complete 131072-byte table with its exact SHA256. Initialize the existing C90 borrowed table over the owned decoded bytes. Do not decode Unicode scalar values, normalize, recursively map, substitute the host table, discard NUL/surrogates, or apply an implicit raw tie-break.",
+        "Reconstruct I30 in-order traversal from retained header_number,index_vbn,child_vbn,end_marker fields. Visit each child before its associated key and the terminal child last. Use an explicit bounded task stack, not recursion or BFS order. Every retained node and nonterminal key must be reached exactly once; structural contradictions are internal logic failures, not a successful partial audit. Existing directory collection has already enforced cycles, bitmap reachability and envelope bounds. Preserve each key occurrence, including identical names/references/namespaces.",
+        "name_order schema org.disked.ntfs-directory-name-order/1 binds source_id,epoch,volume_offset,volume_bytes,directory_reference,table_sha256 and directory_sha256 (canonical complete directory report). policy is supplied-table-key-observations/1; case_policy is unobserved; namespace_verified,collation_verified,target_membership_verified,alias_resolution_admitted,lookup_admitted are false. complete begins false; mapped_nondecreasing begins null; key_count is the full expected key count. Retain order,adjacent,reference_groups,mapped_groups arrays and keys_returned,adjacent_returned,reference_groups_returned,mapped_groups_returned decimal counters.",
+        "order rows have position (zero-based),header_number,index_vbn. adjacent rows have left_header,right_header,raw_order,upcase_order. Orders are decimal strings -1,0,1 from de_ntfs_name_compare using exact original UTF16LE units and one supplied mapping. No raw tie-break alters upcase_order. mapped_nondecreasing is true exactly when all adjacent upcase_order values are <=0; an empty/single-key complete collection is true. This is only the necessary primary mapped-order observation, not complete NTFS index collation or host lookup policy.",
+        "reference_groups retain only full-file-reference groups containing at least two indexed key occurrences, sorted by unsigned reference. Each row has reference,headers (in traversal order),namespace_codes (distinct numeric strings sorted 0..3). This is a same-record candidate group, not a proven DOS alias pair or target membership. Different FILE sequence numbers remain separate. mapped_groups retain only groups of at least two keys equal after one table mapping, sorted by mapped lexicographic order. Each row has headers (traversal order),distinct_references and raw_equal. Do not collapse keys, select a first winner, infer corruption from mapped equality, or resolve DOS aliases. Namespace codes are preserved data, not an inferred host case policy.",
+        "Charge a fixed 2048-byte helper reserve before publishing its initial object. Charge canonical row bytes plus two before every append. All keys <=4096, nodes <=129, traversal stack <=4225 and comparison/group work are finitely bounded by existing directory limits; no caller-controlled unbounded recursion or allocations. Output quota failure retains completed owned prefixes and false complete/null mapped_nondecreasing, with root ntfs_output_budget. Never drop a key or table byte to obtain success. Finish group counters and set complete/mapped_nondecreasing only after all rows are retained.",
+        "Perform original exact rereads after the audit under original budgets. A complete audit survives a later reread failure as observed evidence, while root complete/applicable remain false. If collection/rereads succeed, root complete is true. A descending mapped pair sets root diagnostic ntfs_name_order_mapped_descent and applicable false while retaining complete=true and reread_equal=true. Otherwise root applicability qualifies this bounded same-capture observation only. All existing parser/closure/read/quota/profile failures retain their precise diagnostic and partial ingredients."
+      ],
+      "acceptance": [
+        "Define generated source layouts, exact source/read/region/digest expectations, in-order header sequences, raw/mapped pair orders and candidate groups before native evaluation. Cover empty/leaf/siblings/deep trees; every namespace and repeated/different sequence references; equal raw and folded names without collapse; nonstandard ASCII/non-idempotent tables, controls/surrogates/lengths; ascending/descending/cross-child orders; both versions, large FILEs, fragmented tables/MFT/list closure, nonresident bitmap/list resources and above4GiB windows. Exercise each acquisition callback fault and each final-reread mutation, exact and one-short read/retained quotas, output exhaustion, invalid controls before callbacks and mutation of original controls/readers. Retain raw replies before assertions. Build all targets at an exact clean revision, run the entire registered native suite after the shared Observer change, all68 standalone headers, strict C90, fourteen executable import observations and full tooling/manifest/context/generated/source-map checks. Run the same private supplied-reader name-order/table/directory probes in an isolated pinned Win32 supplement. No full Win32 product, host case-policy, lookup, physical-storage or release claim. Preserve and diagnose any failure before another campaign; later passes do not explain historical availability failures. A bounded at-most20-step output-budget search is a predeclared metamorphic test: every retained array remains an independent expected prefix; the first complete budget succeeds and one byte less retains a non-null incomplete audit with complete directory/table ingredients, precise output-budget failure and no authority. It discovers a conservative internal charge boundary, not new expected semantic values."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "Run the exact-source all-target/full-native x64 and isolated private Win32 recipes with actual logs and hashes."
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-name-order-prototype.json",
+        "docs/ntfs-name-order.md",
+        ".aide/evidence/2026-10-17-ntfs-name-order/references.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json",
+        "spec/catalog/ntfs-upcase-prototype.json",
+        "spec/catalog/ntfs-directory-prototype.json",
+        "spec/catalog/ntfs-closure-prototype.json",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "source/runtime/capture/ntfs_directory.h",
+        "source/runtime/capture/ntfs_directory.cpp",
+        "source/runtime/capture/ntfs_directory_detail.h",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/upcase.c",
+        "tests/unit/ntfs_capture_probe.cpp",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/images/ntfs_directory_fixture.py",
+        "tests/images/test_ntfs_upcase_capture.py",
+        "tests/images/ntfs_closure_fixture.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/REVIEW.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command-integration/repository.json",
+        "tests/images/test_ntfs_name_order.py",
+        ".aide/evidence/2026-10-17-ntfs-name-order/expected-before-implementation.json",
+        ".aide/evidence/2026-10-17-ntfs-name-order/reproduce.py",
+        ".aide/evidence/2026-10-17-ntfs-name-order/reproduce-win32.py",
+        ".aide/evidence/2026-10-17-ntfs-name-order/grant.json"
+      ]
     }
   ]
 }
