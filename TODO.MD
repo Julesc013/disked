@@ -22,9 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W096: bind exact name correspondence to a held ordinary file, with
-  sealed controls, profile-prefix reuse and exact replay. Worker/public admission
-  and full original 0.1.0 remain. [Contract](spec/catalog/ntfs-membership-file-prototype.json).
+- [x] DE-W096 private held-file correspondence: exact `c1511f80` passes 31/166
+  affected x64 groups/496 new cases/67 headers/C90/13 imports/247 tooling tests
+  (two skips), plus private Win32 eleven groups/ten headers. Worker/frontend,
+  namespace/content and all original 0.1.0 remain. [Review](.aide/evidence/2026-10-16-ntfs-membership-file/REVIEW.md).
 
 - [x] DE-W095 supplied-source directory/name correspondence: exact `a1271115`
   passes all 165 x64 groups,193 membership cases,67 headers/C90/thirteen imports
@@ -474,7 +475,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W045: qualify the [checked FAT content map/window component](docs/fat-content.md), then implement exact native source binding and contained public extraction. Private content mapping/windows are source-bound qualified at `b1a6772e`: 209 cases/14 methods, 102 native groups and 19 headers; native source/public extraction remains unfinished. The original full platform/storage 0.1.0 scope is unchanged.
 
-- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes 59 cases/11 methods, with the209 supplied-reader cases and 109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full 0.1.0 stay open.
+- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes 59 cases/11 methods, with the 209 supplied-reader cases and 109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full 0.1.0 stay open.
 
 - [ ] DE-W047: review the qualified complete mapped FAT file extraction backend. Complete mapped-file backend is qualified at `20ecddbd`: 104 native groups, 20 selected headers and full logical-file/destination/resume evidence; public command admission and full 0.1.0 remain open. [Contract](docs/fat-extraction.md).
 
@@ -514,9 +515,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT image.inspect service and all five frontends pass 33 working cases; exact full-native qualification and work-unit review remain.
 
-W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
+W072 full exact 60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
 
-W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and 15selected groups have recorded passing results. New exact141group qualification remains before main promotion.
+W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and 15selected groups have recorded passing results. New exact 141group qualification remains before main promotion.
 
 W072 exact e75602f8:139/141 groups pass; two preparation-quota harness failures retained. Both corrected groups pass with strict refusal/live-peer/retirement/source/output checks. New exact full qualification remains before main.
 
@@ -538,7 +539,7 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 - [x] DE-W074 working owned root capture and bounded tree/logical-content reader; 40 independent cases, seven selected native groups and 51 headers pass.
 - [x] Retain the exact e7e3297f full 144 failure (136 passes/eight failures) and qualify the private tree-limit correction at9c2d2b09 on x64/Win32 with tooling/import/context/source checks. This is partial qualification.
 - [ ] Retain the unresolved cause of the earlier worker/restoration/parser delays and investigate any recurrence; preserve deadlines and uncertain dependencies.
-- [x] Fresh exact2cd2e2e1 complete qualification:144 native groups,51 headers,242 tooling tests/two skips and imports/context/source checks. Previous delay cause remains unproven; failures retained.
+- [x] Fresh exact 2cd2e2e1 complete qualification:144 native groups,51 headers,242 tooling tests/two skips and imports/context/source checks. Previous delay cause remains unproven; failures retained.
 - [ ] Complete paging/backpressure, held-source/worker/frontend and remaining original platform/storage/release gates.
 
 ## Held ordinary-image trees
@@ -552,7 +553,7 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 
 - [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with 89 existing root-file and 44 supplied-tree cases.
 - [x] Retain exact `39d514f1` full 145 failure (137 passes/eight failures),51 headers and 242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
-- [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
+- [x] Retain exact `11e6f625` complete 145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in 0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
 - [x] Qualify exact `813924fa` shared-mechanism source:153 native groups/57 headers/242 tooling(two skips), imports/context/source checks and agent review pass. Earlier failures remain retained.
 - [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original 0.1.0 work.
 

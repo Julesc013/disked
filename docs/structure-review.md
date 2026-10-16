@@ -33,14 +33,14 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **324 current source files** at `a1346c4e`: 36 portable, 143 runtime, 68 provider,
-63 platform and 14 application files. This includes the private membership collector; its working checks and pending full qualification are below. The longest repository-relative source
+There are **324 current source files** at `c1511f80`: 36 portable, 143 runtime, 68 provider,
+63 platform and 14 application files. This includes the private correspondence collector and held-file adapter; their source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-membership/source-inventory.json) and
-[current path checks](../.aide/evidence/2026-10-16-ntfs-membership/path-audit.json) bind these observations;
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-membership-file/source-inventory.json) and
+[current path checks](../.aide/evidence/2026-10-16-ntfs-membership-file/path-audit.json) bind these observations;
 the earlier assessment remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
@@ -94,6 +94,13 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Held-file correspondence at `c1511f80` passes the predefined 31/166 affected
+x64 groups,496 new cases,67 headers/C90/13 imports and 247 tooling tests (two
+skips), plus eleven private Win32 groups/ten headers/seven executables.
+[Review](../.aide/evidence/2026-10-16-ntfs-membership-file/REVIEW.md) supports source integration after metadata
+closure. Worker/public membership admission and all original release requirements
+remain; the older full-suite observations below retain their exact revisions.
 
 Private membership source `a1271115` passes all 165 x64 native groups,193
 membership/247 filename/298 stream cases,67 headers/C90/thirteen imports and 247
@@ -156,16 +163,14 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The read-only Universal Setup snapshot at `2026-10-16T09:32:34.494248+00:00` finds
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at `f69c2240`.
-Of 7 checks, 4 passed and 3 remain in progress; completed
-non-success checks: none. The
-[snapshot](../.aide/evidence/2026-10-16-ntfs-membership/hosted-observations.json)
-and earlier09:27 snapshot retain their actual observation times. The older
-`23cf102c` native-Windows failure remains historical evidence in DE-W094;
-it is not the current head's conclusion. Setup main/dev are protected and share
-tree `b836676c`. The queried release collections
-contain 0 DiskEd and 0 Setup releases.
+The read-only Universal Setup snapshot at `2026-10-16T11:12:56.502677+00:00` finds
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
+`f69c2240`. Six of seven checks passed; native Windows
+failed. Its source-free interrupted-repair checks failed; later dependent checks
+were skipped or could not retain absent receipts. The retained log does not
+establish the underlying cause. [Snapshot and exact job](../.aide/evidence/2026-10-16-ntfs-membership-file/hosted-observations.json)
+are read-only observations, not local lifecycle qualification. Setup main/dev
+remain protected at tree `b836676c`; both queried release collections are empty.
 DiskEd's inspected Setup source pin remains `2e64f654`; no upstream branch,
 settings or pin changed. Hosted checks do not qualify local lifecycle,
 installation/repair/recovery or a DiskEd release.

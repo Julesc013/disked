@@ -1,0 +1,200 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import collections,hashlib,json,re,shutil,subprocess,sys
+from jsonschema import Draft202012Validator
+
+source='c1511f80c0e407a755d40cd956b7b467bd4afade';base='887af8ed615bf18a7b0dbeb9f1a37a161ec6d550'
+root=Path('.aide/evidence/2026-10-16-ntfs-membership-file')
+local=Path('.aide-local/ntfs-membership-file-qualification-c1511f80');winlocal=Path('.aide-local/ntfs-membership-file-win32-c1511f80')
+def read(p):return json.loads(Path(p).read_bytes())
+def save(p,v):Path(p).write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+def sha(p):return 'sha256:'+hashlib.sha256(Path(p).read_bytes()).hexdigest()
+q,w=read(local/'summary.json'),read(winlocal/'summary.json')
+assert q['status']==w['status']=='pass' and q['source_revision']==w['source_revision']==source
+assert q['native_groups']==q['native_passed']==31 and q['registered_native_groups']==166
+assert q['selected_native_suite_complete'] and not q['full_native_suite_run'] and not q['native_failed'] and not q['native_skipped']
+assert q['membership_file_cases']==496 and q['standalone_headers']==67 and q['tooling_tests_run']==247
+assert q['inputs_unchanged'] and not q['source_status_before'] and not q['source_status_after']
+assert w['native_groups']==11 and len(w['header_artifacts'])==10 and w['cases']['ntfs-membership-file-cases.json']==496
+assert w['inputs_unchanged'] and w['checkout_clean'] and len(q['artifacts'])==13 and len(w['artifacts'])==7
+assert '(skipped=2)' in (local/'tooling.log').read_text()
+for name,expected in [('reproduce.py',q['qualification_recipe_sha256']),('reproduce-win32.py',w['recipe_sha256'])]:
+ assert sha(root/name)==expected=='sha256:'+hashlib.sha256(subprocess.check_output(['git','show',source+':'+(root/name).as_posix()])).hexdigest()
+out=root/'qualified-c1511f80';win=root/'win32-c1511f80'
+for origin,dest in [(local,out),(winlocal,win)]:
+ dest.mkdir()
+ for p in origin.iterdir():
+  if p.is_file():shutil.copyfile(p,dest/p.name)
+ build=origin/'build';paths=['CMakeCache.txt','Testing/Temporary/LastTest.log']+[p.relative_to(build).as_posix() for p in (build/'CMakeFiles').glob('*/CMake*Compiler.cmake')]
+ if origin==local:paths+=['generated/build-identity.json','private-header-usage.json','disked_ntfs_file.vcxproj','disked_ntfs_file_headers.vcxproj','ntfs_file_probe.vcxproj','disked.vcxproj']
+ for name in paths:
+  path=dest/'build-observations'/name;path.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(build/name,path)
+ details=dest/'native-details';details.mkdir()
+ for p in build.glob('ntfs-*-cases.json'):shutil.copyfile(p,details/p.name)
+ save(dest/'native-artifacts.json',[dict(path=str(p.resolve()),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted((build/'Release').iterdir()) if p.suffix in {'.exe','.lib'}])
+ if origin==winlocal:shutil.copytree(origin/'fixture',dest/'fixture')
+shutil.copyfile(local/'context/manifest.json',out/'context-manifest.json')
+for name,dest in [('reproduce.py',out),('reproduce-win32.py',win)]:shutil.copyfile(root/name,dest/'recipe.snapshot')
+shutil.copyfile('.aide-local/ntfs-member-source-transition.json',root/'source-worktree-transition.json')
+unverified={dest.name:{p.name:read(p)['unverified'] for p in (dest/'native-details').glob('ntfs-*-cases.json') if read(p).get('unverified')} for dest in (out,win)}
+save(root/'native-unverified.json',unverified)
+rows=[dict(path=p.as_posix(),owner=p.parts[1],bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(Path('source').rglob('*')) if p.is_file()]
+save(root/'source-inventory.json',dict(source_revision=source,files=len(rows),owners=dict(collections.Counter(r['owner'] for r in rows)),files_detail=rows))
+folds=collections.defaultdict(list)
+for r in rows:folds[r['path'].casefold()].append(r['path'])
+reserved=re.compile(r'^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)',re.I);longest=max(rows,key=lambda r:len(r['path']))['path']
+audit=dict(observed_at=datetime.now(timezone.utc).isoformat(),source_revision=source,files=len(rows),case_collisions=[v for v in folds.values() if len(v)>1],reserved_components=[r['path'] for r in rows if any(reserved.match(p) for p in Path(r['path']).parts)],trailing_space_dot_components=[r['path'] for r in rows if any(p.endswith((' ','.')) for p in Path(r['path']).parts)],lowercase_ascii_paths=all(r['path'].isascii() and r['path']==r['path'].lower() for r in rows),longest_path=longest,longest_characters=len(longest),source_inventory_sha256=sha(root/'source-inventory.json'),scope='Repository-relative source paths only; no historical compiler/filesystem or build-output path qualification.')
+assert len(rows)==324 and not audit['case_collisions'] and not audit['reserved_components'] and not audit['trailing_space_dot_components'];save(root/'path-audit.json',audit)
+(root/'REVIEW.md').write_text(f'''# Implementing-agent review: held-file NTFS name correspondence
+
+DE-W096; base `{base}`; exact native source/fixtures/recipes `{source}`.
+The persistent local development grant and DE-W095 implementing-agent review
+permit this bounded file adapter and reviewed dev/main source integration.
+Owner acceptance, independent safety qualification and release/storage privileges
+remain separate. Full original all-platform/storage 0.1.0 is unfinished.
+
+The existing ntfs_file owner copies the full request, target cap, callback and
+fault controls before native access/callbacks. It reuses the same local_file
+opener, source/ancestor pins, finite native read/byte/retention controls and
+capture observer. No second opener/parser, worker kind, snapshot kind, public
+command or source directory was added. The source map still covers all324 files.
+
+The typed membership request wraps the existing directory request. Target caps
+1..256 are checked before opening and bound in the native domain and automatic
+profile foundation. Old modes omit the new field and preserve their existing
+serialized domains/foundations and native traces. Automatic3.0 validates and
+reuses the exact bootstrap prefix before any new native read. Independently
+reconstructed probe/prefix/selected reports and foundation digests match.
+
+All reads, target/list/extension closure and final exact rereads use the existing
+qualified collector. A complete valid name mismatch stays complete/nonapplicable;
+malformed/stale/unsupported/changed/error/quota evidence stays incomplete. Source
+metadata, native binding, pure reconstruction and aggregate eligibility remain
+distinct. observed_stable includes observation applicability; a mere mismatch
+does not fabricate a binding error. All authority/atomic-snapshot flags stay
+false. Current synchronous native waits remain uncontained and private.
+
+Fresh all-target Windows x64 build passes the predefined31 affected groups out
+of166 registered, including496 new held-file cases across11 methods and the
+existing NTFS/public/shared-file regressions. This is selected current evidence,
+not a full166-group run. All67 standalone C++ headers, strict C90 sources/two
+headers,13 distinct executable PE/import observations and247 tooling tests pass
+(two coordinator symlink skips). Serialized Win32/WOW64 supplement passes11
+selected groups/10 headers/7 executables, including the same496 native cases.
+Full Win32 product, historical Windows, DOS and other hosts remain unqualified.
+The old bootstrap-file and directory-file suites also retain actual file-symlink
+checks as unverified on both x64 and Win32: the unprivileged host reports
+WinError1314. These are separate from the two coordinator test skips. No
+elevation was requested or performed to turn them into passing observations.
+Whole generated source hashes are unchanged; exact commands/logs/artifact hashes
+and contexts are retained.
+
+The first working run remains failed. Its new assertion incorrectly classified
+a short response as ntfs_reader_failure; the established reader and old directory
+tests require ntfs_read_length. The new expectation was corrected against that
+existing contract. No runtime behavior, threshold or expected refusal changed.
+Earlier W095 timing failures remain retained at their original revisions; this
+selected campaign does not explain or qualify absence of those intermittent
+delays. Another unexplained timing failure needs measurements before a retry.
+
+The first W096 clean `9fac1bde` campaign also remains failed: one group passed,
+the existing large-directory human CLI request returned request_wait_expired,
+and29 selected groups were not run. Temporary reader/snapshot phase probes
+complete in0.16/0.19 seconds; the unchanged exact product request takes0.17
+seconds, and the complete100-case directory-command recheck passes. The original
+delay remains unexplained. The temporary harness's first compile/output errors
+are retained separately; they were not product defects or qualification.
+The existing frontend test now records elapsed time/exit/output before its
+unchanged assertions. AST comparison confirms all existing assertions identical;
+every production runtime byte and deadline remains unchanged from9fac1bde.
+The new exact-source selected campaign above is distinct evidence, not a
+relabelling of the original failure or proof that intermittent delays are absent.
+
+The second fresh `90e246d9` campaign also remains failed after one pass, a missing
+independent-worker snapshot and29 selected groups not run. Its helper discarded
+raw worker state. Twenty-five direct workers, twelve new-path workers and twelve
+product copies, plus two focused two-group CTest sequences, subsequently passed
+without reproducing the failure. Neither the delay nor missing snapshot has an
+established cause. The helper now retains full raw worker failure output and
+elapsed/outcome before its AST-identical assertions. The later campaign is
+separate evidence; these observations do not establish absence of intermittent
+availability failures. Production runtime source/deadlines remain unchanged.
+
+Review supports source integration after metadata/staged-byte closure. Next is
+the separately contracted worker/snapshot boundary, then common frontend
+admission. Namespace/collation/lookup/content, original platforms/storage,
+writer/recovery, Setup/licensing and owner/release gates remain.
+''',encoding='utf-8',newline='\n')
+units=read('spec/work/units.json');unit=next(u for u in units['units'] if u['id']=='DE-W096');assert unit['status']=='active';unit['status']='needs_review';save('spec/work/units.json',units)
+p=read('.aide/programmes/disked-0.1.0.json');p['completed_development'].append('DE-W096')
+p['verified_slices'].append(dict(work_id='DE-W096',scope='Private held-file exact directory/target name correspondence; existing workers/public forms unchanged',source_revision=source,evidence=(out/'summary.json').as_posix(),win32_evidence=(win/'summary.json').as_posix(),review=(root/'REVIEW.md').as_posix(),native_groups=31,registered_native_groups=166,full_native_suite_run=False,membership_file_cases=496,standalone_headers=67,tooling_tests=247,tooling_skipped=2,private_win32_groups=11,win32_headers=10,owner_accepted=False))
+p['in_progress_slice'].update(state='Source c1511f80 passes the 31 selected x64 groups of 166 registered and the private 11-group Win32 supplement. Implementing-agent review complete; metadata and source integration pending. Earlier failures remain retained and unexplained.',qualification_pending=False,review=(root/'REVIEW.md').as_posix())
+p['next_work_preparation']=dict(candidate_work_id='DE-W097',scope='Owned worker and validated snapshot/reconstruction for held-file correspondence; frontend admission stays separate.',execution_contract_defined=False,implementation_started=False,authorizes_effects=False)
+p['next_action']='Integrate reviewed W096 source after metadata/staged-byte closure; define W097 worker/snapshot admission contract and independent expectations before implementation. Keep W098 public admission and original release/storage/owner gates separate.'
+hosted=read(root/'hosted-observations.json');p['latest_hosted_observation']=dict(evidence=(root/'hosted-observations.json').as_posix(),observed_at=hosted['observed_at'],setup_head=hosted['setup_pull']['head'],setup_checks_passed=6,setup_checks_in_progress=0,setup_completed_non_success=['native-windows'],local_setup_qualified=False,upstream_writes=False)
+save('.aide/programmes/disked-0.1.0.json',p)
+doc=Path('docs/ntfs-membership-file.md');text=doc.read_text();start=text.index('The working native run');end=text.index('\n\nWorker and frontend',start)
+text=text[:start]+f'''Exact source `{source[:8]}` passes496 new cases across eleven methods, all31
+predefined affected x64 native groups of166 registered,67 standalone headers,
+C90/import checks and247 tooling tests (two skips). The private Win32 supplement
+passes eleven groups/ten headers/seven executables. This is selected current
+evidence; no full166-group or complete Win32 product run is claimed.
+[Implementing-agent review and evidence](../{root.as_posix()}/REVIEW.md) retain
+the first working assertion failure and its contract-based correction.
+'''.rstrip()+text[end:];doc.write_text(text,encoding='utf-8',newline='\n')
+doc=Path('docs/structure-review.md');text=doc.read_text();anchor='## Development integration and release\n';assert anchor in text
+text=text.replace('324 current source files** at `a1346c4e`','324 current source files** at `c1511f80`').replace('This includes the private membership collector; its working checks and pending full qualification are below.','This includes the private correspondence collector and held-file adapter; their source-bound qualification is below.').replace('2026-10-16-ntfs-membership/source-inventory.json','2026-10-16-ntfs-membership-file/source-inventory.json').replace('2026-10-16-ntfs-membership/path-audit.json','2026-10-16-ntfs-membership-file/path-audit.json')
+text=text.replace(anchor,anchor+f'''
+Held-file correspondence at `{source[:8]}` passes the predefined31/166 affected
+x64 groups,496 new cases,67 headers/C90/13 imports and247 tooling tests (two
+skips), plus eleven private Win32 groups/ten headers/seven executables.
+[Review](../{root.as_posix()}/REVIEW.md) supports source integration after metadata
+closure. Worker/public membership admission and all original release requirements
+remain; the older full-suite observations below retain their exact revisions.
+''')
+start=text.index('The read-only Universal Setup snapshot at ');end=text.index('\nDiskEd\'s inspected Setup source pin',start)
+text=text[:start]+f'''The read-only Universal Setup snapshot at `{hosted['observed_at']}` finds
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
+`{hosted['setup_pull']['head'][:8]}`. Six of seven checks passed; native Windows
+failed. Its source-free interrupted-repair checks failed; later dependent checks
+were skipped or could not retain absent receipts. The retained log does not
+establish the underlying cause. [Snapshot and exact job](../{root.as_posix()}/hosted-observations.json)
+are read-only observations, not local lifecycle qualification. Setup main/dev
+remain protected at tree `b836676c`; both queried release collections are empty.
+'''.rstrip()+text[end:];doc.write_text(text,encoding='utf-8',newline='\n')
+doc=Path('TODO.MD');text=doc.read_text();start=text.index('- [ ] DE-W096:');end=text.index('\n\n',start)
+text=text[:start]+f'''- [x] DE-W096 private held-file correspondence: exact `{source[:8]}` passes31/166
+  affected x64 groups/496 new cases/67 headers/C90/13 imports/247 tooling tests
+  (two skips), plus private Win32 eleven groups/ten headers. Worker/frontend,
+  namespace/content and all original0.1.0 remain. [Review]({root.as_posix()}/REVIEW.md).'''+text[end:];doc.write_text(text,encoding='utf-8',newline='\n')
+for doc in [root/'REVIEW.md',Path('docs/ntfs-membership-file.md'),Path('docs/structure-review.md'),Path('TODO.MD')]:
+ doc.write_text(re.sub(r'\b(all|of|out|the|passes|same|source|predefined|across|and|exact|original|full|complete|selects|takes|from|after|before|in|under|with|through)(?=\d)',r'\1 ',doc.read_text()),encoding='utf-8',newline='\n')
+doc=Path('spec/roadmap/implementation.md');text=doc.read_text();anchor='Native held-file/worker/frontend membership admission, collation, complete\nnamespace, lookup and content remain required.';assert anchor in text
+text=text.replace(anchor,'DE-W096 adds private held-file correspondence at `c1511f80`, with all 31\npredefined affected groups of 166 registered and 496 native cases passing;\nits eleven-group Win32 supplement remains private evidence. See\n`catalog/ntfs-membership-file-prototype.json` and its source-bound review.\nWorker/frontend membership admission, collation, complete namespace, lookup\nand content remain required.').replace('version: 0.1.5-proposed.12','version: 0.1.5-proposed.13')
+text=text.replace('scope: DE-W095 supplied-source membership qualification; native and original platform/storage/release gates remain','scope: DE-W096 held-file membership qualification; worker/frontend and original platform/storage/release gates remain')
+at=text.index('\nupdated:\n');text=text[:at]+re.sub(r'(?m)^  at: .*',"  at: '"+datetime.now(timezone.utc).isoformat()+"'",text[at:],count=1);doc.write_text(text,encoding='utf-8',newline='\n')
+doc=Path('docs/index.md');text=doc.read_text();anchor='| [NTFS directory-name correspondence]';assert anchor in text
+text=text.replace(anchor,'| [Held-file NTFS name correspondence](ntfs-membership-file.md) | Private ordinary-source binding, profile-prefix reuse, replay and source-bound qualification. |\n'+anchor);doc.write_text(text,encoding='utf-8',newline='\n')
+exceptions={'spec/work/units.json','spec/manifest.json','spec/generated/index.json','spec/roadmap/implementation.md','.aide/programmes/disked-0.1.0.json','TODO.MD','docs/ntfs-membership-file.md','docs/structure-review.md','docs/index.md'}
+stages=[];context=Path('.aide-local/context/ntfs-membership-file-reviewed')
+for name,args in [('index',['spec/tools/specctl.py','index']),('check',['spec/tools/specctl.py','check']),('manifest',['spec/tools/specctl.py','manifest']),('verify-manifest',['spec/tools/specctl.py','verify-manifest']),('source-map',['tools/check-source-map.py']),('context',['spec/tools/specctl.py','context','--work','DE-W096','--output',str(context),'--byte-budget','1200000','--artifact-byte-budget','16777216']),('verify-context',['spec/tools/specctl.py','verify-context',str(context)])]:
+ command=[sys.executable,*args]
+ with (root/('reviewed-'+name+'.log')).open('wb') as log:r=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+ stages.append(dict(command=command,cwd=str(Path.cwd()),exit_code=r.returncode,log='reviewed-'+name+'.log'));print(name,r.returncode,flush=True);assert r.returncode==0
+shutil.copyfile(context/'manifest.json',root/'reviewed-context-manifest.json')
+before=read(out/'inputs.json');assert all(sha(name)==digest for name,digest in before.items() if name not in exceptions)
+changed=subprocess.check_output(['git','diff','--name-only',source,'--','source','tests','tools','CMakeLists.txt','CMakePresets.json','AGENTS.md','spec'],text=True).splitlines();assert set(changed)<=exceptions,changed
+oldunits=json.loads(subprocess.check_output(['git','show',source+':spec/work/units.json']));next(u for u in oldunits['units'] if u['id']=='DE-W096')['status']='needs_review';assert oldunits==read('spec/work/units.json')
+oldprogramme=json.loads(subprocess.check_output(['git','show',source+':.aide/programmes/disked-0.1.0.json']));assert all(oldprogramme[k]==p[k] for k in ('scope','scope_source','permitted','separate_authority','review_policy'))
+save(root/'metadata-closure.json',dict(status='pass',tested_native_source_revision=source,implementation_build_tests_contracts_unchanged=True,all_other_recorded_inputs_unchanged=True,metadata_only_exceptions=sorted(exceptions),work_definition_only_status_changed=True,full_native_suite_run=False,stages=stages,owner_accepted=False,release_qualified=False))
+tests=[dict(command=subprocess.list2cmdline(s['command']),cwd=s['cwd'],status='pass' if not s['exit_code'] else 'fail',exit_code=s['exit_code'],evidence_path=(dest/s['log']).as_posix()) for dest,value in [(out,q),(win,w)]+[(d,read(d/'summary.json')) for d in sorted((root/'working').iterdir())] for s in value['stages']]
+for failed in ('9fac1bde','90e246d9'):
+ tests.append(dict(command='Original '+failed+' selected campaign stopped at image.ntfs_directory_commands',cwd=str(Path.cwd()),status='fail',exit_code=8,evidence_path=(root/('failed-'+failed)/'observation-summary.json').as_posix()))
+focus=read(root/'directory-command-diagnostic-recheck/summary.json');tests.append(dict(command=subprocess.list2cmdline(focus['command']),cwd=focus['cwd'],status='pass',exit_code=0,evidence_path=(root/'directory-command-diagnostic-recheck/native.log').as_posix()))
+for r in read(root/'directory-phases/measurement.json')['runs']:
+ tests.append(dict(command=subprocess.list2cmdline(r['command']),cwd=str(Path.cwd()),status='pass',exit_code=r['exit_code'],evidence_path=(root/'directory-phases'/(r['name']+'.stdout.json')).as_posix()))
+changed=set(subprocess.check_output(['git','diff','--name-only',base],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard',root.as_posix()],text=True).splitlines())|{'.aide/handoffs/DE-W096.json'}
+handoff=dict(schema='org.disked.handoff/1',work_id='DE-W096',base_revision=base,spec_manifest_digest=sha('spec/manifest.json'),status='needs_review',files_read=sorted(before),files_changed=sorted(changed),summary='Private held-file correspondence implemented and implementing-agent reviewed. Exact c1511f80 selected31/166 x64 groups,496 new cases,67 headers/imports/C90/247 tooling (two skips) and private Win32 eleven groups pass. Original failed assertion retained and corrected against existing short-read contract. Hashed input closure is not a line-by-line audit. No worker/public/owner/storage/release admission.',tests=tests,artifacts=[dict(path=a['path'],sha256=a['sha256']) for a in q['artifacts']+w['artifacts']],blockers=['Worker/frontend membership, namespace/collation/lookup/content and all original0.1.0 platforms/storage remain.','Owner, writer/recovery, licensing, Setup, storage privileges and release authority remain separate.','Prior W095 unexplained timing failures remain retained; this selected campaign does not explain them.'],next_safe_step=p['next_action'],performed_remote_writes=True)
+Draft202012Validator(read('spec/schemas/handoff.schema.json')).validate(handoff);save('.aide/handoffs/DE-W096.json',handoff)
+save(root/'inventory.json',[dict(path=x.relative_to(root).as_posix(),bytes=x.stat().st_size,sha256=sha(x)) for x in sorted(root.rglob('*')) if x.is_file() and x.name!='inventory.json' and '__pycache__' not in x.parts])
+print('Retained selected31/166 x64 and11 Win32 qualification; agent review/metadata closure pass.')
