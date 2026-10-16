@@ -17,5 +17,7 @@ condition does not establish the stronger claims above. Source disagreement and
 resource exhaustion retain partial facts. This API does no host I/O and grants no
 storage authority. Native provider and public-view admission require later work.
 
-Expected generated results must precede implementation evaluation. Qualification
-remains pending; no owner acceptance or release claim follows from this contract.
+Expected generated results must precede implementation evaluation. Exact `77abe061` passes all 175 x64 groups and the private sixteen-group Win32
+supplement. The [agent review](../.aide/evidence/2026-10-17-ntfs-name-order/REVIEW.md)
+retains scope, failed attempts, raw observations and unavailable checks. Owner
+acceptance, native admission and full 0.1.0 qualification remain pending.

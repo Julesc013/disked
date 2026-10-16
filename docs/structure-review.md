@@ -33,14 +33,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **325 source files** at `61f8f2f2`: 37 portable, 143 runtime, 68 provider,
-63 platform and 14 application files. The supplied NTFS table primitive stays in its portable owner; the native binding
-adds no production file or directory. The
-longest repository-relative source path remains 62 characters. Case, Windows reserved
-basename and trailing space/dot checks pass. These measurements do not qualify
-every legacy filesystem,compiler or generated build path.
-[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase-command/source-inventory.json) and
-[path checks](../.aide/evidence/2026-10-17-ntfs-upcase-command/path-audit.json) bind these facts.
+There are **327 source files** at `77abe061`: 37 portable, 145 runtime, 68 provider,
+63 platform and 14 application files. The name-order step adds one concrete runtime
+helper pair; ownership stays unchanged. The longest repository-relative source path
+remains 62 characters. Case, Windows reserved-basename and trailing-space/dot checks
+pass. These measurements do not qualify every legacy filesystem/compiler or build
+path. [Inventory](../.aide/evidence/2026-10-17-ntfs-name-order/source-inventory.json)
+and [path checks](../.aide/evidence/2026-10-17-ntfs-name-order/path-audit.json) bind the facts.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -93,6 +92,13 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Private same-capture name-order source `77abe061` passes all 175 current x64 groups,
+172 new cases, 68 headers/C90/14 imports and 251 tooling tests (two skips). Its private
+Win32 supplement passes 16 groups/12 headers/9 imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-name-order/REVIEW.md)
+records the helper pair, retained order/group facts and failed working attempts.
+Native/public admission, full collation/host policy/alias resolution/lookup and all
+original platforms/storage remain unfinished.
 
 Complete public NTFS table observation at `61f8f2f2` passes all 174 current x64
 groups, 119 command cases, 67 headers/C90/14 imports and 251 tooling tests (two skips).
@@ -208,14 +214,15 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-command/hosted-observations.json)
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-name-order/hosted-observations.json)
 records [PR237](https://github.com/Julesc013/universal-setup/pull/237) at
-`5a849695`, observed `2026-10-16T20:13:50.727151+00:00`: state
-open,draft=True,merged=False.
+`f2e268e0`, observed `2026-10-16T22:35:54.941631+00:00`: state
+open, draft=True, merged=False.
 6 of 7 reported checks succeeded.
-Completed non-success checks: native-windows(failure).
-Queried release counts: Setup 0,DiskEd 0. Earlier candidates and failures remain
-retained; no upstream writes,installation or local Setup lifecycle qualification occurred.
+Completed non-success checks: native-windows (failure).
+Queried release counts: Setup 0, DiskEd 0.
+Earlier failures remain retained; no upstream writes, installation or local Setup
+lifecycle qualification occurred.
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining
