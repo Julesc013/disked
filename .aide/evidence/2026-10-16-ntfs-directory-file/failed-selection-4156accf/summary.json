@@ -1,0 +1,119 @@
+{
+  "status": "fail",
+  "work_id": "DE-W091",
+  "observed_at": "2026-10-16T02:44:30.746733+00:00",
+  "source_revision": "4156accfa906943ad14e61061954b01c48e08207",
+  "source_status_before": "",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-qualified-4156accf\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-exact-4156accf",
+      "exit_code": 0,
+      "seconds": 10.58576130005531,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-qualified-4156accf\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-exact-4156accf",
+      "exit_code": 0,
+      "seconds": 238.45068689994514,
+      "log": "build.log"
+    },
+    {
+      "name": "registered",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-qualified-4156accf\\build",
+        "-C",
+        "Release",
+        "--show-only=json-v1"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-exact-4156accf",
+      "exit_code": 0,
+      "seconds": 0.7066633999347687,
+      "log": "registered.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-qualified-4156accf\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "-R",
+        "^(?:build\\.boundaries|build\\.boundary_checker|command\\.syntax|image\\.exfat_capture|image\\.exfat_commands|image\\.exfat_file|image\\.exfat_namespace|image\\.exfat_tree|image\\.exfat_tree_file|image\\.exfat_worker|image\\.ntfs_capture|image\\.ntfs_closure|image\\.ntfs_commands|image\\.ntfs_directory|image\\.ntfs_directory_file|image\\.ntfs_file|image\\.ntfs_stream|image\\.ntfs_worker|image\\.parent_pins|invocation\\.policy|portable\\.c_cpp_linkage|portable\\.checked|portable\\.ntfs_attributes|portable\\.ntfs_block|portable\\.ntfs_boot|portable\\.ntfs_index|portable\\.ntfs_list|portable\\.ntfs_record|portable\\.ntfs_runlist|protocol\\.compatible_reader|protocol\\.json_codec)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-qualified-4156accf\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-file-exact-4156accf",
+      "exit_code": 0,
+      "seconds": 0.04618480009958148,
+      "log": "native.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "original_delay_cause_established": false,
+  "scope": "Current Windows x64 image prototype, all targets built and explicitly selected native regressions and independent tooling/build/import/context evidence. Not full NTFS, all original platforms/storage or release qualification.",
+  "registered_native_groups": 161,
+  "full_native_suite_run": false,
+  "selected_native_groups": [
+    "build.boundaries",
+    "build.boundary_checker",
+    "command.syntax",
+    "image.exfat_capture",
+    "image.exfat_commands",
+    "image.exfat_file",
+    "image.exfat_namespace",
+    "image.exfat_tree",
+    "image.exfat_tree_file",
+    "image.exfat_worker",
+    "image.ntfs_capture",
+    "image.ntfs_closure",
+    "image.ntfs_commands",
+    "image.ntfs_directory",
+    "image.ntfs_directory_file",
+    "image.ntfs_file",
+    "image.ntfs_stream",
+    "image.ntfs_worker",
+    "image.parent_pins",
+    "invocation.policy",
+    "portable.c_cpp_linkage",
+    "portable.checked",
+    "portable.ntfs_attributes",
+    "portable.ntfs_block",
+    "portable.ntfs_boot",
+    "portable.ntfs_index",
+    "portable.ntfs_list",
+    "portable.ntfs_record",
+    "portable.ntfs_runlist",
+    "protocol.compatible_reader",
+    "protocol.json_codec"
+  ],
+  "native_exit_code": 0,
+  "error": "AssertionError()"
+}

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import platform
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -20,27 +21,57 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--resume-selection-error', action='store_true')
     args = parser.parse_args()
     root, output = args.root.resolve(), args.output.resolve()
-    output.mkdir(exist_ok=False)
+    output.mkdir(exist_ok=args.resume_selection_error)
     build = output / 'build'
     inputs = set(json.loads((root / 'tools/build-inputs.json').read_bytes())['files'])
     inputs.update(row['path'] for row in json.loads((root / 'spec/catalog/input-dependencies.json').read_bytes())['inputs'])
     inputs.update(path.relative_to(root).as_posix() for path in (root / 'source').rglob('*') if path.is_file())
     before = {name: sha(root / name) for name in sorted(inputs)}
-    (output / 'inputs.json').write_text(json.dumps(before, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.resume_selection_error:
+        assert before == json.loads((output / 'inputs.json').read_bytes())
+    else:
+        (output / 'inputs.json').write_text(json.dumps(before, indent=2) + '\n', encoding='utf-8', newline='\n')
     summary = dict(status='running', work_id='DE-W091', observed_at=datetime.now(timezone.utc).isoformat(),
                    source_revision=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
                    source_status_before=subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True),
                    host=platform.platform(), python=sys.version, stages=[], owner_accepted=False,
                    full_0_1_0_complete=False, original_delay_cause_established=False,
                    scope='Current Windows x64 image prototype, all targets built and explicitly selected native regressions and independent tooling/build/import/context evidence. Not full NTFS, all original platforms/storage or release qualification.')
+    reused = {}
+    built_artifacts = {}
+    if args.resume_selection_error:
+        previous = json.loads((output / 'summary.json').read_bytes())
+        assert previous['status'] == 'fail' and previous['error'] == 'AssertionError()'
+        assert previous['source_revision'] == summary['source_revision']
+        assert previous['native_exit_code'] == 0
+        assert 'RegularExpression::compile(): Error in compile.' in (output / 'native.log').read_text()
+        assert not ET.parse(output / 'native-junit.xml').getroot().findall('.//testcase')
+        assert [s['name'] for s in previous['stages']] == ['configure', 'build', 'registered', 'native']
+        assert all(s['exit_code'] == 0 for s in previous['stages'])
+        history = output / 'failed-selection'
+        history.mkdir()
+        for name in ['summary.json', 'native.log', 'native-junit.xml']:
+            shutil.copyfile(output / name, history / name)
+        summary['stages'] = previous['stages'][:3]
+        reused = {s['name']: s for s in summary['stages']}
+        built_artifacts = {str(p.relative_to(build)): sha(p) for p in (build / 'Release').iterdir() if p.suffix in {'.exe', '.lib'}}
+        summary['resumed_after'] = 'failed-selection/summary.json'
+        summary['reused_build_artifacts'] = built_artifacts
+    summary['qualification_recipe_sha256'] = sha(Path(__file__).resolve())
+    summary['source_qualification_recipe_sha256'] = before['.aide/evidence/2026-10-16-ntfs-directory-file/reproduce.py']
 
     def save():
         (output / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8', newline='\n')
 
     def run(name, command):
         command = list(map(str, command))
+        if name in reused:
+            assert reused[name]['command'] == command and reused[name]['cwd'] == str(root)
+            print('REUSE verified', name, flush=True)
+            return reused[name]['exit_code']
         print('BEGIN', name, flush=True)
         start = time.monotonic()
         with (output / (name + '.log')).open('wb') as log:
@@ -62,7 +93,11 @@ def main():
         summary['registered_native_groups'] = len(registered)
         summary['full_native_suite_run'] = False
         summary['selected_native_groups'] = sorted(expected)
-        selected_pattern = '^(?:' + '|'.join(re.escape(n) for n in sorted(expected)) + ')$'
+        selected_pattern = '^(' + '|'.join(re.escape(n) for n in sorted(expected)) + ')$'
+        assert run('selected-registration', ['ctest', '--test-dir', build, '-C', 'Release',
+                   '--show-only=json-v1', '-R', selected_pattern]) == 0
+        selected = json.loads((output / 'selected-registration.log').read_bytes())['tests']
+        assert len(selected) == len(expected) and {t['name'] for t in selected} == expected
         summary['native_exit_code'] = run('native', ['ctest', '--test-dir', build, '-C', 'Release', '--parallel', '1',
                                                     '--output-on-failure', '-R', selected_pattern, '--output-junit', output / 'native-junit.xml'])
         tests = ET.parse(output / 'native-junit.xml').getroot().findall('.//testcase')
@@ -109,6 +144,9 @@ def main():
                         '--byte-budget', '1200000', '--artifact-byte-budget', '16777216'])
         run('verify-context', [sys.executable, 'spec/tools/specctl.py', 'verify-context', output / 'context'])
         summary['inputs_unchanged'] = all(sha(root / name) == digest for name, digest in before.items())
+        if built_artifacts:
+            summary['reused_artifacts_unchanged'] = all(sha(build / name) == digest for name, digest in built_artifacts.items())
+            assert summary['reused_artifacts_unchanged']
         summary['source_status_after'] = subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True)
         summary['status'] = 'pass' if not summary['native_failed'] and not summary['native_skipped'] and all(s['exit_code'] == 0 for s in summary['stages']) and summary['inputs_unchanged'] and not summary['source_status_after'] else 'fail'
     except BaseException as error:

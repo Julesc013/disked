@@ -1503,7 +1503,38 @@
     "full_0_1_0_complete": false,
     "working_evidence": ".aide/evidence/2026-10-16-ntfs-directory-file/working/20261016T023327Z-expanded-pass/summary.json",
     "test_input_addition": "The final corpus also retains before/after complete file hashes; clean qualification will exercise it.",
-    "qualification_scope": "All targets built;31 explicitly affected native groups plus full tooling/headers/imports/context and six private Win32 groups. Not a complete161-group native run or full0.1.0 qualification."
+    "qualification_scope": "All targets built;31 explicitly affected native groups plus full tooling/headers/imports/context and six private Win32 groups. Not a complete161-group native run or full0.1.0 qualification.",
+    "exact_campaign": {
+      "source_revision": "4156accfa906943ad14e61061954b01c48e08207",
+      "exec_session": 40330,
+      "directory": ".aide-local/ntfs-directory-file-qualified-4156accf",
+      "status": "failed-test-selector",
+      "scope": "All targets built,31 selected native groups, complete tooling/header/import/context checks. No full161-group claim.",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "exec_session_closed": true,
+      "native_tests_executed": 0,
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-file/failed-selection-4156accf/summary.json",
+      "resolution": "Correct CTest regex and resume only unchanged source/completed build/registration; original failed phase retained."
+    },
+    "win32_supplement": {
+      "status": "pass",
+      "source_revision": "4156accfa906943ad14e61061954b01c48e08207",
+      "native_groups": 6,
+      "directory_file_cases": 550,
+      "headers": 4,
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-file/win32-4156accf/summary.json",
+      "owner_accepted": false
+    },
+    "resumed_campaign": {
+      "source_revision": "4156accfa906943ad14e61061954b01c48e08207",
+      "exec_session": 44675,
+      "directory": ".aide-local/ntfs-directory-file-qualified-4156accf",
+      "status": "running",
+      "preflight_selected_registration": 31,
+      "original_failed_phase": ".aide/evidence/2026-10-16-ntfs-directory-file/failed-selection-4156accf/summary.json",
+      "reuses_only_verified_unchanged_build": true
+    }
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1730,9 +1761,9 @@
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {
-    "revision": "fa88354dae6f82979d388fd6653e78f911e9c62a",
+    "revision": "4156accfa906943ad14e61061954b01c48e08207",
     "verified": true,
-    "source": "Authorized dev/main pushes verified for current exFAT qualification metadata; following receipt commit is metadata only."
+    "source": "Authorized git push origin dev succeeded; main remains at the preceding reviewed checkpoint while qualification runs."
   },
   "historical_native_campaigns": [
     {
