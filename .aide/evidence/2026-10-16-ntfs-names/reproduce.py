@@ -62,20 +62,24 @@ def main():
         expected = registered
         assert len(expected)==164 and {'image.ntfs_names','image.ntfs_stream','image.ntfs_commands','image.ntfs_directory_commands','image.ntfs_directory_worker','build.boundaries','build.boundary_checker'}<=expected
         summary['registered_native_groups'] = len(registered)
-        summary['full_native_suite_run'] = True
+        summary['full_native_suite_run'] = False
         summary['selected_native_groups'] = sorted(expected)
         selected_pattern = '^(' + '|'.join(re.escape(n) for n in sorted(expected)) + ')$'
         assert run('selected-registration', ['ctest','--test-dir',build,'-C','Release','--show-only=json-v1','-R',selected_pattern])==0
         selected=json.loads((output/'selected-registration.log').read_bytes())['tests']
         assert len(selected)==len(expected) and {r['name'] for r in selected}==expected
         summary['native_exit_code'] = run('native', ['ctest', '--test-dir', build, '-C', 'Release', '--parallel', '1',
-                                                    '--output-on-failure', '-R', selected_pattern, '--output-junit', output / 'native-junit.xml'])
+                                                    '--output-on-failure', '--stop-on-failure', '-R', selected_pattern, '--output-junit', output / 'native-junit.xml'])
         tests = ET.parse(output / 'native-junit.xml').getroot().findall('.//testcase')
-        assert len(tests) == len(expected) and {t.attrib['name'] for t in tests} == expected
+        actual_names = {t.attrib['name'] for t in tests}
+        summary['full_native_suite_run'] = len(tests) == len(expected) and actual_names == expected
+        summary['native_not_run'] = sorted(expected - actual_names)
         summary['native_groups'] = len(tests)
         summary['native_failed'] = [t.attrib['name'] for t in tests if t.find('failure') is not None or t.find('error') is not None]
         summary['native_skipped'] = [t.attrib['name'] for t in tests if t.find('skipped') is not None]
         summary['native_passed'] = len(tests) - len(summary['native_failed']) - len(summary['native_skipped'])
+        assert summary['native_exit_code'] == 0, 'Native campaign failed; remaining qualification not run'
+        assert summary['full_native_suite_run'] and not summary['native_failed'] and not summary['native_skipped']
         summary['ntfs_cases'] = {p.name: json.loads(p.read_bytes()).get('count', json.loads(p.read_bytes()).get('cases')) for p in build.glob('ntfs-*-cases.json')}
         identity = json.loads((build / 'generated/build-identity.json').read_bytes())
         summary['build_identity'] = identity

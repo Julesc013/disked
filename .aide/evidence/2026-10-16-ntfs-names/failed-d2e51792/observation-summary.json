@@ -1,0 +1,37 @@
+{
+  "observed_at": "2026-10-16T05:54:42.429277+00:00",
+  "source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
+  "status": "aborted_after_observed_failures",
+  "raw_recipe_status_preserved": "running",
+  "exec_session_id": 10758,
+  "exec_session_closed": true,
+  "exec_exit_code": 1,
+  "closure_method": "One Ctrl-C to the owned unified-exec session; subsequent read-only process query found no visible process whose command/executable named the exact campaign or source checkout.",
+  "registered_groups": 164,
+  "native_completed_groups": 28,
+  "native_passed_groups": 26,
+  "native_failed_groups": [
+    "image.ntfs_directory_commands",
+    "build.boundaries"
+  ],
+  "native_interrupted_group": "evidence.verification_case_export",
+  "native_not_started_groups": 135,
+  "full_native_suite_run": false,
+  "violations": [
+    "disked_ntfs_stream_headers: private detail header includes portable NTFS without direct test-target dependency",
+    "ntfs_names_probe: probe-support header includes portable NTFS without direct dependency"
+  ],
+  "runtime_failure": {
+    "group": "image.ntfs_directory_commands",
+    "case": "ndjson large report",
+    "diagnostic": "request_wait_expired",
+    "exit_code": 6,
+    "completed_fixture_records": 50,
+    "cause_established": false,
+    "deadlines_changed": false
+  },
+  "resolution": "Add portable NTFS as a direct dependency of these two actual test consumers; preserve the stream library public interface. Independently investigate the runtime timeout, then start a fresh clean-source full campaign.",
+  "expected_outputs_or_deadlines_weakened": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

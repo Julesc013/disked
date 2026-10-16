@@ -131,7 +131,7 @@
     "DE-W093"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Poll x64 exec10758 and Win32 exec99960; inspect existing outputs/logs without restarting live campaigns. Retain exact results/failures, then review unchanged source/metadata/staged bytes and authorized dev/main integration. Native membership/namespace/collation/content and original0.1.0 remain.",
+  "next_action": "Commit/freeze the dependency-corrected source; run a fresh all-target/full164 x64 campaign with stop-on-failure. After it finishes, run the private9-group Win32 supplement. Retain all original failures and unknown timeout cause; do not integrate until complete source/metadata review passes.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1567,34 +1567,37 @@
   "in_progress_slice": {
     "work_id": "DE-W094",
     "base_revision": "df1754652a89eb6751a95f7440c65cba7fd64468",
-    "state": "Exact d2e51792 full164 x64/all-target campaign and private9-group Win32 supplement running. Working247 filename/298 stream cases passed; qualification incomplete.",
+    "state": "Two actual direct test/header dependencies corrected; four working groups including both boundary checks pass, with247 filename/298 stream cases unchanged. Original d2e51792 boundary/NDJSON failures retained; targeted100-case and12 serial observations pass, timeout cause unknown. Fresh complete source qualification pending.",
     "contract": "spec/catalog/ntfs-names-prototype.json",
     "qualification_pending": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "working_evidence": ".aide/evidence/2026-10-16-ntfs-names/working-review.json",
-    "tested_source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
-    "campaigns": {
+    "dependency_correction": ".aide/evidence/2026-10-16-ntfs-names/dependency-correction.json",
+    "previous_campaigns": {
       "x64": {
         "session_id": 10758,
-        "status": "running",
+        "status": "aborted_after_observed_failures",
         "output": ".aide-local/ntfs-names-qualification-d2e51792",
         "driver_log": ".aide-local/ntfs-names-qualification-d2e51792.log",
         "expected_native_groups": 164,
-        "exec_session_closed": false,
-        "exit_code": null
+        "exec_session_closed": true,
+        "exit_code": 1,
+        "evidence": ".aide/evidence/2026-10-16-ntfs-names/failed-d2e51792/observation-summary.json"
       },
       "win32": {
         "session_id": 99960,
-        "status": "running",
+        "status": "pass",
         "output": ".aide-local/ntfs-names-win32-d2e51792",
         "driver_log": ".aide-local/ntfs-names-win32-d2e51792.log",
         "expected_native_groups": 9,
         "expected_headers": 8,
-        "exec_session_closed": false,
-        "exit_code": null
+        "exec_session_closed": true,
+        "exit_code": 0,
+        "evidence": ".aide/evidence/2026-10-16-ntfs-names/win32-d2e51792/summary.json"
       }
-    }
+    },
+    "last_failed_source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e"
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",

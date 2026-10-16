@@ -906,7 +906,7 @@
     "tests/unit/ntfs_names_probe.cpp",
     "tools/build-inputs.json"
   ],
-  "summary": "Private distinct FILE_NAME collection and shared FILE/list selection implemented. Working native247 filename and unchanged298 stream cases/three standalone headers pass. Input list records hashed closure, not a line-by-line audit. Full clean source qualification remains pending. Clean d2e51792 campaigns are running, not yet passed; exact process IDs and outputs are in campaigns-started.json. Extra root .gitignore checkout EOL and ignored-cache inventory defects are retained separately; declared/source/test inputs match.",
+  "summary": "DE-W094 working247 filename/298 stream cases pass. Exact d2e51792 all-target build succeeded; native campaign had a large NDJSON request_wait_expired and missing direct test/header dependencies. It was deliberately stopped after26 passed/two failed; one interrupted/135 not started. Timeout cause unknown. Private Win32 nine groups/eight headers pass at d2e51792. Raw running summary and original failures retained; no full qualification or integration claimed. Corrected direct test/header dependencies pass four working groups; production source/fixture bytes remain unchanged. Targeted100-case recheck and12 serial old/new observations pass, but original timeout cause is unknown. Fresh complete qualification pending.",
   "tests": [
     {
       "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
@@ -970,6 +970,76 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T053430Z-first-native-evaluation/native.log"
+    },
+    {
+      "command": "Clean x64 native campaign, interrupted after observed failures",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/failed-d2e51792/observation-summary.json"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W094 --output .aide-local\\context\\ntfs-names-dependency-correction-20261016T055745Z --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local\\context\\ntfs-names-dependency-correction-20261016T055745Z",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/verify-context.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -B .aide-local\\report-phases-build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/configure.log"
+    },
+    {
+      "command": "cmake --build .aide-local\\report-phases-build --config Release --target ntfs_names_probe ntfs_stream_probe disked_ntfs_stream_headers --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/build.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local\\report-phases-build -C Release --output-on-failure -R ^(image.ntfs_(names|stream)|build\\.(boundaries|boundary_checker))$ --output-junit D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-names\\working\\20261016T055745Z-dependency-correction\\native-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-names/working/20261016T055745Z-dependency-correction/native.log"
     }
   ],
   "artifacts": [],
@@ -977,6 +1047,6 @@
     "Clean-source complete native/build/tooling/import/context qualification pending.",
     "Native target membership, collation/namespace/content, other hosts and all original0.1.0 remain; owner/storage/release privileges separate."
   ],
-  "next_safe_step": "Poll x64 exec10758 and Win32 exec99960; inspect existing outputs/logs without restarting live campaigns. Retain exact results/failures, then review unchanged source/metadata/staged bytes and authorized dev/main integration. Native membership/namespace/collation/content and original0.1.0 remain.",
+  "next_safe_step": "Commit/freeze the dependency-corrected source; run a fresh all-target/full164 x64 campaign with stop-on-failure. After it finishes, run the private9-group Win32 supplement. Retain all original failures and unknown timeout cause; do not integrate until complete source/metadata review passes.",
   "performed_remote_writes": true
 }

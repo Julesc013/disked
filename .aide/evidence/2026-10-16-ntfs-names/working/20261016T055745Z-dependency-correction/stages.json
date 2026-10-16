@@ -1,0 +1,128 @@
+[
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "index.log"
+  },
+  {
+    "name": "structural",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "structural.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "manifest.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "verify-manifest.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W094",
+      "--output",
+      ".aide-local\\context\\ntfs-names-dependency-correction-20261016T055745Z",
+      "--byte-budget",
+      "1200000",
+      "--artifact-byte-budget",
+      "16777216"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      ".aide-local\\context\\ntfs-names-dependency-correction-20261016T055745Z"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "verify-context.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      ".aide-local\\report-phases-build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      ".aide-local\\report-phases-build",
+      "--config",
+      "Release",
+      "--target",
+      "ntfs_names_probe",
+      "ntfs_stream_probe",
+      "disked_ntfs_stream_headers",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      ".aide-local\\report-phases-build",
+      "-C",
+      "Release",
+      "--output-on-failure",
+      "-R",
+      "^(image.ntfs_(names|stream)|build\\.(boundaries|boundary_checker))$",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-names\\working\\20261016T055745Z-dependency-correction\\native-junit.xml"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "native.log"
+  }
+]

@@ -97,7 +97,7 @@ try:
     run('build',['cmake','--build',build,'--config','Release','--parallel','4'])
     run('registered',['ctest','--test-dir',build,'-C','Release','--show-only=json-v1'])
     assert {r['name'] for r in json.loads((out/'registered.log').read_bytes())['tests']}=={'image.ntfs_'+k for k in tests}
-    run('native',['ctest','--test-dir',build,'-C','Release','--parallel','1','--output-on-failure','--output-junit',out/'native-junit.xml'])
+    run('native',['ctest','--test-dir',build,'-C','Release','--parallel','1','--output-on-failure','--stop-on-failure','--output-junit',out/'native-junit.xml'])
     actual=ET.parse(out/'native-junit.xml').getroot().findall('.//testcase')
     assert len(actual)==9 and {t.attrib['name'] for t in actual}=={'image.ntfs_'+k for k in tests}
     assert all(t.find('failure') is None and t.find('error') is None and t.find('skipped') is None for t in actual)

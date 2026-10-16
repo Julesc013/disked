@@ -1,0 +1,52 @@
+{
+  "status": "research-not-execution-contract",
+  "candidate_work_id": "DE-W095",
+  "recorded_at": "2026-10-16T05:45:04.469527+00:00",
+  "native_source_under_qualification": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
+  "scope": "Source-bound correspondence between captured directory index names and target FILE_NAME instances; collation/tree/content remain separate required work.",
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-name",
+      "supports": "The version3.0/3.1 filename structure binds a counted original name to a parent FILE reference; its reserved bytes are not documented authority for exact membership comparison."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-record-header",
+      "supports": "FILE_NAME uses attribute type0x30; the instance is local to its FILE record. Attribute lists identify the records carrying a file's attributes."
+    }
+  ],
+  "local_inputs": {
+    "source/runtime/capture/ntfs_capture.cpp": "sha256:e2853c10427bdce11643b29a423ea441e66cd4d6414655b2c8c5c7ff5702fa23",
+    "source/runtime/capture/ntfs_directory.cpp": "sha256:c0281a02636bac5102d85cc0ccfee5f8ecac2ab90e8f5c7bf85885e00717cbe4",
+    "source/runtime/capture/ntfs_directory_detail.h": "sha256:38f026c5b209590ad1993951fd9075f23cbe2cb023267c4e089125fd655ea410",
+    "source/runtime/capture/ntfs_names.h": "sha256:2c59afc28006481da3c97d6fea0ced7ba42103f0765eca82d0a36237094781a2",
+    "source/runtime/capture/ntfs_names.cpp": "sha256:e00d271283c799e16848b6a84444b52e25c0150d6dbb3e142db078018b131d45",
+    "spec/catalog/ntfs-directory-prototype.json": "sha256:1256b90cc58a06dc078a7a93199796ee601a015f5e6221c93a46ab2fa26638ce",
+    "spec/catalog/ntfs-names-prototype.json": "sha256:5f0b2b83ce329b2a438ac00630a82a461f13731ec6315d92bd5311a82914e7cd"
+  },
+  "local_findings": [
+    "The current directory path finishes a complete index graph before the existing global final reread phase. A new supplied-reader membership mode can share that one source/capture epoch instead of starting a second opener.",
+    "Observer::read retains every exact span and compares overlaps for byte agreement. It permits identical overlap; it is not a blanket prohibition on repeated logical records. Every added read still consumes global read/byte/retention quotas and the final reread stream.",
+    "The completed MFT map and initialized/data bounds already address arbitrary full record ordinals with checked multiply/add. New targets must be validated as base FILEs with exact nonzero reference sequences and supported in-use flags; an ordinal alone cannot identify one.",
+    "acquire_list currently has explicit MFT/Volume/directory alias checks. Adding target closures needs a precise shared set of already acquired metadata-list and directory-stream mappings; the present directory-only pointer comparison is not a general target-list ownership proof.",
+    "The new filename collector preserves separate parent/name/namespace/record-instance values and can expose validated missing record dependencies. It has no source access. Reuse it after real source acquisition rather than copying its record/list parser."
+  ],
+  "contract_questions": [
+    "Use a separate private request/observation for membership so existing bootstrap/directory contracts, output and read order remain compatible. Define controls, exact target/edge ordering, distinct-target quota and global-budget interaction before code.",
+    "Bind target/extension/list bytes to the same source/window/profile/epoch and exact initialized MFT map, then the existing ordered final reread. Define source failure and partial-prefix behavior without producing native source authority from supplied assertions.",
+    "Preserve every directory edge and every filename instance. Exact original parent/name/namespace correspondence can be reported separately from duplicate multiplicity, opaque information bytes, collation, lookup and complete namespace health.",
+    "Specify cache identity and behavior for repeated full references, conflicting sequences for one ordinal, existing bootstrap/directory records, a target that was already seen as an extension, and physical aliases among new nonresident lists.",
+    "Keep missing/stale/unsupported/changed/budget-limited states distinct. A known valid edge prefix cannot qualify unobserved edges, a target-record inventory cannot establish complete directory/tree membership, and a source reread is not an atomic snapshot.",
+    "Native worker framing/replay, held-file integration and eventual public command admission require their own source-bound contracts/tests before the new private observation is exposed."
+  ],
+  "unresolved": [
+    "Exact statuses and conservative aggregate summary",
+    "Target/edge/cache/list quotas and accounting",
+    "Per-directory case policy, UpCase/collation, uniqueness and lookup",
+    "Native file/worker/public admission and full namespace/content"
+  ],
+  "execution_contract_defined": false,
+  "implementation_started": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

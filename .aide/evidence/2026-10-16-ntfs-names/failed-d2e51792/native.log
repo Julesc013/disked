@@ -1,0 +1,130 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/ntfs-names-qualification-d2e51792/build
+        Start   1: image.ntfs_commands
+  1/164 Test   #1: image.ntfs_commands .......................   Passed   21.56 sec
+        Start   2: image.ntfs_directory_commands
+  2/164 Test   #2: image.ntfs_directory_commands .............***Failed   31.55 sec
+CASE cli-0
+CASE stdio-0
+CASE cli-1
+CASE stdio-1
+CASE cli-2
+CASE stdio-2
+CASE cli-3
+CASE stdio-3
+CASE cli-4
+CASE stdio-4
+CASE cli-5
+CASE stdio-5
+CASE cli-6
+CASE stdio-6
+CASE cli-7
+CASE stdio-7
+CASE cli-8
+CASE stdio-8
+CASE cli-9
+CASE stdio-9
+CASE cli-10
+CASE stdio-10
+CASE cli-11
+CASE stdio-11
+CASE cli-12
+CASE stdio-12
+CASE cli-13
+CASE stdio-13
+CASE cli-14
+CASE stdio-14
+CASE cli-15
+CASE stdio-15
+CASE cli-16
+CASE stdio-16
+CASE cli-17
+CASE stdio-17
+CASE cli-18
+CASE stdio-18
+CASE cli-19
+CASE stdio-19
+CASE cli-20
+CASE stdio-20
+CASE cli-21
+CASE stdio-21
+CASE independent-worker
+CASE pure-port
+CASE independent-worker
+CASE pure-port
+CASE independent-worker
+CASE large-human-cli
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-names-exact-d2e51792\tests\frontend\test_ntfs_directory_commands.py", line 292, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-names-exact-d2e51792\tests\frontend\test_ntfs_directory_commands.py", line 190, in main
+    ndjson=launch('ndjson',['protocol','serve','--format=ndjson'],data=canonical(wire(params(v,path)))+b'\n');compare(expected,ndjson)
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-names-exact-d2e51792\tests\frontend\test_ntfs_directory_commands.py", line 69, in launch
+    assert p.returncode==expected and not p.stderr,(name,p.returncode,p.stdout[:2500],p.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('ndjson', 6, b'{"diagnostics":[{"code":"request_wait_expired","message_key":"disked.request_wait_expired","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"ntfs-directory:req","result":{"request_state":"unresolved"},"schema":"org.disked.response/1","status":"unknown"}\n', b'')
+
+        Start   3: image.exfat_commands
+  3/164 Test   #3: image.exfat_commands ......................   Passed   21.91 sec
+        Start   4: resilience.worker_ancestry
+  4/164 Test   #4: resilience.worker_ancestry ................   Passed    4.45 sec
+        Start   5: acquisition.fat_metadata
+  5/164 Test   #5: acquisition.fat_metadata ..................   Passed    3.34 sec
+        Start   6: capture.fat_content_stream
+  6/164 Test   #6: capture.fat_content_stream ................   Passed    6.57 sec
+        Start   7: capture.tree_session_rules
+  7/164 Test   #7: capture.tree_session_rules ................   Passed    0.07 sec
+        Start   8: frontend.fat_recursive_product
+  8/164 Test   #8: frontend.fat_recursive_product ............   Passed   11.49 sec
+        Start   9: frontend.fat_recursive_failures
+  9/164 Test   #9: frontend.fat_recursive_failures ...........   Passed   40.00 sec
+        Start  10: frontend.fat_tree_sessions
+ 10/164 Test  #10: frontend.fat_tree_sessions ................   Passed   19.03 sec
+        Start  11: image.fat_tree_commands
+ 11/164 Test  #11: image.fat_tree_commands ...................   Passed    3.53 sec
+        Start  12: image.fat_tree_reconnect
+ 12/164 Test  #12: image.fat_tree_reconnect ..................   Passed    4.12 sec
+        Start  13: image.fat_tree_watch
+ 13/164 Test  #13: image.fat_tree_watch ......................   Passed    4.04 sec
+        Start  14: acquisition.fat_tree_review
+ 14/164 Test  #14: acquisition.fat_tree_review ...............   Passed    1.89 sec
+        Start  15: evidence.fat_tree_history
+ 15/164 Test  #15: evidence.fat_tree_history .................   Passed   67.84 sec
+        Start  16: image.fat_tree_extraction
+ 16/164 Test  #16: image.fat_tree_extraction .................   Passed   79.23 sec
+        Start  17: image.fat_content
+ 17/164 Test  #17: image.fat_content .........................   Passed    1.45 sec
+        Start  18: image.fat_retention_store
+ 18/164 Test  #18: image.fat_retention_store .................   Passed    0.35 sec
+        Start  19: image.fat_retention_commands
+ 19/164 Test  #19: image.fat_retention_commands ..............   Passed    9.50 sec
+        Start  20: build.boundaries
+ 20/164 Test  #20: build.boundaries ..........................***Failed    5.98 sec
+{
+  "status": "FAIL",
+  "target_count": 308,
+  "compiled_source_entries": 711,
+  "quoted_include_edges": 8378,
+  "violations": [
+    "disked_ntfs_stream_headers: undeclared header dependency source/runtime/capture/ntfs_attributes_detail.h -> source/portable/ntfs/ntfs.h",
+    "ntfs_names_probe: undeclared header dependency tests/unit/ntfs_probe_support.h -> source/portable/ntfs/ntfs.h"
+  ]
+}
+
+        Start  21: build.boundary_checker
+ 21/164 Test  #21: build.boundary_checker ....................   Passed    0.42 sec
+        Start  22: frontend.product_verification
+ 22/164 Test  #22: frontend.product_verification .............   Passed   43.11 sec
+        Start  23: frontend.product_export
+ 23/164 Test  #23: frontend.product_export ...................   Passed   19.38 sec
+        Start  24: frontend.joined_report
+ 24/164 Test  #24: frontend.joined_report ....................   Passed   23.00 sec
+        Start  25: frontend.gui_capture
+ 25/164 Test  #25: frontend.gui_capture ......................   Passed    1.30 sec
+        Start  26: evidence.report_process_identity
+ 26/164 Test  #26: evidence.report_process_identity ..........   Passed    3.44 sec
+        Start  27: operation.directory_pins
+ 27/164 Test  #27: operation.directory_pins ..................   Passed    0.46 sec
+        Start  28: evidence.acquisition_export
+ 28/164 Test  #28: evidence.acquisition_export ...............   Passed    5.24 sec
+        Start  29: evidence.verification_case_export
