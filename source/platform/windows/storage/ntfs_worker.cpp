@@ -186,7 +186,7 @@ std::unique_ptr<NtfsWorker> NtfsWorker::prepare(const NtfsSnapshotInput &input) 
     p->view = MapViewOfFile(p->mapping.value, FILE_MAP_READ, 0, 0, ntfs_snapshot_payload_bytes);
     if (!p->view)
         w::fail("ntfs_worker_mapping");
-    p->worker = ObservationWorker::prepare(request(input), profile(p->view), p->mapping.value);
+    p->worker = ObservationWorker::prepare(request(p->input), profile(p->view), p->mapping.value);
     return std::unique_ptr<NtfsWorker>(new NtfsWorker(std::move(p)));
 }
 void NtfsWorker::launch() {
@@ -226,7 +226,9 @@ std::shared_ptr<const NtfsFileSnapshot> NtfsWorker::snapshot(bool retain_frame) 
     context.put("pid", field(process, "pid"))
         .put("created", field(process, "created"))
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
-        .put("image_profile", V::string("ordinary-file-ntfs"));
+        .put("image_profile", V::string(impl_->input.kind == NtfsSnapshotKind::Directory
+                                            ? "ordinary-file-ntfs-directory"
+                                            : "ordinary-file-ntfs"));
     // C++14 does not sequence constructor arguments: copy result before moving frame.
     auto result = field(captured, "result");
     auto retained = retain_frame ? std::move(captured) : V{};
@@ -279,6 +281,12 @@ int ntfs_worker_role(int argc, wchar_t **argv) {
                             "capture_domain", V::string("sha256:" + std::string(64, '0')));
                     if (fault == "row_changed")
                         captured.fields.at("regions").items.at(0).put("offset", V::string("1"));
+                    if (fault == "prefix_changed")
+                        captured.fields.at("result").fields.at("capture").put(
+                            "profile_prefix_reused", V::string("18446744073709551615"));
+                    if (fault == "profile_hash_changed")
+                        captured.fields.at("result").fields.at("capture").put(
+                            "profile_probe_sha256", V::string("sha256:" + std::string(64, '0')));
 #endif
                     const auto bytes = json::dump(captured, ntfs_snapshot_json_limits());
                     if (bytes.size() > ntfs_snapshot_payload_bytes)

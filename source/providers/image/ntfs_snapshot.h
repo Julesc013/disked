@@ -7,6 +7,7 @@ namespace disked {
 namespace nt_inventory {
 class NtfsWorker;
 }
+enum class NtfsSnapshotKind { Bootstrap, Directory };
 struct NtfsSnapshotInput {
     std::uint64_t capture_epoch = 0, volume_offset = 0, volume_bytes = 0;
     std::string path;
@@ -14,6 +15,9 @@ struct NtfsSnapshotInput {
     NtfsFileProfile profile = NtfsFileProfile::Automatic;
     NtfsCaptureLimits limits;
     json::Value fixture = json::Value::object();
+    NtfsSnapshotKind kind = NtfsSnapshotKind::Bootstrap;
+    std::uint64_t directory_reference = 0;
+    NtfsDirectoryLimits directory_limits;
 };
 constexpr std::size_t ntfs_snapshot_payload_bytes = 8U * 1024U * 1024U;
 json::Limits ntfs_snapshot_json_limits();

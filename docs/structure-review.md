@@ -34,13 +34,13 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **317 current source files**: 36 portable, 136 runtime, 68 provider,
-63 platform and 14 application files. This includes the directory collector and native file binding; their source-bound qualification is below. The longest repository-relative source
+63 platform and 14 application files. This includes the directory collector and native file/worker binding; their source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-directory-file/source-inventory.json) and
-[current path checks](../.aide/evidence/2026-10-16-ntfs-directory-file/path-audit.json) bind these observations;
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-directory-worker/source-inventory.json) and
+[current path checks](../.aide/evidence/2026-10-16-ntfs-directory-worker/path-audit.json) bind these observations;
 the earlier assessment remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
@@ -68,7 +68,7 @@ is formatter-clean.
 | SR-05: composition and test seams | Remains a targeted improvement. `app.cpp` still contains command-specific routing, limits and test hooks. Extract a named service binding or test seam with a concrete contract and consumer, preserving one command registry. |
 | SR-06: inventory does not enforce dependencies | Independent CMake-derived build/header checks now accompany source-map coverage. They qualify their tested lane, not every target or public SDK. |
 | SR-07: stale first-task routing | Root guidance routes through the programme. This pass also makes the canonical start page distinguish an active checkout from an initial archive. |
-| SR-08: Setup qualification | Earlier candidates failed Windows qualification; the latest observed candidate is still awaiting native checks. Qualification remains open. See the exact snapshot below. |
+| SR-08: Setup qualification | Earlier candidates failed Windows qualification; the latest observed candidate also failed native Windows qualification. Qualification remains open. See the exact snapshot below. |
 
 The original 1,043-line follow-up mixed many dated checkpoints with current
 guidance. Its [exact pre-consolidation contents](../.aide/evidence/2026-10-16-structure-status/structure-review-before.md)
@@ -119,22 +119,17 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The read-only Universal Setup snapshot at `2026-10-16T02:04:37.572444+00:00` finds
+The read-only Universal Setup snapshot at `2026-10-16T03:40:42.810046+00:00` finds
 [draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
-`6869eb32`. Four checks have passed; native Windows, Win32 and Linux checks
-remain running. This candidate is **pending qualification**. The preceding
-`c0d768e5` Windows failure in
-[run 38829055547](https://github.com/Julesc013/universal-setup/actions/runs/38829055547)
-reported `receipt file count differs` twice; it remains an observation about
-that earlier head, without an established local runtime cause.
-
-Setup main/dev retain the same file tree with one synchronization commit; both
-branches report protected. Both queried GitHub release collections are empty.
-These are hosted observations, not local Setup or DiskEd lifecycle qualification.
-[Latest snapshot](../.aide/evidence/2026-10-16-exfat-tree-review/hosted-observations.json)
-and the [earlier failed log](../.aide/evidence/2026-10-16-ntfs-directory/setup-38829055547-failed.log)
-retain the exact observations. Do not infer a new candidate's result from an old
-head's failure or from a subset of completed checks.
+`6869eb32`. All seven checks have finished: six passed and native Windows failed.
+The failed Windows log reports `receipt file count differs` twice. The candidate
+remains unqualified. This updates the earlier pending observation; it does not
+establish a local runtime cause or qualify the repair/recovery lifecycle.
+[Hosted snapshot](../.aide/evidence/2026-10-16-ntfs-directory-worker/hosted-observations.json)
+and [failed log](../.aide/evidence/2026-10-16-ntfs-directory-worker/setup-38837873974-failed.log)
+retain the exact result. Setup main/dev remain protected, with the same file tree
+and one synchronization commit. Both queried GitHub release collections are
+empty. These observations are not local Setup or DiskEd lifecycle qualification.
 
 The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

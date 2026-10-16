@@ -120,6 +120,67 @@ V limit_value(const NtfsCaptureLimits &l) {
 #undef SAVE
     return v;
 }
+bool directory_mode(const NtfsSnapshotInput &input) {
+    if (input.kind == NtfsSnapshotKind::Directory)
+        return true;
+    if (input.kind != NtfsSnapshotKind::Bootstrap || input.directory_reference ||
+        input.directory_limits.entries != 4096 || input.directory_limits.blocks != 64 ||
+        input.directory_limits.bitmap_bytes != 65536)
+        throw std::invalid_argument("ntfs_snapshot_kind");
+    return false;
+}
+V directory_limits_value(const NtfsDirectoryLimits &l) {
+    return V::object()
+        .put("entries", number(l.entries))
+        .put("blocks", number(l.blocks))
+        .put("bitmap_bytes", number(l.bitmap_bytes));
+}
+V directory_foundation(const V &v) {
+    auto value = V::object();
+    for (const auto k : {"schema",
+                         "source_id",
+                         "epoch",
+                         "volume_offset",
+                         "volume_bytes",
+                         "requested_major",
+                         "atomic_snapshot",
+                         "current_source_authority",
+                         "effects_authorized",
+                         "boot",
+                         "primary",
+                         "mirror",
+                         "mirror_used_payload_equal",
+                         "mft",
+                         "volume_record",
+                         "volume_information",
+                         "regions",
+                         "retained_bytes",
+                         "attributes",
+                         "runs",
+                         "requested_directory_reference"}) {
+        const auto *p = v.find(k);
+        value.put(k, p ? *p : V{});
+    }
+    auto &info = value.fields.at("volume_information");
+    if (info.kind == V::Kind::object)
+        info.put("profile_matches", V::boolean_value(true));
+    auto closures = V::object();
+    if (const auto *all = v.find("record_closures"))
+        for (const auto k : {"mft", "volume"})
+            if (const auto *p = all->find(k))
+                closures.put(k, *p);
+    return value.put("record_closures", std::move(closures));
+}
+void directory_frame_bounds(const V &frame) {
+    auto limits = ntfs_snapshot_json_limits();
+    limits.bytes = limits.string_bytes = 131072;
+    json::dump(field(frame, "input"), limits);
+    limits.bytes = limits.string_bytes = 2U * 1024U * 1024U;
+    const auto &result = field(frame, "result");
+    json::dump(field(result, "observation"), limits);
+    limits.bytes = limits.string_bytes = 65536;
+    json::dump(field(result, "capture"), limits);
+}
 NtfsCaptureRequest capture_request(const NtfsSnapshotInput &input, std::uint64_t serial = 1) {
     NtfsCaptureRequest r;
     r.source_id = hash(input.expected_source);
@@ -172,6 +233,13 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
     local_file::path_for(input.path);
     metadata(input.expected_source);
     validate_ntfs_capture_request(capture_request(input));
+    if (directory_mode(input)) {
+        NtfsDirectoryRequest r;
+        r.capture = capture_request(input);
+        r.reference = input.directory_reference;
+        r.limits = input.directory_limits;
+        validate_ntfs_directory_request(r);
+    }
     if (input.fixture.kind != V::Kind::object)
         throw std::invalid_argument("ntfs_snapshot_fixture");
     for (const auto &p : input.fixture.fields) {
@@ -185,6 +253,8 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
                                                "process_changed",
                                                "domain_changed",
                                                "row_changed",
+                                               "prefix_changed",
+                                               "profile_hash_changed",
                                                "claims"};
         const std::set<std::string> captures = {
             "short", "error", "changed", "metadata", "binding", "replay_bytes", "replay_offset"};
@@ -194,6 +264,12 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
             "pid",     "created", "shape", "status",  "claims", "schema", "digest",   "hold"};
         if (p.second.kind != V::Kind::string)
             throw std::invalid_argument("ntfs_snapshot_fixture");
+        if (p.first == "capture_call") {
+            if (!json::decimal_u64(p.second.text) || !std::stoull(p.second.text) ||
+                std::stoull(p.second.text) > 2048)
+                throw std::invalid_argument("ntfs_snapshot_fixture");
+            continue;
+        }
         const auto *choices = p.first == "worker_fault"    ? &workers
                               : p.first == "capture_fault" ? &captures
                               : p.first == "startup_fault" ? &startups
@@ -209,15 +285,22 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
 }
 V ntfs_snapshot_input_value(const NtfsSnapshotInput &input) {
     validate_ntfs_snapshot_input(input);
-    return V::object()
-        .put("schema", V::string("org.disked.ntfs-source-request/1"))
-        .put("path", V::string(input.path))
-        .put("expected_source", input.expected_source)
-        .put("volume_offset", number(input.volume_offset))
-        .put("volume_bytes", number(input.volume_bytes))
-        .put("profile", V::string(profile_name(input.profile)))
-        .put("limits", limit_value(input.limits))
-        .put("fixture", input.fixture);
+    const bool directory = directory_mode(input);
+    auto value =
+        V::object()
+            .put("schema", V::string(directory ? "org.disked.ntfs-directory-source-request/1"
+                                               : "org.disked.ntfs-source-request/1"))
+            .put("path", V::string(input.path))
+            .put("expected_source", input.expected_source)
+            .put("volume_offset", number(input.volume_offset))
+            .put("volume_bytes", number(input.volume_bytes))
+            .put("profile", V::string(profile_name(input.profile)))
+            .put("limits", limit_value(input.limits))
+            .put("fixture", input.fixture);
+    if (directory)
+        value.put("directory_reference", number(input.directory_reference))
+            .put("directory_limits", directory_limits_value(input.directory_limits));
+    return value;
 }
 NtfsSnapshotInput ntfs_snapshot_input_from(const V &h) {
     NtfsSnapshotInput input;
@@ -226,12 +309,17 @@ NtfsSnapshotInput ntfs_snapshot_input_from(const V &h) {
     const auto &v = field(h, "provider_input");
     std::set<std::string> keys = {"schema",       "path",    "expected_source", "volume_offset",
                                   "volume_bytes", "profile", "limits",          "fixture"};
+    const auto schema = text(v, "schema");
+    if (schema == "org.disked.ntfs-directory-source-request/1") {
+        input.kind = NtfsSnapshotKind::Directory;
+        keys.insert("directory_reference");
+        keys.insert("directory_limits");
+    } else if (schema != "org.disked.ntfs-source-request/1")
+        throw std::invalid_argument("ntfs_snapshot_schema");
     for (const auto k : {"startup_fault", "reply_fault"})
         if (v.find(k))
             keys.insert(k);
     exact(v, keys);
-    if (text(v, "schema") != "org.disked.ntfs-source-request/1")
-        throw std::invalid_argument("ntfs_snapshot_schema");
     input.path = text(v, "path");
     input.expected_source = field(v, "expected_source");
     input.volume_offset = integer(v, "volume_offset");
@@ -265,6 +353,22 @@ NtfsSnapshotInput ntfs_snapshot_input_from(const V &h) {
     LOAD(runs);
     LOAD(output_bytes);
 #undef LOAD
+    if (directory_mode(input)) {
+        input.directory_reference = integer(v, "directory_reference");
+        const auto &limits = field(v, "directory_limits");
+        exact(limits, {"entries", "blocks", "bitmap_bytes"});
+#define LOAD_DIRECTORY(n)                                                                          \
+    {                                                                                              \
+        const auto x = integer(limits, #n);                                                        \
+        if (x > 65536)                                                                             \
+            throw std::invalid_argument("ntfs_snapshot_limit");                                    \
+        input.directory_limits.n = static_cast<std::size_t>(x);                                    \
+    }
+        LOAD_DIRECTORY(entries);
+        LOAD_DIRECTORY(blocks);
+        LOAD_DIRECTORY(bitmap_bytes);
+#undef LOAD_DIRECTORY
+    }
     validate_ntfs_snapshot_input(input);
     return input;
 }
@@ -279,12 +383,18 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
     r.volume_bytes = held.volume_bytes;
     r.profile = held.profile;
     r.limits = held.limits;
+    NtfsDirectoryFileRequest directory;
+    directory.file = r;
+    directory.reference = held.directory_reference;
+    directory.limits = held.directory_limits;
 #ifdef DISKED_NTFS_WORKER_TESTING
     NtfsFileTestControl control;
     const auto *f = held.fixture.find("capture_fault");
     const auto mode = f ? f->text : "";
-    control.after_read = [mode](std::size_t n, NtfsFileRegion &row) {
-        if (n != 2)
+    const auto *at = held.fixture.find("capture_call");
+    const auto call = at ? std::stoull(at->text) : 0;
+    control.after_read = [mode, call](std::size_t n, NtfsFileRegion &row) {
+        if (n != (call ? call : 2))
             return;
         if (mode == "short" && !row.bytes.empty())
             row.bytes.pop_back();
@@ -299,19 +409,22 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
         if (mode == "metadata")
             v.put("written", V::string("1"));
     };
-    control.before_binding = [mode](std::size_t n) {
-        if (n == 3 && mode == "binding")
+    control.before_binding = [mode, call](std::size_t n) {
+        if (n == (call ? call : 3) && mode == "binding")
             throw local_file::Error("test_binding_failure", ERROR_INVALID_HANDLE);
     };
-    control.before_replay = [mode](std::size_t n, NtfsFileRegion &row) {
-        if (n == 1 && mode == "replay_bytes" && !row.bytes.empty())
+    control.before_replay = [mode, call](std::size_t n, NtfsFileRegion &row) {
+        if (n == (call ? call : 1) && mode == "replay_bytes" && !row.bytes.empty())
             row.bytes[0] ^= 1;
-        if (n == 1 && mode == "replay_offset")
+        if (n == (call ? call : 1) && mode == "replay_offset")
             ++row.offset;
     };
-    auto read = capture_ntfs_file_testing(r, selected_stop, control);
+    auto read = directory_mode(held)
+                    ? capture_ntfs_directory_file_testing(directory, selected_stop, control)
+                    : capture_ntfs_file_testing(r, selected_stop, control);
 #else
-    auto read = capture_ntfs_file_owned(r, selected_stop);
+    auto read = directory_mode(held) ? capture_ntfs_directory_file_owned(directory, selected_stop)
+                                     : capture_ntfs_file_owned(r, selected_stop);
 #endif
     const auto &receipt = field(read.result, "capture");
     auto regions = V::array();
@@ -326,7 +439,9 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
                                     .put("bytes", V::string(hex(row.bytes))));
     const auto pid = field(receipt, "process_id"), created = field(receipt, "process_created");
     auto out = V::object()
-                   .put("schema", V::string("org.disked.ntfs-region-frame/1"))
+                   .put("schema",
+                        V::string(directory_mode(held) ? "org.disked.ntfs-directory-region-frame/1"
+                                                       : "org.disked.ntfs-region-frame/1"))
                    .put("input", ntfs_snapshot_input_value(held))
                    .put("capture_epoch", number(held.capture_epoch))
                    .put("process_id", pid)
@@ -334,14 +449,20 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
                    .put("result", std::move(read.result))
                    .put("regions", std::move(regions));
     encode(out);
+    if (directory_mode(held))
+        directory_frame_bounds(out);
     return out;
 }
 V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     validate_ntfs_snapshot_input(input);
+    const bool directory = directory_mode(input);
     encode(frame);
+    if (directory)
+        directory_frame_bounds(frame);
     exact(frame, {"schema", "input", "capture_epoch", "process_id", "process_created", "result",
                   "regions"});
-    if (text(frame, "schema") != "org.disked.ntfs-region-frame/1" ||
+    if (text(frame, "schema") != (directory ? "org.disked.ntfs-directory-region-frame/1"
+                                            : "org.disked.ntfs-region-frame/1") ||
         !same(field(frame, "input"), ntfs_snapshot_input_value(input)) ||
         integer(frame, "capture_epoch") != input.capture_epoch || !integer(frame, "process_id") ||
         integer(frame, "process_id") > 0xffffffffULL || !integer(frame, "process_created"))
@@ -349,38 +470,48 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     const auto &result = field(frame, "result");
     exact(result,
           {"schema", "observation", "capture", "authorizes_effects", "product_dispatch_admitted"});
-    if (text(result, "schema") != "org.disked.ntfs-file-capture/1" ||
+    if (text(result, "schema") != (directory ? "org.disked.ntfs-directory-file-capture/1"
+                                             : "org.disked.ntfs-file-capture/1") ||
         boolean(result, "authorizes_effects") || boolean(result, "product_dispatch_admitted"))
         throw std::invalid_argument("ntfs_snapshot_claims");
     const auto &c = field(result, "capture");
-    exact(c, {"source_before",
-              "source_after",
-              "source_final",
-              "parent_generations",
-              "source_identity_digest",
-              "process_id",
-              "process_created",
-              "sequence",
-              "capture_domain",
-              "domain",
-              "selector",
-              "selected_profile",
-              "profile_probe_minor",
-              "profile_probe_diagnostic",
-              "profile_selection_equal",
-              "replay_equal",
-              "retained_replays",
-              "replay_calls",
-              "metadata_complete",
-              "metadata_equal",
-              "binding_checks_ok",
-              "binding_checks",
-              "binding_error",
-              "binding_platform_error",
-              "cancel_observed",
-              "observed_stable",
-              "atomic_snapshot",
-              "source_consistency"});
+    std::set<std::string> capture_keys = {"source_before",
+                                          "source_after",
+                                          "source_final",
+                                          "parent_generations",
+                                          "source_identity_digest",
+                                          "process_id",
+                                          "process_created",
+                                          "sequence",
+                                          "capture_domain",
+                                          "domain",
+                                          "selector",
+                                          "selected_profile",
+                                          "profile_probe_minor",
+                                          "profile_probe_diagnostic",
+                                          "profile_selection_equal",
+                                          "replay_equal",
+                                          "retained_replays",
+                                          "replay_calls",
+                                          "metadata_complete",
+                                          "metadata_equal",
+                                          "binding_checks_ok",
+                                          "binding_checks",
+                                          "binding_error",
+                                          "binding_platform_error",
+                                          "cancel_observed",
+                                          "observed_stable",
+                                          "atomic_snapshot",
+                                          "source_consistency"};
+    if (directory)
+        for (const auto k : {"profile_probe_response_count", "profile_probe_sha256",
+                             "profile_prefix_validation_attempted", "profile_prefix_validated",
+                             "profile_prefix_boundary", "profile_prefix_continued",
+                             "profile_prefix_validation_calls", "profile_prefix_reused",
+                             "profile_prefix_validation_sha256", "profile_probe_foundation_sha256",
+                             "profile_selected_foundation_sha256"})
+            capture_keys.insert(k);
+    exact(c, capture_keys);
     metadata(field(c, "source_before"));
     const auto &after = field(c, "source_after"), &final = field(c, "source_final");
     if (after.kind != V::Kind::null)
@@ -435,15 +566,24 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
         total += r.requested;
         regions.push_back(std::move(r));
     }
-    auto replay = [&] {
+    struct Replay {
+        V value;
+        std::size_t used;
+        bool boundary;
+    };
+    auto replay = [&](std::size_t count, bool stop_boundary, bool allow_unused) {
         std::size_t used = 0;
-        bool ordered = true;
-        auto observed = observe_ntfs_bootstrap(request, [&](const de_byte_extent &extent) {
+        bool ordered = true, boundary = false;
+        RegionReader reader = [&](const de_byte_extent &extent) {
+            if (stop_boundary && used == count) {
+                boundary = true;
+                throw std::invalid_argument("ntfs_snapshot_prefix_boundary");
+            }
             const auto start = native(extent.start), end = native(extent.end);
             if (!extent.space || extent.space->logical_block_bytes != 1 ||
                 native(extent.space->blocks) != request.source_bytes ||
                 std::string(extent.space->name, extent.space->name_length) != request.source_id ||
-                used == regions.size() || end < start || regions[used].offset != start ||
+                used == count || end < start || regions[used].offset != start ||
                 regions[used].requested != end - start) {
                 ordered = false;
                 throw std::invalid_argument("ntfs_snapshot_order");
@@ -454,49 +594,104 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
             if (r.error)
                 throw local_file::Error("ntfs_snapshot_read", r.error);
             return de_view{r.bytes.data(), r.bytes.size()};
-        });
-        if (!ordered || used != regions.size())
+        };
+        V observed;
+        if (directory) {
+            NtfsDirectoryRequest r;
+            r.capture = request;
+            r.reference = input.directory_reference;
+            r.limits = input.directory_limits;
+            observed = observe_ntfs_directory(r, reader);
+        } else
+            observed = observe_ntfs_bootstrap(request, reader);
+        if (!ordered || (!allow_unused && used != count))
             throw std::invalid_argument("ntfs_snapshot_order");
-        return observed;
+        return Replay{std::move(observed), used, boundary};
     };
-    const auto probe = replay();
+    auto initial =
+        replay(regions.size(), false, directory && input.profile == NtfsFileProfile::Automatic);
+    const auto probe = std::move(initial.value);
     auto observed = probe;
     bool selected = input.profile != NtfsFileProfile::Automatic || version(probe, "1");
     std::uint64_t passes = 1;
-    if (input.profile == NtfsFileProfile::Automatic && boolean(probe, "complete") &&
+    std::uint64_t calls = regions.size();
+    bool prefix_attempted = false, prefix_boundary = false;
+    std::size_t prefix_used = 0;
+    V prefix_hash, probe_foundation_hash, selected_foundation_hash;
+    if (directory && input.profile == NtfsFileProfile::Automatic &&
         text(probe, "diagnostic") == "ntfs_volume_version" && version(probe, "0")) {
         request.minor = 0;
-        observed = replay();
-        ++passes;
-        auto expected = probe;
-        expected.put("requested_minor", number(0))
-            .put("applicable", V::boolean_value(true))
-            .put("diagnostic", V::string(""));
-        expected.fields.at("volume_information").put("profile_matches", V::boolean_value(true));
-        if (!same(expected, observed))
+        prefix_attempted = true;
+        prefix_used = initial.used;
+        auto choice = replay(prefix_used, true, false);
+        prefix_boundary = choice.boundary;
+        prefix_hash = V::string(hash(choice.value));
+        const auto before = directory_foundation(probe),
+                   after_prefix = directory_foundation(choice.value);
+        probe_foundation_hash = V::string(hash(before));
+        selected_foundation_hash = V::string(hash(after_prefix));
+        if (!same(before, after_prefix))
             throw std::invalid_argument("ntfs_snapshot_profile_replay");
+        observed = replay(regions.size(), false, false).value;
+        passes = 2;
+        calls += prefix_used + (prefix_boundary ? prefix_used : 0);
         selected = true;
+    } else {
+        if (initial.used != regions.size())
+            throw std::invalid_argument("ntfs_snapshot_order");
+        if (!directory && input.profile == NtfsFileProfile::Automatic &&
+            boolean(probe, "complete") && text(probe, "diagnostic") == "ntfs_volume_version" &&
+            version(probe, "0")) {
+            request.minor = 0;
+            observed = replay(regions.size(), false, false).value;
+            ++passes;
+            calls = regions.size() * passes;
+            auto expected = probe;
+            expected.put("requested_minor", number(0))
+                .put("applicable", V::boolean_value(true))
+                .put("diagnostic", V::string(""));
+            expected.fields.at("volume_information").put("profile_matches", V::boolean_value(true));
+            if (!same(expected, observed))
+                throw std::invalid_argument("ntfs_snapshot_profile_replay");
+            selected = true;
+        }
     }
+    if (directory &&
+        (integer(c, "profile_probe_response_count") != initial.used ||
+         text(c, "profile_probe_sha256") != hash(probe) ||
+         boolean(c, "profile_prefix_validation_attempted") != prefix_attempted ||
+         boolean(c, "profile_prefix_validated") != prefix_attempted ||
+         boolean(c, "profile_prefix_boundary") != prefix_boundary ||
+         boolean(c, "profile_prefix_continued") != prefix_boundary ||
+         integer(c, "profile_prefix_validation_calls") != prefix_used ||
+         integer(c, "profile_prefix_reused") != (prefix_boundary ? prefix_used : 0) ||
+         !same(field(c, "profile_prefix_validation_sha256"), prefix_hash) ||
+         !same(field(c, "profile_probe_foundation_sha256"), probe_foundation_hash) ||
+         !same(field(c, "profile_selected_foundation_sha256"), selected_foundation_hash)))
+        throw std::invalid_argument("ntfs_snapshot_prefix_receipt");
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
-    const auto domain = V::object()
-                            .put("provider", V::string("ntfs-file-prototype"))
-                            .put("process_id", field(frame, "process_id"))
-                            .put("process_created", field(frame, "process_created"))
-                            .put("sequence", number(serial))
-                            .put("source", input.expected_source)
-                            .put("volume_offset", number(input.volume_offset))
-                            .put("volume_bytes", number(input.volume_bytes))
-                            .put("selector", V::string(profile_name(input.profile)))
-                            .put("selected_profile", profile)
-                            .put("limits", limit_value(input.limits));
+    auto domain = V::object()
+                      .put("provider", V::string(directory ? "ntfs-directory-file-prototype"
+                                                           : "ntfs-file-prototype"))
+                      .put("process_id", field(frame, "process_id"))
+                      .put("process_created", field(frame, "process_created"))
+                      .put("sequence", number(serial))
+                      .put("source", input.expected_source)
+                      .put("volume_offset", number(input.volume_offset))
+                      .put("volume_bytes", number(input.volume_bytes))
+                      .put("selector", V::string(profile_name(input.profile)))
+                      .put("selected_profile", profile)
+                      .put("limits", limit_value(input.limits));
+    if (directory)
+        domain.put("directory_reference", number(input.directory_reference))
+            .put("directory_limits", directory_limits_value(input.directory_limits));
     if (!same(field(c, "domain"), domain) || text(c, "capture_domain") != hash(domain) ||
         text(c, "selector") != profile_name(input.profile) ||
         !same(field(c, "selected_profile"), profile) ||
         !same(field(c, "profile_probe_minor"), field(probe, "requested_minor")) ||
         !same(field(c, "profile_probe_diagnostic"), field(probe, "diagnostic")) ||
         !boolean(c, "profile_selection_equal") || !boolean(c, "replay_equal") ||
-        integer(c, "retained_replays") != passes ||
-        integer(c, "replay_calls") != regions.size() * passes)
+        integer(c, "retained_replays") != passes || integer(c, "replay_calls") != calls)
         throw std::invalid_argument("ntfs_snapshot_receipt");
     const bool complete = after.kind == V::Kind::object && final.kind == V::Kind::object;
     const bool equal =

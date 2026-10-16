@@ -22,6 +22,12 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W092 owned NTFS directory mode:235 working cases/12 methods pass;
+  exact-source x64 and selected Win32/WOW64 qualification remains pending.
+  Preserve bootstrap v1, source-free prefix reconstruction, finite budgets and
+  actual-exit publication. Public directory/frontend and namespace/content
+  admission remain separate. [Contract](spec/catalog/ntfs-directory-worker-prototype.json).
+
 - [x] DE-W091 native directory-file scope: exact `4156accf` passes 550 responses/
   12 methods, all-target build, 31 selected x64 groups of 161, 63 headers, strict
   C90 and 244 tooling tests (two skips). Six Win32 groups/four headers pass.

@@ -93,6 +93,7 @@
 - [ntfs-command-prototype.json](ntfs-command-prototype.json)
 - [ntfs-directory-file-prototype.json](ntfs-directory-file-prototype.json)
 - [ntfs-directory-prototype.json](ntfs-directory-prototype.json)
+- [ntfs-directory-worker-prototype.json](ntfs-directory-worker-prototype.json)
 - [ntfs-file-prototype.json](ntfs-file-prototype.json)
 - [ntfs-index-prototype.json](ntfs-index-prototype.json)
 - [ntfs-join-prototype.json](ntfs-join-prototype.json)

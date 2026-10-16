@@ -59,10 +59,28 @@ V exercise(const V &input) {
         input.find("expected_source") ? get(input, "expected_source") : metadata(request.path);
     request.volume_offset = integer(input, "offset");
     request.volume_bytes = integer(input, "length");
+    const auto *directory = input.find("directory");
+    if (directory) {
+        if (directory->kind != V::Kind::object)
+            throw std::invalid_argument("ntfs_probe_directory");
+        request.kind = disked::NtfsSnapshotKind::Directory;
+        if (directory->find("reference"))
+            request.directory_reference = integer(*directory, "reference");
+    }
+    if (input.find("invalid_kind"))
+        request.kind = static_cast<disked::NtfsSnapshotKind>(99);
+    if (input.find("bootstrap_directory_controls")) {
+        request.kind = disked::NtfsSnapshotKind::Bootstrap;
+        request.directory_reference = 1;
+    }
     auto value = disked::ntfs_snapshot_input_value(request);
     if (const auto *limits = input.find("limits"))
         for (const auto &p : limits->fields)
             value.fields.at("limits").put(p.first, p.second);
+    if (directory)
+        if (const auto *limits = directory->find("limits"))
+            for (const auto &p : limits->fields)
+                value.fields.at("directory_limits").put(p.first, p.second);
     if (const auto *fixture = input.find("fixture"))
         value.put("fixture", *fixture);
     for (const auto key : {"startup_fault", "reply_fault"})
@@ -89,6 +107,15 @@ V exercise(const V &input) {
             .put("verified", disked::verify_ntfs_snapshot_frame(captured, request));
     }
     auto worker = n::NtfsWorker::prepare(request);
+    if (input.find("mutate_after_prepare")) {
+        request.path = "invalid-mutated-path";
+        request.kind = static_cast<disked::NtfsSnapshotKind>(99);
+        request.directory_reference = 1;
+        request.directory_limits.entries = 0;
+        request.expected_source = V{};
+        request.limits.read_requests = 0;
+        request.fixture = V::object().put("worker_fault", V::string("hang"));
+    }
     if (mode == "construction")
         return V::object().put("never_launched", V::boolean_value(worker->never_launched()));
     auto out = V::object();

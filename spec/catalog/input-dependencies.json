@@ -14961,6 +14961,87 @@
         "DE-037",
         "DE-050"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-directory-worker-prototype.json",
+      "path": "spec/catalog/ntfs-directory-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-worker-prototype.json",
+        "spec/catalog/ntfs-directory-file-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "docs/ntfs-directory-worker.md",
+      "path": "docs/ntfs-directory-worker.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-worker-prototype.json",
+        "spec/catalog/ntfs-directory-file-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/images/test_ntfs_directory_worker.py",
+      "path": "tests/images/test_ntfs_directory_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory-worker/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory-worker/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-worker-prototype.json",
+        "tests/images/test_ntfs_directory_worker.py",
+        "CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory-worker/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory-worker/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-worker-prototype.json",
+        "tests/images/test_ntfs_directory_worker.py",
+        "CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-050"
+      ]
     }
   ]
 }

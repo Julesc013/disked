@@ -1,0 +1,64 @@
+test_actual_lifecycle_exit_pending_and_finite_retirement (__main__.Tests.test_actual_lifecycle_exit_pending_and_finite_retirement) ... ok
+test_actual_native_offset_above4GiB (__main__.Tests.test_actual_native_offset_above4GiB) ... FAIL
+test_directory_frame_component_bounds_refuse_unbounded_values (__main__.Tests.test_directory_frame_component_bounds_refuse_unbounded_values) ... ok
+test_every_new_prefix_receipt_field_is_reconstructed (__main__.Tests.test_every_new_prefix_receipt_field_is_reconstructed) ... ok
+test_fragmented_source_bound_extensions_and_large_bitmap (__main__.Tests.test_fragmented_source_bound_extensions_and_large_bitmap) ... FAIL
+test_invalid_inputs_and_normal_fault_isolation (__main__.Tests.test_invalid_inputs_and_normal_fault_isolation) ... ok
+test_owned_profiles_layouts_and_immutable_request (__main__.Tests.test_owned_profiles_layouts_and_immutable_request) ... FAIL
+test_parent_source_free_replay_and_inert_construction (__main__.Tests.test_parent_source_free_replay_and_inert_construction) ... ok
+test_partial_profiles_budgets_and_native_faults_remain_inspectable (__main__.Tests.test_partial_profiles_budgets_and_native_faults_remain_inspectable) ... ok
+test_strict_directory_input_and_frame_relationships (__main__.Tests.test_strict_directory_input_and_frame_relationships) ... ok
+test_worker_publication_and_host_corruption (__main__.Tests.test_worker_publication_and_host_corruption) ... ok
+
+======================================================================
+FAIL: test_actual_native_offset_above4GiB (__main__.Tests.test_actual_native_offset_above4GiB)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 101, in test_actual_native_offset_above4GiB
+    self.good(v,path,row)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 54, in good
+    self.assertEqual(context['code_sha256'],held.file_digest(executable))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4' != 'sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4'
+- 721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
++ sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
+? +++++++
+
+
+======================================================================
+FAIL: test_fragmented_source_bound_extensions_and_large_bitmap (__main__.Tests.test_fragmented_source_bound_extensions_and_large_bitmap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 94, in test_fragmented_source_bound_extensions_and_large_bitmap
+    self.good(v,path,row)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 54, in good
+    self.assertEqual(context['code_sha256'],held.file_digest(executable))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4' != 'sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4'
+- 721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
++ sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
+? +++++++
+
+
+======================================================================
+FAIL: test_owned_profiles_layouts_and_immutable_request (__main__.Tests.test_owned_profiles_layouts_and_immutable_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 84, in test_owned_profiles_layouts_and_immutable_request
+    self.good(v,path,row,profile=profile)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_directory_worker.py", line 54, in good
+    self.assertEqual(context['code_sha256'],held.file_digest(executable))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4' != 'sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4'
+- 721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
++ sha256:721bca11f804ba97ec5d22bb62ae970edba49f8306e13bc971a05c40c6dfeea4
+? +++++++
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 37.280s
+
+FAILED (failures=3)
