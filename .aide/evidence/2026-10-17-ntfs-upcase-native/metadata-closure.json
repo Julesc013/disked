@@ -1,0 +1,106 @@
+{
+  "status": "pass",
+  "recorded_at": "2026-10-16T18:20:54.417380+00:00",
+  "tested_native_source_revision": "0b67e4c710a3125fb1a6235acf91475bdb086570",
+  "native_source_tests_build_definitions_contracts_unchanged": true,
+  "qualification_recipe_reference_correction": ".aide/evidence/2026-10-17-ntfs-upcase-native/recipe-review.json",
+  "changed_metadata_paths": [
+    ".aide/evidence/2026-10-17-ntfs-upcase-native/reproduce-win32.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-native/reproduce.py",
+    ".aide/programmes/disked-0.1.0.json",
+    "docs/ntfs-upcase-native.md",
+    "docs/structure-review.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/work/units.json"
+  ],
+  "stages": [
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/index.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/manifest.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/structural.log"
+    },
+    {
+      "name": "verify-manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/verify-manifest.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/source-map.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W101",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-upcase-native-reviewed-0b67e4c7",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-upcase-native-reviewed-0b67e4c7"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-upcase-native/metadata-closure/verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_published": false
+}

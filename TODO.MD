@@ -22,20 +22,21 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W101 native held-image/owned-reader NTFS table binding: expected
-  contract and independent native relationships recorded before implementation.
-  Full x64/selected private Win32 qualification pending; public table admission,
-  namespace/lookup/content and original0.1.0 remain.
+- [x] DE-W101 native NTFS table binding: exact `0b67e4c7` passes all 173 native
+  groups,434 held-file/274 worker cases,67 headers/C90/14 imports and 249 tooling
+  tests(two skips). Private Win32 fifteen groups/eleven headers/nine imports pass.
+  Public table admission,namespace/lookup/content and original0.1.0 remain.
+  [Review](.aide/evidence/2026-10-17-ntfs-upcase-native/REVIEW.md).
 
 - [x] DE-W100 retained NTFS table capture: exact `b613ccae` passes all171
-  native groups,158 new cases,67 headers/C90/14 imports and249 tooling(two skips).
+  native groups,158 new cases,67 headers/C90/14 imports and 249 tooling(two skips).
   Private Win32 nine groups/five headers/four imports pass. Native binding,
   namespace/lookup/content and original0.1.0 remain.
   [Review](.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md).
 
 - [x] DE-W099 private supplied NTFS table: exact `ff74ccae` passes21/170
   selected x64 groups,327680 mappings,2520 comparisons,78 guard cases,67 headers/
-  C90/four imports and249 tooling(two skips); private Win32 two groups/two headers.
+  C90/four imports and 249 tooling(two skips); private Win32 two groups/two headers.
   Actual volume capture,namespace/lookup/content and original0.1.0 remain.
   [Review](.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md).
 

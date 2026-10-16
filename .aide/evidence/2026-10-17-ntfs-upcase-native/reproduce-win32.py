@@ -63,7 +63,7 @@ for n,paths in probes.items():
     lines.extend(['add_executable('+n+' '+' '.join(q(p) for p in sorted(paths))+')','target_link_libraries('+n+' PRIVATE '+dep+' advapi32)',
                   'target_link_options('+n+' PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)']);options(n,defs(n))
 headers=[]
-for i,h in enumerate(('runtime/capture/ntfs_upcase.h','runtime/capture/ntfs_membership.h','runtime/capture/ntfs_membership_detail.h','runtime/capture/ntfs_names.h','runtime/capture/ntfs_attributes_detail.h','runtime/capture/ntfs_capture.h','providers/image/ntfs_file.h','runtime/capture/ntfs_directory.h','runtime/capture/ntfs_directory_detail.h','providers/image/ntfs_snapshot.h','platform/windows/storage/ntfs_worker.h')):
+for i,h in enumerate(('portable/ntfs/ntfs.h','runtime/capture/ntfs_membership.h','runtime/capture/ntfs_membership_detail.h','runtime/capture/ntfs_names.h','runtime/capture/ntfs_attributes_detail.h','runtime/capture/ntfs_capture.h','providers/image/ntfs_file.h','runtime/capture/ntfs_directory.h','runtime/capture/ntfs_directory_detail.h','providers/image/ntfs_snapshot.h','platform/windows/storage/ntfs_worker.h')):
     p=fixture/('header-'+str(i)+'.cpp');p.write_text('#include "'+h+'"\n',encoding='utf-8',newline='\n');headers.append(p)
 lines.append('add_library(ntfs_fixture_headers OBJECT '+' '.join(q(p) for p in headers)+')');options('ntfs_fixture_headers')
 tests={

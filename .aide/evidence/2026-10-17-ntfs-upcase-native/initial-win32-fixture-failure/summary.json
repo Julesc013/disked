@@ -1,0 +1,53 @@
+{
+  "status": "fail",
+  "work_id": "DE-W101",
+  "source_revision": "0b67e4c710a3125fb1a6235acf91475bdb086570",
+  "host": "Windows-10-10.0.19045-SP0",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-native-win32-0b67e4c7\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-native-win32-0b67e4c7\\build",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "Win32,version=10.0.19041.0",
+        "-T",
+        "v143,version=14.44.35207,host=x64",
+        "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 4.444472499890253,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-native-win32-0b67e4c7\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 1,
+      "seconds": 3.405207500094548,
+      "log": "build.log"
+    }
+  ],
+  "scope": "Fifteen selected native NTFS table/membership/filename/reader/directory/owned-worker groups on Win32/WOW64, codemodel-derived with distinct normal/fault variants. Not a full Win32 product or historical-host qualification.",
+  "recipe_sha256": "sha256:6fe8c0185fb3c98c499325d55f1cb683b257df0eb343fb210d7785e1836fb2a2",
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "error": "AssertionError(('build', \"MSBuild version 17.14.51+25f168cee for .NET Framework\\n\\n  1>Checking Build System\\n  Building Custom Rule D:/Projects/DiskEd/disked/.aide-local/ntfs-upcase-native-win32-0b67e4c7/fixture/CMakeLists.txt\\n  header-0.cpp\\n  header-1.cpp\\nD:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\ntfs-upcase-native-win32-0b67e4c7\\\\fixture\\\\header-0.cpp(1,10): error C1083: Cannot open include file: 'runtime/capture/ntfs_upcase.h': No such file or directory [D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\ntfs-upcase-native-win32-0b67e4c7\\\\build\\\\ntfs_fixture_headers.vcxproj]\\n  header-2.cpp\\n  header-3.cpp\\n  header-4.cpp\\n  header-5.cpp\\n  header-6.cpp\\n  header-7.cpp\\n  header-8.cpp\\n  header-9.cpp\\n  header-10.cpp\\n  Generating Code...\\n\"))",
+  "inputs_unchanged": true,
+  "checkout_clean": true
+}

@@ -20,3 +20,8 @@ Existing file, snapshot and worker owners implement this path. No production fil
 directory, source opener or scheduler is added. Physical devices, elevation,
 namespace/index/alias/lookup/content admission, other originally scoped platforms
 and storage, owner acceptance and release qualification retain their own gates.
+
+The [agent review](../.aide/evidence/2026-10-17-ntfs-upcase-native/REVIEW.md)
+links exact source, all 173 current x64 native groups,434 held-file/274 worker cases
+and the 15-group private Win32 supplement. Original failed assertions and repairs
+remain retained. Public admission and owner acceptance remain pending.

@@ -83,7 +83,7 @@ def main():
         summary["native_not_run"] = sorted(selected - {c.attrib["name"] for c in cases})
         assert summary["native_exit_code"] == 0 and len(cases) == len(selected) and not summary["native_failed"] and not summary["native_skipped"]
         actual = json.loads((build / "ntfs-upcase-cases.json").read_bytes())
-        expected = json.loads((root / ".aide/evidence/2026-10-17-ntfs-upcase/expected-after-test-review.json").read_bytes())
+        expected = json.loads((root / ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json").read_bytes())
         assert actual["status"] == "pass" and actual["tables"] == expected["tables"]
         assert actual["recipe_sha256"] == expected["recipe_sha256"]
         assert actual["mapping_units"] == 327680 and actual["comparison_cases"] == expected["comparison_cases"]

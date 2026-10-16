@@ -33,14 +33,14 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **325 source files** at `ff74ccae`: 37 portable,143 runtime,68 provider,
-63 platform and14 application files. The new file is the supplied NTFS table
-primitive in the existing portable owner; no production directory was added. The
+There are **325 source files** at `0b67e4c7`: 37 portable,143 runtime,68 provider,
+63 platform and14 application files. The supplied NTFS table primitive stays in its portable owner; the native binding
+adds no production file or directory. The
 longest repository-relative source path remains62 characters. Case,Windows reserved
 basename and trailing space/dot checks pass. These measurements do not qualify
 every legacy filesystem,compiler or generated build path.
-[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase/source-inventory.json) and
-[path checks](../.aide/evidence/2026-10-17-ntfs-upcase/path-audit.json) bind these facts.
+[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase-native/source-inventory.json) and
+[path checks](../.aide/evidence/2026-10-17-ntfs-upcase-native/path-audit.json) bind these facts.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -94,15 +94,23 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Native held-file/owned-reader table source `0b67e4c7` passes all 173 registered
+x64 groups,434 held-file/274 worker cases,67 headers/C90/14 imports and 249 tooling
+tests(two skips). Its private Win32 supplement passes 15 groups/11 headers/9 imports.
+[Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-native/REVIEW.md) records exact
+source/profile/replay/process scope and retained test corrections. No production
+file or directory was added. Public table admission,namespace/lookup/content and
+the original all-platform/storage 0.1.0 remain incomplete.
+
 Retained NTFS table source `b613ccae` passes all171 registered x64 groups,158 new
-capture cases,67 headers/C90/14 imports and249 tooling tests(two skips). Its private
+capture cases,67 headers/C90/14 imports and 249 tooling tests(two skips). Its private
 Win32 supplement passes nine groups/five headers/four imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md)
 records exact table/context/reference/reread scope. No native table source,worker,
 frontend,namespace or lookup admission follows; original0.1.0 remains incomplete.
 
 Private NTFS table source `ff74ccae` passes21/170 selected x64 groups,327680
 mapping observations,2520 comparisons and78 guard cases, plus67 headers/C90/four
-imports and249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
+imports and 249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
 headers pass. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md)
 records the complete scope. This adds no command or namespace/lookup admission.
 The full current suite,other platforms and all original0.1.0 remain unqualified.
@@ -193,16 +201,16 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-capture/hosted-observations.json)
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-native/hosted-observations.json)
 records draft/open/unmerged [PR237](https://github.com/Julesc013/universal-setup/pull/237)
-at `8b9082e2`, observed `2026-10-16T16:05:10.001886+00:00`. Six checks
-succeeded; native Windows failed. Its retained failed-job output reports missing
-artifacts and receipt-count errors,which do not establish the underlying cause.
-Earlier candidates and failures remain retained at their exact revisions. Both
-queried release collections are empty. No upstream writes,installation or local
-Setup lifecycle qualification were performed.
+at `2d6ebd6e`, observed `2026-10-16T18:15:05.145169+00:00`. Of the
+7 reported checks,6 succeeded,0
+were running and0 queued. Completed non-success conclusions remain
+in the exact observation. Earlier failed candidates are retained. Both queried
+release collections are empty. No upstream writes,installation or local Setup
+lifecycle qualification were performed.
 
-The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
+The original **all-platform/storage 0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining
 filesystem/storage/platform implementations and compatibility/safety evidence,
 Setup qualification, licensing and actual owner/release authority. No defensible
