@@ -22,6 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W095: acquire exact directory-name/target correspondence through one
+  bounded source context and final reread. Native transport/public admission,
+  namespace/content and all original 0.1.0 remain.
+  [Contract](spec/catalog/ntfs-membership-prototype.json).
+
 - [x] DE-W094 captured filename instances: exact `18980169` passes all 164
   x64 native groups, 247 filename/298 unchanged stream cases, 65 headers/C90/
   thirteen imports and 247 tooling tests (two skips). Private Win32 nine groups/

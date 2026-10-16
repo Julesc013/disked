@@ -99,6 +99,7 @@
 - [ntfs-index-prototype.json](ntfs-index-prototype.json)
 - [ntfs-join-prototype.json](ntfs-join-prototype.json)
 - [ntfs-list-prototype.json](ntfs-list-prototype.json)
+- [ntfs-membership-prototype.json](ntfs-membership-prototype.json)
 - [ntfs-names-prototype.json](ntfs-names-prototype.json)
 - [ntfs-record-prototype.json](ntfs-record-prototype.json)
 - [ntfs-worker-prototype.json](ntfs-worker-prototype.json)
