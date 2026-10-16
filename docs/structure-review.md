@@ -99,7 +99,8 @@ Directory-command source `6efc9a5b` passes all 163 registered x64 native groups,
 100 new/58 bootstrap command checks, 63 headers, strict C90, eleven distinct
 executable import closures and 247 tooling tests (two skips). Eight private
 Win32 groups/six headers pass; the full Win32 product/new frontends remain
-unqualified. [Review](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md)
+unqualified. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-directory-command-integration/repository.json)
+records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md)
 retains failed GUI fixture runs and exact original evidence. Public bounded
 directory-index inspection is implemented; namespace/membership/collation,
 lookup/content and the complete original 0.1.0 remain required.
