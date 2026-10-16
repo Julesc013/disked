@@ -1,0 +1,39 @@
+{
+  "status": "failure-reproduced",
+  "not_qualification": true,
+  "recorded_at": "2026-10-16T10:50:54.100509+00:00",
+  "purpose": "One CTest reproduction of the first two groups, using unchanged90e246d9 binaries and raw worker/elapsed recording before unchanged assertions.25 direct worker samples did not reproduce the failure. No fresh product campaign.",
+  "stages": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-file\\two-group-diagnostic\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-two-group-diagnostic-build"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 1.1818397999741137,
+      "log": "configure.log"
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-two-group-diagnostic-build",
+        "--parallel",
+        "1",
+        "--stop-on-failure",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-membership-file\\two-group-diagnostic\\junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 8,
+      "seconds": 0.08057340001687407,
+      "log": "native.log"
+    }
+  ],
+  "inputs_unchanged": true
+}

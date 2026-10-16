@@ -1,0 +1,26 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys,time
+
+root=Path.cwd();source=root/'.aide-local/ntfs-membership-file-exact-90e246d9';native=root/'.aide-local/ntfs-membership-file-qualification-90e246d9/build';out=root/'.aide/evidence/2026-10-16-ntfs-membership-file/two-group-build-cwd-diagnostic';out.mkdir();fixture=out/'fixture';fixture.mkdir();build=root/'.aide-local/ntfs-two-group-build-cwd-diagnostic-build'
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+q=lambda p:'"'+str(p).replace('\\','/')+'"'
+lines=['cmake_minimum_required(VERSION 3.27)','project(NtfsTwoGroupDiagnostic LANGUAGES NONE)','enable_testing()']
+inputs=[native/'Release'/(n+'.exe') for n in ('disked','disked_ntfs_test','ntfs_worker_probe','ntfs_inspection_probe')]
+for name,script in [('bootstrap',source/'tests/frontend/test_ntfs_commands.py'),('directory',root/'tests/frontend/test_ntfs_directory_commands.py')]:
+ inputs.append(script)
+ args=[sys.executable,script,'--exe',inputs[0],'--fault',inputs[1],'--worker',inputs[2],'--probe',inputs[3],'--root',source,'--output',out/(name+'-cases.json')]
+ lines+=['add_test(NAME '+name+' COMMAND '+' '.join(q(p) for p in args)+')','set_tests_properties('+name+' PROPERTIES TIMEOUT 240 WORKING_DIRECTORY '+q(native)+')']
+(fixture/'CMakeLists.txt').write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n');inputs.append(fixture/'CMakeLists.txt')
+before={str(p):sha(p) for p in inputs};save(out/'inputs.json',before)
+(out/'directory-test.snapshot').write_bytes(inputs[-2].read_bytes())
+summary=dict(status='running',not_qualification=True,recorded_at=datetime.now(timezone.utc).isoformat(),purpose='One CTest reproduction with original failed build-directory working directory, using unchanged90e246d9 binaries and raw worker/elapsed recording before unchanged assertions.25 direct worker samples did not reproduce the failure. No fresh product campaign.',stages=[])
+def run(name,args):
+ command=list(map(str,args));start=time.monotonic()
+ with (out/(name+'.log')).open('wb') as log:p=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+ summary['stages'].append(dict(command=command,cwd=str(root),exit_code=p.returncode,seconds=time.monotonic()-start,log=name+'.log'));save(out/'summary.json',summary);print(name,p.returncode,flush=True);return p.returncode
+assert run('configure',['cmake','-S',fixture,'-B',build])==0
+code=run('native',['ctest','--test-dir',build,'-C','Release','--parallel','1','--stop-on-failure','--output-on-failure','--output-junit',out/'junit.xml'])
+summary.update(status='diagnostic-pass-original-unexplained' if code==0 else 'failure-reproduced',inputs_unchanged=all(sha(Path(n))==h for n,h in before.items()));save(out/'summary.json',summary)
+print(summary['status'],flush=True)

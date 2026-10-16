@@ -1,0 +1,27 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,os,shutil,subprocess,sys,time
+
+root=Path.cwd();source=root/'.aide-local/ntfs-membership-file-exact-90e246d9';build=root/'.aide-local/ntfs-membership-file-qualification-90e246d9/build'
+out=root/'.aide/evidence/2026-10-16-ntfs-membership-file/cold-copy-sampling';out.mkdir();local=root/'.aide-local/ntfs-cold-worker-sampling';local.mkdir()
+sys.path[:0]=[str(source/'tests/frontend'),str(source/'tests/images')]
+from test_ntfs_directory_commands import large_volume,canonical,write,file_digest,CAPS,DIRECTORY
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+volume=large_volume();path=local/'generated-large.img';write(volume,path);before=file_digest(path)
+row=dict(path=str(path),offset=volume.input['offset'],length=volume.input['length'],capture_epoch='9',limits=CAPS,directory=dict(reference='0',limits=DIRECTORY))
+expected={name:file_digest(build/'Release'/name) for name in ('disked.exe','ntfs_worker_probe.exe')}
+save(out/'expected.json',dict(recorded_at=datetime.now(timezone.utc).isoformat(),not_qualification=True,maximum_samples=12,stop_at_first_failure=True,input=row,fixture_recipe=volume.input,source_sha256=before,exact_binary_hashes=expected,scope='New ordinary copies of exact90e246d9 binaries; source/request/quota/deadline unchanged. New path is a diagnostic variable, not proof of a cold OS cache or a qualification run. Expected every worker snapshot true and product completed exit0; preserve missing state verbatim.'))
+rows=[];env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')}
+for i in range(12):
+ folder=local/str(i);folder.mkdir();copied=[]
+ for name,digest in expected.items():
+  target=folder/name;start=time.monotonic();shutil.copyfile(build/'Release'/name,target);assert file_digest(target)==digest;copied.append(dict(path=str(target),sha256=digest,copy_seconds=time.monotonic()-start))
+ for name,command,data in [('worker',[folder/'ntfs_worker_probe.exe'],canonical(row)),('product',[folder/'disked.exe','--cli','image','inspect',path,'--view','ntfs-directory','--volume-offset',volume.input['offset'],'--volume-bytes',volume.input['length']],b'')]:
+  started=time.monotonic();p=subprocess.run(list(map(str,command)),input=data,capture_output=True,env=env,cwd=build,timeout=30);value=json.loads(p.stdout)
+  good=p.returncode==0 and not p.stderr and (value.get('has_snapshot') is True if name=='worker' else value.get('status')=='completed')
+  item=dict(sample=i,kind=name,command=list(map(str,command)),cwd=str(build),elapsed_seconds=time.monotonic()-started,exit_code=p.returncode,stderr_bytes=len(p.stderr),stdout_bytes=len(p.stdout),stdout_sha256='sha256:'+hashlib.sha256(p.stdout).hexdigest(),has_snapshot=value.get('has_snapshot'),status=value.get('status'),expected=good,copied=copied)
+  rows.append(item);save(out/'summary.json',dict(status='sampling' if good else 'failure-reproduced',not_qualification=True,samples=rows,source_unchanged=file_digest(path)==before))
+  print(json.dumps({k:item[k] for k in ('sample','kind','elapsed_seconds','exit_code','has_snapshot','status','expected')}),flush=True)
+  if not good:
+   (out/'failed.stdout.json').write_bytes(p.stdout);(out/'failed.stderr.log').write_bytes(p.stderr);sys.exit(0)
+save(out/'summary.json',dict(status='no-failure-reproduced',not_qualification=True,samples=rows,source_unchanged=file_digest(path)==before))

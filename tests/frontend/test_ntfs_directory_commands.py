@@ -91,10 +91,21 @@ def main():
     def worker(v,path,reference=None):
         selected=dict(path=str(path),offset=v.input['offset'],length=v.input['length'],capture_epoch='9',
                       limits=CAPS,directory=dict(reference=reference or '0',limits=DIRECTORY))
+        started=time.monotonic()
         p=subprocess.run([str(a.worker)],input=canonical(selected),capture_output=True,timeout=30)
+        details=dict(input_sha256=digest(selected),elapsed_seconds=time.monotonic()-started,
+                     exit_code=p.returncode,stdout_bytes=len(p.stdout),stderr_bytes=len(p.stderr))
+        try:value=json.loads(p.stdout)
+        except (ValueError,UnicodeError):value={}
+        details['has_snapshot']=value.get('has_snapshot')
+        if p.returncode or p.stderr or not value.get('has_snapshot'):
+            raw=a.output.with_name(a.output.stem+'-worker-failure-'+str(len(records))+'.json')
+            raw.write_bytes(p.stdout)
+            details.update(raw_worker_output=str(raw),failed_stderr_prefix=p.stderr[:2500].decode(errors='replace'))
+        else:details['snapshot_sha256']=digest(value['snapshot'])
+        record('independent-worker',**details)
         assert p.returncode==0 and not p.stderr,(p.returncode,p.stdout[:2000],p.stderr)
         value=json.loads(p.stdout);assert value['has_snapshot']
-        record('independent-worker',input_sha256=digest(selected),snapshot_sha256=digest(value['snapshot']))
         return value['snapshot']
     def compare(left,right):
         assert left['status']==right['status'] and left['diagnostics']==right['diagnostics']

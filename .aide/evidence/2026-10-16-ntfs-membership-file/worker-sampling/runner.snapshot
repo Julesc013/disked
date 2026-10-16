@@ -1,0 +1,25 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,os,subprocess,sys,time
+
+root=Path.cwd();source=root/'.aide-local/ntfs-membership-file-exact-90e246d9';build=root/'.aide-local/ntfs-membership-file-qualification-90e246d9/build'
+out=root/'.aide/evidence/2026-10-16-ntfs-membership-file/worker-sampling';out.mkdir();local=root/'.aide-local/ntfs-directory-worker-sampling';local.mkdir()
+sys.path[:0]=[str(source/'tests/frontend'),str(source/'tests/images')]
+from test_ntfs_directory_commands import large_volume,canonical,write,file_digest,CAPS,DIRECTORY
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+v=large_volume();path=local/'generated-large.img';write(v,path);before=file_digest(path)
+exe=build/'Release/ntfs_worker_probe.exe';exe_before=file_digest(exe)
+row=dict(path=str(path),offset=v.input['offset'],length=v.input['length'],capture_epoch='9',limits=CAPS,directory=dict(reference='0',limits=DIRECTORY))
+save(out/'expected.json',dict(recorded_at=datetime.now(timezone.utc).isoformat(),not_qualification=True,source_revision='90e246d992a81b8c40d346739418473c7a7ca716',command=[str(exe)],maximum_samples=25,stop_at_first_missing_snapshot=True,input=row,fixture_recipe=v.input,expected='Every exact normal owned-worker probe returns exit0, no stderr, has_snapshot true and unchanged source bytes. Retain any failure verbatim; a passing sample does not explain original failures or qualify the product.',source_sha256=before,executable_sha256=exe_before))
+rows=[]
+for i in range(25):
+ started=time.monotonic();p=subprocess.run([str(exe)],input=canonical(row),capture_output=True,cwd=source,env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')},timeout=30)
+ value=json.loads(p.stdout);good=p.returncode==0 and not p.stderr and value.get('has_snapshot') is True
+ item=dict(sample=i,elapsed_seconds=time.monotonic()-started,exit_code=p.returncode,stderr_bytes=len(p.stderr),has_snapshot=value.get('has_snapshot'),stdout_bytes=len(p.stdout),stdout_sha256='sha256:'+hashlib.sha256(p.stdout).hexdigest(),before=value.get('before'),retirement=value.get('retirement'),independent_process=value.get('independent_process'),expected=good)
+ if item['before'] is not None:item['before']={k:v for k,v in item['before'].items() if k not in ('result','last_validated_result')}
+ if item['retirement'] is not None:item['retirement']={k:v for k,v in item['retirement'].items() if k not in ('result','last_validated_result')}
+ rows.append(item);save(out/'summary.json',dict(status='sampling' if good and i<24 else 'no-failure-reproduced' if good else 'failure-reproduced',not_qualification=True,samples=rows,source_unchanged=file_digest(path)==before,executable_unchanged=file_digest(exe)==exe_before))
+ print(json.dumps(dict(sample=i,seconds=item['elapsed_seconds'],has_snapshot=item['has_snapshot'],expected=good)),flush=True)
+ if not good:
+  (out/'failed-worker.stdout.json').write_bytes(p.stdout);(out/'failed-worker.stderr.log').write_bytes(p.stderr);break
+assert file_digest(path)==before and file_digest(exe)==exe_before

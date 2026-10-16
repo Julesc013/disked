@@ -31,3 +31,12 @@ unchanged-binary 100-case frontend recheck passes. These diagnostics do not
 explain the original delay or qualify the product. Existing launch assertions
 and deadlines stay unchanged; actual duration/outcome is now retained before
 asserting. [Retained failure and diagnostic review](../.aide/evidence/2026-10-16-ntfs-membership-file/diagnostic-review.json).
+
+The second fresh campaign at `90e246d9` also remains failed after one pass:
+the repeated independent-worker probe had no snapshot, and 29 selected groups
+were not run. Its old helper discarded raw worker state. Twenty-five direct
+workers, twelve first-launch worker copies, twelve product copies and two
+two-group CTest sequences then passed; none explains either original failure.
+The helper now retains raw worker output and duration before its unchanged
+assertions. A further fresh attempt must use that evidence to diagnose any
+failure, rather than starting another campaign without a new measurement.
