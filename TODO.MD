@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: all-platform/storage 0.1.0 native development is paused following the storage incident. Disposable scratch is removed; a host-enforced storage boundary remains an entry gate. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal is blocked on the pending execution setup choice/grant and an actual host-enforced storage boundary. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -31,7 +31,7 @@ Status: all-platform/storage 0.1.0 native development is paused following the st
 - [ ] Address SR-05 composition/test seams when their concrete contracts justify
   extraction. Continue the existing header/layer checks; no broad rewrite needed.
 
-## Paused 0.1.0 goal
+## 0.1.0 goal
 
 - [ ] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
   complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);
