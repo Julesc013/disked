@@ -127,17 +127,29 @@ bool fat_inspection_response(const Value& response) {
     const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-fat";
 }
 bool exfat_inspection_response(const Value& response) {
-    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
-    const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-exfat";
+    const auto *result = response.find("result");
+    if (!kind(result, Value::Kind::object))
+        return false;
+    const auto *scope = result->find("scope");
+    return string(scope) && scope->text == "ordinary-local-file-exfat";
 }
-bool ntfs_inspection_response(const Value& response) {
-    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
-    const auto* scope=result->find("scope");return string(scope) &&
-        (scope->text=="ordinary-local-file-ntfs" || scope->text=="ordinary-local-file-ntfs-directory" || scope->text=="ordinary-local-file-ntfs-membership" || scope->text=="ordinary-local-file-ntfs-upcase");
+bool ntfs_inspection_response(const Value &response) {
+    const auto *result = response.find("result");
+    if (!kind(result, Value::Kind::object))
+        return false;
+    const auto *scope = result->find("scope");
+    return string(scope) && (scope->text == "ordinary-local-file-ntfs" ||
+                             scope->text == "ordinary-local-file-ntfs-directory" ||
+                             scope->text == "ordinary-local-file-ntfs-membership" ||
+                             scope->text == "ordinary-local-file-ntfs-upcase" ||
+                             scope->text == "ordinary-local-file-ntfs-name-order");
 }
-bool fat_capture_response(const Value& response) {
-    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
-    const auto* scope=result->find("scope");return string(scope) && scope->text=="retained-fat-capture";
+bool fat_capture_response(const Value &response) {
+    const auto *result = response.find("result");
+    if (!kind(result, Value::Kind::object))
+        return false;
+    const auto *scope = result->find("scope");
+    return string(scope) && scope->text == "retained-fat-capture";
 }
 bool fat_tree_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;

@@ -1,4 +1,5 @@
 #include "ntfs_inspection.h"
+#include "ntfs_name_order.h"
 #include "portable/hash/sha256.h"
 #include <set>
 
@@ -162,10 +163,11 @@ std::string display_name(const V &value) {
     }
     return result;
 }
-void project_directory(V &observation) {
-    project_record(observation.fields.at("directory_record"));
+void project_directory(V &observation, bool compact = false) {
+    project_record(observation.fields.at("directory_record"), compact ? 16 : 128,
+                   compact ? 8192 : 65536, compact ? 16 : 64, compact ? 2048 : 8192);
     const auto &queries = field(observation, "directory_stream_queries");
-    auto query_rows = rows(queries, queries, 4096, 16);
+    auto query_rows = rows(queries, queries, compact ? 2048 : 4096, compact ? 8 : 16);
     observation.put("directory_stream_queries", std::move(query_rows));
     auto &directory = observation.fields.at("directory");
     if (directory.kind == V::Kind::null)
@@ -180,22 +182,28 @@ void project_directory(V &observation) {
     for (auto &stream : projected.items) {
         for (const auto key : {"runs", "parts"}) {
             const auto &original = field(stream, key);
-            auto replacement = rows(original, original, std::string(key) == "runs" ? 8192 : 32768,
-                                    std::string(key) == "runs" ? 64 : 128);
+            const bool runs = std::string(key) == "runs";
+            auto replacement = rows(original, original,
+                                    compact ? 2048
+                                    : runs  ? 8192
+                                            : 32768,
+                                    compact ? (runs ? 16 : 8)
+                                    : runs  ? 64
+                                            : 128);
             stream.put(key, std::move(replacement));
         }
     }
-    auto stream_rows = rows(streams, projected, 65536, 16);
+    auto stream_rows = rows(streams, projected, compact ? 8192 : 65536, compact ? 4 : 16);
     directory.put("streams", std::move(stream_rows));
     const auto &blocks = field(directory, "blocks");
-    auto block_rows = rows(blocks, blocks, 65536, 128);
+    auto block_rows = rows(blocks, blocks, compact ? 8192 : 65536, compact ? 32 : 128);
     directory.put("blocks", std::move(block_rows));
     const auto &entries = field(directory, "entries");
     auto named = entries;
     for (auto &entry : named.items)
         if (const auto *name = entry.find("name_hex"))
             entry.put("name_display", V::string(display_name(*name)));
-    auto entry_rows = rows(entries, named, 65536, 256);
+    auto entry_rows = rows(entries, named, compact ? 16384 : 65536, compact ? 64 : 256);
     directory.put("entries", std::move(entry_rows));
 }
 void project_membership(V &observation) {
@@ -268,6 +276,8 @@ void project_membership(V &observation) {
     membership.put("edges", std::move(edge_rows));
 }
 const char *scope(NtfsSnapshotKind kind) {
+    if (kind == NtfsSnapshotKind::NameOrder)
+        return "ordinary-local-file-ntfs-name-order";
     if (kind == NtfsSnapshotKind::Upcase)
         return "ordinary-local-file-ntfs-upcase";
     if (kind == NtfsSnapshotKind::Membership)
@@ -284,16 +294,20 @@ void bind_upcase_result(const V &file, const NtfsInspectionRequest &request) {
                                                                          : "3.1";
     const auto &identity = text(capture, "source_identity_digest");
     const auto sequence = integer(capture, "sequence");
-    if (text(observation, "schema") != "org.disked.ntfs-upcase-observation-prototype/1" ||
+    const bool name_order = request.kind == NtfsSnapshotKind::NameOrder;
+    if (text(observation, "schema") != (name_order
+                                            ? "org.disked.ntfs-name-order-observation-prototype/1"
+                                            : "org.disked.ntfs-upcase-observation-prototype/1") ||
         flag(observation, "atomic_snapshot") || flag(observation, "current_source_authority") ||
         flag(observation, "effects_authorized") || flag(capture, "atomic_snapshot") ||
-        text(domain, "provider") != "ntfs-upcase-file-prototype" ||
+        text(domain, "provider") !=
+            (name_order ? "ntfs-name-order-file-prototype" : "ntfs-upcase-file-prototype") ||
         text(capture, "selector") != version || text(domain, "selector") != version ||
         integer(observation, "volume_offset") != request.volume_offset ||
         integer(observation, "volume_bytes") != request.volume_bytes ||
         integer(domain, "volume_offset") != request.volume_offset ||
         integer(domain, "volume_bytes") != request.volume_bytes ||
-        domain.find("directory_reference") || domain.find("directory_limits") ||
+        (!name_order && (domain.find("directory_reference") || domain.find("directory_limits"))) ||
         domain.find("target_limit") || !sequence || integer(domain, "sequence") != sequence ||
         integer(observation, "epoch") != sequence || text(observation, "source_id") != identity ||
         identity != digest(field(capture, "source_before")) ||
@@ -397,8 +411,10 @@ void bind_directory_result(const V &file, const NtfsInspectionRequest &request) 
                                                                          : "3.1";
     const bool membership = request.kind == NtfsSnapshotKind::Membership;
     if (field(observation, "schema").text !=
-            (membership ? "org.disked.ntfs-membership-observation-prototype/1"
-                        : "org.disked.ntfs-directory-observation-prototype/1") ||
+            (request.kind == NtfsSnapshotKind::NameOrder
+                 ? "org.disked.ntfs-name-order-observation-prototype/1"
+             : membership ? "org.disked.ntfs-membership-observation-prototype/1"
+                          : "org.disked.ntfs-directory-observation-prototype/1") ||
         integer(observation, "volume_offset") != request.volume_offset ||
         integer(observation, "volume_bytes") != request.volume_bytes ||
         integer(observation, "requested_directory_reference") != request.directory_reference ||
@@ -429,6 +445,126 @@ void bind_directory_result(const V &file, const NtfsInspectionRequest &request) 
         integer(selected, "bitmap_bytes") != directory.bitmap_bytes)
         throw std::invalid_argument("ntfs_result_binding");
 }
+bool equal_value(const V &left, const V &right) {
+    return json::dump(left, full_limits()) == json::dump(right, full_limits());
+}
+void bind_name_order_result(const V &file, const NtfsInspectionRequest &request) {
+    const auto &observation = field(file, "observation"), &capture = field(file, "capture");
+    const auto &directory = field(observation, "directory"), &table = field(observation, "upcase"),
+               &audit = field(observation, "name_order");
+    const bool complete = flag(observation, "complete"),
+               applicable = flag(observation, "applicable"),
+               reread = flag(observation, "reread_equal");
+    const auto &diagnostic = text(observation, "diagnostic");
+    const bool coherent = flag(capture, "metadata_equal") && flag(capture, "binding_checks_ok") &&
+                          flag(capture, "replay_equal") &&
+                          flag(capture, "profile_selection_equal") &&
+                          field(capture, "selected_profile").kind == V::Kind::string;
+    const auto minor = integer(observation, "requested_minor");
+    if (integer(observation, "requested_major") != 3 || minor > 1 ||
+        (field(capture, "selected_profile").kind == V::Kind::string &&
+         text(capture, "selected_profile") != (minor ? "3.1" : "3.0")))
+        throw std::invalid_argument("ntfs_result_binding");
+    if (flag(capture, "observed_stable") != (coherent && applicable) ||
+        (flag(capture, "metadata_equal") && !flag(capture, "metadata_complete")) ||
+        (complete && !reread) || (applicable && (!complete || !diagnostic.empty())) ||
+        (complete && diagnostic.empty() && coherent && !applicable) ||
+        observation.find("membership") || observation.find("requested_target_limit"))
+        throw std::invalid_argument("ntfs_result_binding");
+    const bool directory_complete =
+        directory.kind != V::Kind::null && flag(directory, "index_complete");
+    const bool table_complete = table.kind != V::Kind::null && flag(table, "complete");
+    if (directory.kind != V::Kind::null)
+        for (const auto *claim : {"namespace_verified", "collation_verified",
+                                  "target_membership_verified", "cluster_allocation_verified"})
+            if (flag(directory, claim))
+                throw std::invalid_argument("ntfs_result_binding");
+    if (table.kind != V::Kind::null && !directory_complete)
+        throw std::invalid_argument("ntfs_result_binding");
+    if (audit.kind == V::Kind::null) {
+        if (complete || applicable || flag(capture, "observed_stable") ||
+            (directory_complete && table_complete && diagnostic != "ntfs_output_budget"))
+            throw std::invalid_argument("ntfs_result_binding");
+        return;
+    }
+    if (!directory_complete || !table_complete)
+        throw std::invalid_argument("ntfs_result_binding");
+    NtfsDirectoryRequest selected;
+    selected.capture.source_id = text(observation, "source_id");
+    selected.capture.epoch = integer(observation, "epoch");
+    selected.capture.source_bytes = integer(field(capture, "source_before"), "bytes");
+    selected.capture.volume_offset = request.volume_offset;
+    selected.capture.volume_bytes = request.volume_bytes;
+    selected.capture.major = 3;
+    selected.capture.minor = static_cast<unsigned>(minor);
+    selected.capture.limits = ntfs_inspection_capture_limits(request.kind);
+    selected.reference = request.directory_reference;
+    selected.limits = ntfs_inspection_directory_limits();
+    validate_ntfs_directory_request(selected);
+    V expected;
+    // The port checks relationships; actual source authentication remains the
+    // parent's exact retained-byte replay. This helper performs no host I/O.
+    ntfs_name_order_detail::collect(selected, directory, table, [](std::size_t) {}, expected);
+    if (!flag(audit, "complete")) {
+        if (complete || applicable || reread || flag(capture, "observed_stable") ||
+            diagnostic != "ntfs_output_budget" ||
+            field(audit, "mapped_nondecreasing").kind != V::Kind::null)
+            throw std::invalid_argument("ntfs_result_binding");
+        const char *arrays[] = {"order", "adjacent", "reference_groups", "mapped_groups"};
+        const char *counters[] = {"keys_returned", "adjacent_returned", "reference_groups_returned",
+                                  "mapped_groups_returned"};
+        bool short_phase = false;
+        for (std::size_t i = 0; i < 4; ++i) {
+            const auto &actual = field(audit, arrays[i]), &original = field(expected, arrays[i]);
+            if (actual.kind != V::Kind::array || actual.items.size() > original.items.size() ||
+                (short_phase && !actual.items.empty()) ||
+                integer(audit, counters[i]) != actual.items.size())
+                throw std::invalid_argument("ntfs_result_binding");
+            for (std::size_t row = 0; row < actual.items.size(); ++row)
+                if (!equal_value(actual.items[row], original.items[row]))
+                    throw std::invalid_argument("ntfs_result_binding");
+            short_phase = short_phase || actual.items.size() < original.items.size();
+            expected.put(arrays[i], actual).put(counters[i], number(actual.items.size()));
+        }
+        if (!short_phase)
+            throw std::invalid_argument("ntfs_result_binding");
+        expected.put("complete", V::boolean_value(false)).put("mapped_nondecreasing", V{});
+    }
+    if (!equal_value(audit, expected) || (applicable && !flag(audit, "mapped_nondecreasing")) ||
+        (diagnostic == "ntfs_name_order_mapped_descent" &&
+         (!complete || !flag(audit, "complete") || flag(audit, "mapped_nondecreasing"))))
+        throw std::invalid_argument("ntfs_result_binding");
+}
+void project_name_order(V &observation) {
+    auto &audit = observation.fields.at("name_order");
+    if (audit.kind == V::Kind::null)
+        return;
+    audit.put("original_schema", field(audit, "schema"))
+        .put("schema", V::string("org.disked.ntfs-directory-name-order-projection/1"))
+        .put("header_number_domain", V::string("original-directory-entry-header-numbers/1"));
+    bool complete = true;
+    for (const auto *key : {"order", "adjacent", "reference_groups", "mapped_groups"}) {
+        const bool group =
+            std::string(key) == "reference_groups" || std::string(key) == "mapped_groups";
+        const auto &original = field(audit, key);
+        auto projected = original;
+        if (group)
+            for (auto &row : projected.items) {
+                const auto &headers = field(row, "headers");
+                auto selected = rows(headers, headers, 2048, 64);
+                complete = complete && integer(selected, "omitted") == 0;
+                row.put("headers", std::move(selected));
+            }
+        auto selected = rows(original, projected, group ? 8192 : 16384, group ? 32 : 128);
+        complete = complete && integer(selected, "omitted") == 0;
+        audit.put(key, std::move(selected));
+    }
+    const auto &directory = field(observation, "directory");
+    audit.put("projection_complete", V::boolean_value(complete))
+        .put("directory_entries_complete",
+             V::boolean_value(directory.kind != V::Kind::null &&
+                              integer(field(directory, "entries"), "omitted") == 0));
+}
 Outcome failure(const std::string &request, const std::string &code, int exit_code) {
     auto out = refused(request, code, exit_code);
     if (exit_code == 4)
@@ -442,12 +578,13 @@ bool ntfs_inspection_parameters(const V &parameters) {
     const auto *view = parameters.find("view");
     return view && view->kind == V::Kind::string &&
            (view->text == "ntfs" || view->text == "ntfs-directory" ||
-            view->text == "ntfs-membership" || view->text == "ntfs-upcase");
+            view->text == "ntfs-membership" || view->text == "ntfs-upcase" ||
+            view->text == "ntfs-name-order");
 }
 NtfsCaptureLimits ntfs_inspection_capture_limits(NtfsSnapshotKind kind) {
     NtfsCaptureLimits limits;
     if (kind == NtfsSnapshotKind::Directory || kind == NtfsSnapshotKind::Membership ||
-        kind == NtfsSnapshotKind::Upcase) {
+        kind == NtfsSnapshotKind::Upcase || kind == NtfsSnapshotKind::NameOrder) {
         limits.read_requests = 512;
         limits.read_bytes = 2097152;
         limits.retained_bytes = 524288;
@@ -483,7 +620,9 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
         if (parameters.kind != V::Kind::object || !ntfs_inspection_parameters(parameters))
             return false;
         const bool membership = field(parameters, "view").text == "ntfs-membership";
-        const bool directory = membership || field(parameters, "view").text == "ntfs-directory";
+        const bool name_order = field(parameters, "view").text == "ntfs-name-order";
+        const bool directory =
+            membership || name_order || field(parameters, "view").text == "ntfs-directory";
         std::set<std::string> keys = {"path", "view", "volume_offset", "volume_bytes",
                                       "ntfs_version"};
         if (directory)
@@ -501,7 +640,9 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
         if (text(parameters, "view") == "ntfs-upcase")
             selected.kind = NtfsSnapshotKind::Upcase;
         if (directory) {
-            selected.kind = membership ? NtfsSnapshotKind::Membership : NtfsSnapshotKind::Directory;
+            selected.kind = name_order   ? NtfsSnapshotKind::NameOrder
+                            : membership ? NtfsSnapshotKind::Membership
+                                         : NtfsSnapshotKind::Directory;
             if (parameters.find("directory_reference"))
                 selected.directory_reference = integer(parameters, "directory_reference");
         }
@@ -538,9 +679,12 @@ bool decode_ntfs_inspection(const V &parameters, NtfsInspectionRequest &result) 
 V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRequest &request) {
     validate_ntfs_inspection_request(request);
     const bool membership = request.kind == NtfsSnapshotKind::Membership;
-    const bool directory = membership || request.kind == NtfsSnapshotKind::Directory;
+    const bool name_order = request.kind == NtfsSnapshotKind::NameOrder;
+    const bool directory = membership || name_order || request.kind == NtfsSnapshotKind::Directory;
     const bool upcase = request.kind == NtfsSnapshotKind::Upcase;
-    if (field(read.file, "schema").text != (upcase ? "org.disked.ntfs-upcase-file-capture/1"
+    const bool compact = upcase || name_order;
+    if (field(read.file, "schema").text != (name_order ? "org.disked.ntfs-name-order-file-capture/1"
+                                            : upcase   ? "org.disked.ntfs-upcase-file-capture/1"
                                             : membership
                                                 ? "org.disked.ntfs-membership-file-capture/1"
                                             : directory ? "org.disked.ntfs-directory-file-capture/1"
@@ -549,42 +693,49 @@ V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRe
         throw std::invalid_argument("ntfs_result_shape");
     if (directory)
         bind_directory_result(read.file, request);
-    if (upcase)
+    if (compact)
         bind_upcase_result(read.file, request);
+    if (name_order)
+        bind_name_order_result(read.file, request);
     const auto &original = field(read.file, "observation");
     auto observation = original;
     observation.put("original_schema", field(original, "schema"))
-        .put("schema", V::string(upcase       ? "org.disked.ntfs-upcase-projection/1"
+        .put("schema", V::string(name_order   ? "org.disked.ntfs-name-order-projection/1"
+                                 : upcase     ? "org.disked.ntfs-upcase-projection/1"
                                  : membership ? "org.disked.ntfs-membership-projection/1"
                                  : directory  ? "org.disked.ntfs-directory-projection/1"
                                               : "org.disked.ntfs-bootstrap-projection/1"));
     const auto &regions = field(original, "regions");
-    observation.put("regions", rows(regions, regions, upcase ? 16384 : 32768, upcase ? 64 : 128));
+    observation.put("regions", rows(regions, regions, compact ? 16384 : 32768, compact ? 64 : 128));
     for (const auto key : {"primary", "mirror", "volume_record"})
-        project_record(observation.fields.at(key), upcase ? 16 : 128, upcase ? 8192 : 65536,
-                       upcase ? 16 : 64, upcase ? 2048 : 8192);
-    project_closures(observation, upcase);
-    if (upcase) {
+        project_record(observation.fields.at(key), compact ? 16 : 128, compact ? 8192 : 65536,
+                       compact ? 16 : 64, compact ? 2048 : 8192);
+    project_closures(observation, compact);
+    if (compact) {
         project_record(observation.fields.at("upcase_record"), 16, 8192, 16, 2048);
         project_upcase(observation);
     }
     if (directory)
-        project_directory(observation);
+        project_directory(observation, name_order);
     if (membership)
         project_membership(observation);
+    if (name_order)
+        project_name_order(observation);
     const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
                          : request.profile == NtfsFileProfile::Version30 ? "3.0"
                                                                          : "3.1";
     auto result =
         V::object()
-            .put("schema", V::string(upcase       ? "org.disked.ntfs-upcase-inspection/1"
+            .put("schema", V::string(name_order   ? "org.disked.ntfs-name-order-inspection/1"
+                                     : upcase     ? "org.disked.ntfs-upcase-inspection/1"
                                      : membership ? "org.disked.ntfs-membership-inspection/1"
                                      : directory  ? "org.disked.ntfs-directory-inspection/1"
                                                   : "org.disked.ntfs-inspection/1"))
             .put("command", V::string("image.inspect"))
             .put("scope", V::string(scope(request.kind)))
             .put("applicability_scope",
-                 V::string(upcase       ? "volume-uppercase-table"
+                 V::string(name_order   ? "single-directory-primary-mapped-name-order"
+                           : upcase     ? "volume-uppercase-table"
                            : membership ? "single-directory-raw-name-correspondence"
                            : directory  ? "single-directory-index-envelope"
                                         : "boot-mft0-mirror0-volume-information"))
@@ -633,7 +784,8 @@ Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters
         const bool changed =
             !flag(capture, "metadata_equal") || !flag(capture, "binding_checks_ok") ||
             !flag(capture, "replay_equal") || !flag(capture, "profile_selection_equal") ||
-            (input.kind == NtfsSnapshotKind::Upcase &&
+            ((input.kind == NtfsSnapshotKind::Upcase ||
+              input.kind == NtfsSnapshotKind::NameOrder) &&
              text(observation, "diagnostic") == "ntfs_source_changed");
         const bool mismatch =
             input.kind == NtfsSnapshotKind::Membership && !changed &&
@@ -642,16 +794,29 @@ Outcome dispatch_ntfs_inspection(const std::string &request, const V &parameters
             field(observation, "diagnostic").text == "ntfs_membership_name_mismatch" &&
             flag(field(observation, "membership"), "collection_complete") &&
             !flag(field(observation, "membership"), "all_edges_matched");
-        const bool incomplete = !flag(observation, "complete") ||
-                                (!flag(observation, "applicable") && !mismatch) ||
-                                (!flag(capture, "observed_stable") && !mismatch);
+        const bool name_order = input.kind == NtfsSnapshotKind::NameOrder;
+        const bool finding =
+            name_order && !changed && flag(observation, "complete") &&
+            !flag(observation, "applicable") && flag(observation, "reread_equal") &&
+            flag(capture, "metadata_complete") && !text(observation, "diagnostic").empty() &&
+            flag(field(observation, "name_order"), "complete");
+        const bool incomplete =
+            name_order ? !flag(observation, "complete") ||
+                             (!flag(observation, "applicable") && !finding && !changed) ||
+                             (!flag(capture, "observed_stable") && !finding && !changed)
+                       : !flag(observation, "complete") ||
+                             (!flag(observation, "applicable") && !mismatch) ||
+                             (!flag(capture, "observed_stable") && !mismatch);
         auto out = completed(request, project_ntfs_inspection(read, input));
-        if (changed || incomplete || mismatch) {
+        if (changed || incomplete || mismatch || finding) {
             out.exit_code = 4;
             out.response.put("status", V::string("failed"));
             if (mismatch)
                 out.response.fields.at("diagnostics")
                     .items.push_back(diagnostic("ntfs_membership_name_mismatch"));
+            if (finding)
+                out.response.fields.at("diagnostics")
+                    .items.push_back(diagnostic(text(observation, "diagnostic")));
             if (incomplete)
                 out.response.fields.at("diagnostics")
                     .items.push_back(diagnostic("ntfs_capture_incomplete"));

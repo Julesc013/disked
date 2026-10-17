@@ -1,4 +1,4 @@
-"""Exact-source full native qualification for native held-file/owned-reader NTFS table binding."""
+"""Exact-source full native qualification for the common NTFS name-order view."""
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -122,7 +122,7 @@ def main():
         assert name_order['expected_cases_sha256']==name_expected['expected_cases_sha256']
         assert len(name_order['cases'])==172 and all(r['passed'] for r in name_order['cases'])
         summary['name_order_cases']=name_order['count']
-        native_name_expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-name-order-command/expected-before-implementation.json').read_bytes())
+        native_name_expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-name-order-command/expected-after-binding-review.json').read_bytes())
         summary['native_name_order']={}
         for mode,methods in [('file',9),('worker',10)]:
             native_report=json.loads((build/('ntfs-name-order-'+mode+'-cases.json')).read_bytes())

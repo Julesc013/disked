@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "recorded_at": "2026-10-17T01:28:43.635138+00:00",
+  "scope": "Directory-claim consistency correction; rebuild before focused reevaluation.",
+  "qualification": false,
+  "stages": [
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "seconds": 3.5445059000048786
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "seconds": 2.8681336999870837
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "seconds": 7.456847200170159
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "--config",
+        "Release",
+        "--target",
+        "disked",
+        "disked_ntfs_test",
+        "ntfs_worker_probe",
+        "ntfs_worker_fault",
+        "ntfs_inspection_probe",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "seconds": 42.38868060009554
+    }
+  ]
+}

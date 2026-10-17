@@ -12,5 +12,6 @@ projection completeness remain separate.
 
 A complete ordering finding is distinct from an incomplete capture and source
 disagreement. Existing view meanings,source policy,worker ownership and deadlines
-remain fixed. Implementation and native qualification are pending; this contract
+remain fixed. The working implementation passes 52 layouts, 12 test families and 277 recorded calls after retained
+harness corrections and explicit directory-claim validation. Clean-source native qualification is pending; this contract
 grants no owner acceptance,storage effects or release authority.

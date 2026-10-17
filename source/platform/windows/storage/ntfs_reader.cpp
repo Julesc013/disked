@@ -138,7 +138,8 @@ NtfsInspectionRead inspect_ntfs_image(const NtfsInspectionRequest &request) {
         input.target_limit = request.target_limit;
         input.limits = ntfs_inspection_capture_limits(request.kind);
         if (request.kind == NtfsSnapshotKind::Directory ||
-            request.kind == NtfsSnapshotKind::Membership)
+            request.kind == NtfsSnapshotKind::Membership ||
+            request.kind == NtfsSnapshotKind::NameOrder)
             input.directory_limits = ntfs_inspection_directory_limits();
 #ifdef DISKED_NTFS_COMMAND_TESTING
         if (GetEnvironmentVariableW(L"DISKED_NTFS_COMMAND_TEST_VERIFY_CHANGED", nullptr, 0))

@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-10-17T01:21:30.243630+00:00",
+  "failure": "failed-working-gui/summary.json",
+  "diagnostic": "gui-review-diagnostic/summary.json",
+  "cause": "The harness clicked Submit without Review. Exact unreviewed state and inert Submit were observed; explicit Review then Submit succeeded under the unchanged8-second wait. Product review gating behaved as specified.",
+  "correction": "Exercise Review explicitly before Submit,retain window captions before closing on failure,and test both completed-positive and completed-mapped-descent results in human/NDJSON/GUI/TUI/shell.",
+  "production_sources_and_binaries_unchanged": true,
+  "original52_layout_and12_family_expectations_unchanged": true,
+  "deadlines_or_assertions_weakened": false,
+  "original_failure_retained": true,
+  "old_test_recipe_sha256": "sha256:5de68c18a3e0fd70a3acd1f6de64e4d7dd9e242bd6de4f60ee74f32c27899a57",
+  "new_test_recipe_sha256": "sha256:90a4d0da4bb69aa6f80bdfc2c99fa3d2bb7a44b00233c544ed74c3ba441ee816",
+  "qualification_recipes": {
+    "reproduce.py": "sha256:fc62ce4381144c53644dee933502dd539cc9b1df2107d33348db271cbe4ebb53",
+    "reproduce-win32.py": "sha256:56711038f4dd35f22409079b6ebaed443227be13a4e9c0e7950fc610754c7840"
+  }
+}

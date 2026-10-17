@@ -1,0 +1,89 @@
+{
+  "status": "pass",
+  "base_revision": "fdf54d3d390a94f9ff35ecf48053aa802a5c2d51",
+  "observed_at": "2026-10-17T01:10:03.186225+00:00",
+  "qualification": false,
+  "stages": [
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "seconds": 1.3742398000322282
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0656142998486757
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "seconds": 3.6053818000946194
+    },
+    {
+      "name": "parameter-tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-p",
+        "test_ntfs_command.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0172888999804854
+    },
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "exit_code": 0,
+      "seconds": 22.489867800148204
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "--config",
+        "Release",
+        "--target",
+        "disked",
+        "disked_ntfs_test",
+        "ntfs_worker_probe",
+        "ntfs_worker_fault",
+        "ntfs_inspection_probe",
+        "disked_ntfs_inspection_headers",
+        "disked_ntfs_reader_headers",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "seconds": 54.88518579979427
+    }
+  ]
+}

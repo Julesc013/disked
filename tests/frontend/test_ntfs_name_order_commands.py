@@ -141,7 +141,7 @@ def main():
         assert value['response']['diagnostics'][0]['code'] == 'internal_error'
 
     try:
-        baseline = None
+        baseline = negative = None
         for index, (name, v, version, reference, diagnostic) in enumerate(E.fixtures()):
             path = write(v, 'generated-' + str(index) + '.img')
             before = file_digest(path)
@@ -160,6 +160,8 @@ def main():
                                            diagnostic=diagnostic, exit_code=code, **E.independent_facts(v)))
                 if name == 'profile-1-siblings':
                     baseline = v, path, cli, reference, before
+                if name == 'descending':
+                    negative = v, path, cli, reference, before
                 if name in ('large-order', 'large-same-reference', 'many-groups'):
                     audit = cli['result']['observation']['name_order']
                     assert not audit['projection_complete'] and not audit['directory_entries_complete']
@@ -171,7 +173,7 @@ def main():
                     json.dumps(sources, indent=2) + '\n', encoding='utf-8', newline='\n')
                 assert before == after
         family('52-independent-native-layouts-and-stdio')
-        assert baseline is not None
+        assert baseline is not None and negative is not None
         v, path, response, reference, baseline_before = baseline
         params = E.parameters(v, path, reference=reference)
         full = worker(v, path, reference=reference)
@@ -203,6 +205,13 @@ def main():
             obs['directory']['entries'][0]['name_hex'] = '5a00'
             obs['name_order']['directory_sha256'] = sha(canonical(obs['directory']))
         reject(full, params, directory_forgery)
+        for claim in ('namespace_verified', 'collation_verified', 'target_membership_verified',
+                      'cluster_allocation_verified'):
+            def directory_claim(bad, key=claim):
+                obs = bad['observation']
+                obs['directory'][key] = True
+                obs['name_order']['directory_sha256'] = sha(canonical(obs['directory']))
+            reject(full, params, directory_claim)
         reject(full, params, lambda b: b['observation']['name_order'].__setitem__('mapped_nondecreasing', False))
         family('audit-scalars-arrays-and-coherently-rehashed-directory-forgeries')
 
@@ -304,11 +313,19 @@ def main():
         family('exact-framing-boundary-and-one-byte-overflow')
 
         missing = folder / 'missing.img'
+        missing_companion = dict(E.parameters(v, missing), lookup={})
+        result = launch('missing-shared-lookup-companion', ['protocol', 'serve', '--json'], 2,
+                        exe=a.fault, settings={'DISKED_NTFS_COMMAND_TEST_OPEN_GUARD': '1'},
+                        data=canonical(E.wire(missing_companion)))
+        assert result['diagnostics'][0]['code'] == 'missing_parameter'
         for key, invalid in [('volume_bytes', '511'), ('volume_offset', str((1 << 63) - 512)),
                              ('directory_reference', '1'), ('ntfs_target_limit', '64'),
                              ('upcase_format', 'auto'), ('fat_copy', '0'), ('lookup', {}), ('ntfs_version', True)]:
             invalid_params = E.parameters(v, missing)
             invalid_params[key] = invalid
+            if key == 'lookup':
+                invalid_params[key] = dict(directory='0', names=['A'])
+                invalid_params['name_code_page'] = '437'
             result = launch('invalid-before-source', ['protocol', 'serve', '--json'], 2, exe=a.fault,
                             settings={'DISKED_NTFS_COMMAND_TEST_OPEN_GUARD': '1'}, data=canonical(E.wire(invalid_params)))
             assert result['diagnostics'][0]['code'] == 'invalid_parameter'
@@ -325,33 +342,53 @@ def main():
         launch('missing-source', ['--json', 'image', 'inspect', missing, *E.options(v)], 3)
         family('source-free-invalid-controls-statuses-and-kind-guards')
 
-        compare(response, launch('human-cli', ['--cli', 'image', 'inspect', path, *E.options(v, reference=reference)]))
-        compare(response, launch('ndjson', ['protocol', 'serve', '--format=ndjson'], data=canonical(E.wire(params)) + b'\n'))
-        ui = Gui(a.exe, ['--gui', 'image', 'inspect', str(path), *E.options(v, reference=reference)], render=True)
-        try:
-            ui.click(110)
-            report = wait(lambda: ui.details() if 'status' in ui.details() else None)
-            observed('gui', ui.text(101).encode('utf-8'))
-            compare(response, report)
-        finally:
-            ui.close()
-        assert ui.code == 0 and not ui.error and ui.created_files == []
-        for frontend in ('tui', 'shell'):
-            report = folder / (frontend + '.json')
-            startup = subprocess.STARTUPINFO()
-            startup.dwFlags = 1
-            startup.wShowWindow = 0
-            command = [sys.executable, str(a.root / 'tests/frontend/image_console_fixture.py'), str(a.exe),
-                       frontend, 'image.inspect', str(path), '-', str(report),
-                       json.dumps(E.options(v, reference=reference)), '8000']
-            p = subprocess.run(command, cwd=folder, env=env, creationflags=subprocess.CREATE_NEW_CONSOLE,
-                               startupinfo=startup, timeout=40)
-            raw = report.read_bytes()
-            observed(frontend, raw, command=command, exit_code=p.returncode,
-                     stdio_capture='not_captured_owned_console')
-            result = json.loads(raw)
-            assert p.returncode == 0
-            compare(response, result['response'])
+        for label, fixture, expected_code in [('positive', baseline, 0), ('mapped-descent', negative, 4)]:
+            selected_volume, selected_path, expected_response, selected_reference, _ = fixture
+            selected_options = E.options(selected_volume, reference=selected_reference)
+            selected_params = E.parameters(selected_volume, selected_path, reference=selected_reference)
+            compare(expected_response, launch('human-cli-' + label,
+                    ['--cli', 'image', 'inspect', selected_path, *selected_options], expected_code))
+            compare(expected_response, launch('ndjson-' + label, ['protocol', 'serve', '--format=ndjson'],
+                    expected_code, data=canonical(E.wire(selected_params)) + b'\n'))
+            ui = Gui(a.exe, ['--gui', 'image', 'inspect', str(selected_path), *selected_options], render=True)
+            try:
+                observed('gui-' + label + '-unreviewed', ui.text(101).encode('utf-8'))
+                assert not ui.details()['reviewed'] and 'status' not in ui.details()
+                ui.click(109)
+                observed('gui-' + label + '-reviewed', ui.text(101).encode('utf-8'))
+                assert ui.details()['reviewed'] and 'status' not in ui.details()
+                ui.click(110)
+                report = wait(lambda: ui.details() if 'status' in ui.details() else None)
+                observed('gui-' + label, ui.text(101).encode('utf-8'))
+                compare(expected_response, report)
+            except BaseException as error:
+                try:
+                    observed('gui-' + label + '-failure', ui.text(101).encode('utf-8'),
+                             notice=ui.text(103), error=repr(error))
+                except BaseException as observation_error:
+                    observed('gui-state-unavailable', repr(observation_error).encode('utf-8'),
+                             observation_unavailable=True, original_error=repr(error))
+                raise
+            finally:
+                ui.close()
+                observed('gui-' + label + '-stderr', ui.error, exit_code=ui.code)
+            assert ui.code == 0 and not ui.error and ui.created_files == []
+            for frontend in ('tui', 'shell'):
+                report = folder / (frontend + '-' + label + '.json')
+                startup = subprocess.STARTUPINFO()
+                startup.dwFlags = 1
+                startup.wShowWindow = 0
+                command = [sys.executable, str(a.root / 'tests/frontend/image_console_fixture.py'), str(a.exe),
+                           frontend, 'image.inspect', str(selected_path), '-', str(report),
+                           json.dumps(selected_options), '8000']
+                p = subprocess.run(command, cwd=folder, env=env, creationflags=subprocess.CREATE_NEW_CONSOLE,
+                                   startupinfo=startup, timeout=40)
+                raw = report.read_bytes()
+                observed(frontend + '-' + label, raw, command=command, exit_code=p.returncode,
+                         stdio_capture='not_captured_owned_console')
+                result = json.loads(raw)
+                assert p.returncode == 0
+                compare(expected_response, result['response'])
         family('actual-human-ndjson-gui-tui-shell-views')
 
         for flag, code, diagnostic in [('VERIFY_CHANGED', 4, 'ntfs_source_changed'),
@@ -422,6 +459,7 @@ def main():
             launch('essential-' + argv[0], argv, exe=a.fault, settings={'DISKED_NTFS_COMMAND_TEST_OPEN_GUARD': '1'})
         family('source-free-essential-commands')
         for name, selected_path, before in [('all-baseline-views', path, baseline_before),
+                                            ('negative-shared-views', negative[1], negative[4]),
                                             ('tied-parent-verified-source', tied_path, tied_before)]:
             after = file_digest(selected_path)
             sources.append(dict(case=name, path=str(selected_path), bytes=selected_path.stat().st_size,
