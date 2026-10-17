@@ -1,0 +1,103 @@
+{
+  "status": "pass",
+  "recorded_at": "2026-10-17T00:44:02.692700+00:00",
+  "tested_native_source_revision": "c460a35c67878cacda63b10561be9629b7370f1d",
+  "native_source_tests_build_definitions_contracts_unchanged": true,
+  "changed_metadata_paths": [
+    ".aide/programmes/disked-0.1.0.json",
+    "docs/ntfs-name-order-native.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "spec/work/units.json"
+  ],
+  "stages": [
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/index.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/manifest.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/structural.log"
+    },
+    {
+      "name": "verify-manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/verify-manifest.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/source-map.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W104",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-name-order-native-reviewed-c460a35c",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-name-order-native-reviewed-c460a35c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-17-ntfs-name-order-native/metadata-closure/verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_published": false
+}

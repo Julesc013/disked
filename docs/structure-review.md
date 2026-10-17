@@ -33,13 +33,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **327 source files** at `77abe061`: 37 portable, 145 runtime, 68 provider,
-63 platform and 14 application files. The name-order step adds one concrete runtime
-helper pair; ownership stays unchanged. The longest repository-relative source path
+There are **327 source files** at `c460a35c`: 37 portable, 145 runtime, 68 provider,
+63 platform and 14 application files. This native binding adds no production file or directory;
+ownership stays unchanged. The longest repository-relative source path
 remains 62 characters. Case, Windows reserved-basename and trailing-space/dot checks
 pass. These measurements do not qualify every legacy filesystem/compiler or build
-path. [Inventory](../.aide/evidence/2026-10-17-ntfs-name-order/source-inventory.json)
-and [path checks](../.aide/evidence/2026-10-17-ntfs-name-order/path-audit.json) bind the facts.
+path. [Inventory](../.aide/evidence/2026-10-17-ntfs-name-order-native/source-inventory.json)
+and [path checks](../.aide/evidence/2026-10-17-ntfs-name-order-native/path-audit.json) bind the facts.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -66,7 +66,7 @@ is formatter-clean.
 | SR-05: composition and test seams | Remains a targeted improvement. `app.cpp` still contains command-specific routing, limits and test hooks. Extract a named service binding or test seam with a concrete contract and consumer, preserving one command registry. |
 | SR-06: inventory does not enforce dependencies | Independent CMake-derived build/header checks now accompany source-map coverage. They qualify their tested lane, not every target or public SDK. |
 | SR-07: stale first-task routing | Root guidance routes through the programme. This pass also makes the canonical start page distinguish an active checkout from an initial archive. |
-| SR-08: Setup qualification | Earlier candidates failed Windows qualification; the latest observed candidate also failed native Windows qualification. Qualification remains open. See the exact snapshot below. |
+| SR-08: Setup qualification | Remains open. The latest snapshot records 6/7 successful hosted checks; local Setup lifecycle remains unqualified. See the exact snapshot below. |
 
 The original 1,043-line follow-up mixed many dated checkpoints with current
 guidance. Its [exact pre-consolidation contents](../.aide/evidence/2026-10-16-structure-status/structure-review-before.md)
@@ -93,130 +93,17 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-Private same-capture name-order source `77abe061` passes all 175 current x64 groups,
-172 new cases, 68 headers/C90/14 imports and 251 tooling tests (two skips). Its private
-Win32 supplement passes 16 groups/12 headers/9 imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-name-order/REVIEW.md)
-records the helper pair, retained order/group facts and failed working attempts.
-Native/public admission, full collation/host policy/alias resolution/lookup and all
-original platforms/storage remain unfinished.
+Native name-order binding at `c460a35c` passes all 177 current x64 groups,
+9 file/10 worker methods, 68 headers/C90/14 imports and 251 tooling tests (two skips).
+The private Win32 supplement passes 18 groups / 12 headers / 9 imports.
+[Agent review](../.aide/evidence/2026-10-17-ntfs-name-order-native/REVIEW.md) records same-capture source binding and exact
+retained-byte parent replay. No production file or directory was added. Public
+admission, full collation/host policy/alias resolution/lookup and the original
+all-platform/storage goal remain unfinished.
 
-Complete public NTFS table observation at `61f8f2f2` passes all 174 current x64
-groups, 119 command cases, 67 headers/C90/14 imports and 251 tooling tests (two skips).
-The private Win32 supplement passes 15 groups/11 headers/9 imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-command/REVIEW.md)
-records unchanged production ownership,complete table chunks,retained partials and
-the unresolved original startup failure. No production file or directory was added;
-namespace/lookup/content and original all-platform/storage 0.1.0 remain unfinished.
-
-Native held-file/owned-reader table source `0b67e4c7` passes all 173 registered
-x64 groups,434 held-file/274 worker cases, 67 headers/C90/14 imports and 249 tooling
-tests(two skips). Its private Win32 supplement passes 15 groups/11 headers/9 imports.
-[Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-native/REVIEW.md) records exact
-source/profile/replay/process scope and retained test corrections. No production
-file or directory was added. Public table admission,namespace/lookup/content and
-the original all-platform/storage 0.1.0 remain incomplete.
-
-Retained NTFS table source `b613ccae` passes all171 registered x64 groups,158 new
-capture cases, 67 headers/C90/14 imports and 249 tooling tests(two skips). Its private
-Win32 supplement passes nine groups/five headers/four imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md)
-records exact table/context/reference/reread scope. No native table source,worker,
-frontend,namespace or lookup admission follows; original 0.1.0 remains incomplete.
-
-Private NTFS table source `ff74ccae` passes21/170 selected x64 groups,327680
-mapping observations,2520 comparisons and78 guard cases, plus67 headers/C90/four
-imports and 249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
-headers pass. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md)
-records the complete scope. This adds no command or namespace/lookup admission.
-The full current suite,other platforms and all original 0.1.0 remain unqualified.
-
-Common membership command `01feae81` passes all 53 selected x64 groups of
-168 registered, 126 new command/frontend cases, 67 headers/C90/13 imports
-and 249 tooling tests (two skips). [Review](../.aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md)
-supports source integration after metadata closure. No production files or
-directories were added; the ownership assessment remains. No fresh Win32 or
-other-host qualification was run. Complete namespace/collation/lookup/content,
-all original platforms/storage, owner acceptance and release gates remain.
-
-The preceding private worker results below retain their exact earlier scope.
-
-Owned membership reader `06b63a89` passes all 34 selected x64 groups of 167
-registered, 310 new worker cases, 67 header checks/C90/13 executable imports
-and 247 tooling tests (two skips). The private Win32 supplement passes twelve
-groups/ten headers/seven executables. [Review](../.aide/evidence/2026-10-16-ntfs-membership-worker/REVIEW.md)
-supports source integration after metadata closure; the programme owns actual
-Git state. Public admission is qualified separately by DE-W098 above. Earlier unexplained
-failures and native file-symlink limitations remain retained and unresolved.
-
-Held-file correspondence at `c1511f80` passes the predefined 31/166 affected
-x64 groups,496 new cases, 67 headers/C90/13 imports and 247 tooling tests (two
-skips), plus eleven private Win32 groups/ten headers/seven executables.
-[Review](../.aide/evidence/2026-10-16-ntfs-membership-file/REVIEW.md) supports source integration after metadata
-closure. At that source revision, worker/public membership admission and all original release requirements
-remain; the older full-suite observations below retain their exact revisions.
-
-Private membership source `a1271115` passes all 165 x64 native groups,193
-membership/247 filename/298 stream cases, 67 headers/C90/thirteen imports and 247
-tooling tests (two skips). The selected Win32 supplement passes ten groups/ten
-headers/seven executables. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-membership-integration/repository.json)
-records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-membership/REVIEW.md)
-supports source integration after metadata closure; it does not grant owner
-acceptance, native membership admission or release qualification. The original
-fixture failure remains retained. The programme owns subsequent work state.
-
-Filename source `18980169` passes all 164 registered x64 native groups, 247 new
-filename/298 unchanged stream cases, 65 headers/C90/thirteen unique executable
-import checks and 247 tooling tests (two skips). The private Win32 supplement
-passes nine groups/eight headers. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-names-integration/repository.json)
-records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-names/REVIEW.md)
-records the shared private selector, four actual new files (321 total), preflight
-defects and unchanged public/storage authority. Native membership, collation,
-namespace/content, full original 0.1.0 and release gates remain.
-
-Directory-command source `6efc9a5b` passes all 163 registered x64 native groups,
-100 new/58 bootstrap command checks, 63 headers, strict C90, eleven distinct
-executable import closures and 247 tooling tests (two skips). Eight private
-Win32 groups/six headers pass; the full Win32 product/new frontends remain
-unqualified. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-directory-command-integration/repository.json)
-records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md)
-retains failed GUI fixture runs and exact original evidence. Public bounded
-directory-index inspection is implemented; namespace/membership/collation,
-lookup/content and the complete original 0.1.0 remain required.
-
-Owned-directory source `1001d463` passes 235 cases/12 methods on x64 and selected
-Win32/WOW64 probes. All-target x64 build, 35 selected groups of 162, 63 C++ headers,
-C90/import checks and 244 tooling tests (two skips) pass. Eight Win32 groups/six
-headers pass. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-directory-worker-integration/repository.json)
-records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md)
-retains exact source, fixture failure and working-receipt limitations. This
-qualifies private directory snapshots/workers; frontend, namespace/content and
-full original 0.1.0 remain. This is not a full 162-group current-native campaign.
-
-Native directory-file source `4156accf` passes 550 responses/12 methods, an all-target
-x64 build, 31 selected groups of 161, 63 headers, strict C90/import checks and 244
-tooling tests (two skips). Six private Win32 groups/four headers also pass.
-[Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-directory-file-integration/repository.json)
-records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md) retains the
-original fixture/selector failures and exact resume provenance. This qualifies
-the private synchronous file binding, with worker/frontend admission outstanding.
-It is not a full 161-group current-native or full original 0.1.0 qualification.
-
-Source `7bb6153a` passes 227 guarded directory cases, all 160 registered x64 native
-groups, 63 C++ headers, strict C90 sources/headers and 244 tooling tests (two skips).
-The selected Win32 supplement passes four groups/four headers after a receipt-only
-counter correction; the original failure remains.
-[Implementing-agent review](../.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md)
-supports ordinary source integration. [Verified dev/main synchronization](../.aide/evidence/2026-10-16-ntfs-directory-integration/repository.json)
-records the actual repository writes. This does not qualify native directory
-file/worker/frontend admission or complete NTFS.
-
-The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
-[closure review](../.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md) and
-[product-command review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md)
-remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
-preserves the dated detail; the programme owns current work state.
-
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-name-order/hosted-observations.json)
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json)
 records [PR237](https://github.com/Julesc013/universal-setup/pull/237) at
-`f2e268e0`, observed `2026-10-16T22:35:54.941631+00:00`: state
+`1dd6fb93`, observed `2026-10-17T00:37:44.730544+00:00`: state
 open, draft=True, merged=False.
 6 of 7 reported checks succeeded.
 Completed non-success checks: native-windows (failure).
