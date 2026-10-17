@@ -71,3 +71,19 @@ Exit 0 means the traversal completed, 2 means some entries were preserved or cou
 not be processed, and 1 means refusal/error. Its JSON output records logical file
 bytes and actual volume free space separately; other projects can change the
 volume concurrently. A partial result must never be reported as an empty folder.
+
+For DE-W105, [the Win32 fixture preparer](../tools/ntfs-win32-fixture.py) replaces
+the fixture-generation portion of the historical supplement. It reads a fresh
+CMake File API codemodel for the same checkout from the managed workspace and
+generates at most 128 KiB there: the CMake fixture, twelve header probes and a
+hashed input/generated-file manifest. It retains all eighteen test groups and
+nine executable targets, including distinct normal/fault variants. It copies no
+checkout, launches no compiler/test and grants no native execution authority.
+It refuses missing headers, mismatched metadata, linked/escaping paths and
+oversized input/output before creating its output directory.
+
+Generate the fresh codemodel only after the native storage gate is satisfied.
+The generated manifest binds fixture-generation inputs; it is not the complete
+work-unit/test-helper execution closure or qualification evidence. Future native
+execution and compact retention still need a bounded campaign; historical
+unbounded orchestration must not be rerun to produce the missing codemodel.

@@ -1,0 +1,116 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "9dfd587d761c6f016960a29411d76675341e7f8d",
+  "spec_manifest_digest": "sha256:47e4b894ad7699f6554e2432a0286d2d16491aed360c4fcc05cee67b2a08a5cc",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "docs/development-storage.md",
+    "spec/work/units.json",
+    "spec/catalog/native-bootstrap.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-17-ntfs-name-order-command/reproduce-win32.py",
+    ".aide/evidence/2026-10-17-ntfs-name-order-command/reproduce.py",
+    "tools/workspace.py",
+    "tools/build-bootstrap.py"
+  ],
+  "files_changed": [
+    "tools/ntfs-win32-fixture.py",
+    "tests/tools/test_ntfs_win32_fixture.py",
+    "docs/development-storage.md",
+    "tools/build-inputs.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/work/units.json",
+    "spec/manifest.json",
+    ".aide/programmes/disked-0.1.0.json"
+  ],
+  "summary": "Independent permitted tooling preparation while setup approval remains pending. A fresh-metadata Win32 CMake fixture preparer preserves the historical 18 groups,12 headers,9 executables and exact arguments without checkout copying or native execution. Final81 tooling tests:80 pass/one host-policy skip. Full253 spec tests:251 pass/two existing symlink skips. All managed workspaces removed; .aide-local remains absent. Full 0.1.0 scope and native storage gate remain unchanged. This snapshot precedes checkpoint synchronization.",
+  "tests": [
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-spec-tests.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -m unittest discover -s tests/tools -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-tooling.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-spec-index.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-spec-check.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-spec-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-spec-verify-manifest.log"
+    },
+    {
+      "command": "Current-source native Win32 fixture configure/build/test/import qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tools/ntfs-win32-fixture.py",
+      "sha256": "sha256:b404f7018bc2d20e10ff1bb462485c57196d5f4e1e1bdbede83a20979f88c476"
+    },
+    {
+      "path": "tests/tools/test_ntfs_win32_fixture.py",
+      "sha256": "sha256:9ed633f8a1d674bdd9298a4edf77ec8c5d98ddf7027ad2a8dac2d75c83e2a972"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-review.md",
+      "sha256": "sha256:63cf4b99e506abd8129541f4370171dddc2bedf4f8eeba1295c19fd724afae6e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-tooling.log",
+      "sha256": "sha256:ed6281d6d91f834f3a2166aa00060a2084c292f39d8c524f3c0f7931d11a0715"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-spec-tests.log",
+      "sha256": "sha256:d131e1f035131e137c05af82b8f8ca6746cf53e4b45763147ea644374c0c4b18"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-run.json",
+      "sha256": "sha256:dbe21628f36103895f2f9f69342aa03f3d340aaa7cb119f1774cf906c21c49d8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/fixture-preparation-final-run.json",
+      "sha256": "sha256:1b35d2ee045355b5a8bac8108af1db94b453836de003bf1904ddab94cf2fbce9"
+    }
+  ],
+  "blockers": [
+    "Execution setup choice/grant remains pending. No qualified hard-capacity/no-spillover worker is available and no provisioning/mount/elevation authority has been supplied.",
+    "Fresh current-source native configure/build/test/import qualification and bounded execution/retention orchestration remain unrun; fixture preparation alone proves none of them."
+  ],
+  "next_safe_step": "Obtain the pending execution setup selection/grant, establish and test its actual capacity and write confinement, then use fresh File API metadata with the bounded preparer to resume remaining DE-W105 native qualification. Do not infer authority from a repeated generic goal continuation.",
+  "performed_remote_writes": false
+}

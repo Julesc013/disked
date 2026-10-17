@@ -17663,6 +17663,38 @@
         "DE-071",
         "DE-074"
       ]
+    },
+    {
+      "id": "tools/ntfs-win32-fixture.py",
+      "path": "tools/ntfs-win32-fixture.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/workspace.cmake",
+        "spec/catalog/native-bootstrap.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_ntfs_win32_fixture.py",
+      "path": "tests/tools/test_ntfs_win32_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/ntfs-win32-fixture.py",
+        ".aide/evidence/2026-10-17-ntfs-name-order-command/reproduce-win32.py"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-044",
+        "DE-074"
+      ]
     }
   ]
 }
