@@ -5,7 +5,7 @@ okf_version: "0.2"
 
 # DiskEd specification
 
-**Proposed baseline 0.1.169-proposed.1. Owner acceptance pending. No product or hardware qualification.**
+**Proposed baseline 0.1.170-proposed.1. Owner acceptance pending. No product or hardware qualification.**
 
 Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).
 

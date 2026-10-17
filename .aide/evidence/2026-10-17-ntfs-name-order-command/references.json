@@ -1,0 +1,21 @@
+{
+  "base_revision": "98b7573935c07d575d9500849662b3cafcfc9ee1",
+  "source_observations": [
+    "source/runtime/capture/ntfs_inspection.h",
+    "source/runtime/capture/ntfs_inspection.cpp",
+    "source/runtime/capture/ntfs_name_order.h",
+    "source/runtime/capture/ntfs_name_order.cpp",
+    "source/platform/windows/storage/ntfs_reader.cpp",
+    "source/runtime/command/protocol.cpp",
+    "spec/schemas/command-image-inspect-parameters.schema.json",
+    "spec/tools/specctl.py",
+    "tests/frontend/test_ntfs_upcase_commands.py",
+    "tests/unit/ntfs_inspection_probe.cpp"
+  ],
+  "evidence": [
+    ".aide/evidence/2026-10-17-ntfs-name-order-native/REVIEW.md",
+    ".aide/evidence/2026-10-17-ntfs-name-order-native-integration/repository.json"
+  ],
+  "inference": "Joint public projection must validate both ingredients and audit,retain original referent domains,and distinguish complete negative findings from missing observations.",
+  "owning_contract": "spec/catalog/ntfs-name-order-command-prototype.json"
+}

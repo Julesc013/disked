@@ -103,6 +103,7 @@
 - [ntfs-membership-file-prototype.json](ntfs-membership-file-prototype.json)
 - [ntfs-membership-prototype.json](ntfs-membership-prototype.json)
 - [ntfs-membership-worker-prototype.json](ntfs-membership-worker-prototype.json)
+- [ntfs-name-order-command-prototype.json](ntfs-name-order-command-prototype.json)
 - [ntfs-name-order-native-prototype.json](ntfs-name-order-native-prototype.json)
 - [ntfs-name-order-prototype.json](ntfs-name-order-prototype.json)
 - [ntfs-names-prototype.json](ntfs-names-prototype.json)

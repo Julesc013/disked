@@ -22,6 +22,9 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
+  complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);
+  independent expectations,implementation and qualification pending.
 - [x] DE-W104 native name-order binding: exact `c460a35c` passes all 177 x64 groups,
   9 file/10 worker methods, 68 headers/C90/14 imports and 251 tooling tests (two skips).
   Private Win32 eighteen groups/twelve headers/nine imports pass.

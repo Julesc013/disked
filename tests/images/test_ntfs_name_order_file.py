@@ -170,7 +170,8 @@ class Tests(unittest.TestCase):
             self.assertEqual(value.get("regions", []), [])
         for kind in ("name_order", "unknown"):
             _, raw = native.invoke(INSPECTION, held.canonical(dict(private_kind=kind)), 10)
-            self.assertEqual(json.loads(raw), dict(rejected=True, diagnostic="ntfs_inspection_kind"))
+            expected = dict(rejected=False) if kind == "name_order" else dict(rejected=True, diagnostic="ntfs_inspection_kind")
+            self.assertEqual(json.loads(raw), expected)
 
     def test_normal_and_fault_controls_remain_isolated(self):
         volume, path = self.fixture()

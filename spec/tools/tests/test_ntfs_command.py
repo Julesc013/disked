@@ -10,6 +10,33 @@ class NtfsCommand(unittest.TestCase):
     @classmethod
     def setUpClass(cls):cls.bundle=sc.Bundle(Path(__file__).resolve().parents[2])
 
+    def test_name_order_profile_reference_and_signed_window(self):
+        schema = 'urn:disked:schema:command-image-inspect-parameters:1'
+        value = dict(path='generated.img', view='ntfs-name-order', volume_offset='0', volume_bytes='512')
+        for reference in (None, '0', str(1 << 48), str((1 << 64) - 1)):
+            row = dict(value)
+            if reference is not None:
+                row['directory_reference'] = reference
+            for version in ('auto', '3.0', '3.1'):
+                self.bundle.validate(schema, dict(row, ntfs_version=version))
+        self.bundle.validate(schema, dict(value, volume_offset=str((1 << 63) - 1 - 512)))
+        for key, invalid in [('volume_bytes', '511'), ('volume_offset', str((1 << 63) - 512)),
+                             ('volume_bytes', str(1 << 64)), ('directory_reference', '1'),
+                             ('directory_reference', str(1 << 64)), ('directory_reference', '00'),
+                             ('directory_reference', True), ('ntfs_version', '2.0')]:
+            with self.subTest(key=key, value=invalid), self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema, dict(value, **{key: invalid}))
+
+    def test_name_order_rejects_other_views_default_controls(self):
+        schema = 'urn:disked:schema:command-image-inspect-parameters:1'
+        value = dict(path='generated.img', view='ntfs-name-order', volume_offset='0', volume_bytes='512')
+        for key, invalid in [('ntfs_target_limit', '64'), ('upcase_format', 'auto'),
+                             ('logical_block_bytes', '512'), ('fat_copy', '0'),
+                             ('allocation_scan', 'no'), ('retain_capture', 'no'),
+                             ('lookup', {}), ('allocation_window', {}), ('name_code_page', '437')]:
+            with self.subTest(key=key), self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema, dict(value, **{key: invalid}))
+
     def test_upcase_profile_and_signed_window(self):
         schema='urn:disked:schema:command-image-inspect-parameters:1'
         value=dict(path='generated.img',view='ntfs-upcase',volume_offset='0',volume_bytes='512')
