@@ -56,6 +56,7 @@
     ".aide/evidence/2026-10-17-workspace-cleanup/nested-repositories.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/partial-clone-source-review.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/remaining-temporary-worktrees-before.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/repository-sync-context.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/retained-result.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/reviewed-clone-removal.json",
@@ -67,6 +68,7 @@
     ".aide/evidence/2026-10-17-workspace-cleanup/spec-manifest.log",
     ".aide/evidence/2026-10-17-workspace-cleanup/spec-tooling-tests.log",
     ".aide/evidence/2026-10-17-workspace-cleanup/spec-verify-manifest.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/staged-integrity.json",
     ".aide/evidence/2026-10-17-workspace-cleanup/storage-tests-first.log",
     ".aide/evidence/2026-10-17-workspace-cleanup/temporary-coordinator-dependency.log",
     ".aide/evidence/2026-10-17-workspace-cleanup/temporary-worktrees-before.json",
@@ -94,7 +96,7 @@
     "tools/workspace.cmake",
     "tools/workspace.py"
   ],
-  "summary": "User-requested emergency storage remediation and script review are complete: .aide-local is absent and source/evidence are preserved. The original downloaded script was not executed. Reviewed cleanup, bounded workspace watchdog, shared campaign admission, build guard, tests and operational instructions added. 67 tooling tests run with one host-policy skip; 253 specification-tool tests run with two existing symlink skips. This is maintenance during paused DE-W105, not completion of W105 or the 0.1.0 product. Remote writes are false at this pre-commit snapshot and will be updated only after actual successful synchronization.",
+  "summary": "User-requested emergency storage remediation and script review are complete: .aide-local is absent and source/evidence are preserved. The original downloaded script was not executed. Reviewed cleanup, bounded workspace watchdog, shared campaign admission, build guard, tests and operational instructions added. 67 tooling tests run with one host-policy skip; 253 specification-tool tests run with two existing symlink skips. This is maintenance during paused DE-W105, not completion of W105 or the 0.1.0 product. Development checkpoint80919b03 was successfully pushed to origin/dev; origin/main remains98b75739. Exact observations are in remote-sync.json; the following receipt commit is metadata only.",
   "tests": [
     {
       "command": "\"C:\\Program Files\\Python314\\python.exe\" spec/tools/specctl.py index",
@@ -205,5 +207,5 @@
     "DE-W105 private Win32 supplement and qualification of the amended build gate remain unrun. No source promotion, owner acceptance or release claim."
   ],
   "next_safe_step": "Review the storage tooling and hard-boundary provisioning options without elevating or mounting storage implicitly. Keep native development paused. Do not rerun historical unbounded recipes; adapt future campaigns to bounded working sets after the gate is resolved.",
-  "performed_remote_writes": false
+  "performed_remote_writes": true
 }
