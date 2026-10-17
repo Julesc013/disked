@@ -1,0 +1,81 @@
+[
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/tools",
+      "-v"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tooling.log",
+    "sha256": "595539145989d2dcba065d4cb9ce43952530d245ff1de2e9b3b9fe08ea1b49b4"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "-m",
+      "pip",
+      "install",
+      "--target",
+      "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-33v_ep9k\\deps",
+      "--no-cache-dir",
+      "--no-compile",
+      "--no-deps",
+      "--only-binary=:all:",
+      "PyYAML==6.0.3"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "output": "Collecting PyYAML==6.0.3\r\n  Downloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl.metadata (2.4 kB)\r\nDownloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl (156 kB)\r\nInstalling collected packages: PyYAML\r\nSuccessfully installed PyYAML-6.0.3\r\n"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "spec/tools/specctl.py",
+      "index"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "output": "{\r\n  \"files\": 25,\r\n  \"changed\": [],\r\n  \"mode\": \"regenerate\"\r\n}\r\n"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "output": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"PASS\",\r\n  \"checks\": 1323,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 96,\r\n  \"schemas\": 95,\r\n  \"errors\": [],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "spec/tools/specctl.py",
+      "manifest"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "output": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"generate\",\r\n  \"files\": 420,\r\n  \"bytes\": 3866634\r\n}\r\n"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "status": "pass",
+    "exit_code": 0,
+    "output": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"verify\",\r\n  \"files\": 420,\r\n  \"bytes\": 3866634\r\n}\r\n"
+  }
+]

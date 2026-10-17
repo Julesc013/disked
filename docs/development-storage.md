@@ -24,6 +24,18 @@ Its temporary profile points into owned work, and a controller journal permits
 recovery after termination. Uncertain ownership blocks another run. Final capped
 runner/compiler qualification and live upstream AIDE integration remain open.
 
+Before requesting elevation, the proof reads the live Windows process snapshot.
+An existing `consent.exe` in the current session, or one whose session cannot be
+queried, blocks an additional request. Complete or cancel the relevant Windows
+prompt at the VM console before retrying. Stopping a requesting process does not
+prove that Windows retired its consent process. The tool never terminates those
+processes or assumes that they belong to DiskEd. Admission refusals are retained
+separately from the earlier virtual-image creation/cleanup receipt.
+The setup helper also holds a named mutex throughout creation, mounting, its
+finite lease and cleanup. Late approvals cannot make two helpers race over the
+same image. Cancelling an obsolete DiskEd prompt avoids starting a helper after
+its controller has exited; identify the relevant command at the console.
+
 Before creating a context pack, check its complete upper bound:
 
 ```text

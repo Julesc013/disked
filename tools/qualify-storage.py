@@ -42,7 +42,61 @@ def capped_volume(path, maximum):
     return shutil.disk_usage(path)._asdict()
 
 
+class SetupAdmissionBlocked(RuntimeError):
+    def __init__(self, processes):
+        self.processes = processes
+        super().__init__('Windows consent is already pending; complete or cancel it at the VM console. '
+                         'No additional elevation request was submitted.')
+
+
+def pending_elevation_requests():
+    """Read OS process state. Never terminate or claim ownership of consent.exe."""
+    class ProcessEntry(ctypes.Structure):
+        _fields_ = [('size', T.DWORD), ('usage', T.DWORD), ('pid', T.DWORD),
+                    ('heap', ctypes.c_size_t), ('module', T.DWORD), ('threads', T.DWORD),
+                    ('parent', T.DWORD), ('priority', T.LONG), ('flags', T.DWORD),
+                    ('name', T.WCHAR * 260)]
+    api = ctypes.WinDLL('kernel32', use_last_error=True)
+    W.bind(api, 'CreateToolhelp32Snapshot', T.HANDLE, T.DWORD, T.DWORD)
+    W.bind(api, 'Process32FirstW', T.BOOL, T.HANDLE, ctypes.POINTER(ProcessEntry))
+    W.bind(api, 'Process32NextW', T.BOOL, T.HANDLE, ctypes.POINTER(ProcessEntry))
+    W.bind(api, 'ProcessIdToSessionId', T.BOOL, T.DWORD, ctypes.POINTER(T.DWORD))
+    W.bind(api, 'CloseHandle', T.BOOL, T.HANDLE)
+    session = T.DWORD()
+    W.require(api.ProcessIdToSessionId(os.getpid(), ctypes.byref(session)))
+    snapshot = api.CreateToolhelp32Snapshot(2, 0)
+    if snapshot == ctypes.c_void_p(-1).value:
+        raise ctypes.WinError(ctypes.get_last_error())
+    records, count = [], 0
+    try:
+        entry = ProcessEntry()
+        entry.size = ctypes.sizeof(entry)
+        available = api.Process32FirstW(snapshot, ctypes.byref(entry))
+        while available:
+            count += 1
+            if count > 65536:
+                raise RuntimeError('Process snapshot exceeds admission budget')
+            if entry.name.casefold() == 'consent.exe':
+                other = T.DWORD()
+                known = api.ProcessIdToSessionId(entry.pid, ctypes.byref(other))
+                # An unreadable session is ambiguous, not permission to queue more.
+                if not known or other.value == session.value:
+                    records.append({'pid': entry.pid, 'session_id': other.value if known else None,
+                                    'session_query_error': None if known else ctypes.get_last_error()})
+            available = api.Process32NextW(snapshot, ctypes.byref(entry))
+        error = ctypes.get_last_error()
+        if error != 18:  # ERROR_NO_MORE_FILES
+            raise ctypes.WinError(error)
+    finally:
+        W.require(api.CloseHandle(snapshot))
+    return records
+
+
 def start_setup(size, elevate=False):
+    if elevate:
+        pending = pending_elevation_requests()
+        if pending:
+            raise SetupAdmissionBlocked(pending)
     class ExecuteInfo(ctypes.Structure):
         _fields_ = [('size', T.DWORD), ('mask', T.ULONG), ('window', T.HWND),
                     ('verb', T.LPCWSTR), ('file', T.LPCWSTR), ('parameters', T.LPCWSTR),
@@ -239,6 +293,8 @@ def main():
         receipt['status'] = 'pass'
     except Exception as error:
         receipt.update(status='blocked', error=str(error), error_type=type(error).__name__)
+        if isinstance(error, SetupAdmissionBlocked):
+            receipt['pending_elevation_processes'] = error.processes
     finally:
         if state and state.get('phase') == 'ready':
             (SCRATCH / 'release.json').write_bytes(json.dumps({'nonce': state['nonce'], 'workers_stopped': True}).encode())
@@ -258,7 +314,9 @@ def main():
             finally:
                 helper.close()
         receipt['host_free_bytes_after'] = {letter: shutil.disk_usage(letter + ':\\').free for letter in ('C', 'D')}
-        (EVIDENCE / 'capped-storage-32.json').write_bytes((json.dumps(receipt, indent=2) + '\n').encode())
+        # A launch refusal must not replace retained image/cleanup observations.
+        name = 'capped-storage-32.json' if helper else 'storage-elevation-admission.json'
+        (EVIDENCE / name).write_bytes((json.dumps(receipt, indent=2) + '\n').encode())
     return 0 if receipt['status'] == 'pass' else 78
 
 

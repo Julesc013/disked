@@ -12,6 +12,8 @@ Status: the full all-platform/storage 0.1.0 goal is active with authorized bound
 - [ ] Demonstrate host-enforced allocation denial, no fallback/spillover and
   interrupted cleanup before resuming native development. The user authorized
   bounded disposable local setup on this shared Windows 10 VM on 2026-10-17.
+- [x] Refuse another elevation request while live Windows consent state remains
+  pending or ambiguous; preserve the image receipt and require console resolution.
 
 ## Specification preparation
 

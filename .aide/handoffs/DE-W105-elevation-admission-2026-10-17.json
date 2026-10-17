@@ -1,0 +1,141 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "31bc56b767c3c7a8ca7e14bb7e908e25f125428e",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    ".aide/programmes/disked-0.1.0.json",
+    "tools/qualify-storage.py",
+    "tools/capped-scratch.ps1",
+    "tests/tools/test_storage_setup.py",
+    "docs/development-storage.md",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-setup-review.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tests.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tooling.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md",
+    ".aide/handoffs/DE-W105-elevation-admission-2026-10-17.json",
+    ".aide/integration.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tests/tools/test_storage_setup.py",
+    "tools/capped-scratch.ps1",
+    "tools/qualify-storage.py"
+  ],
+  "summary": "Previous goal turn made progress. The committed corrected elevation launcher remained pending; its exact requester was stopped, but time-correlated Windows consent processes stayed live and ownership was not established. Added real OS-snapshot admission refusal before another elevation request, separate refusal receipts and a named helper-lifetime mutex with actual contention testing.97 tooling tests run:96pass/1existing skip;8focused tests pass after final machine-scope check. Structural validation/manifest checks pass, spec sources unchanged; full253spec tests not repeated. An actual elevate invocation refuses without a new prompt or image. All scratch is removed; capacity and native/full0.1.0 qualification remain pending. This is the second consecutive turn observing the same OS elevation gate; current turn still made concrete progress.",
+  "tests": [
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m unittest discover -s tests/tools -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tooling.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json"
+    },
+    {
+      "command": "python -B -m unittest discover -s tests/tools -p test_storage_setup.py -v (after machine-scope check)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tests.log"
+    },
+    {
+      "command": "python tools/workspace.py run -- python -B tools/qualify-storage.py --elevate",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "blocked",
+      "exit_code": 78,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "DE-W105 remaining native qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tools/qualify-storage.py",
+      "sha256": "sha256:f282470a5003a95741f619b5e790573fd0a108b2bd3fc038df01dcf0e17ebe28"
+    },
+    {
+      "path": "tools/capped-scratch.ps1",
+      "sha256": "sha256:96f37cabef08652008f936be876c2c3acd73392fd77e844927dd66246d57c4af"
+    },
+    {
+      "path": "tests/tools/test_storage_setup.py",
+      "sha256": "sha256:2683a244ddb1b8a659d77e2be3b4739f5f9607ab29087bc40b16c9c60c4e44db"
+    },
+    {
+      "path": "docs/development-storage.md",
+      "sha256": "sha256:5f9be9b1df4cc7ec27fa647cdbf4bcecf7654f9f562686676bade52798c9b66e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tooling.log",
+      "sha256": "sha256:595539145989d2dcba065d4cb9ce43952530d245ff1de2e9b3b9fe08ea1b49b4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-tests.log",
+      "sha256": "sha256:fb5593f81b6e3814b6946e7e31cf6cf0775da210e28893df2a47a0985ff6917d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-admission-validation.json",
+      "sha256": "sha256:7251d60cff4a05ca5f9cb1b886ae1b1740f7dcba29b9cac2f268712f5acb8e7c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json",
+      "sha256": "sha256:dbfa723f7e22fb15d3fedaf926ffb266684a28e2755fa506184aa955c6c03e6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md",
+      "sha256": "sha256:60929a0731c58a7bb0488f140231574a3be76e28caeceb6a74f6b9acc5e62c9d"
+    }
+  ],
+  "blockers": [
+    "Windows consent processes72136 and43448 remain live; their requesters exited, no setup/image was observed, and their command lines/ownership cannot be established in this token. Relevant prompts require console resolution. No additional user setup grant is missing.",
+    "Actual32MiB allocation-denial proof, final capped runner/compiler qualification, remaining DE-W105 native checks and the original all-platform/storage0.1.0 remain incomplete."
+  ],
+  "next_safe_step": "Resolve the relevant UAC prompts at the VM console, cancelling obsolete DiskEd requests after identifying their helper command. Recheck live OS consent and any helper/image state. Only after resolution run the already-authorized bounded32MiB proof; do not queue more prompts, kill unrelated processes or weaken the storage gate.",
+  "performed_remote_writes": false
+}

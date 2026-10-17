@@ -18,6 +18,8 @@ $attachedImage = $false
 $createdOwner = $false
 $failure = $null
 $state = $null
+$setupMutex = $null
+$ownsSetupMutex = $false
 
 function Write-State {
     param($Value)
@@ -41,6 +43,13 @@ try {
     if ($identity.Name -ne 'BLACKGLASS-WIN1\Jules') {
         throw 'This fixed local setup requires the authorized Jules Windows identity'
     }
+    # Elevation can outlive its requester. Serialize helper lifetimes across
+    # sessions before examining or changing the fixed scratch directory.
+    $setupMutex = [Threading.Mutex]::new($false, 'Global\DiskEd.CappedScratch')
+    try { $ownsSetupMutex = $setupMutex.WaitOne(0) } catch [Threading.AbandonedMutexException] {
+        $ownsSetupMutex = $true
+    }
+    if (-not $ownsSetupMutex) { throw 'Another bounded scratch setup is active; no storage was changed' }
     if ($repoRoot -ne 'D:\Projects\DiskEd\disked' -or
         (Get-Content -LiteralPath (Join-Path $repoRoot 'spec\bundle.json') -Raw | ConvertFrom-Json).bundle_id -ne 'org.disked.spec') {
         throw 'Repository identity mismatch'
@@ -162,11 +171,17 @@ try {
     } catch {
         $failure = "$failure; cleanup: $($_.Exception.Message)"
     }
-    if ($null -ne $state) {
-        $state.phase = if ($failure) { 'failed' } else { 'retired' }
-        $state.error = $failure
-        $state.image_removed = -not (Test-Path -LiteralPath $imagePath)
-        Write-State $state
+    try {
+        if ($null -ne $state) {
+            $state.phase = if ($failure) { 'failed' } else { 'retired' }
+            $state.error = $failure
+            $state.image_removed = -not (Test-Path -LiteralPath $imagePath)
+            Write-State $state
+        }
+    } finally {
+        if ($null -ne $setupMutex) {
+            try { if ($ownsSetupMutex) { $setupMutex.ReleaseMutex() } } finally { $setupMutex.Dispose() }
+        }
     }
 }
 if ($failure) { Write-Error $failure -ErrorAction Continue; exit 1 }
