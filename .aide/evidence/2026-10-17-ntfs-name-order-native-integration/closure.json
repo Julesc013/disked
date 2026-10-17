@@ -1,0 +1,63 @@
+{
+  "status": "pass",
+  "observed_at": "2026-10-17T00:46:23.721222+00:00",
+  "tested_native_source_revision": "c460a35c67878cacda63b10561be9629b7370f1d",
+  "checkpoint_revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+  "source_tests_build_tools_contract_inputs_unchanged": true,
+  "native_tests_repeated": false,
+  "reason": "Only programme/handoff/integration receipt metadata changed after reviewed source synchronization.",
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "structural.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W104",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-name-order-native-integrated-c460a35c",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\ntfs-name-order-native-integrated-c460a35c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_published": false
+}

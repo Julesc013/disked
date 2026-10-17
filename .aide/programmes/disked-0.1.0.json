@@ -14,34 +14,34 @@
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
     "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
     "latest_integration": {
-      "work_id": "DE-W103",
-      "checkpoint_revision": "29701e832f4bc4fb200308100bcd0f1d099359cb",
-      "tested_native_source_revision": "77abe0617ce8f42689780587f4c74edb82fe0479",
-      "recorded_at": "2026-10-16T22:42:41.872472+00:00",
+      "work_id": "DE-W104",
+      "checkpoint_revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+      "tested_native_source_revision": "c460a35c67878cacda63b10561be9629b7370f1d",
+      "recorded_at": "2026-10-17T00:45:46.726935+00:00",
       "execution_identity": "BLACKGLASS-WIN1\\Jules",
       "github_account": "Julesc013",
       "branches": {
-        "dev": "29701e832f4bc4fb200308100bcd0f1d099359cb",
-        "main": "29701e832f4bc4fb200308100bcd0f1d099359cb",
-        "origin/dev": "29701e832f4bc4fb200308100bcd0f1d099359cb",
-        "origin/main": "29701e832f4bc4fb200308100bcd0f1d099359cb"
+        "dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+        "main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+        "origin/dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+        "origin/main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b"
       },
       "remote_refs": {
-        "refs/heads/dev": "29701e832f4bc4fb200308100bcd0f1d099359cb",
-        "refs/heads/main": "29701e832f4bc4fb200308100bcd0f1d099359cb"
+        "refs/heads/dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+        "refs/heads/main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b"
       },
       "source": "Authorized dev push,fast-forward main and main push succeeded; exact local/remote refs verified without force. Following receipt commit is metadata only.",
-      "evidence": ".aide/evidence/2026-10-17-ntfs-name-order/qualified-77abe061/summary.json",
-      "review": ".aide/evidence/2026-10-17-ntfs-name-order/REVIEW.md",
-      "native_groups": 175,
-      "registered_native_groups": 175,
+      "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-native/qualified-c460a35c/summary.json",
+      "review": ".aide/evidence/2026-10-17-ntfs-name-order-native/REVIEW.md",
+      "native_groups": 177,
+      "registered_native_groups": 177,
       "full_native_suite_run": true,
       "name_order_cases": 172,
       "upcase_capture_cases": 158,
       "upcase_command_cases": 119,
       "held_file_cases": 434,
       "owned_worker_cases": 274,
-      "isolated_win32_groups": 16,
+      "isolated_win32_groups": 18,
       "standalone_headers": 68,
       "win32_headers": 12,
       "tooling_tests_run": 251,
@@ -49,7 +49,18 @@
       "full_win32_product_qualified": false,
       "owner_accepted": false,
       "full_0_1_0_complete": false,
-      "release_published": false
+      "release_published": false,
+      "native_name_order": {
+        "file": {
+          "methods": 9,
+          "calls": 330
+        },
+        "worker": {
+          "methods": 10,
+          "calls": 363
+        }
+      },
+      "held_file_and_owned_worker_count_scope": "Existing uppercase-table regressions; native_name_order separately records current file/worker methods and calls."
     }
   },
   "permitted": [
@@ -130,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Close W104 metadata/context and integrate reviewed source through dev/main,then define and implement public name-order view admission with strict payload/shared frontend tests. Preserve original scope and separate gates.",
+  "next_action": "Use verified W104 integration to define and implement public name-order view admission with strict payload/shared frontend tests. Preserve original scope,retained failures and all separate owner,privilege and release gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1700,7 +1711,7 @@
     "work_id": "DE-W104",
     "base_revision": "c1a679070459d485044f9b1fe33c3ff5f4daaa3b",
     "contract": "spec/catalog/ntfs-name-order-native-prototype.json",
-    "state": "Qualified and agent-reviewed at c460a35c: full 177 x64 groups, 68 headers/C90/14 imports, 251 tooling (two skips); private Win32 eighteen groups/twelve headers/nine imports. Source integration pending.",
+    "state": "Qualified and agent-reviewed at c460a35c: full 177 x64 groups, 68 headers/C90/14 imports, 251 tooling (two skips); private Win32 eighteen groups/twelve headers/nine imports. Reviewed source/evidence integrated and exact dev/main refs verified.",
     "qualification_pending": false,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
@@ -1875,12 +1886,12 @@
   ],
   "latest_development_push": {
     "branch": "dev",
-    "revision": "c30f7977beabb95c1974d0ae0cef20a775561e80",
-    "observed_at": "2026-10-15T23:25:10.681772+00:00",
+    "revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+    "observed_at": "2026-10-17T00:45:46.726935+00:00",
     "verified_remote_write": true,
     "main_updated": true,
     "release_published": false,
-    "source": "Exact refs confirm reviewed source/evidence integration;subsequent receipt commit is metadata only."
+    "source": "Authorized dev push,fast-forward main and main push succeeded; exact local/remote refs verified without force. Following receipt commit is metadata only."
   },
   "latest_setup_observation": {
     "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json",
@@ -1976,20 +1987,22 @@
   "retained_incomplete_work": [],
   "integration_review": {
     "work_id": "DE-W104",
-    "status": "agent-reviewed-source-integration-pending",
+    "status": "source-integrated",
+    "checkpoint_revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
     "tested_native_source_revision": "c460a35c67878cacda63b10561be9629b7370f1d",
     "review": ".aide/evidence/2026-10-17-ntfs-name-order-native/REVIEW.md",
+    "receipt": ".aide/evidence/2026-10-17-ntfs-name-order-native-integration/repository.json",
     "owner_accepted": false
   },
   "next_work_preparation": {
-    "candidate_scope": "Bind same-capture NTFS directory/table primary name-order observations to held ordinary Windows files and the existing owned reader with exact retained-byte parent replay. No public view,full collation,case policy,alias resolution,lookup,physical/elevated source or storage/release authority. Original all-platform/storage0.1.0 remains the goal.",
-    "execution_contract_defined": true,
-    "implementation_started": true,
+    "candidate_scope": "Admit the qualified same-capture name-order observation through the existing image.inspect command with exact source-bound payload relationships and shared CLI/stdio/GUI/TUI/shell outcomes. No full collation,host case policy,alias resolution,lookup,physical/elevated effects or release authority.",
+    "execution_contract_defined": false,
+    "implementation_started": false,
     "authorizes_effects": false
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {
-    "revision": "29701e832f4bc4fb200308100bcd0f1d099359cb",
+    "revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
     "verified": true,
     "source": "Reviewed W103 source/evidence pushed and exact dev/main local/remote refs verified. Following integration receipt is metadata only."
   },
