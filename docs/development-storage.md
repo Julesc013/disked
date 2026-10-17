@@ -5,11 +5,24 @@ Builds, checkouts, dependency environments and raw probe dumps do not belong the
 The [shared instructions](../AGENTS.md) and [workspace runner](../tools/workspace.py)
 own the development rules and their enforcement.
 
-Native development is currently paused at the user's request. A hard filesystem
-boundary has **not** been provisioned or demonstrated. The watchdog described
-below does not deny filesystem allocation and cannot prevent a command from
-writing elsewhere. Cleanup and tiny tooling checks can proceed; normal native
-campaigns must remain stopped until that separate gate is satisfied.
+The user authorized bounded disposable scratch and virtual-disk setup on this
+shared Windows 10 VM on 2026-10-17, including necessary setup elevation. Cleanup
+is complete. Normal native campaigns still require actual proof of a hard
+filesystem boundary; authorization does not establish that proof. The watchdog
+below cannot deny allocation or prevent writes elsewhere. Keep the existing
+budgets, protect concurrent users, and remove disposable output after use.
+Physical devices, customer data, installation and release work are excluded.
+
+[The current setup review](../.aide/evidence/2026-10-17-workspace-cleanup/storage-setup-review.md)
+records actual AppContainer write/descendant/isolation and interrupted-profile
+cleanup tests. A 32 MiB fixed image was created and removed, but Windows refused
+mounting without the necessary privilege. Allocation denial remains unverified.
+The bounded proof is `python tools/workspace.py run -- python -B tools/qualify-storage.py`;
+`--elevate` requests the already-authorized setup through Windows UAC. Only the
+fixed-path setup helper can elevate; test/product workers remain unelevated.
+Its temporary profile points into owned work, and a controller journal permits
+recovery after termination. Uncertain ownership blocks another run. Final capped
+runner/compiler qualification and live upstream AIDE integration remain open.
 
 Before creating a context pack, check its complete upper bound:
 

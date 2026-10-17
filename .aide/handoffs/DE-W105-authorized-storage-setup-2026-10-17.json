@@ -1,0 +1,234 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "d103a302fbc234de940033c45b070361ca31fa22",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "docs/development-storage.md",
+    "tools/workspace.py",
+    "spec/schemas/handoff.schema.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-17-workspace-cleanup/authorized-storage-setup.md",
+    ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-consistency.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-check.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-checks.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-dependencies.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-index.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-manifest.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-tooling.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-verify-manifest.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-manifest.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-results.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-setup-review.md",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-spec-tests.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-validation.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-verify-manifest.log",
+    ".aide/evidence/2026-10-17-workspace-cleanup/validate-storage-setup.py",
+    ".aide/handoffs/DE-W105-authorized-storage-setup-2026-10-17.json",
+    ".aide/integration.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/tools/test_storage_setup.py",
+    "tests/tools/test_windows_worker.py",
+    "tools/build-inputs.json",
+    "tools/capped-scratch.ps1",
+    "tools/qualify-storage.py",
+    "tools/windows-worker.py",
+    "tools/workspace.py"
+  ],
+  "summary": "Recorded the actual shared-VM/disposable local setup grant and resolved the former missing-authority blocker. Added tested AppContainer write restriction, suspended job-owned launch, scratch-mapped profile and interruption recovery. 94 tooling and253 specification tests run with three existing skips total;1323 structural checks and manifest verification pass. Ordinary setup created a32MiB fixed virtual image with36MiB backing, Windows denied mounting with0x80070522, and all its scratch was removed. Native capacity/final-runner/Win32 qualification and the original full0.1.0 programme remain incomplete. No product source change, owner acceptance or live AIDE qualification.",
+  "tests": [
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m unittest discover -s tests/tools -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-tooling.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m pip install --target C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-gwvitx_v\\deps --no-cache-dir --no-compile --no-deps --only-binary=:all: PyYAML==6.0.3",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-dependencies.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-index.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-check.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-verify-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-spec-tests.log"
+    },
+    {
+      "command": "python tools/workspace.py run -- python -B tools/qualify-storage.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "blocked",
+      "exit_code": 78,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json"
+    },
+    {
+      "command": "DE-W105 remaining private Win32 and amended native-build-gate qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "specctl index/check/manifest/verify-manifest after preserving the existing required-input order",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-consistency.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/authorized-storage-setup.md",
+      "sha256": "sha256:be148c8273d6d32654e33b0bf66db82b6257266e956de2489c4a710266212630"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+      "sha256": "sha256:f3f02f0177b0d6703d48d981f8f95914fa4f804a498ff1cb9fd8ae53372b7eb8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
+      "sha256": "sha256:c574ca994eb8b7e0ff9309db56c225d3021b13a47acfeddec088f61c2c6dc391"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-check.log",
+      "sha256": "sha256:a9d2aa64d6879c987b2773e2fbb8184a2e406e8fa7c1646e256557a42a8fbcd2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-checks.json",
+      "sha256": "sha256:589eb40c7be0d8ff013e16a249578944d9e66d3f301d89af4d704674f9e8fa65"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-dependencies.log",
+      "sha256": "sha256:44a42b39aa3032d76b0cb0945c58a06289395334ce47224f46e38c209b66fed7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-manifest.log",
+      "sha256": "sha256:41462fe2533a21e563aa5c101a69bc3cb6a4fca37f5db5e6561a4aad830840fb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-tooling.log",
+      "sha256": "sha256:6a2e4dac9bc0b9990328b9c03a2c08baf51230d53f1af7b8487a4aadd608f863"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-verify-manifest.log",
+      "sha256": "sha256:7f448fd5ca194e47fd6334c3c40cf685fd07fc4303e6a4beba95c9c68cd921dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-manifest.log",
+      "sha256": "sha256:57ca2e2123496821123bca98ef406c6f318ad28f325a693c40c552f06c0341eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-results.json",
+      "sha256": "sha256:40814e86150e96f5d1d453a8ac878481e9999ed1a5556940797c3df1919b3d6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-setup-review.md",
+      "sha256": "sha256:e9bb296cb19d4e1385b981f73f7ad5bd10d51c2d4ae1f890db7f7cfb1090613b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-spec-tests.log",
+      "sha256": "sha256:ad0b1037d2486310de0b1ce4051f384e15c9fa353e2a77b97be44fba0e793ea1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-tests-first.log",
+      "sha256": "sha256:1b395785cfa5621c991498baa1edeee620866ec5d7644d1b7428ed61cad7f46b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-validation.json",
+      "sha256": "sha256:93585b4c2f083193aa4e79e9ae79b428982ea541e0cf1b1a83ccd12b272f4864"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-verify-manifest.log",
+      "sha256": "sha256:078dacc3aafbd891ef976665085f46d2625ab0aac331540ebfc49af1a882d9b7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/validate-storage-setup.py",
+      "sha256": "sha256:7b7f1f74bb26a69b08efd9dc88ba0cad707c4fdcebb5c2fedea7dadf2e6b201b"
+    },
+    {
+      "path": "tests/tools/test_storage_setup.py",
+      "sha256": "sha256:417df5ff3c41e54a8b2164210e2a9eae67877826a22ce2e6558d05667b2d1a80"
+    },
+    {
+      "path": "tests/tools/test_windows_worker.py",
+      "sha256": "sha256:5a16146071e7fa85f110cda51e1b2468fda800c3ff44a1c5b8a07e68e748dbed"
+    },
+    {
+      "path": "tools/capped-scratch.ps1",
+      "sha256": "sha256:02e3d5cec4cc3727da1d0220cc107b740853cc4ef4ebe9ad93e3fe4376636c98"
+    },
+    {
+      "path": "tools/qualify-storage.py",
+      "sha256": "sha256:b5b081a0237f504dba87a0db8dc08000fcbd9836dfe1f9776c76f18efd686fe5"
+    },
+    {
+      "path": "tools/windows-worker.py",
+      "sha256": "sha256:668c891df3ac5d116ca259d6965cfb48f1fb228c1df5ec87c38aa7e7acf22ab2"
+    },
+    {
+      "path": "tools/workspace.py",
+      "sha256": "sha256:5eeaacc7829a4db5a77f2b79587a4c5df6730136521fa7a8073328077ffae0bf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-consistency.json",
+      "sha256": "sha256:bb766af58b9c768f7df35cd9e8745ddf2b0f26c371099e7acfc6373b4382f893"
+    }
+  ],
+  "blockers": [
+    "Windows mount privilege is required. The user already authorized bounded setup elevation; its first OS elevation request did not complete and UAC visibility remains unverified.",
+    "Actual allocation denial, final capped runner/compiler qualification and remaining DE-W105 native checks are unrun.",
+    "Original all-platform/storage0.1.0 and owner/release gates remain incomplete."
+  ],
+  "next_safe_step": "At the shared VM console complete the already-authorized setup via python tools/workspace.py run -- python -B tools/qualify-storage.py --elevate. Prove the32MiB capacity/write/interruption boundary, then qualify final capped scratch and resume bounded DE-W105 native work. Do not repeat the setup authorization question or infer success from the watchdog.",
+  "performed_remote_writes": false
+}

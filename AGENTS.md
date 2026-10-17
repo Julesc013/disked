@@ -19,9 +19,15 @@ workspace after success, failure or interruption. Identified leftovers from a ha
 termination are removed before another run. These watchdog checks are not an OS
 filesystem quota; retain the free-space margin and use bounded fixture writers.
 
-The user has paused native development until a host-enforced storage boundary is
-demonstrated. Cleanup and tiny tooling checks may continue; the watchdog alone
-does not satisfy that gate. Do not provision/mount storage or elevate implicitly.
+Native campaigns require a demonstrated host-enforced storage boundary; the
+watchdog alone does not satisfy that gate. On 2026-10-17 the user authorized the
+proposed disposable local scratch/virtual-disk setup and testing on this shared
+Windows 10 VM, including necessary setup elevation. Keep the existing budgets,
+protect concurrent users, and remove disposable output after use. This grant
+does not include physical devices, customer data, installation or release work.
+Prove allocation denial, write confinement and interrupted cleanup before
+resuming normal native campaigns; record actual results rather than inferring
+isolation from the grant or a mounted disk.
 
 Do not bypass the runner, raise budgets, move accumulated output elsewhere or rerun
 historical unbounded `.aide-local` recipes. An over-budget campaign must be made

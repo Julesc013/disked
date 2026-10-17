@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal is blocked on the pending execution setup choice/grant and an actual host-enforced storage boundary. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal is active with authorized bounded local storage setup in progress; normal native campaigns await actual host-enforced storage-boundary proof. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -10,8 +10,8 @@ Status: the full all-platform/storage 0.1.0 goal is blocked on the pending execu
   20,000 entries and 20 GiB free-space floors. These are not filesystem quotas.
   [Operating instructions](docs/development-storage.md).
 - [ ] Demonstrate host-enforced allocation denial, no fallback/spillover and
-  interrupted cleanup before resuming native development. No implicit elevation
-  or storage provisioning is granted.
+  interrupted cleanup before resuming native development. The user authorized
+  bounded disposable local setup on this shared Windows 10 VM on 2026-10-17.
 
 ## Specification preparation
 

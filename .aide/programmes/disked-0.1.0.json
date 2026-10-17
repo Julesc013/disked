@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "blocked",
+  "status": "active",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Await the already-requested setup selection/grant: identify an existing capped Windows worker and authorized access, or explicitly authorize the proposed bounded local setup. After actual boundary proof, use fresh metadata and the prepared fixture for remaining DE-W105 qualification; then continue the full original0.1.0 programme. A generic continuation is not a setup grant. Resume from this blocked handoff after the required input/environment change; start a fresh blocked audit on resume.",
+  "next_action": "Complete the already-authorized elevated 32 MiB setup/proof at the shared VM console; no additional grant is missing. Then qualify final capped scratch/runner/compiler cohorts and remaining DE-W105 native tests before continuing original all-platform/storage 0.1.0 scope.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2223,8 +2223,8 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "native_development_state": "paused_at_storage_gate",
-  "native_pause_reason": "User requested the goal remain stopped pending emergency cleanup and a demonstrated hard storage ceiling. The polling watchdog is not that ceiling.",
+  "native_development_state": "storage_setup_awaiting_os_elevation",
+  "native_pause_reason": "User authorization is recorded. Windows refused mounting the new tiny virtual image without required privilege; the pending elevation request did not complete. Real allocation-denial/final-scratch proof remains required.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2251,7 +2251,55 @@
     ],
     "previous_goal_turn": "progress",
     "current_goal_turn": "no_progress",
-    "pending_setup_question": true,
-    "scope_unchanged": true
+    "pending_setup_question": false,
+    "scope_unchanged": true,
+    "resolved_at": "2026-10-17T06:44:39.654497+00:00",
+    "resolution": "User explicitly authorized proposed disposable local scratch/virtual-disk setup and shared Windows 10 VM testing; boundary proof remains required, not assumed."
+  },
+  "execution_setup_grant": {
+    "observed_at": "2026-10-17T06:44:39.654497+00:00",
+    "source": "Explicit user answer to bounded execution setup question, 2026-10-17 Australia/Sydney",
+    "base_revision": "d103a302fbc234de940033c45b070361ca31fa22",
+    "scope": "After confirming cleanup, use this shared Windows 10 VM, disposable scratch and the proposed local capped virtual-disk setup, including necessary setup elevation, for DiskEd tests. Protect concurrent users and remove disposable output; retain only necessary compact compressed evidence.",
+    "limits": "Existing 32 MiB metadata, 1 GiB aggregate disposable work, 20000 entries, 20 GiB host-volume reserve remain. Proposed local disk maximum 512 MiB, first proof at no more than 32 MiB.",
+    "excluded": [
+      "physical devices",
+      "customer data",
+      "software installation",
+      "release signing or publication",
+      "budget increases"
+    ],
+    "boundary_proven": false,
+    "worker_preparation": {
+      "status": "partial",
+      "actual_tests_run": 8,
+      "tests_passed": 8,
+      "evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-final-tooling.log",
+      "scope": "Actual AppContainer access/identity, inherited restriction, diagnostics, job retirement and profile recovery after controller termination; no capacity qualification",
+      "allocation_denial_proven": false,
+      "final_scratch_qualified": false
+    },
+    "setup_observation": "Ordinary setup created a fixed 32 MiB VHDX (36 MiB backing), Mount-VHD returned 0x80070522, and its image/directory were removed. First elevation request did not complete; only its pending controller was stopped. UAC visibility is unverified; no missing user grant is inferred.",
+    "setup_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+    "validation": {
+      "tooling_run": 94,
+      "tooling_passed": 93,
+      "tooling_skipped": 1,
+      "spec_run": 253,
+      "spec_passed": 251,
+      "spec_skipped": 2,
+      "structural_checks": 1323,
+      "manifest_verified": true,
+      "capacity_proof": "blocked_by_windows_mount_privilege",
+      "owner_accepted": false
+    }
+  },
+  "execution_environment_gate": {
+    "status": "awaiting_os_elevation",
+    "first_observed_at": "2026-10-17T07:13:38.856460+00:00",
+    "current_turn": "progress",
+    "consecutive_no_progress_turns": 0,
+    "required_change": "Completion of the already-authorized local Windows setup elevation at the VM console, or equivalent approved execution context; do not repeat the authorization question.",
+    "native_capacity_proven": false
   }
 }

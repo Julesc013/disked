@@ -195,6 +195,17 @@ def remove_owned_work(path, base, prefix):
         return
     if getattr(info, 'st_file_attributes', 0) & 0x400:
         raise StorageLimit('Refusing cleanup of a workspace root that is a reparse point')
+    if (path / 'appcontainer-profiles.json').exists():
+        if os.name != 'nt':
+            raise StorageLimit('Windows worker profile recovery requires its original host')
+        import importlib.util
+        definition = importlib.util.spec_from_file_location('disked_windows_worker', REPO / 'tools/windows-worker.py')
+        worker = importlib.util.module_from_spec(definition)
+        definition.loader.exec_module(worker)
+        try:
+            worker.recover_profiles(path)
+        except (OSError, ValueError) as error:
+            raise StorageLimit('Worker profile cleanup requires review: ' + str(error)) from error
     def writable(function, name, error):
         target = Path(name).absolute()
         if target != path and path not in target.parents:

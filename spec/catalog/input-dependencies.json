@@ -17581,7 +17581,9 @@
       "path": "tools/workspace.py",
       "kind": "generator",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tools/windows-worker.py"
+      ],
       "spec_ids": [
         "DE-011",
         "DE-012",
@@ -17693,6 +17695,99 @@
         "DE-012",
         "DE-031",
         "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tools/windows-worker.py",
+      "path": "tools/windows-worker.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tools/capped-scratch.ps1",
+      "path": "tools/capped-scratch.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tools/qualify-storage.py",
+      "path": "tools/qualify-storage.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/windows-worker.py",
+        "tools/workspace.py",
+        "tools/capped-scratch.ps1"
+      ],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_windows_worker.py",
+      "path": "tests/tools/test_windows_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/windows-worker.py",
+        "tools/workspace.py"
+      ],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_storage_setup.py",
+      "path": "tests/tools/test_storage_setup.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/qualify-storage.py",
+        "tools/capped-scratch.ps1"
+      ],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-workspace-cleanup/validate-storage-setup.py",
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/validate-storage-setup.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/workspace.py",
+        "tools/qualify-storage.py",
+        "tests/tools/test_windows_worker.py",
+        "tests/tools/test_storage_setup.py"
+      ],
+      "spec_ids": [
+        "DE-011",
+        "DE-012",
+        "DE-071",
         "DE-074"
       ]
     }
