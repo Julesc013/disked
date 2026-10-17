@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "active",
+  "status": "blocked",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Resolve relevant Windows UAC at the shared VM console, cancelling obsolete DiskEd prompts. Recheck live consent/helper state; do not queue another prompt. Then execute the already-authorized32MiB proof, qualify final capped runner/compiler cohorts and remaining DE-W105 native work. Original all-platform/storage0.1.0 scope is unchanged.",
+  "next_action": "At the shared VM console resolve relevant Windows consent, cancelling obsolete DiskEd prompts after identifying their helper command. Resume the unchanged full0.1.0 goal, start a fresh blocked audit, recheck live OS/helper/scratch state and execute the already-authorized bounded32MiB proof. Do not queue more prompts, raise budgets or weaken the native storage gate.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2228,8 +2228,8 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "native_development_state": "storage_setup_awaiting_windows_consent",
-  "native_pause_reason": "Existing Windows consent remains live; its requesters exited without starting setup. The new admission check refuses another request, and the setup mutex prevents late helpers from racing. Actual capped-filesystem proof is still missing.",
+  "native_development_state": "blocked_by_windows_consent",
+  "native_pause_reason": "Three consecutive goal turns observed the unresolved Windows elevation/consent gate. No live DiskEd setup worker or capped storage exists. Current tooling is tested; further native progress needs console resolution, not additional user authorization.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2301,15 +2301,15 @@
     "latest_admission_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json"
   },
   "execution_environment_gate": {
-    "status": "awaiting_windows_consent_resolution",
+    "status": "blocked_pending_console_resolution",
     "first_observed_at": "2026-10-17T07:13:38.856460+00:00",
-    "current_turn": "progress",
-    "consecutive_no_progress_turns": 0,
+    "current_turn": "no_progress",
+    "consecutive_no_progress_turns": 1,
     "required_change": "Resolve the relevant existing Windows consent prompts at the VM console; cancel obsolete DiskEd requests whose requesters have exited. Recheck live state before the already-authorized capped proof.",
     "native_capacity_proven": false,
     "previous_goal_turn": "progress",
-    "consecutive_goal_turns": 2,
-    "last_observed_at": "2026-10-17T07:30:38.524818+00:00",
+    "consecutive_goal_turns": 3,
+    "last_observed_at": "2026-10-17T07:38:24.1097399Z",
     "pending_consent_processes": [
       72136,
       43448
@@ -2329,6 +2329,7 @@
       "workspaces_removed": true,
       "native_capacity_proven": false
     },
-    "latest_review": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md"
+    "latest_review": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md",
+    "audit": ".aide/evidence/2026-10-17-workspace-cleanup/storage-goal-blocked-audit.json"
   }
 }
