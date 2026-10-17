@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "paused",
+  "status": "active",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Keep native development paused until a host-enforced storage boundary has demonstrated allocation denial and no spillover. Cleanup is complete and .aide-local is absent. Review the tooling checkpoint and pending W105 limitations; do not rerun historical unbounded helpers or promote W105.",
+  "next_action": "Obtain a selection/grant for the concrete storage-boundary setup in storage-boundary-next-action.md. Continue only read-only or tiny tooling work until a host-enforced capacity and no-spillover boundary is actually demonstrated; then adapt bounded DE-W105 recipes and resume its remaining native qualification. Do not run historical unbounded helpers, raise budgets or promote W105.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2200,7 +2200,9 @@
     "raising_limits_requires_user_authority": true,
     "enforcement": "Polling watchdog and build admission checks; not an OS filesystem quota or protection against writes outside the owned directory.",
     "hard_storage_boundary_demonstrated": false,
-    "temporary_entry_limit": 20000
+    "temporary_entry_limit": 20000,
+    "setup_decision": ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
+    "host_inspection": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json"
   },
   "storage_cleanup": {
     "status": "complete",
@@ -2210,5 +2212,11 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "pause_reason": "User requested the goal remain stopped pending emergency cleanup and a demonstrated hard storage ceiling. The polling watchdog is not that ceiling."
+  "native_development_state": "paused_at_storage_gate",
+  "native_pause_reason": "User requested the goal remain stopped pending emergency cleanup and a demonstrated hard storage ceiling. The polling watchdog is not that ceiling.",
+  "goal_continuation": {
+    "observed_at": "2026-10-17T05:52:40.779318+00:00",
+    "source": "User-provided goal continuation; goal service reports active.",
+    "scope": "Continue the full 0.1.0 objective without treating continuation as provisioning, elevation, installation or storage-privilege authority."
+  }
 }

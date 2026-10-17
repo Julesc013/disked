@@ -1,0 +1,71 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "1e7573ce745b758e68e3be53ce3ec2d9abae3276",
+  "spec_manifest_digest": "sha256:e93604c9fe5ee336c9f63044e26943556d54bf2315f69b32a9c597faa0024f9a",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "docs/development-storage.md",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/cleanup-result.json",
+    "spec/schemas/handoff.schema.json"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
+    ".aide/handoffs/DE-W105-storage-gate-2026-10-17.json"
+  ],
+  "summary": "The goal service resumed the full 0.1.0 objective. Read-only host inspection and a concrete two-route execution setup proposal are complete. Programme status is active with native execution still paused at the storage gate. The previous cleanup turn was progress. No new native build, mount, provisioning, elevation, VM launch, installation or capacity/isolation claim. A setup selection/grant was requested asynchronously and remains pending. This is the pre-publication snapshot; synchronization will be recorded after a successful push.",
+  "tests": [
+    {
+      "command": "python tools/workspace.py check --planned-bytes 0",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json"
+    },
+    {
+      "command": "Read-only Windows host, VHD-command and DiskEd* VM capability inspection",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json"
+    },
+    {
+      "command": "Host-enforced allocation-denial and no-spillover proof",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "DE-W105 remaining native qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/programmes/disked-0.1.0.json",
+      "sha256": "sha256:6bb00cb277c9e102e3e2c947585dca5c4104ac9f829b790d7f8d66228c603eb8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json",
+      "sha256": "sha256:3824e53d299564c0bcf10bd3ecb0c8cc87fd651543e6b15b18af87190d605d0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
+      "sha256": "sha256:c574ca994eb8b7e0ff9309db56c225d3021b13a47acfeddec088f61c2c6dc391"
+    }
+  ],
+  "blockers": [
+    "No qualified capped Windows worker has been identified; no explicit authority for the proposed local storage provisioning/mounting and any required elevation has been granted.",
+    "The watcher is not a filesystem quota or a write-isolation boundary. Capacity denial and prevention of writes outside the workspace must both be demonstrated before native work."
+  ],
+  "next_safe_step": "Wait for the required setup selection/grant. Then inspect the supplied worker or implement and review the specifically authorized local setup, prove its tiny capacity/write-isolation limits, update the backing-volume reserve handling and only then resume bounded DE-W105 qualification. Do not infer approval from elapsed time or generic goal continuation.",
+  "performed_remote_writes": false
+}
