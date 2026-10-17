@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
+include("${CMAKE_CURRENT_LIST_DIR}/tools/workspace.cmake")
 project(DiskEdBootstrap VERSION 0.1.0 LANGUAGES C CXX)
 # Inspect the generated build graph rather than maintaining another source list.
 cmake_file_api(QUERY API_VERSION 1 CODEMODEL 2)

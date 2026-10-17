@@ -2,6 +2,42 @@
 
 DiskEd is a Windows-first, cross-platform storage workbench under greenfield development. The repository, not a model's conversation memory, holds durable intent and evidence.
 
+## Temporary storage limits
+
+`.aide-local/` is disposable context and small metadata only, with a **32 MiB aggregate
+limit**. Never put build trees, Git worktrees/clones, virtual environments, native
+probe dumps or historical artifact copies there. Delete superseded context packs;
+do not keep a new directory for every attempt.
+
+Run `python tools/workspace.py check --planned-bytes N` before generating a pack,
+where `N` is its complete upper bound. Run build/test campaigns with
+`python tools/workspace.py run -- COMMAND ...`, using `{work}` or the
+`DISKED_WORK_ROOT` environment variable for their temporary output. The runner
+permits one active campaign, monitors a **1 GiB temporary-work budget and 20,000-entry limit** (files, links and directories), requires
+**20 GiB free on both involved volumes**, owns its child processes and removes its
+workspace after success, failure or interruption. Identified leftovers from a hard
+termination are removed before another run. These watchdog checks are not an OS
+filesystem quota; retain the free-space margin and use bounded fixture writers.
+
+The user has paused native development until a host-enforced storage boundary is
+demonstrated. Cleanup and tiny tooling checks may continue; the watchdog alone
+does not satisfy that gate. Do not provision/mount storage or elevate implicitly.
+
+Do not bypass the runner, raise budgets, move accumulated output elsewhere or rerun
+historical unbounded `.aide-local` recipes. An over-budget campaign must be made
+smaller. Keep only compact results needed for review under `.aide/evidence/`;
+compress retained raw observations once and verify their hashes. Reproducible
+build objects, old checkouts and duplicate captures are not durable evidence.
+
+For emergency cleanup, inspect with `pwsh -NoProfile -File tools/clean-scratch.ps1`.
+After stopping the owning workers, opt in with `-Delete -WorkersStopped`. This
+helper never removes nested repositories/worktrees, follows links or clears
+read-only attributes. Exit 2 means partial cleanup requiring review, not success.
+Review worktree status separately and use Git's worktree removal for clean trees;
+never force-remove unreviewed changes or rerun obsolete emergency helpers.
+
+Validate this tooling with `python -m unittest discover -s tests/tools -v`.
+
 ## Read narrowly, at a known revision
 
 Read `spec/START-HERE.md`, `spec/index.md`, and the selected work record in `spec/work/units.json`. Use `python spec/tools/specctl.py show DE-...` to resolve IDs. `spec/bundle.json` states baseline status. The initial archive is proposed, not accepted or implemented.

@@ -1,0 +1,152 @@
+# One-off emergency operation. Do not retain/reuse as the ordinary cleanup tool.
+# Ordinary cleanup remains tools/clean-scratch.ps1, which preserves repositories.
+$ErrorActionPreference = 'Stop'
+$repo = 'D:\Projects\DiskEd\disked'
+$scratch = Join-Path $repo '.aide-local'
+if ((Get-Location).Path -ne $repo) { throw 'Wrong checkout' }
+$evidence = Join-Path $repo '.aide/evidence/2026-10-17-workspace-cleanup'
+$review = Get-Content -LiteralPath (Join-Path $evidence 'clone-identity-review.json') -Raw | ConvertFrom-Json
+$approved = [Collections.Generic.List[string]]::new()
+foreach ($item in $review) {
+    if (-not $item.git_root_verified) { continue }
+    if ($item.exit_code -ne 0 -or ($item.status_count -ne 0 -and -not $item.deletion_only)) {
+        throw "Unreviewed source changes: $($item.path)"
+    }
+    $path = [IO.Path]::GetFullPath($item.path)
+    if (-not $path.StartsWith($scratch + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Repository outside the authorized scratch root'
+    }
+    if (-not $item.commit_retained_in_disked_git -and
+        ($path -ne (Join-Path $scratch 'upstream/aide') -or
+         $item.head -ne '6f2abc4cd69e0d94f86a00495cb8feeebe20398a')) {
+        throw "Unretained source identity: $path"
+    }
+    # All workers are stopped; recheck the identity immediately before admitting.
+    $head = & git --no-optional-locks -C $path rev-parse HEAD
+    if ($LASTEXITCODE -ne 0 -or $head -ne $item.head) { throw "Changed source identity: $path" }
+    $approved.Add($path)
+}
+$partial = Get-Content -LiteralPath (Join-Path $evidence 'partial-clone-source-review.json') -Raw | ConvertFrom-Json
+if ($partial.status_exit -ne 0 -or $partial.non_deletion_count -ne 0) {
+    throw 'Surviving source in the partially deleted clone has not been reconciled'
+}
+$partialPath = [IO.Path]::GetFullPath($partial.path)
+if ($partialPath -ne (Join-Path $scratch 'identity-frontend-clean-829de03c/checkout')) {
+    throw 'Unexpected partially deleted clone'
+}
+$approved.Add($partialPath)
+
+Add-Type -TypeDefinition @'
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
+
+public sealed class ReviewedCloneResult {
+    public string Root;
+    public long Files;
+    public long LogicalBytes;
+    public List<string> Failures = new List<string>();
+}
+
+public static class ReviewedCloneRemoval {
+    private const string Scratch = @"D:\Projects\DiskEd\disked\.aide-local";
+    [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+    private static extern SafeFileHandle CreateFileW(string name, uint access, uint share,
+        IntPtr security, uint creation, uint flags, IntPtr template);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    private static extern bool SetFileInformationByHandle(SafeFileHandle file, int kind,
+        ref uint flags, uint size);
+
+    public static void DeleteReadOnlyLink(string name) {
+        // SDK minwinbase.h FileDispositionInfoEx = 21. No ACL or attribute changes,
+        // including to surviving hard links in the main Git object database.
+        using (SafeFileHandle file = CreateFileW(name, 0x10000, 7, IntPtr.Zero, 3,
+                                                0x00200000, IntPtr.Zero)) {
+            if (file.IsInvalid) throw new Win32Exception(Marshal.GetLastWin32Error());
+            uint flags = 0x13; // DELETE | POSIX_SEMANTICS | IGNORE_READONLY_ATTRIBUTE
+            if (!SetFileInformationByHandle(file, 21, ref flags, 4))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+    }
+
+    private static void Visit(FileSystemInfo entry, string root, ReviewedCloneResult result) {
+        string path = Path.GetFullPath(entry.FullName);
+        if (path != root && !path.StartsWith(root + "\\", StringComparison.OrdinalIgnoreCase))
+            throw new IOException("Path escaped its reviewed clone");
+        try {
+            FileAttributes attributes = entry.Attributes;
+            bool directory = (attributes & FileAttributes.Directory) != 0;
+            if ((attributes & FileAttributes.ReparsePoint) != 0) {
+                // Remove the owned link itself, never anything in its target.
+                if (directory) Directory.Delete(path, false); else File.Delete(path);
+            } else if (directory) {
+                foreach (FileSystemInfo child in new DirectoryInfo(path).EnumerateFileSystemInfos())
+                    Visit(child, root, result);
+                Directory.Delete(path, false);
+            } else {
+                long size = ((FileInfo)entry).Length;
+                if ((attributes & FileAttributes.ReadOnly) != 0) DeleteReadOnlyLink(path);
+                else File.Delete(path);
+                result.Files++;
+                result.LogicalBytes += size;
+            }
+        } catch (Exception error) {
+            if (result.Failures.Count < 20) result.Failures.Add(path + ": " + error.Message);
+        }
+    }
+
+    public static ReviewedCloneResult[] Run(string[] roots) {
+        foreach (string root in roots) {
+            if (!Path.GetFullPath(root).StartsWith(Scratch + "\\", StringComparison.OrdinalIgnoreCase))
+                throw new IOException("Unapproved root");
+            string ancestor = root;
+            while (ancestor != null) {
+                if ((File.GetAttributes(ancestor) & FileAttributes.ReparsePoint) != 0)
+                    throw new IOException("Linked ancestor: " + ancestor);
+                ancestor = Path.GetDirectoryName(ancestor);
+            }
+        }
+        ConcurrentBag<ReviewedCloneResult> results = new ConcurrentBag<ReviewedCloneResult>();
+        int completed = 0;
+        Parallel.ForEach(roots, new ParallelOptions { MaxDegreeOfParallelism = 2 }, root => {
+            ReviewedCloneResult result = new ReviewedCloneResult { Root = root };
+            Visit(new DirectoryInfo(root), root, result);
+            results.Add(result);
+            Console.WriteLine("Reviewed clone {0}/{1}: {2}; failures={3}",
+                Interlocked.Increment(ref completed), roots.Length, root, result.Failures.Count);
+        });
+        return results.ToArray();
+    }
+}
+'@
+
+# Tiny safety check: removing a read-only hard link must preserve the surviving
+# link's bytes and read-only attribute. It is part of this cleanup, not a native
+# product campaign. Two files, five bytes of actual file data; no privilege change.
+$probe = Join-Path $evidence 'readonly-link-check'
+[void][IO.Directory]::CreateDirectory($probe)
+$sentinel = Join-Path $probe 'keep.txt'
+$link = Join-Path $probe 'remove.txt'
+try {
+    [IO.File]::WriteAllText($sentinel, 'keep')
+    New-Item -ItemType HardLink -Path $link -Target $sentinel | Out-Null
+    [IO.File]::SetAttributes($sentinel, [IO.FileAttributes]::ReadOnly)
+    [ReviewedCloneRemoval]::DeleteReadOnlyLink($link)
+    if ([IO.File]::Exists($link) -or [IO.File]::ReadAllText($sentinel) -ne 'keep' -or
+        ([IO.File]::GetAttributes($sentinel) -band [IO.FileAttributes]::ReadOnly) -eq 0) {
+        throw 'Read-only hard-link preservation check failed'
+    }
+} finally {
+    if ([IO.File]::Exists($link)) { [ReviewedCloneRemoval]::DeleteReadOnlyLink($link) }
+    if ([IO.File]::Exists($sentinel)) { [ReviewedCloneRemoval]::DeleteReadOnlyLink($sentinel) }
+    [IO.Directory]::Delete($probe, $false)
+}
+$result = [ReviewedCloneRemoval]::Run($approved.ToArray())
+$result | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $evidence 'reviewed-clone-removal.json') -Encoding utf8NoBOM
+if (@($result | Where-Object {$_.Failures.Count -gt 0}).Count) { throw 'Clone removal incomplete' }

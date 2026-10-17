@@ -1,0 +1,99 @@
+[
+  {
+    "name": "reviewed-tooling-tests",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/tools",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\reviewed-tooling-tests.log",
+    "log_truncated": false
+  },
+  {
+    "name": "temporary-coordinator-dependency",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--quiet",
+      "--disable-pip-version-check",
+      "--only-binary=:all:",
+      "--no-cache-dir",
+      "--no-compile",
+      "--no-deps",
+      "--target",
+      "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-8103c8ab7a8a155f-zei_e2lk\\deps",
+      "--index-url",
+      "https://pypi.org/simple",
+      "PyYAML==6.0.3"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\temporary-coordinator-dependency.log",
+    "log_truncated": false
+  },
+  {
+    "name": "spec-index",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "spec/tools/specctl.py",
+      "index"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\spec-index.log",
+    "log_truncated": false
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\spec-check.log",
+    "log_truncated": false
+  },
+  {
+    "name": "spec-tooling-tests",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\spec-tooling-tests.log",
+    "log_truncated": false
+  },
+  {
+    "name": "spec-manifest",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "spec/tools/specctl.py",
+      "manifest"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\spec-manifest.log",
+    "log_truncated": false
+  },
+  {
+    "name": "spec-verify-manifest",
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "exit_code": 0,
+    "log": ".aide\\evidence\\2026-10-17-workspace-cleanup\\spec-verify-manifest.log",
+    "log_truncated": false
+  }
+]

@@ -1,6 +1,17 @@
 # DiskEd development checklist
 
-Status: active all-platform/storage 0.1.0 development, with source-bound native and image-prototype evidence. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: all-platform/storage 0.1.0 native development is paused following the storage incident. Disposable scratch is removed; a host-enforced storage boundary remains an entry gate. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+
+## Storage recovery
+
+- [x] Remove `.aide-local` after reviewing the surviving checkouts; retain compact
+  [cleanup observations](.aide/evidence/2026-10-17-workspace-cleanup/cleanup-result.json).
+- [x] Add reviewed cleanup and workspace watchdogs: 32 MiB metadata, 1 GiB work,
+  20,000 entries and 20 GiB free-space floors. These are not filesystem quotas.
+  [Operating instructions](docs/development-storage.md).
+- [ ] Demonstrate host-enforced allocation denial, no fallback/spillover and
+  interrupted cleanup before resuming native development. No implicit elevation
+  or storage provisioning is granted.
 
 ## Specification preparation
 
@@ -20,11 +31,14 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 - [ ] Address SR-05 composition/test seams when their concrete contracts justify
   extraction. Continue the existing header/layer checks; no broad rewrite needed.
 
-## Active 0.1.0 goal
+## Paused 0.1.0 goal
 
 - [ ] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
   complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);
-  independent expectations,implementation and qualification pending.
+  Implementation at `fcd7a4a5` passed 178 x64 groups and 253 specification-tool
+  tests (two skips); [retained observations](.aide/evidence/2026-10-17-workspace-cleanup/retained-result.json).
+  Private Win32 and native qualification of the amended build gate remain unrun;
+  no main promotion or work-unit completion is claimed.
 - [x] DE-W104 native name-order binding: exact `c460a35c` passes all 177 x64 groups,
   9 file/10 worker methods, 68 headers/C90/14 imports and 251 tooling tests (two skips).
   Private Win32 eighteen groups/twelve headers/nine imports pass.

@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "active",
+  "status": "paused",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Qualify the frozen W105 candidate with expected-after-binding-review inputs: all178 x64 native groups,253 tooling tests(two skips),68 headers/imports and the same-source private18-group Win32 supplement before source integration.",
+  "next_action": "Keep native development paused until a host-enforced storage boundary has demonstrated allocation denial and no spillover. Cleanup is complete and .aide-local is absent. Review the tooling checkpoint and pending W105 limitations; do not rerun historical unbounded helpers or promote W105.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1711,7 +1711,7 @@
     "work_id": "DE-W105",
     "base_revision": "98b7573935c07d575d9500849662b3cafcfc9ee1",
     "contract": "spec/catalog/ntfs-name-order-command-prototype.json",
-    "state": "Working source passes eight regression groups,52 layouts,12 public-view families and277 calls after retained harness corrections and directory-claim consistency hardening. Freeze the exact candidate for full qualification.",
+    "state": "Native development paused after the storage incident. Scratch cleanup complete. Exact fcd7a4a5 x64 qualification previously passed178 native groups and253 specification-tool tests(two skips); compact source-bound observations retained. Private Win32 and amended build-gate native qualification remain unrun. No source integration or owner acceptance.",
     "qualification_pending": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
@@ -1791,6 +1791,20 @@
       "families_passed": 12,
       "raw_calls": 277,
       "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-command/working-binding-complete/summary.json"
+    },
+    "exact_campaign": {
+      "status": "pass",
+      "exec_session": 81542,
+      "exec_session_closed": true,
+      "source_revision": "fcd7a4a5fdd38d825fc3d7ed17f31744f95f34c8",
+      "directory": ".aide-local/ntfs-name-order-command-qualification-fcd7a4a5",
+      "observed_at": "2026-10-17T01:44:35.063139+00:00",
+      "scope": "Clean all-target x64 build,all178 registered native groups,68 headers,C90,14 executable/import observations,253 tooling tests(two expected skips),complete context and unchanged-source check.",
+      "last_observed_at": "2026-10-17T02:12:16.222216+00:00",
+      "native_groups_passed_at_last_observation": 105,
+      "native_groups": 178,
+      "evidence": ".aide/evidence/2026-10-17-workspace-cleanup/retained-result.json",
+      "working_directory_deleted_during_authorized_cleanup": true
     }
   },
   "w058_final_qualification": {
@@ -1908,12 +1922,12 @@
   ],
   "latest_development_push": {
     "branch": "dev",
-    "revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-    "observed_at": "2026-10-17T00:45:46.726935+00:00",
+    "revision": "fcd7a4a5fdd38d825fc3d7ed17f31744f95f34c8",
+    "observed_at": "2026-10-17T02:12:16.222216+00:00",
     "verified_remote_write": true,
-    "main_updated": true,
+    "main_updated": false,
     "release_published": false,
-    "source": "Authorized dev push,fast-forward main and main push succeeded; exact local/remote refs verified without force. Following receipt commit is metadata only."
+    "source": "Earlier authorized dev push succeeded; exact dev/main remote refs now checked read-only. Full native qualification remains running and main remains the earlier qualified checkpoint."
   },
   "latest_setup_observation": {
     "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json",
@@ -2024,9 +2038,9 @@
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {
-    "revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
+    "revision": "fcd7a4a5fdd38d825fc3d7ed17f31744f95f34c8",
     "verified": true,
-    "source": "Reviewed W103 source/evidence pushed and exact dev/main local/remote refs verified. Following integration receipt is metadata only."
+    "source": "Earlier authorized dev push succeeded; exact dev/main remote refs now checked read-only. Full native qualification remains running and main remains the earlier qualified checkpoint."
   },
   "historical_native_campaigns": [
     {
@@ -2175,5 +2189,24 @@
     ],
     "local_setup_qualified": false,
     "upstream_writes": false
-  }
+  },
+  "storage_policy": {
+    "source": "User emergency cleanup instruction,2026-10-17 Australia/Sydney",
+    "local_scratch_limit_bytes": 33554432,
+    "temporary_work_limit_bytes": 1073741824,
+    "minimum_free_bytes": 21474836480,
+    "required_runner": "tools/workspace.py",
+    "default_builds_inside_checkout": false,
+    "raising_limits_requires_user_authority": true,
+    "enforcement": "Polling watchdog and build admission checks; not an OS filesystem quota or protection against writes outside the owned directory.",
+    "hard_storage_boundary_demonstrated": false,
+    "temporary_entry_limit": 20000
+  },
+  "storage_cleanup": {
+    "status": "complete",
+    "evidence": ".aide/evidence/2026-10-17-workspace-cleanup",
+    "scope": "All .aide-local scratch removed after review of surviving source checkouts; root repository and retained evidence preserved. Hard storage boundary remains unproven.",
+    "result": ".aide/evidence/2026-10-17-workspace-cleanup/cleanup-result.json"
+  },
+  "pause_reason": "User requested the goal remain stopped pending emergency cleanup and a demonstrated hard storage ceiling. The polling watchdog is not that ceiling."
 }

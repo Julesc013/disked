@@ -1,0 +1,68 @@
+{
+  "observed_at": "2026-10-17T01:57:16.230509+00:00",
+  "head": "1dd6fb93153be76cc6eea3ab153e0b5b3c34ae9b",
+  "run_id": 38981312373,
+  "job_id": 117242569047,
+  "job_url": "https://github.com/Julesc013/universal-setup/actions/runs/38981312373/job/117242569047",
+  "first_failed_step": {
+    "number": 25,
+    "name": "Recover a genuinely interrupted repair without its source archive",
+    "observed_message": "Owned SYSTEM standard fixture failed; retained receipt contains its failure"
+  },
+  "later_prefix_producer": {
+    "name": "Qualify native recovery of constructed ordered bootstrap prefixes",
+    "status": "completed",
+    "conclusion": "skipped",
+    "number": 34,
+    "started_at": "2026-10-16T23:52:25Z",
+    "completed_at": "2026-10-16T23:52:25Z"
+  },
+  "later_durable_producer": {
+    "name": "Qualify recovery of constructed durable bootstrap states",
+    "status": "completed",
+    "conclusion": "skipped",
+    "number": 37,
+    "started_at": "2026-10-16T23:52:26Z",
+    "completed_at": "2026-10-16T23:52:26Z"
+  },
+  "later_prefix_packing": {
+    "name": "Pack byte-preserved constructed bootstrap prefix observations",
+    "status": "completed",
+    "conclusion": "failure",
+    "number": 35,
+    "started_at": "2026-10-16T23:52:25Z",
+    "completed_at": "2026-10-16T23:52:26Z"
+  },
+  "later_durable_packing": {
+    "name": "Pack byte-preserved durable bootstrap observations",
+    "status": "completed",
+    "conclusion": "failure",
+    "number": 38,
+    "started_at": "2026-10-16T23:52:26Z",
+    "completed_at": "2026-10-16T23:52:26Z"
+  },
+  "interpretation": "The interrupted-repair fixture is the first recorded failure. Later constructed prefix/durable producers were skipped; their always-run archivers then reported receipt file count differs. The archiver log does not report the actual file count. This ordering does not establish the original fixture failure cause.",
+  "underlying_cause_established": false,
+  "upstream_code_executed": false,
+  "upstream_writes": false,
+  "local_setup_qualified": false,
+  "read_only_source_inputs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "sha256:a3352ef0ada9e689dbaf95704e6f988342532b61dd64bfbd1a4a8458fd579685",
+      "url": "https://github.com/Julesc013/universal-setup/blob/1dd6fb93153be76cc6eea3ab153e0b5b3c34ae9b/.github/workflows/ci.yml"
+    },
+    {
+      "path": "tests/publisher_prefix_archive.py",
+      "sha256": "sha256:43ca18aa88cdc790c944953d12d8dc61a7425aa72fe363abaca2bafce8e0efe1",
+      "url": "https://github.com/Julesc013/universal-setup/blob/1dd6fb93153be76cc6eea3ab153e0b5b3c34ae9b/tests/publisher_prefix_archive.py"
+    },
+    {
+      "path": "tests/publisher_durable_archive.py",
+      "sha256": "sha256:8c4055f1277c76dc0dbad0ed9e8e474ce3c591375520ea486f9e1542d713f243",
+      "url": "https://github.com/Julesc013/universal-setup/blob/1dd6fb93153be76cc6eea3ab153e0b5b3c34ae9b/tests/publisher_durable_archive.py"
+    }
+  ],
+  "first_failure_receipt_review": "artifact-review.json",
+  "first_failure_diagnostic": "Standard public client exceeded its deadline"
+}

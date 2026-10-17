@@ -19,7 +19,7 @@
   "ephemeral_root": ".aide-local/",
   "note": "Weekly exact dev source fetched/read. Queue schema byte-identical;36exported WorkUnits pass passive validation. Lite1.0.0 publication/scope observed, with no downloaded-asset/live-consumer/runtime qualification. Source pin remains dev; no upstream implementation executed or imported.",
   "source_lock": "spec/references/aide-lock.json",
-  "upstream_checkout": ".aide-local/upstream/aide",
+  "upstream_checkout": null,
   "refresh_policy": {
     "cadence_days_approximate": 7,
     "next_review_date": "2026-10-19",
@@ -37,5 +37,16 @@
     "consumer_qualified": false,
     "assets_independently_verified": false,
     "documentation_drift": "Fetched dev README still describes the Lite candidate as unpublished; release API records actual publication. Preserve both scoped observations."
-  }
+  },
+  "storage_controls": {
+    "local_metadata_limit_bytes": 33554432,
+    "temporary_work_limit_bytes": 1073741824,
+    "minimum_volume_free_bytes": 21474836480,
+    "campaign_runner": "tools/workspace.py",
+    "emergency_cleanup": "tools/clean-scratch.ps1",
+    "enforcement": "DiskEd-side polling watchdog; no upstream AIDE runtime integration or OS quota demonstrated",
+    "native_development_paused": true,
+    "temporary_entry_limit": 20000
+  },
+  "upstream_checkout_state": "Disposable source checkout removed during authorized emergency cleanup; exact pin and selected schema remain retained. Any future source refresh must use a bounded managed workspace."
 }
