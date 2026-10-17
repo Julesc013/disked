@@ -17,7 +17,7 @@
     ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
     ".aide/handoffs/DE-W105-storage-gate-2026-10-17.json"
   ],
-  "summary": "The goal service resumed the full 0.1.0 objective. Read-only host inspection and a concrete two-route execution setup proposal are complete. Programme status is active with native execution still paused at the storage gate. The previous cleanup turn was progress. No new native build, mount, provisioning, elevation, VM launch, installation or capacity/isolation claim. A setup selection/grant was requested asynchronously and remains pending. This is the pre-publication snapshot; synchronization will be recorded after a successful push.",
+  "summary": "The goal service resumed the full 0.1.0 objective. Read-only host inspection and a concrete two-route execution setup proposal are complete. Programme status is active with native execution still paused at the storage gate. The previous cleanup turn was progress. No new native build, mount, provisioning, elevation, VM launch, installation or capacity/isolation claim. A setup selection/grant was requested asynchronously and remains pending. Development checkpoint df9b62c66cd64bf277bdf1fbe7c830a78315b13f was successfully pushed to origin/dev and verified through remote refs. Main remains 98b7573935c07d575d9500849662b3cafcfc9ee1. This following receipt commit changes only this handoff.",
   "tests": [
     {
       "command": "python tools/workspace.py check --planned-bytes 0",
@@ -67,5 +67,5 @@
     "The watcher is not a filesystem quota or a write-isolation boundary. Capacity denial and prevention of writes outside the workspace must both be demonstrated before native work."
   ],
   "next_safe_step": "Wait for the required setup selection/grant. Then inspect the supplied worker or implement and review the specifically authorized local setup, prove its tiny capacity/write-isolation limits, update the backing-volume reserve handling and only then resume bounded DE-W105 qualification. Do not infer approval from elapsed time or generic goal continuation.",
-  "performed_remote_writes": false
+  "performed_remote_writes": true
 }
