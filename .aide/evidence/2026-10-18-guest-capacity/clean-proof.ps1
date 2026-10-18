@@ -31,6 +31,6 @@ try{
     $path=Join-Path $PSScriptRoot 'cleanups.json'
     $records=@();if(Test-Path -LiteralPath $path){$records=@(Get-Content -LiteralPath $path -Raw|ConvertFrom-Json)}
     $records+=@{image_uuid=$campaign.guest.setup.image_uuid;cleanup=$cleanup;observed_at=[DateTime]::UtcNow.ToString('o')}
-    [IO.File]::WriteAllText($path,(ConvertTo-Json -InputObject @($records) -Depth 6)+"`n",[Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText($path,((ConvertTo-Json -InputObject @($records) -Depth 6)-replace"`r`n","`n")+"`n",[Text.UTF8Encoding]::new($false))
     $cleanup|ConvertTo-Json
 }finally{if($session){Remove-PSSession -Session $session}}

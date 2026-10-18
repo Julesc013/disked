@@ -15,5 +15,5 @@ foreach($case in @(@($false,$false),@($false,$true),@($true,$true),@($true,$fals
     $cases+=@{started=$case[0];stopped=$case[1];refused=$refused}
 }
 $record=@{status='pass';scope='Pure retirement guard only; no disk operations';cases=$cases;source_sha256=(Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash;full_remote_interruption_test='not_run'}
-[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'retirement-guard.json'),($record|ConvertTo-Json -Depth 5)+"`n",[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'retirement-guard.json'),(($record|ConvertTo-Json -Depth 5)-replace"`r`n","`n")+"`n",[Text.UTF8Encoding]::new($false))
 $record|ConvertTo-Json -Depth 5
