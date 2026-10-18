@@ -57,7 +57,8 @@
     ".aide/evidence/2026-10-18-guest-start/startup-result.json",
     ".aide/evidence/2026-10-18-guest-start/tooling-checks.json",
     ".aide/evidence/2026-10-18-guest-start/validate-connection.py",
-    ".aide/evidence/2026-10-18-guest-start/validate-start.py"
+    ".aide/evidence/2026-10-18-guest-start/validate-start.py",
+    ".aide/evidence/2026-10-18-guest-start/remote-sync.json"
   ],
   "summary": "Configured Agents as the sole routine guest automation account. Under the final owner clarification, set the supplied password on Codex and retain its enabled administrator account and original profile solely as an emergency spare. Both passwords do not expire. Verified guest UAC=0, administrator token and fresh Agents connections after one authorized normal guest restart; host UAC and existing checkpoint unchanged. Existing compiler files match the pin at C:\\BuildTools. Guest Python, hard-cap/confinement and actual native qualification remain pending. Final 100 tooling tests passed with one expected skip; 420 specification manifest entries unchanged. Bootstrap files and host disposable context cleaned. No product tests, account/profile deletion, main promotion, owner acceptance or release claim.",
   "tests": [
@@ -142,7 +143,7 @@
   "artifacts": [
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:cacb5ccf17657deb451786d276faaf945955ee848790ba86fcbc11dc23b39209"
+      "sha256": "sha256:98d50f86e46a03f21ad176e5bcd70888f434f99bef5d12e81361ea4957fd1834"
     },
     {
       "path": "AGENTS.md",
@@ -275,6 +276,10 @@
     {
       "path": ".aide/evidence/2026-10-18-guest-start/validate-start.py",
       "sha256": "sha256:168c346e10a18f6a6e40671574f6da951496e7302ba9c527f9626cfc779b9760"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/remote-sync.json",
+      "sha256": "sha256:5faf940a21ef2b4573170075113d146461c32b353e004fd35d8ebee59856f62a"
     }
   ],
   "blockers": [
@@ -282,5 +287,5 @@
     "Guest hard storage cap, write confinement and interrupted cleanup remain unproven; the historical host proof does not qualify them."
   ],
   "next_safe_step": "Prepare a bounded project-owned guest Python runtime, prove guest capped storage/write confinement/interruption cleanup, then execute DE-W105 native qualification using the existing pinned C:\\BuildTools installation. Use Agents only; retain Codex as an emergency spare. Do not mount test media on the host or silently increase budgets.",
-  "performed_remote_writes": false
+  "performed_remote_writes": true
 }
