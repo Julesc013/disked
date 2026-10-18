@@ -10,6 +10,13 @@ std::string hex(const unsigned char* p,std::size_t size) {
     for(std::size_t i=0;i<size;++i) {out+=alphabet[p[i]>>4];out+=alphabet[p[i]&15];}return out;
 }
 V exact(std::uint64_t n) {return V::string(std::to_string(n));}
+std::wstring normalized_nt_path(HANDLE handle) {
+    wchar_t buffer[512];
+    const auto size=GetFinalPathNameByHandleW(handle,buffer,512,FILE_NAME_NORMALIZED|VOLUME_NAME_NT);
+    if(!size)fail("image_path_identity",GetLastError());
+    if(size>=512)fail("image_path_profile");
+    return std::wstring(buffer,size);
+}
 }
 std::string utf8(const std::wstring& s) {
     const auto n=WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,s.data(),static_cast<int>(s.size()),nullptr,0,nullptr,nullptr);
@@ -66,12 +73,25 @@ BY_HANDLE_FILE_INFORMATION ordinary(HANDLE h,bool directory) {
     return info;
 }
 void bind_path(HANDLE h,const std::wstring& expected) {
-    wchar_t buffer[245];const auto size=GetFinalPathNameByHandleW(h,buffer,245,FILE_NAME_NORMALIZED|VOLUME_NAME_DOS);
-    if(!size)fail("image_path_identity",GetLastError());
-    if(size>=245)fail("image_path_profile");
-    const std::wstring final(buffer,size);
-    if(final.compare(0,4,L"\\\\?\\")!=0 || final.size()!=expected.size()+4 ||
-       CompareStringOrdinal(final.data()+4,static_cast<int>(final.size()-4),expected.data(),static_cast<int>(expected.size()),TRUE)!=CSTR_EQUAL)
+    if(expected.size()<3 || expected.size()>240 || !letter(expected[0]) || expected[1]!=L':' || expected[2]!=L'\\')
+        fail("image_path_identity");
+    const auto root_path=expected.substr(0,3);
+    if(GetDriveTypeW(root_path.c_str())!=DRIVE_FIXED)fail("image_local_drive_required");
+    Handle root(CreateFileW(root_path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
+    if(root.value==INVALID_HANDLE_VALUE)fail("image_path_identity",GetLastError());
+    ordinary(root.value,true);
+    const auto root_name=normalized_nt_path(root.value),final=normalized_nt_path(h);
+    // A substituted directory is not a volume root. Never compare only a tail
+    // or accept an opened (unnormalized) name when a normalized query fails.
+    if(root_name.compare(0,8,L"\\Device\\")!=0 || root_name.back()!=L'\\')fail("image_path_identity");
+    FILE_ID_INFO root_id{},file_id{};
+    if(!GetFileInformationByHandleEx(root.value,FileIdInfo,&root_id,sizeof(root_id)) ||
+       !GetFileInformationByHandleEx(h,FileIdInfo,&file_id,sizeof(file_id)))fail("image_path_identity",GetLastError());
+    const auto bound=root_name+expected.substr(3);
+    if(root_id.VolumeSerialNumber!=file_id.VolumeSerialNumber || bound.size()>=512 ||
+       final.size()!=bound.size() || CompareStringOrdinal(final.data(),static_cast<int>(final.size()),
+           bound.data(),static_cast<int>(bound.size()),TRUE)!=CSTR_EQUAL)
         fail("image_path_identity");
 }
 Metadata metadata(HANDLE h) {

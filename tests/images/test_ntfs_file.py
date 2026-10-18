@@ -19,6 +19,7 @@ from test_ntfs_capture import Volume, bytes_at
 PROBE = FAULT = None
 RECEIPTS = []
 UNVERIFIED = []
+BINDING_OBSERVATIONS = []
 
 
 def canonical(value):
@@ -37,7 +38,7 @@ def file_digest(path):
     return 'sha256:' + sha.hexdigest()
 
 
-def run(rows, fault=False, env=None):
+def run(rows, fault=False, env=None, capture=None):
     process = subprocess.Popen([str(FAULT if fault else PROBE)], stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
     try:
@@ -55,6 +56,9 @@ def run(rows, fault=False, env=None):
     get_times.restype = wintypes.BOOL
     assert get_times(int(process._handle), *(ctypes.byref(t) for t in times))
     created = (times[0].dwHighDateTime << 32) | times[0].dwLowDateTime
+    if capture is not None:
+        capture.append(dict(input_hex=canonical(rows).hex(),output_hex=stdout.hex(),stderr_hex=stderr.hex(),
+                            process_id=process.pid,process_created=str(created),exit_code=process.returncode))
     for row, result in zip(rows, values):
         assert result['fault_controls_available'] == fault
         if 'result' in result:
@@ -101,6 +105,33 @@ class Tests(unittest.TestCase):
                 stream.write(bytes.fromhex(region['hex']))
         # Closing makes fixture bytes visible; this is not a power-loss test.
         return v, path
+
+    def test_normalized_binding_keeps_full_name_and_volume(self):
+        _, path = self.fixture()
+        original = file_digest(path), path.stat().st_size
+        other_root = os.environ.get('DISKED_TEST_OTHER_VOLUME_ROOT')
+        self.assertTrue(other_root, 'Qualification requires an explicitly selected other-volume root')
+        self.assertEqual(str(Path(other_root)), Path(other_root).anchor)
+        self.assertNotEqual(Path(other_root).anchor.casefold(), path.anchor.casefold())
+        rows = [
+            (str(path), True),
+            (str(path).swapcase(), True),
+            (str(path.parent) + '\\.\\' + path.name, True),
+            (str(path.with_name('different.img')), False),
+            (path.anchor, False),
+            (str(Path(other_root)) + str(path)[len(path.anchor):], False),
+        ]
+        raw = []
+        actual = run([dict(path=str(path),binding_expected=expected) for expected,_ in rows],capture=raw)
+        BINDING_OBSERVATIONS.append(dict(expected=[passed for _,passed in rows],raw=raw,
+                                        source_before=original,source_after=(file_digest(path),path.stat().st_size)))
+        for value,(_,passed) in zip(actual,rows):
+            self.assertEqual(value['binding_passed'],passed,value)
+            self.assertEqual(value['read_calls'],'0')
+            if not passed:
+                self.assertEqual(value['refusal'],'image_path_identity')
+                self.assertEqual(value['platform_error'],'0')  # Identity mismatch, not an inaccessible comparison root.
+        self.assertEqual((file_digest(path),path.stat().st_size),original)
 
     def row(self, v, path, **extra):
         return dict(path=str(path), offset=v.input['offset'], length=v.input['length'], **extra)
@@ -323,7 +354,8 @@ def main():
     PROBE=args.probe.resolve();FAULT=args.fault.resolve()
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
     summary=dict(cases=len(RECEIPTS),methods=result.testsRun,failures=len(result.failures),errors=len(result.errors),
-                 receipts=RECEIPTS,unverified=UNVERIFIED,scope='Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission.')
+                 receipts=RECEIPTS,unverified=UNVERIFIED,path_binding=BINDING_OBSERVATIONS,
+                 scope='Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission.')
     if args.output:args.output.write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(0 if result.wasSuccessful() else 1)
 

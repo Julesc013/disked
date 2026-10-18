@@ -57,6 +57,28 @@ static V access(const std::string &input, bool rename) {
     return out;
 }
 static V observe(const V &input) {
+    if(const auto *expected=input.find("binding_expected")) {
+        auto out=V::object().put("fault_controls_available",V::boolean_value(
+#ifdef DISKED_NTFS_FILE_TESTING
+            true
+#else
+            false
+#endif
+            )).put("binding_passed",V::boolean_value(false)).put("read_calls",exact(0));
+        try {
+            need(expected->kind==V::Kind::string);
+            const auto path=disked::local_file::path_for(field(input,"path").text);
+            disked::local_file::Handle file(CreateFileW(path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,
+                OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
+            if(file.value==INVALID_HANDLE_VALUE)throw disked::local_file::Error("image_source_open",GetLastError());
+            disked::local_file::ordinary(file.value,false);
+            disked::local_file::bind_path(file.value,disked::local_file::path_for(expected->text));
+            out.put("binding_passed",V::boolean_value(true));
+        }catch(const disked::local_file::Error &error) {
+            out.put("refusal",V::string(error.what())).put("platform_error",exact(error.platform_code));
+        }
+        return out;
+    }
     disked::NtfsFileRequest request;
     request.path = field(input, "path").text;
     request.volume_offset = integer(field(input, "offset"));

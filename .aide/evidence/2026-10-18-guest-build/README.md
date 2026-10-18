@@ -115,3 +115,23 @@ then removes only those outputs. Sharing errors32/33 receive at most five second
 of retry after owned descendants retire. Other errors remain failures. These
 changes and the fixture helper still require an actual guest preflight and native
 retest; no Win32 test group is currently qualified.
+
+Attempt 11 at27d447 passed the actual confined fixture-helper preflight, the
+Win32 build and all nine executable/direct-dependency observations. Native calls
+then failed closed with image_path_identity/platform5 before source reads.
+Attempt 12 retained a diagnostic-launch permission error. Attempt 13 ran the
+corrected diagnostic inside the same confined worker: DOS/GUID final-path and
+DOS-device queries returned5, while normalized NT paths and file IDs succeeded
+for all ten held ancestors/source handles. These are diagnostic observations,
+not passing product groups. All three attempts removed owned media/source/input
+copies and restored temporary ancestor ACL entries.
+
+The proposed private ordinary-file profile now binds complete normalized NT
+names to a fresh strong handle for the selected DOS drive root and compares
+volume IDs. It retains the original240-unit DOS input limit, ancestor handles,
+generation checks and no-fallback behavior. Six predeclared binding rows cover
+exact/case/dot positives and wrong sibling/root/other-volume negatives, with zero
+data reads. Original79 file cases remain required (85 total), along with all18
+Win32 groups and the complete current x64 gate. This repair has not yet received
+native evaluation. The latest complete specification run passed253 tests with
+two expected skips; its raw receipt is retained once in specification-checks.json.xz.

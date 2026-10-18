@@ -22,7 +22,8 @@ def replace_once(text, old, new):
 def main():
     work = Path(os.environ['DISKED_WORK_ROOT']).resolve()
     prepare_only = sys.argv[1:] == ['--prepare-only']
-    if sys.argv[1:] and not prepare_only:
+    path_probe = sys.argv[1:] == ['--path-probe']
+    if sys.argv[1:] and not prepare_only and not path_probe:
         raise ValueError('Unknown campaign option')
     if (HERE / 'result.json').exists():
         raise ValueError('Retain/review the existing result before another campaign')
@@ -46,8 +47,12 @@ def main():
     shutil.copyfile(work / 'source-export/source.pack', stage / 'source.pack')
     shutil.copyfile(work / 'source-export/source.json', stage / 'source.json')
     shutil.copyfile(ROOT / 'tools/source-snapshot.py', stage / 'source-snapshot.py')
-    for name in ('guest-source.py', 'expected.json'):
+    for name in ('guest-source.py', 'expected.json', 'path-api-probe.py'):
         shutil.copyfile(HERE / name, stage / name)
+    if path_probe:
+        expected = json.loads((stage/'expected.json').read_bytes())
+        expected['execution_kind'] = 'path-probe'
+        (stage/'expected.json').write_text(json.dumps(expected,indent=2)+'\n',encoding='utf-8',newline='\n')
     shutil.copyfile(HERE / 'build-driver.py', stage / 'guest-proof.py')
     shutil.copyfile(PRIOR / 'attach-image.py', stage / 'attach-image.py')
     guest = (PRIOR / 'guest-proof.ps1').read_text()
@@ -66,7 +71,7 @@ def main():
     host = replace_once(host, 'setup=$setup;proof=$proof;',
         "setup=$setup;proof=$proof;source_prepared=$(if(Test-Path -LiteralPath \"$root\\source-prepared.json\"){Get-Content -LiteralPath \"$root\\source-prepared.json\" -Raw|ConvertFrom-Json});source_retired=$(if(Test-Path -LiteralPath \"$root\\source-retired.json\"){Get-Content -LiteralPath \"$root\\source-retired.json\" -Raw|ConvertFrom-Json});")
     rows = '\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'},"
-                     for name in ('source.pack', 'source.json', 'source-snapshot.py', 'guest-source.py'))
+                     for name in ('source.pack', 'source.json', 'source-snapshot.py', 'guest-source.py', 'path-api-probe.py'))
     host = replace_once(host, '    $selected=@(', '    $selected=@(\n' + rows)
     host = replace_once(host, '    foreach($file in $selected)',
         "    $backing=@(Get-VMHardDiskDrive -VM $vm);if($backing.Count-ne1){throw 'Unexpected VM disk topology.'}\n    $backingPath=$backing[0].Path\n    $backingStart=(Get-Item -LiteralPath $backingPath).Length\n    $result.host_backing_start_bytes=$backingStart\n    foreach($file in $selected)")

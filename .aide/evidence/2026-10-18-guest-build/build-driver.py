@@ -152,7 +152,8 @@ def main():
             worker.k.LocalFree(descriptor)
         env = dict(os.environ, DISKED_WORK_ROOT=str(work), GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0',
                    GIT_CONFIG_COUNT='1', GIT_CONFIG_KEY_0='safe.directory', GIT_CONFIG_VALUE_0=str(SOURCE),
-                   MSBUILDDISABLENODEREUSE='1', CMAKE_BUILD_PARALLEL_LEVEL='1')
+                   MSBUILDDISABLENODEREUSE='1', CMAKE_BUILD_PARALLEL_LEVEL='1',
+                   DISKED_TEST_OTHER_VOLUME_ROOT='C:\\')
         cmake = 'C:/Program Files/CMake/bin/cmake.exe'
         ctest = 'C:/Program Files/CMake/bin/ctest.exe'
         python = sys.executable
@@ -294,59 +295,87 @@ assert not path.exists()
 print(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))
 '''
         run('fixture-temporary-preflight', [python, '-B', '-c', fixture_preflight, SOURCE / 'tests'], timeout=30)
-        run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
-                             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
-                             '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
-        metadata_bytes = 0
-        metadata = sorted((work / 'build/.cmake/api/v1/reply').glob('*.json'))
-        if not metadata or len(metadata) > 4096:
-            raise RuntimeError('Missing or excessive CMake File API metadata')
-        for path in metadata:
-            size = path.stat().st_size
-            metadata_bytes += size
-            if size > 1048576 or metadata_bytes > 8388608:
-                raise RuntimeError('CMake File API retention exceeds declared bound')
-            archive.write(path, 'codemodel/' + path.name)
-        run('fixture', [python, '-B', SOURCE / 'tools/ntfs-win32-fixture.py', '--root', SOURCE,
-                        '--build', work / 'build', '--output', work / 'win32-fixture'])
-        fixture = json.loads((work / 'win32-fixture/fixture-inputs.json').read_bytes())
-        if len(fixture['tests']) != 18 or len(fixture['standalone_headers']) != 12 or len(fixture['executable_targets']) != 9:
-            raise RuntimeError('Fixture dropped required groups/headers/executables')
-        archive.writestr('fixture-inputs.json', (work / 'win32-fixture/fixture-inputs.json').read_bytes())
-        result['fixture'] = {'tests': fixture['tests'], 'headers': fixture['standalone_headers'],
-                             'executable_targets': fixture['executable_targets']}
-        run('configure-win32', [cmake, '-S', work / 'win32-fixture', '-B', work / 'win32-build',
-                               '-G', 'Visual Studio 17 2022', '-A', 'Win32,version=10.0.19041.0',
-                               '-T', 'v143,version=14.44.35207,host=x64', '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0',
-                               '-DCMAKE_SYSTEM_VERSION=10.0.19041.0', '-DPython3_EXECUTABLE=' + python])
-        run('build-win32', [cmake, '--build', work / 'win32-build', '--config', 'Release', '--parallel', '1'], timeout=900)
-        binary_root = Path('C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86')
-        for name in fixture['executable_targets']:
-            path = work / 'win32-build/Release' / (name + '.exe')
-            data = path.read_bytes(); offset = struct.unpack_from('<I', data, 0x3c)[0]
-            if data[offset:offset+4] != b'PE\0\0' or struct.unpack_from('<H', data, offset+4)[0] != 0x14c:
-                raise RuntimeError('Wrong executable machine: ' + name)
-            result['executables'][name] = {'sha256': sha(path), 'bytes': path.stat().st_size, 'pe_machine': '0x14c'}
-        for name in fixture['executable_targets']:
-            path = work / 'win32-build/Release' / (name + '.exe')
-            run('imports-' + name, [binary_root / 'dumpbin.exe', '/nologo', '/dependents', path], timeout=60)
-        for test in fixture['tests']:
-            stem = 'ntfs-' + test.removeprefix('image.ntfs_').replace('_', '-') + '-cases'
-            code, _ = run('test-' + test, [ctest, '--test-dir', work / 'win32-build', '-C', 'Release',
-                                         '-R', '^'+re.escape(test)+'$', '--output-on-failure', '--output-junit',
-                                         work / 'test.xml'], timeout=300, allow_failure=True)
-            retained_outputs = retain_test_outputs(archive, work / 'win32-build', stem)
-            archive.write(work / 'test.xml', 'junit/' + test + '.xml')
-            result['tests'].append({'name': test, 'exit_code': code, 'passed': code == 0,
-                                    'retained_files': len(retained_outputs),
-                                    'retained_bytes': sum(x['bytes'] for x in retained_outputs)})
-            budget()
-            junit = ET.parse(work / 'test.xml').getroot()
-            cases = list(junit.iter('testcase'))
-            if len(cases) != 1 or any(list(c) for c in cases if any(x.tag in ('failure', 'error', 'skipped') for x in c)):
-                raise RuntimeError('JUnit did not prove exactly one passing selected group: ' + test)
-            if code:
-                raise RuntimeError('Native group failed: ' + test)
+        mode = json.loads((ROOT / 'expected.json').read_bytes()).get('execution_kind', 'win32')
+        if mode == 'path-probe':
+            result['schema'] = 'org.disked.guest-path-api-probe/1'
+            archive.write(ROOT / 'path-api-probe.py', 'recipe/path-api-probe.py')
+            _, raw = run('path-api-probe', [python, '-B', '-c', (ROOT / 'path-api-probe.py').read_text(), SOURCE / 'tests'], timeout=30)
+            result['path_api_probe'] = json.loads(raw.decode().splitlines()[-1])
+        elif mode == 'win32':
+            run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
+                                 '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
+                                 '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
+            metadata_bytes = 0
+            metadata = sorted((work / 'build/.cmake/api/v1/reply').glob('*.json'))
+            if not metadata or len(metadata) > 4096:
+                raise RuntimeError('Missing or excessive CMake File API metadata')
+            for path in metadata:
+                size = path.stat().st_size
+                metadata_bytes += size
+                if size > 1048576 or metadata_bytes > 8388608:
+                    raise RuntimeError('CMake File API retention exceeds declared bound')
+                archive.write(path, 'codemodel/' + path.name)
+            run('fixture', [python, '-B', SOURCE / 'tools/ntfs-win32-fixture.py', '--root', SOURCE,
+                            '--build', work / 'build', '--output', work / 'win32-fixture'])
+            fixture = json.loads((work / 'win32-fixture/fixture-inputs.json').read_bytes())
+            if len(fixture['tests']) != 18 or len(fixture['standalone_headers']) != 12 or len(fixture['executable_targets']) != 9:
+                raise RuntimeError('Fixture dropped required groups/headers/executables')
+            archive.writestr('fixture-inputs.json', (work / 'win32-fixture/fixture-inputs.json').read_bytes())
+            result['fixture'] = {'tests': fixture['tests'], 'headers': fixture['standalone_headers'],
+                                 'executable_targets': fixture['executable_targets']}
+            run('configure-win32', [cmake, '-S', work / 'win32-fixture', '-B', work / 'win32-build',
+                                   '-G', 'Visual Studio 17 2022', '-A', 'Win32,version=10.0.19041.0',
+                                   '-T', 'v143,version=14.44.35207,host=x64', '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0',
+                                   '-DCMAKE_SYSTEM_VERSION=10.0.19041.0', '-DPython3_EXECUTABLE=' + python])
+            run('build-win32', [cmake, '--build', work / 'win32-build', '--config', 'Release', '--parallel', '1'], timeout=900)
+            binary_root = Path('C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86')
+            for name in fixture['executable_targets']:
+                path = work / 'win32-build/Release' / (name + '.exe')
+                data = path.read_bytes(); offset = struct.unpack_from('<I', data, 0x3c)[0]
+                if data[offset:offset+4] != b'PE\0\0' or struct.unpack_from('<H', data, offset+4)[0] != 0x14c:
+                    raise RuntimeError('Wrong executable machine: ' + name)
+                result['executables'][name] = {'sha256': sha(path), 'bytes': path.stat().st_size, 'pe_machine': '0x14c'}
+            for name in fixture['executable_targets']:
+                path = work / 'win32-build/Release' / (name + '.exe')
+                _, headers = run('headers-' + name, [binary_root / 'dumpbin.exe', '/nologo', '/headers', path], timeout=60)
+                if any(text not in headers for text in (b'Dynamic base',b'NX compatible',b'Control Flow Guard')):
+                    raise RuntimeError('Missing required PE security flags: ' + name)
+                run('imports-' + name, [binary_root / 'dumpbin.exe', '/nologo', '/imports', path], timeout=60)
+                _, dependencies = run('dependencies-' + name, [binary_root / 'dumpbin.exe', '/nologo', '/dependents', path], timeout=60)
+                if re.search(rb'(?:MSVCP|VCRUNTIME|UCRTBASE|API-MS-WIN-CRT)[^\s]*\.DLL', dependencies.upper()):
+                    raise RuntimeError('Unexpected dynamic CRT dependency: ' + name)
+            ordered_tests = ['image.ntfs_file'] + [name for name in fixture['tests'] if name != 'image.ntfs_file']
+            if len(ordered_tests) != 18 or set(ordered_tests) != set(fixture['tests']):
+                raise RuntimeError('Native group ordering changed the required set')
+            for test in ordered_tests:
+                stem = 'ntfs-' + test.removeprefix('image.ntfs_').replace('_', '-') + '-cases'
+                code, _ = run('test-' + test, [ctest, '--test-dir', work / 'win32-build', '-C', 'Release',
+                                             '-R', '^'+re.escape(test)+'$', '--output-on-failure', '--output-junit',
+                                             work / 'test.xml'], timeout=300, allow_failure=True)
+                summary_path = work / 'win32-build' / (stem + '.json')
+                summary = json.loads(summary_path.read_bytes()) if summary_path.is_file() else None
+                retained_outputs = retain_test_outputs(archive, work / 'win32-build', stem)
+                archive.write(work / 'test.xml', 'junit/' + test + '.xml')
+                result['tests'].append({'name': test, 'exit_code': code, 'passed': code == 0,
+                                        'retained_files': len(retained_outputs),
+                                        'retained_bytes': sum(x['bytes'] for x in retained_outputs),
+                                        'summary': {key:(len(summary[key]) if isinstance(summary[key],list) else summary[key])
+                                                    for key in ('cases','count','methods','calls','failures','errors','unverified')
+                                                    if key in summary} if summary else None})
+                budget()
+                junit = ET.parse(work / 'test.xml').getroot()
+                cases = list(junit.iter('testcase'))
+                if len(cases) != 1 or any(list(c) for c in cases if any(x.tag in ('failure', 'error', 'skipped') for x in c)):
+                    raise RuntimeError('JUnit did not prove exactly one passing selected group: ' + test)
+                if code:
+                    raise RuntimeError('Native group failed: ' + test)
+                if summary and (summary.get('unverified') or summary.get('skipped')):
+                    raise RuntimeError('Native group has unverified/skipped checks: ' + test)
+                if test == 'image.ntfs_file':
+                    if not summary or summary['cases'] != 85 or len(summary.get('path_binding',[])) != 1:
+                        raise RuntimeError('Original79 plus six binding rows were not all evaluated')
+        else:
+            raise RuntimeError('Unknown guest campaign execution kind')
         result['status'] = 'pass'
     except BaseException as error:
         result.update(status='fail', error=str(error), traceback=traceback.format_exc())

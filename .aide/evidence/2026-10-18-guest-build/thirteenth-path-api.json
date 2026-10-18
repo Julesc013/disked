@@ -1,0 +1,986 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T07:56:08.9576752Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3879680,
+        "sha256": "BE56908D7E923449065219D9F0C53696E47D611C0C519622782A2C8402175176"
+      },
+      {
+        "path": "source.json",
+        "bytes": 223087,
+        "sha256": "4A3F455FB0716F6D6D2679F1BAE69B84C505892D74C1E8011AE111F5CC352F63"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 9274,
+        "sha256": "D66661F50057E3504849B4309965647E4C348FE929011358B1497F42CE8EBA31"
+      },
+      {
+        "path": "path-api-probe.py",
+        "bytes": 3103,
+        "sha256": "56E962C7347B15569DC8914CE438FEFEFEA35B2401EA710F7B6B8BD2378F888B"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 22922,
+        "sha256": "7123F4FB7423046664F99AC193B519978B530373F22044D0B945B29069E6C7D5"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 2209,
+        "sha256": "35AA0D664C90FAD6677E6B0B19D339F1D65C8681377BE49B55C334294D41A523"
+      }
+    ],
+    "base_revision": "27d447ae2823702b138c489ea3ac88bd31ca5b7c"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T07:56:13.5546833Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "97D15E12D1462449900A0DBEFAC67FF2",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.89323257f22c4e7d982c2205f32d8847",
+            "sid": "S-1-15-2-964697583-51240697-1589925636-2736957448-1250358633-530653884-3592038597"
+          },
+          {
+            "name": "org.disked.worker.2905a9a63fad47c2884c41211da1e4c5",
+            "sid": "S-1-15-2-322948642-1992155158-2368251883-3657442933-2338343333-2303433994-1660526"
+          },
+          {
+            "name": "org.disked.worker.4f8f8d91e233434da0f847a38ce3f453",
+            "sid": "S-1-15-2-3496351872-2540836438-2539005237-2894656073-767182366-481870460-2547971572"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-964697583-51240697-1589925636-2736957448-1250358633-530653884-3592038597)(A;;0x1301bf;;;S-1-15-2-322948642-1992155158-2368251883-3657442933-2338343333-2303433994-1660526)(A;;0x1301bf;;;S-1-15-2-3496351872-2540836438-2539005237-2894656073-767182366-481870460-2547971572)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248097D15E12D1460DBEFAC67FF2",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 2074, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "finished_at": "2026-10-18T07:56:38.6539663Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-path-api-probe/1",
+      "status": "pass",
+      "source_revision": "27d447ae2823702b138c489ea3ac88bd31ca5b7c",
+      "commands": [
+        {
+          "label": "source-confinement",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport ctypes,json,pathlib,sys\nfrom ctypes import wintypes as T\nk=ctypes.WinDLL('kernel32',use_last_error=True);a=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE;a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\nk.CloseHandle.argtypes=[T.HANDLE];token=T.HANDLE();n=T.DWORD();e=T.DWORD();c=T.DWORD()\nassert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))\nassert a.GetTokenInformation(token,20,ctypes.byref(e),4,ctypes.byref(n));assert a.GetTokenInformation(token,29,ctypes.byref(c),4,ctypes.byref(n));k.CloseHandle(token)\ndenied=False\ntry:pathlib.Path(sys.argv[1]).write_bytes(b'unexpected')\nexcept PermissionError:denied=True\nprint(json.dumps(dict(elevated=e.value,appcontainer=c.value,source_write_denied=denied)))\nassert e.value==0 and c.value==1 and denied\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\forbidden-write"
+          ],
+          "pid": 5896,
+          "exit_code": 0,
+          "seconds": 0.1734692999998515,
+          "log_sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"elevated\": 0, \"appcontainer\": 1, \"source_write_denied\": true}\r\n"
+        },
+        {
+          "label": "msbuild-version",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "-version"
+          ],
+          "pid": 5580,
+          "exit_code": 0,
+          "seconds": 0.16448440000021947,
+          "log_sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de",
+          "tail": "17.14.51.32402\r\n"
+        },
+        {
+          "label": "common-data-before",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 5236,
+          "exit_code": 0,
+          "seconds": 0.1716930999991746,
+          "log_sha256": "6938c3524a0d140f5c4b0736bc0991856c432f72d208acb03a315b96d9ab224b",
+          "tail": "Build started 18/10/2026 6:56:31 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.03\r\n"
+        },
+        {
+          "label": "common-data-after",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 1052,
+          "exit_code": 0,
+          "seconds": 0.16443399999843678,
+          "log_sha256": "f2432da3375d2e43461e6e12e26758c10d69deed4cbc81cc354c82f2356b25ac",
+          "tail": "Build started 18/10/2026 6:56:32 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[C:\\ProgramData]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.01\r\n"
+        },
+        {
+          "label": "fixture-temporary-preflight",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport json,pathlib,sys\nsys.path.insert(0,sys.argv[1])\nfrom support.tempdir import temporary_directory\ndirectory=temporary_directory(prefix='disked-fixture-preflight-')\npath=pathlib.Path(directory.name)\nwith directory:\n    target=path/'generated.img';target.write_bytes(b'owned fixture')\n    assert target.read_bytes()==b'owned fixture'\nassert not path.exists()\nprint(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tests"
+          ],
+          "pid": 4520,
+          "exit_code": 0,
+          "seconds": 0.3567624999996042,
+          "log_sha256": "98de5a936919b48802e32f8507ff7498e5d8f7007a686fbc3f72303046f647fc",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"status\": \"pass\", \"fixture_created_read_and_removed\": true}\r\n"
+        },
+        {
+          "label": "path-api-probe",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\"\"\"Read-only path/volume API observations on one owned generated fixture.\"\"\"\nimport ctypes\nfrom ctypes import wintypes as T\nimport json\nfrom pathlib import Path\nimport sys\n\nsys.path.insert(0,sys.argv[1])\nfrom support.tempdir import temporary_directory\n\nkernel = ctypes.WinDLL('kernel32',use_last_error=True)\nkernel.CreateFileW.argtypes = [T.LPCWSTR,T.DWORD,T.DWORD,ctypes.c_void_p,T.DWORD,T.DWORD,T.HANDLE]\nkernel.CreateFileW.restype = T.HANDLE\nkernel.CloseHandle.argtypes = [T.HANDLE]\nkernel.GetFinalPathNameByHandleW.argtypes = [T.HANDLE,T.LPWSTR,T.DWORD,T.DWORD]\nkernel.GetFinalPathNameByHandleW.restype = T.DWORD\nkernel.GetFileInformationByHandleEx.argtypes = [T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD]\nkernel.QueryDosDeviceW.argtypes = [T.LPCWSTR,T.LPWSTR,T.DWORD]\nkernel.QueryDosDeviceW.restype = T.DWORD\nresult = dict(scope='Owned generated fixture and its ancestors; no product execution',paths=[])\nwith temporary_directory(prefix='disked-path-api-') as directory:\n    target=Path(directory)/'generated.img'\n    target.write_bytes(b'owned path probe')\n    device=ctypes.create_unicode_buffer(1024)\n    ctypes.set_last_error(0)\n    count=kernel.QueryDosDeviceW(target.drive,device,len(device))\n    result['dos_device']=dict(drive=target.drive,count=count,error=ctypes.get_last_error(),name=device.value if count else None)\n    handles=[]\n    try:\n        for path in [*reversed(target.parents),target]:\n            row=dict(path=str(path),final_names=[])\n            ctypes.set_last_error(0)\n            handle=kernel.CreateFileW(str(path),0x80000000,1,None,3,0x02200000,None)\n            row['open_error']=ctypes.get_last_error()\n            if handle==ctypes.c_void_p(-1).value:\n                result['paths'].append(row)\n                break\n            handles.append(handle)\n            for flags in (0,1,2,4,8,9,10,12):\n                buffer=ctypes.create_unicode_buffer(1024)\n                ctypes.set_last_error(0)\n                count=kernel.GetFinalPathNameByHandleW(handle,buffer,len(buffer),flags)\n                row['final_names'].append(dict(flags=flags,count=count,error=ctypes.get_last_error(),\n                    name=buffer.value if 0<count<len(buffer) else None))\n            for kind,size in ((18,24),(2,2048)):\n                buffer=ctypes.create_string_buffer(size)\n                ctypes.set_last_error(0)\n                ok=kernel.GetFileInformationByHandleEx(handle,kind,buffer,size)\n                observation=dict(ok=bool(ok),error=ctypes.get_last_error())\n                if ok and kind==18:\n                    observation.update(volume_serial=str(int.from_bytes(buffer.raw[:8],'little')),file_id=buffer.raw[8:24].hex())\n                if ok and kind==2:\n                    length=int.from_bytes(buffer.raw[:4],'little')\n                    assert length<=size-4 and length%2==0\n                    observation['name']=buffer.raw[4:4+length].decode('utf-16-le')\n                row[str(kind)]=observation\n            result['paths'].append(row)\n    finally:\n        for handle in reversed(handles):kernel.CloseHandle(handle)\nprint(json.dumps(result))\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tests"
+          ],
+          "pid": 3536,
+          "exit_code": 0,
+          "seconds": 0.39258130000052915,
+          "log_sha256": "68a9dfdbe38ba7ac8bdb7443055bf737d28bbd611ffad91e55c141ab3ae95230",
+          "tail": "\\work\\\\build\\\\local\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 41, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\"}, {\"flags\": 12, \"count\": 17, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"2f000000000001000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 50, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\"}, {\"flags\": 4, \"count\": 26, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 50, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\"}, {\"flags\": 12, \"count\": 26, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"30000000000001000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 101, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\"}, {\"flags\": 4, \"count\": 77, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 101, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\"}, {\"flags\": 12, \"count\": 77, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"31000000000001000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 104, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\"}, {\"flags\": 4, \"count\": 80, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 104, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\"}, {\"flags\": 12, \"count\": 80, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"32000000000001000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 109, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\"}, {\"flags\": 4, \"count\": 85, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 109, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\"}, {\"flags\": 12, \"count\": 85, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"33000000000001000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 158, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\"}, {\"flags\": 4, \"count\": 134, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 158, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\"}, {\"flags\": 12, \"count\": 134, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"3b000000000008000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\"}}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\", \"final_names\": [{\"flags\": 0, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 1, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 2, \"count\": 172, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\"}, {\"flags\": 4, \"count\": 148, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\"}, {\"flags\": 8, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 9, \"count\": 0, \"error\": 5, \"name\": null}, {\"flags\": 10, \"count\": 172, \"error\": 0, \"name\": \"\\\\Device\\\\HarddiskVolume33\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\"}, {\"flags\": 12, \"count\": 148, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\"}], \"open_error\": 0, \"18\": {\"ok\": true, \"error\": 0, \"volume_serial\": \"16200619246821652452\", \"file_id\": \"3c000000000002000000000000000000\"}, \"2\": {\"ok\": true, \"error\": 0, \"name\": \"\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\\\AC\\\\Temp\\\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\\\generated.img\"}}], \"dos_device\": {\"drive\": \"R:\", \"count\": 0, \"error\": 5, \"name\": null}}\r\n"
+        }
+      ],
+      "tests": [],
+      "executables": {},
+      "full_x64_product_suite_run": false,
+      "owner_accepted": false,
+      "source_confinement": {
+        "elevated": 0,
+        "appcontainer": 1,
+        "source_write_denied": true
+      },
+      "directory_access_observations": [
+        {
+          "add": true,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAO8dgDn53g0DBFfEXgioIqNp9YZKvCKhH8UoGtY=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAO8dgDn53g0DBFfEXgioIqNp9YZKvCKhH8UoGtY=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAADvHYA5+d4NAwRXxF4IqCKjafWGSrwioR/FKBrWABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":true,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAA7x2AOfneDQMEV8ReCKgio2n1hkq8IqEfxSga1g==\"}\r\n"
+        },
+        {
+          "add": false,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAO8dgDn53g0DBFfEXgioIqNp9YZKvCKhH8UoGtY=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAO8dgDn53g0DBFfEXgioIqNp9YZKvCKhH8UoGtY=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAADvHYA5+d4NAwRXxF4IqCKjafWGSrwioR/FKBrWABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":false,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAA7x2AOfneDQMEV8ReCKgio2n1hkq8IqEfxSga1g==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n"
+        }
+      ],
+      "common_data_access": [
+        {
+          "added": true,
+          "sid": "S-1-15-2-964697583-51240697-1589925636-2736957448-1250358633-530653884-3592038597",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        },
+        {
+          "added": false,
+          "sid": "S-1-15-2-964697583-51240697-1589925636-2736957448-1250358633-530653884-3592038597",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        }
+      ],
+      "path_api_probe": {
+        "scope": "Owned generated fixture and its ancestors; no product execution",
+        "paths": [
+          {
+            "path": "R:\\",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 25,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\"
+              },
+              {
+                "flags": 4,
+                "count": 1,
+                "error": 0,
+                "name": "\\"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 25,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\"
+              },
+              {
+                "flags": 12,
+                "count": 1,
+                "error": 0,
+                "name": "\\"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "05000000000005000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\"
+            }
+          },
+          {
+            "path": "R:\\work",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 29,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work"
+              },
+              {
+                "flags": 4,
+                "count": 5,
+                "error": 0,
+                "name": "\\work"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 29,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work"
+              },
+              {
+                "flags": 12,
+                "count": 5,
+                "error": 0,
+                "name": "\\work"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "24000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work"
+            }
+          },
+          {
+            "path": "R:\\work\\build",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 35,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build"
+              },
+              {
+                "flags": 4,
+                "count": 11,
+                "error": 0,
+                "name": "\\work\\build"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 35,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build"
+              },
+              {
+                "flags": 12,
+                "count": 11,
+                "error": 0,
+                "name": "\\work\\build"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "27000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 41,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local"
+              },
+              {
+                "flags": 4,
+                "count": 17,
+                "error": 0,
+                "name": "\\work\\build\\local"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 41,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local"
+              },
+              {
+                "flags": 12,
+                "count": 17,
+                "error": 0,
+                "name": "\\work\\build\\local"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "2f000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 50,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages"
+              },
+              {
+                "flags": 4,
+                "count": 26,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 50,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages"
+              },
+              {
+                "flags": 12,
+                "count": 26,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "30000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 101,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847"
+              },
+              {
+                "flags": 4,
+                "count": 77,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 101,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847"
+              },
+              {
+                "flags": 12,
+                "count": 77,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "31000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 104,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC"
+              },
+              {
+                "flags": 4,
+                "count": 80,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 104,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC"
+              },
+              {
+                "flags": 12,
+                "count": 80,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "32000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 109,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp"
+              },
+              {
+                "flags": 4,
+                "count": 85,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 109,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp"
+              },
+              {
+                "flags": 12,
+                "count": 85,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "33000000000001000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 158,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1"
+              },
+              {
+                "flags": 4,
+                "count": 134,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 158,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1"
+              },
+              {
+                "flags": 12,
+                "count": 134,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "3b000000000008000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1"
+            }
+          },
+          {
+            "path": "R:\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img",
+            "final_names": [
+              {
+                "flags": 0,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 1,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 2,
+                "count": 172,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img"
+              },
+              {
+                "flags": 4,
+                "count": 148,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img"
+              },
+              {
+                "flags": 8,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 9,
+                "count": 0,
+                "error": 5,
+                "name": null
+              },
+              {
+                "flags": 10,
+                "count": 172,
+                "error": 0,
+                "name": "\\Device\\HarddiskVolume33\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img"
+              },
+              {
+                "flags": 12,
+                "count": 148,
+                "error": 0,
+                "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img"
+              }
+            ],
+            "open_error": 0,
+            "18": {
+              "ok": true,
+              "error": 0,
+              "volume_serial": "16200619246821652452",
+              "file_id": "3c000000000002000000000000000000"
+            },
+            "2": {
+              "ok": true,
+              "error": 0,
+              "name": "\\work\\build\\local\\Packages\\org.disked.worker.89323257f22c4e7d982c2205f32d8847\\AC\\Temp\\disked-path-api-3f927a8b8e4c4d78aac5264a25e9e3c1\\generated.img"
+            }
+          }
+        ],
+        "dos_device": {
+          "drive": "R:",
+          "count": 0,
+          "error": 5,
+          "name": null
+        }
+      },
+      "archive_sha256": "af4f1ee0a60006b0e329b136c181a2693856ebe74e56ee037a9bac35848a25de",
+      "archive_bytes": 2368,
+      "archive_entries": {
+        "source-confinement.log": {
+          "bytes": 140,
+          "sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c"
+        },
+        "msbuild-version.log": {
+          "bytes": 16,
+          "sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de"
+        },
+        "common-data-before.log": {
+          "bytes": 290,
+          "sha256": "6938c3524a0d140f5c4b0736bc0991856c432f72d208acb03a315b96d9ab224b"
+        },
+        "common-data-after.log": {
+          "bytes": 304,
+          "sha256": "f2432da3375d2e43461e6e12e26758c10d69deed4cbc81cc354c82f2356b25ac"
+        },
+        "fixture-temporary-preflight.log": {
+          "bytes": 137,
+          "sha256": "98de5a936919b48802e32f8507ff7498e5d8f7007a686fbc3f72303046f647fc"
+        },
+        "recipe/path-api-probe.py": {
+          "bytes": 3103,
+          "sha256": "56e962c7347b15569dc8914ce438fefefea35b2401ea710f7b6b8bd2378f888b"
+        },
+        "path-api-probe.log": {
+          "bytes": 10813,
+          "sha256": "68a9dfdbe38ba7ac8bdb7443055bf737d28bbd611ffad91e55c141ab3ae95230"
+        }
+      }
+    },
+    "source_prepared": {
+      "status": "pass",
+      "revision": "27d447ae2823702b138c489ea3ac88bd31ca5b7c",
+      "selected_files_verified": 934,
+      "source_content_bytes": 12316833,
+      "git_state": "clean",
+      "scope": "Shallow sparse checkout of exact selected inputs, without unselected blobs/history"
+    },
+    "source_retired": {
+      "status": "pass",
+      "source_removed": true,
+      "nonce": "d908791f4fe549deb1aba5add8bd86e2"
+    },
+    "free_c_bytes": 97582673920
+  },
+  "host_backing_end_bytes": 28809625600,
+  "finished_at": "2026-10-18T07:56:39.4467214Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": false,
+  "exact_source": {
+    "revision": "27d447ae2823702b138c489ea3ac88bd31ca5b7c",
+    "content_bytes": 12316833,
+    "pack_bytes": 3879680,
+    "pack_sha256": "be56908d7e923449065219d9f0c53696e47d611c0c519622782a2c8402175176",
+    "git_objects": 3256
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "35aa0d664c90fad6677e6b0b19d339f1d65c8681377be49b55c334294d41a523",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "7123f4fb7423046664f99ac193b519978b530373f22044d0b945b29069e6c7d5",
+    "guest-source.py": "d66661f50057e3504849b4309965647e4c348fe929011358b1497f42ce8eba31",
+    "path-api-probe.py": "56e962c7347b15569dc8914ce438fefefea35b2401ea710f7b6b8bd2378f888b",
+    "run-proof.ps1": "50727833bc4bfac27dbf26ca4b4a044dd0dbeeb21e7c483bec623bfb9129f10a",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "4a3f455fb0716f6d6d2679f1bae69b84c505892d74c1e8011ae111f5cc352f63",
+    "source.pack": "be56908d7e923449065219d9f0c53696e47d611c0c519622782a2c8402175176"
+  },
+  "host_exit_code": 0,
+  "host_error_tail": ""
+}
