@@ -135,6 +135,47 @@ time.sleep(60)
         # Windows refuses this deletion while the descendant owns the open file.
         (self.work / 'held').unlink()
 
+    def test_native_temporary_path_is_writable_and_confined(self):
+        source = r'''
+import ctypes,json,pathlib
+from ctypes import wintypes as T
+k=ctypes.WinDLL('kernel32',use_last_error=True)
+k.GetTempPathW.argtypes=[T.DWORD,T.LPWSTR]
+k.CreateFileW.argtypes=[T.LPCWSTR,T.DWORD,T.DWORD,ctypes.c_void_p,T.DWORD,T.DWORD,T.HANDLE]
+k.CreateFileW.restype=T.HANDLE
+k.CloseHandle.argtypes=[T.HANDLE]
+k.DeleteFileW.argtypes=[T.LPCWSTR]
+buffer=ctypes.create_unicode_buffer(32768)
+length=k.GetTempPathW(len(buffer),buffer)
+assert 0<length<len(buffer)
+path=pathlib.Path(buffer.value)
+assert path.is_dir(), str(path)
+target=str(path/'native-temporary-file')
+handle=k.CreateFileW(target,0xc0010000,3,None,1,0x80,None)
+assert handle!=ctypes.c_void_p(-1).value, ctypes.get_last_error()
+assert k.CloseHandle(handle)
+assert k.DeleteFileW(target), ctypes.get_last_error()
+pathlib.Path('result.json').write_text(json.dumps(dict(native_temp=str(path),native_create_delete=True)))
+'''
+        self.launch(source)
+        result = self.result()
+        self.assertTrue(Path(result['native_temp']).resolve().is_relative_to(self.work))
+        self.assertTrue(result['native_create_delete'])
+
+    def test_replaced_native_temporary_directory_refused_before_launch(self):
+        self.worker = W.Worker(self.work, control=self.base)
+        temporary = self.worker.native_temp
+        temporary.rmdir()
+        subprocess.run(['cmd', '/d', '/c', 'mklink', '/J', str(temporary), str(self.outside)],
+                       check=True, capture_output=True, timeout=10)
+        self.job = S.WindowsJob()
+        try:
+            with self.assertRaisesRegex(ValueError, 'linked ancestor'):
+                self.worker.launch([sys.executable, '-B', '-c', 'raise SystemExit(99)'], dict(os.environ), self.job)
+            self.assertEqual(sorted(p.name for p in self.outside.iterdir()), ['sentinel'])
+        finally:
+            temporary.rmdir()
+
     def test_refuses_unowned_directory(self):
         with self.assertRaises(ValueError):
             W.Worker(self.outside)

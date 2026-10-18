@@ -1,0 +1,135 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "c038fb5069d342052e0d3623473010e1a4df3b5f",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/ntfs-name-order-command-prototype.json",
+    "spec/schemas/handoff.schema.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "tools/windows-worker.py",
+    "tests/tools/test_windows_worker.py",
+    "tools/workspace.py",
+    "tools/build-bootstrap.py",
+    "tools/workspace.cmake",
+    "tools/build-inputs.json",
+    "CMakeLists.txt",
+    "tools/ntfs-win32-fixture.py",
+    ".aide/evidence/2026-10-18-guest-capacity/README.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-native/README.md",
+    ".aide/evidence/2026-10-18-guest-native/compiler-campaign.py",
+    ".aide/evidence/2026-10-18-guest-native/compiler-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-native/compiler-driver.py",
+    ".aide/evidence/2026-10-18-guest-native/compiler-results.json",
+    ".aide/evidence/2026-10-18-guest-native/compiler.cpp",
+    ".aide/evidence/2026-10-18-guest-native/context.json",
+    ".aide/evidence/2026-10-18-guest-native/expected.json",
+    ".aide/evidence/2026-10-18-guest-native/final-observations.json",
+    ".aide/evidence/2026-10-18-guest-native/handoff.py",
+    ".aide/evidence/2026-10-18-guest-native/observations-index.json",
+    ".aide/evidence/2026-10-18-guest-native/observations.json.xz",
+    ".aide/evidence/2026-10-18-guest-native/observe.ps1",
+    ".aide/evidence/2026-10-18-guest-native/prepare-context.py",
+    ".aide/evidence/2026-10-18-guest-native/retain-results.py",
+    ".aide/evidence/2026-10-18-guest-native/source-snapshot-tests.json",
+    ".aide/evidence/2026-10-18-guest-native/source-snapshot.py",
+    ".aide/evidence/2026-10-18-guest-native/test-source-snapshot.py",
+    ".aide/evidence/2026-10-18-guest-native/tooling-checks.json",
+    ".aide/evidence/2026-10-18-guest-native/validate-tools.py",
+    ".aide/handoffs/2026-10-18-guest-native.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tests/tools/test_windows_worker.py",
+    "tools/windows-worker.py"
+  ],
+  "summary": "Pinned MSVC/SDK compiled, linked and launched retained static-runtime x64 and Win32 probes inside the proven guest cap. Both verified exact compiler/pointer/PE identity, AppContainer=1, elevation=0 and outside-write error5; direct imports and artifact hashes retained. Initial compiler D8018 and the subsequent native/Python temporary-path diagnostic are preserved in one verified compressed archive. Worker now creates its native package temporary directory in fresh owned work, validates it before reuse and refuses a replaced junction.106 tooling tests pass/one skip; seven actual tiny Git fixtures validate bounded exact shallow/sparse source transport without history or unselected blobs. Product sources are unchanged; actual DiskEd export/build/native supplement remains next. Image, objects, executables, mappings, guest source/report copy and context packs removed; no backing-file growth during successful compiler run. Agents primary, Codex spare; host UAC/shared VM resources unchanged. No product, owner or release qualification.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-native/validate-tools.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-native/tooling-checks.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-native/compiler-campaign.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-native/compiler-results.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-native/test-source-snapshot.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-native/source-snapshot-tests.json"
+    },
+    {
+      "command": "Current structure/manifest and fresh DE-W105 context generation/verification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-native/context.json"
+    },
+    {
+      "command": "Actual DiskEd source export/product build/eighteen-group private Win32 supplement",
+      "cwd": "BlackGlass-HyperV",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/compiler-results.json",
+      "sha256": "sha256:bf082893c5ae325f2efc7e880fc7d38c56cdc0a7b3e8130c9f0605b62ac8a987"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/compiler-cleanup.json",
+      "sha256": "sha256:c308a27024a1953139749e7856c98c1d04e8d0f83b91d402f09a7532f0baecd3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/tooling-checks.json",
+      "sha256": "sha256:a13ccbf1bf4c02261d95175f912e19edde4588466020735de0ef10c75f4d11e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/source-snapshot-tests.json",
+      "sha256": "sha256:b248cf48d50bd1eb7cc55276dbdfac4eaf12880bce4c12145d6b21496f44599f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/context.json",
+      "sha256": "sha256:9709527cee4b51d32225f4c0905e6caa5338284a9c9c61677dddc3a2a4903f35"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/final-observations.json",
+      "sha256": "sha256:1641180266c9de1659f29f623c29b0563bcc4d986fefc888cb3fcb555c07f1ca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/observations.json.xz",
+      "sha256": "sha256:49fd39497d7498fa1e703e879b26818b0d6c2f3a0b0947e23187f81126add3e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/observations-index.json",
+      "sha256": "sha256:fb51745e298434ae639d9202c13f1736f74c0a03fb57b68ac704a8b2e1603d95"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-native/README.md",
+      "sha256": "sha256:690221c339be557ecbb2b46d270d5d810af4fd62da50c39f464f8d2359422708"
+    }
+  ],
+  "blockers": [
+    "Actual clean DiskEd snapshot/export/product build and DE-W105 private Win32 supplement remain unrun; no missing account, UAC or compiler-probe authority.",
+    "Native direct-import observations do not establish transitive dependencies, full product or other-platform support."
+  ],
+  "next_safe_step": "From a clean checkpoint export the exact selected source with the tested bounded shallow/sparse helper. Materialize it in the Agents guest, create one bounded512MiB worker workspace and obtain a pinned x64 CMake File API codemodel. Build/qualify the private Win32 fixture with all18 groups/12 headers/9 executable observations, retaining compact source-bound results and cleaning disposable output. Keep original broader0.1.0/owner/storage/release gates real.",
+  "performed_remote_writes": false
+}

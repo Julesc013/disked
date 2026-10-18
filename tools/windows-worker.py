@@ -357,6 +357,14 @@ class Worker:
                 raise ValueError('Unsupported junction path characters')
             subprocess.run(['cmd', '/d', '/c', 'mklink', '/J', str(self.profile_path), str(target)],
                            check=True, capture_output=True, timeout=10)
+            # Create this once while work is still freshly owned, before any
+            # child can populate it. Later launches only validate this path;
+            # they must not create directories through a replaced junction.
+            local = self.work / 'local'
+            local.mkdir()
+            self.native_temp = local / 'Packages' / self.profile_name / 'AC' / 'Temp'
+            self.native_temp.mkdir(parents=True)
+            plain_directory(self.native_temp)
             station_name, needed = ctypes.create_unicode_buffer(256), T.DWORD()
             require(self.u.GetUserObjectInformationW(self.u.GetProcessWindowStation(), 2,
                     station_name, ctypes.sizeof(station_name), ctypes.byref(needed)))
@@ -454,8 +462,17 @@ class Worker:
             startup.startup.stdin = handles[1]
             startup.startup.stdout = startup.startup.stderr = handles[0]
             startup.attributes = ctypes.addressof(attributes)
-            env = dict(env, LOCALAPPDATA=str(self.work / 'local'), APPDATA=str(self.work / 'roaming'),
-                       USERPROFILE=str(self.work / 'profile'))
+            # Windows rewrites AppContainer TMP/TEMP to this package-specific
+            # directory during native module initialization. Python may retain
+            # an earlier environment snapshot, so merely setting TMP is not
+            # enough for native compilers/GetTempPathW. Provision the exact
+            # confined directory and give both views the same initial path.
+            local = self.work / 'local'
+            native_temp = self.native_temp
+            plain_directory(native_temp)
+            env = dict(env, LOCALAPPDATA=str(local), APPDATA=str(self.work / 'roaming'),
+                       USERPROFILE=str(self.work / 'profile'),
+                       TMP=str(native_temp), TEMP=str(native_temp), TMPDIR=str(native_temp))
             block = ctypes.create_unicode_buffer('\0'.join(k + '=' + str(v) for k, v in
                     sorted(env.items(), key=lambda row: row[0].upper())) + '\0\0')
             line = ctypes.create_unicode_buffer(subprocess.list2cmdline(command))

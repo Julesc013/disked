@@ -1,0 +1,324 @@
+{
+  "schema": "org.disked.guest-native-campaign/1",
+  "started_at": "2026-10-18T05:40:57.8563962Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "c038fb5069d342052e0d3623473010e1a4df3b5f",
+    "files": [
+      {
+        "path": "compiler.cpp",
+        "bytes": 1601,
+        "sha256": "25FEC258FE96BF0BDEBEF2E0C880784D78927E6013089033BD8B635DED3BDE01"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 10034,
+        "sha256": "FFD856EEEBA6685F6C5750B7C2785E46C125BA349C1B756EAF63C6C7E0644FE4"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10177,
+        "sha256": "97AB411CF414F5537A193BBC258BDE198B5760FE346F99F2C63633E4722D7D3A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 1442,
+        "sha256": "C527D9446B1B9D74C6A7483DDCC3C8597CEB0D4FCFCBA016E3F5CC3F373CCEDB"
+      }
+    ]
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T05:41:01.7694837Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "4F0594F60B635E49BB11DDDD1D4902AA",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.d39595c94df1457cba58b700d4e801ae",
+            "sid": "S-1-15-2-2855894418-2995236379-483310714-944849036-506180657-1900902250-3788334093"
+          },
+          {
+            "name": "org.disked.worker.82bf7bb962b046efb24c18fff5630f3f",
+            "sid": "S-1-15-2-4123059929-4158682164-3179319575-3666860229-1662650491-1448315642-934836152"
+          },
+          {
+            "name": "org.disked.worker.eca8d00f970e4aa682e4dffc99702802",
+            "sid": "S-1-15-2-2502172992-3301730319-3016351635-3997227891-3235347384-956834903-3996310976"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-2855894418-2995236379-483310714-944849036-506180657-1900902250-3788334093)(A;;0x1301bf;;;S-1-15-2-4123059929-4158682164-3179319575-3666860229-1662650491-1448315642-934836152)(A;;0x1301bf;;;S-1-15-2-2502172992-3301730319-3016351635-3997227891-3235347384-956834903-3996310976)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "600224804F0594F60B63DDDD1D4902AA",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 288, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "finished_at": "2026-10-18T05:41:29.8105712Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-compiler-qualification/1",
+      "status": "pass",
+      "native_product_tests_run": false,
+      "native_compiler_tests_run": true,
+      "source_cpp_sha256": "25fec258fe96bf0bdebef2e0c880784d78927e6013089033bd8b635ded3bde01",
+      "architectures": {
+        "x64": {
+          "status": "pass",
+          "commands": [
+            {
+              "label": "environment",
+              "arguments": [
+                "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+                "-B",
+                "-c",
+                "\nimport ctypes,json,os,pathlib,tempfile\nk=ctypes.WinDLL('kernel32',use_last_error=True)\nk.GetTempPathW.argtypes=[ctypes.c_ulong,ctypes.c_wchar_p]\nbuffer=ctypes.create_unicode_buffer(32768)\nlength=k.GetTempPathW(len(buffer),buffer)\nif not 0<length<len(buffer): raise ctypes.WinError(ctypes.get_last_error())\npath=pathlib.Path(buffer.value)\nresult=dict(native_temp=str(path),python_temp=tempfile.gettempdir(),exists=path.is_dir(),environment={key:os.environ.get(key) for key in ('TMP','TEMP','LOCALAPPDATA','USERPROFILE')})\nprint(json.dumps(result),flush=True)\n"
+              ],
+              "pid": 6028,
+              "exit_code": 0,
+              "seconds": 0.21676229999957286,
+              "output_sha256": "2c5f4d9cb0c003c5b598c1f4af06495ade2ba54feef2b9b823a5c75f1dd32dc4"
+            },
+            {
+              "label": "compile",
+              "arguments": [
+                "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+                "/Bv",
+                "/nologo",
+                "/std:c++14",
+                "/W4",
+                "/WX",
+                "/MT",
+                "/O2",
+                "/EHsc",
+                "/GS",
+                "/sdl",
+                "/guard:cf",
+                "/permissive-",
+                "/utf-8",
+                "/D_WIN32_WINNT=0x0A00",
+                "/FoR:\\work\\x64\\compiler.obj",
+                "/FeR:\\work\\x64\\compiler-x64.exe",
+                "R:\\work\\x64\\compiler.cpp",
+                "advapi32.lib",
+                "/link",
+                "/DYNAMICBASE",
+                "/NXCOMPAT",
+                "/guard:cf"
+              ],
+              "pid": 6968,
+              "exit_code": 0,
+              "seconds": 7.677411300000131,
+              "output_sha256": "167e757b06767c59b210263896558e775aafa46e80b088b1d0aa8eb3369256dc"
+            },
+            {
+              "label": "launch",
+              "arguments": [
+                "R:\\work\\x64\\compiler-x64.exe",
+                "C:\\Users\\Agents\\AppData\\Local\\Temp\\disked-work-fb0f5d76366cfa1c-kdt9w07w\\compiler-outside\\x64"
+              ],
+              "pid": 6944,
+              "exit_code": 0,
+              "seconds": 0.10187020000012126,
+              "output_sha256": "2ace88ddc0c59d0de214325b34e0e6f9978959e630ae499a3ab6af3452ea58a8"
+            },
+            {
+              "label": "imports",
+              "arguments": [
+                "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+                "/nologo",
+                "/dependents",
+                "R:\\work\\x64\\compiler-x64.exe"
+              ],
+              "pid": 2260,
+              "exit_code": 0,
+              "seconds": 0.15307680000023538,
+              "output_sha256": "ba8f9d86187bcef4d39d5b0a0deff6de799d62f7c40048034dd9abea0121d931"
+            }
+          ],
+          "temporary_paths": {
+            "native_temp": "R:\\work\\x64\\local\\Packages\\org.disked.worker.d39595c94df1457cba58b700d4e801ae\\AC\\Temp",
+            "python_temp": "R:\\work\\x64\\local\\Packages\\org.disked.worker.d39595c94df1457cba58b700d4e801ae\\AC\\Temp",
+            "exists": true,
+            "environment": {
+              "TMP": "R:\\work\\x64\\local\\Packages\\org.disked.worker.d39595c94df1457cba58b700d4e801ae\\AC\\Temp",
+              "TEMP": "R:\\work\\x64\\local\\Packages\\org.disked.worker.d39595c94df1457cba58b700d4e801ae\\AC\\Temp",
+              "LOCALAPPDATA": "R:\\work\\x64\\local\\Packages\\org.disked.worker.d39595c94df1457cba58b700d4e801ae\\AC",
+              "USERPROFILE": "R:\\work\\x64\\profile"
+            }
+          },
+          "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+          "artifact_sha256": "2f57f582f0de1685b60d9c8005dfc50e1bce5b50dc21d8b0ddee448e98c5be06",
+          "pe_machine": "0x8664",
+          "launch": {
+            "pointer_bits": 64,
+            "msc_full_ver": 194435228,
+            "appcontainer": 1,
+            "elevated": 0,
+            "outside_error": 5,
+            "volume_bytes": 535752704
+          },
+          "output_files": 34
+        },
+        "x86": {
+          "status": "pass",
+          "commands": [
+            {
+              "label": "environment",
+              "arguments": [
+                "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+                "-B",
+                "-c",
+                "\nimport ctypes,json,os,pathlib,tempfile\nk=ctypes.WinDLL('kernel32',use_last_error=True)\nk.GetTempPathW.argtypes=[ctypes.c_ulong,ctypes.c_wchar_p]\nbuffer=ctypes.create_unicode_buffer(32768)\nlength=k.GetTempPathW(len(buffer),buffer)\nif not 0<length<len(buffer): raise ctypes.WinError(ctypes.get_last_error())\npath=pathlib.Path(buffer.value)\nresult=dict(native_temp=str(path),python_temp=tempfile.gettempdir(),exists=path.is_dir(),environment={key:os.environ.get(key) for key in ('TMP','TEMP','LOCALAPPDATA','USERPROFILE')})\nprint(json.dumps(result),flush=True)\n"
+              ],
+              "pid": 6344,
+              "exit_code": 0,
+              "seconds": 0.20992109999951936,
+              "output_sha256": "a6b073a7a3b8a98ec86992efc1450e84de18f081fb265b111bd5e529e4971eba"
+            },
+            {
+              "label": "compile",
+              "arguments": [
+                "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\cl.exe",
+                "/Bv",
+                "/nologo",
+                "/std:c++14",
+                "/W4",
+                "/WX",
+                "/MT",
+                "/O2",
+                "/EHsc",
+                "/GS",
+                "/sdl",
+                "/guard:cf",
+                "/permissive-",
+                "/utf-8",
+                "/D_WIN32_WINNT=0x0A00",
+                "/FoR:\\work\\x86\\compiler.obj",
+                "/FeR:\\work\\x86\\compiler-x86.exe",
+                "R:\\work\\x86\\compiler.cpp",
+                "advapi32.lib",
+                "/link",
+                "/DYNAMICBASE",
+                "/NXCOMPAT",
+                "/guard:cf"
+              ],
+              "pid": 6576,
+              "exit_code": 0,
+              "seconds": 3.5118288000003304,
+              "output_sha256": "cfcb6bfe406c080fe92b993b5110817446d91391533f770ff9e8a8d61c993ba9"
+            },
+            {
+              "label": "launch",
+              "arguments": [
+                "R:\\work\\x86\\compiler-x86.exe",
+                "C:\\Users\\Agents\\AppData\\Local\\Temp\\disked-work-fb0f5d76366cfa1c-kdt9w07w\\compiler-outside\\x86"
+              ],
+              "pid": 5580,
+              "exit_code": 0,
+              "seconds": 0.23954580000008718,
+              "output_sha256": "3bb66a7ba29bbdaaf169976ce88797021a60a61c08500f5c33101364872c15c8"
+            },
+            {
+              "label": "imports",
+              "arguments": [
+                "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+                "/nologo",
+                "/dependents",
+                "R:\\work\\x86\\compiler-x86.exe"
+              ],
+              "pid": 2600,
+              "exit_code": 0,
+              "seconds": 0.09058149999964371,
+              "output_sha256": "5d6a44e237aff23540662915577142a6ad99a2c20411d8419f9fa456df56fa35"
+            }
+          ],
+          "temporary_paths": {
+            "native_temp": "R:\\work\\x86\\local\\Packages\\org.disked.worker.82bf7bb962b046efb24c18fff5630f3f\\AC\\Temp",
+            "python_temp": "R:\\work\\x86\\local\\Packages\\org.disked.worker.82bf7bb962b046efb24c18fff5630f3f\\AC\\Temp",
+            "exists": true,
+            "environment": {
+              "TMP": "R:\\work\\x86\\local\\Packages\\org.disked.worker.82bf7bb962b046efb24c18fff5630f3f\\AC\\Temp",
+              "TEMP": "R:\\work\\x86\\local\\Packages\\org.disked.worker.82bf7bb962b046efb24c18fff5630f3f\\AC\\Temp",
+              "LOCALAPPDATA": "R:\\work\\x86\\local\\Packages\\org.disked.worker.82bf7bb962b046efb24c18fff5630f3f\\AC",
+              "USERPROFILE": "R:\\work\\x86\\profile"
+            }
+          },
+          "compiler_sha256": "7e970b6b42e87a5b4b4e4ee41034cf20f3573d948a4a92055d1b1bbe5e473cb1",
+          "artifact_sha256": "eae4329f29c2a4017d27b4b9e88a9625040d54ab45410b70a94936c802e0667e",
+          "pe_machine": "0x14c",
+          "launch": {
+            "pointer_bits": 32,
+            "msc_full_ver": 194435228,
+            "appcontainer": 1,
+            "elevated": 0,
+            "outside_error": 5,
+            "volume_bytes": 535752704
+          },
+          "output_files": 34
+        }
+      },
+      "capacity": {
+        "total": 535752704,
+        "used": 17027072,
+        "free": 518725632
+      },
+      "outside_unchanged": true,
+      "profiles_retired": true
+    },
+    "free_c_bytes": 97584517120
+  },
+  "host_backing_end_bytes": 28809625600,
+  "finished_at": "2026-10-18T05:41:30.3337241Z",
+  "generated_bootstrap_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "6832d92b8432240cdb9f5129976ea25173916434b28d6c8c9ac8665d8548f901",
+    "compiler.cpp": "25fec258fe96bf0bdebef2e0c880784d78927e6013089033bd8b635ded3bde01",
+    "expected.json": "c527d9446b1b9d74c6a7483ddcc3c8597ceb0d4fcfcba016e3f5cc3f373ccedb",
+    "guest-proof.ps1": "97ab411cf414f5537a193bbc258bde198b5760fe346f99f2c63633e4722d7d3a",
+    "guest-proof.py": "ffd856eeeba6685f6c5750b7c2785e46c125ba349c1b756eaf63c6c7e0644fe4",
+    "run-proof.ps1": "ff59647301406ac73f72a91c8260537d65337dc1bce6cd6c9197c87b2ad4fef6"
+  },
+  "bootstrap_source_revision": "c038fb5069d342052e0d3623473010e1a4df3b5f",
+  "source_adaptation": "Qualified fixed-guest setup unchanged; native payload and compiler.cpp source selected. Host root fixed for managed staging; additional 1 GiB shared-backing growth admission.",
+  "host_command_exit_code": 0,
+  "raw_archive": "observations.json.xz",
+  "raw_original_sha256": "bdcb981cd129a39b68e631081db3b1872dbadb91bb6bc0d365c7dd3a3931ab8b"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "org.disked.guest-native-expectations/1",
+  "base_revision": "c038fb5069d342052e0d3623473010e1a4df3b5f",
+  "work_id": "DE-W105",
+  "scope": "Compiler execution and SDK/static-runtime/launch qualification before product build",
+  "guest": "BLACKGLASS-HYPE\\Agents",
+  "capacity_mib": 512,
+  "compiler_version": "19.44.35228.0",
+  "msc_full_ver": 194435228,
+  "toolset": "14.44.35207",
+  "sdk": "10.0.19041.0",
+  "architectures": {"x64": 64, "x86": 32},
+  "runtime": "static /MT",
+  "required": [
+    "Actual pinned compiler launches and compiles the retained source with warnings as errors.",
+    "Each resulting executable launches inside the confined worker and reports its actual pointer width and compiler identity.",
+    "Both executables report AppContainer=1, elevation=0 and outside write denied with error 5.",
+    "Actual working filesystem capacity is at most 512 MiB; compiler TEMP/output stays in its owned work.",
+    "Retain exact commands, bounded compiler/import/launch observations, executable hashes and PE machine identities.",
+    "No physical storage, host test media, shared toolchain ACL changes, installation or guest reboot.",
+    "Owned processes/profiles are retired before image removal; uncertainty preserves the bounded image.",
+    "Remove generated executables, objects, image and temporary transfers; retain compact evidence only."
+  ],
+  "product_build": "not_run",
+  "owner_accepted": false
+}

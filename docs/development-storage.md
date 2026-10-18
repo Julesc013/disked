@@ -51,6 +51,14 @@ runtime without site-packages, caches or an installer. Its transfer archive was
 removed. It changes neither the global PATH nor registry; additional coordinator
 dependencies and every actual compiler/build claim remain separate work.
 
+The subsequent [restricted compiler checkpoint](../.aide/evidence/2026-10-18-guest-native/README.md)
+compiled and launched x64 and Win32 probes with the pinned compiler/SDK/static
+runtime, verified non-elevated confinement, retained direct-import observations
+and removed its outputs. It exposed a missing native AppContainer temporary
+directory: the worker now provisions that directory inside fresh owned work and
+validates it before each launch. This is compiler/bootstrap evidence; the actual
+DiskEd source snapshot, product build and remaining native tests are still next.
+
 ### One-time guest connection setup
 
 The Agents guest administrator and its encrypted host-side credential are now
