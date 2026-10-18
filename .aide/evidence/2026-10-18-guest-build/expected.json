@@ -1,0 +1,27 @@
+{
+  "schema": "org.disked.guest-build-expectations/1",
+  "work_id": "DE-W105",
+  "source_revision": "resolved from the exact clean committed export at campaign start",
+  "guest_identity": "BLACKGLASS-HYPE\\Agents",
+  "capacity_mib": 512,
+  "source_storage_limit_bytes": 100663296,
+  "retained_compressed_limit_bytes": 33554432,
+  "combined_disposable_limit_bytes": 1073741824,
+  "compiler": "19.44.35228.0",
+  "toolset": "14.44.35207",
+  "sdk": "10.0.19041.0",
+  "required": [
+    "Materialized selected source matches every exported Git blob and reports the exact clean Git revision.",
+    "Use the source's own workspace runner and worker module so ownership and recovery journals agree.",
+    "Source is read-only to the package worker; native output and temporary paths stay on the capped filesystem.",
+    "The pinned x64 CMake configure produces an actual same-source File API codemodel.",
+    "The fixture generator preserves exactly 18 groups, 12 header probes and 9 executable targets.",
+    "Configure/build the Win32 fixture without changing its compiler, SDK, flags or per-test timeouts.",
+    "Run every registered fixture group serially, retaining bounded compressed observations before deleting its completed output.",
+    "Record actual direct imports, executable hashes/machines, commands and test outcomes; no skipped group is a pass.",
+    "Retire owned jobs and profiles before image/source cleanup. Uncertain retirement preserves bounded output for recovery."
+  ],
+  "full_x64_product_build_and_suite": "still required separately; x64 configure is not a product build",
+  "owner_accepted": false,
+  "release_qualified": false
+}
