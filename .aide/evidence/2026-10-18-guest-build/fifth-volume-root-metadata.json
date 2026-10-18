@@ -1,0 +1,305 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T06:41:35.9463679Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "base_revision": "3f18a2879d44b76179f9fdb63ea339aaf59604f9",
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3874934,
+        "sha256": "5A7BCB0C0F3FE7638AA62B4B4A22B9266B20F87646AFC0C34E0FFD336DE32F23"
+      },
+      {
+        "path": "source.json",
+        "bytes": 222417,
+        "sha256": "6BC217F6DBF7869408BBDFB57C504CE19127FF034786C65397856DB8F25459F5"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 4965,
+        "sha256": "2BA789FC49B37746E9B8ABE0A08DCFF48217FA9DBC4B0FADDC13D952B5E96D2E"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 18436,
+        "sha256": "80A761B6DDD9FE2C5FD0C350905E466A681776B7DAFA74511C1608FACE22ABE7"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 1702,
+        "sha256": "E238985084EEA58C5463E2915EEE19A3D8563DA5C31F5508DC01857B7A0A7C64"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T06:41:39.9948607Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "8C9219FA094DBD448F281A8E2013E630",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.0cf92bf9a7524375acd76190752db04a",
+            "sid": "S-1-15-2-3675607194-3565277199-819804887-3991291610-4047328073-2417923373-3525563351"
+          },
+          {
+            "name": "org.disked.worker.1067b6971b8842c4a34057418edf9ea3",
+            "sid": "S-1-15-2-2870233655-1612241673-2973030605-119442204-4140646318-142973492-1444375675"
+          },
+          {
+            "name": "org.disked.worker.bcb1f5ecabb94e60884cda84905b8422",
+            "sid": "S-1-15-2-226130118-2084020308-1629390780-1632018421-1780294199-2938533187-1625737864"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-3675607194-3565277199-819804887-3991291610-4047328073-2417923373-3525563351)(A;;0x1301bf;;;S-1-15-2-2870233655-1612241673-2973030605-119442204-4140646318-142973492-1444375675)(A;;0x1301bf;;;S-1-15-2-226130118-2084020308-1629390780-1632018421-1780294199-2938533187-1625737864)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "600224808C9219FA094D1A8E2013E630",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 291, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "finished_at": "2026-10-18T06:42:29.2320129Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-win32-qualification/1",
+      "status": "fail",
+      "source_revision": "3f18a2879d44b76179f9fdb63ea339aaf59604f9",
+      "commands": [
+        {
+          "label": "source-confinement",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport ctypes,json,pathlib,sys\nfrom ctypes import wintypes as T\nk=ctypes.WinDLL('kernel32',use_last_error=True);a=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE;a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\nk.CloseHandle.argtypes=[T.HANDLE];token=T.HANDLE();n=T.DWORD();e=T.DWORD();c=T.DWORD()\nassert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))\nassert a.GetTokenInformation(token,20,ctypes.byref(e),4,ctypes.byref(n));assert a.GetTokenInformation(token,29,ctypes.byref(c),4,ctypes.byref(n));k.CloseHandle(token)\ndenied=False\ntry:pathlib.Path(sys.argv[1]).write_bytes(b'unexpected')\nexcept PermissionError:denied=True\nprint(json.dumps(dict(elevated=e.value,appcontainer=c.value,source_write_denied=denied)))\nassert e.value==0 and c.value==1 and denied\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\forbidden-write"
+          ],
+          "pid": 1468,
+          "exit_code": 0,
+          "seconds": 0.18465280000054918,
+          "log_sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"elevated\": 0, \"appcontainer\": 1, \"source_write_denied\": true}\r\n"
+        },
+        {
+          "label": "msbuild-version",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "-version"
+          ],
+          "pid": 6924,
+          "exit_code": 0,
+          "seconds": 0.17238939999879221,
+          "log_sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de",
+          "tail": "17.14.51.32402\r\n"
+        },
+        {
+          "label": "common-data-before",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 1064,
+          "exit_code": 0,
+          "seconds": 0.16642339999998512,
+          "log_sha256": "9cb358f515d90ed3def3888adcf64a232daf787b3d2bb767aae2c401bf853dc9",
+          "tail": "Build started 18/10/2026 5:41:56 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.03\r\n"
+        },
+        {
+          "label": "common-data-after",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 4532,
+          "exit_code": 0,
+          "seconds": 0.1659685000013269,
+          "log_sha256": "2c1884f8798eac895bb0e3f763ec96a4bba269ceeee7220484be6ce98aa6da76",
+          "tail": "Build started 18/10/2026 5:41:57 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[C:\\ProgramData]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.03\r\n"
+        },
+        {
+          "label": "configure-x64",
+          "arguments": [
+            "C:/Program Files/CMake/bin/cmake.exe",
+            "--preset",
+            "windows-bootstrap",
+            "-S",
+            "C:\\ProgramData\\DiskEd\\qualification\\source",
+            "-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0",
+            "-DPython3_EXECUTABLE=C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe"
+          ],
+          "pid": 2184,
+          "exit_code": 0,
+          "seconds": 18.894770899998548,
+          "log_sha256": "d1028c13ed30425e79d93f1fd4fadaf6c31c762ae9fcf09c3229227da694382a",
+          "tail": "Preset CMake variables:\n\n  BUILD_TESTING=\"ON\"\n  CMAKE_CONFIGURATION_TYPES=\"Release\"\n  CMAKE_SYSTEM_VERSION=\"10.0.19041.0\"\n\n-- The C compiler identification is MSVC 19.44.35228.0\n-- The CXX compiler identification is MSVC 19.44.35228.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Found Python3: C:\\ProgramData\\DiskEd\\python314\\python.exe (found suitable version \"3.14.7\", minimum required is \"3.10\") found components: Interpreter\n-- Found Git: C:/Program Files/Git/cmd/git.exe\n-- Configuring done (14.9s)\n-- Generating done (1.6s)\n-- Build files have been written to: R:/work/build/build\n"
+        },
+        {
+          "label": "fixture",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tools\\ntfs-win32-fixture.py",
+            "--root",
+            "C:\\ProgramData\\DiskEd\\qualification\\source",
+            "--build",
+            "R:\\work\\build\\build",
+            "--output",
+            "R:\\work\\build\\win32-fixture"
+          ],
+          "pid": 2088,
+          "exit_code": 2,
+          "seconds": 0.32189740000103484,
+          "log_sha256": "75d703a1827125f45cf8b5f3252581eb32beb5cf2b4d7eb7286c8b5def4ce2a8",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\nFixture preparation refused: [WinError 5] Access is denied: 'C:\\\\'\r\n"
+        }
+      ],
+      "tests": [],
+      "executables": {},
+      "full_x64_product_suite_run": false,
+      "owner_accepted": false,
+      "source_confinement": {
+        "elevated": 0,
+        "appcontainer": 1,
+        "source_write_denied": true
+      },
+      "common_data_access": [
+        {
+          "added": true,
+          "sid": "S-1-15-2-3675607194-3565277199-819804887-3991291610-4047328073-2417923373-3525563351",
+          "paths": [
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        },
+        {
+          "added": false,
+          "sid": "S-1-15-2-3675607194-3565277199-819804887-3991291610-4047328073-2417923373-3525563351",
+          "paths": [
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        }
+      ],
+      "error": "fixture failed: Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\nFixture preparation refused: [WinError 5] Access is denied: 'C:\\\\'\r\n",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 243, in main\n    run('fixture', [python, '-B', SOURCE / 'tools/ntfs-win32-fixture.py', '--root', SOURCE,\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                    '--build', work / 'build', '--output', work / 'win32-fixture'])\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 158, in run\n    raise RuntimeError(label + ' failed: ' + raw[-8192:].decode(errors='replace'))\nRuntimeError: fixture failed: Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\nFixture preparation refused: [WinError 5] Access is denied: 'C:\\\\'\r\n\n",
+      "archive_sha256": "1c748aa8ebdb1a5be202e6b27663e10ce716cba202a9b2c234c2fd499c15bde6",
+      "archive_bytes": 3560,
+      "archive_entries": {
+        "source-confinement.log": {
+          "bytes": 140,
+          "sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c"
+        },
+        "msbuild-version.log": {
+          "bytes": 16,
+          "sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de"
+        },
+        "common-data-before.log": {
+          "bytes": 290,
+          "sha256": "9cb358f515d90ed3def3888adcf64a232daf787b3d2bb767aae2c401bf853dc9"
+        },
+        "common-data-after.log": {
+          "bytes": 304,
+          "sha256": "2c1884f8798eac895bb0e3f763ec96a4bba269ceeee7220484be6ce98aa6da76"
+        },
+        "configure-x64.log": {
+          "bytes": 1056,
+          "sha256": "d1028c13ed30425e79d93f1fd4fadaf6c31c762ae9fcf09c3229227da694382a"
+        },
+        "fixture.log": {
+          "bytes": 143,
+          "sha256": "75d703a1827125f45cf8b5f3252581eb32beb5cf2b4d7eb7286c8b5def4ce2a8"
+        },
+        "diagnostics/build-CMakeConfigureLog.yaml": {
+          "bytes": 19090,
+          "sha256": "69f27997210fecbb49be0e7f8c7595d91b40f86b3d692a770a9d22f3fe00a24a"
+        }
+      }
+    },
+    "free_c_bytes": 97583202304
+  },
+  "host_backing_end_bytes": 28809625600,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-18T06:42:30.3118676Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": false,
+  "exact_source": {
+    "revision": "3f18a2879d44b76179f9fdb63ea339aaf59604f9",
+    "content_bytes": 12303700,
+    "pack_bytes": 3874934,
+    "pack_sha256": "5a7bcb0c0f3fe7638aa62b4b4a22b9266b20f87646afc0c34e0ffd336de32f23",
+    "git_objects": 3252
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "e238985084eea58c5463e2915eee19a3d8563da5c31f5508dc01857b7a0a7c64",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "80a761b6ddd9fe2c5fd0c350905e466a681776b7dafa74511c1608face22abe7",
+    "guest-source.py": "2ba789fc49b37746e9b8abe0a08dcff48217fa9dbc4b0faddc13d952b5e96d2e",
+    "run-proof.ps1": "acc31669bb5bac10a6611154a9ef42987bca9baff9e265bc79099c363bcbbc4d",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "6bc217f6dbf7869408bbdfb57c504ce19127ff034786c65397856db8f25459f5",
+    "source.pack": "5a7bcb0c0f3fe7638aa62b4b4a22b9266b20f87646afc0c34e0ffd336de32f23"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-yb7ey8sr\\guest-bootstrap\\run-proof.ps1:73\r\nLine |\r\n  73 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

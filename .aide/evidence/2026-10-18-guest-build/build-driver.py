@@ -87,6 +87,7 @@ def main():
               'full_x64_product_suite_run': False, 'owner_accepted': False}
     worker = None
     archive = None
+    common_data_grant = False
     retained = work / 'retained'
     retained.mkdir()
     archive_path = retained / 'observations.tar.xz'
@@ -184,6 +185,40 @@ def main():
                         archive.writestr(label + '-incomplete.log', log.read_bytes()[:524288])
                     log.unlink()
 
+        def common_data_access(add):
+            nonlocal common_data_grant
+            # Only this fresh package identity, only directory read/execute,
+            # never inheritance. Do not restore an old whole DACL over another
+            # agent's concurrent changes; remove our exact rule instead.
+            sid = worker.restricting_sid
+            if not re.fullmatch(r'S-1-15-2-(?:[0-9]+-)*[0-9]+', sid):
+                raise RuntimeError('Invalid fresh package identity')
+            paths = [str(Path('C:/')), str(Path('C:/ProgramData')), str(Path('C:/ProgramData/DiskEd')), str(ROOT)]
+            journal = ROOT / 'scoped-directory-access.json'
+            state_record = {'nonce': state['nonce'], 'sid': sid, 'paths': paths, 'phase': 'pending' if add else 'removing'}
+            journal.write_text(json.dumps(state_record)+'\n', encoding='utf-8', newline='\n')
+            # SetFileSecurity deliberately updates this directory only. The
+            # generic Set-Acl path can walk existing children on a volume root.
+            # These temporary non-inheriting rules must never do that.
+            api = "Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class DiskEdDirectoryAcl{[DllImport(\"advapi32.dll\",CharSet=CharSet.Unicode,SetLastError=true)]public static extern bool SetFileSecurity(string path,uint info,byte[] descriptor);}';"
+            literal_paths = ','.join("'"+p.replace("'", "''")+"'" for p in paths)
+            script = "$ErrorActionPreference='Stop';"+api+"$sid=[Security.Principal.SecurityIdentifier]::new('"+sid+"');$rule=[Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]::None,[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow);foreach($path in @("+literal_paths+")){$path=[IO.Path]::GetFullPath($path);$acl=Get-Acl -LiteralPath $path;"
+            script += ('$acl.AddAccessRule($rule);' if add else 'if(-not @($acl.Access|Where-Object{$_.IdentityReference.Value-eq$sid.Value}).Count){continue};$acl.RemoveAccessRuleSpecific($rule);')
+            script += 'if(-not[DiskEdDirectoryAcl]::SetFileSecurity($path,4,$acl.GetSecurityDescriptorBinaryForm())){throw [ComponentModel.Win32Exception]::new([Runtime.InteropServices.Marshal]::GetLastWin32Error())}}'
+            import subprocess
+            # Partial admission must also be retired by finally/recovery.
+            if add:
+                common_data_grant = True
+            changed = subprocess.run([str(Path(os.environ['WINDIR']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'),
+                                      '-NoProfile', '-Command', script], capture_output=True, timeout=30)
+            if changed.returncode:
+                raise RuntimeError('Scoped common-data access update failed: ' + changed.stderr.decode(errors='replace'))
+            common_data_grant = add
+            state_record['phase'] = 'active' if add else 'retired'
+            journal.write_text(json.dumps(state_record)+'\n', encoding='utf-8', newline='\n')
+            result.setdefault('common_data_access', []).append({'added': add, 'sid': sid, 'paths': paths,
+                                                               'rights': 'ReadAndExecute', 'inheritance': 'None'})
+
         probe = r'''
 import ctypes,json,pathlib,sys
 from ctypes import wintypes as T
@@ -201,9 +236,28 @@ assert e.value==0 and c.value==1 and denied
 '''
         _, raw = run('source-confinement', [python, '-B', '-c', probe, SOURCE / 'forbidden-write'])
         result['source_confinement'] = json.loads(raw.decode().splitlines()[-1])
+        run('msbuild-version', ['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe', '-nologo', '-version'], timeout=60, allow_failure=True)
+        folder_project = work / 'folders.proj'
+        folder_project.write_text('''<Project DefaultTargets="Observe"><PropertyGroup><Common>$([System.Environment]::GetFolderPath(SpecialFolder.CommonApplicationData))</Common></PropertyGroup><Target Name="Observe"><Message Importance="high" Text="DISKED_COMMON=[$(Common)]" /></Target></Project>''', encoding='utf-8')
+        _, before = run('common-data-before', ['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe', '-nologo', folder_project], timeout=60)
+        if b'DISKED_COMMON=[]' in before:
+            common_data_access(True)
+            _, after = run('common-data-after', ['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe', '-nologo', folder_project], timeout=60)
+            if b'DISKED_COMMON=[]' in after:
+                raise RuntimeError('Scoped directory read did not resolve the common-data path')
         run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
                              '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
                              '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
+        metadata_bytes = 0
+        metadata = sorted((work / 'build/.cmake/api/v1/reply').glob('*.json'))
+        if not metadata or len(metadata) > 4096:
+            raise RuntimeError('Missing or excessive CMake File API metadata')
+        for path in metadata:
+            size = path.stat().st_size
+            metadata_bytes += size
+            if size > 1048576 or metadata_bytes > 8388608:
+                raise RuntimeError('CMake File API retention exceeds declared bound')
+            archive.write(path, 'codemodel/' + path.name)
         run('fixture', [python, '-B', SOURCE / 'tools/ntfs-win32-fixture.py', '--root', SOURCE,
                         '--build', work / 'build', '--output', work / 'win32-fixture'])
         fixture = json.loads((work / 'win32-fixture/fixture-inputs.json').read_bytes())
@@ -243,10 +297,24 @@ assert e.value==0 and c.value==1 and denied
         result['status'] = 'pass'
     except BaseException as error:
         result.update(status='fail', error=str(error), traceback=traceback.format_exc())
+        if archive:
+            for directory in (work / 'build', work / 'win32-build'):
+                for name in ('CMakeConfigureLog.yaml', 'CMakeError.log', 'CMakeOutput.log'):
+                    path = directory / 'CMakeFiles' / name
+                    if path.is_file() and path.stat().st_size <= 1048576:
+                        archive.write(path, 'diagnostics/' + directory.name + '-' + name)
     finally:
+        try:
+            if common_data_grant:
+                common_data_access(False)
+        except BaseException as error:
+            result.update(status='fail', directory_access_retirement_error=str(error))
         try:
             if worker:
                 worker.close()
+        except BaseException as error:
+            result.update(status='fail', worker_retirement_error=str(error))
+        try:
             if archive:
                 archive.close_verify()
                 if archive_path.stat().st_size > 32 * 1024 * 1024:

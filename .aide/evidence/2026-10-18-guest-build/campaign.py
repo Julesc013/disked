@@ -36,7 +36,11 @@ def main():
         (export / 'source.json').write_text('{}\n')
         source = None
     else:
-        source = snapshot.export(ROOT, snapshot.selected_inputs(ROOT, 'DE-W105'), work / 'source-export', work)
+        revision = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
+        # The product snapshot is immutable Git data; the coordinator may retain
+        # observations alongside it without falsely calling its checkout clean.
+        source = snapshot.export(ROOT, snapshot.selected_inputs(ROOT, 'DE-W105', revision=revision),
+                                 work / 'source-export', work, revision=revision)
     stage = work / 'guest-bootstrap'
     stage.mkdir()
     shutil.copyfile(work / 'source-export/source.pack', stage / 'source.pack')
@@ -59,6 +63,8 @@ def main():
     fixed_root = "$root='" + str(ROOT).replace("'", "''") + "'"
     host = replace_once((PRIOR / 'run-proof.ps1').read_text(), root_line, fixed_root)
     host = replace_once(host, 'org.disked.guest-capacity-campaign/1', 'org.disked.guest-product-campaign/1')
+    host = replace_once(host, 'setup=$setup;proof=$proof;',
+        "setup=$setup;proof=$proof;source_prepared=$(if(Test-Path -LiteralPath \"$root\\source-prepared.json\"){Get-Content -LiteralPath \"$root\\source-prepared.json\" -Raw|ConvertFrom-Json});source_retired=$(if(Test-Path -LiteralPath \"$root\\source-retired.json\"){Get-Content -LiteralPath \"$root\\source-retired.json\" -Raw|ConvertFrom-Json});")
     rows = '\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'},"
                      for name in ('source.pack', 'source.json', 'source-snapshot.py', 'guest-source.py'))
     host = replace_once(host, '    $selected=@(', '    $selected=@(\n' + rows)
@@ -71,7 +77,7 @@ def main():
     host = host.replace('retained.zip', 'retained.tar.xz')
     (stage / 'run-proof.ps1').write_text(host, encoding='utf-8', newline='\n')
     cleanup = replace_once((PRIOR / 'clean-proof.ps1').read_text(), root_line, fixed_root)
-    cleanup = replace_once(cleanup, '$paths=@($Expected', "$extra=@(\"$root\\source-owner.json\",\"$root\\source-prepared.json\",\"$root\\source-retired.json\",\"$root\\retained.zip\")\n        $paths=$extra+@($Expected")
+    cleanup = replace_once(cleanup, '$paths=@($Expected', "$extra=@(\"$root\\source-owner.json\",\"$root\\source-prepared.json\",\"$root\\source-retired.json\",\"$root\\scoped-directory-access.json\",\"$root\\retained.zip\")\n        $paths=$extra+@($Expected")
     cleanup = cleanup.replace('retained.zip', 'retained.tar.xz')
     cleanup = replace_once(cleanup, '$items.Count-gt32', '$items.Count-gt40')
     (stage / 'clean-proof.ps1').write_text(cleanup, encoding='utf-8', newline='\n')

@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents access, portable Python, guest 32/512 MiB confinement proofs and restricted x64/Win32 compiler/SDK/native-launch probes passed; disposable output was removed. Actual guest product build and remaining DE-W105 Win32 tests are next. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents access, portable Python, guest 32/512 MiB confinement proofs and restricted x64/Win32 compiler/SDK/native-launch probes passed; disposable output was removed. Guest source verification and pinned x64 configure passed at recorded revisions. A fixture tooling fix passed 119 coordinator tests (one skip); actual guest product build and remaining DE-W105 Win32 tests remain incomplete after a directory-permission compatibility failure. All disposable campaign output is removed. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -27,6 +27,10 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents acce
   with SDK 10.0.19041.0 for x64 and Win32. Retained probes compile/link/launch
   with static CRT and actual non-elevated AppContainer/outside-write checks.
   [Evidence](.aide/evidence/2026-10-18-guest-native/README.md).
+- [x] Materialize and verify 931 exact guest source inputs; obtain a pinned
+  x64 CMake configure. Preserve failed attempts, correct worker support ownership
+  in the fixture generator and retain 119 coordinator tests (one expected skip).
+  [Partial checkpoint](.aide/evidence/2026-10-18-guest-build/README.md); this is not a native Win32 pass.
 - [ ] Build and qualify DiskEd itself in the guest; compiler probes do not
   substitute for the DE-W105 product/private Win32 criteria.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,

@@ -56,8 +56,8 @@ compiled and launched x64 and Win32 probes with the pinned compiler/SDK/static
 runtime, verified non-elevated confinement, retained direct-import observations
 and removed its outputs. It exposed a missing native AppContainer temporary
 directory: the worker now provisions that directory inside fresh owned work and
-validates it before each launch. This is compiler/bootstrap evidence; the actual
-DiskEd source snapshot, product build and remaining native tests are still next.
+validates it before each launch. This is compiler/bootstrap evidence; subsequent
+source transport, configuration and product tests retain their own results.
 
 Use [tools/source-snapshot.py](../tools/source-snapshot.py) for the bounded exact
 source transfer. It selects the canonical build inputs, an explicit work unit's
@@ -72,6 +72,15 @@ LF checkout policy and verifies every selected file plus the exact clean Git
 identity. The [real-repository transport check](../.aide/evidence/2026-10-18-guest-source/README.md)
 verified 931 inputs in a 3.7 MiB pack; the disposable pack/checkout were removed.
 Its hash-bound metadata does not qualify a guest build or authorize execution.
+
+The [guest build checkpoint](../.aide/evidence/2026-10-18-guest-build/README.md)
+subsequently verified 931 source inputs inside the guest and completed the pinned
+x64 configuration at its recorded revision. It exposed a fixture support-file
+ownership error, now covered by 119 coordinator tests with one expected skip.
+The later guest attempt stopped on directory DACL editing before native Win32
+evaluation. Source copies, images and context packs were removed. No private
+Win32/product build, owner acceptance or release qualification follows from this
+partial checkpoint; its failed attempts and remaining repair are retained.
 
 ### One-time guest connection setup
 

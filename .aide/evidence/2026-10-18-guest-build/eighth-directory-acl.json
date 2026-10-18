@@ -1,0 +1,209 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T06:56:49.2888324Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3876694,
+        "sha256": "FB5CFE037376D045435244924D57FCF64683CD19F1C84B14572DCBB4BE26D2D7"
+      },
+      {
+        "path": "source.json",
+        "bytes": 222417,
+        "sha256": "38E19ADFE882A7B66D9AB88FB2E50C8F3B571AA00972DA003189B6C98F8049D6"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 5504,
+        "sha256": "626C83E8CA367B4FC9CBFFB99B9D94074798376586B6E5DE7C9A20B3B644BA54"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 19878,
+        "sha256": "FD6D8DC66C863293EDCBB05E118748042A25D700D92E270B70C224B91A49AD9B"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 1702,
+        "sha256": "E238985084EEA58C5463E2915EEE19A3D8563DA5C31F5508DC01857B7A0A7C64"
+      }
+    ],
+    "base_revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "error": "Cannot find path 'C:\\ProgramData\\DiskEd\\qualification\\source-retired.json' because it does not exist.",
+  "finished_at": "2026-10-18T06:57:16.8277463Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": false,
+  "exact_source": {
+    "revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+    "content_bytes": 12306127,
+    "pack_bytes": 3876694,
+    "pack_sha256": "fb5cfe037376d045435244924d57fcf64683cd19f1c84b14572dcbb4be26d2d7",
+    "git_objects": 3252
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "e238985084eea58c5463e2915eee19a3d8563da5c31f5508dc01857b7a0a7c64",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "fd6d8dc66c863293edcbb05e118748042a25d700d92e270b70c224b91a49ad9b",
+    "guest-source.py": "626c83e8ca367b4fc9cbffb99b9d94074798376586b6e5de7c9a20b3b644ba54",
+    "run-proof.ps1": "06952a37ac6304d267739326af32414e2f48dd3b4daa7cdbd3da768162af001b",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "38e19adfe882a7b66d9ab88fb2e50c8f3b571aa00972da003189b6c98f8049d6",
+    "source.pack": "fb5cfe037376d045435244924d57fcf64683cd19f1c84b14572dcbb4be26d2d7"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Get-Content: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-y5sa_eof\\guest-bootstrap\\run-proof.ps1:64\r\nLine |\r\n  64 |      $result.guest=Invoke-Command -Session $session -ScriptBlock {\r\n     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Cannot find path 'C:\\ProgramData\\DiskEd\\qualification\\source-retired.json' because it does not exist.\r\n",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T06:56:53.2933966Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "95E5D3EF9D625549A147FDBD7AFE27CC",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.5ad7708a521648ddb9fc1f1001bf1c80",
+            "sid": "S-1-15-2-1739718748-3143928924-2202049141-917717753-3849449429-1015900021-2700278542"
+          },
+          {
+            "name": "org.disked.worker.bea52d4a3c4249f499f875ecac49cffb",
+            "sid": "S-1-15-2-3893709632-2594251352-259763377-2139217132-521369938-19871032-1656534014"
+          },
+          {
+            "name": "org.disked.worker.322bf3d3ffd544669f23b6697aae40f8",
+            "sid": "S-1-15-2-3661605173-2407140555-1787928780-2016216595-1538086353-1669920705-4105624125"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-1739718748-3143928924-2202049141-917717753-3849449429-1015900021-2700278542)(A;;0x1301bf;;;S-1-15-2-3893709632-2594251352-259763377-2139217132-521369938-19871032-1656534014)(A;;0x1301bf;;;S-1-15-2-3661605173-2407140555-1787928780-2016216595-1538086353-1669920705-4105624125)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248095E5D3EF9D62FDBD7AFE27CC",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 175, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "source_cleanup_error": "Traceback (most recent call last):",
+      "finished_at": "2026-10-18T06:57:15.6380548Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-win32-qualification/1",
+      "status": "fail",
+      "source_revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+      "commands": [
+        {
+          "label": "source-confinement",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport ctypes,json,pathlib,sys\nfrom ctypes import wintypes as T\nk=ctypes.WinDLL('kernel32',use_last_error=True);a=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE;a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\nk.CloseHandle.argtypes=[T.HANDLE];token=T.HANDLE();n=T.DWORD();e=T.DWORD();c=T.DWORD()\nassert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))\nassert a.GetTokenInformation(token,20,ctypes.byref(e),4,ctypes.byref(n));assert a.GetTokenInformation(token,29,ctypes.byref(c),4,ctypes.byref(n));k.CloseHandle(token)\ndenied=False\ntry:pathlib.Path(sys.argv[1]).write_bytes(b'unexpected')\nexcept PermissionError:denied=True\nprint(json.dumps(dict(elevated=e.value,appcontainer=c.value,source_write_denied=denied)))\nassert e.value==0 and c.value==1 and denied\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\forbidden-write"
+          ],
+          "pid": 5420,
+          "exit_code": 0,
+          "seconds": 0.16949340000064694,
+          "log_sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"elevated\": 0, \"appcontainer\": 1, \"source_write_denied\": true}\r\n"
+        },
+        {
+          "label": "msbuild-version",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "-version"
+          ],
+          "pid": 5248,
+          "exit_code": 0,
+          "seconds": 0.16805829999975685,
+          "log_sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de",
+          "tail": "17.14.51.32402\r\n"
+        },
+        {
+          "label": "common-data-before",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 1000,
+          "exit_code": 0,
+          "seconds": 0.1767467999998189,
+          "log_sha256": "f61fba03d236c621b35d951b188082991b6a6e47c32b4990875d14367f6b46f3",
+          "tail": "Build started 18/10/2026 5:57:10 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.03\r\n"
+        }
+      ],
+      "tests": [],
+      "executables": {},
+      "full_x64_product_suite_run": false,
+      "owner_accepted": false,
+      "source_confinement": {
+        "elevated": 0,
+        "appcontainer": 1,
+        "source_write_denied": true
+      },
+      "error": "Scoped common-data access update failed: Exception calling \"AddAccessRule\" with \"1\" argument(s): \"This access control list is not in \r\ncanonical form and therefore cannot be modified.\"\r\nAt line:1 char:880\r\n+ ... th);$acl=Get-Acl -LiteralPath $path;$acl.AddAccessRule($rule);if(-not ...\r\n+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidOperationException\r\n \r\n",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 244, in main\n    common_data_access(True)\n    ~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 215, in common_data_access\n    raise RuntimeError('Scoped common-data access update failed: ' + changed.stderr.decode(errors='replace'))\nRuntimeError: Scoped common-data access update failed: Exception calling \"AddAccessRule\" with \"1\" argument(s): \"This access control list is not in \r\ncanonical form and therefore cannot be modified.\"\r\nAt line:1 char:880\r\n+ ... th);$acl=Get-Acl -LiteralPath $path;$acl.AddAccessRule($rule);if(-not ...\r\n+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidOperationException\r\n \r\n\n",
+      "retirement_or_retention_error": "Scoped common-data access update failed: Exception calling \"RemoveAccessRuleSpecific\" with \"1\" argument(s): \"This access control list is \r\nnot in canonical form and therefore cannot be modified.\"\r\nAt line:1 char:880\r\n+ ... t-Acl -LiteralPath $path;$acl.RemoveAccessRuleSpecific($rule);if(-not ...\r\n+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidOperationException\r\n \r\n"
+    },
+    "source_prepared": {
+      "status": "pass",
+      "revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+      "selected_files_verified": 931,
+      "source_content_bytes": 12306127,
+      "git_state": "clean",
+      "scope": "Shallow sparse checkout of exact selected inputs, without unselected blobs/history"
+    },
+    "free_c_bytes": 97562664960
+  },
+  "recovery_observed_at": "2026-10-18T06:58:48.4964144Z"
+}

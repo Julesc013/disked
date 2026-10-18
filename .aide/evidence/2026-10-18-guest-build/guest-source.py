@@ -38,6 +38,23 @@ def main():
         state = json.loads(owner.read_bytes())
         if state['nonce'] != nonce or Path(state['source']) != SOURCE or state['revision'] != manifest['revision']:
             raise RuntimeError('Source ownership changed; preserve it')
+        scoped = ROOT / 'scoped-directory-access.json'
+        if scoped.exists():
+            grant = json.loads(scoped.read_bytes())
+            disk = json.loads((ROOT / 'scratch/state.json').read_bytes())
+            paths = [str(Path('C:/')), str(Path('C:/ProgramData')), str(Path('C:/ProgramData/DiskEd')), str(ROOT)]
+            if grant['nonce'] != nonce or grant['sid'] != disk['profile_sids'][0] or grant['paths'] != paths:
+                raise RuntimeError('Scoped directory grant ownership changed')
+            sid = grant['sid']
+            literal_paths = ','.join("'"+p.replace("'", "''")+"'" for p in paths)
+            api = "Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class DiskEdDirectoryAcl{[DllImport(\"advapi32.dll\",CharSet=CharSet.Unicode,SetLastError=true)]public static extern bool SetFileSecurity(string path,uint info,byte[] descriptor);}';"
+            script = "$ErrorActionPreference='Stop';"+api+"$sid=[Security.Principal.SecurityIdentifier]::new('"+sid+"');$rule=[Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]::None,[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow);foreach($path in @("+literal_paths+")){$path=[IO.Path]::GetFullPath($path);$acl=Get-Acl -LiteralPath $path;if(-not @($acl.Access|Where-Object{$_.IdentityReference.Value-eq$sid.Value}).Count){continue};$acl.RemoveAccessRuleSpecific($rule);if(-not[DiskEdDirectoryAcl]::SetFileSecurity($path,4,$acl.GetSecurityDescriptorBinaryForm())){throw [ComponentModel.Win32Exception]::new([Runtime.InteropServices.Marshal]::GetLastWin32Error())}}"
+            retired = subprocess.run([str(Path(os.environ['WINDIR']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'),
+                                      '-NoProfile', '-Command', script], capture_output=True, timeout=30)
+            if retired.returncode:
+                raise RuntimeError('Scoped directory access retirement failed')
+            grant['phase'] = 'retired'
+            scoped.write_text(json.dumps(grant)+'\n', encoding='utf-8', newline='\n')
         snapshot.plain_ancestors(SOURCE)
         if state['phase'] == 'verified':
             for entry in manifest['files']:

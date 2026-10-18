@@ -1,0 +1,98 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T06:56:49.2888324Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3876694,
+        "sha256": "FB5CFE037376D045435244924D57FCF64683CD19F1C84B14572DCBB4BE26D2D7"
+      },
+      {
+        "path": "source.json",
+        "bytes": 222417,
+        "sha256": "38E19ADFE882A7B66D9AB88FB2E50C8F3B571AA00972DA003189B6C98F8049D6"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 5504,
+        "sha256": "626C83E8CA367B4FC9CBFFB99B9D94074798376586B6E5DE7C9A20B3B644BA54"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 19878,
+        "sha256": "FD6D8DC66C863293EDCBB05E118748042A25D700D92E270B70C224B91A49AD9B"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 1702,
+        "sha256": "E238985084EEA58C5463E2915EEE19A3D8563DA5C31F5508DC01857B7A0A7C64"
+      }
+    ],
+    "base_revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "error": "Cannot find path 'C:\\ProgramData\\DiskEd\\qualification\\source-retired.json' because it does not exist.",
+  "finished_at": "2026-10-18T06:57:16.8277463Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": false,
+  "exact_source": {
+    "revision": "f72b18ef2c88da7e2b25a57aa74eab4e0d2b0e31",
+    "content_bytes": 12306127,
+    "pack_bytes": 3876694,
+    "pack_sha256": "fb5cfe037376d045435244924d57fcf64683cd19f1c84b14572dcbb4be26d2d7",
+    "git_objects": 3252
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "e238985084eea58c5463e2915eee19a3d8563da5c31f5508dc01857b7a0a7c64",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "fd6d8dc66c863293edcbb05e118748042a25d700d92e270b70c224b91a49ad9b",
+    "guest-source.py": "626c83e8ca367b4fc9cbffb99b9d94074798376586b6e5de7c9a20b3b644ba54",
+    "run-proof.ps1": "06952a37ac6304d267739326af32414e2f48dd3b4daa7cdbd3da768162af001b",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "38e19adfe882a7b66d9ab88fb2e50c8f3b571aa00972da003189b6c98f8049d6",
+    "source.pack": "fb5cfe037376d045435244924d57fcf64683cd19f1c84b14572dcbb4be26d2d7"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Get-Content: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-y5sa_eof\\guest-bootstrap\\run-proof.ps1:64\r\nLine |\r\n  64 |      $result.guest=Invoke-Command -Session $session -ScriptBlock {\r\n     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Cannot find path 'C:\\ProgramData\\DiskEd\\qualification\\source-retired.json' because it does not exist.\r\n"
+}
