@@ -148,7 +148,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Prepare a bounded project-owned guest Python runtime, prove guest capped storage/write confinement/interruption cleanup, then execute DE-W105 native qualification using the existing pinned C:\\BuildTools installation. Use Agents only; retain Codex as an emergency spare. Do not mount test media on the host or silently increase budgets.",
+  "next_action": "Use the verified portable guest Python and demonstrated 512 MiB capped/write-confined worker path to execute bounded DE-W105 compiler/build qualification, then the missing eighteen-group private Win32 supplement. Reuse the pinned C:\\BuildTools installation; adapt the historical recipe to bounded source/build/retention without dropping checks. Use Agents only; retain Codex as an emergency spare. Do not mount test media on the host or silently increase budgets.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1718,7 +1718,7 @@
     "work_id": "DE-W105",
     "base_revision": "98b7573935c07d575d9500849662b3cafcfc9ee1",
     "contract": "spec/catalog/ntfs-name-order-command-prototype.json",
-    "state": "Native development paused after the storage incident. Scratch cleanup complete. Exact fcd7a4a5 x64 qualification previously passed178 native groups and253 specification-tool tests(two skips); compact source-bound observations retained. Private Win32 and amended build-gate native qualification remain unrun. No source integration or owner acceptance.",
+    "state": "DE-W105 native qualification remains unfinished. Guest execution bootstrap and bounded capacity proofs passed. Exact fcd7a4a5 x64 qualification previously passed178 native groups and253 specification-tool tests(two skips); compact source-bound observations retained. Private Win32 and amended build-gate native qualification remain unrun. No source integration or owner acceptance.",
     "qualification_pending": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
@@ -1823,7 +1823,8 @@
       "maximum_generated_bytes": 131072,
       "native_execution_performed": false,
       "storage_boundary_proven": false
-    }
+    },
+    "guest_execution_preparation": "Guest Python, 32/512 MiB capacity, non-elevated write confinement and inner-controller interruption cleanup passed; actual native compiler/build and private Win32 supplement remain pending."
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -2238,8 +2239,8 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "native_development_state": "guest_python_and_capacity_qualification_pending",
-  "native_pause_reason": "Agents setup and repeated unattended PowerShell Direct access are verified. Guest UAC is disabled and Codex remains the authorized emergency spare. Existing compiler files match the pin; a guest Python runtime, hard-cap/confinement proof and actual native build/qualification remain pending.",
+  "native_development_state": "guest_capacity_proven_native_qualification_pending",
+  "native_pause_reason": "Guest Python and the 32/512 MiB allocation/confinement/interruption proofs passed. Their images and workspaces were removed. Existing compiler files match the pin, but actual guest compiler/build qualification and DE-W105 private Win32 remain pending. No missing account/UAC approval is claimed.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2325,8 +2326,8 @@
     }
   },
   "execution_environment_gate": {
-    "status": "guest_python_and_capacity_qualification_pending",
-    "observed_at": "2026-10-18T03:51:15.810173+00:00",
+    "status": "guest_capacity_proven_native_qualification_pending",
+    "observed_at": "2026-10-18T05:11:42.6125983Z",
     "previous_wait_resolved_by": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
     "host_proof_source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
     "prior_blocked_audit": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
@@ -2336,11 +2337,20 @@
     "guest_vm_id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
     "guest_connection_helper": "tools/connect-vm.ps1",
     "guest_credential_configured": true,
-    "guest_native_capacity_proven": false,
+    "guest_native_capacity_proven": true,
+    "guest_proven_capacity_mib": [
+      32,
+      512
+    ],
+    "guest_capacity_evidence": [
+      ".aide/evidence/2026-10-18-guest-capacity/proof-32.json",
+      ".aide/evidence/2026-10-18-guest-capacity/proof-512.json"
+    ],
+    "guest_runtime_evidence": ".aide/evidence/2026-10-18-guest-capacity/python-runtime.json",
     "native_compiler_qualified": false,
     "additional_test_authority_missing": false,
     "owner_setup_in_progress": false,
-    "audit": ".aide/evidence/2026-10-18-guest-start/result.json",
+    "audit": ".aide/evidence/2026-10-18-guest-capacity/final-observations.json",
     "goal_service_status_last_observed": "active",
     "prior_console_wait_superseded": true,
     "work_continues_under_current_user_request": true,
@@ -2351,16 +2361,18 @@
     "guest_uac_after_restart_verified": true,
     "shared_console_coordination_pending": false,
     "native_compiler_files_match_pin": true,
-    "guest_python_runtime_available": false
+    "guest_python_runtime_available": true,
+    "guest_python_path": "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+    "guest_runtime_content_bytes": 37630185
   },
   "execution_environment": {
     "default": "Hyper-V guest",
     "host_tests": "Necessary and bounded; record why the host is required.",
     "vm": {
       "dynamic_memory": true,
-      "backing_file_bytes": 23004708864,
+      "backing_file_bytes": 28809625600,
       "automatic_checkpoints": false,
-      "assigned_bytes": 2095054848,
+      "assigned_bytes": 2866806784,
       "backing_growth_since_start_bytes": 6509559808,
       "minimum_bytes": 1073741824,
       "guest_policy_changes": "Guest EnableLUA=0 and administrator token verified after the authorized normal restart.",
@@ -2377,7 +2389,9 @@
       "maximum_bytes": 17179869184,
       "heartbeat": "OK",
       "guest_account_domain": "BLACKGLASS-HYPE",
-      "guest_connection_reliability_qualified": true
+      "guest_connection_reliability_qualified": true,
+      "backing_growth_since_previous_checkpoint_bytes": 5804916736,
+      "backing_growth_attribution": "Shared guest observation only; no attribution wholly to DiskEd and no compaction or reclamation claim."
     },
     "original_configuration_evidence": ".aide/evidence/2026-10-18-vm-execution/before-start.json",
     "shared_account": "Agents",
@@ -2399,6 +2413,7 @@
     "latest_bootstrap_observation": ".aide/evidence/2026-10-18-guest-start/result.json",
     "concurrency": "Distinct project workspaces and owned processes. One DiskEd campaign. Coordinate disruptive/heavy work. Do not automatically stop/reset/reboot/compact shared VM.",
     "credential_storage": "Windows DPAPI via Export-Clixml under the Jules host profile; never in Git or chat.",
-    "product_tests_run_since_incident": false
+    "product_tests_run_since_incident": false,
+    "guest_bootstrap_evidence": ".aide/evidence/2026-10-18-guest-capacity/README.md"
   }
 }

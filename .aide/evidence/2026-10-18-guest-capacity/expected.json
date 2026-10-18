@@ -1,0 +1,29 @@
+{
+  "schema": "org.disked.guest-capacity-expectations/1",
+  "source_base": "3a133e50b121bf19b62b5fe1325e9de644f6c49c",
+  "guest_identity": "BLACKGLASS-HYPE\\Agents",
+  "image_mib": [32, 512],
+  "image_type": "new fixed VHD inside the guest only",
+  "maximum_writer_attempt_bytes": {"32": 67108864, "512": 671088640},
+  "writer_block_bytes": {"32": 65536, "512": 1048576},
+  "worker_deadline_seconds": {"32": 25, "512": 90},
+  "larger_proof_harness_review": "The first 512 MiB run hit the inherited 25-second small-proof deadline while performing write-through 64 KiB writes; its image and workers were removed. Use 1 MiB write-through blocks and a finite 90-second deadline for 512 MiB, retaining the same allocation-denial, exact capacity, privilege, outside-write and cleanup checks. The 32 MiB method remains unchanged.",
+  "aggregate_disposable_limit_bytes": 1073741824,
+  "host_and_guest_os_free_reserve_bytes": 21474836480,
+  "required_checks": [
+    "Bind the new image footer UUID, image path, associated non-system disk and partition before every storage mutation.",
+    "Reject the ordinary OS volume as the small capped filesystem.",
+    "Retain the existing allocation, outside-path, inherited descendant and interruption assertions unchanged.",
+    "AppContainer worker cannot write either owned outside sentinel directory.",
+    "Only the three preselected fresh package identities receive attached-device access; the backing-file ACL stays unchanged and worker write-open of that file returns access denied.",
+    "Guest service workers load native Python modules on an owned private window station; their elevation flag is zero.",
+    "Allocation fails with Windows disk-full error 39 or 112 before the selected 32/512 MiB capacity; removing payload restores free space.",
+    "Worker TEMP is inside its capped workspace; no alternate output directory is used.",
+    "Job termination retires the worker and releases its held file.",
+    "Hard controller termination retires its worker; its exact journal permits profile/junction recovery.",
+    "Outside sentinels remain unchanged.",
+    "Detach and remove the owned image only after workers and profile mappings are retired.",
+    "Remove transfer/control scratch after retaining compact source-bound results."
+  ],
+  "not_qualified": ["DiskEd product behavior", "native compiler/build", "physical storage", "standard-user desktop", "release"]
+}

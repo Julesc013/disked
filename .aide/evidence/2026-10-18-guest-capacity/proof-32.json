@@ -1,0 +1,204 @@
+{
+  "schema": "org.disked.guest-capacity-campaign/1",
+  "started_at": "2026-10-18T05:09:35.0192668Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "base_revision": "3a133e50b121bf19b62b5fe1325e9de644f6c49c",
+    "schema": "org.disked.guest-proof-sources/1",
+    "files": [
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 29400,
+        "sha256": "76A4484AA622F5DC6D10A81B0C752F59A405D0CD5A3F2AC6A229C8DC04CC2D1D"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 12577,
+        "sha256": "145B9E608381EA02EF657835E3B7F69108EA338227C945BF9F994E1C3888B554"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10031,
+        "sha256": "4B844D48616A436B2A6E6E4652119873BC2E3E5E2FF7F83AE9DBF07475C9709B"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 2413,
+        "sha256": "5A4717B2D14789F65FAAB13C21909AE796092C09744A594A15EAFB421C7F4943"
+      }
+    ]
+  },
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T05:09:39.0530515Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n   75 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "C5F4210A0337CB44945F3891ED7F423B",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.9db80d9503f24ee0b59a7ef4bd73abbf",
+            "sid": "S-1-15-2-881551327-2901260405-3323425003-2312061498-2069319058-860987518-2327335622"
+          },
+          {
+            "name": "org.disked.worker.97dc8e8691e9463ca5013716f6733826",
+            "sid": "S-1-15-2-1666189843-1569534227-335865542-3372795581-1158839451-1383103812-3394831077"
+          },
+          {
+            "name": "org.disked.worker.47d1b8354f6c46ed91db290acaec5d66",
+            "sid": "S-1-15-2-2906840633-3768294293-2380104920-3252976744-1051011875-2081807970-1881280977"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-881551327-2901260405-3323425003-2312061498-2069319058-860987518-2327335622)(A;;0x1301bf;;;S-1-15-2-1666189843-1569534227-335865542-3372795581-1158839451-1383103812-3394831077)(A;;0x1301bf;;;S-1-15-2-2906840633-3768294293-2380104920-3252976744-1051011875-2081807970-1881280977)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480C5F4210A03373891ED7F423B",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 308, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "finished_at": "2026-10-18T05:10:00.2139322Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-capacity-proof/1",
+      "status": "pass",
+      "product_tests_run": false,
+      "existing_assertions_unchanged": true,
+      "source_hashes": {
+        "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+        "guest-proof.py": "145b9e608381ea02ef657835e3b7f69108ea338227c945bf9f994e1c3888b554",
+        "tools/qualify-storage.py": "b9a0d952985b106fff2be7425cff92309be6ea4794f20dd5623e393c2369d8ef",
+        "tools/windows-worker.py": "76a4484aa622f5dc6d10a81b0c752f59a405d0cd5a3f2ac6a229c8dc04cc2d1d",
+        "tools/workspace.py": "5eeaacc7829a4db5a77f2b79587a4c5df6730136521fa7a8073328077ffae0bf"
+      },
+      "ordinary_os_volume_rejected": true,
+      "checks": {
+        "allocation": {
+          "appcontainer": 1,
+          "pid": 5296,
+          "outside": [
+            {
+              "path": "C:\\Users\\Agents\\AppData\\Local\\Temp\\disked-work-fb0f5d76366cfa1c-reg6fb3b\\outside",
+              "denied": true,
+              "winerror": 5
+            },
+            {
+              "path": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\outside",
+              "denied": true,
+              "winerror": 5
+            }
+          ],
+          "maximum_attempted_bytes": 67108864,
+          "block_bytes": 65536,
+          "descendant_denied": true,
+          "inside_probes": [
+            {
+              "path": "inside-relative.tmp",
+              "success": true
+            },
+            {
+              "path": "R:\\work\\allocation\\inside-absolute.tmp",
+              "success": true
+            }
+          ],
+          "native_inside_created": true,
+          "native_inside_error": 0,
+          "native_access_probes": [
+            {
+              "access": "0x80000000",
+              "success": true,
+              "error": 0
+            },
+            {
+              "access": "0xc0000000",
+              "success": true,
+              "error": 0
+            },
+            {
+              "access": "0xc0010000",
+              "success": true,
+              "error": 0
+            }
+          ],
+          "initial_space": {
+            "total": 32436224,
+            "used": 10268672,
+            "free": 22167552
+          },
+          "backing_write_denied": true,
+          "backing_write_error": 5,
+          "token_sids": {
+            "user": "S-1-5-21-385394198-2603589104-1765785984-1003",
+            "integrity": "S-1-16-4096",
+            "package": "S-1-15-2-881551327-2901260405-3323425003-2312061498-2069319058-860987518-2327335622"
+          },
+          "initial_elevated": 0,
+          "temporary_directory": "R:\\work\\allocation",
+          "before": {
+            "total": 32436224,
+            "used": 10272768,
+            "free": 22163456
+          },
+          "written_bytes": 22151168,
+          "allocation_error": 112,
+          "payload_sha256": "becae4d730815e0d97e4e900e561c9dfc431267af823307f3faf71663060668f",
+          "full": {
+            "total": 32436224,
+            "used": 32428032,
+            "free": 8192
+          },
+          "after_payload_removal": {
+            "total": 32436224,
+            "used": 10272768,
+            "free": 22163456
+          },
+          "window_station": "DiskEdStation-45eac2b94d244d41b92be0e728aea9bd",
+          "elevated": 0
+        },
+        "interruption": {
+          "job_retired": true,
+          "held_file_removed": true
+        },
+        "outside_sentinels_unchanged": true
+      },
+      "parent_station_restored": true,
+      "controller_death": {
+        "controller_pid": 7100,
+        "worker_pid": 4536,
+        "worker_retired": true,
+        "profile_removed": true,
+        "held_file_removed": true
+      }
+    },
+    "free_c_bytes": 97589276672
+  },
+  "finished_at": "2026-10-18T05:10:01.5097444Z"
+}

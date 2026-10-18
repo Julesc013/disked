@@ -147,7 +147,10 @@ a.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ct
 token=T.HANDLE(); assert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))
 is_container=T.DWORD(); needed=T.DWORD()
 assert a.GetTokenInformation(token,29,ctypes.byref(is_container),4,ctypes.byref(needed)); k.CloseHandle(token)
-result={'appcontainer':is_container.value,'pid':os.getpid(),'outside':[],'maximum_attempted_bytes':67108864}
+maximum_attempted_bytes = 67108864
+block_bytes = 65536 if maximum_attempted_bytes == 67108864 else 1048576
+result={'appcontainer':is_container.value,'pid':os.getpid(),'outside':[],'maximum_attempted_bytes':maximum_attempted_bytes}
+result['block_bytes'] = block_bytes
 for arg in sys.argv[1:]:
     h=k.CreateFileW(str(pathlib.Path(arg)/'forbidden'),0x40000000,3,None,1,0x80,None)
     result['outside'].append({'path':arg,'denied':h==ctypes.c_void_p(-1).value,'winerror':ctypes.get_last_error()})
@@ -161,8 +164,8 @@ payload=pathlib.Path('allocation.bin'); h=k.CreateFileW(str(payload),0x40000000,
 if h==ctypes.c_void_p(-1).value: raise ctypes.WinError(ctypes.get_last_error())
 written=0; digest=hashlib.sha256(); failure=None
 try:
-    for number in range(1024):
-        data=os.urandom(65536); count=T.DWORD()
+    for number in range(maximum_attempted_bytes//block_bytes):
+        data=os.urandom(block_bytes); count=T.DWORD()
         if not k.WriteFile(h,data,len(data),ctypes.byref(count),None):
             failure=ctypes.get_last_error(); break
         written+=count.value; digest.update(data[:count.value])
@@ -175,7 +178,13 @@ pathlib.Path('result.json').write_text(json.dumps(result))
 '''
 
 
-def exercise(state):
+def exercise(state, *, capacity_bytes=32 * 1024 * 1024):
+    # Two deliberately finite qualification sizes. Do not turn this proof into
+    # an arbitrary allocation tool or silently enlarge a failed campaign.
+    attempts = {32 * 1024 * 1024: 64 * 1024 * 1024,
+                512 * 1024 * 1024: 640 * 1024 * 1024}
+    if capacity_bytes not in attempts:
+        raise ValueError('Only the approved 32/512 MiB proof capacities are supported')
     work = Path(state['work'])
     outside_c = Path(os.environ['DISKED_WORK_ROOT']) / 'outside'
     outside_d = SCRATCH / 'outside'
@@ -192,10 +201,13 @@ def exercise(state):
             worker, job = W.Worker(current), S.WindowsJob()
             env = dict(os.environ, DISKED_WORK_ROOT=str(current), TMP=str(current), TEMP=str(current),
                        TMPDIR=str(current), PYTHONDONTWRITEBYTECODE='1')
-            source = WRITER if phase == 'allocation' else (
+            source = WRITER.replace('maximum_attempted_bytes = 67108864',
+                                    'maximum_attempted_bytes = ' + str(attempts[capacity_bytes])) if phase == 'allocation' else (
                 "import pathlib,time; held=open('held','wb'); pathlib.Path('ready').write_text('ready'); time.sleep(60)")
             child = worker.launch([sys.executable, '-B', '-c', source, str(outside_c), str(outside_d)], env, job)
-            deadline = time.monotonic() + 25
+            # Keep the original small proof's deadline; the larger, separately
+            # qualified filesystem writes up to 16 times as much real data.
+            deadline = time.monotonic() + (25 if capacity_bytes == 32 * 1024 * 1024 else 90)
             while child.poll() is None:
                 # Host reserves stay on the two backing volumes, not the tiny FS.
                 S.check(ROOT)
@@ -214,15 +226,17 @@ def exercise(state):
                     raise TimeoutError('Storage proof worker deadline exceeded')
                 time.sleep(0.05)
             if phase == 'allocation':
-                if child.wait() != 0:
-                    raise RuntimeError('Storage proof worker failed: ' + (current / 'worker.log').read_text(errors='replace'))
+                exit_code = child.wait()
+                if exit_code != 0:
+                    raise RuntimeError('Storage proof worker failed (exit ' + hex(exit_code) + '): ' +
+                                       (current / 'worker.log').read_text(errors='replace'))
                 result = small_json(current / 'result.json')
                 results[phase] = result
                 assert result['appcontainer'] == 1
                 assert all(row['denied'] and row['winerror'] == 5 for row in result['outside'])
                 assert result['descendant_denied']
                 assert result['allocation_error'] in (39, 112), result
-                assert 0 < result['written_bytes'] < 32 * 1024 * 1024
+                assert 0 < result['written_bytes'] < capacity_bytes
                 assert result['after_payload_removal']['free'] > result['full']['free']
                 assert Path(result['temporary_directory']).resolve().is_relative_to(current.resolve())
         finally:

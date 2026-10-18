@@ -83,7 +83,19 @@ result['descendant_code'] = child.returncode
 result['descendant_denied'] = b'PermissionError' in child.stderr
 result['inside'] = pathlib.Path('inside').read_text()
 result['stdout'] = str(sys.stdout)
+a = ctypes.WinDLL('advapi32', use_last_error=True)
+a.OpenProcessToken.argtypes = [ctypes.c_void_p, ctypes.c_ulong, ctypes.POINTER(ctypes.c_void_p)]
+a.GetTokenInformation.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_ulong, ctypes.POINTER(ctypes.c_ulong)]
 k = ctypes.WinDLL('kernel32', use_last_error=True)
+k.GetCurrentProcess.restype = ctypes.c_void_p
+k.CloseHandle.argtypes = [ctypes.c_void_p]
+token = ctypes.c_void_p(); needed = ctypes.c_ulong(); elevated = ctypes.c_ulong()
+assert a.OpenProcessToken(k.GetCurrentProcess(), 8, ctypes.byref(token))
+try:
+    assert a.GetTokenInformation(token, 20, ctypes.byref(elevated), ctypes.sizeof(elevated), ctypes.byref(needed))
+    result['elevated'] = elevated.value
+finally:
+    k.CloseHandle(token)
 k.CreateFileW.argtypes = [ctypes.c_wchar_p, ctypes.c_ulong, ctypes.c_ulong, ctypes.c_void_p, ctypes.c_ulong, ctypes.c_ulong, ctypes.c_void_p]
 k.CreateFileW.restype = ctypes.c_void_p
 handle = k.CreateFileW(str(outside/'api-new'), 0x40000000, 3, None, 1, 0x80, None)
@@ -99,6 +111,7 @@ print(json.dumps(result))
         self.assertTrue(result['api_denied'], result)
         self.assertEqual(result['api_error'], 5, result)
         self.assertEqual(result['inside'], 'allowed')
+        self.assertEqual(result['elevated'], 0)
         self.assertNotEqual(result['descendant_code'], 0)
         self.assertTrue(result['descendant_denied'])
         self.assertEqual(sorted(p.name for p in self.outside.iterdir()), ['sentinel'])
@@ -125,6 +138,33 @@ time.sleep(60)
     def test_refuses_unowned_directory(self):
         with self.assertRaises(ValueError):
             W.Worker(self.outside)
+
+    def test_private_station_never_requests_elevation(self):
+        import ctypes
+        if ctypes.windll.shell32.IsUserAnAdmin():
+            self.skipTest('Refusal check requires an ordinary coordinator token')
+        with self.assertRaisesRegex(PermissionError, 'existing administrator coordinator'):
+            W.Worker(self.work, control=self.base, private_station=True)
+        self.assertFalse((self.base / 'appcontainer-profiles.json').exists())
+
+    def test_preselected_identity_requires_our_uuid_namespace(self):
+        with self.assertRaisesRegex(ValueError, 'Unrecognized temporary worker identity'):
+            W.Worker(self.work, control=self.base, profile_name='unrelated.identity')
+        self.assertFalse((self.base / 'appcontainer-profiles.json').exists())
+
+    def test_preselected_existing_identity_is_never_adopted_or_deleted(self):
+        self.worker = W.Worker(self.work, control=self.base)
+        original = self.worker.profile_path
+        other = self.base / 'other'
+        other.mkdir()
+        (other / 'owner.json').write_text(json.dumps({'root': str(ROOT)}))
+        target = other / 'work'
+        target.mkdir()
+        (target / 'owner.json').write_text(json.dumps({'root': str(ROOT)}))
+        with self.assertRaises(OSError):
+            W.Worker(target, control=other, profile_name=self.worker.profile_name)
+        self.assertTrue(original.is_junction())
+        self.assertEqual(W.profiles(other), {})
 
     def test_linked_root_is_refused_before_acl_changes(self):
         junction = self.base / 'junction'

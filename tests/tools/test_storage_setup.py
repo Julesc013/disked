@@ -16,6 +16,11 @@ definition.loader.exec_module(Q)
 
 
 class StorageSetupTests(unittest.TestCase):
+    def test_unapproved_proof_capacity_refused_before_workspace_access(self):
+        for capacity in (0, 16 * 1024 * 1024, 1024 * 1024 * 1024):
+            with self.subTest(capacity=capacity), self.assertRaisesRegex(ValueError, 'approved'):
+                Q.exercise(None, capacity_bytes=capacity)
+
     def test_ordinary_filesystem_is_not_a_tiny_capped_volume(self):
         with tempfile.TemporaryDirectory(prefix='disked-cap-refusal-') as directory:
             with self.assertRaisesRegex(ValueError, 'capped filesystem'):

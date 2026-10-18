@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal remains incomplete. The earlier host 32 MiB storage proof passed and its scratch was removed. Native development now uses the existing Hyper-V guest by default; unattended guest access, guest capacity/confinement proof and remaining native qualification are the current gates. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal remains incomplete. Unattended Agents access, portable Python and guest 32/512 MiB capacity/confinement/interruption proofs passed; their test images and workspaces were removed. Actual guest compiler/build qualification and remaining DE-W105 Win32 tests are next. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -21,11 +21,14 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. The earlier
   administrator spare with the owner-supplied password; both passwords do not expire.
   The final owner clarification supersedes the deletion request. Routine automation
   accepts Agents only.
-- [ ] Supply a bounded guest Python runtime and qualify the existing
+- [x] Supply a project-owned portable Python runtime (37,630,185 content bytes);
+  keep its verified manifest, remove transfer archives and avoid global installation.
+- [ ] Qualify the existing
   `C:\BuildTools` installation. Its compiler file matches 19.44.35228.0 and
   toolset 14.44.35207; no guest native build has run yet.
-- [ ] Demonstrate guest allocation denial, no fallback/spillover and interrupted
-  cleanup before native campaigns.
+- [x] Demonstrate guest 32/512 MiB allocation denial, write confinement and
+  interrupted cleanup under a non-elevated worker; remove images and temporary
+  copies. [Evidence](.aide/evidence/2026-10-18-guest-capacity/README.md).
 - [x] Refuse another elevation request while live Windows consent state remains
   pending or ambiguous; preserve the image receipt and require console resolution.
 

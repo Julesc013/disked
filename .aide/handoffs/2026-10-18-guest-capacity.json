@@ -1,0 +1,178 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "3a133e50b121bf19b62b5fe1325e9de644f6c49c",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/schemas/handoff.schema.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "tools/windows-worker.py",
+    "tools/workspace.py",
+    "tools/qualify-storage.py",
+    "tools/connect-vm.ps1",
+    "tests/tools/test_windows_worker.py",
+    "tests/tools/test_storage_setup.py",
+    "docs/development-storage.md",
+    ".aide/evidence/2026-10-18-guest-start/result.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-capacity/README.md",
+    ".aide/evidence/2026-10-18-guest-capacity/archive-coordinator.py",
+    ".aide/evidence/2026-10-18-guest-capacity/archive-observations.py",
+    ".aide/evidence/2026-10-18-guest-capacity/attach-image.py",
+    ".aide/evidence/2026-10-18-guest-capacity/checkpoint.json",
+    ".aide/evidence/2026-10-18-guest-capacity/checkpoint.py",
+    ".aide/evidence/2026-10-18-guest-capacity/clean-proof.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/cleanups.json",
+    ".aide/evidence/2026-10-18-guest-capacity/context-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-capacity/coordinator-observations.json.xz",
+    ".aide/evidence/2026-10-18-guest-capacity/copy-runtime.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/copy-runtime.py",
+    ".aide/evidence/2026-10-18-guest-capacity/expected.json",
+    ".aide/evidence/2026-10-18-guest-capacity/final-observations.json",
+    ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/guest-proof.py",
+    ".aide/evidence/2026-10-18-guest-capacity/host-refusal-current.json",
+    ".aide/evidence/2026-10-18-guest-capacity/observations-index.json",
+    ".aide/evidence/2026-10-18-guest-capacity/observations.json.xz",
+    ".aide/evidence/2026-10-18-guest-capacity/observe.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/proof-32.json",
+    ".aide/evidence/2026-10-18-guest-capacity/proof-512.json",
+    ".aide/evidence/2026-10-18-guest-capacity/python-runtime.json",
+    ".aide/evidence/2026-10-18-guest-capacity/qualified-setup.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/retirement-guard.json",
+    ".aide/evidence/2026-10-18-guest-capacity/run-proof.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/spec-checks.json",
+    ".aide/evidence/2026-10-18-guest-capacity/tooling-checks.json",
+    ".aide/evidence/2026-10-18-guest-capacity/validate-retirement.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/validate-spec.py",
+    ".aide/evidence/2026-10-18-guest-capacity/validate-tools.py",
+    ".aide/handoffs/2026-10-18-guest-capacity.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tests/tools/test_storage_setup.py",
+    "tests/tools/test_windows_worker.py",
+    "tools/qualify-storage.py",
+    "tools/windows-worker.py"
+  ],
+  "summary": "Agents remains primary; Codex is the enabled administrator emergency spare with its original profile and owner-supplied password. No Codex login or guest Jules use. Installed no global software: a 37,630,185-byte project-owned portable Python copy passed verification. Guest 32/512 MiB fixed-filesystem allocation denial, outside/descendant/backing-write denial, non-elevated workers, job interruption and inner-controller death/profile recovery passed. Images, guest transfer/control copies and host managed work were removed. Early failures are compressed once with verified exact-byte recovery. Actual VM backing growth is recorded without claiming host-byte reclamation or attribution entirely to DiskEd. A later conservative retirement-guard repair passes pure cases; full remote-session interruption remains unverified. Native product sources are unchanged; guest compiler/build, DE-W105 Win32, owner acceptance and full 0.1.0 remain unfinished.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-capacity/validate-tools.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-capacity/tooling-checks.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- pwsh -NoProfile -File .aide/evidence/2026-10-18-guest-capacity/run-proof.ps1 -SizeMiB 32",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-capacity/proof-32.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- pwsh -NoProfile -File .aide/evidence/2026-10-18-guest-capacity/run-proof.ps1 -SizeMiB 512",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-capacity/proof-512.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-capacity/validate-spec.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-capacity/spec-checks.json"
+    },
+    {
+      "command": "validate-retirement.ps1 pure guard; no disk operations",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-capacity/retirement-guard.json"
+    },
+    {
+      "command": "Native DE-W105 compiler/build/private Win32 qualification in the guest",
+      "cwd": "BlackGlass-HyperV",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/python-runtime.json",
+      "sha256": "sha256:aeedf76fce54960353493b52fb28a2b4d5f0ff6ab30a9fa0858be370c4ae45f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/proof-32.json",
+      "sha256": "sha256:0b0708ae1f7308e39670c5850186daf0e59815ec80ce0def6b604f07a38c3269"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/proof-512.json",
+      "sha256": "sha256:bf86c87ec0ed82099523105bd90c3a8591c6ab79385d26dd44e5b8c51f35cc6e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/qualified-setup.ps1",
+      "sha256": "sha256:4b844d48616a436b2a6e6e4652119873bc2e3e5e2ff7f83ae9dbf07475c9709b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/retirement-guard.json",
+      "sha256": "sha256:2e05e731abb3afbc83d4bb3bb985da7589c6bc657d6c91b488e125b2718abc46"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/final-observations.json",
+      "sha256": "sha256:127d8fea46f9c66fe9bb669cd8f62b24d4791b61ffeb9cad9b82e0b8fac05c56"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/cleanups.json",
+      "sha256": "sha256:7ce092749252cd83c25ac76c23e362d256b2b9fe47dc2eafe62dff6d092df019"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/observations.json.xz",
+      "sha256": "sha256:b27c6b6c2140cdb1d33cb778a8755bc62f152834dfb725a9b06c9f0859ef2614"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/observations-index.json",
+      "sha256": "sha256:109a79ed778857e5d749a2cbd9a1d37082ac8cbd3aa220a096bb86bd7c9f8e17"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/tooling-checks.json",
+      "sha256": "sha256:deee3a290a3f80398577c581a6e4d6f41dde4f3f06ca77c5bcf76cb0e78e0a77"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/spec-checks.json",
+      "sha256": "sha256:450fbb21339653b5527aa5e385d111036e56736b813bf4109afcbd43677cea49"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/coordinator-observations.json.xz",
+      "sha256": "sha256:cd97377dd8765be757e99ad11325000dd2330304c2178b18cb8226a33fb53fa5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/context-cleanup.json",
+      "sha256": "sha256:cf0db6e7abef64faf33d77b9e6a805b8c37f3d8b5798baeb68e517996c9b0e27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/checkpoint.json",
+      "sha256": "sha256:e2b2e78460eb4c3f0333c8f6e3256eb6477e434522c4adebe7c6c37f59f4150c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-capacity/README.md",
+      "sha256": "sha256:dd04dd33c80ccf2e135e411362c4f9876ba96ad300603bbbc7d3f6b9dddb895b"
+    }
+  ],
+  "blockers": [
+    "Actual native compiler/build qualification and missing private Win32 tests are not yet run; no missing account or UAC approval is claimed.",
+    "Full remote-session interruption is not established by inner Python-controller death; preserve an image when worker retirement is uncertain.",
+    "Shared VM backing-file growth is real; deletion alone does not reclaim host allocation. Keep monitoring actual backing growth and free space."
+  ],
+  "next_safe_step": "Continue the active goal with a bounded guest compiler/build campaign using the proven 512 MiB boundary and pinned C:\\BuildTools. Keep Agents primary/Codex spare, finite owned output and compact retention. Diagnose missing imports/read access or resource admission without rerunning unbounded historical recipes. Keep native and release claims unverified until actual results.",
+  "performed_remote_writes": false
+}

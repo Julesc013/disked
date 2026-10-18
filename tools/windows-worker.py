@@ -11,8 +11,11 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import threading
 import time
 import uuid
+
+_STATION_LOCK = threading.Lock()
 
 
 class SecurityAttributes(ctypes.Structure):
@@ -146,9 +149,11 @@ class Worker:
 
     Writes still need both the user's ordinary access and the unique restricting
     SID's access. Only the freshly owned work directory receives that SID. The
-    caller must close the containing job before closing this worker.
+    caller must close the containing job before closing this worker. An explicitly
+    selected private station requires an existing administrator coordinator with
+    no UI threads; it never elevates or changes another station's ACL.
     """
-    def __init__(self, work, *, control=None):
+    def __init__(self, work, *, control=None, private_station=False, profile_name=None):
         if os.name != 'nt':
             raise OSError('Windows worker requires Windows')
         self.work = plain_directory(work)
@@ -171,8 +176,17 @@ class Worker:
         if (json.loads(owner.read_bytes()).get('root') != expected or
                 json.loads(marker.read_bytes()).get('root') != expected):
             raise ValueError('Worker/controller source ownership mismatch')
+        if profile_name is not None and not re.fullmatch(r'org\.disked\.worker\.[0-9a-f]{32}', profile_name):
+            raise ValueError('Unrecognized temporary worker identity')
+        # Naming a fresh window station requires an existing administrator
+        # coordinator. This option never requests elevation or changes a shared
+        # station's ACL. Normal interactive callers retain their existing path.
+        if private_station and not ctypes.windll.shell32.IsUserAnAdmin():
+            raise PermissionError('Private window station requires an existing administrator coordinator')
         self.journaled = False
         self.sid = self.descriptor = self.desktop = None
+        self.station = None
+        self.token = None
         self.profile_created = False
         self.profile_path = None
         self.k = ctypes.WinDLL('kernel32', use_last_error=True)
@@ -186,6 +200,10 @@ class Worker:
         bind(self.a, 'FreeSid', P, P)
         bind(self.a, 'OpenProcessToken', T.BOOL, T.HANDLE, T.DWORD, ctypes.POINTER(T.HANDLE))
         bind(self.a, 'GetTokenInformation', T.BOOL, T.HANDLE, ctypes.c_int, P, T.DWORD, ctypes.POINTER(T.DWORD))
+        bind(self.a, 'ConvertStringSidToSidW', T.BOOL, T.LPCWSTR, ctypes.POINTER(P))
+        bind(self.a, 'CreateRestrictedToken', T.BOOL, T.HANDLE, T.DWORD, T.DWORD,
+             ctypes.POINTER(SidAttributes), T.DWORD, P, T.DWORD, P, ctypes.POINTER(T.HANDLE))
+        bind(self.a, 'SetTokenInformation', T.BOOL, T.HANDLE, ctypes.c_int, P, T.DWORD)
         bind(self.a, 'ConvertSidToStringSidW', T.BOOL, P, ctypes.POINTER(T.LPWSTR))
         bind(self.a, 'ConvertStringSecurityDescriptorToSecurityDescriptorW', T.BOOL,
              T.LPCWSTR, T.DWORD, ctypes.POINTER(P), ctypes.POINTER(T.DWORD))
@@ -200,6 +218,10 @@ class Worker:
         bind(self.e, 'DeleteAppContainerProfile', ctypes.c_long, T.LPCWSTR)
         bind(self.e, 'GetAppContainerFolderPath', ctypes.c_long, T.LPCWSTR, ctypes.POINTER(T.LPWSTR))
         bind(self.u, 'GetProcessWindowStation', T.HANDLE)
+        bind(self.u, 'CreateWindowStationW', T.HANDLE, T.LPCWSTR, T.DWORD, T.DWORD,
+             ctypes.POINTER(SecurityAttributes))
+        bind(self.u, 'SetProcessWindowStation', T.BOOL, T.HANDLE)
+        bind(self.u, 'CloseWindowStation', T.BOOL, T.HANDLE)
         bind(self.u, 'GetUserObjectInformationW', T.BOOL, T.HANDLE, ctypes.c_int, P,
              T.DWORD, ctypes.POINTER(T.DWORD))
         bind(self.u, 'CreateDesktopW', T.HANDLE, T.LPCWSTR, P, P, T.DWORD, T.DWORD,
@@ -207,7 +229,11 @@ class Worker:
         bind(self.u, 'CloseDesktop', T.BOOL, T.HANDLE)
         original = T.HANDLE()
         try:
-            require(self.a.OpenProcessToken(self.k.GetCurrentProcess(), 8, ctypes.byref(original)))
+            # A guest coordinator may already be administrative, but its tools
+            # must not inherit that authority. TOKEN_QUERY | DUPLICATE |
+            # ASSIGN_PRIMARY permits creating a restricted version of our own
+            # token; this neither authenticates another user nor elevates.
+            require(self.a.OpenProcessToken(self.k.GetCurrentProcess(), 0x8b, ctypes.byref(original)))
             size = T.DWORD()
             self.a.GetTokenInformation(original, 1, None, 0, ctypes.byref(size))
             user_info = ctypes.create_string_buffer(size.value)
@@ -219,9 +245,47 @@ class Worker:
                 self.user_sid = user_string.value
             finally:
                 self.k.LocalFree(ctypes.cast(user_string, P))
+            elevated = T.DWORD()
+            require(self.a.GetTokenInformation(original, 20, ctypes.byref(elevated),
+                                               ctypes.sizeof(elevated), ctypes.byref(size)))
+            if elevated.value:
+                administrators = P()
+                require(self.a.ConvertStringSidToSidW('S-1-5-32-544', ctypes.byref(administrators)))
+                try:
+                    disabled = SidAttributes(administrators, 0)
+                    self.token = T.HANDLE()
+                    # DISABLE_MAX_PRIVILEGE | LUA_TOKEN, with Administrators
+                    # explicitly deny-only. AppContainer is applied separately
+                    # at process creation. Never use SANDBOX_INERT.
+                    require(self.a.CreateRestrictedToken(original, 5, 1, ctypes.byref(disabled),
+                            0, None, 0, None, ctypes.byref(self.token)))
+                    # With guest UAC disabled, the coordinator's default owner
+                    # and ACL can rely on Administrators. That group is now
+                    # deny-only; give newly created worker objects an owner and
+                    # default ACL that the same user can actually access.
+                    user_sid = ctypes.cast(user_info, ctypes.POINTER(SidAttributes)).contents.sid
+                    owner_sid = P(user_sid)
+                    require(self.a.SetTokenInformation(self.token, 4, ctypes.byref(owner_sid), ctypes.sizeof(owner_sid)))
+                    default_descriptor = P()
+                    require(self.a.ConvertStringSecurityDescriptorToSecurityDescriptorW(
+                        'D:P(A;;GA;;;SY)(A;;GA;;;' + self.user_sid + ')', 1,
+                        ctypes.byref(default_descriptor), None))
+                    try:
+                        acl, present, defaulted = P(), T.BOOL(), T.BOOL()
+                        require(self.a.GetSecurityDescriptorDacl(default_descriptor, ctypes.byref(present),
+                                                                ctypes.byref(acl), ctypes.byref(defaulted)))
+                        require(self.a.SetTokenInformation(self.token, 6, ctypes.byref(acl), ctypes.sizeof(acl)))
+                    finally:
+                        self.k.LocalFree(default_descriptor)
+                    require(self.a.GetTokenInformation(self.token, 20, ctypes.byref(elevated),
+                                                       ctypes.sizeof(elevated), ctypes.byref(size)))
+                    if elevated.value:
+                        raise PermissionError('Restricted worker token is still elevated')
+                finally:
+                    self.k.LocalFree(administrators)
             # Create only a new temporary identity. Its default filesystem profile
             # is redirected into owned work before any worker starts.
-            self.profile_name = 'org.disked.worker.' + uuid.uuid4().hex
+            self.profile_name = profile_name or 'org.disked.worker.' + uuid.uuid4().hex
             self.sid = P()
             records = profiles(self.control)
             if records:
@@ -305,8 +369,32 @@ class Worker:
                     ctypes.byref(ui_descriptor), None))
             try:
                 attributes = SecurityAttributes(ctypes.sizeof(SecurityAttributes), ui_descriptor, False)
-                self.desktop = require(self.u.CreateDesktopW(name, None, None, 0,
-                                                             0xf01ff, ctypes.byref(attributes)))
+                if private_station:
+                    station_descriptor = P()
+                    station_sddl = ('D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;' + self.user_sid +
+                                    ')(A;;0x2037f;;;' + self.restricting_sid + ')S:(ML;;NW;;;LW)')
+                    require(self.a.ConvertStringSecurityDescriptorToSecurityDescriptorW(
+                        station_sddl, 1, ctypes.byref(station_descriptor), None))
+                    try:
+                        station_attributes = SecurityAttributes(ctypes.sizeof(SecurityAttributes), station_descriptor, False)
+                        station = 'DiskEdStation-' + uuid.uuid4().hex
+                        # CWF_CREATE_ONLY: never adopt another window station.
+                        with _STATION_LOCK:
+                            original_station = require(self.u.GetProcessWindowStation())
+                            try:
+                                self.station = require(self.u.CreateWindowStationW(station, 1, 0xf037f,
+                                                                                  ctypes.byref(station_attributes)))
+                                self.desktop_name = station + '\\' + name
+                                require(self.u.SetProcessWindowStation(self.station))
+                                self.desktop = require(self.u.CreateDesktopW(name, None, None, 0,
+                                                                             0xf01ff, ctypes.byref(attributes)))
+                            finally:
+                                require(self.u.SetProcessWindowStation(original_station))
+                    finally:
+                        self.k.LocalFree(station_descriptor)
+                else:
+                    self.desktop = require(self.u.CreateDesktopW(name, None, None, 0,
+                                                                 0xf01ff, ctypes.byref(attributes)))
             finally:
                 self.k.LocalFree(ui_descriptor)
         except BaseException:
@@ -333,6 +421,8 @@ class Worker:
              P, ctypes.c_size_t, P, P)
         bind(self.k, 'DeleteProcThreadAttributeList', None, P)
         bind(self.k, 'CreateProcessW', T.BOOL, T.LPCWSTR, T.LPWSTR,
+             P, P, T.BOOL, T.DWORD, P, T.LPCWSTR, ctypes.POINTER(StartupInfoEx), ctypes.POINTER(ProcessInfo))
+        bind(self.a, 'CreateProcessAsUserW', T.BOOL, T.HANDLE, T.LPCWSTR, T.LPWSTR,
              P, P, T.BOOL, T.DWORD, P, T.LPCWSTR, ctypes.POINTER(StartupInfoEx), ctypes.POINTER(ProcessInfo))
         bind(self.k, 'ResumeThread', T.DWORD, T.HANDLE)
         bind(self.k, 'TerminateProcess', T.BOOL, T.HANDLE, T.UINT)
@@ -369,8 +459,12 @@ class Worker:
             block = ctypes.create_unicode_buffer('\0'.join(k + '=' + str(v) for k, v in
                     sorted(env.items(), key=lambda row: row[0].upper())) + '\0\0')
             line = ctypes.create_unicode_buffer(subprocess.list2cmdline(command))
-            require(self.k.CreateProcessW(executable, line, None, None,
-                    True, 0x08080404, block, str(self.work), ctypes.byref(startup), ctypes.byref(process)))
+            arguments = (executable, line, None, None, True, 0x08080404, block,
+                         str(self.work), ctypes.byref(startup), ctypes.byref(process))
+            if self.token:
+                require(self.a.CreateProcessAsUserW(self.token, *arguments))
+            else:
+                require(self.k.CreateProcessW(*arguments))
             # The worker cannot execute even one instruction before job assignment.
             require(job.api.AssignProcessToJobObject(job.handle, process.process))
             if self.k.ResumeThread(process.thread) == 0xffffffff:
@@ -391,9 +485,15 @@ class Worker:
                 self.k.CloseHandle(handle)
 
     def close(self):
+        if self.token:
+            self.k.CloseHandle(self.token)
+            self.token = None
         if self.desktop:
             self.u.CloseDesktop(self.desktop)
             self.desktop = None
+        if self.station:
+            self.u.CloseWindowStation(self.station)
+            self.station = None
         cleanup_error = None
         try:
             if self.profile_created:

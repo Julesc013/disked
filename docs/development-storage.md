@@ -30,6 +30,27 @@ existing budgets, protect concurrent users, and remove disposable output after
 use. A guest login/transport and its actual toolchain must be established before
 claiming a guest build or test result.
 
+The [2026-10-18 guest proof](../.aide/evidence/2026-10-18-guest-capacity/README.md)
+now demonstrates both 32 MiB and 512 MiB fixed filesystems in this guest. Windows
+returned disk-full error 112; outside writes and backing-file writes were denied;
+non-elevated AppContainer workers, descendants and interrupted controllers were
+retired, and their profile mappings and test images were removed. The earlier
+failed attempts remain retained. This qualifies the recorded bootstrap boundary,
+not a native compiler, product, physical device or other execution environment.
+
+The guest coordinator may administer its newly owned virtual image. An elevated
+coordinator now derives a restricted primary token before starting tools; the
+worker's actual elevation flag must be zero. Service sessions use an owned private
+window station, with the coordinator's station restored after creation. Device
+access for fresh package identities is separate from the backing-file ACL, which
+must remain unchanged. The storage watchdog still does not constitute a quota.
+
+`C:\ProgramData\DiskEd\python314\python.exe` is a verified project-owned portable
+Python 3.14.7 runtime (37,630,185 content bytes), copied from the installed host
+runtime without site-packages, caches or an installer. Its transfer archive was
+removed. It changes neither the global PATH nor registry; additional coordinator
+dependencies and every actual compiler/build claim remain separate work.
+
 ### One-time guest connection setup
 
 The Agents guest administrator and its encrypted host-side credential are now
