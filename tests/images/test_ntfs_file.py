@@ -20,6 +20,50 @@ PROBE = FAULT = None
 RECEIPTS = []
 UNVERIFIED = []
 BINDING_OBSERVATIONS = []
+SPARSE_OBSERVATIONS = []
+
+
+def size_fixture(stream, size):
+    if size <= (1 << 32):
+        stream.truncate(size)
+        return
+    # CRT-backed truncate can write zeros while extending. Set the logical EOF
+    # directly on an explicitly sparse, newly created owned fixture instead.
+    import msvcrt
+    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+    kernel.DeviceIoControl.argtypes = [wintypes.HANDLE,wintypes.DWORD,wintypes.LPVOID,wintypes.DWORD,
+                                      wintypes.LPVOID,wintypes.DWORD,ctypes.POINTER(wintypes.DWORD),wintypes.LPVOID]
+    kernel.DeviceIoControl.restype = wintypes.BOOL
+    kernel.SetFilePointerEx.argtypes = [wintypes.HANDLE,ctypes.c_longlong,wintypes.LPVOID,wintypes.DWORD]
+    kernel.SetFilePointerEx.restype = wintypes.BOOL
+    kernel.SetEndOfFile.argtypes = [wintypes.HANDLE]
+    kernel.SetEndOfFile.restype = wintypes.BOOL
+    handle = msvcrt.get_osfhandle(stream.fileno())
+    returned = wintypes.DWORD()
+    stream.flush()
+    if not kernel.DeviceIoControl(handle,0x000900c4,None,0,None,0,ctypes.byref(returned),None):
+        raise ctypes.WinError(ctypes.get_last_error())
+    if not kernel.SetFilePointerEx(handle,size,None,0) or not kernel.SetEndOfFile(handle):
+        raise ctypes.WinError(ctypes.get_last_error())
+    stream.seek(0)
+
+
+def record_sparse_fixture(stream, size):
+    if size <= (1 << 32):
+        return
+    import msvcrt
+    class Standard(ctypes.Structure):
+        _fields_ = [('allocated',ctypes.c_longlong),('end',ctypes.c_longlong),
+                    ('links',wintypes.DWORD),('pending',ctypes.c_byte),('directory',ctypes.c_byte)]
+    kernel = ctypes.WinDLL('kernel32',use_last_error=True)
+    kernel.GetFileInformationByHandleEx.argtypes = [wintypes.HANDLE,ctypes.c_int,wintypes.LPVOID,wintypes.DWORD]
+    kernel.GetFileInformationByHandleEx.restype = wintypes.BOOL
+    stream.flush()
+    info = Standard()
+    if not kernel.GetFileInformationByHandleEx(msvcrt.get_osfhandle(stream.fileno()),1,ctypes.byref(info),ctypes.sizeof(info)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    assert info.end == size and 0 <= info.allocated <= 16 * 1024 * 1024, (info.end,info.allocated)
+    SPARSE_OBSERVATIONS.append(dict(path=str(stream.name),logical_bytes=info.end,allocated_bytes=info.allocated))
 
 
 def canonical(value):
@@ -88,21 +132,12 @@ class Tests(unittest.TestCase):
         path = self.root / (name or f'generated-{self.index}.img')
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open('xb') as stream:
-            if int(v.input['offset']) > (1<<32):
-                import msvcrt
-                returned = wintypes.DWORD()
-                sparse = ctypes.windll.kernel32.DeviceIoControl
-                sparse.argtypes = [wintypes.HANDLE,wintypes.DWORD,wintypes.LPVOID,wintypes.DWORD,
-                                   wintypes.LPVOID,wintypes.DWORD,ctypes.POINTER(wintypes.DWORD),wintypes.LPVOID]
-                sparse.restype = wintypes.BOOL
-                if not sparse(msvcrt.get_osfhandle(stream.fileno()),0x000900c4,None,0,None,0,ctypes.byref(returned),None):
-                    reason = 'owned sparse fixture unsupported: '+str(ctypes.GetLastError())
-                    UNVERIFIED.append(dict(check='actual-offset-over4GiB',reason=reason))
-                    self.skipTest(reason)
-            stream.truncate(int(v.input['source_bytes']))
+            size = int(v.input['source_bytes'])
+            size_fixture(stream,size)
             for region in v.input['regions']:
                 stream.seek(int(region['offset']))
                 stream.write(bytes.fromhex(region['hex']))
+            record_sparse_fixture(stream,size)
         # Closing makes fixture bytes visible; this is not a power-loss test.
         return v, path
 
@@ -279,6 +314,22 @@ class Tests(unittest.TestCase):
                 self.assertEqual(self.preserve(moved,[self.row(v,junction)])[0]['refusal'],'image_reparse_source')
             finally:os.rmdir(junction)
         link=self.root/'leaf.img'
+        prepared = os.environ.get('DISKED_TEST_SYMLINK_ROOT')
+        if prepared:
+            root = Path(prepared)
+            self.assertTrue(root.is_absolute() and root.is_relative_to(Path(os.environ['DISKED_WORK_ROOT'])))
+            self.assertEqual(root,Path(os.environ['DISKED_WORK_ROOT'])/'symlink-fixture')
+            target,link = root/'source.img',root/'leaf.img'
+            self.assertTrue(link.is_symlink())
+            self.assertEqual(link.resolve(),target)
+            self.assertFalse(target.is_symlink())
+            self.assertEqual(target.stat().st_size,int(v.input['source_bytes']))
+            with target.open('rb') as stream:
+                for region in v.input['regions']:
+                    raw=bytes.fromhex(region['hex']);stream.seek(int(region['offset']))
+                    self.assertEqual(stream.read(len(raw)),raw)
+            self.assertEqual(self.preserve(target,[self.row(v,link)])[0]['refusal'],'image_reparse_source')
+            return
         try:os.symlink(moved,link)
         except OSError as error:UNVERIFIED.append(dict(check='actual-file-symlink',reason=str(error)))
         else:
@@ -355,6 +406,7 @@ def main():
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
     summary=dict(cases=len(RECEIPTS),methods=result.testsRun,failures=len(result.failures),errors=len(result.errors),
                  receipts=RECEIPTS,unverified=UNVERIFIED,path_binding=BINDING_OBSERVATIONS,
+                 sparse_fixtures=SPARSE_OBSERVATIONS,
                  scope='Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission.')
     if args.output:args.output.write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(0 if result.wasSuccessful() else 1)

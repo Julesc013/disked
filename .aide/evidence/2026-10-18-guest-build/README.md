@@ -135,3 +135,19 @@ data reads. Original79 file cases remain required (85 total), along with all18
 Win32 groups and the complete current x64 gate. This repair has not yet received
 native evaluation. The latest complete specification run passed253 tests with
 two expected skips; its raw receipt is retained once in specification-checks.json.xz.
+
+Attempt 14 at ef1ffeb2 passed the Win32 build, all nine PE32/security-flag/import/
+dependency observations and all six binding rows with unchanged source bytes.
+The first native group retained83 calls, two errors extending large sparse
+fixtures through CRT-backed truncate, and one unavailable symlink creation under
+the deliberately restricted token. The group remains failed; neither error nor
+missing privilege is a pass. Its complete output and cleanup receipt are retained
+as fourteenth-sparse-fixtures*.
+
+The fixture repair uses explicit sparse marking and native logical EOF, records
+actual allocation after writing the original regions, and adds a confined
+high-offset/zero-hole/removal preflight before compilation. A guest coordinator
+prepares one bounded source and actual symlink; the same non-elevated product
+probe must reject it. Worker privileges, original fixture bytes/cases, all18
+groups and per-test deadlines remain unchanged. This fixture repair is not yet
+natively evaluated.

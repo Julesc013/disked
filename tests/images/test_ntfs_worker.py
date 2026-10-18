@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 from test_ntfs_capture import Volume, bytes_at
-from test_ntfs_file import canonical, digest, file_digest, temporary_directory
+from test_ntfs_file import canonical, digest, file_digest, temporary_directory, size_fixture, record_sparse_fixture
 
 PROBE = FAULT = None
 RECEIPTS = []
@@ -45,9 +45,11 @@ class Tests(unittest.TestCase):
         self.index += 1
         path = self.root / f'generated-{self.index}.img'
         with path.open('xb') as stream:
-            stream.truncate(int(volume.input['source_bytes']))
+            size = int(volume.input['source_bytes'])
+            size_fixture(stream,size)
             for row in volume.input['regions']:
                 stream.seek(int(row['offset'])); stream.write(bytes.fromhex(row['hex']))
+            record_sparse_fixture(stream,size)
         return volume, path, dict(path=str(path), offset=volume.input['offset'], length=volume.input['length'],capture_epoch='77')
 
     def preserve(self, path, row, fault=False):

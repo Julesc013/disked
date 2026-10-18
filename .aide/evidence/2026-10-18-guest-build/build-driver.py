@@ -160,6 +160,11 @@ def main():
 
         def budget():
             s.check(SOURCE)
+            # The fixed image below already charges every backing byte. Inspect
+            # its owned work tree separately for allocation/entry observations;
+            # count test reparse objects without following their targets.
+            allocated = s.tree_bytes(work, allocated=True, file_limit=20000, allow_links=True)
+            result['peak_scratch_allocated_bytes'] = max(result.get('peak_scratch_allocated_bytes',0),allocated)
             total = s.tree_bytes(ROOT / 'scratch', allocated=True, file_limit=20000, allow_links=False)
             total += s.tree_bytes(SOURCE, allocated=True, file_limit=20000, allow_links=False)
             total += s.tree_bytes(control, allocated=True, file_limit=20000, allow_links=True)
@@ -295,6 +300,23 @@ assert not path.exists()
 print(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))
 '''
         run('fixture-temporary-preflight', [python, '-B', '-c', fixture_preflight, SOURCE / 'tests'], timeout=30)
+        sparse_preflight = r'''
+import json,pathlib,sys
+sys.path.insert(0,sys.argv[1]);sys.path.insert(0,sys.argv[2])
+from support.tempdir import temporary_directory
+from test_ntfs_file import size_fixture,record_sparse_fixture,SPARSE_OBSERVATIONS
+with temporary_directory(prefix='disked-sparse-preflight-') as directory:
+    target=pathlib.Path(directory)/'high-offset.img';offset=(1<<32)+173
+    with target.open('xb') as stream:
+        size_fixture(stream,offset+4096);stream.seek(offset);stream.write(b'owned high-offset data')
+        record_sparse_fixture(stream,offset+4096)
+    with target.open('rb') as stream:
+        assert stream.read(64)==bytes(64);stream.seek(offset);assert stream.read(22)==b'owned high-offset data'
+    assert target.stat().st_size==offset+4096
+assert not target.exists()
+print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
+'''
+        run('fixture-sparse-preflight', [python, '-B', '-c', sparse_preflight, SOURCE / 'tests', SOURCE / 'tests/images'], timeout=30)
         mode = json.loads((ROOT / 'expected.json').read_bytes()).get('execution_kind', 'win32')
         if mode == 'path-probe':
             result['schema'] = 'org.disked.guest-path-api-probe/1'
@@ -302,6 +324,28 @@ print(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))
             _, raw = run('path-api-probe', [python, '-B', '-c', (ROOT / 'path-api-probe.py').read_text(), SOURCE / 'tests'], timeout=30)
             result['path_api_probe'] = json.loads(raw.decode().splitlines()[-1])
         elif mode == 'win32':
+            # Creating a symlink needs a guest setup privilege; reading/refusing
+            # it remains a test of the actual unprivileged native executable.
+            sys.path.insert(0,str(SOURCE / 'tests/images'))
+            from test_ntfs_capture import Volume
+            volume = Volume()
+            fixture_root = work / 'symlink-fixture'
+            fixture_root.mkdir()
+            target,link = fixture_root / 'source.img',fixture_root / 'leaf.img'
+            size = int(volume.input['source_bytes'])
+            if size > 16 * 1024 * 1024:
+                raise RuntimeError('Prepared symlink fixture exceeds its declared bound')
+            with target.open('xb') as stream:
+                stream.truncate(size)
+                for region in volume.input['regions']:
+                    stream.seek(int(region['offset']));stream.write(bytes.fromhex(region['hex']))
+            os.symlink(target,link)
+            if not link.is_symlink() or link.resolve() != target:
+                raise RuntimeError('Prepared symlink did not bind the owned source')
+            archive.writestr('prepared-symlink.json',json.dumps(dict(source=str(target),link=str(link),
+                source_sha256=sha(target),source_bytes=size,created_by='guest Agents coordinator',
+                native_consumer='non-elevated AppContainer')).encode())
+            env['DISKED_TEST_SYMLINK_ROOT'] = str(fixture_root)
             run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
                                  '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
                                  '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
@@ -374,6 +418,8 @@ print(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))
                 if test == 'image.ntfs_file':
                     if not summary or summary['cases'] != 85 or len(summary.get('path_binding',[])) != 1:
                         raise RuntimeError('Original79 plus six binding rows were not all evaluated')
+                    if len(summary.get('sparse_fixtures',[])) != 2:
+                        raise RuntimeError('Both original high-offset sparse fixtures must be observed')
         else:
             raise RuntimeError('Unknown guest campaign execution kind')
         result['status'] = 'pass'
