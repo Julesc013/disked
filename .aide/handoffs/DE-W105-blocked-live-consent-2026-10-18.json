@@ -1,0 +1,55 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "772c5c898974753388be5a84f69e95b51c2eaae2",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "blocked",
+  "files_read": [
+    "AGENTS.md",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-18-storage-proof/live-wait.json",
+    "TODO.MD"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
+    ".aide/handoffs/DE-W105-blocked-live-consent-2026-10-18.json"
+  ],
+  "summary": "Previous and current turns are verified waits, each polling the same confirmed-live proof. The same Windows elevation gate has persisted for three resumed turns and no meaningful native progress is possible without console/external-state change. The model goal is blocked, but the existing authorized bounded proof remains live in execsession3682/requester79196; no stop or restart is claimed. No image exists and capacity proof remains unverified. Preserve the full original all-platform/storage0.1.0 objective and grant.",
+  "tests": [
+    {
+      "command": "Poll exec session3682 and verify exact Windows requester79196/parent66932/creation and consent state",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json"
+    },
+    {
+      "command": "32MiB filesystem allocation/write/interruption test body (launcher still waiting)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json"
+    },
+    {
+      "command": "DE-W105 remaining native qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "blocked",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
+      "sha256": "sha256:d84bd3989baf610a23fdf6ef02f08ff9e2955eaaee7475cba03413cafa666aa5"
+    }
+  ],
+  "blockers": [
+    "The already-issued elevation request has not completed; its requester and Windows consent process remain live. VM-console completion or diagnosis is required; no additional project authorization is missing.",
+    "Actual capacity proof, final capped runner/compiler qualification, DE-W105 native checks and original all-platform/storage0.1.0 completion remain incomplete."
+  ],
+  "next_safe_step": "Complete or diagnose the fresh Windows UAC at the VM console and resume the unchanged full0.1.0 goal. Preserve and poll existing exec session3682/requester79196(parent66932,created2026-10-18T00:14:02.220936Z). Do not restart or kill it solely because observation timed out. If it completes while the model goal is blocked, inspect this run's source-bound receipt (source7442a800) and cleanup before final capped runner/native admission. No additional setup grant is missing.",
+  "performed_remote_writes": false
+}

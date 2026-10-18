@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "active",
+  "status": "blocked",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Poll the existing exec session3682 and exact proof requester79196 (parent66932,created2026-10-18T00:14:02.220936Z); verify live OS state if a tool observation fails. Do not start another proof or treat observation timeout as termination. Complete the fresh UAC at the VM console; then inspect this run's source-bound receipt and actual capped-filesystem results before any native admission. Original all-platform/storage0.1.0 scope remains.",
+  "next_action": "Complete or diagnose the fresh Windows UAC at the VM console and resume the unchanged full0.1.0 goal. Preserve and poll existing exec session3682/requester79196(parent66932,created2026-10-18T00:14:02.220936Z). Do not restart or kill it solely because observation timed out. If it completes while the model goal is blocked, inspect this run's source-bound receipt (source7442a800) and cleanup before final capped runner/native admission. No additional setup grant is missing.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2229,7 +2229,7 @@
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
   "native_development_state": "waiting_live_storage_proof",
-  "native_pause_reason": "Native campaigns still need actual capacity/final-runner proof. Old consent processes cleared; one fresh, already-authorized32MiB proof is live and waiting for Windows consent. No retry or image allocation while waiting.",
+  "native_pause_reason": "The model goal is blocked after three resumed turns awaiting external Windows elevation. The previously issued bounded proof remains live; no requester termination, second request, image or native qualification is implied.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2301,11 +2301,11 @@
     "latest_admission_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json"
   },
   "execution_environment_gate": {
-    "status": "verified_wait_for_live_elevation_request",
+    "status": "blocked_on_console_with_live_requester",
     "resumed_at": "2026-10-18T00:20:15.5259164Z",
     "previous_goal_turn": "verified_wait",
     "current_turn": "verified_wait",
-    "consecutive_goal_turns": 2,
+    "consecutive_goal_turns": 3,
     "consecutive_no_progress_turns": 0,
     "previous_blocked_audit": ".aide/evidence/2026-10-17-workspace-cleanup/storage-goal-blocked-audit.json",
     "requester": {
@@ -2321,8 +2321,10 @@
     "source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
     "native_capacity_proven": false,
     "additional_authorization_missing": false,
-    "audit": ".aide/evidence/2026-10-18-storage-proof/live-wait.json",
-    "last_observed_at": "2026-10-18T00:28:10.507006+00:00",
-    "owned_requester_confirmed_live": true
+    "audit": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
+    "last_observed_at": "2026-10-18T00:30:49.3604456Z",
+    "owned_requester_confirmed_live": true,
+    "requester_stopped": false,
+    "model_goal_blocked": true
   }
 }
