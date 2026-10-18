@@ -59,6 +59,16 @@ directory: the worker now provisions that directory inside fresh owned work and
 validates it before each launch. This is compiler/bootstrap evidence; the actual
 DiskEd source snapshot, product build and remaining native tests are still next.
 
+Use [tools/source-snapshot.py](../tools/source-snapshot.py) for the bounded exact
+source transfer. It selects the canonical build inputs, an explicit work unit's
+required inputs and routing files from a clean Git revision; only their blobs and
+the current commit/trees enter the pack. It refuses dirty source, unsafe paths,
+links, oversized selections and corrupted packs. Materialization uses explicit
+LF checkout policy and verifies every selected file plus the exact clean Git
+identity. The [real-repository transport check](../.aide/evidence/2026-10-18-guest-source/README.md)
+verified 931 inputs in a 3.7 MiB pack; the disposable pack/checkout were removed.
+Its hash-bound metadata does not qualify a guest build or authorize execution.
+
 ### One-time guest connection setup
 
 The Agents guest administrator and its encrypted host-side credential are now

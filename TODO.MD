@@ -29,6 +29,10 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents acce
   [Evidence](.aide/evidence/2026-10-18-guest-native/README.md).
 - [ ] Build and qualify DiskEd itself in the guest; compiler probes do not
   substitute for the DE-W105 product/private Win32 criteria.
+- [x] Verify bounded exact source transport on the actual repository: 931 inputs,
+  a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
+  the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build
+  remains separate. [Evidence](.aide/evidence/2026-10-18-guest-source/README.md).
 - [x] Demonstrate guest 32/512 MiB allocation denial, write confinement and
   interrupted cleanup under a non-elevated worker; remove images and temporary
   copies. [Evidence](.aide/evidence/2026-10-18-guest-capacity/README.md).

@@ -1,0 +1,101 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "5a66bed951bda0a7e263730b47580cc6ae629328",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/schemas/handoff.schema.json",
+    "tools/build-inputs.json",
+    "tools/source-snapshot.py",
+    "tests/tools/test_source_snapshot.py",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-18-guest-native/source-snapshot.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-source/README.md",
+    ".aide/evidence/2026-10-18-guest-source/qualification.json",
+    ".aide/evidence/2026-10-18-guest-source/qualified-manifest.json.xz",
+    ".aide/evidence/2026-10-18-guest-source/result.json",
+    ".aide/evidence/2026-10-18-guest-source/source-manifest.json.xz",
+    ".aide/evidence/2026-10-18-guest-source/tooling-checks.json",
+    ".aide/evidence/2026-10-18-guest-source/tooling-observations.json.xz",
+    ".aide/evidence/2026-10-18-guest-source/validate-tools.py",
+    ".aide/handoffs/2026-10-18-guest-source.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tests/tools/test_source_snapshot.py",
+    "tools/source-snapshot.py"
+  ],
+  "summary": "Actual source export at5a66bed9 materialized with a .gitignore EOL byte mismatch; failure and original input manifest retained. Added reusable bounded tools/source-snapshot.py and seven fixtures to canonical tool tests: explicit core.eol=lf preserves exact blobs and batch reads avoid one Git process per input.113 tests passed/one expected skip. Actual clean de8cd704 export/materialization then verified931 exact files,12,303,264 content bytes and clean original Git identity using a3,873,415-byte pack. Pack/checkout were removed by the managed runner; only compressed manifests and compact observations retained. No guest/product build or native-test completion, owner acceptance, main promotion or release claim. Existing guest x64/x86 compiler qualification remains recorded separately.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-source/validate-tools.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-source/tooling-checks.json"
+    },
+    {
+      "command": "Managed host Git export/materialization of exact de8cd704 selected inputs using tools/source-snapshot.py; per-file hashes and clean HEAD verification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-source/qualification.json"
+    },
+    {
+      "command": "Original actual-source materialization using the preceding dated helper",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-source/result.json"
+    },
+    {
+      "command": "Guest materialization, pinned CMake configure and private Win32 supplement",
+      "cwd": "BlackGlass-HyperV",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/qualification.json",
+      "sha256": "sha256:ab53edf22ac95228f0d97f9ad2538ea704c14f027357abaf3fa4044bee2b5755"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/qualified-manifest.json.xz",
+      "sha256": "sha256:ee95079305922427bea2b66b30527116f921da994cd6f69b1ee0a54363fa55b2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/result.json",
+      "sha256": "sha256:8edbb6b70ace31033e240bdfdaba3685321a1aac259ef45c029978cb67ae1461"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/source-manifest.json.xz",
+      "sha256": "sha256:e22399c61d31c45481babc445a607618ea5ef84ab71a438978f716273b2e4102"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/tooling-checks.json",
+      "sha256": "sha256:1357dfe8132a43d08debe092c4e30e44b1529a5f77e92259bd64cebb000cb779"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/tooling-observations.json.xz",
+      "sha256": "sha256:f39ac168038242f1a6496a633c9b9915704fcf395733fc8886bcd39ef0a3d465"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-source/README.md",
+      "sha256": "sha256:9895094bb6806513441ca06420262aca0cbc0653a6b17582d300aa7cb0f279d8"
+    }
+  ],
+  "blockers": [
+    "Guest source materialization/product build and DE-W105 private Win3218-group qualification remain unrun; no missing account/UAC/transport implementation authority is claimed."
+  ],
+  "next_safe_step": "From a clean exact revision, use tools/source-snapshot.py within one managed campaign to transfer the bounded package into the existing Agents guest before removing host temporary work. Verify every source input and clean Git identity, obtain a pinned x64 CMake File API codemodel and build/test the18-group Win32 fixture inside the512MiB restricted worker boundary. Keep source cleanup/profile recovery and compact result retention real; do not rerun completed probes or copy accumulated history. Materialize the fresh project source before invoking its own tools/workspace.py, so source ownership markers and the top-level worker-profile recovery journal agree. Keep source input read-only to workers, all compiler/test output in the cap, and source retirement after confirmed worker quiescence.",
+  "performed_remote_writes": false
+}
