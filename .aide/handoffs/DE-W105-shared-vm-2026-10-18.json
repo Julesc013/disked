@@ -1,0 +1,149 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "b0a168549b4f9f4dfade0825281f81a3df475ff3",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "tools/capped-scratch.ps1",
+    "tools/qualify-storage.py",
+    "tools/windows-worker.py",
+    "tools/workspace.py",
+    "docs/development-storage.md",
+    "spec/schemas/handoff.schema.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+    ".aide/evidence/2026-10-18-vm-execution/REVIEW.md",
+    ".aide/evidence/2026-10-18-vm-execution/before-start.json",
+    ".aide/evidence/2026-10-18-vm-execution/inspection.json",
+    ".aide/evidence/2026-10-18-vm-execution/tooling.json",
+    ".aide/evidence/2026-10-18-vm-execution/tooling.log",
+    ".aide/evidence/2026-10-18-vm-execution/validate.py",
+    ".aide/evidence/2026-10-18-vm-execution/validation.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "docs/development-storage.md",
+    "tests/tools/test_vm_connection.py",
+    "tools/build-inputs.json",
+    "tools/connect-vm.ps1",
+    ".aide/evidence/2026-10-18-vm-execution/remote-sync.json",
+    ".aide/handoffs/DE-W105-shared-vm-2026-10-18.json"
+  ],
+  "summary": "Corrected physical-host/guest confusion. Verified completed exact-source 32 MiB host proof and removal; started the existing guest with two CPUs and 1-3 GiB dynamic RAM. Added a fixed-VM connection helper and refusal tests, retained 99-test coordinator results, and pushed checkpoint519a8cef to dev. Owner will configure guest Codex administrator/global UAC and restart personally. Guest authentication, policy, compiler and campaign cap remain unverified; no new native or full0.1.0 qualification and no main promotion. The full goal scope is unchanged.",
+  "tests": [
+    {
+      "command": "Inspect exact-source host proof receipt and verify helper/source hashes and host scratch absence",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json"
+    },
+    {
+      "command": "Get-VM; Get-VMMemory; Get-VHD; Get-VMIntegrationService (fixed Windows 10 guest)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/inspection.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-vm-execution/validate.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/tooling.json"
+    },
+    {
+      "command": "python -B tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/validation.json"
+    },
+    {
+      "command": "python -B -",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/validation.json"
+    },
+    {
+      "command": "git diff --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/validation.json"
+    },
+    {
+      "command": "pwsh -NoProfile -File tools/clean-scratch.ps1 -Delete -WorkersStopped",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/validation.json"
+    },
+    {
+      "command": "pwsh -NoProfile -File tools/connect-vm.ps1 -SetupCredential (single interactive launch, no saved credential/connection result observed)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "blocked",
+      "exit_code": null,
+      "evidence_path": ".aide/evidence/2026-10-18-vm-execution/inspection.json"
+    },
+    {
+      "command": "Guest native/Win32 build and product tests after capacity/token/toolchain qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/before-start.json",
+      "sha256": "sha256:71a5bde3a5a5d61d34966b64fa7e8a5eaeb155e8e33b01bf3d716c6a63b23600"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/inspection.json",
+      "sha256": "sha256:2aa4d72d069789f8ddca43f846e7a9535d3f6b63b879650270a147cdc4ef3781"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/remote-sync.json",
+      "sha256": "sha256:8b9b8c79be73ae820fa500fabeaf5daff964892ab72e70afbcf4b9f3e8874633"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/REVIEW.md",
+      "sha256": "sha256:12c86da9b59ee0d3339dad3a51567f030399f9d76c14337357973a53e70e35b1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/tooling.json",
+      "sha256": "sha256:307356c1c60cb78550ebf00b31f365c0908991de8eaa3d4c550ba8ade63f1359"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/tooling.log",
+      "sha256": "sha256:e2db1b4d50fa0163091d1dad10bcdbb08eb488f8724820efeacc255cc61d11ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/validate.py",
+      "sha256": "sha256:206c20dc70b73bf16e13f6666b704a25be004aeea2f929b0e66c593e1137888e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-vm-execution/validation.json",
+      "sha256": "sha256:447d7be81afefa2d7c630ff920c9af30c0d3d1537c53ddcfa16563f530d5f1b0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+      "sha256": "sha256:14d58a0ede14e47abe63a53a043106d526ace89fa685cfb3a26aa8b99a929dd2"
+    }
+  ],
+  "blockers": [
+    "Owner guest setup/restart and one verified unattended guest credential are pending.",
+    "Guest storage confinement/capacity and actual native toolchain remain unqualified.",
+    "Full0.1.0 implementation, owner acceptance and applicable platform/release gates remain incomplete."
+  ],
+  "next_safe_step": "Owner finishes guest Codex administrator/global-UAC setup and required guest restart. Complete one verified guest credential setup with tools/connect-vm.ps1 -SetupCredential, then use its unattended PowerShell Direct connection. Inspect actual guest policy, token, toolchain, free space and cap before the bounded DE-W105 Win32/native campaign. Other agents share the VM: no automatic VM stop/reset/reboot or broad process cleanup.",
+  "performed_remote_writes": true
+}
