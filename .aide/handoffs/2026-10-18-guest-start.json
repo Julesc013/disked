@@ -1,0 +1,286 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "0e2e913381db71318e9ff27a27b3ba11dbd2e1a0",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/schemas/handoff.schema.json",
+    "spec/manifest.json",
+    "tools/connect-vm.ps1",
+    "tools/workspace.py",
+    "tools/windows-worker.py",
+    "tools/capped-scratch.ps1",
+    "tools/qualify-storage.py",
+    "tests/tools/test_workspace.py",
+    "tests/tools/test_storage_setup.py",
+    "tests/tools/test_vm_connection.py",
+    "docs/development-storage.md",
+    ".aide/programmes/disked-0.1.0.json",
+    ".gitattributes"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tools/connect-vm.ps1",
+    "tests/tools/test_vm_connection.py",
+    ".aide/evidence/2026-10-18-guest-start/account-configuration-first.json",
+    ".aide/evidence/2026-10-18-guest-start/account-configuration.json",
+    ".aide/evidence/2026-10-18-guest-start/account-inspection.json",
+    ".aide/evidence/2026-10-18-guest-start/bootstrap-access.ps1",
+    ".aide/evidence/2026-10-18-guest-start/cleanup.json",
+    ".aide/evidence/2026-10-18-guest-start/compiler-file-inventory.json",
+    ".aide/evidence/2026-10-18-guest-start/configure-accounts.ps1",
+    ".aide/evidence/2026-10-18-guest-start/connection-after-restart.json",
+    ".aide/evidence/2026-10-18-guest-start/connection-checks-first.json",
+    ".aide/evidence/2026-10-18-guest-start/connection-checks.json",
+    ".aide/evidence/2026-10-18-guest-start/final-guest-observations.json",
+    ".aide/evidence/2026-10-18-guest-start/final-host-observations.json",
+    ".aide/evidence/2026-10-18-guest-start/finish-start.ps1",
+    ".aide/evidence/2026-10-18-guest-start/guest-direct-command.json",
+    ".aide/evidence/2026-10-18-guest-start/guest-inventory.json",
+    ".aide/evidence/2026-10-18-guest-start/inspect-guest.ps1",
+    ".aide/evidence/2026-10-18-guest-start/inspection.json",
+    ".aide/evidence/2026-10-18-guest-start/prepare-agents.ps1",
+    ".aide/evidence/2026-10-18-guest-start/README.md",
+    ".aide/evidence/2026-10-18-guest-start/restart-guest.ps1",
+    ".aide/evidence/2026-10-18-guest-start/restart-result.json",
+    ".aide/evidence/2026-10-18-guest-start/result.json",
+    ".aide/evidence/2026-10-18-guest-start/source-transfer-plan.json",
+    ".aide/evidence/2026-10-18-guest-start/start-refusal-validation.json",
+    ".aide/evidence/2026-10-18-guest-start/startup-result.json",
+    ".aide/evidence/2026-10-18-guest-start/tooling-checks.json",
+    ".aide/evidence/2026-10-18-guest-start/validate-connection.py",
+    ".aide/evidence/2026-10-18-guest-start/validate-start.py"
+  ],
+  "summary": "Configured Agents as the sole routine guest automation account. Under the final owner clarification, set the supplied password on Codex and retain its enabled administrator account and original profile solely as an emergency spare. Both passwords do not expire. Verified guest UAC=0, administrator token and fresh Agents connections after one authorized normal guest restart; host UAC and existing checkpoint unchanged. Existing compiler files match the pin at C:\\BuildTools. Guest Python, hard-cap/confinement and actual native qualification remain pending. Final 100 tooling tests passed with one expected skip; 420 specification manifest entries unchanged. Bootstrap files and host disposable context cleaned. No product tests, account/profile deletion, main promotion, owner acceptance or release claim.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-start/validate-connection.py --all-tools",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/tooling-checks.json"
+    },
+    {
+      "command": "Qualified Agents PowerShell Direct identity probe and tools/connect-vm.ps1 -SetupCredential -GuestCredential [locally supplied]",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/result.json"
+    },
+    {
+      "command": "inspect-guest.ps1 using saved credential; Windows PowerShell 5.1 saved-credential probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/result.json"
+    },
+    {
+      "command": "Direct size/SHA-256 verification of all 420 spec manifest entries",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/result.json"
+    },
+    {
+      "command": "pwsh -NoProfile -File tools/clean-scratch.ps1 -Delete -WorkersStopped",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/cleanup.json"
+    },
+    {
+      "command": "restart-guest.ps1 normal shutdown/start",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/restart-result.json"
+    },
+    {
+      "command": "configure-accounts.ps1 first attempt: overlong description",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/account-configuration-first.json"
+    },
+    {
+      "command": "configure-accounts.ps1 with corrected description",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/account-configuration.json"
+    },
+    {
+      "command": "inspect-guest.ps1 with saved Agents credential after first-login setup",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/guest-inventory.json"
+    },
+    {
+      "command": "Read-only guest tool/version and compiler-file inventories",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-start/compiler-file-inventory.json"
+    },
+    {
+      "command": "DE-W105 guest native build and private Win32 qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/programmes/disked-0.1.0.json",
+      "sha256": "sha256:cacb5ccf17657deb451786d276faaf945955ee848790ba86fcbc11dc23b39209"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "sha256:257f1bb4d6ecde30d1565417451ecacf212411fde198e11a2161698509a38779"
+    },
+    {
+      "path": "TODO.MD",
+      "sha256": "sha256:336031f5bfc7c3b5c690602c5fdbf3f2095d5d1b1758f072d7e6b91d89ee729c"
+    },
+    {
+      "path": "docs/development-storage.md",
+      "sha256": "sha256:7b3771169509b5063976063c12d80366ae58b34f6543c07d2378fb9fb86f5cc2"
+    },
+    {
+      "path": "tools/connect-vm.ps1",
+      "sha256": "sha256:dff161d5c69b372c194080f5ff55465cabc65ebde6dfa466a3c48d7ed57a4f2d"
+    },
+    {
+      "path": "tests/tools/test_vm_connection.py",
+      "sha256": "sha256:e57c3b8777aea200db819a5bf0ac2fbd6a3192cbf0026cc5acbd5c8a66e4249d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/account-configuration-first.json",
+      "sha256": "sha256:608ea556668d1d0e1f7df54dd9c4cc7bbfcf2aa89efbb585d01859a2b6dd35ec"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/account-configuration.json",
+      "sha256": "sha256:6f94e48776536c398f6c0c38e3fab74091f4977fa13d28a36a39cc731092faee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/account-inspection.json",
+      "sha256": "sha256:f3d78c3c273485182bbaa61916d649c2a8000a50b86583e1a19c32abe12d51ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/bootstrap-access.ps1",
+      "sha256": "sha256:2c5cc217eaed84a17646a9b98eee22d949d5d0575e2d7b7df6aee62d65f3aa71"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/cleanup.json",
+      "sha256": "sha256:9ab406715ac576fe925b977d66970810fa397f259b02ce7e9ee745d71fc81954"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/compiler-file-inventory.json",
+      "sha256": "sha256:bffceca990f9175675d6286fb2ec3fbd1aca78f41b5c8967448717edf475cf0a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/configure-accounts.ps1",
+      "sha256": "sha256:af3d9f8aa7ee0f42129b88cd2cd123e127834bf1cc3bbf69c810936ab856c460"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/connection-after-restart.json",
+      "sha256": "sha256:70333cb69857290de204a482065f3e65615f5fa2d78bd5b6cafa65b817b8a164"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/connection-checks-first.json",
+      "sha256": "sha256:ad7edf5ac0aba6a50b43384144b439256a4cfd0f834e6f86e852ad7c4c34f89d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/connection-checks.json",
+      "sha256": "sha256:674138de4751647a099f3ea1291c0fac7ac55d1038b1400358f864555c5d10ee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/final-guest-observations.json",
+      "sha256": "sha256:5b24cc7d95c81c4ade424817dd574b376d608a911c0c7c3a7d220694d6e36738"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/final-host-observations.json",
+      "sha256": "sha256:7068ffe11b461601e6c93872e5f883f15b84797a452cea91f4d06eec5aaa023e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/finish-start.ps1",
+      "sha256": "sha256:9ca31675a1ed81f760201af9f6e59306aa590f95c3c1d29e19d25fb6bc5d69d5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/guest-direct-command.json",
+      "sha256": "sha256:4372cc9a8a1d7373ea50901f794d82d91ee64fefa028579d7eb277fe75e3a4a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/guest-inventory.json",
+      "sha256": "sha256:970cabdb4700b5ff5cdf4ebbf5734a8216fecf891638577375c0f8cc9ae9e070"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/inspect-guest.ps1",
+      "sha256": "sha256:ab3f224ae7c6dda1804bbe085f5a5acd4346382bcef981c6c42573ae7f6a20b3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/inspection.json",
+      "sha256": "sha256:7d8400126018a60a5c0ef15ea65d421ccb020c4b753cbecf8c9d57b7afa8a304"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/prepare-agents.ps1",
+      "sha256": "sha256:098e98f6a4e9277400cea9fe7cdbd36a6581bd8de8cf2ccf798e62e233363370"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/README.md",
+      "sha256": "sha256:048fbaf48ad2f4b0cce4c2f01aeb0262a2d0a6e2489997bcabe7f9e2373b5de5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/restart-guest.ps1",
+      "sha256": "sha256:e5517ef2abb295a6269b61e1b7c2d6596b49b3746ab03313a84bf198ebe09166"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/restart-result.json",
+      "sha256": "sha256:21627073e7e11e00549cadc89d21ece5ea2eb8ece9fd928c3d331610d0be3a39"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/result.json",
+      "sha256": "sha256:10d77ac4acfb3ab7b7268b6a8f82dfa07c39715d0342be7d1e97a5b574c502b1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/source-transfer-plan.json",
+      "sha256": "sha256:c266f0e13f7ff66b927683254644d37dda582da23a47fdc235e48d2ebe0e95aa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/start-refusal-validation.json",
+      "sha256": "sha256:a559a579a14520103c69a62e66fbddf1c088f2a5714e446d418c009a7e42ee91"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/startup-result.json",
+      "sha256": "sha256:d14ec13d8339dd681860ab4fcbe836fbed11a2c59b8e1cf882e5221f86fda372"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/tooling-checks.json",
+      "sha256": "sha256:085220519fc15b57f98eee608a7ebc97e82d4e65bdac987ec69620be182186f4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/validate-connection.py",
+      "sha256": "sha256:408c837a828ef98db3248879ec88b5533c45dd1c68e30213cdd15a54c5a32a52"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-start/validate-start.py",
+      "sha256": "sha256:168c346e10a18f6a6e40671574f6da951496e7302ba9c527f9626cfc779b9760"
+    }
+  ],
+  "blockers": [
+    "Guest Python runtime is not yet available; existing compiler files match the pin but have not been invoked in a guest build.",
+    "Guest hard storage cap, write confinement and interrupted cleanup remain unproven; the historical host proof does not qualify them."
+  ],
+  "next_safe_step": "Prepare a bounded project-owned guest Python runtime, prove guest capped storage/write confinement/interruption cleanup, then execute DE-W105 native qualification using the existing pinned C:\\BuildTools installation. Use Agents only; retain Codex as an emergency spare. Do not mount test media on the host or silently increase budgets.",
+  "performed_remote_writes": false
+}

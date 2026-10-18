@@ -1,0 +1,215 @@
+{
+  "schema": "org.disked.guest-bootstrap-result/1",
+  "observed_at": "2026-10-18T03:51:15.810173+00:00",
+  "base_revision": "0e2e913381db71318e9ff27a27b3ba11dbd2e1a0",
+  "work_id": "DE-W105",
+  "status": "guest_accounts_and_transport_verified_native_preparation_pending",
+  "vm_id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
+  "vm_name": "Windows 10",
+  "guest_dns_name": "BlackGlass-HyperV",
+  "guest_account_domain": "BLACKGLASS-HYPE",
+  "account": "Agents",
+  "account_created": true,
+  "guest_administrator_verified": true,
+  "existing_account_passwords_and_memberships_changed": true,
+  "source_of_account_setup_observations": "Fixed-VM console; net user and net localgroup reported success. First unelevated creation attempt reported system error 5 and created no account.",
+  "guest_jules_used": false,
+  "host_identity": "BLACKGLASS-WIN1\\Jules",
+  "host_uac_changed": false,
+  "guest_enable_lua_before": 1,
+  "guest_enable_lua_configured": 0,
+  "guest_policy_verified_on_console": true,
+  "guest_uac_activation_requires_restart": false,
+  "guest_reboot_by_agent": true,
+  "power_shell_direct_service_restarts": 1,
+  "service_restored_running": true,
+  "credential_configured": true,
+  "credential_storage": "%LOCALAPPDATA%\\DiskEd\\credentials\\vm-3ebbe558-91b9-435b-96e4-0c8199bd38ad.xml",
+  "credential_bytes": 900,
+  "credential_roundtrip_matches_supplied_value": true,
+  "credential_in_git": false,
+  "connection_reliability_qualified": true,
+  "live_connection_checks": [
+    {
+      "command": "Qualified Agents PowerShell Direct core identity probe",
+      "status": "pass",
+      "exit_code": 0,
+      "identity": "BLACKGLASS-HYPE\\Agents",
+      "administrator": true,
+      "model": "Virtual Machine"
+    },
+    {
+      "command": "tools/connect-vm.ps1 -SetupCredential -GuestCredential [locally supplied]",
+      "status": "pass",
+      "exit_code": 0,
+      "source_sha256": "sha256:1fe2088943ea6561e7ae941bcd2517681f524233403e2af9fe3cf1c9ab51559a"
+    },
+    {
+      "command": "inspect-guest.ps1 using saved credential",
+      "status": "fail",
+      "exit_code": 1,
+      "stage": "connect",
+      "error": "An error has occurred which PowerShell cannot handle. A remote session might have ended."
+    },
+    {
+      "command": "Windows PowerShell 5.1 saved-credential diagnostic",
+      "status": "fail",
+      "exit_code": 1,
+      "stage": "connect",
+      "host_powershell": "5.1.19041.7725",
+      "error": "The credential is invalid."
+    },
+    {
+      "command": "tools/connect-vm.ps1 after authorized normal guest restart",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/connection-after-restart.json"
+    },
+    {
+      "command": "Windows PowerShell 5.1 Invoke-Command with unqualified Agents and the existing supplied credential",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/guest-direct-command.json"
+    },
+    {
+      "command": "Agents account inspection after first-login setup",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/account-inspection.json"
+    },
+    {
+      "command": "configure-accounts.ps1 first execution",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/account-configuration-first.json",
+      "reason": "Codex description exceeded the 48-character parameter limit; Agents expiration setting had already applied. No account or profile removed."
+    },
+    {
+      "command": "configure-accounts.ps1 with a shorter account description",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/account-configuration.json"
+    },
+    {
+      "command": "inspect-guest.ps1 using saved Agents credential",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/guest-inventory.json"
+    },
+    {
+      "command": "Agents final tool observations and compiler-file inventory",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence": ".aide/evidence/2026-10-18-guest-start/compiler-file-inventory.json"
+    }
+  ],
+  "tooling": {
+    "tests_run": 100,
+    "passed": 99,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "observed_peak_work_bytes": 88183,
+    "workspace_removed": true,
+    "connection_authentication_mocked": true,
+    "source_scope": "Final full tools suite after the Agents-only policy change; sources bound by tested_sources."
+  },
+  "manifest_files_verified": 420,
+  "spec_sources_changed": false,
+  "native_product_tests_run": false,
+  "guest_capacity_proven": false,
+  "compiler_qualified": false,
+  "installed_software": false,
+  "guest_network_listeners_added": false,
+  "physical_devices_accessed": false,
+  "owner_acceptance": false,
+  "release_published": false,
+  "tested_sources": {
+    "tools/connect-vm.ps1": "sha256:dff161d5c69b372c194080f5ff55465cabc65ebde6dfa466a3c48d7ed57a4f2d",
+    "tests/tools/test_vm_connection.py": "sha256:e57c3b8777aea200db819a5bf0ac2fbd6a3192cbf0026cc5acbd5c8a66e4249d"
+  },
+  "next_action": "Prepare a bounded project-owned guest Python runtime, prove guest capped storage/write confinement/interruption cleanup, then execute DE-W105 native qualification using the existing pinned C:\\BuildTools installation. Use Agents only; retain Codex as an emergency spare. Do not mount test media on the host or silently increase budgets.",
+  "guest_tool_inventory": {
+    "source": ".aide/evidence/2026-10-18-guest-start/final-guest-observations.json",
+    "compiler_source": ".aide/evidence/2026-10-18-guest-start/compiler-file-inventory.json",
+    "compiler_root": "C:\\BuildTools",
+    "toolset": "14.44.35207",
+    "compiler_file_version": "19.44.35228.0",
+    "compiler_invoked": false,
+    "python_launcher": "C:\\Windows\\py.exe",
+    "python_launcher_output": "No installed Pythons found!",
+    "cmake": "3.31.12",
+    "git": "2.53.0.windows.3",
+    "sdk": "10.0.19041.0",
+    "portable_or_custom_runtimes_exhaustively_searched": false
+  },
+  "host_cleanup": {
+    "Mode": "delete",
+    "Target": "D:\\Projects\\DiskEd\\disked\\.aide-local",
+    "EligibleFiles": 5,
+    "LogicalBytes": 199470,
+    "RemovedDirectories": 2,
+    "SkippedEntries": 0,
+    "VolumeFreeBefore": 317122342912,
+    "VolumeFreeAfter": 317122555904,
+    "Skipped": [],
+    "temporary_guest_console_png_removed": true
+  },
+  "remaining_guest_disposable": [],
+  "host_console_viewer": {
+    "pid": 44228,
+    "created_utc": "2026-10-18T02:02:42.4013842Z",
+    "left_open": true,
+    "reason": "Shared desktop changed outside controller actions; do not interrupt a potential user session."
+  },
+  "windows_powershell_diagnostic": "Finished naturally with exit 1. Attempted exact-process identification found no remaining matching process; none was killed.",
+  "aide_local_bytes_after": 0,
+  "remaining_managed_campaign_directories": 0,
+  "restart_evidence": ".aide/evidence/2026-10-18-guest-start/restart-result.json",
+  "guest_uac_after_restart_verified": true,
+  "guest_policy_configuration_before_restart": 0,
+  "account_migration": {
+    "source": "Final explicit owner clarification: keep Codex as an emergency spare with the supplied password; routine work uses Agents only. This supersedes the earlier deletion request.",
+    "primary_account": "Agents",
+    "spare_account": "Codex",
+    "codex_removal_authorized": false,
+    "codex_removal_performed_by_this_agent": false,
+    "codex_login_after_spare_designation": false,
+    "jules_guest_account_used": false,
+    "jules_guest_account_changed": false,
+    "configuration_verified": true,
+    "password_expiration_disabled_on": [
+      "Agents",
+      "Codex"
+    ],
+    "console_coordination_pending": false,
+    "console_coordination_resolved_by": "Owner reply: I am finished; you can control the guest console.",
+    "configuration_evidence": ".aide/evidence/2026-10-18-guest-start/account-configuration.json"
+  },
+  "connection_policy_checks": {
+    "tests_run": 3,
+    "passed": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "peak_work_bytes": 65579,
+    "workspace_removed": true,
+    "authentication_mocked": true,
+    "evidence": ".aide/evidence/2026-10-18-guest-start/connection-checks.json",
+    "sources": {
+      "tools/connect-vm.ps1": "sha256:cd9b16784ce81bb5b5590dc72ced58d73890bb35ca336f16f6839aa173dc1d56",
+      "tests/tools/test_vm_connection.py": "sha256:e57c3b8777aea200db819a5bf0ac2fbd6a3192cbf0026cc5acbd5c8a66e4249d"
+    }
+  },
+  "guest_enable_lua_after_restart": 0,
+  "connection_verification_scope": "Fresh Agents sessions passed account inspection, final account configuration, tool inventory and compiler-file inventory after guest first-login setup. This is bounded transport evidence, not an availability guarantee or product qualification.",
+  "existing_account_changes": "Codex password set to the supplied value under the final explicit user request; password expiration disabled on Agents and Codex. Existing SIDs, group memberships and Codex profile preserved. Guest Jules unchanged.",
+  "guest_bootstrap_cleanup": {
+    "source": ".aide/evidence/2026-10-18-guest-start/account-configuration.json",
+    "files_removed": 2,
+    "bytes_removed": 6115,
+    "content_hashes_verified": true,
+    "other_processes_killed": false
+  },
+  "final_host_observations": ".aide/evidence/2026-10-18-guest-start/final-host-observations.json"
+}

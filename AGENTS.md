@@ -36,8 +36,13 @@ throughout that guest on 2026-10-18, then elected to configure those settings
 personally. Verify after the owner finishes; do not race that setup or reboot
 the guest. The host's UAC and permissions retain their existing settings.
 Administrative setup authority does not qualify product behavior under a
-standard or restricted worker token. Other agents share the guest Codex account:
-use separate workspaces and retire only DiskEd-owned processes. Do not stop,
+standard or restricted worker token. Codex was previously shared with other agents.
+The owner selected Agents as the sole routine guest automation account. Keep
+Codex and its profile as an emergency spare with the owner-supplied password;
+do not delete or routinely log into it. Never use guest Jules. Do not reset
+unrelated account passwords. Keep any supplied guest
+credential outside Git and retained logs.
+Use separate workspaces and retire only DiskEd-owned processes. Do not stop,
 reset or compact the shared VM as automatic cleanup.
 
 Do not bypass the runner, raise budgets, move accumulated output elsewhere or rerun
@@ -80,7 +85,7 @@ complete required inputs.
 - `docs/`: reviewed user/contributor publications; never a competing command registry.
 - Runtime source plus actual tests: implementation facts.
 - `.aide/`: selected durable work, handoffs, acceptance and evidence.
-- `.aide-local/`: disposable context packs, temporary exports, caches and scratch output.
+- `.aide-local/`: disposable task context and small metadata; bulk output belongs in the managed work volume.
 
 There is no competing root `canon/`, `contracts/` or `content/command-spec/`. Do not create `src/` or an empty directory hierarchy. The amended proposal places implementation ownership under `source/` (DE-DEC-010); add those roots only when code requires them. Keep README a product homepage; do not replace it with the most recent engineering report.
 

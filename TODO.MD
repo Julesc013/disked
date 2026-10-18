@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal is blocked on fresh Windows consent after three resumed turns; the single authorized storage-proof runner remains live. Normal native campaigns still require actual host-enforced storage-boundary proof. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal remains incomplete. The earlier host 32 MiB storage proof passed and its scratch was removed. Native development now uses the existing Hyper-V guest by default; unattended guest access, guest capacity/confinement proof and remaining native qualification are the current gates. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -9,9 +9,23 @@ Status: the full all-platform/storage 0.1.0 goal is blocked on fresh Windows con
 - [x] Add reviewed cleanup and workspace watchdogs: 32 MiB metadata, 1 GiB work,
   20,000 entries and 20 GiB free-space floors. These are not filesystem quotas.
   [Operating instructions](docs/development-storage.md).
-- [ ] Demonstrate host-enforced allocation denial, no fallback/spillover and
-  interrupted cleanup before resuming native development. The user authorized
-  bounded disposable local setup on this shared Windows 10 VM on 2026-10-17.
+- [x] Demonstrate allocation denial, confinement and cleanup in the earlier
+  32 MiB host proof; remove its image. This does not qualify the guest.
+- [x] Create the authorized Agents guest administrator and save a verified,
+  encrypted credential outside Git; preserve existing account passwords and
+  memberships during initial bootstrap. Guest Jules is excluded.
+- [x] Complete the owner-authorized normal guest shutdown/start after configuring
+  `EnableLUA=0`; preserve host UAC and the existing checkpoint.
+- [x] Verify Agents administrator access and applied guest UAC policy through
+  fresh unattended sessions. Preserve Codex and its profile as an enabled emergency
+  administrator spare with the owner-supplied password; both passwords do not expire.
+  The final owner clarification supersedes the deletion request. Routine automation
+  accepts Agents only.
+- [ ] Supply a bounded guest Python runtime and qualify the existing
+  `C:\BuildTools` installation. Its compiler file matches 19.44.35228.0 and
+  toolset 14.44.35207; no guest native build has run yet.
+- [ ] Demonstrate guest allocation denial, no fallback/spillover and interrupted
+  cleanup before native campaigns.
 - [x] Refuse another elevation request while live Windows consent state remains
   pending or ambiguous; preserve the image receipt and require console resolution.
 

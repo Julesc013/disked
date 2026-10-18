@@ -13,9 +13,10 @@ host UAC prompts the normal execution path. Physical devices, customer data and
 release work remain outside the test grant.
 
 The guest's original 8 GiB startup and 32 GiB maximum could consume nearly all
-available host memory. Its current configuration uses two virtual CPUs, 2 GiB
-startup, 1 GiB minimum and 3 GiB maximum dynamic memory. Automatic checkpoints
-are disabled; the pre-existing checkpoint is preserved. The original settings
+available host memory. The owner changed the configuration on 2026-10-18 to four
+virtual CPUs and 1–16 GiB dynamic memory, with 2 GiB startup, verified through
+Hyper-V. Observe actual assigned memory; the maximum is not a reservation.
+Automatic checkpoints are disabled; the pre-existing checkpoint is preserved. The original settings
 are retained in the [VM inventory](../.aide/evidence/2026-10-18-vm-execution/before-start.json).
 Do not delete or compact its existing disk/checkpoint chain as scratch cleanup.
 Dynamic VHDs and dynamic memory still consume physical host resources. Monitor
@@ -31,21 +32,43 @@ claiming a guest build or test result.
 
 ### One-time guest connection setup
 
-Use PowerShell Direct with the existing VM ID, rather than opening network
-listeners or sharing the host's source drive into the guest. In a normal Jules
-PowerShell 7 window on the host, run:
+The Agents guest administrator and its encrypted host-side credential are now
+configured. Do not repeat credential setup on each run. Use PowerShell Direct
+with the existing VM ID, without opening network listeners or sharing the host's
+source drive. Check the current programme before a campaign. Early connections
+failed, including immediately after restart. After the owner completed first-login
+setup, fresh Agents sessions passed identity, account configuration, tool inventory
+and compiler-file inspection. Retain the earlier failures; this does not qualify
+native campaigns or promise uninterrupted service availability.
+
+For a new authorized setup only, in the Jules PowerShell 7 host context:
 
 ```powershell
 pwsh -NoProfile -File tools/connect-vm.ps1 -SetupCredential
 ```
 
-Enter a guest account and its password in that local window. The VM currently
-shows `Codex` and `Jules` accounts; do not assume either password is known, blank
-or the same as the host password. A PIN is not a password. If the password is
-unknown, cancel; do not reset an existing shared account or guess credentials.
+Use only the guest `Agents` account for automation. The owner selected it as the
+single routine shared account. The helper rejects Codex and guest Jules before
+authentication. Keep Codex and its profile as an emergency spare; the owner's
+later clarification supersedes the earlier account-deletion request.
+The observed guest account domain is `BLACKGLASS-HYPE`; its DNS name is
+`BlackGlass-HyperV`. The saved credential uses `BLACKGLASS-HYPE\Agents`.
+The owner removed Codex's password; actual blank-password PowerShell Direct
+attempts were rejected. Do not repeat that setup or weaken the Windows
+blank-password policy. An authorized guest-console bootstrap may create Agents
+with the owner's supplied password. The owner also authorized setting that password
+on the retained Codex spare. Guest Jules remains untouched.
+
+For a credential already supplied through an authorized local setup process,
+`-SetupCredential -GuestCredential $credential` avoids another prompt. Supply a
+`PSCredential` containing the guest account and nonempty password, never a host
+password or Windows Hello PIN. Do not put passwords in Git or retained logs.
+Setup refuses an existing credential file instead of replacing it.
 
 The helper verifies a PowerShell Direct connection to the fixed VM ID and checks
-the guest's computer/model identity before saving anything. Windows encrypts the
+the guest's DNS/model identity and actual Agents identity before saving
+anything. DNS and the Windows account domain need not have the same spelling.
+Windows encrypts the
 credential for this host user through `Export-Clixml`; it is stored outside Git
 at `%LOCALAPPDATA%\DiskEd\credentials\vm-3ebbe558-91b9-435b-96e4-0c8199bd38ad.xml`.
 It refuses an existing file during setup and never prints the password. The
@@ -73,14 +96,41 @@ with an administrative connection token merely because setup required one.
 The user explicitly authorized guest administrator access and disabling UAC for
 the guest OS on 2026-10-18, then elected to make those account/policy changes
 personally. Do not race that setup with another account change or guest reboot.
-After the owner finishes, inspect the guest `Codex` account's Administrators
-membership, `EnableLUA` and new boot identity through the verified connection.
-Until then, the change is unverified. This is the Windows
+The owner subsequently reported completing that setup and restarting the guest.
+Inspection confirmed Codex's Administrators membership, but found `EnableLUA=1`
+and a filtered ordinary console token. The authorized guest-only bootstrap created
+Agents, verified an administrative connection, and set `EnableLUA=0`. The owner
+then authorized restarting despite unknown concurrent work. A normal shutdown
+and start completed, preserving the checkpoint and host `EnableLUA=1`; see the
+[restart receipt](../.aide/evidence/2026-10-18-guest-start/restart-result.json).
+Later Agents sessions verified `EnableLUA=0` and an administrator token. Agents
+is the primary account; Codex remains an enabled administrator spare with the
+owner-supplied password and its original profile. Both passwords are non-expiring.
+The helper does not automatically fall back to Codex. Actual observations,
+failed checks and completed account setup are retained in the
+[bootstrap result](../.aide/evidence/2026-10-18-guest-start/result.json).
+This is the Windows
 [UAC policy](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration),
 not simply the notification slider. Retain explicit test-token observations;
 an administrative test pass does not establish standard-user behavior.
 
-The Codex guest account is shared with other agents. Use distinct workspaces,
+The existing guest compiler is at `C:\BuildTools`: toolset 14.44.35207 and
+compiler file version 19.44.35228.0 match the pin. SDK 10.0.19041.0, CMake 3.31.12
+and Git 2.53.0.windows.3 are present. The Python launcher reports no installed
+runtimes; its WindowsApps alias is not an interpreter. A bounded project-owned
+Python runtime and actual guest compiler/capacity qualification remain next work.
+
+Keep resource checks separate. Preserve the host backing-volume reserve and
+the guest OS-volume reserve. Run the guest coordinator and its small managed
+control workspace on the OS volume; do not point its temporary directory at a
+512 MiB scratch filesystem and then demand 20 GiB free there. Confined child
+processes use the capped filesystem, whose remaining capacity must fit the
+declared task. Its reserved backing allocation and other disposable output must
+fit the existing aggregate 1 GiB budget. A controller must also monitor actual
+host free space and backing-file growth. This topology still needs guest proof;
+the existing host proof does not establish its correctness.
+
+The Agents guest account is shared with other agents. Use distinct workspaces,
 keep DiskEd's single-campaign lock and budget, and retire only owned processes.
 Do not reset, stop, reboot or compact the shared VM as automatic campaign
 cleanup. Coordinate disruptive work and heavy campaigns with other users; a
