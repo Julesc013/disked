@@ -1,4 +1,5 @@
 """Same-source guest CMake/Win32 qualification under the capped native worker."""
+import base64
 import ctypes
 from ctypes import wintypes as T
 import hashlib
@@ -11,6 +12,7 @@ from pathlib import Path
 import re
 import shutil
 import struct
+import stat
 import sys
 import tarfile
 import time
@@ -32,6 +34,38 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def retire_file(path):
+    """Allow bounded delayed release after the owned job is already quiescent."""
+    until, retries = time.monotonic() + 5, 0
+    while True:
+        try:
+            path.unlink()
+            return retries
+        except OSError as error:
+            if getattr(error, 'winerror', None) not in (32, 33) or time.monotonic() >= until:
+                raise
+            retries += 1
+            time.sleep(.05)
+
+
+def retain_test_outputs(archive, directory, stem):
+    """Preserve exact per-call inputs/replies/stderr before releasing their space."""
+    rows = []
+    for path in sorted(directory.glob(stem + '*')):
+        info = path.lstat()
+        if not stat.S_ISREG(info.st_mode) or getattr(info, 'st_file_attributes', 0) & 0x400 or info.st_nlink != 1:
+            raise RuntimeError('Unexpected linked/non-file test output: ' + path.name)
+        member = 'cases/' + path.name
+        if member in archive.entries:
+            if archive.entries[member] != {'bytes': info.st_size, 'sha256': sha(path)}:
+                raise RuntimeError('Previously retained output changed: ' + path.name)
+        else:
+            archive.write(path, member)
+        retries = retire_file(path)
+        rows.append({'name': path.name, 'bytes': info.st_size, 'retirement_retries': retries})
+    return rows
+
+
 class Observations:
     def __init__(self, path):
         self.path, self.entries = path, {}
@@ -39,12 +73,16 @@ class Observations:
         self.tar = tarfile.open(fileobj=self.stream, mode='w|')
 
     def writestr(self, name, data):
+        if name in self.entries:
+            raise RuntimeError('Duplicate retained observation: ' + name)
         info = tarfile.TarInfo(name)
         info.size = len(data)
         self.tar.addfile(info, io.BytesIO(data))
         self.entries[name] = {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
 
     def write(self, path, name):
+        if name in self.entries:
+            raise RuntimeError('Duplicate retained observation: ' + name)
         info = tarfile.TarInfo(name)
         info.size = path.stat().st_size
         with path.open('rb') as stream:
@@ -183,7 +221,9 @@ def main():
                 if log.exists():
                     if not saved:
                         archive.writestr(label + '-incomplete.log', log.read_bytes()[:524288])
-                    log.unlink()
+                    retries = retire_file(log)
+                    if retries:
+                        result.setdefault('retirement_retries', []).append({'command': label, 'retries': retries})
 
         def common_data_access(add):
             nonlocal common_data_grant
@@ -197,20 +237,16 @@ def main():
             journal = ROOT / 'scoped-directory-access.json'
             state_record = {'nonce': state['nonce'], 'sid': sid, 'paths': paths, 'phase': 'pending' if add else 'removing'}
             journal.write_text(json.dumps(state_record)+'\n', encoding='utf-8', newline='\n')
-            # SetFileSecurity deliberately updates this directory only. The
-            # generic Set-Acl path can walk existing children on a volume root.
-            # These temporary non-inheriting rules must never do that.
-            api = "Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class DiskEdDirectoryAcl{[DllImport(\"advapi32.dll\",CharSet=CharSet.Unicode,SetLastError=true)]public static extern bool SetFileSecurity(string path,uint info,byte[] descriptor);}';"
-            literal_paths = ','.join("'"+p.replace("'", "''")+"'" for p in paths)
-            script = "$ErrorActionPreference='Stop';"+api+"$sid=[Security.Principal.SecurityIdentifier]::new('"+sid+"');$rule=[Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]::None,[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow);foreach($path in @("+literal_paths+")){$path=[IO.Path]::GetFullPath($path);$acl=Get-Acl -LiteralPath $path;"
-            script += ('$acl.AddAccessRule($rule);' if add else 'if(-not @($acl.Access|Where-Object{$_.IdentityReference.Value-eq$sid.Value}).Count){continue};$acl.RemoveAccessRuleSpecific($rule);')
-            script += 'if(-not[DiskEdDirectoryAcl]::SetFileSecurity($path,4,$acl.GetSecurityDescriptorBinaryForm())){throw [ComponentModel.Win32Exception]::new([Runtime.InteropServices.Marshal]::GetLastWin32Error())}}'
+            source_setup = load('source_setup', ROOT / 'guest-source.py')
+            script = source_setup.directory_script(sid, paths, add)
             import subprocess
             # Partial admission must also be retired by finally/recovery.
             if add:
                 common_data_grant = True
             changed = subprocess.run([str(Path(os.environ['WINDIR']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'),
-                                      '-NoProfile', '-Command', script], capture_output=True, timeout=30)
+                                      '-NoProfile', '-EncodedCommand', base64.b64encode(script.encode('utf-16-le')).decode('ascii')], capture_output=True, timeout=30)
+            observations = changed.stdout.decode(errors='replace')
+            result.setdefault('directory_access_observations', []).append({'add': add, 'output': observations[-32768:]})
             if changed.returncode:
                 raise RuntimeError('Scoped common-data access update failed: ' + changed.stderr.decode(errors='replace'))
             common_data_grant = add
@@ -245,6 +281,19 @@ assert e.value==0 and c.value==1 and denied
             _, after = run('common-data-after', ['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe', '-nologo', folder_project], timeout=60)
             if b'DISKED_COMMON=[]' in after:
                 raise RuntimeError('Scoped directory read did not resolve the common-data path')
+        fixture_preflight = r'''
+import json,pathlib,sys
+sys.path.insert(0,sys.argv[1])
+from support.tempdir import temporary_directory
+directory=temporary_directory(prefix='disked-fixture-preflight-')
+path=pathlib.Path(directory.name)
+with directory:
+    target=path/'generated.img';target.write_bytes(b'owned fixture')
+    assert target.read_bytes()==b'owned fixture'
+assert not path.exists()
+print(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))
+'''
+        run('fixture-temporary-preflight', [python, '-B', '-c', fixture_preflight, SOURCE / 'tests'], timeout=30)
         run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
                              '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
                              '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
@@ -278,26 +327,35 @@ assert e.value==0 and c.value==1 and denied
             if data[offset:offset+4] != b'PE\0\0' or struct.unpack_from('<H', data, offset+4)[0] != 0x14c:
                 raise RuntimeError('Wrong executable machine: ' + name)
             result['executables'][name] = {'sha256': sha(path), 'bytes': path.stat().st_size, 'pe_machine': '0x14c'}
+        for name in fixture['executable_targets']:
+            path = work / 'win32-build/Release' / (name + '.exe')
             run('imports-' + name, [binary_root / 'dumpbin.exe', '/nologo', '/dependents', path], timeout=60)
         for test in fixture['tests']:
+            stem = 'ntfs-' + test.removeprefix('image.ntfs_').replace('_', '-') + '-cases'
             code, _ = run('test-' + test, [ctest, '--test-dir', work / 'win32-build', '-C', 'Release',
                                          '-R', '^'+re.escape(test)+'$', '--output-on-failure', '--output-junit',
                                          work / 'test.xml'], timeout=300, allow_failure=True)
+            retained_outputs = retain_test_outputs(archive, work / 'win32-build', stem)
+            archive.write(work / 'test.xml', 'junit/' + test + '.xml')
+            result['tests'].append({'name': test, 'exit_code': code, 'passed': code == 0,
+                                    'retained_files': len(retained_outputs),
+                                    'retained_bytes': sum(x['bytes'] for x in retained_outputs)})
+            budget()
             junit = ET.parse(work / 'test.xml').getroot()
             cases = list(junit.iter('testcase'))
             if len(cases) != 1 or any(list(c) for c in cases if any(x.tag in ('failure', 'error', 'skipped') for x in c)):
                 raise RuntimeError('JUnit did not prove exactly one passing selected group: ' + test)
-            for path in (work / 'win32-build').glob('ntfs-*-cases.json'):
-                archive.write(path, 'cases/' + path.name)
-                path.unlink()
-                budget()
-            result['tests'].append({'name': test, 'exit_code': code, 'passed': code == 0})
             if code:
                 raise RuntimeError('Native group failed: ' + test)
         result['status'] = 'pass'
     except BaseException as error:
         result.update(status='fail', error=str(error), traceback=traceback.format_exc())
         if archive:
+            if 'test' in locals() and 'stem' in locals():
+                try:
+                    retain_test_outputs(archive, work / 'win32-build', stem)
+                except BaseException as retention_error:
+                    result['failed_test_retention_error'] = str(retention_error)
             for directory in (work / 'build', work / 'win32-build'):
                 for name in ('CMakeConfigureLog.yaml', 'CMakeError.log', 'CMakeOutput.log'):
                     path = directory / 'CMakeFiles' / name

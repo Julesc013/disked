@@ -82,6 +82,17 @@ evaluation. Source copies, images and context packs were removed. No private
 Win32/product build, owner acceptance or release qualification follows from this
 partial checkpoint; its failed attempts and remaining repair are retained.
 
+The shared NTFS fixture bases use [tests/support/tempdir.py](../tests/support/tempdir.py)
+for temporary directories. Ordinary processes retain Python's standard behavior.
+Inside an actual Windows AppContainer, the helper requires the source-bound work
+marker and a plain temporary parent inside that workspace, then creates a fresh
+directory inheriting its private parent's permissions. Python's explicit Windows
+`0700` permissions omit the package identity; this is also reported in
+[CPython issue 134587](https://github.com/python/cpython/issues/134587).
+The helper changes fixture creation rather than interpreter globals or product
+assertions. Cleanup checks the directory identity and preserves replacements.
+Its unit tests do not substitute for actual guest fixture and native qualification.
+
 ### One-time guest connection setup
 
 The Agents guest administrator and its encrypted host-side credential are now

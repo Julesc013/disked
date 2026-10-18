@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 from test_ntfs_capture import Volume, bytes_at
-from test_ntfs_file import canonical, digest, file_digest
+from test_ntfs_file import canonical, digest, file_digest, temporary_directory
 
 PROBE = FAULT = None
 RECEIPTS = []
@@ -31,7 +31,7 @@ def run(row, fault=False):
 
 class Tests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix='disked-ntfs-worker-')
+        self.temp = temporary_directory(prefix='disked-ntfs-worker-')
         self.root = Path(self.temp.name).resolve()
         self.index = 0
 

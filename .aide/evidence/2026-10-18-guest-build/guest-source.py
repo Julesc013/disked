@@ -1,14 +1,101 @@
 """Fixed-guest bounded source setup/retirement; never edits an existing checkout."""
+import base64
 import hashlib
 import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / 'source'
+
+# SetFileSecurity changes just the named directory. Do not replace it with a
+# tree-propagating ACL setter for temporary ancestor read access.
+ACL_PRELUDE = r'''
+$ErrorActionPreference='Stop'
+Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class DiskEdDirectoryAcl{[DllImport("advapi32.dll",CharSet=CharSet.Unicode,SetLastError=true)]public static extern bool SetFileSecurity(string path,uint info,byte[] descriptor);}'
+function Edit-DiskEdDescriptor {
+    param([byte[]]$Descriptor,[Security.Principal.SecurityIdentifier]$Sid,[bool]$Add)
+    $raw=[Security.AccessControl.RawSecurityDescriptor]::new($Descriptor,0)
+    if($null-eq$raw.DiscretionaryAcl -or $raw.DiscretionaryAcl.Count-gt4096){throw 'Missing or oversized DACL.'}
+    $matches=@()
+    for($i=0;$i-lt$raw.DiscretionaryAcl.Count;$i++){
+        $ace=$raw.DiscretionaryAcl[$i]
+        if($ace-is[Security.AccessControl.KnownAce] -and $ace.SecurityIdentifier-eq$Sid){$matches+=,$i}
+    }
+    if($Add){
+        if($matches.Count){throw 'Fresh package already has a directory rule.'}
+        $view=[Security.AccessControl.DirectorySecurity]::new()
+        $view.SetSecurityDescriptorBinaryForm($Descriptor)
+        $position=$raw.DiscretionaryAcl.Count
+        if($view.AreAccessRulesCanonical){
+            for($i=0;$i-lt$raw.DiscretionaryAcl.Count;$i++){
+                if(([int]$raw.DiscretionaryAcl[$i].AceFlags-band16)-ne0){$position=$i;break}
+            }
+        }
+        $ace=[Security.AccessControl.CommonAce]::new([Security.AccessControl.AceFlags]::None,
+            [Security.AccessControl.AceQualifier]::AccessAllowed,0x1200a9,$Sid,$false,$null)
+        $raw.DiscretionaryAcl.InsertAce($position,$ace)
+    }elseif($matches.Count){
+        if($matches.Count-ne1){throw 'Unexpected duplicate package rules.'}
+        $ace=$raw.DiscretionaryAcl[$matches[0]]
+        if($ace-isnot[Security.AccessControl.CommonAce] -or $ace.IsCallback -or
+            $ace.AceQualifier-ne[Security.AccessControl.AceQualifier]::AccessAllowed -or
+            $ace.AceFlags-ne[Security.AccessControl.AceFlags]::None -or $ace.AccessMask-ne0x1200a9){
+            throw 'Package directory rule differs from the admitted read rule.'
+        }
+        $raw.DiscretionaryAcl.RemoveAce($matches[0])
+    }
+    $bytes=[byte[]]::new($raw.BinaryLength)
+    $raw.GetBinaryForm($bytes,0)
+    return ,$bytes
+}
+function Dacl-Bytes {
+    param([byte[]]$Descriptor)
+    $raw=[Security.AccessControl.RawSecurityDescriptor]::new($Descriptor,0)
+    $bytes=[byte[]]::new($raw.DiscretionaryAcl.BinaryLength)
+    $raw.DiscretionaryAcl.GetBinaryForm($bytes,0)
+    return ,$bytes
+}
+'''
+
+
+def directory_script(sid, paths, add):
+    expected = [str(Path('C:/')), str(Path('C:/ProgramData')), str(Path('C:/ProgramData/DiskEd')), str(ROOT)]
+    if not re.fullmatch(r'S-1-15-2-(?:[0-9]+-)*[0-9]+', sid) or paths != expected:
+        raise RuntimeError('Unexpected package or directory access scope')
+    literals = ','.join("'"+p.replace("'", "''")+"'" for p in paths)
+    body = r'''
+$sid=[Security.Principal.SecurityIdentifier]::new('SID_VALUE')
+$add=ADD_VALUE
+$owned=[IO.Path]::GetFullPath('OWNED_VALUE')
+foreach($path in @(PATH_VALUES)){
+    $path=[IO.Path]::GetFullPath($path)
+    try{
+        $acl=Get-Acl -LiteralPath $path
+        $before=$acl.GetSecurityDescriptorBinaryForm()
+        [pscustomobject]@{path=$path;phase='before';add=$add;canonical=$acl.AreAccessRulesCanonical;
+            descriptor=[Convert]::ToBase64String($before)}|ConvertTo-Json -Compress
+        if($add -and -not$acl.AreAccessRulesCanonical -and $path-ne$owned){throw 'Noncanonical shared ancestor; preserved.'}
+        $after=Edit-DiskEdDescriptor $before $sid $add
+        if([Convert]::ToBase64String((Dacl-Bytes $before))-ne[Convert]::ToBase64String((Dacl-Bytes $after))){
+            if(-not[DiskEdDirectoryAcl]::SetFileSecurity($path,4,$after)){
+                throw [ComponentModel.Win32Exception]::new([Runtime.InteropServices.Marshal]::GetLastWin32Error())
+            }
+        }
+        $observed=(Get-Acl -LiteralPath $path).GetSecurityDescriptorBinaryForm()
+        if([Convert]::ToBase64String((Dacl-Bytes $observed))-ne[Convert]::ToBase64String((Dacl-Bytes $after))){
+            throw 'Directory DACL differs from the exact requested edit.'
+        }
+        [pscustomobject]@{path=$path;phase='after';add=$add;descriptor=[Convert]::ToBase64String($observed)}|ConvertTo-Json -Compress
+    }catch{throw ('Directory access at '+$path+': '+$_.Exception.Message)}
+}
+'''
+    return ACL_PRELUDE + body.replace('SID_VALUE', sid).replace('ADD_VALUE', '$true' if add else '$false').replace(
+        'OWNED_VALUE', str(ROOT).replace("'", "''")).replace('PATH_VALUES', literals)
 
 
 def load(name, path):
@@ -46,11 +133,9 @@ def main():
             if grant['nonce'] != nonce or grant['sid'] != disk['profile_sids'][0] or grant['paths'] != paths:
                 raise RuntimeError('Scoped directory grant ownership changed')
             sid = grant['sid']
-            literal_paths = ','.join("'"+p.replace("'", "''")+"'" for p in paths)
-            api = "Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class DiskEdDirectoryAcl{[DllImport(\"advapi32.dll\",CharSet=CharSet.Unicode,SetLastError=true)]public static extern bool SetFileSecurity(string path,uint info,byte[] descriptor);}';"
-            script = "$ErrorActionPreference='Stop';"+api+"$sid=[Security.Principal.SecurityIdentifier]::new('"+sid+"');$rule=[Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]::None,[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow);foreach($path in @("+literal_paths+")){$path=[IO.Path]::GetFullPath($path);$acl=Get-Acl -LiteralPath $path;if(-not @($acl.Access|Where-Object{$_.IdentityReference.Value-eq$sid.Value}).Count){continue};$acl.RemoveAccessRuleSpecific($rule);if(-not[DiskEdDirectoryAcl]::SetFileSecurity($path,4,$acl.GetSecurityDescriptorBinaryForm())){throw [ComponentModel.Win32Exception]::new([Runtime.InteropServices.Marshal]::GetLastWin32Error())}}"
+            script = directory_script(sid, paths, False)
             retired = subprocess.run([str(Path(os.environ['WINDIR']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'),
-                                      '-NoProfile', '-Command', script], capture_output=True, timeout=30)
+                                      '-NoProfile', '-EncodedCommand', base64.b64encode(script.encode('utf-16-le')).decode('ascii')], capture_output=True, timeout=30)
             if retired.returncode:
                 raise RuntimeError('Scoped directory access retirement failed')
             grant['phase'] = 'retired'

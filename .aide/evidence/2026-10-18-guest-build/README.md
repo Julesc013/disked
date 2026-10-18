@@ -79,3 +79,39 @@ Support valid noncanonical descriptors without resetting shared ACLs. Then rerun
 the same-source Win32 fixture under the existing cap and complete the full x64
 product/build-gate qualification. DE-W105, owner acceptance, broader 0.1.0 and
 release qualification remain incomplete. No new permission or VM restart is needed.
+
+
+## Subsequent build and fixture correction
+
+Attempt 9 identified the noncanonical directory as the newly owned qualification
+root. The edit now preserves existing ACE order, with exact before/after
+observations; `directory-roundtrip.json` proves all four original descriptors
+were restored byte for byte. Pinned Win32 compilation succeeded. A log sharing
+violation stopped import collection; `ninth-shared-log.json` retains that failure.
+Attempt 10 completed all nine executable/hash/machine/direct-import observations.
+Its first group failed in fixture creation/cleanup before native product calls:
+Python's protected Windows 0700 directories omit the package identity. Both
+attempts' images, source and input copies were removed.
+
+`tests/support/tempdir.py` now supplies owned inherited-permission directories to
+the two shared NTFS fixture bases only. Ordinary processes keep standard tempfile
+behavior; confined processes require the expected source marker, plain ancestors
+and a parent within their existing work root. Changed identities are preserved,
+not forcibly removed. No interpreter globals or product assertions are changed.
+The helper and its tests are bound in the build/input dependency catalogs.
+
+The current coordinator suite ran127 tests with one expected skip; the complete
+specification suite ran253 tests in355.810 seconds with two expected skips.
+Structural1323 checks and the420-file manifest passed. The first full-suite wrapper
+returned1 without a retained final test result; its partial receipt and original
+wrapper are retained, and no completed test count is inferred. The revised wrapper
+retains timeout output and permits900 seconds for this coordinator suite; native
+per-test deadlines remain unchanged.
+
+Two memory-only ACL cases/ten assertions and five retention/retry checks passed.
+The initial enum-cast failure is retained separately. The campaign now archives
+per-call requests, replies, stderr and JUnit before evaluating group outcomes,
+then removes only those outputs. Sharing errors32/33 receive at most five seconds
+of retry after owned descendants retire. Other errors remain failures. These
+changes and the fixture helper still require an actual guest preflight and native
+retest; no Win32 test group is currently qualified.

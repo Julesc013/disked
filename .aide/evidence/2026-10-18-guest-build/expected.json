@@ -20,7 +20,10 @@
     "Configure/build the Win32 fixture without changing its compiler, SDK, flags or per-test timeouts.",
     "Run every registered fixture group serially, retaining bounded compressed observations before deleting its completed output.",
     "Record actual direct imports, executable hashes/machines, commands and test outcomes; no skipped group is a pass.",
-    "Retire owned jobs and profiles before image/source cleanup. Uncertain retirement preserves bounded output for recovery."
+    "Retire owned jobs and profiles before image/source cleanup. Uncertain retirement preserves bounded output for recovery.",
+    "The actual AppContainer creates, reads and removes a generated fixture through the source-bound temporary-directory helper before any compiler work.",
+    "Retain every per-call request, reply and stderr plus JUnit before evaluating group success; remove only those owned outputs after verified archival.",
+    "Only sharing/lock violations32/33 receive a finite five-second cleanup retry after owned descendants are quiescent; permission failures are not bypassed."
   ],
   "full_x64_product_build_and_suite": "still required separately; x64 configure is not a product build",
   "owner_accepted": false,

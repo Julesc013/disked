@@ -1,0 +1,1930 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T07:16:03.4762652Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": true,
+  "sources": {
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3876102,
+        "sha256": "CEF77CC5F6FABFE03AD6CE75DD13A5574603FAB5BAA7359966D2D56945E9C39B"
+      },
+      {
+        "path": "source.json",
+        "bytes": 222417,
+        "sha256": "2053A892C75629A9A178B1AF93DD43C31CDE442FEDBCB9621520E37FB6851609"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 9274,
+        "sha256": "D66661F50057E3504849B4309965647E4C348FE929011358B1497F42CE8EBA31"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 21508,
+        "sha256": "8D8A34A9FBF71EAFD367A4A35915EA8DBC9CD962E33D0B0DDF49217FF62277C9"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 1702,
+        "sha256": "E238985084EEA58C5463E2915EEE19A3D8563DA5C31F5508DC01857B7A0A7C64"
+      }
+    ],
+    "base_revision": "becccd10ffded5c59d580e68f7a7926ac9383461",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T07:16:07.5432914Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "62AC84135D139E458888DB5B083DD6F8",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5",
+            "sid": "S-1-15-2-3597477981-4145336510-2498840896-1144602581-2522893872-1553257737-1437275768"
+          },
+          {
+            "name": "org.disked.worker.cc077958681f40268278f31ed33a3ac1",
+            "sid": "S-1-15-2-1607110423-1037436904-4211460461-2699123438-3546399995-3352155454-3800119586"
+          },
+          {
+            "name": "org.disked.worker.ebd91873cd5941f4b25a3a3b9a58927c",
+            "sid": "S-1-15-2-3420531128-3097515602-3563619155-2565511947-1100216875-1915449801-3288608937"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-3597477981-4145336510-2498840896-1144602581-2522893872-1553257737-1437275768)(A;;0x1301bf;;;S-1-15-2-1607110423-1037436904-4211460461-2699123438-3546399995-3352155454-3800119586)(A;;0x1301bf;;;S-1-15-2-3420531128-3097515602-3563619155-2565511947-1100216875-1915449801-3288608937)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248062AC84135D13DB5B083DD6F8",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 291, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "finished_at": "2026-10-18T07:18:23.5240856Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-win32-qualification/1",
+      "status": "fail",
+      "source_revision": "becccd10ffded5c59d580e68f7a7926ac9383461",
+      "commands": [
+        {
+          "label": "source-confinement",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport ctypes,json,pathlib,sys\nfrom ctypes import wintypes as T\nk=ctypes.WinDLL('kernel32',use_last_error=True);a=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE;a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\nk.CloseHandle.argtypes=[T.HANDLE];token=T.HANDLE();n=T.DWORD();e=T.DWORD();c=T.DWORD()\nassert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))\nassert a.GetTokenInformation(token,20,ctypes.byref(e),4,ctypes.byref(n));assert a.GetTokenInformation(token,29,ctypes.byref(c),4,ctypes.byref(n));k.CloseHandle(token)\ndenied=False\ntry:pathlib.Path(sys.argv[1]).write_bytes(b'unexpected')\nexcept PermissionError:denied=True\nprint(json.dumps(dict(elevated=e.value,appcontainer=c.value,source_write_denied=denied)))\nassert e.value==0 and c.value==1 and denied\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\forbidden-write"
+          ],
+          "pid": 3948,
+          "exit_code": 0,
+          "seconds": 0.18255359999966458,
+          "log_sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"elevated\": 0, \"appcontainer\": 1, \"source_write_denied\": true}\r\n"
+        },
+        {
+          "label": "msbuild-version",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "-version"
+          ],
+          "pid": 544,
+          "exit_code": 0,
+          "seconds": 0.1769882000007783,
+          "log_sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de",
+          "tail": "17.14.51.32402\r\n"
+        },
+        {
+          "label": "common-data-before",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 7096,
+          "exit_code": 0,
+          "seconds": 0.16839579999941634,
+          "log_sha256": "33ddb5e27b27c42aa18bfa82c57952d942aa99dee07640b58a778b6c4b0377aa",
+          "tail": "Build started 18/10/2026 6:16:24 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.03\r\n"
+        },
+        {
+          "label": "common-data-after",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 3564,
+          "exit_code": 0,
+          "seconds": 0.16408159999991767,
+          "log_sha256": "b179e1c3070088f187117bd1b3721544f47d1938b586ab0f54207cb7d69a487a",
+          "tail": "Build started 18/10/2026 6:16:24 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[C:\\ProgramData]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.02\r\n"
+        },
+        {
+          "label": "configure-x64",
+          "arguments": [
+            "C:/Program Files/CMake/bin/cmake.exe",
+            "--preset",
+            "windows-bootstrap",
+            "-S",
+            "C:\\ProgramData\\DiskEd\\qualification\\source",
+            "-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0",
+            "-DPython3_EXECUTABLE=C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe"
+          ],
+          "pid": 6924,
+          "exit_code": 0,
+          "seconds": 15.823833699998431,
+          "log_sha256": "8b078ad6006e32f0673dd902b31a0d4541fafbb7bdc92160e9352fac29f9ec28",
+          "tail": "Preset CMake variables:\n\n  BUILD_TESTING=\"ON\"\n  CMAKE_CONFIGURATION_TYPES=\"Release\"\n  CMAKE_SYSTEM_VERSION=\"10.0.19041.0\"\n\n-- The C compiler identification is MSVC 19.44.35228.0\n-- The CXX compiler identification is MSVC 19.44.35228.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Found Python3: C:\\ProgramData\\DiskEd\\python314\\python.exe (found suitable version \"3.14.7\", minimum required is \"3.10\") found components: Interpreter\n-- Found Git: C:/Program Files/Git/cmd/git.exe\n-- Configuring done (11.6s)\n-- Generating done (2.0s)\n-- Build files have been written to: R:/work/build/build\n"
+        },
+        {
+          "label": "fixture",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tools\\ntfs-win32-fixture.py",
+            "--root",
+            "C:\\ProgramData\\DiskEd\\qualification\\source",
+            "--build",
+            "R:\\work\\build\\build",
+            "--output",
+            "R:\\work\\build\\win32-fixture"
+          ],
+          "pid": 768,
+          "exit_code": 0,
+          "seconds": 0.8302221000012651,
+          "log_sha256": "8792f916c92c99470349608186cae553464f2f3af6fa9f2adb5fae3f987419ab",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"status\": \"prepared_not_qualified\", \"output\": \"R:\\\\work\\\\build\\\\win32-fixture\", \"native_execution_performed\": false}\r\n"
+        },
+        {
+          "label": "configure-win32",
+          "arguments": [
+            "C:/Program Files/CMake/bin/cmake.exe",
+            "-S",
+            "R:\\work\\build\\win32-fixture",
+            "-B",
+            "R:\\work\\build\\win32-build",
+            "-G",
+            "Visual Studio 17 2022",
+            "-A",
+            "Win32,version=10.0.19041.0",
+            "-T",
+            "v143,version=14.44.35207,host=x64",
+            "-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0",
+            "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+            "-DPython3_EXECUTABLE=C:\\ProgramData\\DiskEd\\python314\\python.exe"
+          ],
+          "pid": 6832,
+          "exit_code": 0,
+          "seconds": 11.111058999998932,
+          "log_sha256": "555978dd6ff4130f83f980cdc4df93f09e7661d3afe0f34e554af66b3e17d08a",
+          "tail": "-- The C compiler identification is MSVC 19.44.35228.0\n-- The CXX compiler identification is MSVC 19.44.35228.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86/cl.exe - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86/cl.exe - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Found Python3: C:\\ProgramData\\DiskEd\\python314\\python.exe (found version \"3.14.7\") found components: Interpreter\n-- Configuring done (10.8s)\n-- Generating done (0.1s)\n-- Build files have been written to: R:/work/build/win32-build\n"
+        },
+        {
+          "label": "build-win32",
+          "arguments": [
+            "C:/Program Files/CMake/bin/cmake.exe",
+            "--build",
+            "R:\\work\\build\\win32-build",
+            "--config",
+            "Release",
+            "--parallel",
+            "1"
+          ],
+          "pid": 5232,
+          "exit_code": 0,
+          "seconds": 78.5134092999997,
+          "log_sha256": "dd054643b9c173c00ee20c51b5362658ef5e3e76930ec00d0e9332c2d18d79ba",
+          "tail": "MSBuild version 17.14.51+25f168cee for .NET Framework\r\n\r\n  1>Checking Build System\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  header-0.cpp\r\n  header-1.cpp\r\n  header-2.cpp\r\n  header-3.cpp\r\n  header-4.cpp\r\n  header-5.cpp\r\n  header-6.cpp\r\n  header-7.cpp\r\n  header-8.cpp\r\n  header-9.cpp\r\n  header-10.cpp\r\n  header-11.cpp\r\n  Generating Code...\r\n  ntfs_fixture_headers.vcxproj -> R:\\work\\build\\win32-build\\ntfs_fixture_headers.dir\\Release\\ntfs_fixture_headers.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  sha256.cpp\r\n  local_file.cpp\r\n  ntfs_attributes_detail.cpp\r\n  ntfs_capture.cpp\r\n  ntfs_directory.cpp\r\n  ntfs_inspection.cpp\r\n  ntfs_membership.cpp\r\n  ntfs_name_order.cpp\r\n  ntfs_names.cpp\r\n  ntfs_stream.cpp\r\n  command.cpp\r\n  json.cpp\r\n  protocol.cpp\r\n  shell_lexer.cpp\r\n  Generating Code...\r\n  attribute.c\r\n  attribute_list.c\r\n  boot.c\r\n  filename.c\r\n  fixup.c\r\n  index.c\r\n  index_block.c\r\n  record.c\r\n  runlist.c\r\n  upcase.c\r\n  checked.c\r\n  extent.c\r\n  view.c\r\n  Generating Code...\r\n  ntfs_fixture.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_fixture.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_file.cpp\r\n  disked_ntfs_file.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_file.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_file.cpp\r\n  disked_ntfs_file_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_file_fault.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_snapshot.cpp\r\n  disked_ntfs_snapshot.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_snapshot.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_snapshot.cpp\r\n  disked_ntfs_snapshot_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_snapshot_fault.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  observation_worker.cpp\r\n  disked_observation_worker.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_observation_worker.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_worker.cpp\r\n  disked_ntfs_worker.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_worker.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  observation_worker.cpp\r\n  disked_observation_worker_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_observation_worker_fault.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_worker.cpp\r\n  disked_ntfs_worker_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\disked_ntfs_worker_fault.lib\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_capture_probe.cpp\r\n  ntfs_capture_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_capture_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_file_probe.cpp\r\n  ntfs_file_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_file_fault.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_file_probe.cpp\r\n  ntfs_file_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_file_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_inspection_probe.cpp\r\n  ntfs_inspection_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_inspection_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_names_probe.cpp\r\n  ntfs_names_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_names_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_stream_probe.cpp\r\n  ntfs_stream_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_stream_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  ntfs_upcase_probe.cpp\r\n  ntfs_upcase_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_upcase_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  memory_budget.cpp\r\n  ntfs_worker_probe.cpp\r\n  Generating Code...\r\n  ntfs_worker_fault.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_worker_fault.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n  memory_budget.cpp\r\n  ntfs_worker_probe.cpp\r\n  Generating Code...\r\n  ntfs_worker_probe.vcxproj -> R:\\work\\build\\win32-build\\Release\\ntfs_worker_probe.exe\r\n  Building Custom Rule R:/work/build/win32-fixture/CMakeLists.txt\r\n"
+        },
+        {
+          "label": "imports-ntfs_file_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_file_probe.exe"
+          ],
+          "pid": 5900,
+          "exit_code": 0,
+          "seconds": 0.15703209999992396,
+          "log_sha256": "7d7766ab59340bfb9efb48ebb2524f83f5b205f4b6ebe133c70ee1248b269250",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_file_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        3000 .data\r\n       16000 .rdata\r\n        5000 .reloc\r\n        1000 .rsrc\r\n       67000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_file_fault",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_file_fault.exe"
+          ],
+          "pid": 5876,
+          "exit_code": 0,
+          "seconds": 0.15876460000072257,
+          "log_sha256": "eb412fd7170fe3e781fcbedbb10e1213b2855c036990bbb7c2e262a497817936",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_file_fault.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        4000 .data\r\n       17000 .rdata\r\n        5000 .reloc\r\n        1000 .rsrc\r\n       68000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_capture_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_capture_probe.exe"
+          ],
+          "pid": 6800,
+          "exit_code": 0,
+          "seconds": 0.15813840000009804,
+          "log_sha256": "0ffe58faf7bfd79fa62690de029ffca8902e886c84addc1218138fc24ab2cc3f",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_capture_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        3000 .data\r\n       14000 .rdata\r\n        4000 .reloc\r\n        1000 .rsrc\r\n       5C000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_names_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_names_probe.exe"
+          ],
+          "pid": 3528,
+          "exit_code": 0,
+          "seconds": 0.1622060000008787,
+          "log_sha256": "6226a797bc228e1ec94c640c07ef7d27f51ff11626681aadb24ffd5e6b333556",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_names_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        2000 .data\r\n        F000 .rdata\r\n        3000 .reloc\r\n        1000 .rsrc\r\n       31000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_stream_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_stream_probe.exe"
+          ],
+          "pid": 2556,
+          "exit_code": 0,
+          "seconds": 0.1598264999993262,
+          "log_sha256": "8147396ce223e0e3d2ee657d94720f0448e542ffec522b11c63b47fc32f88c98",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_stream_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        2000 .data\r\n        F000 .rdata\r\n        3000 .reloc\r\n        1000 .rsrc\r\n       32000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_worker_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_worker_probe.exe"
+          ],
+          "pid": 4400,
+          "exit_code": 0,
+          "seconds": 0.15916639999886684,
+          "log_sha256": "6d386b69f91e5521d53bff9999e81630ebe7d31c4e85a4fe052ea28caff3e1da",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_worker_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        4000 .data\r\n       1B000 .rdata\r\n        6000 .reloc\r\n        1000 .rsrc\r\n       8B000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_worker_fault",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_worker_fault.exe"
+          ],
+          "pid": 5348,
+          "exit_code": 0,
+          "seconds": 0.15888119999908668,
+          "log_sha256": "c0b50ae8af2f8968f69efb786c88b03c14e04f887b31706a25d0d5f87e8cd5a4",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_worker_fault.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        5000 .data\r\n       1C000 .rdata\r\n        6000 .reloc\r\n        1000 .rsrc\r\n       92000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_upcase_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_upcase_probe.exe"
+          ],
+          "pid": 6252,
+          "exit_code": 0,
+          "seconds": 0.15981689999898663,
+          "log_sha256": "8ca32a1c57c85c610ac9ca866b2c52d94b234215fec4e0320928eb365c916d3d",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_upcase_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        2000 .data\r\n        E000 .rdata\r\n        2000 .reloc\r\n        1000 .rsrc\r\n       2C000 .text\r\n"
+        },
+        {
+          "label": "imports-ntfs_inspection_probe",
+          "arguments": [
+            "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+            "/nologo",
+            "/dependents",
+            "R:\\work\\build\\win32-build\\Release\\ntfs_inspection_probe.exe"
+          ],
+          "pid": 6936,
+          "exit_code": 0,
+          "seconds": 0.165405899999314,
+          "log_sha256": "15f49134b3f6556c47259ea0b11707ae798afa25e2dfa24a525355df6867b4a4",
+          "tail": "\r\nDump of file R:\\work\\build\\win32-build\\Release\\ntfs_inspection_probe.exe\r\n\r\nFile Type: EXECUTABLE IMAGE\r\n\r\n  Image has the following dependencies:\r\n\r\n    KERNEL32.dll\r\n\r\n  Summary\r\n\r\n        3000 .data\r\n       11000 .rdata\r\n        3000 .reloc\r\n        1000 .rsrc\r\n       3C000 .text\r\n"
+        },
+        {
+          "label": "test-image.ntfs_name_order_file",
+          "arguments": [
+            "C:/Program Files/CMake/bin/ctest.exe",
+            "--test-dir",
+            "R:\\work\\build\\win32-build",
+            "-C",
+            "Release",
+            "-R",
+            "^image\\.ntfs_name_order_file$",
+            "--output-on-failure",
+            "--output-junit",
+            "R:\\work\\build\\test.xml"
+          ],
+          "pid": 4416,
+          "exit_code": 8,
+          "seconds": 3.0448179000013624,
+          "log_sha256": "75555f40fd0ea33fde39094741ba1312dd072e98ff8b802c16de1c81d055fa37",
+          "tail": "inks(_os.chmod, path, 0o700)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 272, in _dont_follow_symlinks\n    func(path, *args, follow_symlinks=False)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [WinError 5] Access is denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-fcz_dr2n'\n\n======================================================================\nERROR: test_profile_prefix_and_final_replay_boundaries (__main__.Tests.test_profile_prefix_and_final_replay_boundaries)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_name_order_file.py\", line 96, in test_profile_prefix_and_final_replay_boundaries\n    volume, path = self.fixture(JointVolume(minor=0))\n                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_name_order_file.py\", line 22, in fixture\n    return held.Tests.fixture(self, volume or JointVolume(), name)\n           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_file.py\", line 82, in fixture\n    with path.open('xb') as stream:\n         ~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\pathlib\\__init__.py\", line 771, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 13] Permission denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-896wfeua\\\\generated-1.img'\n\n======================================================================\nERROR: test_profile_prefix_and_final_replay_boundaries (__main__.Tests.test_profile_prefix_and_final_replay_boundaries)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<frozen os>\", line 377, in walk\nPermissionError: [WinError 5] Access is denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-896wfeua'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_file.py\", line 75, in tearDown\n    self.temp.cleanup()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 976, in cleanup\n    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 956, in _rmtree\n    _shutil.rmtree(name, onexc=onexc)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 852, in rmtree\n    _rmtree_impl(path, dir_fd, onexc)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 689, in _rmtree_unsafe\n    for dirpath, dirnames, filenames in results:\n                                        ^^^^^^^\n  File \"<frozen os>\", line 413, in walk\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 687, in onerror\n    onexc(os.scandir, err.filename, err)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 928, in onexc\n    _resetperms(path)\n    ~~~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 283, in _resetperms\n    _dont_follow_symlinks(_os.chmod, path, 0o700)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 272, in _dont_follow_symlinks\n    func(path, *args, follow_symlinks=False)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [WinError 5] Access is denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-896wfeua'\n\n======================================================================\nERROR: test_root_discovery_and_explicit_profile_mismatch (__main__.Tests.test_root_discovery_and_explicit_profile_mismatch)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_name_order_file.py\", line 64, in test_root_discovery_and_explicit_profile_mismatch\n    volume, path = self.fixture(JointVolume(minor=minor))\n                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_name_order_file.py\", line 22, in fixture\n    return held.Tests.fixture(self, volume or JointVolume(), name)\n           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_file.py\", line 82, in fixture\n    with path.open('xb') as stream:\n         ~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\pathlib\\__init__.py\", line 771, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 13] Permission denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-rbj7zd45\\\\generated-1.img'\n\n======================================================================\nERROR: test_root_discovery_and_explicit_profile_mismatch (__main__.Tests.test_root_discovery_and_explicit_profile_mismatch)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<frozen os>\", line 377, in walk\nPermissionError: [WinError 5] Access is denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-rbj7zd45'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images\\test_ntfs_file.py\", line 75, in tearDown\n    self.temp.cleanup()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 976, in cleanup\n    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 956, in _rmtree\n    _shutil.rmtree(name, onexc=onexc)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 852, in rmtree\n    _rmtree_impl(path, dir_fd, onexc)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 689, in _rmtree_unsafe\n    for dirpath, dirnames, filenames in results:\n                                        ^^^^^^^\n  File \"<frozen os>\", line 413, in walk\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\shutil.py\", line 687, in onerror\n    onexc(os.scandir, err.filename, err)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 928, in onexc\n    _resetperms(path)\n    ~~~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 283, in _resetperms\n    _dont_follow_symlinks(_os.chmod, path, 0o700)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\python314\\Lib\\tempfile.py\", line 272, in _dont_follow_symlinks\n    func(path, *args, follow_symlinks=False)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [WinError 5] Access is denied: 'R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.0fb6aac82fb74701b6e12dd42175b5c5\\\\AC\\\\Temp\\\\disked-ntfs-owned-rbj7zd45'\n\n----------------------------------------------------------------------\nRan 9 tests in 0.141s\n\nFAILED (errors=18)\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.97 sec\n\nThe following tests FAILED:\n\t  1 - image.ntfs_name_order_file (Failed)\nErrors while running CTest\n"
+        }
+      ],
+      "tests": [
+        {
+          "name": "image.ntfs_name_order_file",
+          "exit_code": 8,
+          "passed": false,
+          "retained_files": 1,
+          "retained_bytes": 396
+        }
+      ],
+      "executables": {
+        "ntfs_file_probe": {
+          "sha256": "9c4a96785848c0db9d1cda029e8c9746dddb0f62f97c3866896b9ddfc214eca8",
+          "bytes": 533504,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_file_fault": {
+          "sha256": "2f57eaab4f25cbca2204cc7222e10f35d91a343440aeaa15cf289c7ff577415e",
+          "bytes": 544768,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_capture_probe": {
+          "sha256": "efc2aab63affe3e46753c20ffbecb23a49e15d6b1bd8bb3f94740a36a147f0a1",
+          "bytes": 479744,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_names_probe": {
+          "sha256": "13901123877c245c4547f94cac7c5d6f67e57fb012f2c4205bf61dac4fcee14f",
+          "bytes": 270336,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_stream_probe": {
+          "sha256": "3e3e7621915c3f88d1c0056607a740d1229cf7b5818b9204fa558f5524987fd9",
+          "bytes": 277504,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_worker_probe": {
+          "sha256": "fdcf222efb48b4b6c9c4599af85570a7fce9f5462c26ba385884074b8a3ead81",
+          "bytes": 711168,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_worker_fault": {
+          "sha256": "3e699213241d86e6ce64e66b57334dccff7e9a67785f34b44e4032ab1f574a35",
+          "bytes": 747520,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_upcase_probe": {
+          "sha256": "8a21ed0fa7805a8ef277f0762f9eb460fc049649ec96e1231c03f278fd5e6f1d",
+          "bytes": 247808,
+          "pe_machine": "0x14c"
+        },
+        "ntfs_inspection_probe": {
+          "sha256": "6a5f3056f79f564718fa3c4473573bb09f74ce5803db85317723bf559e8238b9",
+          "bytes": 327168,
+          "pe_machine": "0x14c"
+        }
+      },
+      "full_x64_product_suite_run": false,
+      "owner_accepted": false,
+      "source_confinement": {
+        "elevated": 0,
+        "appcontainer": 1,
+        "source_write_denied": true
+      },
+      "directory_access_observations": [
+        {
+          "add": true,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAF0obda+0BT3QEnxlNU/OUQwTmCWCdWUXHgWq1U=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAF0obda+0BT3QEnxlNU/OUQwTmCWCdWUXHgWq1U=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAABdKG3WvtAU90BJ8ZTVPzlEME5glgnVlFx4FqtVABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":true,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAAXSht1r7QFPdASfGU1T85RDBOYJYJ1ZRceBarVQ==\"}\r\n"
+        },
+        {
+          "add": false,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAF0obda+0BT3QEnxlNU/OUQwTmCWCdWUXHgWq1U=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAAF0obda+0BT3QEnxlNU/OUQwTmCWCdWUXHgWq1U=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAABdKG3WvtAU90BJ8ZTVPzlEME5glgnVlFx4FqtVABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":false,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAAXSht1r7QFPdASfGU1T85RDBOYJYJ1ZRceBarVQ==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n"
+        }
+      ],
+      "common_data_access": [
+        {
+          "added": true,
+          "sid": "S-1-15-2-3597477981-4145336510-2498840896-1144602581-2522893872-1553257737-1437275768",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        },
+        {
+          "added": false,
+          "sid": "S-1-15-2-3597477981-4145336510-2498840896-1144602581-2522893872-1553257737-1437275768",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        }
+      ],
+      "fixture": {
+        "tests": [
+          "image.ntfs_name_order_file",
+          "image.ntfs_name_order_worker",
+          "image.ntfs_name_order",
+          "image.ntfs_upcase_file",
+          "image.ntfs_upcase_worker",
+          "image.ntfs_upcase_capture",
+          "image.ntfs_membership_worker",
+          "image.ntfs_membership_file",
+          "image.ntfs_membership",
+          "image.ntfs_names",
+          "image.ntfs_capture",
+          "image.ntfs_stream",
+          "image.ntfs_directory",
+          "image.ntfs_closure",
+          "image.ntfs_file",
+          "image.ntfs_directory_file",
+          "image.ntfs_worker",
+          "image.ntfs_directory_worker"
+        ],
+        "headers": [
+          "portable/ntfs/ntfs.h",
+          "runtime/capture/ntfs_membership.h",
+          "runtime/capture/ntfs_membership_detail.h",
+          "runtime/capture/ntfs_name_order.h",
+          "runtime/capture/ntfs_names.h",
+          "runtime/capture/ntfs_attributes_detail.h",
+          "runtime/capture/ntfs_capture.h",
+          "providers/image/ntfs_file.h",
+          "runtime/capture/ntfs_directory.h",
+          "runtime/capture/ntfs_directory_detail.h",
+          "providers/image/ntfs_snapshot.h",
+          "platform/windows/storage/ntfs_worker.h"
+        ],
+        "executable_targets": [
+          "ntfs_file_probe",
+          "ntfs_file_fault",
+          "ntfs_capture_probe",
+          "ntfs_names_probe",
+          "ntfs_stream_probe",
+          "ntfs_worker_probe",
+          "ntfs_worker_fault",
+          "ntfs_upcase_probe",
+          "ntfs_inspection_probe"
+        ]
+      },
+      "error": "JUnit did not prove exactly one passing selected group: image.ntfs_name_order_file",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 334, in main\n    raise RuntimeError('JUnit did not prove exactly one passing selected group: ' + test)\nRuntimeError: JUnit did not prove exactly one passing selected group: image.ntfs_name_order_file\n",
+      "archive_sha256": "225a122f610e1f640a4852dcb90ee5837a3b065dc24030100c94c5c91c592d1f",
+      "archive_bytes": 52916,
+      "archive_entries": {
+        "source-confinement.log": {
+          "bytes": 140,
+          "sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c"
+        },
+        "msbuild-version.log": {
+          "bytes": 16,
+          "sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de"
+        },
+        "common-data-before.log": {
+          "bytes": 290,
+          "sha256": "33ddb5e27b27c42aa18bfa82c57952d942aa99dee07640b58a778b6c4b0377aa"
+        },
+        "common-data-after.log": {
+          "bytes": 304,
+          "sha256": "b179e1c3070088f187117bd1b3721544f47d1938b586ab0f54207cb7d69a487a"
+        },
+        "configure-x64.log": {
+          "bytes": 1056,
+          "sha256": "8b078ad6006e32f0673dd902b31a0d4541fafbb7bdc92160e9352fac29f9ec28"
+        },
+        "codemodel/codemodel-v2-f04661d6599158021f2d.json": {
+          "bytes": 87491,
+          "sha256": "6180e86fd9ddc543aaa4d36bc0dd86c5fefbfc9cf2bafad1ce1049538e743f79"
+        },
+        "codemodel/directory-.-Release-d0094a50bb2071803777.json": {
+          "bytes": 168,
+          "sha256": "7934b0ebd3c2643b221b784bf8c5ad209d92cde7491e640a65ffe2138a34e8f2"
+        },
+        "codemodel/index-2026-10-18T07-16-40-0489.json": {
+          "bytes": 916,
+          "sha256": "bd3d7ae56c1ec186c2ea15efe8af82b92fcfad91e6119608ad0047488adf5968"
+        },
+        "codemodel/target-acquired_image_verification_probe-Release-cf051e7553372fb99113.json": {
+          "bytes": 5586,
+          "sha256": "68ffec4ebc722170320081cb8b1e639b4b47ccc1e6dccfb527c55f366f8d0041"
+        },
+        "codemodel/target-acquisition_case_probe-Release-0e3edf12e9d2007e218b.json": {
+          "bytes": 5655,
+          "sha256": "33a46e29a5925522b2e3cdfc20b28265be5c5db6974391a756a5b0bcf050458f"
+        },
+        "codemodel/target-acquisition_command_probe-Release-3723f65a39bac4c2c74d.json": {
+          "bytes": 8188,
+          "sha256": "3f6a6b70c5e73ffc55a3221a43738702ab131b551ccf94644c4670caa3d38b04"
+        },
+        "codemodel/target-acquisition_export_fault-Release-99c7ae1f6b8d1f7e74f5.json": {
+          "bytes": 6578,
+          "sha256": "ce39c7863e8a2b0a30f3cc3a9ac1a15d124a42030fbccc4572aba0caeb2d4bc9"
+        },
+        "codemodel/target-acquisition_export_probe-Release-d7a322282ed852096013.json": {
+          "bytes": 6073,
+          "sha256": "c3454aee64c790c33690ea71202c3ab7db7ca686005a4460e0451be04d537f44"
+        },
+        "codemodel/target-acquisition_probe-Release-4ede21c3153b0e802c3e.json": {
+          "bytes": 3417,
+          "sha256": "efc0dc4ecf5994b350d911346be6e7c9462a8e1aec0bf354be947284e844b5f7"
+        },
+        "codemodel/target-acquisition_worker_fault-Release-114032c7dfe0923eed85.json": {
+          "bytes": 8362,
+          "sha256": "a92b3ffb93c473190cbc73f5953718a82fa3fca26fc8d6eb88ceddead7ab3481"
+        },
+        "codemodel/target-acquisition_worker_probe-Release-0cd1940a968607d3e055.json": {
+          "bytes": 8088,
+          "sha256": "c7fa92f367853108f8640ffc6fcfcb13d30afa408b938824b0065fbc8428ab74"
+        },
+        "codemodel/target-ALL_BUILD-Release-74cf6f5d6439709352f3.json": {
+          "bytes": 21833,
+          "sha256": "720a29ff25ea2a330feabe968b6615dde6dd1f7d0109a916ff8454e9c9242425"
+        },
+        "codemodel/target-bootstrap_registry-Release-c2dcbfd6040f2e77bcbb.json": {
+          "bytes": 1087,
+          "sha256": "f29ab7ab5e9fab306ba81246422f4bb3631818f73df4d926462b20569b8530ae"
+        },
+        "codemodel/target-capture_probe-Release-62de1fa80e366a728314.json": {
+          "bytes": 3482,
+          "sha256": "87d72d42116af273b870782bb68c32cd8a0df020d3061ad5d079a033a5fe0d6f"
+        },
+        "codemodel/target-case_evidence_probe-Release-f5366579b7caf152680a.json": {
+          "bytes": 4882,
+          "sha256": "7ef9f3e66e0246186817a31fde5ca1d81e14d505a7126812aa9233e897b02fb0"
+        },
+        "codemodel/target-command_parser_probe-Release-c1060e03a626068ceed6.json": {
+          "bytes": 3465,
+          "sha256": "b3815eb69c884985c534572365b2fcc5b52ca318eafa2cce6725edc400382744"
+        },
+        "codemodel/target-compiled_registry_probe-Release-4c54400e9a55fdae7819.json": {
+          "bytes": 3059,
+          "sha256": "bcca1eab37a8a21ff7edc573da72261a05f7ea95de2603403035ad805f9818e8"
+        },
+        "codemodel/target-Continuous-Release-b0f92a3013ee767e55c4.json": {
+          "bytes": 1539,
+          "sha256": "613d5ad1c0a8834157365355b09a51107bfa6c1b70f72de5adf5ac23620afd49"
+        },
+        "codemodel/target-disked-Release-89a527c4abf16c2c63dc.json": {
+          "bytes": 30620,
+          "sha256": "70dc650c187f4e55a2ae0dab467db8a0496722c888c3a43dbfeb7e23fe612cde"
+        },
+        "codemodel/target-disked_acquisition-Release-ac50aab21f1bcc5d263c.json": {
+          "bytes": 3289,
+          "sha256": "fed1973740f9eb1eb150d4bc11b7318bd2ccb38f2ce93e9125cf899ac677e01d"
+        },
+        "codemodel/target-disked_acquisition_commands-Release-a3e7ecf051906ee3dc0a.json": {
+          "bytes": 3212,
+          "sha256": "912b0ba592390146a0cbd9b631e1f0ed997295754490c3f9f7d7f106a9c61872"
+        },
+        "codemodel/target-disked_acquisition_commands_headers-Release-6e2690df5281a4777ce7.json": {
+          "bytes": 2871,
+          "sha256": "be4c5141ce2edc5efcfafa543d7dc7d5d151d9cc33434e0b105f245ecc18d55f"
+        },
+        "codemodel/target-disked_acquisition_observation-Release-c1ba4c0288263e6a2951.json": {
+          "bytes": 3414,
+          "sha256": "b088cd5e7ebcaf6e4520604caca8170fe7386fe8b75389564ac0ccaeeec644d2"
+        },
+        "codemodel/target-disked_capture_campaign-Release-3e195d1e63c3d174b30b.json": {
+          "bytes": 31190,
+          "sha256": "d00eb3c8a87ed49bfee44002d95a50da12e5929375394da2af47abe4fccfa180"
+        },
+        "codemodel/target-disked_case_evidence-Release-c4f38d4ab0c14b870398.json": {
+          "bytes": 3781,
+          "sha256": "dbe1691cde6fb9893d10e30f21e7b439a8d55887e405a7dabc194f2c2c0217f5"
+        },
+        "codemodel/target-disked_command-Release-60ee1a41a3ee233d57fe.json": {
+          "bytes": 3448,
+          "sha256": "4f493272e0301f42f1c179224ad2e46dc85ebbb2fc7ec844fcf6ac9f8a4806d4"
+        },
+        "codemodel/target-disked_command_headers-Release-bb4651ae42717def92de.json": {
+          "bytes": 3131,
+          "sha256": "561e2f18a3ba41dfa505ec667d9f452e5e97dd53f90dd6a3ba3b88d30edb143d"
+        },
+        "codemodel/target-disked_exfat-Release-df271b0be115b09c0d23.json": {
+          "bytes": 3188,
+          "sha256": "86401975a6f822ad2672185959b373356fc4e5ac392f01ec2ddda2734b5ba431"
+        },
+        "codemodel/target-disked_exfat_capture-Release-b64b0f70e3bd90ecbbc1.json": {
+          "bytes": 3360,
+          "sha256": "c72c15caad6dcda88afbd8865940876a910f4293200648ec9c7b90e71bb8a1c4"
+        },
+        "codemodel/target-disked_exfat_capture_headers-Release-764b2589a2f64697b893.json": {
+          "bytes": 3019,
+          "sha256": "c620ee8199134335d64dabaca62121b7f9d464d74e20606e0cd44ee95542a142"
+        },
+        "codemodel/target-disked_exfat_file-Release-457b50013a3d62529383.json": {
+          "bytes": 3921,
+          "sha256": "8a041e98e4dee4ff23929f87ed4f7676d84a798ecdcb1ca731c1e7f3cb90000f"
+        },
+        "codemodel/target-disked_exfat_file_fault-Release-553f81968fd1cbf6110f.json": {
+          "bytes": 4123,
+          "sha256": "c04bd03075265760db8f127ac88ff0bb4ff3c0e3efefa9b1155c676bdbba729b"
+        },
+        "codemodel/target-disked_exfat_file_headers-Release-2b64ad72d748ac6600b7.json": {
+          "bytes": 3350,
+          "sha256": "8bbb48940989ea6aaa724aec57d318804873edcae273fee93b61f0a726c83dc8"
+        },
+        "codemodel/target-disked_exfat_headers-Release-15eb9deb3d910f2cea38.json": {
+          "bytes": 2545,
+          "sha256": "93dd11aacf1242ffc4d3907bdedbea944df2bb711bfb903b4d29f63fe24c1af1"
+        },
+        "codemodel/target-disked_exfat_inspection-Release-112792d8db3497273ff8.json": {
+          "bytes": 3777,
+          "sha256": "571da07411f621f567528ea1c50346092407aa5abc5d5a48164c5df596ab56e1"
+        },
+        "codemodel/target-disked_exfat_inspection_headers-Release-7a70094742325410986c.json": {
+          "bytes": 3212,
+          "sha256": "d623126cc7168e0664b199e1da8ac75b71c7117e152ce5c1595a08f44ed2e431"
+        },
+        "codemodel/target-disked_exfat_namespace-Release-d73b5372766812828357.json": {
+          "bytes": 3283,
+          "sha256": "39d3ae489e4fb50805c72edef7880ad22686106294e52c7826bb7aa5f77985f5"
+        },
+        "codemodel/target-disked_exfat_namespace_headers-Release-44f897825f1f5b33403f.json": {
+          "bytes": 2944,
+          "sha256": "76045bf6d46349456d374a78ada59b0c3e1b70e3176eb25085ef799f1ff20bee"
+        },
+        "codemodel/target-disked_exfat_reader-Release-727220a29d9be72b6c9d.json": {
+          "bytes": 4573,
+          "sha256": "e86b5d3a459eb65e2848ecb1ed6a3a98187eac51e97058f3f22029cfcf232474"
+        },
+        "codemodel/target-disked_exfat_reader_headers-Release-c89cf954b9d89f42c7ef.json": {
+          "bytes": 3986,
+          "sha256": "c94bf849a4acd29d9f33d2fe1a0f85f19429fd09af9fc6bbb65d22a2755559fb"
+        },
+        "codemodel/target-disked_exfat_snapshot-Release-55c729b5d68ced08233f.json": {
+          "bytes": 4031,
+          "sha256": "851695bacbf551f3d3c8e1839961384691b382f3c371c8439cb731c33315e1a2"
+        },
+        "codemodel/target-disked_exfat_snapshot_fault-Release-6e16df57c77c2bbc2b67.json": {
+          "bytes": 4326,
+          "sha256": "27ab645465cf1129a3f959794b78c132451a057724acf03d095d946d05e56290"
+        },
+        "codemodel/target-disked_exfat_snapshot_headers-Release-53226eb6272f018b5bc8.json": {
+          "bytes": 3464,
+          "sha256": "d3f8548b8da25cccf8c99ff36ba287bc25cb15456f9d12841fd9651b98ad7264"
+        },
+        "codemodel/target-disked_exfat_test-Release-0fffaae32dc6e6dff304.json": {
+          "bytes": 31281,
+          "sha256": "ceafcf2cd7c0476668df1fe0052632b7353b7051d948596789880cd0eb88ad96"
+        },
+        "codemodel/target-disked_exfat_tree-Release-264981889963620cd29f.json": {
+          "bytes": 3522,
+          "sha256": "fd6c90dd49144e2bff568322c1505aaee366177ff318c2d145e10d76efb39757"
+        },
+        "codemodel/target-disked_exfat_tree_headers-Release-5a9c9d32d34c64d7a1ab.json": {
+          "bytes": 3178,
+          "sha256": "a6b5a72264ca463eb76d468e8de2390a32b84278fe279fb8a9f3cb47fadc4f92"
+        },
+        "codemodel/target-disked_exfat_upcase-Release-eebe8d784ad855f1bc66.json": {
+          "bytes": 3177,
+          "sha256": "5486dc9ac8750cf7358cf6e500ba85afc9fba06cb3272e67b30a7e625e8a0c7d"
+        },
+        "codemodel/target-disked_exfat_upcase_headers-Release-a5193a826fbf158a1a6d.json": {
+          "bytes": 2835,
+          "sha256": "c5699ef53d3f026cb92d7222045efbe8d3d4cb4d41d6aae2fef21e38e521b635"
+        },
+        "codemodel/target-disked_exfat_worker-Release-4c37e98916b965972801.json": {
+          "bytes": 4310,
+          "sha256": "769128973d96da493ba659d801940547772b65e1c9aae4800b819ea1f00c2f91"
+        },
+        "codemodel/target-disked_exfat_worker_fault-Release-be1accb4703a36010d22.json": {
+          "bytes": 4628,
+          "sha256": "9fece1d492d1c0329c96cede49bcc623a3dc4217f479a239b35ffddbad87f7d3"
+        },
+        "codemodel/target-disked_exfat_worker_headers-Release-2d74fb21e427d0b9256c.json": {
+          "bytes": 3723,
+          "sha256": "7c62ae0493f5e622211cc47df2669141e323595dae35c85bdddd43b41e38cafc"
+        },
+        "codemodel/target-disked_export_commands-Release-5bad87479f73012afdae.json": {
+          "bytes": 3472,
+          "sha256": "e77a1e5a66051ad82231ba084a36f25f197e5aa991c885b660e816a3b837a7bb"
+        },
+        "codemodel/target-disked_fat-Release-71530cab4f1377eb5ab0.json": {
+          "bytes": 3173,
+          "sha256": "8e492f959ad98157f645dcfdde098a4914987c4e2d51d5f414172691e7de34f7"
+        },
+        "codemodel/target-disked_fat_capture-Release-4a7ca446fca75089580a.json": {
+          "bytes": 3267,
+          "sha256": "237119616120b4c56af0f1c4dd0f1fae18f4fd4d90daeb9e59ec9740d9f9b114"
+        },
+        "codemodel/target-disked_fat_capture_headers-Release-aefd185fe8e17e1c9003.json": {
+          "bytes": 2924,
+          "sha256": "8446143ed5afbd3f0023982bdf0a789382ecaa3de711634e1468b601e40db64b"
+        },
+        "codemodel/target-disked_fat_content-Release-63f4c2847aaa7004bf86.json": {
+          "bytes": 3258,
+          "sha256": "cc3c5bf2c058f5608156fe31c852d0aad1059408f835f01083802cbc477cd167"
+        },
+        "codemodel/target-disked_fat_content_file-Release-1d288169dc8a31cb96cc.json": {
+          "bytes": 3375,
+          "sha256": "305d7f31b2524bcd97e7ec192a302dcda3a81afc5cda7cc35aba952895dfbb65"
+        },
+        "codemodel/target-disked_fat_content_file_headers-Release-10e66d95b15df4263f4c.json": {
+          "bytes": 3037,
+          "sha256": "0904b278f4ea877184d8e34dc3734a4660c13466f1d0e215cd251831e7a9b81a"
+        },
+        "codemodel/target-disked_fat_content_headers-Release-44b95056ba9490951854.json": {
+          "bytes": 2915,
+          "sha256": "48fd76448da0c4fa7399c5c9995a7df1d9aad7ca6d26e9320e237dd51eaf4125"
+        },
+        "codemodel/target-disked_fat_content_stream-Release-ac3415327b13476c0cc1.json": {
+          "bytes": 3389,
+          "sha256": "856802b35eda64d6c35eb60bbd60c59f5589bd272d402cd8e40e81165e50d145"
+        },
+        "codemodel/target-disked_fat_content_stream_headers-Release-278ce95e55aaded2094b.json": {
+          "bytes": 3053,
+          "sha256": "6de0a3a969a8005ebf946ed1212e615a95bca304d97cc7eba7e76ba1dffb585c"
+        },
+        "codemodel/target-disked_fat_file-Release-4acf56ba2b508c16811d.json": {
+          "bytes": 3768,
+          "sha256": "767919e9c0ab8e09fdf13039511083c21b8bdabdbf6861b1f58794ab74fdda92"
+        },
+        "codemodel/target-disked_fat_file_fault-Release-f2decc6f89bc067023a1.json": {
+          "bytes": 4031,
+          "sha256": "097e3e881bd157a2eaf0bfc9bbfae69f6b19818777d080c672081127ecb1ed47"
+        },
+        "codemodel/target-disked_fat_headers-Release-76ec7819a0aca303c50c.json": {
+          "bytes": 2531,
+          "sha256": "1b79780e10d03aa4b874ef432814b0dcf9573549f0382386d9b7614a15e81836"
+        },
+        "codemodel/target-disked_fat_inspection-Release-156222fc4c620f6cc82a.json": {
+          "bytes": 3938,
+          "sha256": "cf0bc61e44c6252607ccf7acef626dd5829cfd08ef7bb531669ed62fdb41f86e"
+        },
+        "codemodel/target-disked_fat_inspection_headers-Release-57c1e517676a6e779611.json": {
+          "bytes": 3371,
+          "sha256": "a89285d69a711bd8322631dbec65b26f5e127088b0c965159be03e7047ee0c5a"
+        },
+        "codemodel/target-disked_fat_metadata-Release-ff1514e9c5b5f77403be.json": {
+          "bytes": 3103,
+          "sha256": "0fe9751fc6e107fd2faacca1f5606c45f6bbf5f195b05515b61c88dc4ecc4ecf"
+        },
+        "codemodel/target-disked_fat_metadata_headers-Release-2d4d3b8db3d584a03f79.json": {
+          "bytes": 2753,
+          "sha256": "09dd863fccaca5d73e89256d7b0d0291f8ed8d6d3887303e913f181dfbcd1336"
+        },
+        "codemodel/target-disked_fat_namespace-Release-c6eace538ad92f0b4afb.json": {
+          "bytes": 2936,
+          "sha256": "b7fe039f2bbc9232d535da949d2c32c95406e90d66905cc17e7a7f401b8b4f87"
+        },
+        "codemodel/target-disked_fat_namespace_headers-Release-5d3c8a3b58d3c449171b.json": {
+          "bytes": 2595,
+          "sha256": "2df55b3301dc23f2b74a9bb3c09ce29fc0523ce80231039527ed7900f62d2894"
+        },
+        "codemodel/target-disked_fat_native_metadata-Release-07db4215bcc01dcd8fee.json": {
+          "bytes": 3225,
+          "sha256": "0b024d6edee85bd4f5e474541d71cfba3a158bdc00143fae1b70f90b84da1aac"
+        },
+        "codemodel/target-disked_fat_native_metadata_headers-Release-4577507a24d495a71ce6.json": {
+          "bytes": 2890,
+          "sha256": "060ee8e4a0854266939627f232c8a23149e69ef7fe183c99bcb8fa084597ac3a"
+        },
+        "codemodel/target-disked_fat_reader-Release-f9607480975bbb76542f.json": {
+          "bytes": 4735,
+          "sha256": "a2b2050be3e8cc1703d90ff58997ea3c4b06608d50069e55072b57a7da13192e"
+        },
+        "codemodel/target-disked_fat_reader_headers-Release-e24f80161435122cefd4.json": {
+          "bytes": 4146,
+          "sha256": "ff1531bee65105983e8eb0f6a086b4f697963c8015b7d3d159e1a84209cbcf92"
+        },
+        "codemodel/target-disked_fat_retention-Release-0281030cc7dfb08d6085.json": {
+          "bytes": 3099,
+          "sha256": "b66d8eb1901e4b4cc9ee194530012b3792d60bc27a9c83e22a8edc3e93c578a9"
+        },
+        "codemodel/target-disked_fat_retention_headers-Release-ec183a59482d35bbb95d.json": {
+          "bytes": 2758,
+          "sha256": "09a6b3dcd507f6321fd665f90f4cda65d67b840edc7ed750e13ab4120a25273f"
+        },
+        "codemodel/target-disked_fat_snapshot-Release-ddf9e10ac5648c03f134.json": {
+          "bytes": 4197,
+          "sha256": "40707d1918a7ed102217d6d2c608c67fe49d3f312d5d83fb74a406b09d35f5a4"
+        },
+        "codemodel/target-disked_fat_snapshot_fault-Release-3bc305a355594b2ba1d3.json": {
+          "bytes": 4414,
+          "sha256": "72f4b5224c9531c7afc832fe059dcfbb64c5c482260a63d060b5aa184e004263"
+        },
+        "codemodel/target-disked_fat_snapshot_headers-Release-753256522f2fa77435f6.json": {
+          "bytes": 3541,
+          "sha256": "4da346b2edb8661d83fe6e3aac8a3f0be324432eaf09d4198cdfe79859f7615a"
+        },
+        "codemodel/target-disked_fat_test-Release-1c027ccb059a3a2b915c.json": {
+          "bytes": 31358,
+          "sha256": "430d8f49f2dd89c920af23630680c5fc538117d430fbec86b8ea0b48c34847bd"
+        },
+        "codemodel/target-disked_fat_traversal-Release-65e760de367cc411317d.json": {
+          "bytes": 3270,
+          "sha256": "b673ab9815f643a1f1e4af739179053344b6574ead0c19aa406e011e913e9094"
+        },
+        "codemodel/target-disked_fat_traversal_headers-Release-3061024db5fc6e174744.json": {
+          "bytes": 2929,
+          "sha256": "d561b23532282382304e1c1995437c6d9985990fe4473f1073db8ace59eb808e"
+        },
+        "codemodel/target-disked_fat_tree_actions-Release-51565e9c0e3c36812882.json": {
+          "bytes": 5144,
+          "sha256": "1452d921e64e510bf1768caff9890be0e89204e0df9af9d758a97b2c6591e80c"
+        },
+        "codemodel/target-disked_fat_tree_actions_fault-Release-58c90307f7451f81036e.json": {
+          "bytes": 5443,
+          "sha256": "b2efe5815da5b08792f06be0b8994f955a4284f07086c8b3b7c632d4dc33af81"
+        },
+        "codemodel/target-disked_fat_tree_actions_headers-Release-de0c6368cd301996ecde.json": {
+          "bytes": 4788,
+          "sha256": "6490ba39631a9f11a43a866fdcbccd181d51b9d7ea3a7365ba69a7f167c5bb0f"
+        },
+        "codemodel/target-disked_fat_tree_admission-Release-54e2c1f698c0110febfe.json": {
+          "bytes": 4513,
+          "sha256": "4ac3fe4647474ec1756c0bd30cffb291b608ee0a8f3c3cf6dd48451c3bd2b674"
+        },
+        "codemodel/target-disked_fat_tree_admission_fault-Release-220148a0c759b490e1e8.json": {
+          "bytes": 4559,
+          "sha256": "e64be38a44b203678c4a94fe4caf4f4e93a262183915ebd7a7afa7cf1e833506"
+        },
+        "codemodel/target-disked_fat_tree_admission_headers-Release-731cfb9908a5b84e4199.json": {
+          "bytes": 4159,
+          "sha256": "22aeeff7e06ec03fb5796d1f07fa64923f8bf49749e331f7b23def4ec05d51e3"
+        },
+        "codemodel/target-disked_fat_tree_commands-Release-f1eca338d2f11ddd5ae8.json": {
+          "bytes": 3475,
+          "sha256": "32ca2a995fdbcd295bbc822175f3ece248151a31378e829a4df5e0eb1181c1e0"
+        },
+        "codemodel/target-disked_fat_tree_commands_headers-Release-99533fe5715e1b831c5e.json": {
+          "bytes": 3130,
+          "sha256": "d5f33c1412f76e29f7531787c22c1a0a644288c6523a167b74b7953da512bb64"
+        },
+        "codemodel/target-disked_fat_tree_controller-Release-2db8524880446fb7ce87.json": {
+          "bytes": 4613,
+          "sha256": "a5107915fa6ddf7ee9a51267ca63bdfc01846f11765a71ee9b9e834937a86642"
+        },
+        "codemodel/target-disked_fat_tree_controller_fault-Release-03b4a8cc16dcb6d8a820.json": {
+          "bytes": 4999,
+          "sha256": "ba9205f83f84fcdf9ba5a996da5ca9064777a9f259e91330128d4969902e2027"
+        },
+        "codemodel/target-disked_fat_tree_controller_headers-Release-81430c66412755b91645.json": {
+          "bytes": 4260,
+          "sha256": "5b373290a97f6ee7fdc46f0964c4bc65de366ad5959cddff64d42e4fd674e468"
+        },
+        "codemodel/target-disked_fat_tree_extraction-Release-05455e7918b0806cb052.json": {
+          "bytes": 3940,
+          "sha256": "d4a41a9da757b2f80784c75fb69eb388dc4074147aee8773cb32ea300dd22c1e"
+        },
+        "codemodel/target-disked_fat_tree_extraction_headers-Release-022c3fd028159ac58165.json": {
+          "bytes": 3605,
+          "sha256": "56330720366f0a25d074cabf69eee995fecfc26e3f0eafa9f5649ce86cad9779"
+        },
+        "codemodel/target-disked_fat_tree_extraction_worker-Release-403c8e8df518eb9cd841.json": {
+          "bytes": 4278,
+          "sha256": "c8d08ff7a6246d35a5f44e27ad2c6e1f0699f6bfa221dcf5a498da670a34523d"
+        },
+        "codemodel/target-disked_fat_tree_extraction_worker_fault-Release-f8bc015f9a6731e583cc.json": {
+          "bytes": 4564,
+          "sha256": "fd21a5d19855c16e9b8d63a350dbad4b0d8a5189fc87590f824bfd65139170cb"
+        },
+        "codemodel/target-disked_fat_tree_extraction_worker_headers-Release-5863701ad3b0cc067756.json": {
+          "bytes": 3932,
+          "sha256": "d5fdc81271ae6bf4d3126c909239895c0d45a889311bc96dbaf61977f17b3035"
+        },
+        "codemodel/target-disked_fat_tree_file-Release-119988e7cdd4a124d9e5.json": {
+          "bytes": 4042,
+          "sha256": "b5c3ed5faf70af5fc55d14590d05ce514e39f8ab20122d010aeefb136de52cf6"
+        },
+        "codemodel/target-disked_fat_tree_file_fault-Release-f4a57ca51ac5fb9bfcc2.json": {
+          "bytes": 4347,
+          "sha256": "e9788d7126992912163bb9951082837e5f7c3a77c61209cd346ae98107cdf084"
+        },
+        "codemodel/target-disked_fat_tree_file_headers-Release-6b8f5fd4e35e0368d1b0.json": {
+          "bytes": 3474,
+          "sha256": "62aaf6608c45b7a0ffdb5d4d8cf9bdd99a54cec552846bda57d4c80d214310f2"
+        },
+        "codemodel/target-disked_fat_tree_history-Release-274138fe460978bdc247.json": {
+          "bytes": 3032,
+          "sha256": "83ccb4ba0fd0da6335cf3ae07a1decc6a998bf4f0faf571c9ed74c2daf4859a4"
+        },
+        "codemodel/target-disked_fat_tree_history_headers-Release-20c14edd7382f22da812.json": {
+          "bytes": 2696,
+          "sha256": "3a8b49c5fadfde130367f8c84884c8f62650ddb8b514a803a54e65cb51b728a1"
+        },
+        "codemodel/target-disked_fat_tree_operation-Release-e79cfcd0d9e3455afa79.json": {
+          "bytes": 3141,
+          "sha256": "c6f0e3d9617d1f8c2f3db5f670fd2c50a8bff6f41597b0925807f0d493502ba5"
+        },
+        "codemodel/target-disked_fat_tree_operation_headers-Release-9e513826dfc404fc6213.json": {
+          "bytes": 2801,
+          "sha256": "b2ac44c601af5e15fdcccdc20cd7aa355318c8e8119a62af918da2375978d7f4"
+        },
+        "codemodel/target-disked_fat_tree_reconnect-Release-88b85b1800f01a1d77af.json": {
+          "bytes": 3824,
+          "sha256": "b9e6cf2490cd082dc13ffeced773bba9241a76e6961ad87720364438c6f259bd"
+        },
+        "codemodel/target-disked_fat_tree_reconnect_headers-Release-bbd5eb46ba2ec1baf1f0.json": {
+          "bytes": 3160,
+          "sha256": "14aca84b3b6b93c774a5f6d0e9c8f93fb38d496d9065e3ac73a0ddc9b264698d"
+        },
+        "codemodel/target-disked_fat_tree_review-Release-82ac324d5c8228f60324.json": {
+          "bytes": 3032,
+          "sha256": "78e91829a6473b9cfb864436a0225feb4cfe398ad7288e04c51c90224110f0fe"
+        },
+        "codemodel/target-disked_fat_tree_review_headers-Release-3fb72a2efd29a0e922dd.json": {
+          "bytes": 2689,
+          "sha256": "9349bacc77d94da73d705cdb2b89256ce9fb26e8290a1fc4d804822e8b26b69a"
+        },
+        "codemodel/target-disked_fat_tree_session-Release-afdfefb51528d68b18e4.json": {
+          "bytes": 3460,
+          "sha256": "cbf3954d76ca75a3c78dd75cadfc6d75cb93d5b7b8beb1420c0a73847fc05890"
+        },
+        "codemodel/target-disked_fat_tree_session_headers-Release-f64450ea6cfce71d06c1.json": {
+          "bytes": 3122,
+          "sha256": "80b9625c64fa53aa526e1c787d5820e115b5f9cd4078e5867943492366561faf"
+        },
+        "codemodel/target-disked_fat_tree_sessions-Release-95e4c9a372deb830ef08.json": {
+          "bytes": 4622,
+          "sha256": "89b7aaca9f0519d2cabcc4cf8abced35d02d789584411a7f5de9efdf06da7672"
+        },
+        "codemodel/target-disked_fat_tree_sessions_headers-Release-588c8003f60af6ac619f.json": {
+          "bytes": 4040,
+          "sha256": "29bc674b3859482859b4033587157a41cd1bf14e52792cea7474a38ba69340c7"
+        },
+        "codemodel/target-disked_fat_tree_snapshot-Release-310d57164f48bcd4e2ec.json": {
+          "bytes": 3610,
+          "sha256": "64aa196752382b945377f99a73488b03ad965a09c811a9d91c47ed300d2a5d76"
+        },
+        "codemodel/target-disked_fat_tree_snapshot_fault-Release-73d28450c626025f1637.json": {
+          "bytes": 3909,
+          "sha256": "9111c5c04ba31591e5cb14f32310d3bf9e143fec04e29791bed8407d3922a23e"
+        },
+        "codemodel/target-disked_fat_tree_snapshot_headers-Release-a740e4ea49cccec8afe1.json": {
+          "bytes": 3046,
+          "sha256": "1db5268c4ecaa29e575ed2c100540ab9f8908cb0102fb1b6f563ca99a905926e"
+        },
+        "codemodel/target-disked_fat_tree_store-Release-428f37d4ac640989e134.json": {
+          "bytes": 4518,
+          "sha256": "59b5d46b71771ccc1f1f28f121508c2b439c5e683123a73a6a8e31a07a6a3ddf"
+        },
+        "codemodel/target-disked_fat_tree_store_fault-Release-2222e034464bec454e90.json": {
+          "bytes": 4638,
+          "sha256": "7572b9d82fc984ede25b127a84254f8c59b11bbafe6aad5a8097124d9d003055"
+        },
+        "codemodel/target-disked_fat_tree_store_headers-Release-c15d72f6f27c4b99db99.json": {
+          "bytes": 3845,
+          "sha256": "03408fc7b7790d8552ba88ed127f96d34ee1173c1e2277d23593d1304a35795e"
+        },
+        "codemodel/target-disked_fat_tree_watch-Release-4b4668ef4b31306072ae.json": {
+          "bytes": 3211,
+          "sha256": "24aed365e6b6483e5b3af57e2bfbdfa602108447930d008e1096a97b30fa06b8"
+        },
+        "codemodel/target-disked_fat_tree_watch_headers-Release-e49a673cf0d394f2a04d.json": {
+          "bytes": 2867,
+          "sha256": "da85922dba3c5eac3ccc9867c6449dce6d7f7ee56c30743c7aeb089d8992f367"
+        },
+        "codemodel/target-disked_fat_tree_worker-Release-6f96fbf3a11493f7a7c7.json": {
+          "bytes": 4344,
+          "sha256": "93a59b2c5988f31ba3e44107c6f4fbdbfd2ea5c43ac90d7feaf22a86dd55b73c"
+        },
+        "codemodel/target-disked_fat_tree_worker_fault-Release-b274adfce8e86daa97ed.json": {
+          "bytes": 4661,
+          "sha256": "ecd89f6f9520f2a6212809e036c1bf116a9ff825ed82f936834a23781803cef6"
+        },
+        "codemodel/target-disked_fat_tree_worker_headers-Release-7acbdc2ab28f80bddb0d.json": {
+          "bytes": 3760,
+          "sha256": "cac88677e1ec9a5ecf44d80ca25deb497c49000b9758bd1b8a67368fa548af36"
+        },
+        "codemodel/target-disked_fat_worker-Release-e5d25861f1cfcd0f6f79.json": {
+          "bytes": 4387,
+          "sha256": "711fbbf6435be51845153d77104f4a9603b06417f992c71ff7d0b53eb4bfb5f2"
+        },
+        "codemodel/target-disked_fat_worker_fault-Release-fd4e8c5ab20eac98ebcd.json": {
+          "bytes": 4615,
+          "sha256": "670ad97e30c3816d99297d382142295ad4f91a9a56949a7c8f676c9dd0327a23"
+        },
+        "codemodel/target-disked_fat_worker_headers-Release-d1c31559192415c428fc.json": {
+          "bytes": 3798,
+          "sha256": "50736ca8b122327c3ca5980cc3a1e84cf1247273b98f73c3d2f3e37671edbfd4"
+        },
+        "codemodel/target-disked_file_acquisition-Release-7e33f32ccd4745b5d720.json": {
+          "bytes": 4130,
+          "sha256": "9984224a62a3ef1fefcb8438bb87421dbba51589b7e0a05c220238d8d18879f1"
+        },
+        "codemodel/target-disked_file_acquisition_export-Release-e0ada9acf51a12237be9.json": {
+          "bytes": 3798,
+          "sha256": "4a4ac9cdacfa64fda0de835856c6d99a60abf5c9deea528e3e82ad3acb3bc104"
+        },
+        "codemodel/target-disked_file_case_source-Release-bc0889adfccfb69a8cdf.json": {
+          "bytes": 4172,
+          "sha256": "2b7aeaef481d83c4ca228a8468e788f18a619cc030951631a4ee14f010bc471d"
+        },
+        "codemodel/target-disked_file_image_verification-Release-6dc8a705bf11f6dfac90.json": {
+          "bytes": 3647,
+          "sha256": "db1dbc09ef17255dcc9a54fb4d680c5f688b25a5a084ffd46e6207a1ac1f6047"
+        },
+        "codemodel/target-disked_file_report_export-Release-37f384cfab57f5923ba8.json": {
+          "bytes": 3706,
+          "sha256": "20a3e10fd7e3f8cfb69e80648c397003c2ad9f1941c0b4a7793d9b8222b6744e"
+        },
+        "codemodel/target-disked_file_verification_case_export-Release-6ea5313f60574fba1f9b.json": {
+          "bytes": 4061,
+          "sha256": "87df404040f7c1b2c7e795ac3e12d36a77e0498c3d58948ea7fa49fa0b4533be"
+        },
+        "codemodel/target-disked_file_wait-Release-ed0df5f857694e57de0a.json": {
+          "bytes": 30919,
+          "sha256": "b988e5f839849982c6c7041c18ff61894aec8f42e45a0a82f48620d4551657e3"
+        },
+        "codemodel/target-disked_gpt-Release-8b5c7e005b8a1588139c.json": {
+          "bytes": 2864,
+          "sha256": "8f6bd2ee1a7488fd25d265d5e8c1b9032bc7eb0bb13779c23d109a866a1a95b2"
+        },
+        "codemodel/target-disked_gpt_capture-Release-235cb1ea09f45048bdc0.json": {
+          "bytes": 3694,
+          "sha256": "027d80ce135546a8bbe02166eee13af70c4d6b6b71c96b732bc49bb800e0fd09"
+        },
+        "codemodel/target-disked_gpt_fixture_execution-Release-7c003f8c0aec12fe3a24.json": {
+          "bytes": 3484,
+          "sha256": "6a784e198390c02fea8bddd3034156be4b397e533a61144bb73e5bbcd6225830"
+        },
+        "codemodel/target-disked_gpt_fixture_files-Release-6b0ec4b8e0a88ca3d50a.json": {
+          "bytes": 4059,
+          "sha256": "fc4bcc158c63cca6a261b4458131eaa3edb30102ee0d0bb42506ba9af996f872"
+        },
+        "codemodel/target-disked_gpt_fixture_restoration-Release-328be3189a827c1b3927.json": {
+          "bytes": 3591,
+          "sha256": "216e47ed1bf9257a1af29fa1881a6edc84cf06b7008c7dfed86f6ba2b994a502"
+        },
+        "codemodel/target-disked_gpt_repair_planning-Release-72178200f546fe702a26.json": {
+          "bytes": 3278,
+          "sha256": "d1605cd3819357fe970826e4f99333ce9718a452377b654c3c32c4db5d1c9914"
+        },
+        "codemodel/target-disked_guarded_model-Release-0a952e6d2fad74780268.json": {
+          "bytes": 3199,
+          "sha256": "a27dff3554d2d6e5d6eeb853a678074f8518b424fffbb07592a54ac81af828bf"
+        },
+        "codemodel/target-disked_gui-Release-4a31971d332b9d28d129.json": {
+          "bytes": 3139,
+          "sha256": "889e834d09d79da7db0cccd02f34bd3c20550bc8bc22c086f03f1df01c47ceac"
+        },
+        "codemodel/target-disked_gui_unavailable-Release-d3dcc5cef7a80370faa7.json": {
+          "bytes": 31023,
+          "sha256": "2711e33577fd461fdf7362bf1f94d6a35126c344a8c58bfa800ac6a5bd4e23a1"
+        },
+        "codemodel/target-disked_hash-Release-fa170f2eaf002855e288.json": {
+          "bytes": 2683,
+          "sha256": "478b18c910c890616be3d09e747361fa954bfe035b1e3dddb63822d27ced5237"
+        },
+        "codemodel/target-disked_health_observation-Release-fe8e86a7ee114b0d0d3c.json": {
+          "bytes": 2944,
+          "sha256": "43049d05e17b858faff3e196c29a65437a0400e3288e2fa8e248456bd20fa463"
+        },
+        "codemodel/target-disked_image_actions-Release-5595e178923de68a52fc.json": {
+          "bytes": 4925,
+          "sha256": "a3bcb3493863750d662b47e230d3c8778d44464c0397daaffd10aabd0fd2c2c4"
+        },
+        "codemodel/target-disked_image_capture-Release-e704777c292d9a705e5a.json": {
+          "bytes": 4104,
+          "sha256": "05527848f483e49e1a53c3e40788d9ed37d7bbc67be0198fd8864e66d14928d1"
+        },
+        "codemodel/target-disked_image_test-Release-0fc7dc59e3529af4322c.json": {
+          "bytes": 31197,
+          "sha256": "9db2937779a550ffbc11ff0b97a4be0a0832959c215f3aef39ee3c0d2380aaa8"
+        },
+        "codemodel/target-disked_invocation-Release-db12b3b543871f8dfb7e.json": {
+          "bytes": 2912,
+          "sha256": "3235cd5193a01e26fea7c8427a32c3e74bceeca61ae5fb513b2d14702758057c"
+        },
+        "codemodel/target-disked_invocation_headers-Release-421d7cc7be16fcc66d2d.json": {
+          "bytes": 2566,
+          "sha256": "c4fce22c75a7332e4139d44ca8de6504d240b43d8515d14c1407eba363fc9fe4"
+        },
+        "codemodel/target-disked_journal_prototype-Release-33be92d3f92fa07eb3d4.json": {
+          "bytes": 2936,
+          "sha256": "4f70382a59bf8cb1db6f761957fc136bb562716a97aed9c641e67ff18317d079"
+        },
+        "codemodel/target-disked_journal_semantics-Release-4b04ebabb7914cadb45d.json": {
+          "bytes": 3207,
+          "sha256": "1120469d2a52a0cefb5b32db64ff931f5482ccb04693e879ebfe52aa58f53e13"
+        },
+        "codemodel/target-disked_json-Release-070ee9b7e3a87a6ad6cd.json": {
+          "bytes": 2683,
+          "sha256": "183c61c78e651ea573762ef1fc3a4f7c361e6f47e01eb8534cdfafe52239f770"
+        },
+        "codemodel/target-disked_json_headers-Release-f375f054adff741ce052.json": {
+          "bytes": 2452,
+          "sha256": "2163692e5be1592b067a06160e7f6f20493603062b0724ac26d5b400d4b97ecf"
+        },
+        "codemodel/target-disked_local_file-Release-db8a474dd2ef6b8eadc1.json": {
+          "bytes": 3145,
+          "sha256": "90561cdf46fd9e3990d33ecb70528f61732d568c9966e09aee6db19429677c05"
+        },
+        "codemodel/target-disked_map_observation-Release-86dcba7be6a3a76c479b.json": {
+          "bytes": 3923,
+          "sha256": "9c0939e3e79e17db51dcf0fbcbdc56d153f138e57e147b5a31d5e70e00251fea"
+        },
+        "codemodel/target-disked_mbr-Release-0fe0acc90533c7c2aac9.json": {
+          "bytes": 2968,
+          "sha256": "f2912126b25b1acf018b3c9332e954d8f122a24b2c6be1f03f796ce7d03cb1b2"
+        },
+        "codemodel/target-disked_memory_test-Release-8b498d6e17f8585dd6fd.json": {
+          "bytes": 30923,
+          "sha256": "3fcc97ed97eae2d08621f84c61961697d50db88c6926f5c41b1dd94a72392bfd"
+        },
+        "codemodel/target-disked_model_journal_producer-Release-8f84a64578195dcc2e93.json": {
+          "bytes": 3318,
+          "sha256": "3bacbff89c87132cdd90420e749a6e4ba092d18bfb035d72f690065916d4a371"
+        },
+        "codemodel/target-disked_ntfs-Release-b026c70891cdcb68d31d.json": {
+          "bytes": 4202,
+          "sha256": "e7071212f29b4ac895ae982d5cf27515d9a5167fe8ae12853519a22a9b3a1958"
+        },
+        "codemodel/target-disked_ntfs_capture-Release-18e170dbdba9447f4786.json": {
+          "bytes": 4472,
+          "sha256": "7600b6960a79271ddfeb12077663183717b18e15c243ac0730048dffdeecda36"
+        },
+        "codemodel/target-disked_ntfs_capture_headers-Release-66fd0e194cdfc9af0603.json": {
+          "bytes": 4584,
+          "sha256": "c6f21334d973f02db585e201d1a57a2f1f1ceab5141374dfb8412a474103814d"
+        },
+        "codemodel/target-disked_ntfs_file-Release-8244fe0eca8734baa69b.json": {
+          "bytes": 3735,
+          "sha256": "8d76f81db24d6685b7a5cad3c444a9954cb2babd04ebdb6b2632aaabdca798e3"
+        },
+        "codemodel/target-disked_ntfs_file_fault-Release-bbd7ece0abb0f0074343.json": {
+          "bytes": 3936,
+          "sha256": "7719792efa74c9c30447e5e156e6f72d143272aa01055406d412552b731efe09"
+        },
+        "codemodel/target-disked_ntfs_file_headers-Release-90beea5b7a64ff6d7de2.json": {
+          "bytes": 3163,
+          "sha256": "e97eef175cedc814cbe9c310496ef4f241549ee304c9c168f1c6e17cf4c3015f"
+        },
+        "codemodel/target-disked_ntfs_headers-Release-12bcea709e85133856ab.json": {
+          "bytes": 2812,
+          "sha256": "473b1f53763b92541ffaf316f6bb64d7ad4967687660812107491737efddfac8"
+        },
+        "codemodel/target-disked_ntfs_inspection-Release-e3a094c25e9c1c080add.json": {
+          "bytes": 3768,
+          "sha256": "c51938e4759116033ed4ee8473903c51f9753fe834bf1868314f48ae50d2512c"
+        },
+        "codemodel/target-disked_ntfs_inspection_headers-Release-cb0287aaea4931764932.json": {
+          "bytes": 3202,
+          "sha256": "101a238d66a9a10732a76341a08a321fc00d243eacacccf95e2574d5a9f1e6fb"
+        },
+        "codemodel/target-disked_ntfs_reader-Release-e2feba02f5878136051f.json": {
+          "bytes": 4383,
+          "sha256": "98abfe1c0717ee78222fe00a53e5018f19d0b69e1aaab1c11750084e8c31b5c1"
+        },
+        "codemodel/target-disked_ntfs_reader_headers-Release-44ad808505cb96b078e1.json": {
+          "bytes": 3795,
+          "sha256": "edc24a4742daadfc8d96c0d49515234772faea322dd741fd18a2bb9bb7f4608a"
+        },
+        "codemodel/target-disked_ntfs_snapshot-Release-715d7be9f3b2222b81db.json": {
+          "bytes": 3844,
+          "sha256": "e05fdd4c24c2b11d98b2fd3433ec489e3adbf5bc7b21fd31f4eae6f48ea7dbe7"
+        },
+        "codemodel/target-disked_ntfs_snapshot_fault-Release-71c7fc18f7464133473d.json": {
+          "bytes": 4137,
+          "sha256": "9668736413a77fe844c6c897ba4593e1ba9334cb9a73add43c754377a9640145"
+        },
+        "codemodel/target-disked_ntfs_snapshot_headers-Release-a7b0cda512f1927e5c58.json": {
+          "bytes": 3276,
+          "sha256": "b172c39f8b9b13a9229bb26d91f62630163856c73b66389b92cdcae5710f85cb"
+        },
+        "codemodel/target-disked_ntfs_stream-Release-009903f848853b98d798.json": {
+          "bytes": 3748,
+          "sha256": "fe36d87f2d2a3977f44e916319de1ca733d53cdf2221820573a44280196748aa"
+        },
+        "codemodel/target-disked_ntfs_stream_headers-Release-59649d56fedc93080c14.json": {
+          "bytes": 3447,
+          "sha256": "bb600b5621bf31f882b0723b3798b72b2fb47683ab71680ed1536fd3d2946cf0"
+        },
+        "codemodel/target-disked_ntfs_test-Release-99c1a2e15fc44315ab28.json": {
+          "bytes": 31274,
+          "sha256": "4b7f85e6f88bf21a30ec0c4d70c7d49f4948609ac0d0ff47270278675c33a1ea"
+        },
+        "codemodel/target-disked_ntfs_worker-Release-73357788f996b4f29928.json": {
+          "bytes": 4122,
+          "sha256": "6883cbd5362901ec7568f0d94a6439b4bfd218a95381e42ebf9184522e93a76f"
+        },
+        "codemodel/target-disked_ntfs_worker_fault-Release-5cb05e65db6b82667c08.json": {
+          "bytes": 4439,
+          "sha256": "027fac38a2da81bc0af450cc7888d30ae8384f885a9ebe0eada93dba06c30dd7"
+        },
+        "codemodel/target-disked_ntfs_worker_headers-Release-01d5f39cc670c61e622b.json": {
+          "bytes": 3534,
+          "sha256": "26c852a7b63eaa49b095c320978c7a0d877d09172b9f097c1af7c57d7886e89b"
+        },
+        "codemodel/target-disked_observation_worker-Release-7f2f9944505cadb99253.json": {
+          "bytes": 3554,
+          "sha256": "1e4accc86414359a3f5a702b579df4a9499ad46e1e9f5f5b87c8fc5a5417fbca"
+        },
+        "codemodel/target-disked_observation_worker_fault-Release-137ef83d56f5a4a393d0.json": {
+          "bytes": 3764,
+          "sha256": "4a399b91b1623b3ee016e43654ba9c7f13c5455a9f0c94e8f6c3d116fb4db486"
+        },
+        "codemodel/target-disked_observation_worker_headers-Release-15a4dff109e3028ee990.json": {
+          "bytes": 2885,
+          "sha256": "3fcc7f99e6db2e2f45a803ff1ec3217b6b42f1ad1e317f61e741fa14cb8c0e40"
+        },
+        "codemodel/target-disked_plan_prototype-Release-09419f7791380abd6ec5.json": {
+          "bytes": 3109,
+          "sha256": "e78be03989e3aae5a19ff914611aef2ff158c0b565ed8e3f8abe12af7c8a5f23"
+        },
+        "codemodel/target-disked_presentation-Release-de324016389a6100227f.json": {
+          "bytes": 4599,
+          "sha256": "dcda0f5b80cf009b171085e1e4445de80c68f54f9f88798e65a3294d6d9bde0f"
+        },
+        "codemodel/target-disked_presentation_headers-Release-be421de1c6d342f00276.json": {
+          "bytes": 3037,
+          "sha256": "a1b43400cd9ca26ecd08af48ccf9c694bdacb6acfc92c744279f42f28b3638d4"
+        },
+        "codemodel/target-disked_primitives-Release-0e58116ab4e5d4a5cb54.json": {
+          "bytes": 3108,
+          "sha256": "85428f851d2341237a712d615fcfd7c84c98e7f71d62b1ca6f57789efa8279d4"
+        },
+        "codemodel/target-disked_provider_guard-Release-fe01b9d8257265534057.json": {
+          "bytes": 30930,
+          "sha256": "ae5e3b2883a0ecbacc21f6c8d8ef287b9c6194aafc01e76a8595c7d6e82f6c54"
+        },
+        "codemodel/target-disked_recursive_disabled-Release-fb8c6c9dbf277539975a.json": {
+          "bytes": 27933,
+          "sha256": "ba38efa66a882d70628b7eb8b3dc846024387034fa32874026fb0bb13f201fb1"
+        },
+        "codemodel/target-disked_recursive_fault-Release-d965dc65a97180500404.json": {
+          "bytes": 31240,
+          "sha256": "9a1dc9c522e82a9690a8c94f05eeef0389479d6652ebf231f07b2e505ff517d4"
+        },
+        "codemodel/target-disked_region_reader-Release-097adb74c5837c89fcc3.json": {
+          "bytes": 1080,
+          "sha256": "d2996f9cd848d8a8b2da505f447d7b27b5b2dcb00f6985e0963f27e66b337be7"
+        },
+        "codemodel/target-disked_region_reader_headers-Release-196be47823083083a9e9.json": {
+          "bytes": 2601,
+          "sha256": "7cd0e7342e4d65df9e05a2f91ba7cf462fcc5aeeaa474b513850e4ca9f642a27"
+        },
+        "codemodel/target-disked_report_export-Release-f6d6e1e8aedbb62cecc7.json": {
+          "bytes": 5381,
+          "sha256": "b477a23a96bbc9b09ef31f5e082b2b6741024b585617b3f559657a8ed7dd9dc2"
+        },
+        "codemodel/target-disked_report_observation-Release-5209873300fc4196de99.json": {
+          "bytes": 3669,
+          "sha256": "1a7b4c817329a6ba43446e4883ead3d242924f804a67985ff2261de5d7362b0c"
+        },
+        "codemodel/target-disked_report_test-Release-f53e54cf4a42e54701a2.json": {
+          "bytes": 31101,
+          "sha256": "f976808c877d72e40feb920cd3236e5d87ebbf617691418101d9baf0f3d40066"
+        },
+        "codemodel/target-disked_shell-Release-9b893e89c73736b976f5.json": {
+          "bytes": 3155,
+          "sha256": "4fee87573a49e3a9d10414bfe9f64d79c76e80ccb896da2199babc8432807f47"
+        },
+        "codemodel/target-disked_store_fault-Release-f39e79102387b79d4817.json": {
+          "bytes": 30924,
+          "sha256": "59de8b719c3237c4c062611aba6fb7aca140ed525abb2969bc5a50e77e3ae90f"
+        },
+        "codemodel/target-disked_tree_test-Release-3a59b2b3b88b5833ef12.json": {
+          "bytes": 28521,
+          "sha256": "2a16bebe5d22c36d4f5fd6c4e067b3549db460db0704d97b9e7a087e9d436111"
+        },
+        "codemodel/target-disked_tui-Release-7253258dc03efe1eb22b.json": {
+          "bytes": 3139,
+          "sha256": "54d0485fc2456b12183b495ae204b54a381ca418d8a35d826ccdd65819f9bf90"
+        },
+        "codemodel/target-disked_tui_fault-Release-5a4b34db36b4b26dbc5c.json": {
+          "bytes": 30904,
+          "sha256": "e5ea3c7c06aa0675a694c7a1a4d6d4186c2323faebca4441c5ccdfa6a34e5e4a"
+        },
+        "codemodel/target-disked_verification_commands-Release-6984d39da40a22e4d0ba.json": {
+          "bytes": 3508,
+          "sha256": "b360cb41d960e5e7df1d91f48c21b01fa9be2cd283ea07abf92f556b1ee29607"
+        },
+        "codemodel/target-disked_verification_observation-Release-117f292467914f2922f1.json": {
+          "bytes": 3711,
+          "sha256": "b9b8319cfc84794531ecd9a982c65e5db9814869d7eb2ae49ad4c0f6ffcc7f2e"
+        },
+        "codemodel/target-disked_verification_test-Release-cdd07fecd7be4961ad20.json": {
+          "bytes": 31143,
+          "sha256": "f38b9bc6cd121dd12aba022d9ed42838b2614383a8d66f429340137deba4d932"
+        },
+        "codemodel/target-disked_windows_file_names-Release-f305b58f049fb2f43e91.json": {
+          "bytes": 3268,
+          "sha256": "84f3a520d662dd8ccc7ad7d11b7c8db9e334b4b91e9b8cf3ecb72da5adf60083"
+        },
+        "codemodel/target-disked_windows_file_names_headers-Release-e0399db4ed41de6e2f6b.json": {
+          "bytes": 2703,
+          "sha256": "4b339b60aea2cae25bab546d5abf0126fbd8831723a449d9af365aa4c6c587e8"
+        },
+        "codemodel/target-disked_windows_files-Release-38715ceb96180dde2c87.json": {
+          "bytes": 1082,
+          "sha256": "26ccf4966fed2b589b73a1182d5e2732871bdee4db977a7078beee077ee3bebb"
+        },
+        "codemodel/target-disked_worker_delayed-Release-cdd16eab7756c64a95cf.json": {
+          "bytes": 30942,
+          "sha256": "f4824b280c1aed66f51a64def9a7d5988b522f994ff59270831483201c6d2a4b"
+        },
+        "codemodel/target-disked_worker_memory_limit-Release-433efa9ef3ea2007c4a1.json": {
+          "bytes": 30964,
+          "sha256": "3e7af977068b73bf1770660728aef07f19bf8e60c53eab32cc5ef12a4ac4f58a"
+        },
+        "codemodel/target-exfat_allocation_probe-Release-ca591cb24b7276a1f57a.json": {
+          "bytes": 3444,
+          "sha256": "a7c6136ecd267152c0d57b1d4672cb4e911606107b5e71c167a781c7f820ed1b"
+        },
+        "codemodel/target-exfat_capture_probe-Release-a573705c72d402567043.json": {
+          "bytes": 4198,
+          "sha256": "ac24a885950a43940e0dcf1f19f16a66493f47562c42688cedb77b99ccd5068e"
+        },
+        "codemodel/target-exfat_directory_probe-Release-920435a9dae3a27c5378.json": {
+          "bytes": 3438,
+          "sha256": "5f9e8fca66893e171b581f7162e089b2833c3065f19c5236f5d42d5cb9ff8f9e"
+        },
+        "codemodel/target-exfat_file_fault-Release-42f41293de37a6d99949.json": {
+          "bytes": 5665,
+          "sha256": "fa41b4965128f0fc8fc9dcce0255d17a6cde1e2cd9c6118b662428c69a308cec"
+        },
+        "codemodel/target-exfat_file_probe-Release-efcd0a91909622b3b52a.json": {
+          "bytes": 5478,
+          "sha256": "f55c3b79deea83a8abacc2a56b3c065b632395abb2728752969875ac1d1c30e9"
+        },
+        "codemodel/target-exfat_namespace_probe-Release-cc26e4286f03662f5dcd.json": {
+          "bytes": 4211,
+          "sha256": "402e5f6f7c1929e5ad6f38b0de79126fadadedba77d66e7d1d574a262d8a3be9"
+        },
+        "codemodel/target-exfat_probe-Release-d43da5bfd04ba2fad5da.json": {
+          "bytes": 3378,
+          "sha256": "88692caed518e317ed605661a136f5ed15e661fc42dce7fa7dcb6f1291742046"
+        },
+        "codemodel/target-exfat_tree_probe-Release-0c031fd0040b1b79c9da.json": {
+          "bytes": 4675,
+          "sha256": "181260bd0af693c4c989964b201877ac8e6b3210adccf1c5237656d595e68ac2"
+        },
+        "codemodel/target-exfat_upcase_probe-Release-7db227f7a38185cc7e86.json": {
+          "bytes": 3607,
+          "sha256": "2fe65d6328fd4ddc9c58a54e48438215292b0ac0b0e136d0b8a30644e9df526c"
+        },
+        "codemodel/target-exfat_worker_fault-Release-53b9d9cd0fe88dbb7f96.json": {
+          "bytes": 7288,
+          "sha256": "0eddec6db42947cad80fb0a56b7511c87ae53bb80e8da0f984142a3428d97789"
+        },
+        "codemodel/target-exfat_worker_probe-Release-6a942b3467c461fbad17.json": {
+          "bytes": 7237,
+          "sha256": "dee645916c5d7eeb4b2a5ddd0c5cdafcef01706cb81aa66fe3a3aba123799b2a"
+        },
+        "codemodel/target-Experimental-Release-5fc20371cddc69672e6e.json": {
+          "bytes": 1547,
+          "sha256": "4c4821c546cb58869f07b3a41d4947a1ede2d7cf4d637d9300a9bf60e98cd8e6"
+        },
+        "codemodel/target-export_command_fault-Release-90226a4d00ecc2dde777.json": {
+          "bytes": 8517,
+          "sha256": "936230d952a4c922f2df4751bab34493deb0961fb06de0ed5dd62a38d2ea12ac"
+        },
+        "codemodel/target-export_command_probe-Release-0b6bbb7c1fd08e8e56a6.json": {
+          "bytes": 8249,
+          "sha256": "9a6fd67535c26f4e0c6bca02d173fab7e116ee218ad59f464355ad90800e48df"
+        },
+        "codemodel/target-fat_capture_fault-Release-e11bfb385ad8c749af38.json": {
+          "bytes": 5764,
+          "sha256": "889ace7957a19cb84a5eb95a2ef10cde95f5b548bfc73c7f20592cb7d7260293"
+        },
+        "codemodel/target-fat_capture_probe-Release-47c125b67b96c18a5d44.json": {
+          "bytes": 5750,
+          "sha256": "0d3acf906f8ea87cca34f72cbb26da7966678fd2dfc9a1d2fdf68d113d9a5938"
+        },
+        "codemodel/target-fat_content_probe-Release-4db96b0655927d1f29ac.json": {
+          "bytes": 4466,
+          "sha256": "d3d750a5bad0bc7e46110c48c594c66798f3446e781a0619fc60455bf1b6dab5"
+        },
+        "codemodel/target-fat_content_stream_probe-Release-df68d8c6d9243ee491e2.json": {
+          "bytes": 4318,
+          "sha256": "91200bd2bae60a84cb08cc1744a3776a88de6e275ac5213145977ab4ca02ea2a"
+        },
+        "codemodel/target-fat_directory_probe-Release-d9aaca698cd9e086640f.json": {
+          "bytes": 3422,
+          "sha256": "d3ec6e84e5b760a6ca0e1b9d4de142b48f0d24ddd45191334fdc5bb7d19f99eb"
+        },
+        "codemodel/target-fat_metadata_probe-Release-7fc29850112edcf0692e.json": {
+          "bytes": 3702,
+          "sha256": "6a16e9fee6b32a869b2dd1426228aee2efe1acaf8616cc7971bd66072847f6dc"
+        },
+        "codemodel/target-fat_native_metadata_probe-Release-95cd2ab2638c161994d9.json": {
+          "bytes": 4050,
+          "sha256": "e647952588b9aadddc86a6434c356f1c3097cd610dc0922b3c08bf5c8f0c44a7"
+        },
+        "codemodel/target-fat_probe-Release-e61249797d831eb62343.json": {
+          "bytes": 3362,
+          "sha256": "9ca1349df311f5c4107919d311cc55974a02d1eec57c904df3d93f20e073dd59"
+        },
+        "codemodel/target-fat_retention_probe-Release-e4cbb8fcfa3a356dea5e.json": {
+          "bytes": 5479,
+          "sha256": "47d325e0c93049fa3fb3b201f55f63c2711c10233a5a56c17bdbc498b228681b"
+        },
+        "codemodel/target-fat_traversal_probe-Release-3a230f7a0997ddfeafdb.json": {
+          "bytes": 3991,
+          "sha256": "fa26e15e174552d34f0517e5c2c865c1998e36829e9023e009ac6e8aad75e3c6"
+        },
+        "codemodel/target-fat_tree_admission_fault-Release-7f0cbcb77851ccdb673f.json": {
+          "bytes": 8090,
+          "sha256": "b680cad09b4ef1282178641bc700237f68b911989a4d1f6de8024e060ea5fa11"
+        },
+        "codemodel/target-fat_tree_admission_probe-Release-8002dc286a7ae0c8f4a6.json": {
+          "bytes": 8035,
+          "sha256": "1e68d6f5381ea14038b148962a6bdf9d68ea8a6b065d6cacb8d5ad058ae9e499"
+        },
+        "codemodel/target-fat_tree_command_probe-Release-1c0a53d5694c5fc126f5.json": {
+          "bytes": 10543,
+          "sha256": "c1e08b43deaca6b346d5136200a5f102d8585cca5af48ba6d3bc807348f36650"
+        },
+        "codemodel/target-fat_tree_content_fault-Release-b4c44afb9476b934e6db.json": {
+          "bytes": 5462,
+          "sha256": "bcdfcd546ee6598a1b7d525038b24556ec51adb8f92c5aa253f42d231a9b83c7"
+        },
+        "codemodel/target-fat_tree_content_probe-Release-ababf4504124fba901c0.json": {
+          "bytes": 5436,
+          "sha256": "dbb187ea6114c7161fb16a734d4d6ec04f845a498a2703d496fcaa8a2deab618"
+        },
+        "codemodel/target-fat_tree_controller_fault-Release-c71d764ee3fcee55cefe.json": {
+          "bytes": 8570,
+          "sha256": "c408b59626229fe3613f63aab85b36b9cb04df8460664e697b9078fceaf9bfa8"
+        },
+        "codemodel/target-fat_tree_controller_probe-Release-3fa73b364ea380fcc390.json": {
+          "bytes": 8506,
+          "sha256": "70408709a1ab5faac8fa2b022467ae8ce7517cdd9428ca7f9308590b9880ef9d"
+        },
+        "codemodel/target-fat_tree_extraction_probe-Release-b7556260a9026b5b524b.json": {
+          "bytes": 5754,
+          "sha256": "f0f2a684a63a050f32852da74a45a441667454afdc2b28ac84ecd5c2cd21438e"
+        },
+        "codemodel/target-fat_tree_extraction_worker_fault-Release-600d37fd42216efc0c67.json": {
+          "bytes": 7299,
+          "sha256": "225a1121c13e84dbf49a69266599026fd6f6a3229f95d28d2afb909a34056761"
+        },
+        "codemodel/target-fat_tree_extraction_worker_probe-Release-0d2cfc12c2c40f441bb3.json": {
+          "bytes": 7270,
+          "sha256": "8595809637c18ac94b4e1159bae5156c254d24e9456997798514cf4d14d29468"
+        },
+        "codemodel/target-fat_tree_file_fault-Release-6ce61f9beb61266c3991.json": {
+          "bytes": 6919,
+          "sha256": "90715b23d9224a55a4dbd3f8877f91bad5dd102e84bf056a03dd9c23936fa936"
+        },
+        "codemodel/target-fat_tree_file_probe-Release-c11d793672ca5f5fd3d3.json": {
+          "bytes": 6868,
+          "sha256": "2554849840f06ad1a2e3384f92959752ecbdef6b44213f5e79da3e72e33f544a"
+        },
+        "codemodel/target-fat_tree_history_probe-Release-c97fd6478937939df6db.json": {
+          "bytes": 3454,
+          "sha256": "00216389b693bf3de2d1481971fca88d33664a45f1873f9eeb97a015e117d24c"
+        },
+        "codemodel/target-fat_tree_reconnect_probe-Release-41af45fabbfa5dc09653.json": {
+          "bytes": 4568,
+          "sha256": "a548aee5a42a2bb1b50263494213c45b10fe5b65ca71fefc74b7bbc8a0a3a3d0"
+        },
+        "codemodel/target-fat_tree_review_probe-Release-9c51da1d46389c35bbcd.json": {
+          "bytes": 3442,
+          "sha256": "4214b675ee2445cd7d9d9c823c2a9eea559eecee4f428a7983582151c4bab833"
+        },
+        "codemodel/target-fat_tree_session_probe-Release-291406e6b235dbbe8648.json": {
+          "bytes": 4689,
+          "sha256": "a07c83c3abc52738fb6353c0642a1e5917405655955e3f7f1056437b2f2d584e"
+        },
+        "codemodel/target-fat_walk_probe-Release-4c8b64e98ad5075158c9.json": {
+          "bytes": 3392,
+          "sha256": "86774b8a0f6112a246083ac2d3c04e96d6c4aea015c46828b32cf11934d02831"
+        },
+        "codemodel/target-fat_worker_fault-Release-8f4b154bb0b00e5bc66f.json": {
+          "bytes": 8037,
+          "sha256": "6e87003ef9d0e4fd2ac33ac2f282ec1dc6f319e454e40676c25c2b6baf2bf695"
+        },
+        "codemodel/target-fat_worker_probe-Release-d146dde72b767cc5ce51.json": {
+          "bytes": 7985,
+          "sha256": "6c5b1272e626c1bcd075bbb0d80e8ff53861d035834e505febf7ef7a4be3d891"
+        },
+        "codemodel/target-file_acquisition_fault-Release-43a56dd6d8fa26738fbf.json": {
+          "bytes": 6253,
+          "sha256": "9ff323ae57950c36643a8c2a8367836f206cd3d5d6d43da8b004c53afd811044"
+        },
+        "codemodel/target-file_acquisition_probe-Release-2c7230ad4442d235e2d5.json": {
+          "bytes": 5584,
+          "sha256": "b79d131af83392e3fa7f5ddbaa4b5d5b5c80c254aa4755055b05a2c930a28b1b"
+        },
+        "codemodel/target-file_report_export_fault-Release-87f9ecae7cbb848d49c9.json": {
+          "bytes": 5875,
+          "sha256": "6528fea6c8d42abb9d65821e45a84445a526dbb8f1aa9ededd25d574833893bb"
+        },
+        "codemodel/target-file_report_export_probe-Release-d27d9f57e5bf351799e9.json": {
+          "bytes": 5224,
+          "sha256": "5b1e2691dc9d3fd962ccb9962b51ba7bae7840a59ff6f70b97fd28a87dc69118"
+        },
+        "codemodel/target-frontend_service_probe-Release-8db3548511eba85de5f7.json": {
+          "bytes": 5607,
+          "sha256": "5523928b9d836e8330192642f80109aa9a07a83a181ab8fcf058b9137016c8aa"
+        },
+        "codemodel/target-gpt_execution_probe-Release-2cc06c8185735ea850ec.json": {
+          "bytes": 7094,
+          "sha256": "9fd7ce7047430dea73010985d54c23b0e8a91602ef6ecfde6b8c95870c011c66"
+        },
+        "codemodel/target-gpt_probe-Release-9c145c19037daef00bec.json": {
+          "bytes": 3293,
+          "sha256": "98948149272f01ee367e24e02012d307c0bdb482fc59a425a4e99e83821b54bd"
+        },
+        "codemodel/target-gpt_repair_probe-Release-b97b62ffc19e1c1f224b.json": {
+          "bytes": 4013,
+          "sha256": "d327469714fab0bb6d03cc5c93fc2725fe3c0b49f60b7fdad49a3cb9f80d027b"
+        },
+        "codemodel/target-guarded_journal_probe-Release-094ba9b9940d8c6cd217.json": {
+          "bytes": 4409,
+          "sha256": "8db059f812d83b590b46225afa19dd194ec1d1a6f688472bba6973140c059982"
+        },
+        "codemodel/target-gui_model_probe-Release-831f7181021aee3b64e1.json": {
+          "bytes": 5841,
+          "sha256": "87200238898c42ae8ccd04e21249c9679186f71ad6e4ef19ff66865c99df9249"
+        },
+        "codemodel/target-health_observation_probe-Release-000023e1c80c0b78a89c.json": {
+          "bytes": 3744,
+          "sha256": "0a1c33b095b2e20e8ed5158d2b4580a2cd1006308d1f0ec38b0dc3615c4ac57b"
+        },
+        "codemodel/target-image_file_capture_fault-Release-75fdc2b5b1fe341ba93b.json": {
+          "bytes": 6533,
+          "sha256": "9067ea5c972dd466f532fc221142148340707b66b973b284cc00223b62473d7e"
+        },
+        "codemodel/target-image_file_capture_probe-Release-059ce94318f7eb4a39c2.json": {
+          "bytes": 5875,
+          "sha256": "fc1f565f1ccaf3f3508ddafeeb37edab780f8bbc2b50dd7de0ef02e1023acffd"
+        },
+        "codemodel/target-image_observation_probe-Release-b1a5750944537d8b1451.json": {
+          "bytes": 5014,
+          "sha256": "2f1c41e8a47d82e48fdae5012c1a0ae082981db4f44075b2507a96b206c02dab"
+        },
+        "codemodel/target-image_verification_collection_probe-Release-facd8d263be9679283df.json": {
+          "bytes": 5673,
+          "sha256": "9094e673809cf9d744a8404914d774f63789d4270fa24208dc2e95ede64b6d07"
+        },
+        "codemodel/target-image_verification_observation_probe-Release-3141ea07295355b3d7ba.json": {
+          "bytes": 6222,
+          "sha256": "44294644a2ca5847c0cb1959c93628b7b2c18b67dd89610bd192bb1f05799d0f"
+        },
+        "codemodel/target-invocation_policy_probe-Release-224400364e641b3582b9.json": {
+          "bytes": 2444,
+          "sha256": "25c3ad3c968bf42a28527ac0e2413c2c57d45542c0b0f977f595751f33463098"
+        },
+        "codemodel/target-journal_codec_probe-Release-946b31a748814eaf57a1.json": {
+          "bytes": 3816,
+          "sha256": "74875ded6311d9ebe4671197d3910bfdb95de8f85749483ca14caaba26a56ff2"
+        },
+        "codemodel/target-journal_semantic_probe-Release-ddc65f5b143506e67079.json": {
+          "bytes": 4423,
+          "sha256": "6076e723e1a25230efe48de5c521b276299ad57a5afbbd0031ce9c226fdb08e1"
+        },
+        "codemodel/target-json_codec_probe-Release-11b741525f315857418d.json": {
+          "bytes": 2122,
+          "sha256": "06ea03ad55d726a63e4b118adae4b6c67c35a9b59cfacec5acf75854f21b6e12"
+        },
+        "codemodel/target-mbr_probe-Release-8a5a702a01af035f4836.json": {
+          "bytes": 3293,
+          "sha256": "7a19385019edff18238c09bb5e77c29925d50454795cde2eb4fb1fca16607ae6"
+        },
+        "codemodel/target-memory_budget_probe-Release-d275e86235d88ca4653e.json": {
+          "bytes": 3771,
+          "sha256": "5161a5693bacd201f7a82a62c2db58000331531e6d8106c5bfb9ee17902315e3"
+        },
+        "codemodel/target-model_journal_producer_probe-Release-83e88c6cf6736ef1ccb1.json": {
+          "bytes": 5206,
+          "sha256": "3796f20f75bb923ff2441f54dfa61aa5f57db0bc375c4aa144086ac394c1bc6e"
+        },
+        "codemodel/target-Nightly-Release-a417bdcaac6907f66609.json": {
+          "bytes": 1527,
+          "sha256": "8ae13ff37fb767cff01ef2add92c4194e3bba3e45ab7c874ac0cd74d3f3dbb0d"
+        },
+        "codemodel/target-NightlyMemoryCheck-Release-d9573c2c146a85d2a325.json": {
+          "bytes": 1571,
+          "sha256": "2e94cac78f174b702ace4952277f0920ff501112c2ff53aba97cb86c5ad618bd"
+        },
+        "codemodel/target-ntfs_attributes_probe-Release-0ba5d49e008ee5a4e424.json": {
+          "bytes": 3911,
+          "sha256": "6407485cdb0b0a51c28c0573d37a8770a2c59e2d9ba899d37dd33695f409e9ce"
+        },
+        "codemodel/target-ntfs_block_probe-Release-6d5723b676ce95f14118.json": {
+          "bytes": 3881,
+          "sha256": "71fd9f41785f7b3acef17a9db38f0d9ddca68d09dbd15ac2e72a5a8d1e95ff29"
+        },
+        "codemodel/target-ntfs_boot_probe-Release-47d48af592abe277643b.json": {
+          "bytes": 3875,
+          "sha256": "e44c6f88a173f59f9aeb38b0e7652f64508f48d735f97a4b055926c4e95fb324"
+        },
+        "codemodel/target-ntfs_capture_probe-Release-f979ebc1d67666c7b471.json": {
+          "bytes": 4767,
+          "sha256": "32e6ee77093f62ae84c8a7ebb5cd104209553f3862a68ce4bdb4d2b35c86d471"
+        },
+        "codemodel/target-ntfs_file_fault-Release-b40cd72ae5a131385802.json": {
+          "bytes": 5630,
+          "sha256": "cb13b4ec5903cabed6489b6d963e594d931fcd6c2364569ca64eca7d58974d52"
+        },
+        "codemodel/target-ntfs_file_probe-Release-79d6d6107dc9b44423c8.json": {
+          "bytes": 5444,
+          "sha256": "caff27bb01bd857c2479d0f5fbd77a5ff99013aea684a71270bd9838ca7d76f2"
+        },
+        "codemodel/target-ntfs_index_probe-Release-c56b2c02ee8b23106232.json": {
+          "bytes": 3881,
+          "sha256": "a38cf860f8a026fa7f54c0be20eaae0a2e5ff2b5c3d6632bce2a7d54c963b7d3"
+        },
+        "codemodel/target-ntfs_inspection_probe-Release-07c7f2a7f24d8318df5c.json": {
+          "bytes": 5249,
+          "sha256": "db97b6c7a4c2980598ccc06d1a8d2f188f5a8e1f83bb6ce2c41a6b5856b90e9c"
+        },
+        "codemodel/target-ntfs_list_probe-Release-8206edea3c77a812acd0.json": {
+          "bytes": 3875,
+          "sha256": "b7a19bc0453f996c0ec863627df590a9984e15535a74682fe3b432d3cbe50fc2"
+        },
+        "codemodel/target-ntfs_names_probe-Release-73ab06d58f6a1bcc5b5b.json": {
+          "bytes": 4270,
+          "sha256": "358f1696f922e43e5d2a1ccdc7353e1c6eefd9994cc590f6e685183b6f12020a"
+        },
+        "codemodel/target-ntfs_record_probe-Release-d7611b933021de574d0f.json": {
+          "bytes": 3887,
+          "sha256": "33104040a871a05711f24d7e3cf904605ac48d19214d3712fa00d4b9e5d5d642"
+        },
+        "codemodel/target-ntfs_stream_probe-Release-303427a7217aaaeedf47.json": {
+          "bytes": 4276,
+          "sha256": "1e904e74758d36fef40c6e538de3b7c00353783f76e83fcb94b3a94689ec98d7"
+        },
+        "codemodel/target-ntfs_upcase_probe-Release-de22e0581b19a93626f6.json": {
+          "bytes": 3887,
+          "sha256": "9d57214998308f9d33f6b007367fb51819e747e554d6f631365f9d85f78d9987"
+        },
+        "codemodel/target-ntfs_worker_fault-Release-b4f61e5c3582205dec3f.json": {
+          "bytes": 6768,
+          "sha256": "91fc0ed681aeaa67c23c12201d2ea93b7c19e533b37cef02db2175e1c1ff4e28"
+        },
+        "codemodel/target-ntfs_worker_probe-Release-e3850b409ad31b6757c4.json": {
+          "bytes": 6717,
+          "sha256": "23ef266f214982d74e20e1d874171e1c66998c7241afcfaf005a856e0aeed3ba"
+        },
+        "codemodel/target-operation_reducer_probe-Release-1844afe6d37835ba35ea.json": {
+          "bytes": 3531,
+          "sha256": "ad0910beeefcccd033693bb8e03104aa849eef84be353d67e724ea842777d573"
+        },
+        "codemodel/target-plan_definition_probe-Release-3087a5cf17d19c32d6dd.json": {
+          "bytes": 4125,
+          "sha256": "c955cc02ddf75434dc19d9379b2eac8ccd2accbda3972a2c9c1869b10965cf39"
+        },
+        "codemodel/target-portable_cpp-Release-78051e1717a90ba38cb9.json": {
+          "bytes": 2787,
+          "sha256": "9c9d5f188c2dc21b1beeb278d3ba2538e021dc19d11d93388e7a83a6fa2c9476"
+        },
+        "codemodel/target-portable_probe-Release-ff7d197efddbccc48740.json": {
+          "bytes": 2698,
+          "sha256": "36056dfd27c835c6b59f16a8a0e6b29505c8b6ebc5f7afb9bdb0ef89aad4c5d5"
+        },
+        "codemodel/target-presentation_rules_probe-Release-9d25430ad0d802212155.json": {
+          "bytes": 3736,
+          "sha256": "7676b085f2f4429a97dcc672da70c30bf144711e0521d14f2ecf60c3f66b88a4"
+        },
+        "codemodel/target-protocol_reader_probe-Release-662977557a070a88cf4d.json": {
+          "bytes": 2427,
+          "sha256": "5f4f7b613f5a2f064d17d7cf1ebc6610e2a0e8f2b5a7dbcb532d738bc919fd5f"
+        },
+        "codemodel/target-provider_guard_probe-Release-9a93ad587a411a8fdbaf.json": {
+          "bytes": 3112,
+          "sha256": "78beeb46e6db9005928e4f67f9ad476b3faac2fa60dbc1f42fb8e135529085f1"
+        },
+        "codemodel/target-report_export_probe-Release-701778034eb1564be85b.json": {
+          "bytes": 4693,
+          "sha256": "5f7cad5bae631a88cac8c465942edfb5f3ca67808d585ffd683976b89cd6ce67"
+        },
+        "codemodel/target-report_worker_fault-Release-589f551e5ed3ef775460.json": {
+          "bytes": 9434,
+          "sha256": "f33f4a2230e870ff215bf17608ed688157f5b44f26ff69757b0fad5218e836a7"
+        },
+        "codemodel/target-report_worker_probe-Release-831bc1a0611c9c31aacb.json": {
+          "bytes": 8508,
+          "sha256": "acd3a99697ed3fdcaf1c4b2446ad53dfe50bf1bb79cf8a26a1f93c09b3dd5636"
+        },
+        "codemodel/target-request_channel_probe-Release-b731dbd721c7512529b2.json": {
+          "bytes": 3530,
+          "sha256": "740fa1d3787accaf8405f2f382146fcbab2dd5d84cafe3ba03d72a890bed9ace"
+        },
+        "codemodel/target-shell_model_probe-Release-c8701612ceaf9c0efc5c.json": {
+          "bytes": 5860,
+          "sha256": "887d9dfd20633b64d586f67887cb3e3a230f16935154ddd8ef2dcf7af03d9ab5"
+        },
+        "codemodel/target-tui_model_probe-Release-fe56d490474d811d376a.json": {
+          "bytes": 5841,
+          "sha256": "fcca246bbab0672933127f85c4e4af3c8b6bf69c590e914880a11d2b376c70ca"
+        },
+        "codemodel/target-verification_case_fault-Release-a04b5f1f8629d514d9aa.json": {
+          "bytes": 6767,
+          "sha256": "2f4b985caaea05b145e50e5fe2812471a478684e1155af942dcbf4a107733baa"
+        },
+        "codemodel/target-verification_case_probe-Release-6410da16cafa200e4cb0.json": {
+          "bytes": 6033,
+          "sha256": "1837d4dd3d687a1a6470c0a5ed3e2fafba289145eb4780c23e1b8d90be5d92c6"
+        },
+        "codemodel/target-verification_command_fault-Release-00eca8c2dc187fac6ad4.json": {
+          "bytes": 8143,
+          "sha256": "4d498e833e7f4202f7bf99f9f0465fc0513d66a8b1301e9a40acdc86c2b195db"
+        },
+        "codemodel/target-verification_command_probe-Release-c01e063c1e2878b205ad.json": {
+          "bytes": 7869,
+          "sha256": "40bf866ef4c3cda9544730c67f14d8ad4aa871129d8e82216ea22145490c866c"
+        },
+        "codemodel/target-verification_worker_fault-Release-3519b047ec607676c854.json": {
+          "bytes": 8137,
+          "sha256": "6e49bfbb07f956855e7b5919761744ef8e4ce861d42cbb8f39996ca0e0afabf5"
+        },
+        "codemodel/target-verification_worker_probe-Release-2b469efa063de5f03c10.json": {
+          "bytes": 7863,
+          "sha256": "d77067ec9ba7dfdc6c98103dc23d40ef97c0805e7d226ffb4f6218b1f8185689"
+        },
+        "codemodel/target-watch_probe-Release-03d8243a7df61eb06b42.json": {
+          "bytes": 4289,
+          "sha256": "d3c011e68ab2c82df4ff53e551965d5f973d04ad8b47c568bba9cc8ef5053d5d"
+        },
+        "codemodel/target-worker_directory_probe-Release-73d635dcd0dcb853ced9.json": {
+          "bytes": 4423,
+          "sha256": "4f184971b92ac3a0653a1478000f5489f3eef9e5427d211453fd04677f92b667"
+        },
+        "codemodel/target-ZERO_CHECK-Release-130d9ff603abe428ddb2.json": {
+          "bytes": 733,
+          "sha256": "6e1620adb49ba2244bf9a5e44417f444598cc314873685f90036f2784a875344"
+        },
+        "fixture.log": {
+          "bytes": 194,
+          "sha256": "8792f916c92c99470349608186cae553464f2f3af6fa9f2adb5fae3f987419ab"
+        },
+        "fixture-inputs.json": {
+          "bytes": 21415,
+          "sha256": "ca2cfc49d42f78e5e3b9b93d74d234434bc2c424f965889e560ab34a1b62dba2"
+        },
+        "configure-win32.log": {
+          "bytes": 855,
+          "sha256": "555978dd6ff4130f83f980cdc4df93f09e7661d3afe0f34e554af66b3e17d08a"
+        },
+        "build-win32.log": {
+          "bytes": 4388,
+          "sha256": "dd054643b9c173c00ee20c51b5362658ef5e3e76930ec00d0e9332c2d18d79ba"
+        },
+        "imports-ntfs_file_probe.log": {
+          "bytes": 281,
+          "sha256": "7d7766ab59340bfb9efb48ebb2524f83f5b205f4b6ebe133c70ee1248b269250"
+        },
+        "imports-ntfs_file_fault.log": {
+          "bytes": 281,
+          "sha256": "eb412fd7170fe3e781fcbedbb10e1213b2855c036990bbb7c2e262a497817936"
+        },
+        "imports-ntfs_capture_probe.log": {
+          "bytes": 284,
+          "sha256": "0ffe58faf7bfd79fa62690de029ffca8902e886c84addc1218138fc24ab2cc3f"
+        },
+        "imports-ntfs_names_probe.log": {
+          "bytes": 282,
+          "sha256": "6226a797bc228e1ec94c640c07ef7d27f51ff11626681aadb24ffd5e6b333556"
+        },
+        "imports-ntfs_stream_probe.log": {
+          "bytes": 283,
+          "sha256": "8147396ce223e0e3d2ee657d94720f0448e542ffec522b11c63b47fc32f88c98"
+        },
+        "imports-ntfs_worker_probe.log": {
+          "bytes": 283,
+          "sha256": "6d386b69f91e5521d53bff9999e81630ebe7d31c4e85a4fe052ea28caff3e1da"
+        },
+        "imports-ntfs_worker_fault.log": {
+          "bytes": 283,
+          "sha256": "c0b50ae8af2f8968f69efb786c88b03c14e04f887b31706a25d0d5f87e8cd5a4"
+        },
+        "imports-ntfs_upcase_probe.log": {
+          "bytes": 283,
+          "sha256": "8ca32a1c57c85c610ac9ca866b2c52d94b234215fec4e0320928eb365c916d3d"
+        },
+        "imports-ntfs_inspection_probe.log": {
+          "bytes": 287,
+          "sha256": "15f49134b3f6556c47259ea0b11707ae798afa25e2dfa24a525355df6867b4a4"
+        },
+        "test-image.ntfs_name_order_file.log": {
+          "bytes": 36920,
+          "sha256": "75555f40fd0ea33fde39094741ba1312dd072e98ff8b802c16de1c81d055fa37"
+        },
+        "cases/ntfs-name-order-file-cases.json": {
+          "bytes": 396,
+          "sha256": "205be8cd05bd2c57a12007c9787be31be438643868c67e2d3d6f6a0fa42b1e18"
+        },
+        "junit/image.ntfs_name_order_file.xml": {
+          "bytes": 37599,
+          "sha256": "16f7088357f57f521a73b2d04de380b5e1aab61f4b328c0b807e353aecc00b24"
+        },
+        "diagnostics/build-CMakeConfigureLog.yaml": {
+          "bytes": 19090,
+          "sha256": "08fa2497e0fffebbd63646ae3a967e890351f4c077cb20679034e850ffe3e2a8"
+        },
+        "diagnostics/win32-build-CMakeConfigureLog.yaml": {
+          "bytes": 19370,
+          "sha256": "ec77e1d926969156674ca25ed8d9e519b55d0dfd3ce6dbb125b6139252e64c6e"
+        }
+      }
+    },
+    "source_prepared": {
+      "status": "pass",
+      "revision": "becccd10ffded5c59d580e68f7a7926ac9383461",
+      "selected_files_verified": 931,
+      "source_content_bytes": 12307926,
+      "git_state": "clean",
+      "scope": "Shallow sparse checkout of exact selected inputs, without unselected blobs/history"
+    },
+    "source_retired": {
+      "status": "pass",
+      "source_removed": true,
+      "nonce": "4b95c905d56548748e6958bbe2da0cc9"
+    },
+    "free_c_bytes": 97587101696
+  },
+  "host_backing_end_bytes": 28809625600,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-18T07:18:25.2634776Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": true,
+  "exact_source": {
+    "revision": "becccd10ffded5c59d580e68f7a7926ac9383461",
+    "content_bytes": 12307926,
+    "pack_bytes": 3876102,
+    "pack_sha256": "cef77cc5f6fabfe03ad6ce75dd13a5574603fab5baa7359966d2d56945e9c39b",
+    "git_objects": 3252
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "e238985084eea58c5463e2915eee19a3d8563da5c31f5508dc01857b7a0a7c64",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "8d8a34a9fbf71eafd367a4a35915ea8dbc9cd962e33d0b0ddf49217ff62277c9",
+    "guest-source.py": "d66661f50057e3504849b4309965647e4c348fe929011358b1497f42ce8eba31",
+    "run-proof.ps1": "8ff6cfb0d09f7f7b5e8fe4c01d25f56262e0486d14afcf9b8f269bfe96e48705",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "2053a892c75629a9a178b1af93dd43c31cde442fedbcb9621520e37fb6851609",
+    "source.pack": "cef77cc5f6fabfe03ad6ce75dd13a5574603fab5baa7359966d2d56945e9c39b"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-me4yzl1h\\guest-bootstrap\\run-proof.ps1:73\r\nLine |\r\n  73 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

@@ -7,8 +7,12 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from support.tempdir import temporary_directory
 
 from test_ntfs_capture import Volume, bytes_at
 
@@ -63,7 +67,7 @@ def run(rows, fault=False, env=None):
 
 class Tests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix='disked-ntfs-owned-')
+        self.temp = temporary_directory(prefix='disked-ntfs-owned-')
         self.root = Path(self.temp.name).resolve()
         self.assertEqual(self.root.parent, Path(tempfile.gettempdir()).resolve())
         self.index = 0
