@@ -1,0 +1,27 @@
+{
+  "schema": "org.disked.vm-connection-validation/1",
+  "base_revision": "b0a168549b4f9f4dfade0825281f81a3df475ff3",
+  "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-vm-execution/validate.py",
+  "execution_scope": "Host coordinator tooling, including tiny owned isolation stand-ins; no product storage tests or guest login.",
+  "tests_run": 99,
+  "failures": 0,
+  "errors": 0,
+  "skipped": [
+    {
+      "test": "test_windows_powershell_51_compatibility (test_clean_scratch.ScratchCleanupTests.test_windows_powershell_51_compatibility)",
+      "reason": "Host execution policy blocks Windows PowerShell scripts; 5.1 runtime unverified"
+    }
+  ],
+  "successful": true,
+  "tested_source_hashes": {
+    "tools/connect-vm.ps1": "b1f42a156cf7cbc6891fb1b0366362e7237adae44f437038f28cdb711312377b",
+    "tests/tools/test_vm_connection.py": "b55b3f36fc04b1a231fed72262fe17b6782126ed6f366d38da14b011b9f8f39b",
+    "tools/workspace.py": "5eeaacc7829a4db5a77f2b79587a4c5df6730136521fa7a8073328077ffae0bf",
+    "tools/windows-worker.py": "668c891df3ac5d116ca259d6965cfb48f1fb228c1df5ec87c38aa7e7acf22ab2",
+    ".aide/evidence/2026-10-18-vm-execution/validate.py": "206c20dc70b73bf16e13f6666b704a25be004aeea2f929b0e66c593e1137888e"
+  },
+  "log_sha256": "e2db1b4d50fa0163091d1dad10bcdbb08eb488f8724820efeacc255cc61d11ab",
+  "guest_connection_verified": false,
+  "guest_uac_change_verified": false,
+  "native_build_run": false
+}

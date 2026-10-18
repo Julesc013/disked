@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "blocked",
+  "status": "in_progress",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Complete or diagnose the fresh Windows UAC at the VM console and resume the unchanged full0.1.0 goal. Preserve and poll existing exec session3682/requester79196(parent66932,created2026-10-18T00:14:02.220936Z). Do not restart or kill it solely because observation timed out. If it completes while the model goal is blocked, inspect this run's source-bound receipt (source7442a800) and cleanup before final capped runner/native admission. No additional setup grant is missing.",
+  "next_action": "Owner finishes guest Codex administrator/global-UAC setup and required guest restart. Complete one verified guest credential setup with tools/connect-vm.ps1 -SetupCredential, then use its unattended PowerShell Direct connection. Inspect actual guest policy, token, toolchain, free space and cap before the bounded DE-W105 Win32/native campaign. Other agents share the VM: no automatic VM stop/reset/reboot or broad process cleanup.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2218,7 +2218,10 @@
     "hard_storage_boundary_demonstrated": false,
     "temporary_entry_limit": 20000,
     "setup_decision": ".aide/evidence/2026-10-17-workspace-cleanup/storage-boundary-next-action.md",
-    "host_inspection": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json"
+    "host_inspection": ".aide/evidence/2026-10-17-workspace-cleanup/host-boundary-inventory.json",
+    "host_32mib_proof_demonstrated": true,
+    "host_32mib_proof_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+    "selected_environment": "Existing Hyper-V Windows 10 guest; guest campaign hard boundary remains unverified."
   },
   "storage_cleanup": {
     "status": "complete",
@@ -2228,8 +2231,8 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "native_development_state": "waiting_live_storage_proof",
-  "native_pause_reason": "The model goal is blocked after three resumed turns awaiting external Windows elevation. The previously issued bounded proof remains live; no requester termination, second request, image or native qualification is implied.",
+  "native_development_state": "guest_setup_and_unattended_connection_pending",
+  "native_pause_reason": "The host 32 MiB proof completed and removed its image. Product tests will use the existing Hyper-V guest by default. Guest account/UAC setup is being performed by the owner; no verified guest login or guest capacity/compiler qualification yet.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2265,7 +2268,7 @@
     "observed_at": "2026-10-17T06:44:39.654497+00:00",
     "source": "Explicit user answer to bounded execution setup question, 2026-10-17 Australia/Sydney",
     "base_revision": "d103a302fbc234de940033c45b070361ca31fa22",
-    "scope": "After confirming cleanup, use this shared Windows 10 VM, disposable scratch and the proposed local capped virtual-disk setup, including necessary setup elevation, for DiskEd tests. Protect concurrent users and remove disposable output; retain only necessary compact compressed evidence.",
+    "scope": "Use the existing Hyper-V Windows 10 VM for low-level testing and necessary host tests where justified. Protect concurrent projects and shared guest users, preserve existing data/checkpoints, remove disposable output and retain compact evidence. Host BLACKGLASS-WIN1 is physical, not the VM.",
     "limits": "Existing 32 MiB metadata, 1 GiB aggregate disposable work, 20000 entries, 20 GiB host-volume reserve remain. Proposed local disk maximum 512 MiB, first proof at no more than 32 MiB.",
     "excluded": [
       "physical devices",
@@ -2284,47 +2287,83 @@
       "allocation_denial_proven": false,
       "final_scratch_qualified": false
     },
-    "setup_observation": "The corrected elevation launcher was retried; no setup/image appeared. Its exact requester was stopped and workspace removed, but two time-correlated consent processes remained live in session1. Their ownership is unproven. A real subsequent invocation was refused before another elevation request. No new setup authorization is missing.",
+    "setup_observation": "Source-bound host proof completed successfully after approval: bounded writer received error112, outside/descendant writes were denied, job/held-file cleanup passed and helper removed its own VHDX. Exact host scratch directory verified absent. This does not qualify the Hyper-V guest or a larger campaign/compiler.",
     "setup_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
     "validation": {
-      "tooling_run": 94,
-      "tooling_passed": 93,
+      "tooling_run": 99,
+      "tooling_passed": 98,
       "tooling_skipped": 1,
       "spec_run": 253,
       "spec_passed": 251,
       "spec_skipped": 2,
       "structural_checks": 1323,
       "manifest_verified": true,
-      "capacity_proof": "blocked_by_windows_mount_privilege",
+      "capacity_proof": "host_32mib_pass_guest_unverified",
       "owner_accepted": false
     },
-    "latest_admission_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json"
+    "latest_admission_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json",
+    "original_scope_before_host_vm_correction": "After confirming cleanup, use this shared Windows 10 VM, disposable scratch and the proposed local capped virtual-disk setup, including necessary setup elevation, for DiskEd tests. Protect concurrent users and remove disposable output; retain only necessary compact compressed evidence.",
+    "clarification_source": "User clarifications on 2026-10-18 Australia/Sydney: prefer Hyper-V guest, allow necessary host tests; grant guest administrator/UAC-off setup, then owner elects to perform those changes personally and share guest Codex account with other agents.",
+    "guest_administrator_and_uac_grant": {
+      "authorized": true,
+      "guest_vm_id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
+      "guest_name": "BlackGlass-HyperV",
+      "account": "Codex",
+      "guest_uac_scope": "Guest OS globally, all accounts",
+      "performed_by": "Owner; independently verify completion/restart later",
+      "verified": false,
+      "host_uac_change_authorized": false
+    }
   },
   "execution_environment_gate": {
-    "status": "blocked_on_console_with_live_requester",
-    "resumed_at": "2026-10-18T00:20:15.5259164Z",
-    "previous_goal_turn": "verified_wait",
-    "current_turn": "verified_wait",
-    "consecutive_goal_turns": 3,
-    "consecutive_no_progress_turns": 0,
-    "previous_blocked_audit": ".aide/evidence/2026-10-17-workspace-cleanup/storage-goal-blocked-audit.json",
-    "requester": {
-      "command": "python -B tools/qualify-storage.py --elevate",
-      "pid": 79196,
-      "parent_pid": 66932,
-      "created_at": "2026-10-18T00:14:02.2209360Z"
+    "status": "owner_guest_setup_and_credential_pending",
+    "observed_at": "2026-10-18T01:11:28.6942159Z",
+    "previous_wait_resolved_by": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
+    "host_proof_source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
+    "prior_blocked_audit": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
+    "previous_requester_confirmed_absent": true,
+    "previous_helper_confirmed_absent": true,
+    "host_image_removed": true,
+    "guest_vm_id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
+    "guest_connection_helper": "tools/connect-vm.ps1",
+    "guest_credential_configured": false,
+    "guest_native_capacity_proven": false,
+    "native_compiler_qualified": false,
+    "additional_test_authority_missing": false,
+    "owner_setup_in_progress": true,
+    "audit": ".aide/evidence/2026-10-18-vm-execution/inspection.json",
+    "goal_service_status_last_observed": "blocked",
+    "prior_console_wait_superseded": true,
+    "work_continues_under_current_user_request": true
+  },
+  "execution_environment": {
+    "default": "Hyper-V guest",
+    "host_tests": "Necessary and bounded; record why the host is required.",
+    "vm": {
+      "dynamic_memory": true,
+      "backing_file_bytes": 17971544064,
+      "automatic_checkpoints": false,
+      "assigned_bytes": 2933915648,
+      "backing_growth_since_start_bytes": 1476395008,
+      "minimum_bytes": 1073741824,
+      "guest_policy_changes": "Owner performing; not independently verified",
+      "guest_name_from_kvp": "BlackGlass-HyperV",
+      "state": "Running",
+      "credential_configured": false,
+      "native_campaign_run": false,
+      "preexisting_checkpoint_preserved": true,
+      "guest_os_from_kvp": "Windows 10 Enterprise 10.0.19045",
+      "id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
+      "name": "Windows 10",
+      "startup_bytes": 2147483648,
+      "processors": 2,
+      "maximum_bytes": 3221225472,
+      "heartbeat": "OK"
     },
-    "exec_session_id": 3682,
-    "pending_consent_processes": [
-      57972
-    ],
-    "source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
-    "native_capacity_proven": false,
-    "additional_authorization_missing": false,
-    "audit": ".aide/evidence/2026-10-18-storage-proof/blocked-live-wait.json",
-    "last_observed_at": "2026-10-18T00:30:49.3604456Z",
-    "owned_requester_confirmed_live": true,
-    "requester_stopped": false,
-    "model_goal_blocked": true
+    "original_configuration_evidence": ".aide/evidence/2026-10-18-vm-execution/before-start.json",
+    "shared_account": "Codex",
+    "concurrency": "Distinct project workspaces and owned processes. One DiskEd campaign. Coordinate disruptive/heavy work. Do not automatically stop/reset/reboot/compact shared VM.",
+    "credential_storage": "Windows DPAPI via Export-Clixml under the Jules host profile; never in Git or chat.",
+    "product_tests_run_since_incident": false
   }
 }

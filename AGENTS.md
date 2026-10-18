@@ -19,15 +19,26 @@ workspace after success, failure or interruption. Identified leftovers from a ha
 termination are removed before another run. These watchdog checks are not an OS
 filesystem quota; retain the free-space margin and use bounded fixture writers.
 
-Native campaigns require a demonstrated host-enforced storage boundary; the
-watchdog alone does not satisfy that gate. On 2026-10-17 the user authorized the
-proposed disposable local scratch/virtual-disk setup and testing on this shared
-Windows 10 VM, including necessary setup elevation. Keep the existing budgets,
-protect concurrent users, and remove disposable output after use. This grant
-does not include physical devices, customer data, installation or release work.
-Prove allocation denial, write confinement and interrupted cleanup before
-resuming normal native campaigns; record actual results rather than inferring
-isolation from the grant or a mounted disk.
+Native campaigns require a demonstrated OS-enforced storage boundary; the
+watchdog alone does not satisfy that gate. BLACKGLASS-WIN1 is the physical host,
+not the test VM. The user's 2026-10-18 clarification makes the existing Hyper-V
+VM `Windows 10` the default for low-level tests. Necessary host tests remain
+authorized; explain their need and keep them bounded. Do not repeat host UAC
+setup as the normal test workflow. Keep the existing budgets, protect concurrent
+users, and remove disposable output after use. The test grant does not include
+physical devices, customer data or release work. VM storage and dynamic memory
+consume real host resources; monitor backing-file growth and host free space.
+Prove allocation denial, write confinement and interrupted cleanup in the
+selected execution environment before admitting native campaigns. A proof in
+another environment does not qualify the guest, its compiler or a larger cap.
+The user separately authorized full administrator access and disabling UAC
+throughout that guest on 2026-10-18, then elected to configure those settings
+personally. Verify after the owner finishes; do not race that setup or reboot
+the guest. The host's UAC and permissions retain their existing settings.
+Administrative setup authority does not qualify product behavior under a
+standard or restricted worker token. Other agents share the guest Codex account:
+use separate workspaces and retire only DiskEd-owned processes. Do not stop,
+reset or compact the shared VM as automatic cleanup.
 
 Do not bypass the runner, raise budgets, move accumulated output elsewhere or rerun
 historical unbounded `.aide-local` recipes. An over-budget campaign must be made

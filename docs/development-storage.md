@@ -5,29 +5,106 @@ Builds, checkouts, dependency environments and raw probe dumps do not belong the
 The [shared instructions](../AGENTS.md) and [workspace runner](../tools/workspace.py)
 own the development rules and their enforcement.
 
-The user authorized bounded disposable scratch and virtual-disk setup on this
-shared Windows 10 VM on 2026-10-17, including necessary setup elevation. Cleanup
-is complete. Normal native campaigns still require actual proof of a hard
-filesystem boundary; authorization does not establish that proof. The watchdog
-below cannot deny allocation or prevent writes elsewhere. Keep the existing
-budgets, protect concurrent users, and remove disposable output after use.
-Physical devices, customer data, installation and release work are excluded.
+BLACKGLASS-WIN1 is the physical shared host. The earlier description of it as
+the test VM was incorrect. On 2026-10-18 the user directed low-level testing into
+the existing Hyper-V VM `Windows 10`, while allowing necessary host tests. Use
+the guest by default and record why any test needs the host. Do not make repeated
+host UAC prompts the normal execution path. Physical devices, customer data and
+release work remain outside the test grant.
+
+The guest's original 8 GiB startup and 32 GiB maximum could consume nearly all
+available host memory. Its current configuration uses two virtual CPUs, 2 GiB
+startup, 1 GiB minimum and 3 GiB maximum dynamic memory. Automatic checkpoints
+are disabled; the pre-existing checkpoint is preserved. The original settings
+are retained in the [VM inventory](../.aide/evidence/2026-10-18-vm-execution/before-start.json).
+Do not delete or compact its existing disk/checkpoint chain as scratch cleanup.
+Dynamic VHDs and dynamic memory still consume physical host resources. Monitor
+backing-file growth, guest temporary output and host free space; deleting guest
+files does not itself prove that the backing file shrank.
+
+Cleanup of the incident scratch is complete. Normal native campaigns still
+require actual proof of a hard filesystem boundary in the selected environment;
+the watchdog below cannot deny allocation or prevent writes elsewhere. Keep the
+existing budgets, protect concurrent users, and remove disposable output after
+use. A guest login/transport and its actual toolchain must be established before
+claiming a guest build or test result.
+
+### One-time guest connection setup
+
+Use PowerShell Direct with the existing VM ID, rather than opening network
+listeners or sharing the host's source drive into the guest. In a normal Jules
+PowerShell 7 window on the host, run:
+
+```powershell
+pwsh -NoProfile -File tools/connect-vm.ps1 -SetupCredential
+```
+
+Enter a guest account and its password in that local window. The VM currently
+shows `Codex` and `Jules` accounts; do not assume either password is known, blank
+or the same as the host password. A PIN is not a password. If the password is
+unknown, cancel; do not reset an existing shared account or guess credentials.
+
+The helper verifies a PowerShell Direct connection to the fixed VM ID and checks
+the guest's computer/model identity before saving anything. Windows encrypts the
+credential for this host user through `Export-Clixml`; it is stored outside Git
+at `%LOCALAPPDATA%\DiskEd\credentials\vm-3ebbe558-91b9-435b-96e4-0c8199bd38ad.xml`.
+It refuses an existing file during setup and never prints the password. The
+default invocation checks an existing connection without prompting or running
+tests. A missing credential fails immediately. See Microsoft's
+[PowerShell Direct requirements](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/powershell-direct).
+
+For an authorized guest campaign, obtain a session in the same PowerShell
+process as the commands that use it, and remove it in `finally`:
+
+```powershell
+$session = & ./tools/connect-vm.ps1 -OpenSession
+try {
+    Invoke-Command -Session $session -ScriptBlock { hostname }
+} finally {
+    if ($session) { Remove-PSSession -Session $session }
+}
+```
+
+This is connection setup, not worker qualification. Record the actual guest
+token and toolchain, prove its working-storage boundary, and run builds/tests
+with the bounded workspace runner inside the guest. Do not execute product tests
+with an administrative connection token merely because setup required one.
+
+The user explicitly authorized guest administrator access and disabling UAC for
+the guest OS on 2026-10-18, then elected to make those account/policy changes
+personally. Do not race that setup with another account change or guest reboot.
+After the owner finishes, inspect the guest `Codex` account's Administrators
+membership, `EnableLUA` and new boot identity through the verified connection.
+Until then, the change is unverified. This is the Windows
+[UAC policy](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration),
+not simply the notification slider. Retain explicit test-token observations;
+an administrative test pass does not establish standard-user behavior.
+
+The Codex guest account is shared with other agents. Use distinct workspaces,
+keep DiskEd's single-campaign lock and budget, and retire only owned processes.
+Do not reset, stop, reboot or compact the shared VM as automatic campaign
+cleanup. Coordinate disruptive work and heavy campaigns with other users; a
+VM-wide reboot is not equivalent to deleting one project's temporary directory.
 
 [The current setup review](../.aide/evidence/2026-10-17-workspace-cleanup/storage-setup-review.md)
-records actual AppContainer write/descendant/isolation and interrupted-profile
-cleanup tests. A 32 MiB fixed image was created and removed, but Windows refused
-mounting without the necessary privilege. Allocation denial remains unverified.
-The bounded proof is `python tools/workspace.py run -- python -B tools/qualify-storage.py`;
-`--elevate` requests the already-authorized setup through Windows UAC. Only the
-fixed-path setup helper can elevate; test/product workers remain unelevated.
-Its temporary profile points into owned work, and a controller journal permits
-recovery after termination. Uncertain ownership blocks another run. Final capped
-runner/compiler qualification and live upstream AIDE integration remain open.
+records the earlier refusal and AppContainer preparation. The pending host proof
+subsequently completed: [its exact-source receipt](../.aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json)
+records allocation error 112 on the 32 MiB filesystem, denied outside writes
+including a descendant, job retirement, held-file removal and backing-image
+deletion. The helper ran elevated; test workers did not. This qualifies those
+host proof cases only. It does not qualify a 512 MiB campaign, native compiler or
+the Hyper-V guest. The host scratch directory was also verified absent.
+
+`tools/qualify-storage.py` and `tools/capped-scratch.ps1` describe the fixed host
+proof, not a portable guest setup command. Do not copy their host identity/path
+assumptions into the guest or rerun them merely because a guest connection is
+unavailable. Final capped runner/compiler qualification and live upstream AIDE
+integration remain open.
 
 Before requesting elevation, the proof reads the live Windows process snapshot.
 An existing `consent.exe` in the current session, or one whose session cannot be
 queried, blocks an additional request. Complete or cancel the relevant Windows
-prompt at the VM console before retrying. Stopping a requesting process does not
+prompt at the host console before retrying a necessary host proof. Stopping a requesting process does not
 prove that Windows retired its consent process. The tool never terminates those
 processes or assumes that they belong to DiskEd. Admission refusals are retained
 separately from the earlier virtual-image creation/cleanup receipt.
