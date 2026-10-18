@@ -61,9 +61,13 @@ DiskEd source snapshot, product build and remaining native tests are still next.
 
 Use [tools/source-snapshot.py](../tools/source-snapshot.py) for the bounded exact
 source transfer. It selects the canonical build inputs, an explicit work unit's
-required inputs and routing files from a clean Git revision; only their blobs and
-the current commit/trees enter the pack. It refuses dirty source, unsafe paths,
-links, oversized selections and corrupted packs. Materialization uses explicit
+required inputs and routing files; only their blobs and the selected commit/trees
+enter the pack. The default requires a clean checkout. With `--revision` set to
+an exact commit ID, both input catalogs and payload come from that commit; local
+uncommitted edits remain untouched and the manifest records producer dirtiness
+separately. This permits retaining campaign observations without incorporating
+them into the tested source. It refuses unsafe paths, links, oversized selections
+and corrupted packs. Materialization uses explicit
 LF checkout policy and verifies every selected file plus the exact clean Git
 identity. The [real-repository transport check](../.aide/evidence/2026-10-18-guest-source/README.md)
 verified 931 inputs in a 3.7 MiB pack; the disposable pack/checkout were removed.
@@ -156,8 +160,9 @@ an administrative test pass does not establish standard-user behavior.
 The existing guest compiler is at `C:\BuildTools`: toolset 14.44.35207 and
 compiler file version 19.44.35228.0 match the pin. SDK 10.0.19041.0, CMake 3.31.12
 and Git 2.53.0.windows.3 are present. The Python launcher reports no installed
-runtimes; its WindowsApps alias is not an interpreter. A bounded project-owned
-Python runtime and actual guest compiler/capacity qualification remain next work.
+runtimes; its WindowsApps alias is not an interpreter. The project-owned Python
+runtime and subsequent compiler/capacity qualification are recorded above;
+these do not qualify a DiskEd build.
 
 Keep resource checks separate. Preserve the host backing-volume reserve and
 the guest OS-volume reserve. Run the guest coordinator and its small managed
@@ -166,8 +171,8 @@ control workspace on the OS volume; do not point its temporary directory at a
 processes use the capped filesystem, whose remaining capacity must fit the
 declared task. Its reserved backing allocation and other disposable output must
 fit the existing aggregate 1 GiB budget. A controller must also monitor actual
-host free space and backing-file growth. This topology still needs guest proof;
-the existing host proof does not establish its correctness.
+host free space and backing-file growth. The guest proof above establishes the
+recorded bootstrap topology; the earlier host proof alone did not establish it.
 
 The Agents guest account is shared with other agents. Use distinct workspaces,
 keep DiskEd's single-campaign lock and budget, and retire only owned processes.

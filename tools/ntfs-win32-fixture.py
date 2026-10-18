@@ -9,6 +9,11 @@ import re
 PROBES = ('ntfs_file_probe', 'ntfs_file_fault', 'ntfs_capture_probe',
           'ntfs_names_probe', 'ntfs_stream_probe', 'ntfs_worker_probe',
           'ntfs_worker_fault', 'ntfs_upcase_probe', 'ntfs_inspection_probe')
+# CMake links this production support translation unit directly into the two
+# worker probes. Preserve that ownership rather than silently omitting it or
+# allowing arbitrary production files in every test executable.
+PROBE_SUPPORT = {name: ('source/platform/windows/memory_budget.cpp',)
+                 for name in ('ntfs_worker_probe', 'ntfs_worker_fault')}
 VARIANTS = ('disked_ntfs_file', 'disked_ntfs_file_fault', 'disked_ntfs_snapshot',
             'disked_ntfs_snapshot_fault', 'disked_ntfs_worker', 'disked_ntfs_worker_fault',
             'disked_observation_worker', 'disked_observation_worker_fault')
@@ -189,8 +194,11 @@ def prepare(root, build, output, work):
     probes, variants = {n: own(n) for n in PROBES}, {n: own(n) for n in VARIANTS}
     if any(not files for files in probes.values()) or any(len(files) != 1 for files in variants.values()):
         raise FixtureError('Probe/variant source ownership is incomplete')
-    if any(not p.is_relative_to(root / 'tests') for files in probes.values() for p in files):
-        raise FixtureError('A probe contains production sources')
+    for name, files in probes.items():
+        support = {root / p for p in PROBE_SUPPORT.get(name, ())}
+        actual = {p for p in files if not p.is_relative_to(root / 'tests')}
+        if actual != support or not files - actual:
+            raise FixtureError('Probe test/support source ownership changed: ' + name)
     if any(not p.is_relative_to(root / 'source') for files in variants.values() for p in files):
         raise FixtureError('A variant source is outside source/')
     common = set.union(*(closure(n) for n in PROBES)) - set.union(*probes.values()) - set.union(*variants.values())

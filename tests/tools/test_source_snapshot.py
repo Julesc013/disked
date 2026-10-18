@@ -73,6 +73,37 @@ class SnapshotTests(unittest.TestCase):
             self.export()
         self.assertFalse((self.case / 'export').exists())
 
+    def test_explicit_revision_uses_exact_blobs_and_preserves_dirty_work(self):
+        revision = self.git('rev-parse', 'HEAD')
+        path = self.source / 'code/main.cpp'
+        path.write_bytes(b'unsaved local source')
+        manifest = S.export(self.source, ['.gitattributes', '.gitignore', 'code/main.cpp'],
+                            self.case / 'export', self.work, revision=revision)
+        self.assertTrue(manifest['exporter_worktree_dirty'])
+        S.materialize(self.case / 'export/source.pack', manifest, self.case / 'checkout')
+        self.assertEqual((self.case / 'checkout/code/main.cpp').read_bytes(), b'int main() { return 0; }\n')
+        self.assertEqual(path.read_bytes(), b'unsaved local source')
+
+    def test_revision_requires_exact_commit_id(self):
+        for value in ('HEAD', '--help', 'a'*39, 'a'*40+'\n'):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'exact Git'):
+                S.export(self.source, ['code/main.cpp'], self.case / 'export', self.work, revision=value)
+        self.assertFalse((self.case / 'export').exists())
+
+    def test_explicit_revision_uses_reviewed_input_catalogs(self):
+        (self.source / 'tools').mkdir()
+        (self.source / 'spec/work').mkdir(parents=True)
+        catalog = self.source / 'tools/build-inputs.json'
+        catalog.write_text(json.dumps({'files': ['code/main.cpp']}))
+        (self.source / 'spec/work/units.json').write_text(json.dumps([
+            {'id': 'DE-WTEST', 'required_inputs': ['.gitignore']}]))
+        self.commit()
+        revision = self.git('rev-parse', 'HEAD')
+        catalog.write_text(json.dumps({'files': ['unreviewed.cpp']}))
+        selected = S.selected_inputs(self.source, 'DE-WTEST', revision=revision)
+        self.assertIn('code/main.cpp', selected)
+        self.assertNotIn('unreviewed.cpp', selected)
+
     def test_tampered_pack_refused_before_checkout(self):
         manifest = self.export()
         pack = self.case / 'export/source.pack'

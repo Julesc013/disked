@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 import subprocess
 
@@ -39,9 +40,22 @@ def plain_ancestors(path):
             raise ValueError('Linked snapshot ancestor')
 
 
-def selected_inputs(root, work_id):
-    names = set(json.loads((root / 'tools/build-inputs.json').read_bytes())['files'])
-    rows = json.loads((root / 'spec/work/units.json').read_bytes())
+def exact_revision(root, revision):
+    if not isinstance(revision, str) or not re.fullmatch(r'[0-9a-f]{40}', revision):
+        raise ValueError('An explicit snapshot revision must be an exact Git commit ID')
+    resolved = git(root, 'rev-parse', revision + '^{commit}').decode().strip()
+    if resolved != revision:
+        raise ValueError('Snapshot revision does not identify the exact commit')
+    return revision
+
+
+def selected_inputs(root, work_id, *, revision=None):
+    if revision is not None:
+        revision = exact_revision(root, revision)
+    def read(name):
+        return json.loads(git(root, 'cat-file', 'blob', revision + ':' + name) if revision else (root / name).read_bytes())
+    names = set(read('tools/build-inputs.json')['files'])
+    rows = read('spec/work/units.json')
     rows = rows if isinstance(rows, list) else rows.get('work_units', rows.get('units', []))
     names.update(next(row for row in rows if row['id'] == work_id)['required_inputs'])
     names.update(['AGENTS.md', 'spec/START-HERE.md', 'spec/index.md', 'spec/work/units.json',
@@ -49,22 +63,23 @@ def selected_inputs(root, work_id):
     return sorted(relative(name) for name in names)
 
 
-def export(root, names, output, work):
+def export(root, names, output, work, *, revision=None):
     for path in (root, output, work):
         plain_ancestors(Path(path).absolute())
     root, output, work = Path(root).resolve(), Path(output).resolve(), Path(work).resolve()
     plain_ancestors(output)
     if output == work or not output.is_relative_to(work) or output.exists() or output.is_relative_to(root):
         raise ValueError('Fresh snapshot output must be inside managed work and outside source')
-    if git(root, 'status', '--porcelain', '--untracked-files=normal'):
+    dirty = bool(git(root, 'status', '--porcelain', '--untracked-files=normal'))
+    if revision is None and dirty:
         raise ValueError('An exact snapshot requires a clean source checkout')
     names = sorted(set(relative(name) for name in names))
     if not 0 < len(names) <= FILE_LIMIT:
         raise ValueError('Snapshot selected-file bound exceeded')
-    revision = git(root, 'rev-parse', 'HEAD').decode().strip()
-    objects = {revision, git(root, 'rev-parse', 'HEAD^{tree}').decode().strip()}
+    revision = exact_revision(root, revision) if revision is not None else git(root, 'rev-parse', 'HEAD').decode().strip()
+    objects = {revision, git(root, 'rev-parse', revision + '^{tree}').decode().strip()}
     entries = {}
-    for entry in git(root, 'ls-tree', '-r', '-t', '-z', 'HEAD').split(b'\0'):
+    for entry in git(root, 'ls-tree', '-r', '-t', '-z', revision).split(b'\0'):
         if not entry:
             continue
         head, path = entry.split(b'\t', 1)
@@ -119,6 +134,7 @@ def export(root, names, output, work):
     if result.returncode or pack.stat().st_size > PACK_LIMIT:
         raise ValueError('Snapshot pack failed or exceeds its bound')
     manifest = {'schema': 'org.disked.exact-source-snapshot/1', 'revision': revision,
+                'exporter_worktree_dirty': dirty,
                 'files': files, 'content_bytes': size, 'git_objects': len(objects),
                 'pack_bytes': pack.stat().st_size, 'pack_sha256': hashlib.sha256(pack.read_bytes()).hexdigest(),
                 'git_history_included': False, 'unselected_blobs_included': False,
@@ -184,8 +200,9 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--work', required=True)
+    parser.add_argument('--revision', help='Exact immutable Git commit; checkout cleanliness is recorded separately')
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     work = Path(os.environ['DISKED_WORK_ROOT'])
-    result = export(root, selected_inputs(root, args.work), work / 'source-export', work)
+    result = export(root, selected_inputs(root, args.work, revision=args.revision), work / 'source-export', work, revision=args.revision)
     print(json.dumps({key: result[key] for key in ('revision', 'content_bytes', 'pack_bytes', 'pack_sha256', 'git_objects')}))

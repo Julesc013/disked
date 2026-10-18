@@ -41,6 +41,13 @@ class NtfsWin32FixtureTests(unittest.TestCase):
             variant = {'ntfs_file_probe': 'disked_ntfs_file', 'ntfs_file_fault': 'disked_ntfs_file_fault',
                        'ntfs_worker_probe': 'disked_ntfs_worker', 'ntfs_worker_fault': 'disked_ntfs_worker_fault'}.get(name)
             self.target(name, 'tests/native/' + name + '.cpp', ['reader'] + ([variant] if variant else []))
+            if name in F.PROBE_SUPPORT:
+                path = self.reply / (name + '.json')
+                data = json.loads(path.read_bytes())
+                for support in F.PROBE_SUPPORT[name]:
+                    self.write(self.root / support, '/* production worker support */\n')
+                    data['sources'].append(dict(path=support))
+                self.dump(path, data)
         for header in F.HEADERS:
             self.write(self.root / 'source' / header, '/* standalone fixture */\n')
         for kind in F.TESTS:
@@ -127,6 +134,34 @@ class NtfsWin32FixtureTests(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertFalse(json.loads(p.stdout)['native_execution_performed'])
         self.assertFalse(list(self.work.rglob('*.exe')))
+
+    def test_preserves_codemodel_worker_support_in_only_its_executables(self):
+        self.prepare()
+        cmake = (self.output / 'CMakeLists.txt').read_text()
+        support = (self.root / 'source/platform/windows/memory_budget.cpp').as_posix()
+        lines = [line for line in cmake.splitlines() if support in line]
+        self.assertEqual(len(lines), 2)
+        self.assertTrue(any(line.startswith('add_executable(ntfs_worker_probe ') for line in lines))
+        self.assertTrue(any(line.startswith('add_executable(ntfs_worker_fault ') for line in lines))
+
+    def test_unexpected_production_source_in_probe_is_rejected(self):
+        path = self.reply / 'ntfs_capture_probe.json'
+        data = json.loads(path.read_bytes())
+        self.write(self.root / 'source/unexpected.cpp', '/* not approved support */\n')
+        data['sources'].append(dict(path='source/unexpected.cpp'))
+        self.dump(path, data)
+        with self.assertRaisesRegex(F.FixtureError, 'source ownership changed'):
+            self.prepare()
+        self.assertFalse(self.output.exists())
+
+    def test_missing_worker_support_is_rejected(self):
+        path = self.reply / 'ntfs_worker_probe.json'
+        data = json.loads(path.read_bytes())
+        data['sources'] = [entry for entry in data['sources'] if entry['path'].startswith('tests/')]
+        self.dump(path, data)
+        with self.assertRaisesRegex(F.FixtureError, 'source ownership changed'):
+            self.prepare()
+        self.assertFalse(self.output.exists())
 
     def test_missing_header_refuses_before_any_output(self):
         (self.root / 'source' / F.HEADERS[0]).unlink()
