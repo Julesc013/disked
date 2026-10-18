@@ -14,7 +14,7 @@ release work remain outside the test grant.
 
 The guest's original 8 GiB startup and 32 GiB maximum could consume nearly all
 available host memory. The owner changed the configuration on 2026-10-18 to four
-virtual CPUs and 1–16 GiB dynamic memory, with 2 GiB startup, verified through
+virtual CPUs and 1Ã¢â‚¬â€œ16 GiB dynamic memory, with 2 GiB startup, verified through
 Hyper-V. Observe actual assigned memory; the maximum is not a reservation.
 Automatic checkpoints are disabled; the pre-existing checkpoint is preserved. The original settings
 are retained in the [VM inventory](../.aide/evidence/2026-10-18-vm-execution/before-start.json).
@@ -341,3 +341,14 @@ sparse copy, keeps actual allocation at most16MiB and proves replacement of a
 previous tail using two independent source generations. It remains native-
 unqualified. Initial x64 test-path migration uses the same verified managed
 scratch owner; other old routes and the full current native suite remain pending.
+
+
+Exact `c667318e` subsequently passed all 18 private Win32 groups, 12 headers and
+nine executable/import observations. The complete 551-call directory-file
+group, actual lease ACL regression and two-generation sparse-copy preflight
+pass. Peak scratch allocation was 72,967,178 bytes; all owned output retired.
+The 1,131,348-byte archive verifies 2,956 original entries. The full current x64
+gate still needs remaining managed fixture routing and a proven ordinary-token
+write-confined profile for protected user-only store tests. The proposed profile
+is not yet implemented or qualified; existing private AppContainer qualification
+does not establish that profile.

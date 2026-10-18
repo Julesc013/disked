@@ -4,9 +4,11 @@ import copy
 import hashlib
 import json
 import subprocess
-import tempfile
 import unittest
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import managed_directory
 
 from test_fat_content import fixture
 
@@ -36,8 +38,7 @@ def run(rows,fault=False):
 
 class ContentFileTests(unittest.TestCase):
     def setUp(self):
-        scratch=Path(__file__).resolve().parents[2]/'.aide-local';scratch.mkdir(exist_ok=True)
-        self.folder=tempfile.TemporaryDirectory(prefix='fatcontent-',dir=scratch);self.addCleanup(self.folder.cleanup)
+        self.folder=managed_directory(prefix='fatcontent-');self.addCleanup(self.folder.cleanup)
         self.root=Path(self.folder.name)
     def make(self,bits=12,unit=512,per=1,chain=(3,8,5),size=None):
         v,data=fixture(bits,unit=unit,per=per,chain=chain,size=size)

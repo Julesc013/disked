@@ -1,6 +1,9 @@
 """Independent complete mapped FAT file/destination/checkpoint/native-worker oracles."""
-import argparse,copy,hashlib,json,os,subprocess,tempfile,time,unittest
+import argparse,copy,hashlib,json,os,subprocess,time,unittest
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import managed_directory
 from test_fat_content import fixture
 from test_acquisition_worker import map_check,owned_process,K
 
@@ -18,8 +21,7 @@ def options(chunk=65536):return dict(chunk_bytes=str(chunk),retry_limit='0',read
 
 class ExtractionTests(unittest.TestCase):
     def setUp(self):
-        scratch=Path(__file__).resolve().parents[2]/'.aide-local';scratch.mkdir(exist_ok=True)
-        self.folder=tempfile.TemporaryDirectory(prefix='fatextract-',dir=scratch);self.addCleanup(self.folder.cleanup);self.root=Path(self.folder.name)
+        self.folder=managed_directory(prefix='fatextract-');self.addCleanup(self.folder.cleanup);self.root=Path(self.folder.name)
     def make(self,bits=12,unit=512,per=1,chain=(3,8,5),size=None):
         v,data=fixture(bits,unit=unit,per=per,chain=chain,size=size)
         path=self.root/f'源-{bits}-{len(list(self.root.iterdir()))}.img';v.write(path)

@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage0.1.0 goal remains incomplete. Agents is routine; Codex is an emergency spare. Source7a985be3 passes15 of18 private Win32 groups,12 headers and nine executable/import observations, including all363 name-order worker calls after the lease repair. Directory-file stops at a helper's16MiB logical-size guard before its original40,960,000-byte symlink fixture; two groups remain unrun. A byte-exact sparse copy with the unchanged16MiB allocation ceiling and a two-generation native preflight are prepared, not qualified. Peak scratch allocation was68,028,644 bytes; all owned output retired and recorded host backing length stayed unchanged. Full current x64, owner and release qualification remain pending. See [work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md).
+Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is routine; Codex is an emergency spare. Exact source `c667318e` passes all 18 private Win32 groups, 12 headers and nine executable/import observations, including all 551 directory-file calls, the lease ACL regression and two-generation byte-exact sparse-symlink preparation. Peak scratch allocation was 72,967,178 bytes; all owned guest output retired and recorded host backing length stayed unchanged. The verified archive is 1,131,348 bytes. Full current x64, owner and release qualification remain pending. Merge and push tested, agent-reviewed checkpoints from `dev` to `main` promptly after their applicable gates pass. See [work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md).
 
 ## Storage recovery
 
@@ -34,9 +34,11 @@ Status: the full all-platform/storage0.1.0 goal remains incomplete. Agents is ro
 - [x] Build the actual pinned private Win32 fixture in the guest:12 header objects,
   nine executable/security/import observations and the complete86-call file group.
   Preserve the name-order cap failure and its compact raw evidence.
-- [ ] Qualify all18 private Win32 groups with complete case inventories and bounded
-  per-call retention, then the current all-target x64 product/178-group gate.
-  Compiler probes and a passing first group do not substitute for either gate.
+- [x] Qualify all18 private Win32 groups at `c667318e`, with complete case inventories,
+  bounded per-call retention and verified owned cleanup. This is a private slice.
+- [ ] Complete the current all-target x64 product/178-group gate. Preserve the
+  protected user-only product ACLs; qualify the required ordinary confined test
+  profile and finish migrating old fixture routes into managed scratch first.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
   a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
   the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build

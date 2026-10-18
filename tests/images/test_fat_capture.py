@@ -7,9 +7,10 @@ import os
 import struct
 import subprocess
 import sys
-import tempfile
 import unittest
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'property'))
 from test_fat import boot, packed, MASKS
@@ -245,9 +246,9 @@ class FatCaptureTests(unittest.TestCase):
 
     def test_real_file_reread_and_metadata_faults_do_not_qualify_stability(self):
         self.assertIsNotNone(FAULT_PROBE)
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parents[2]))
-        with tempfile.TemporaryDirectory(prefix='fatfault-',dir=root) as folder:
+        root=fixture_parent()
+        self.assertTrue(root.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve()))
+        with managed_directory(prefix='fatfault-') as folder:
             self.assertTrue(Path(folder).resolve().is_relative_to(root.resolve()))
             fixture=Volume();path=Path(folder)/'source.img';fixture.write(path)
             request=dict(op='file',path=str(path),offset='0',length=str(fixture.length),copy='0')
@@ -260,9 +261,9 @@ class FatCaptureTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),before)
 
     def test_ordinary_image_capture_and_preservation(self):
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parents[2]))
-        with tempfile.TemporaryDirectory(prefix='fatvol-',dir=root) as folder:
+        root=fixture_parent()
+        self.assertTrue(root.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve()))
+        with managed_directory(prefix='fatvol-') as folder:
             self.assertTrue(Path(folder).resolve().is_relative_to(root.resolve()))
             for bits in (12,16,32):
                 fixture=Volume(bits,offset=512);fixture.chain([3]);fixture.directory([bytes(short(cluster=3,size=50))])
@@ -275,9 +276,9 @@ class FatCaptureTests(unittest.TestCase):
                 self.assertEqual([p.name for p in Path(folder).iterdir()], [f'{n}.img' for n in (12,16,32) if n<=bits])
 
     def test_ordinary_directory_and_hardlink_refusals(self):
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parents[2]))
-        with tempfile.TemporaryDirectory(prefix='fatbad-',dir=root) as folder:
+        root=fixture_parent()
+        self.assertTrue(root.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve()))
+        with managed_directory(prefix='fatbad-') as folder:
             self.assertTrue(Path(folder).resolve().is_relative_to(root.resolve()))
             request=dict(op='file',path=str(Path(folder)),offset='0',length='512',copy='0')
             self.assertIn('error',run([request])[0])

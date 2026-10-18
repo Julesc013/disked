@@ -6,7 +6,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import tempfile
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 import unittest
 
 import test_fat_capture as capture
@@ -257,8 +259,8 @@ class NamespaceTests(unittest.TestCase):
         for row in capture.run(invalid):self.assertIn('error',row)
 
     def test_ordinary_files_recapture_and_source_preservation(self):
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix='fatnames-',dir=root) as folder:
+        root=fixture_parent()
+        with managed_directory(prefix='fatnames-') as folder:
             for bits in (12,16,32):
                 volume=Volume(bits,offset=512);item=short();long,_=slots(code_units('Name.txt'),item)
                 volume.directory([long,bytes(item)])

@@ -3408,7 +3408,8 @@
       "depends_on": [
         "tests/corpus/partition_images.py",
         "tests/frontend/gui_fixture.py",
-        "tests/frontend/image_console_fixture.py"
+        "tests/frontend/image_console_fixture.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-102",
@@ -4727,7 +4728,8 @@
       "depends_on": [
         "spec/catalog/ordinary-file-path-profile.json",
         "tests/images/file_acquisition_probe.cpp",
-        "tests/frontend/image_file_capture_probe.cpp"
+        "tests/frontend/image_file_capture_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-036",
@@ -9104,7 +9106,9 @@
       "path": "tests/frontend/test_gpt_repair_command.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-104"
       ]
@@ -9771,7 +9775,8 @@
       "depends_on": [
         "spec/catalog/fat-capture-prototype.json",
         "tests/property/test_fat.py",
-        "tests/property/test_fat_directory.py"
+        "tests/property/test_fat_directory.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037"
@@ -9815,7 +9820,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/catalog/fat-allocation-scan-prototype.json",
-        "tests/images/test_fat_capture.py"
+        "tests/images/test_fat_capture.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -9878,7 +9884,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/catalog/fat-auxiliary-prototype.json",
-        "tests/images/test_fat_capture.py"
+        "tests/images/test_fat_capture.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -9986,7 +9993,8 @@
       "depends_on": [
         "spec/catalog/fat-namespace-prototype.json",
         "tests/images/test_fat_capture.py",
-        "tests/unit/fat_capture_probe.cpp"
+        "tests/unit/fat_capture_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -10377,7 +10385,8 @@
         "tests/images/test_fat_capture.py",
         "tests/images/test_fat_auxiliary.py",
         "tests/unit/fat_capture_probe.cpp",
-        "spec/catalog/fat-allocation-window-prototype.json"
+        "spec/catalog/fat-allocation-window-prototype.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -10684,7 +10693,9 @@
       "path": "tests/images/test_fat_content_file.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-037"
       ]
@@ -10746,7 +10757,9 @@
       "path": "tests/images/test_fat_extraction.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-036",
         "DE-037"

@@ -266,3 +266,23 @@ Four initial old x64 fixture routes now use a source-bound managed temporary
 parent instead of `.aide-local`. Their new ordinary/confined helper controls
 and archive retention tests are checked separately; wider fixture migration and
 the full current178-group x64 gate remain work.
+
+
+Attempt 20 at `c667318e` passes all 18 private Win32 groups, 12 standalone headers
+and nine executable/import observations. Directory-file completes all 551 calls;
+the actual normal/fault named-lease ACL method passes. Both 40,960,000-byte
+sparse-symlink preflight generations reproduce exact full source hashes and
+remove the former tail. Peak scratch allocation is 72,967,178 bytes; owned
+source/media/profiles are removed and the recorded backing-file length remains
+28,809,625,600 bytes. This is file length, not an allocated-space or compaction
+claim. The 1,131,348-byte archive binds 736,549,188 original bytes in 2,956 entries;
+`twentieth-review.json` records a fresh complete hash/size/completeness check.
+
+The current 178-group x64 gate remains required before main integration of the
+shared product changes. Six further FAT fixture scripts now route into managed
+scratch; their native behavior remains to be qualified in that suite. The
+ordinary-token candidate in `ordinary-token-expectations.json` is planned only.
+Keep protected user-only product records; do not add AppContainer ACEs to them
+to make the full suite pass. No full Win32 product, owner or release acceptance
+is claimed. Push dev checkpoints promptly and merge each verified checkpoint
+to main once its applicable gates pass, as the owner reiterated 2026-10-18.

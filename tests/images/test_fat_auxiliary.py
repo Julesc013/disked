@@ -4,8 +4,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 import struct
-import tempfile
 import unittest
 
 import test_fat_capture as capture
@@ -214,9 +216,9 @@ class AuxiliaryTests(unittest.TestCase):
         self.assertTrue(all(int(c['offset'])>=volume.offset for c in calls));self.assertEqual(value['volume_offset'],str(volume.offset))
 
     def test_ordinary_file_preservation_and_recapture_controls(self):
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parents[2]))
-        with tempfile.TemporaryDirectory(prefix='fataux-',dir=root) as folder:
+        root=fixture_parent()
+        self.assertTrue(root.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve()))
+        with managed_directory(prefix='fataux-') as folder:
             self.assertTrue(Path(folder).resolve().is_relative_to(root.resolve()))
             for bits in (12,16,32):
                 volume=MetadataVolume(bits,offset=512);path=Path(folder)/f'{bits}.img';volume.write(path)

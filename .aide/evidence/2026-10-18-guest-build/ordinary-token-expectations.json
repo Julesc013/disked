@@ -1,0 +1,40 @@
+{
+  "schema": "org.disked.development-experiment/1",
+  "status": "planned-not-implemented",
+  "work_id": "DE-W105",
+  "purpose": "Qualify an ordinary non-AppContainer test token while preserving production protected user-only record ACLs and the existing OS-enforced scratch boundary.",
+  "grant": "Existing owner grant for Windows10 guest development/testing and guest administration. Agents remains the sole routine coordinator; no guest Jules or routine Codex use.",
+  "selected_environment": {
+    "vm_name": "Windows 10",
+    "vm_id": "3ebbe558-91b9-435b-96e4-0c8199bd38ad",
+    "coordinator": "BLACKGLASS-HYPE\\Agents",
+    "initial_proof_mib": 32,
+    "normal_campaign_mib": 512,
+    "aggregate_disposable_bytes": 1073741824
+  },
+  "candidate": [
+    "Use a fresh owned temporary standard-user principal with an exact SID/nonce journal; no persistent extra administrator or change to shared accounts. Remove it only after all owned tokens/jobs have retired.",
+    "Authenticate only that owned account through a credential kept outside Git/logs. Do not reset Agents, Codex or Jules. No inherited host credential or network-only logon.",
+    "CreateRestrictedToken with DISABLE_MAX_PRIVILEGE and WRITE_RESTRICTED and the exact fresh user SID; do not use SANDBOX_INERT or broad restricting SIDs. Actual resulting token must be nonelevated/non-AppContainer and not an administrator.",
+    "The fresh user has no preexisting writable profile outside the cap. Keep TEMP/TMP/TMPDIR and all selected user-state roots inside owned scratch. No profile load or fallback is admitted without separate measured accounting.",
+    "Use the documented CreateProcessWithTokenW/STARTUPINFOEX path with existing guest coordinator privileges, an explicit handle list and private desktop. Do not grant new host or guest policy rights to make launch succeed.",
+    "Source is read-only to that principal; its own user SID grants writes only under the owned cap. Reads outside scratch remain limited by the ordinary user ACLs. Keep process/job/resource controls and explicit descendant retirement."
+  ],
+  "required_actual_controls": [
+    "Bind guest, coordinator, fresh principal, source, volume UUID/capacity and exact token properties before execution.",
+    "A protected exact-user-only record can be created, reopened, read and updated by the actual restricted child without adding a package/group ACE to product records.",
+    "An owned outside control that grants ordinary group write access rejects the restricted child write; source changes and other declared outside targets are denied. No write spillover after allocation failure.",
+    "Reach the32MiB hard filesystem limit and record actual allocation denial and remaining host/guest reserves; no quota/budget increase.",
+    "Demonstrate owned descendant interruption, zero surviving child handles/processes, source restoration, scratch/image/account/profile cleanup and preservation of unrelated work.",
+    "Only after this proof, run a representative actual native build/store journey. A successful primitive probe alone does not admit the full178-group composition."
+  ],
+  "not_claimed": [
+    "No implementation, account creation or native proof has occurred for this candidate.",
+    "No full product, AppContainer admission, cross-package worker budget, other OS or physical-device qualification."
+  ],
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken",
+    "https://learn.microsoft.com/en-us/windows/win32/secauthz/restricted-tokens",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"
+  ]
+}

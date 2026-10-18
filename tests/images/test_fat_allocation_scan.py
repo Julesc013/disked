@@ -4,7 +4,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import tempfile
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 import unittest
 
 import test_fat_capture as capture
@@ -205,9 +207,9 @@ class AllocationScanTests(unittest.TestCase):
         self.assertEqual(scan['allocated_without_observed_owner'],'1')
 
     def test_ordinary_files_and_recapture_faults(self):
-        root=Path(__file__).resolve().parents[2]/'.aide-local';root.mkdir(exist_ok=True)
-        self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parents[2]))
-        with tempfile.TemporaryDirectory(prefix='fatscan-',dir=root) as folder:
+        root=fixture_parent()
+        self.assertTrue(root.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve()))
+        with managed_directory(prefix='fatscan-') as folder:
             self.assertTrue(Path(folder).resolve().is_relative_to(root.resolve()))
             for bits in (12,16,32):
                 volume=Volume(bits,offset=512);volume.chain([3,4]);path=Path(folder)/f'{bits}.img';volume.write(path)
