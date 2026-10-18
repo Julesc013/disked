@@ -38,10 +38,21 @@ def main():
         source = None
     else:
         revision = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
+        context = json.loads((ROOT / '.aide-local/context/current/manifest.json').read_bytes())
+        if context['work_id'] != 'DE-W105' or context['git_head'] != revision:
+            raise ValueError('A verified context for this exact work revision is required')
+        bound = {row['path']:row for row in context['files']}
+        required = json.loads((HERE / 'expected.json').read_bytes())['required_qualification_inputs']
+        if any(name not in bound for name in required):
+            raise ValueError('A required qualification input is absent from task context')
+        selected = sorted(set(snapshot.selected_inputs(ROOT, 'DE-W105', revision=revision)) | set(required))
         # The product snapshot is immutable Git data; the coordinator may retain
         # observations alongside it without falsely calling its checkout clean.
-        source = snapshot.export(ROOT, snapshot.selected_inputs(ROOT, 'DE-W105', revision=revision),
+        source = snapshot.export(ROOT, selected,
                                  work / 'source-export', work, revision=revision)
+        exported = {row['path']:row for row in source['files']}
+        if any('sha256:'+exported[name]['sha256'] != bound[name]['sha256'] for name in required):
+            raise ValueError('Qualification Git blobs differ from their bound context')
     stage = work / 'guest-bootstrap'
     stage.mkdir()
     shutil.copyfile(work / 'source-export/source.pack', stage / 'source.pack')

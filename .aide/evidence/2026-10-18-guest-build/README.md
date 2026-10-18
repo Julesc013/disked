@@ -182,3 +182,30 @@ code. The current bounded recipe/streaming-retention check also verified all14
 retained guest archives against their recorded per-entry hashes. The next native
 run must evaluate the new method matrix, raw-call receipts and shared prepared
 symlink helper; specification and metadata passes do not substitute for it.
+
+Attempt16 at08e538e4 passed the first native group and verified273 retained raw
+files (1,785,343 bytes), all12 actual standalone-header object hashes and nine
+PE32/security/import observations. The name-order file group retained208 calls
+before a dense fixture extension hit the512MiB scratch cap; its9 methods had
+one error. Work reached509,154,356 allocated file bytes. The failure stayed in
+the capped filesystem, the shared backing length did not grow in this run, and
+all owned image/source/input/profile output retired. Its317MB of raw evidence
+compresses to288,904 bytes; no executable/object/image copy is retained.
+
+The next recipe streams only closed request/reply/stderr files named by complete
+published harness receipts into the existing compressed archive. It validates
+exact group containment, plain single-link files and original hashes before
+removal; unpublished output stays. Final receipt parsing is strict, duplicate
+publication cannot duplicate archive members, and no live-group sharing retry
+is added. Eight coordinator tests cover exact recovery, publication boundaries,
+changed bytes and outside paths. All original name-order recipes and expectation
+hashes remain unchanged. Small fixtures now use the same sparse logical-EOF
+method as large fixtures, preserving logical bytes and all original assertions.
+Both small and high-offset allocation/data/hole/removal preflights are required.
+
+A read-only export audit also found two qualification expectation files already
+bound in DE-W105 context but absent from the thin build export. The recipe now
+explicitly adds all four required expectation files, matches their immutable Git
+blob hashes to the source-bound context, and admits936 selected files. This is
+a qualification-input repair; no expected result, native deadline or storage
+budget changes. The new streaming/small-fixture/export path needs native retest.

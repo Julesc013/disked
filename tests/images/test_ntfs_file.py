@@ -58,9 +58,6 @@ def prepared_symlink(source):
 
 
 def size_fixture(stream, size):
-    if size <= (1 << 32):
-        stream.truncate(size)
-        return
     # CRT-backed truncate can write zeros while extending. Set the logical EOF
     # directly on an explicitly sparse, newly created owned fixture instead.
     import msvcrt
@@ -82,8 +79,8 @@ def size_fixture(stream, size):
     stream.seek(0)
 
 
-def record_sparse_fixture(stream, size):
-    if size <= (1 << 32):
+def record_sparse_fixture(stream, size, *, all_sizes=False):
+    if size <= (1 << 32) and not all_sizes:
         return
     import msvcrt
     class Standard(ctypes.Structure):

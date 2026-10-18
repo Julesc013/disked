@@ -80,6 +80,55 @@ class Tests(unittest.TestCase):
         self.assertTrue(linked.exists())
         archive.close_verify()
 
+    def published(self):
+        stem='ntfs-a-cases'
+        receipt={}
+        for role,key in (('request','input'),('response','output'),('stderr','stderr')):
+            path=self.work/(stem+'-'+role+'-0.json')
+            path.write_bytes((role+' exact bytes\r\n').encode())
+            receipt['raw_'+('input' if role=='request' else 'output' if role=='response' else role)]=str(path)
+            receipt[key+'_sha256']='sha256:'+driver.sha(path)
+        publication=self.work/(stem+'-raw-receipts.json')
+        publication.write_text(json.dumps([receipt]))
+        return stem,receipt,publication
+
+    def test_only_published_closed_outputs_stream_and_roundtrip(self):
+        stem,receipt,publication=self.published()
+        pending=self.work/(stem+'-response-1.json');pending.write_bytes(b'not yet published')
+        archive=driver.Observations(self.work/'observations.tar.xz')
+        rows=driver.drain_completed_outputs(archive,self.work,stem)
+        self.assertEqual(len(rows),3)
+        self.assertTrue(pending.exists() and publication.exists())
+        self.assertEqual(driver.drain_completed_outputs(archive,self.work,stem),[])
+        archive.close_verify()
+        with tarfile.open(archive.path,'r:xz') as reader:
+            for role in ('input','output','stderr'):
+                path=Path(receipt['raw_'+role])
+                raw=reader.extractfile('cases/'+path.name).read()
+                self.assertEqual('sha256:'+driver.hashlib.sha256(raw).hexdigest(),receipt[('input' if role=='input' else 'output' if role=='output' else role)+'_sha256'])
+
+    def test_partial_receipt_is_deferred_only_while_producer_is_live(self):
+        stem,receipt,publication=self.published()
+        publication.write_text('[{')
+        archive=driver.Observations(self.work/'observations.tar.xz')
+        self.assertEqual(driver.drain_completed_outputs(archive,self.work,stem),[])
+        with self.assertRaises(json.JSONDecodeError):driver.drain_completed_outputs(archive,self.work,stem,final=True)
+        self.assertTrue(Path(receipt['raw_input']).exists())
+        archive.close_verify()
+
+    def test_receipt_cannot_escape_or_replace_published_bytes(self):
+        stem,receipt,publication=self.published()
+        archive=driver.Observations(self.work/'observations.tar.xz')
+        outside=WORK/'other-project';outside.write_bytes(b'preserve')
+        receipt['raw_input']=str(outside);publication.write_text(json.dumps([receipt]))
+        with self.assertRaisesRegex(RuntimeError,'outside'):driver.drain_completed_outputs(archive,self.work,stem)
+        self.assertEqual(outside.read_bytes(),b'preserve')
+        receipt['raw_input']=str(self.work/(stem+'-request-0.json'));receipt['input_sha256']='sha256:'+'0'*64
+        publication.write_text(json.dumps([receipt]))
+        with self.assertRaisesRegex(RuntimeError,'differs'):driver.drain_completed_outputs(archive,self.work,stem)
+        self.assertTrue(Path(receipt['raw_input']).exists())
+        archive.close_verify()
+
 stream = io.StringIO()
 result = unittest.TextTestRunner(stream=stream,verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
 record = dict(status='pass' if result.wasSuccessful() else 'fail',tests_run=result.testsRun,

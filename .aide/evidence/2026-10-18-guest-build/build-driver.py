@@ -66,6 +66,48 @@ def retain_test_outputs(archive, directory, stem):
     return rows
 
 
+def drain_completed_outputs(archive, directory, stem, *, final=False):
+    """Archive closed per-call files named by the harness's published receipts."""
+    receipt_path = directory / (stem+'-raw-receipts.json')
+    if not receipt_path.exists():
+        return []
+    publication = receipt_path.lstat()
+    if not stat.S_ISREG(publication.st_mode) or getattr(publication,'st_file_attributes',0) & 0x400 or publication.st_nlink != 1:
+        raise RuntimeError('Raw receipt publication is not a plain owned file')
+    if publication.st_size > 1048576:
+        raise RuntimeError('Raw receipt list exceeds its declared bound')
+    try:
+        receipts = json.loads(receipt_path.read_bytes())
+    except json.JSONDecodeError:
+        if final:
+            raise
+        return []  # A live writer has not published its complete JSON yet.
+    rows = []
+    for receipt in receipts:
+        for path_key,hash_key in (('raw_input','input_sha256'),('raw_output','output_sha256'),('raw_stderr','stderr_sha256')):
+            path = Path(receipt[path_key])
+            if path.parent != directory or not path.name.startswith(stem+'-'):
+                raise RuntimeError('Raw receipt names an output outside its selected group')
+            member = 'cases/'+path.name
+            expected = receipt[hash_key].removeprefix('sha256:')
+            if member in archive.entries:
+                if archive.entries[member]['sha256'] != expected:
+                    raise RuntimeError('Published raw receipt changed after archival')
+                continue
+            info = path.lstat()
+            if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0) & 0x400 or info.st_nlink != 1:
+                raise RuntimeError('Raw receipt does not name a plain owned output')
+            with path.open('rb') as stream:
+                if hashlib.file_digest(stream,'sha256').hexdigest() != expected:
+                    raise RuntimeError('Published raw output differs from its receipt')
+            archive.write(path,member)
+            # Receipt publication follows write_bytes/close and communicate.
+            # Do not apply the job-retirement retry policy to a live group.
+            path.unlink()
+            rows.append(dict(name=path.name,bytes=info.st_size))
+    return rows
+
+
 class Observations:
     def __init__(self, path):
         self.path, self.entries = path, {}
@@ -157,6 +199,16 @@ def main():
         cmake = 'C:/Program Files/CMake/bin/cmake.exe'
         ctest = 'C:/Program Files/CMake/bin/ctest.exe'
         python = sys.executable
+        active_output_stem = None
+
+        def drain(final=False):
+            if active_output_stem not in ('ntfs-name-order-file-cases','ntfs-name-order-worker-cases'):
+                return
+            rows = drain_completed_outputs(archive,work / 'win32-build',active_output_stem,final=final)
+            if rows:
+                totals = result.setdefault('streamed_outputs',{}).setdefault(active_output_stem,dict(files=0,uncompressed_bytes=0))
+                totals['files'] += len(rows)
+                totals['uncompressed_bytes'] += sum(row['bytes'] for row in rows)
 
         def budget():
             s.check(SOURCE)
@@ -182,6 +234,7 @@ def main():
                 pid = child.pid
                 deadline = started + timeout
                 while child.poll() is None:
+                    drain()
                     budget()
                     if (work / 'worker.log').stat().st_size > 524288:
                         raise s.StorageLimit('Native command log exceeds bounded retention')
@@ -189,6 +242,7 @@ def main():
                         raise TimeoutError('Native phase deadline reached: ' + label)
                     time.sleep(.1)
                 code = child.wait()
+                drain(final=True)
                 raw = (work / 'worker.log').read_bytes()
                 if len(raw) > 524288:
                     raise s.StorageLimit('Native command output exceeds bound')
@@ -313,7 +367,15 @@ with temporary_directory(prefix='disked-sparse-preflight-') as directory:
     with target.open('rb') as stream:
         assert stream.read(64)==bytes(64);stream.seek(offset);assert stream.read(22)==b'owned high-offset data'
     assert target.stat().st_size==offset+4096
-assert not target.exists()
+    small=pathlib.Path(directory)/'small.img'
+    with small.open('xb') as stream:
+        size_fixture(stream,8*1024*1024);stream.seek(4096);stream.write(b'owned small data')
+        record_sparse_fixture(stream,8*1024*1024,all_sizes=True)
+    assert small.stat().st_file_attributes & 0x200
+    assert SPARSE_OBSERVATIONS[-1]['allocated_bytes']<=65536
+    with small.open('rb') as stream:
+        assert stream.read(64)==bytes(64);stream.seek(4096);assert stream.read(16)==b'owned small data'
+assert not target.exists() and not small.exists()
 print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
 '''
         run('fixture-sparse-preflight', [python, '-B', '-c', sparse_preflight, SOURCE / 'tests', SOURCE / 'tests/images'], timeout=30)
@@ -389,6 +451,7 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
                 raise RuntimeError('Native group ordering changed the required set')
             for test in ordered_tests:
                 stem = 'ntfs-' + test.removeprefix('image.ntfs_').replace('_', '-') + '-cases'
+                active_output_stem = stem
                 code, _ = run('test-' + test, [ctest, '--test-dir', work / 'win32-build', '-C', 'Release',
                                              '-R', '^'+re.escape(test)+'$', '--output-on-failure', '--output-junit',
                                              work / 'test.xml'], timeout=300, allow_failure=True)
