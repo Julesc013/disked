@@ -1,0 +1,23 @@
+{
+  "schema": "org.disked.actual-source-snapshot-qualification/1",
+  "status": "fail",
+  "observed_at": "2026-10-18T05:56:48.911760+00:00",
+  "helper_sha256": "4c280af125a845830d5f5ddc492babe86adca394bc8254915d806acdd42d3ac2",
+  "product_build_run": false,
+  "guest_run": false,
+  "previous_attempt": {
+    "exit_code": 1,
+    "workspace_removed": true,
+    "raw_diagnostic_retained": false
+  },
+  "source_revision": "5a66bed951bda0a7e263730b47580cc6ae629328",
+  "source_files": 931,
+  "source_content_bytes": 12303264,
+  "pack_bytes": 3873896,
+  "pack_sha256": "1cacb46c115ce77e31b600d1d95b879a3a747578a02f46692b771f94698e9c5d",
+  "git_objects": 3250,
+  "error": "Materialized source differs from its exact Git blob: .gitignore",
+  "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 11, in <module>\n    receipt['materialization']=module.materialize(work/'source-export/source.pack',manifest,work/'checkout')\n                               ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-18-guest-native\\source-snapshot.py\", line 154, in materialize\n    raise ValueError('Materialized source differs from its exact Git blob: ' + entry['path'])\nValueError: Materialized source differs from its exact Git blob: .gitignore\n",
+  "manifest_archive_sha256": "e22399c61d31c45481babc445a607618ea5ef84ab71a438978f716273b2e4102",
+  "manifest_archive_bytes": 62732
+}
