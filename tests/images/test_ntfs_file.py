@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -21,6 +22,39 @@ RECEIPTS = []
 UNVERIFIED = []
 BINDING_OBSERVATIONS = []
 SPARSE_OBSERVATIONS = []
+CASE_COUNTS = {}
+RAW_STEM = None
+RAW_OBSERVATIONS = []
+
+
+class ReceiptResult(unittest.TextTestResult):
+    def startTest(self, test):
+        self.receipt_start = len(RECEIPTS)
+        super().startTest(test)
+
+    def stopTest(self, test):
+        CASE_COUNTS[test._testMethodName] = len(RECEIPTS) - self.receipt_start
+        super().stopTest(test)
+
+
+def prepared_symlink(source):
+    value = os.environ.get('DISKED_TEST_SYMLINK_ROOT')
+    if not value:
+        return None
+    work = Path(os.environ['DISKED_WORK_ROOT'])
+    root = Path(value)
+    assert root.is_absolute() and root == work / 'symlink-fixture'
+    for path in (root,*root.parents):
+        assert not path.is_symlink() and not path.lstat().st_file_attributes & 0x400
+    target,link = root / 'source.img',root / 'leaf.img'
+    assert link.is_symlink() and link.resolve() == target
+    info = target.lstat()
+    assert not info.st_file_attributes & 0x400 and info.st_nlink == 1
+    assert source.stat().st_size <= 16 * 1024 * 1024
+    before = file_digest(source)
+    shutil.copyfile(source,target)
+    assert file_digest(source) == before == file_digest(target)
+    return target,link
 
 
 def size_fixture(stream, size):
@@ -82,24 +116,46 @@ def file_digest(path):
     return 'sha256:' + sha.hexdigest()
 
 
+def retain_raw(request, stdout, stderr, process, *, timed_out=False):
+    if RAW_STEM is None:
+        return None
+    stem = RAW_STEM.with_name(RAW_STEM.name + '-call-' + str(len(RAW_OBSERVATIONS)).zfill(4))
+    record = dict(pid=process.pid,created=None,exit_code=process.returncode,timed_out=timed_out,files={})
+    for suffix,raw in (('request',request),('reply',stdout),('stderr',stderr)):
+        path=stem.with_name(stem.name+'.'+suffix+'.bin')
+        with path.open('xb') as stream:stream.write(raw)
+        record['files'][suffix]=dict(path=path.name,bytes=len(raw),sha256=digest(raw))
+    metadata=stem.with_name(stem.name+'.process.json')
+    with metadata.open('x',encoding='utf-8',newline='\n') as stream:json.dump(record,stream,sort_keys=True)
+    RAW_OBSERVATIONS.append(record)
+    return record,metadata
+
+
 def run(rows, fault=False, env=None, capture=None):
     process = subprocess.Popen([str(FAULT if fault else PROBE)], stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    request = canonical(rows)
     try:
-        stdout, stderr = process.communicate(canonical(rows), timeout=100)
+        stdout, stderr = process.communicate(request, timeout=100)
     except subprocess.TimeoutExpired:
         process.kill()
         stdout, stderr = process.communicate()
+        retain_raw(request,stdout,stderr,process,timed_out=True)
         raise
-    assert process.returncode == 0 and not stderr, (process.returncode, stderr[:2000])
-    values = json.loads(stdout)
-    assert len(values) == len(rows)
+    retained = retain_raw(request,stdout,stderr,process)
     times = [wintypes.FILETIME() for _ in range(4)]
     get_times = ctypes.windll.kernel32.GetProcessTimes
     get_times.argtypes = [wintypes.HANDLE] + [ctypes.POINTER(wintypes.FILETIME)]*4
     get_times.restype = wintypes.BOOL
     assert get_times(int(process._handle), *(ctypes.byref(t) for t in times))
     created = (times[0].dwHighDateTime << 32) | times[0].dwLowDateTime
+    if retained:
+        record,metadata = retained
+        record['created']=str(created)
+        metadata.write_text(json.dumps(record,sort_keys=True)+'\n',encoding='utf-8',newline='\n')
+    assert process.returncode == 0 and not stderr, (process.returncode, stderr[:2000])
+    values = json.loads(stdout)
+    assert len(values) == len(rows)
     if capture is not None:
         capture.append(dict(input_hex=canonical(rows).hex(),output_hex=stdout.hex(),stderr_hex=stderr.hex(),
                             process_id=process.pid,process_created=str(created),exit_code=process.returncode))
@@ -314,20 +370,9 @@ class Tests(unittest.TestCase):
                 self.assertEqual(self.preserve(moved,[self.row(v,junction)])[0]['refusal'],'image_reparse_source')
             finally:os.rmdir(junction)
         link=self.root/'leaf.img'
-        prepared = os.environ.get('DISKED_TEST_SYMLINK_ROOT')
+        prepared = prepared_symlink(moved)
         if prepared:
-            root = Path(prepared)
-            self.assertTrue(root.is_absolute() and root.is_relative_to(Path(os.environ['DISKED_WORK_ROOT'])))
-            self.assertEqual(root,Path(os.environ['DISKED_WORK_ROOT'])/'symlink-fixture')
-            target,link = root/'source.img',root/'leaf.img'
-            self.assertTrue(link.is_symlink())
-            self.assertEqual(link.resolve(),target)
-            self.assertFalse(target.is_symlink())
-            self.assertEqual(target.stat().st_size,int(v.input['source_bytes']))
-            with target.open('rb') as stream:
-                for region in v.input['regions']:
-                    raw=bytes.fromhex(region['hex']);stream.seek(int(region['offset']))
-                    self.assertEqual(stream.read(len(raw)),raw)
+            target,link = prepared
             self.assertEqual(self.preserve(target,[self.row(v,link)])[0]['refusal'],'image_reparse_source')
             return
         try:os.symlink(moved,link)
@@ -398,15 +443,18 @@ class Tests(unittest.TestCase):
 
 
 def main():
-    global PROBE,FAULT
+    global PROBE,FAULT,RAW_STEM
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--probe',type=Path,required=True);parser.add_argument('--fault',type=Path,required=True)
     parser.add_argument('--output',type=Path);args=parser.parse_args()
     PROBE=args.probe.resolve();FAULT=args.fault.resolve()
-    result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
+    RAW_STEM=args.output.with_suffix('') if args.output else None
+    result=unittest.TextTestRunner(verbosity=2,resultclass=ReceiptResult).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
     summary=dict(cases=len(RECEIPTS),methods=result.testsRun,failures=len(result.failures),errors=len(result.errors),
                  receipts=RECEIPTS,unverified=UNVERIFIED,path_binding=BINDING_OBSERVATIONS,
                  sparse_fixtures=SPARSE_OBSERVATIONS,
+                 case_counts=CASE_COUNTS,
+                 raw_observations=RAW_OBSERVATIONS,
                  scope='Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission.')
     if args.output:args.output.write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(0 if result.wasSuccessful() else 1)

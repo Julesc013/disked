@@ -31,9 +31,9 @@
   "owner_accepted": false,
   "release_qualified": false,
   "local_file_binding": {
-    "original_file_cases": 79,
+    "original_file_cases": 80,
     "additional_binding_rows": 6,
-    "total_file_cases": 85,
+    "total_file_cases": 86,
     "rows": {
       "exact": true,
       "case_variant": true,
@@ -42,8 +42,39 @@
       "wrong_root": false,
       "other_volume_same_suffix": false
     },
-    "data_reads": 0
+    "data_reads": 0,
+    "historical_completed_file_cases": 79,
+    "historical_unverified_symlink_cases": 1
   },
   "sparse_fixture_maximum_allocation_bytes": 16777216,
-  "original_high_offset_fixture_count": 2
+  "original_high_offset_fixture_count": 2,
+  "file_method_cases": {
+    "test_actual_profile_geometry_mapping_and_release": 14,
+    "test_actual_source_bound_record_closures": 6,
+    "test_profile_mismatch_unknown_and_no_native_retry": 3,
+    "test_actual_native_offset_over4GiB": 1,
+    "test_expected_source_context_and_snapshot_before_callbacks": 6,
+    "test_paths_windows_aliases_and_pre_read_refusals": 17,
+    "test_native_prefix_failures_and_sticky_cancellation": 19,
+    "test_metadata_profile_and_replay_disagreements": 12,
+    "test_held_native_access_and_release": 1,
+    "test_normal_ignores_fault_protocol": 1,
+    "test_normalized_binding_keeps_full_name_and_volume": 6
+  },
+  "fixed_group_cases": {
+    "image.ntfs_file": 86,
+    "image.ntfs_directory_file": 551,
+    "image.ntfs_membership_file": 496,
+    "image.ntfs_membership_worker": 310,
+    "image.ntfs_membership": 193,
+    "image.ntfs_names": 247,
+    "image.ntfs_directory": 227,
+    "image.ntfs_capture": 155,
+    "image.ntfs_stream": 298,
+    "image.ntfs_closure": 134,
+    "image.ntfs_directory_worker": 235,
+    "image.ntfs_upcase_capture": 158,
+    "image.ntfs_name_order": 172
+  },
+  "inventory_correction": "Historical79/550 file/directory-file receipts each record one unavailable symlink. Full unchanged old tests require80/551 calls when that case actually runs. New file binding adds six calls to80=86. Counts are derived per method from existing loops; no original assertion is removed."
 }

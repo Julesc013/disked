@@ -151,3 +151,34 @@ prepares one bounded source and actual symlink; the same non-elevated product
 probe must reject it. Worker privileges, original fixture bytes/cases, all18
 groups and per-test deadlines remain unchanged. This fixture repair is not yet
 natively evaluated.
+
+Attempt 15 at aa0445e1 passed the actual sparse preflight, Win32 compilation,
+all nine executable/security/import observations, and the first native group:
+11 methods/86 calls, no errors, failures or unavailable checks. The campaign
+then correctly stopped at its incorrect85-count guard; the remaining17 groups
+did not run. The image, package profiles, source and transferred inputs retired.
+The fixed scratch work peaked at154,486,378 allocated file bytes; the fixed image
+remained512MiB, and recorded shared backing length did not grow in this run.
+
+Inventory review independently expands the existing ten method loops to80
+original calls. Hash-verified historical file and directory-file summaries show
+79/550 completed calls and one explicitly unavailable symlink each. Keeping
+those real checks gives80/551; adding six binding rows gives86. The new required
+method matrix preserves every old call and strengthens the prior aggregate
+guard. Historical records stay unchanged. The directory test reuses the owned
+prepared symlink after copying and hashing its exact small generated source,
+without granting worker symlink-creation privilege.
+
+The base file recipe now retains exact per-process stdin/stdout/stderr and
+process identity before result assertions, including failed/timed-out replies.
+Other groups keep their existing retained recipes. This new retention path, the
+method matrix and the directory symlink setup still need native evaluation.
+
+The corrected contract passed253 specification tests in435.415 seconds with two
+expected skips, structural checks and the refreshed manifest. Host GCC performed
+syntax-only C90 checks for current portable NTFS sources/two standalone C
+headers; source-map validation passed. These checks execute no DiskEd or media
+code. The current bounded recipe/streaming-retention check also verified all14
+retained guest archives against their recorded per-entry hashes. The next native
+run must evaluate the new method matrix, raw-call receipts and shared prepared
+symlink helper; specification and metadata passes do not substitute for it.

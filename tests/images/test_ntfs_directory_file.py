@@ -273,6 +273,11 @@ class Tests(unittest.TestCase):
                 self.assertTrue(all(value['refusal']=='image_reparse_source' for value in values))
             finally:os.rmdir(junction)
         symlink=self.root/'leaf.img'
+        prepared = held.prepared_symlink(moved)
+        if prepared:
+            source,symlink = prepared
+            self.assertEqual(self.preserve(source,[self.row(v,symlink)])[0]['refusal'],'image_reparse_source')
+            return
         try:os.symlink(moved,symlink)
         except OSError as error:held.UNVERIFIED.append(dict(check='actual-file-symlink',reason=str(error)))
         else:

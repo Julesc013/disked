@@ -326,24 +326,16 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
         elif mode == 'win32':
             # Creating a symlink needs a guest setup privilege; reading/refusing
             # it remains a test of the actual unprivileged native executable.
-            sys.path.insert(0,str(SOURCE / 'tests/images'))
-            from test_ntfs_capture import Volume
-            volume = Volume()
             fixture_root = work / 'symlink-fixture'
             fixture_root.mkdir()
             target,link = fixture_root / 'source.img',fixture_root / 'leaf.img'
-            size = int(volume.input['source_bytes'])
-            if size > 16 * 1024 * 1024:
-                raise RuntimeError('Prepared symlink fixture exceeds its declared bound')
-            with target.open('xb') as stream:
-                stream.truncate(size)
-                for region in volume.input['regions']:
-                    stream.seek(int(region['offset']));stream.write(bytes.fromhex(region['hex']))
+            target.write_bytes(b'')
             os.symlink(target,link)
             if not link.is_symlink() or link.resolve() != target:
                 raise RuntimeError('Prepared symlink did not bind the owned source')
             archive.writestr('prepared-symlink.json',json.dumps(dict(source=str(target),link=str(link),
-                source_sha256=sha(target),source_bytes=size,created_by='guest Agents coordinator',
+                source_sha256=sha(target),source_bytes=0,source_population='bounded exact generated source copied by each test',
+                created_by='guest Agents coordinator',
                 native_consumer='non-elevated AppContainer')).encode())
             env['DISKED_TEST_SYMLINK_ROOT'] = str(fixture_root)
             run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
@@ -372,6 +364,10 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
                                    '-T', 'v143,version=14.44.35207,host=x64', '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0',
                                    '-DCMAKE_SYSTEM_VERSION=10.0.19041.0', '-DPython3_EXECUTABLE=' + python])
             run('build-win32', [cmake, '--build', work / 'win32-build', '--config', 'Release', '--parallel', '1'], timeout=900)
+            header_objects = sorted((work / 'win32-build/ntfs_fixture_headers.dir/Release').glob('*.obj'))
+            if len(header_objects) != 12:
+                raise RuntimeError('Twelve compiled standalone header objects were not observed')
+            result['header_artifacts'] = [dict(path=p.relative_to(work).as_posix(),bytes=p.stat().st_size,sha256=sha(p)) for p in header_objects]
             binary_root = Path('C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86')
             for name in fixture['executable_targets']:
                 path = work / 'win32-build/Release' / (name + '.exe')
@@ -416,10 +412,46 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
                 if summary and (summary.get('unverified') or summary.get('skipped')):
                     raise RuntimeError('Native group has unverified/skipped checks: ' + test)
                 if test == 'image.ntfs_file':
-                    if not summary or summary['cases'] != 85 or len(summary.get('path_binding',[])) != 1:
-                        raise RuntimeError('Original79 plus six binding rows were not all evaluated')
+                    expected_counts = json.loads((ROOT / 'expected.json').read_bytes())['file_method_cases']
+                    if not summary or summary['cases'] != sum(expected_counts.values()) or summary.get('case_counts') != expected_counts:
+                        raise RuntimeError('Complete original and added file cases did not match their independent method matrix')
+                    if len(summary.get('path_binding',[])) != 1:
+                        raise RuntimeError('Six binding rows were not evaluated')
                     if len(summary.get('sparse_fixtures',[])) != 2:
                         raise RuntimeError('Both original high-offset sparse fixtures must be observed')
+                    raw_calls = summary.get('raw_observations',[])
+                    if not raw_calls:
+                        raise RuntimeError('Raw file-probe observations were not retained')
+                    for call in raw_calls:
+                        if call['exit_code'] != 0 or call['timed_out'] or not call['created'] or int(call['created']) <= 0:
+                            raise RuntimeError('File-probe process identity/outcome was not established')
+                        for item in call['files'].values():
+                            if archive.entries.get('cases/'+item['path']) != {'bytes':item['bytes'],'sha256':item['sha256'].removeprefix('sha256:')}:
+                                raise RuntimeError('Raw file-probe bytes do not match their observation receipt')
+                expected_count = json.loads((ROOT / 'expected.json').read_bytes())['fixed_group_cases'].get(test)
+                if expected_count is not None:
+                    count = summary.get('count',summary.get('cases')) if summary else None
+                    if (len(count) if isinstance(count,list) else count) != expected_count:
+                        raise RuntimeError('Original required case inventory changed: ' + test)
+                if test in ('image.ntfs_upcase_capture','image.ntfs_name_order'):
+                    suffix = 'ntfs-upcase-capture/expected-after-binding-review.json' if test.endswith('upcase_capture') else 'ntfs-name-order/expected-after-fixture-review.json'
+                    expected = json.loads((SOURCE / ('.aide/evidence/2026-10-17-'+suffix)).read_bytes())
+                    if summary.get('status') != 'pass' or any(summary.get(key) != expected[key] for key in ('recipe_sha256','expected_cases_sha256')):
+                        raise RuntimeError('Predeclared pure case identities changed: ' + test)
+                for family,methods in (('upcase',{'file':8,'worker':10}),('name_order',{'file':9,'worker':10})):
+                    mode = test.removeprefix('image.ntfs_'+family+'_')
+                    if mode not in methods or test != 'image.ntfs_'+family+'_'+mode:
+                        continue
+                    folder = 'ntfs-upcase-command/expected-after-startup-review.json' if family == 'upcase' else 'ntfs-name-order-command/expected-after-binding-review.json'
+                    expected = json.loads((SOURCE / ('.aide/evidence/2026-10-17-'+folder)).read_bytes())
+                    recipe = 'tests/images/test_ntfs_'+family+'_'+mode+'.py'
+                    if summary.get('status') != 'pass' or summary.get('methods') != methods[mode] or summary.get('recipe_sha256') != expected['recipes'][recipe]:
+                        raise RuntimeError('Original native method/recipe identity changed: ' + test)
+                    for receipt in summary['source_receipts']:
+                        if receipt['before_sha256'] != receipt['after_sha256'] or (family == 'name_order' and receipt['before_bytes'] != receipt['after_bytes']):
+                            raise RuntimeError('Generated source changed: ' + test)
+                    if family == 'name_order' and summary['helper_sha256'] != expected['recipes']['tests/images/ntfs_name_order_native_expectations.py']:
+                        raise RuntimeError('Original native expectation helper changed: ' + test)
         else:
             raise RuntimeError('Unknown guest campaign execution kind')
         result['status'] = 'pass'
