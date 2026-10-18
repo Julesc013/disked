@@ -95,6 +95,10 @@ def main():
     if not report.exists():
         raise RuntimeError('No campaign receipt; inspect guest before attempting another run')
     result = json.loads(report.read_bytes())
+    result['template_native_product_tests_run'] = result.get('native_product_tests_run', False)
+    commands = (result.get('guest', {}).get('proof') or {}).get('commands', [])
+    result['native_product_tests_run'] = any(c['label'].startswith('test-') for c in commands)
+    result['native_product_build_run'] = any(c['label'] == 'build-win32' for c in commands)
     result['exact_source'] = {key: source[key] for key in ('revision', 'content_bytes', 'pack_bytes', 'pack_sha256', 'git_objects')}
     result['generated_input_sha256'] = bindings
     result['host_exit_code'] = outcome.returncode

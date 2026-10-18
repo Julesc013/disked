@@ -202,7 +202,7 @@ assert e.value==0 and c.value==1 and denied
         _, raw = run('source-confinement', [python, '-B', '-c', probe, SOURCE / 'forbidden-write'])
         result['source_confinement'] = json.loads(raw.decode().splitlines()[-1])
         run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
-                             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools', '-DPython3_EXECUTABLE=' + python,
+                             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
                              '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
         run('fixture', [python, '-B', SOURCE / 'tools/ntfs-win32-fixture.py', '--root', SOURCE,
                         '--build', work / 'build', '--output', work / 'win32-fixture'])
@@ -214,7 +214,7 @@ assert e.value==0 and c.value==1 and denied
                              'executable_targets': fixture['executable_targets']}
         run('configure-win32', [cmake, '-S', work / 'win32-fixture', '-B', work / 'win32-build',
                                '-G', 'Visual Studio 17 2022', '-A', 'Win32,version=10.0.19041.0',
-                               '-T', 'v143,version=14.44.35207,host=x64', '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools',
+                               '-T', 'v143,version=14.44.35207,host=x64', '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0',
                                '-DCMAKE_SYSTEM_VERSION=10.0.19041.0', '-DPython3_EXECUTABLE=' + python])
         run('build-win32', [cmake, '--build', work / 'win32-build', '--config', 'Release', '--parallel', '1'], timeout=900)
         binary_root = Path('C:/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86')
