@@ -1,0 +1,174 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "099b3fc076dfdf34758c8662a710d3d40dd0993c",
+  "spec_manifest_digest": "sha256:57a7b338c2a00c2e3a951afb709910891da3450a7e78576fd871a4ee554bd98b",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/bundle.json",
+    "spec/work/units.json",
+    "spec/references/sources.json",
+    "spec/development/testing-and-ci.md",
+    "spec/storage/windows.md",
+    "spec/interaction/native-integration.md",
+    "spec/roadmap/implementation.md",
+    "tests/differential/compare.py",
+    "tests/differential/test_adapters.py",
+    "tests/differential/run_wsl_campaign.py",
+    "tests/differential/CONTRACT.md",
+    "tests/differential/README.md",
+    "source/platform/windows/worker_files.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-build/README.md",
+    ".aide/evidence/2026-10-18-guest-build/build-driver.py",
+    ".aide/evidence/2026-10-18-guest-build/campaign.py",
+    ".aide/evidence/2026-10-18-guest-build/context-099b3fc0.json",
+    ".aide/evidence/2026-10-18-guest-build/eighteenth-object-acl-probe-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-build/eighteenth-object-acl-probe-observations.tar.xz",
+    ".aide/evidence/2026-10-18-guest-build/eighteenth-object-acl-probe.json",
+    ".aide/evidence/2026-10-18-guest-build/expected.json",
+    ".aide/evidence/2026-10-18-guest-build/lease-proposal-specification.json",
+    ".aide/evidence/2026-10-18-guest-build/lease-proposal-specification.json.xz",
+    ".aide/evidence/2026-10-18-guest-build/seventeenth-reader-startup-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-build/seventeenth-reader-startup-observations.tar.xz",
+    ".aide/evidence/2026-10-18-guest-build/seventeenth-reader-startup.json",
+    ".aide/evidence/2026-10-18-guest-build/specification-checks-08e538e4.json",
+    ".aide/evidence/2026-10-18-guest-build/specification-checks-08e538e4.json.xz",
+    ".aide/evidence/2026-10-18-guest-build/specification-checks.json",
+    ".aide/evidence/2026-10-18-guest-build/specification-checks.json.xz",
+    ".aide/evidence/2026-10-18-guest-build/worker-object-probe.py",
+    ".aide/evidence/2026-10-18-windows-reference-plan/README.md",
+    ".aide/evidence/2026-10-18-windows-reference-plan/review.json",
+    ".aide/evidence/2026-10-18-windows-reference-plan/review.py",
+    ".aide/evidence/2026-10-18-windows-reference-plan/specification-link-refusals.json.xz",
+    ".aide/evidence/2026-10-18-windows-reference-plan/validation.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/development-storage.md",
+    "docs/windows-reference.md",
+    "source/platform/windows/worker_files.h",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/worker-lease-prototype.json",
+    "spec/development/testing-and-ci.md",
+    "spec/generated/index.json",
+    "spec/interaction/native-integration.md",
+    "spec/manifest.json",
+    "spec/references/sources.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/windows.md",
+    "spec/work/units.json",
+    "tests/differential/CONTRACT.md",
+    "tests/differential/README.md",
+    "tests/images/ntfs_worker_probe.cpp",
+    "tests/images/test_ntfs_worker.py"
+  ],
+  "summary": "Incorporated supplied reference-method proposal as planned DE-W106/107 work, retained exact provenance and rechecked three comparator defects. Current DE-W105 stays active. Retained source099b3fc0 streamed campaign failure and separate ACL diagnostic; scoped worker lease descriptor repair and independent regression remain native-unqualified. Specification tooling passes253 with2 skips; source map covers327. Handoff created before the authorized dev checkpoint push; no main promotion, owner acceptance, REA installation or reference-app qualification.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-windows-reference-plan/review.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-reference-plan/review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-build/validate-specs.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-build/specification-checks.json"
+    },
+    {
+      "command": "python -B tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-reference-plan/validation.json"
+    },
+    {
+      "command": "Rebuild and run amended DE-W105 private Win32 and full current x64 gates",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/windows-reference.md",
+      "sha256": "sha256:f685c1047eded0f4db52ace17a145aed885c530f3272a85972c37cfbf8411ea3"
+    },
+    {
+      "path": "spec/development/testing-and-ci.md",
+      "sha256": "sha256:57ebfdf85dd8de9aa0f9b25421b1b8c0eba6340a537ae46a5f8729551824f4ba"
+    },
+    {
+      "path": "spec/storage/windows.md",
+      "sha256": "sha256:083339e5485c05c06f7bbbccd0b69a303d7b76f1b298a88c199769fb46c2a063"
+    },
+    {
+      "path": "spec/interaction/native-integration.md",
+      "sha256": "sha256:849dd3ebc3f3d3b203e508b22c9fe0c4ad22b9671c371e51f7ecd18c02351a3e"
+    },
+    {
+      "path": "spec/work/units.json",
+      "sha256": "sha256:13707b7e63cd04851a43f2772b60a70387581311afad6317097e3c9c866055e5"
+    },
+    {
+      "path": "spec/catalog/input-dependencies.json",
+      "sha256": "sha256:b217694a2a75baf1975fb187359b504d43d3da361201a1e389a4b3769f9fe119"
+    },
+    {
+      "path": "spec/references/sources.json",
+      "sha256": "sha256:27b113e85b98658881502852330224db345124cf045e093bcd26958ca01ec4dc"
+    },
+    {
+      "path": "tests/differential/CONTRACT.md",
+      "sha256": "sha256:7480cccb8f810ed325687fc5ba850c1a88709499711b811dac6944ed0d64e79e"
+    },
+    {
+      "path": "tests/differential/compare.py",
+      "sha256": "sha256:5ab591bf8e9e1efd2e683bd7c2ee05e55631ffce6f281a0fa73d9216812c0a97"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-reference-plan/review.py",
+      "sha256": "sha256:c99a0030f780d89f9db610d484832551f639dc9373ce4b10a3525ca620536750"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-reference-plan/review.json",
+      "sha256": "sha256:99ca832f39aec22094522f29b46468c149b522f91390e7afdef47a53edfd1c4d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-reference-plan/validation.json",
+      "sha256": "sha256:2289849956821c712cf07c380eae10b7f7bcb413e8f0560462832c8953e0b912"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/specification-checks.json",
+      "sha256": "sha256:5a177b928c243a3012b36745140c296089f6480d03971efbd95d390e049cb12b"
+    },
+    {
+      "path": "source/platform/windows/worker_files.h",
+      "sha256": "sha256:94c9a6f9e984880f4163bc12f94b06cc637b16c96fc8112d479d083fc1838d62"
+    },
+    {
+      "path": "tests/images/ntfs_worker_probe.cpp",
+      "sha256": "sha256:9fe0910682df7b5cac3cabec99502de6689f77d8702dd6fe95bc1fd7baa32779"
+    },
+    {
+      "path": "tests/images/test_ntfs_worker.py",
+      "sha256": "sha256:abe5cd6f71a5208b661bf54e172f69ae90a1f82a7c764412329f302d867fb45a"
+    }
+  ],
+  "blockers": [
+    "Native qualification of the scoped lease-object repair remains outstanding; previous failed reader startup is retained, not treated as resolved by specification tests.",
+    "DE-W106 and DE-W107 remain planned. No native Windows reference experiment or REA pilot has run.",
+    "Full original platform/storage, owner and release qualification remain open."
+  ],
+  "next_safe_step": "Freeze the scoped lease-only actual-package descriptor and independent normal/fault regression, prepare a fresh exact-HEAD DE-W105 context and rerun the unchanged18 private Win32 groups/twelve headers/nine executable observations in the capped guest. Full current x64 qualification remains required before main promotion. After DE-W105, perform planned DE-W106 differential evidence/workspace repair and DE-W107 Windows reference pilot; research does not replace current native checks.",
+  "performed_remote_writes": false
+}

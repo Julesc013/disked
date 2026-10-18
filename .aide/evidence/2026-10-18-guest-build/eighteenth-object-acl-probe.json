@@ -1,0 +1,382 @@
+{
+  "schema": "org.disked.guest-product-campaign/1",
+  "started_at": "2026-10-18T09:09:59.4943057Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "source.pack",
+        "bytes": 3895631,
+        "sha256": "805B9851B90F4A7DA90085D108731F1CE56ADEEDA114409BCE0D37F999D97F63"
+      },
+      {
+        "path": "source.json",
+        "bytes": 223640,
+        "sha256": "F25D0B8FDFD2F2DC804F9D32A7088CC2C676E40651FE1CD0EA0C4CE2A54ED7FC"
+      },
+      {
+        "path": "source-snapshot.py",
+        "bytes": 11148,
+        "sha256": "510EE72CE5CB7B3F62A995C9ECB1CD55CDEAAE3C56636B1B93A89099F50489F4"
+      },
+      {
+        "path": "guest-source.py",
+        "bytes": 9274,
+        "sha256": "D66661F50057E3504849B4309965647E4C348FE929011358B1497F42CE8EBA31"
+      },
+      {
+        "path": "path-api-probe.py",
+        "bytes": 3103,
+        "sha256": "56E962C7347B15569DC8914CE438FEFEFEA35B2401EA710F7B6B8BD2378F888B"
+      },
+      {
+        "path": "worker-object-probe.py",
+        "bytes": 3300,
+        "sha256": "78A3C24EAF48E40184CE5899C7E5B4F03BADEA49232A22EDB2083BEA700A5C13"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 35167,
+        "sha256": "67789C3AEFA63991F52C6826CC018DD409BD0A7F8E457590738D4F38B1BEE1FC"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 10804,
+        "sha256": "A97518837A5801573EAC7F2C7C206DAB08752978214D4142E7B7BA2ABAF9636A"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6895,
+        "sha256": "010DD7353DAA0DEAE1FE2DC4C6A53EA633017D87E90CA3E4FCB18DAC3D5040CC"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 5574,
+        "sha256": "CAEAB8029F24BC9537FE6AB5A2EE0BFB236C1CF959926A5449BB5D8A5319C732"
+      }
+    ],
+    "base_revision": "099b3fc076dfdf34758c8662a710d3d40dd0993c",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 28809625600,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-18T09:10:03.8240431Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 512,
+      "image_removed": true,
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n    0 percent completed\n    0 percent completed\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "10E6639D98E5CF4F905C9E0EAE539FD5",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.e9ef647498a549d1aefbca10cc9e0c8c",
+            "sid": "S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722"
+          },
+          {
+            "name": "org.disked.worker.71874912a56746e5b26041b1fdc694e9",
+            "sid": "S-1-15-2-486121046-1022593661-1979597574-1608584195-2882812114-3580259065-1959593686"
+          },
+          {
+            "name": "org.disked.worker.cc79bb51e5f6482bb757f7e9e5a20194",
+            "sid": "S-1-15-2-1497197701-1847307469-2559866115-4167163885-186219470-4161713589-1887909956"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1301bf;;;S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722)(A;;0x1301bf;;;S-1-15-2-486121046-1022593661-1979597574-1608584195-2882812114-3580259065-1959593686)(A;;0x1301bf;;;S-1-15-2-1497197701-1847307469-2559866115-4167163885-186219470-4161713589-1887909956)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248010E6639D98E59E0EAE539FD5",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 4906, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "finished_at": "2026-10-18T09:10:35.6322152Z"
+    },
+    "proof": {
+      "schema": "org.disked.guest-object-probe/1",
+      "status": "pass",
+      "source_revision": "099b3fc076dfdf34758c8662a710d3d40dd0993c",
+      "commands": [
+        {
+          "label": "source-confinement",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport ctypes,json,pathlib,sys\nfrom ctypes import wintypes as T\nk=ctypes.WinDLL('kernel32',use_last_error=True);a=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE;a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\nk.CloseHandle.argtypes=[T.HANDLE];token=T.HANDLE();n=T.DWORD();e=T.DWORD();c=T.DWORD()\nassert a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token))\nassert a.GetTokenInformation(token,20,ctypes.byref(e),4,ctypes.byref(n));assert a.GetTokenInformation(token,29,ctypes.byref(c),4,ctypes.byref(n));k.CloseHandle(token)\ndenied=False\ntry:pathlib.Path(sys.argv[1]).write_bytes(b'unexpected')\nexcept PermissionError:denied=True\nprint(json.dumps(dict(elevated=e.value,appcontainer=c.value,source_write_denied=denied)))\nassert e.value==0 and c.value==1 and denied\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\forbidden-write"
+          ],
+          "pid": 6648,
+          "exit_code": 0,
+          "seconds": 0.18705749999935506,
+          "log_sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"elevated\": 0, \"appcontainer\": 1, \"source_write_denied\": true}\r\n"
+        },
+        {
+          "label": "msbuild-version",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "-version"
+          ],
+          "pid": 332,
+          "exit_code": 0,
+          "seconds": 1.3618702000021585,
+          "log_sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de",
+          "tail": "17.14.51.32402\r\n"
+        },
+        {
+          "label": "common-data-before",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 6800,
+          "exit_code": 0,
+          "seconds": 1.7535680000000866,
+          "log_sha256": "521a0a652afa95bba3cdbf6c077b79751f8032ede5b7142c7eab670e46336be0",
+          "tail": "Build started 18/10/2026 8:10:26 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.91\r\n"
+        },
+        {
+          "label": "common-data-after",
+          "arguments": [
+            "C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe",
+            "-nologo",
+            "R:\\work\\build\\folders.proj"
+          ],
+          "pid": 1876,
+          "exit_code": 0,
+          "seconds": 0.16487530000085826,
+          "log_sha256": "cc38b168f11389d168bc45eb4c60ab0cacf909625fd2096ed27acba463afe9e8",
+          "tail": "Build started 18/10/2026 8:10:28 PM.\r\n\r\nProject \"R:\\work\\build\\folders.proj\" on node 1 (default targets).\r\nObserve:\r\n  DISKED_COMMON=[C:\\ProgramData]\r\nDone Building Project \"R:\\work\\build\\folders.proj\" (default targets).\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.01\r\n"
+        },
+        {
+          "label": "fixture-temporary-preflight",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport json,pathlib,sys\nsys.path.insert(0,sys.argv[1])\nfrom support.tempdir import temporary_directory\ndirectory=temporary_directory(prefix='disked-fixture-preflight-')\npath=pathlib.Path(directory.name)\nwith directory:\n    target=path/'generated.img';target.write_bytes(b'owned fixture')\n    assert target.read_bytes()==b'owned fixture'\nassert not path.exists()\nprint(json.dumps(dict(status='pass',fixture_created_read_and_removed=True)))\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tests"
+          ],
+          "pid": 5024,
+          "exit_code": 0,
+          "seconds": 0.32450089999838383,
+          "log_sha256": "98de5a936919b48802e32f8507ff7498e5d8f7007a686fbc3f72303046f647fc",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"status\": \"pass\", \"fixture_created_read_and_removed\": true}\r\n"
+        },
+        {
+          "label": "fixture-sparse-preflight",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\nimport json,pathlib,sys\nsys.path.insert(0,sys.argv[1]);sys.path.insert(0,sys.argv[2])\nfrom support.tempdir import temporary_directory\nfrom test_ntfs_file import size_fixture,record_sparse_fixture,SPARSE_OBSERVATIONS\nwith temporary_directory(prefix='disked-sparse-preflight-') as directory:\n    target=pathlib.Path(directory)/'high-offset.img';offset=(1<<32)+173\n    with target.open('xb') as stream:\n        size_fixture(stream,offset+4096);stream.seek(offset);stream.write(b'owned high-offset data')\n        record_sparse_fixture(stream,offset+4096)\n    with target.open('rb') as stream:\n        assert stream.read(64)==bytes(64);stream.seek(offset);assert stream.read(22)==b'owned high-offset data'\n    assert target.stat().st_size==offset+4096\n    small=pathlib.Path(directory)/'small.img'\n    with small.open('xb') as stream:\n        size_fixture(stream,8*1024*1024);stream.seek(4096);stream.write(b'owned small data')\n        record_sparse_fixture(stream,8*1024*1024,all_sizes=True)\n    assert small.stat().st_file_attributes & 0x200\n    assert SPARSE_OBSERVATIONS[-1]['allocated_bytes']<=65536\n    with small.open('rb') as stream:\n        assert stream.read(64)==bytes(64);stream.seek(4096);assert stream.read(16)==b'owned small data'\nassert not target.exists() and not small.exists()\nprint(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))\n",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tests",
+            "C:\\ProgramData\\DiskEd\\qualification\\source\\tests\\images"
+          ],
+          "pid": 5004,
+          "exit_code": 0,
+          "seconds": 0.49364650000279653,
+          "log_sha256": "96c3475c5511c234515c6fcfd3cfc2e86d08fe7ddb6c6e8a2d4094da0f634cd7",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"status\": \"pass\", \"fixtures\": [{\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.e9ef647498a549d1aefbca10cc9e0c8c\\\\AC\\\\Temp\\\\disked-sparse-preflight-7a15767acdb040fa951b09ea8d89c21d\\\\high-offset.img\", \"logical_bytes\": 4294971565, \"allocated_bytes\": 0}, {\"path\": \"R:\\\\work\\\\build\\\\local\\\\Packages\\\\org.disked.worker.e9ef647498a549d1aefbca10cc9e0c8c\\\\AC\\\\Temp\\\\disked-sparse-preflight-7a15767acdb040fa951b09ea8d89c21d\\\\small.img\", \"logical_bytes\": 8388608, \"allocated_bytes\": 0}], \"removed\": true}\r\n"
+        },
+        {
+          "label": "object-probe",
+          "arguments": [
+            "C:\\ProgramData\\DiskEd\\python314\\python.exe",
+            "-B",
+            "-c",
+            "\"\"\"Own disposable named-job DACL observations inside the confined worker.\"\"\"\nimport ctypes\nfrom ctypes import wintypes as T\nimport json\nimport sys\nimport uuid\n\nk=ctypes.WinDLL('kernel32',use_last_error=True)\na=ctypes.WinDLL('advapi32',use_last_error=True)\nk.GetCurrentProcess.restype=T.HANDLE\nk.CloseHandle.argtypes=[T.HANDLE]\nk.LocalFree.argtypes=[ctypes.c_void_p]\na.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]\na.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]\na.ConvertSidToStringSidW.argtypes=[ctypes.c_void_p,ctypes.POINTER(T.LPWSTR)]\na.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[T.LPCWSTR,T.DWORD,ctypes.POINTER(ctypes.c_void_p),ctypes.POINTER(T.DWORD)]\nclass Attributes(ctypes.Structure):\n    _fields_=[('size',T.DWORD),('descriptor',ctypes.c_void_p),('inherit',T.BOOL)]\nk.CreateJobObjectW.argtypes=[ctypes.POINTER(Attributes),T.LPCWSTR]\nk.CreateJobObjectW.restype=T.HANDLE\nk.OpenJobObjectW.argtypes=[T.DWORD,T.BOOL,T.LPCWSTR]\nk.OpenJobObjectW.restype=T.HANDLE\n\ndef need(value):\n    if not value:raise ctypes.WinError(ctypes.get_last_error())\n\ndef token_sid(token,kind):\n    size=T.DWORD()\n    a.GetTokenInformation(token,kind,None,0,ctypes.byref(size))\n    assert 0<size.value<=65536\n    buffer=ctypes.create_string_buffer(size.value)\n    need(a.GetTokenInformation(token,kind,buffer,len(buffer),ctypes.byref(size)))\n    sid=ctypes.cast(buffer,ctypes.POINTER(ctypes.c_void_p))[0]\n    text=T.LPWSTR();need(a.ConvertSidToStringSidW(sid,ctypes.byref(text)))\n    try:return text.value\n    finally:k.LocalFree(text)\n\ntoken=T.HANDLE();need(a.OpenProcessToken(k.GetCurrentProcess(),8,ctypes.byref(token)))\ntry:\n    size=T.DWORD();container=T.DWORD()\n    need(a.GetTokenInformation(token,29,ctypes.byref(container),4,ctypes.byref(size)))\n    assert container.value==1\n    user,package=token_sid(token,1),token_sid(token,31)\nfinally:k.CloseHandle(token)\nother=sys.argv[1];assert other.startswith('S-1-15-2-') and other!=package\nresult=dict(scope='Fresh own named jobs only; no DiskEd execution or existing object mutation',\n            user_sid=user,package_sid=package,other_package_sid=other,objects=[])\nfor label,selected in [('user_only',None),('same_package',package),('other_package',other)]:\n    descriptor=ctypes.c_void_p()\n    sddl='D:P(A;;FA;;;'+user+')'+('(A;;FA;;;'+selected+')' if selected else '')\n    need(a.ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl,1,ctypes.byref(descriptor),None))\n    created=opened=None\n    try:\n        attributes=Attributes(ctypes.sizeof(Attributes),descriptor,False)\n        name='Local\\\\DiskEd.OwnDaclProbe.'+uuid.uuid4().hex\n        ctypes.set_last_error(0);created=k.CreateJobObjectW(ctypes.byref(attributes),name)\n        create_error=ctypes.get_last_error()\n        ctypes.set_last_error(0);opened=k.OpenJobObjectW(4,False,name) if created else None\n        open_error=ctypes.get_last_error()\n        result['objects'].append(dict(dacl=label,created=bool(created),create_error=create_error,\n            query_opened=bool(opened),query_error=open_error))\n    finally:\n        if opened:k.CloseHandle(opened)\n        if created:k.CloseHandle(created)\n        k.LocalFree(descriptor)\nresult['owned_handles_closed']=True\nprint(json.dumps(result))\n",
+            "S-1-15-2-486121046-1022593661-1979597574-1608584195-2882812114-3580259065-1959593686"
+          ],
+          "pid": 2348,
+          "exit_code": 0,
+          "seconds": 0.210562199998094,
+          "log_sha256": "c34606fadad1fec1a7ad1f744bc56c69031e731c66b3be7b9b2bf49c86626022",
+          "tail": "Failed to find real location of C:\\ProgramData\\DiskEd\\python314\\python.exe\n{\"scope\": \"Fresh own named jobs only; no DiskEd execution or existing object mutation\", \"user_sid\": \"S-1-5-21-385394198-2603589104-1765785984-1003\", \"package_sid\": \"S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722\", \"other_package_sid\": \"S-1-15-2-486121046-1022593661-1979597574-1608584195-2882812114-3580259065-1959593686\", \"objects\": [{\"dacl\": \"user_only\", \"created\": true, \"create_error\": 0, \"query_opened\": false, \"query_error\": 5}, {\"dacl\": \"same_package\", \"created\": true, \"create_error\": 0, \"query_opened\": true, \"query_error\": 0}, {\"dacl\": \"other_package\", \"created\": true, \"create_error\": 0, \"query_opened\": false, \"query_error\": 5}], \"owned_handles_closed\": true}\r\n"
+        }
+      ],
+      "tests": [],
+      "executables": {},
+      "full_x64_product_suite_run": false,
+      "owner_accepted": false,
+      "peak_scratch_allocated_bytes": 394,
+      "source_confinement": {
+        "elevated": 0,
+        "appcontainer": 1,
+        "source_write_denied": true
+      },
+      "directory_access_observations": [
+        {
+          "add": true,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAABted4nFb2V0PoTkGfFYoe04aU7QJjzNVzKg2gQ=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAABted4nFb2V0PoTkGfFYoe04aU7QJjzNVzKg2gQ=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":true,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAAAbXneJxW9ldD6E5BnxWKHtOGlO0CY8zVcyoNoEABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":true,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAAG153icVvZXQ+hOQZ8Vih7ThpTtAmPM1XMqDaBA==\"}\r\n"
+        },
+        {
+          "add": false,
+          "output": "{\"path\":\"C:\\\\\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgCkAAYAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAABted4nFb2V0PoTkGfFYoe04aU7QJjzNVzKg2gQ=\"}\r\n{\"path\":\"C:\\\\\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAA0AAAAAAAAAFQAAAABBgAAAAAABVAAAAC1ifs4GYTCy1xsI21XAHduwAJkhwEGAAAAAAAFUAAAALWJ+zgZhMLLXGwjbVcAd27AAmSHAgB0AAUAAAAAABQABAAAAAEBAAAAAAAFCwAAAAALFAAAAAHgAQEAAAAAAAULAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAKgABgAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAAAADAAqQASAAEIAAAAAAAPAgAAABted4nFb2V0PoTkGfFYoe04aU7QJjzNVzKg2gQ=\"}\r\n{\"path\":\"C:\\\\ProgramData\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEkBQAAAAgAAAAAAAAACwAAAABAQAAAAAABRIAAAABAQAAAAAABRIAAAACAHgABQAAAAALFAAAAAAQAQEAAAAAAAMAAAAAAAMUAP8BHwABAQAAAAAABRIAAAAAAxgA/wEfAAECAAAAAAAFIAAAACACAAAAAxgAqQASAAECAAAAAAAFIAAAACECAAAAAhgAFgEAAAECAAAAAAAFIAAAACECAAA=\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"before\",\"add\":false,\"canonical\":true,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAwAAHAAAAAAAwAKkAEgABCAAAAAAADwIAAAAbXneJxW9ldD6E5BnxWKHtOGlO0CY8zVcyoNoEABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAADQAAAABAgAAAAAABSAAAAAgAgAAAQIAAAAAAAUgAAAAIAIAAAIAkAAGAAAAABAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAExQA/wEfAAEBAAAAAAAFEgAAAAAbGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAATGACpABIAAQIAAAAAAAUgAAAAIQIAAAASGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"before\",\"add\":false,\"canonical\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAwAAHAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAAAAMACpABIAAQgAAAAAAA8CAAAAG153icVvZXQ+hOQZ8Vih7ThpTtAmPM1XMqDaBA==\"}\r\n{\"path\":\"C:\\\\ProgramData\\\\DiskEd\\\\qualification\",\"phase\":\"after\",\"add\":false,\"descriptor\":\"AQAEgBQAAAAkAAAAAAAAAEAAAAABAgAAAAAABSAAAAAgAgAAAQUAAAAAAAUVAAAAFqb4FvCdL5uAwT9pAQIAAAIAkAAGAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAABsUAAAAABABAQAAAAAAAwAAAAAAAxQA/wEfAAEBAAAAAAAFEgAAAAADGAD/AR8AAQIAAAAAAAUgAAAAIAIAAAADGACpABIAAQIAAAAAAAUgAAAAIQIAAAACGAAWAQAAAQIAAAAAAAUgAAAAIQIAAA==\"}\r\n"
+        }
+      ],
+      "common_data_access": [
+        {
+          "added": true,
+          "sid": "S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        },
+        {
+          "added": false,
+          "sid": "S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722",
+          "paths": [
+            "C:\\",
+            "C:\\ProgramData",
+            "C:\\ProgramData\\DiskEd",
+            "C:\\ProgramData\\DiskEd\\qualification"
+          ],
+          "rights": "ReadAndExecute",
+          "inheritance": "None"
+        }
+      ],
+      "object_probe": {
+        "scope": "Fresh own named jobs only; no DiskEd execution or existing object mutation",
+        "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1003",
+        "package_sid": "S-1-15-2-2306301467-1952804805-434406462-3986774257-3494799672-1473068070-81436722",
+        "other_package_sid": "S-1-15-2-486121046-1022593661-1979597574-1608584195-2882812114-3580259065-1959593686",
+        "objects": [
+          {
+            "dacl": "user_only",
+            "created": true,
+            "create_error": 0,
+            "query_opened": false,
+            "query_error": 5
+          },
+          {
+            "dacl": "same_package",
+            "created": true,
+            "create_error": 0,
+            "query_opened": true,
+            "query_error": 0
+          },
+          {
+            "dacl": "other_package",
+            "created": true,
+            "create_error": 0,
+            "query_opened": false,
+            "query_error": 5
+          }
+        ],
+        "owned_handles_closed": true
+      },
+      "archive_sha256": "13d1cf09bbcfc9a91a0d44828975d009138f173df677a18a0618425b18c66f10",
+      "archive_bytes": 2304,
+      "archive_entries": {
+        "source-confinement.log": {
+          "bytes": 140,
+          "sha256": "06a6f8d67c0d9da58e5a95e25a00311f0a42b60897dea853444760dd3aac656c"
+        },
+        "msbuild-version.log": {
+          "bytes": 16,
+          "sha256": "d6d0edc1c9962e95985bb6a205da44c7f1375186e6d3b3256a4878de3f2cd4de"
+        },
+        "common-data-before.log": {
+          "bytes": 290,
+          "sha256": "521a0a652afa95bba3cdbf6c077b79751f8032ede5b7142c7eab670e46336be0"
+        },
+        "common-data-after.log": {
+          "bytes": 304,
+          "sha256": "cc38b168f11389d168bc45eb4c60ab0cacf909625fd2096ed27acba463afe9e8"
+        },
+        "fixture-temporary-preflight.log": {
+          "bytes": 137,
+          "sha256": "98de5a936919b48802e32f8507ff7498e5d8f7007a686fbc3f72303046f647fc"
+        },
+        "fixture-sparse-preflight.log": {
+          "bytes": 585,
+          "sha256": "96c3475c5511c234515c6fcfd3cfc2e86d08fe7ddb6c6e8a2d4094da0f634cd7"
+        },
+        "recipe/worker-object-probe.py": {
+          "bytes": 3300,
+          "sha256": "78a3c24eaf48e40184ce5899c7e5b4f03badea49232a22edb2083bea700a5c13"
+        },
+        "object-probe.log": {
+          "bytes": 784,
+          "sha256": "c34606fadad1fec1a7ad1f744bc56c69031e731c66b3be7b9b2bf49c86626022"
+        }
+      }
+    },
+    "source_prepared": {
+      "status": "pass",
+      "revision": "099b3fc076dfdf34758c8662a710d3d40dd0993c",
+      "selected_files_verified": 936,
+      "source_content_bytes": 13225387,
+      "git_state": "clean",
+      "scope": "Shallow sparse checkout of exact selected inputs, without unselected blobs/history"
+    },
+    "source_retired": {
+      "status": "pass",
+      "source_removed": true,
+      "nonce": "5e0d1fc7d4384d7bb486c36d82d4aa7c"
+    },
+    "free_c_bytes": 97577197568
+  },
+  "host_backing_end_bytes": 28809625600,
+  "finished_at": "2026-10-18T09:10:36.6646890Z",
+  "template_native_product_tests_run": false,
+  "native_product_build_run": false,
+  "exact_source": {
+    "revision": "099b3fc076dfdf34758c8662a710d3d40dd0993c",
+    "content_bytes": 13225387,
+    "pack_bytes": 3895631,
+    "pack_sha256": "805b9851b90f4a7da90085d108731f1ce56adeeda114409bce0d37f999d97f63",
+    "git_objects": 3258
+  },
+  "generated_input_sha256": {
+    "attach-image.py": "010dd7353daa0deae1fe2dc4c6a53ea633017d87e90ca3e4fcb18dac3d5040cc",
+    "clean-proof.ps1": "2b0f89a028cd0e7c19b494a445ef4b2815f3949b9b7ce1e1db06cd97033ed548",
+    "expected.json": "caeab8029f24bc9537fe6ab5a2ee0bfb236c1cf959926a5449bb5d8a5319c732",
+    "guest-proof.ps1": "a97518837a5801573eac7f2c7c206dab08752978214d4142e7b7ba2abaf9636a",
+    "guest-proof.py": "67789c3aefa63991f52c6826cc018dd409bd0a7f8e457590738d4f38b1bee1fc",
+    "guest-source.py": "d66661f50057e3504849b4309965647e4c348fe929011358b1497f42ce8eba31",
+    "path-api-probe.py": "56e962c7347b15569dc8914ce438fefefea35b2401ea710f7b6b8bd2378f888b",
+    "run-proof.ps1": "e2a6d03e837657364e9342d2faa08de7ed8c3884bf438654fc188112459a235c",
+    "source-snapshot.py": "510ee72ce5cb7b3f62a995c9ecb1cd55cdeaae3c56636b1b93a89099f50489f4",
+    "source.json": "f25d0b8fdfd2f2dc804f9d32a7088cc2c676e40651fe1cd0ea0c4ce2a54ed7fc",
+    "source.pack": "805b9851b90f4a7da90085d108731f1ce56adeeda114409bce0d37f999d97f63",
+    "worker-object-probe.py": "78a3c24eaf48e40184ce5899c7e5b4f03badea49232a22edb2083bea700a5c13"
+  },
+  "host_exit_code": 0,
+  "host_error_tail": ""
+}

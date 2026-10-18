@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.19-proposed.2
+  version: 0.1.20-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,6 +25,10 @@ disked:
   - DE-REQ-034-01
   - DE-REQ-034-02
 sources:
+- id: windows-reference-storage-management
+  resource: ../references/sources.json#windows-reference-storage-management
+- id: windows-reference-services
+  resource: ../references/sources.json#windows-reference-services
 - id: windows-ns-winioctl-storage_device_descriptor
   resource: ../references/sources.json#windows-ns-winioctl-storage_device_descriptor
 - id: windows-ni-winioctl-ioctl_storage_get_device_number
@@ -49,9 +53,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T23:46:39.892928+00:00'
-  scope: DE-W030 private serialized source advancement and cached model delivery;
-    all admission gates remain separate
+  at: '2026-10-18T09:32:34.896855+00:00'
+  scope: Proposed Windows reference experiments; no execution or qualification claim
 ---
 
 # Windows NT provider strategy
@@ -60,7 +63,23 @@ updated:
 
 Use documented Win32 handles, storage-property queries, volume APIs and disk-layout IOCTLs, with runtime capabilities determined per exact OS/API/provider. Modern Storage Management can enrich topology but must not become an XP-wide assumption. VDS is a separate optional legacy provider. Record native and independently decoded metadata without flattening partitions, volumes, disks, VHDs, pools and encryption into one object.
 
-## Operation selection
+## Reference behavior and integration boundaries
+
+Use public API/service contracts first and bounded guest experiments for an
+identified ambiguity. Distinguish OS-reported topology, independently decoded
+bytes and UI display; none substitutes for the others. Record exact Windows
+build, component/provider identity, token/policy, geometry, raw errors and media
+effects. Modern Storage Management, legacy VDS and direct documented queries
+remain capability-selected providers; do not infer Disk Management's backend
+from its appearance. The [testing policy](../development/testing-and-ci.md) and
+differential contract (`tests/differential/CONTRACT.md` in the implementation repository) govern observations.
+
+MMC consoles/snap-ins, Computer Management and Explorer are presentation and
+integration surfaces under [DE-025](../interaction/native-integration.md), not
+alternate engines. Study service lifecycle only where a concrete DiskEd
+operation needs it; no general replacement of Windows services is added.
+
+## Operation selection and capability admission
 
 Prefer a qualified native online operation. Otherwise offer a qualified Windows-hosted external provider, a native offline recovery operation, a foreign recovery provider, or image-first workflow. An unsafe active-volume move remains offline; it is not solved by administrator elevation or a new driver. Non-system drive letters do not prove quiescence: page files, open handles, filter drivers and remote users still matter.
 

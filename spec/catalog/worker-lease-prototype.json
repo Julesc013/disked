@@ -9,7 +9,7 @@
     "Pass query-only duplicates of the selected slot marker and legacy guard in the explicit inherited-handle list and private role argv. Parent and child retain both names; disconnect, timeout, crash and cancellation acknowledgement cannot release a live child slot. Release after actual exit and closure of all retained lease handles.",
     "The compiled parent passes two explicit query-only slot/legacy guard handles in its private role argv. Workers compare actual kernel objects against exactly four compiled slot names and the legacy guard, validate marker limits and their existing private process job. There is no JSON slot selector. Every worker/controller process obtains its own lease; unassociated markers are never treated as memory-enforcing jobs.",
     "Keep a legacy v1 guard object with distinct v2 limits while new slots exist. Refuse an existing legacy v1 budget rather than modifying it or assuming idle means no prepared launches. Older strictv1 code rejects the distinct guard limits. The inherited guard lease keeps mixed-version admission fail-closed while any v2 child lives.",
-    "Do not use process breakaway, detach caller jobs, loosen quotas, change ACLs, bypass source/code pins or substitute copied-path success for qualification.",
+    "Do not use process breakaway, detach caller jobs, loosen quotas, bypass source/code pins or substitute copied-path success for qualification. Keep the ordinary Win32 protected user-only DACL unchanged. The separately proposed confined-qualification extension below permits only a named-lease/init-mutex ACL for the actual current AppContainer identity; it does not alter record-file ACLs or retrofit existing objects.",
     "Test independent caller hierarchies, four simultaneous workers/fifth refusal, actual commitment denial, parent disconnect and inherited lease retention, prepared/occupied slots, legacy conflict, crash/exit reclamation and all existing transports/controllers. Run the eight previously failed groups and a new immutable-source full native campaign before normal admission."
   ],
   "public_release_or_owner_acceptance": false,
@@ -18,7 +18,9 @@
   "status": "locally-qualified-owner-review-pending",
   "official_sources": [
     "https://learn.microsoft.com/en-us/windows/win32/procthread/nested-jobs",
-    "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"
+    "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles",
+    "https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_appcontainer_information"
   ],
   "limits": {
     "worker_slots": 4,
@@ -35,5 +37,17 @@
   "working_evidence": ".aide/evidence/2026-10-14-worker-leases-working/summary.json",
   "private_job_observation": "Acquisition/report/verification attempt jobs have unique compiled names and inherited query-only handles. Refuse existing names; do not rewrite jobs. Query actual membership/private limits. Unassociated slot-marker limits are not enforcement.",
   "qualified_source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
-  "qualified_evidence": ".aide/evidence/2026-10-14-worker-leases-qualified/summary.json"
+  "qualified_evidence": ".aide/evidence/2026-10-14-worker-leases-qualified/summary.json",
+  "appcontainer_lease_support": {
+    "status": "proposed-native-unqualified",
+    "scope": "Enable the same owned read-only native qualification inside its already demonstrated AppContainer/512MiB filesystem boundary. This is not product AppContainer composition admission, cross-package/global budget enforcement, hardware qualification or owner acceptance.",
+    "object_acl": "Keep Security.attributes and its protected user-only descriptor unchanged for record files and existing unnamed capabilities. For named slot/legacy-guard/init-mutex creation only, add the actual current token package SID alongside the same user SID when TokenIsAppContainer is true. Derive the package only through bounded TokenAppContainerSid/ConvertSidToStringSidW queries; failures refuse, with no caller-selected SID or permissive fallback. Ordinary non-AppContainer execution uses the original descriptor byte for byte.",
+    "authority": "No Everyone/AllApplicationPackages grant, host policy change, new privilege, inheritance-right change, quota increase or existing-object DACL rewrite. Continue explicit query-only inherited lease handles, exact object/limit comparisons, source/code pins and verified exit ownership.",
+    "namespace": "Local named objects may reside in an AppContainer namespace. This qualification establishes four leases within its single selected cooperating namespace; it does not prove one user/session-wide aggregate across packages and direct Win32 processes. Preserve that broader ordinary-Win32 requirement and defer packaged-product admission/cross-namespace accounting to an explicit applicable contract and tests. The independent OS filesystem cap/controller budget remains mandatory.",
+    "required_evidence": [
+      "Retain the confined user-only/same-package/other-package fresh named-job access observations.",
+      "Exercise actual same-source parent/owned-reader startup, code/request/frame bindings, cancellation, late results, exit and retirement without changing assertions or deadlines.",
+      "Qualify all18 private Win32 groups and the full current x64 gate after the shared header change; preserve all old results as historical."
+    ]
+  }
 }

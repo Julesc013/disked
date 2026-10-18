@@ -1,6 +1,8 @@
 """Real owned NTFS reader children and strict retained-byte frames, generated files only."""
 import argparse
 import copy
+import ctypes
+from ctypes import wintypes as T
 import json
 from pathlib import Path
 import subprocess
@@ -68,6 +70,41 @@ class Tests(unittest.TestCase):
             self.assertEqual(identity['pid'],state['worker']['pid'])
             self.assertEqual(identity['created'],state['worker']['created'])
             self.assertTrue(identity['in_job'])
+
+    def test_named_lease_acl_keeps_record_acl_and_actual_package_identity(self):
+        kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+        security=ctypes.WinDLL('advapi32',use_last_error=True)
+        kernel.GetCurrentProcess.restype=T.HANDLE
+        kernel.CloseHandle.argtypes=[T.HANDLE];kernel.LocalFree.argtypes=[ctypes.c_void_p]
+        security.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,ctypes.POINTER(T.HANDLE)]
+        security.GetTokenInformation.argtypes=[T.HANDLE,ctypes.c_int,ctypes.c_void_p,T.DWORD,ctypes.POINTER(T.DWORD)]
+        security.ConvertSidToStringSidW.argtypes=[ctypes.c_void_p,ctypes.POINTER(T.LPWSTR)]
+        token=T.HANDLE();self.assertTrue(security.OpenProcessToken(kernel.GetCurrentProcess(),8,ctypes.byref(token)))
+        def sid(kind):
+            size=T.DWORD();security.GetTokenInformation(token,kind,None,0,ctypes.byref(size))
+            self.assertTrue(0<size.value<=65536)
+            buffer=ctypes.create_string_buffer(size.value)
+            self.assertTrue(security.GetTokenInformation(token,kind,buffer,len(buffer),ctypes.byref(size)))
+            pointer=ctypes.cast(buffer,ctypes.POINTER(ctypes.c_void_p))[0];text=T.LPWSTR()
+            self.assertTrue(security.ConvertSidToStringSidW(pointer,ctypes.byref(text)))
+            try:return text.value
+            finally:kernel.LocalFree(text)
+        try:
+            size=T.DWORD();container=T.DWORD()
+            self.assertTrue(security.GetTokenInformation(token,29,ctypes.byref(container),4,ctypes.byref(size)))
+            user=sid(1);package=sid(31) if container.value else None
+        finally:kernel.CloseHandle(token)
+        for fault in (False,True):
+            value=run(dict(security_probe=True),fault)
+            self.assertEqual(value['appcontainer'],bool(container.value))
+            user_ace=dict(sid=user,mask=str(0x1f01ff),flags='0')
+            self.assertTrue(value['record']['protected'] and value['lease']['protected'])
+            self.assertEqual(value['record']['aces'],[user_ace])
+            self.assertEqual(value['lease']['aces'],[user_ace]+([dict(sid=package,mask=str(0x1f01ff),flags='0')] if package else []))
+            self.assertEqual(value['record']['query_opened'],not bool(container.value))
+            self.assertEqual(value['record']['query_error'],'5' if container.value else '0')
+            self.assertTrue(value['lease']['query_opened'])
+            self.assertEqual(value['lease']['query_error'],'0')
 
     def test_actual_profiles_geometry_and_retention_after_teardown(self):
         for minor,selector,sector,size,usa in [(0,'auto',512,1024,48),(1,'auto',512,1024,48),

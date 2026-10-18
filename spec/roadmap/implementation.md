@@ -92,7 +92,27 @@ DiskEd packages, so callable generic verification and all lifecycle modes stay
 unavailable. Installed SDK, CoreShared, other targets and owner acceptance
 remain separate qualification gates; this slice does not close full DE-W060.
 
-## Gate sequence
+## Reference-driven compatibility work
+
+The 18 October supplied REA/reference-method review is incorporated as planned
+work, not accepted evidence or a new architecture. Finish current DE-W105 native
+qualification first. DE-W106 then repairs differential evidence completeness and
+migrates the obsolete coordinator from `.aide-local` to bounded managed work.
+DE-W107 follows with four generated Windows partition-inventory cases, exact
+API/UI observation sets and a reviewed behavior contract. See the
+reference plan (`docs/windows-reference.md` in the implementation repository),
+[testing policy](../development/testing-and-ci.md) and
+experiment contract (`tests/differential/CONTRACT.md` in the implementation repository).
+
+MMC/Computer Management, Explorer and relevant service behavior enter through
+the existing DE-W030/DE-W035 provider/integration gates. Historical/other-target
+observations remain target-specific DE-W018/DE-W080 work. REA stays optional and
+uninstalled; its presence supplies no compatibility evidence. No target is added
+to the owner's original scope solely because the supplied proposal mentions it.
+Current state remains in the programme; no reference work replaces native,
+recovery, owner or release qualification.
+
+## Delivery gate sequence
 
 **M0 â€” Review and bootstrap.** Accept the source/authority model, resolve foundational open decisions, install shared instructions, run the spec/tool tests and commit a baseline. This is not a code release or physical-write grant.
 

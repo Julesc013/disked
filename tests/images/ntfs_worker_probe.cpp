@@ -1,5 +1,6 @@
 #include "platform/windows/storage/ntfs_worker.h"
 #include "platform/windows/memory_budget.h"
+#include "platform/windows/worker_files.h"
 #include "providers/image/local_file.h"
 #include <cstdio>
 #include <fcntl.h>
@@ -28,6 +29,46 @@ std::uint64_t integer(const V &v, const char *key) {
         throw std::invalid_argument("ntfs_probe_integer");
     return std::stoull(s);
 }
+V security_profile() {
+    namespace w = disked::worker_files;
+    w::Security security;
+    const auto get_dacl=w::symbol<decltype(&GetSecurityDescriptorDacl)>(security.module,"GetSecurityDescriptorDacl");
+    const auto get_control=w::symbol<decltype(&GetSecurityDescriptorControl)>(security.module,"GetSecurityDescriptorControl");
+    const auto get_ace=w::symbol<decltype(&GetAce)>(security.module,"GetAce");
+    const auto sid_string=w::symbol<decltype(&ConvertSidToStringSidW)>(security.module,"ConvertSidToStringSidW");
+    const auto token_info=w::symbol<decltype(&GetTokenInformation)>(security.module,"GetTokenInformation");
+    const auto token_open=w::symbol<decltype(&OpenProcessToken)>(security.module,"OpenProcessToken");
+    HANDLE raw=nullptr;if(!token_open(GetCurrentProcess(),TOKEN_QUERY,&raw))w::fail("security_probe_token");
+    w::Handle token(raw);DWORD size=0,container=0;
+    if(!token_info(token.value,TokenIsAppContainer,&container,sizeof(container),&size))w::fail("security_probe_token");
+    auto observe=[&](const SECURITY_ATTRIBUTES& attributes) {
+        BOOL present=FALSE,defaulted=FALSE;PACL acl=nullptr;SECURITY_DESCRIPTOR_CONTROL control=0;DWORD revision=0;
+        if(!get_dacl(attributes.lpSecurityDescriptor,&present,&acl,&defaulted) || !present || !acl || acl->AceCount>2 ||
+           !get_control(attributes.lpSecurityDescriptor,&control,&revision))w::fail("security_probe_descriptor");
+        auto aces=V::array();
+        for(DWORD i=0;i<acl->AceCount;++i) {
+            void* address=nullptr;if(!get_ace(acl,i,&address))w::fail("security_probe_ace");
+            const auto* ace=static_cast<const ACCESS_ALLOWED_ACE*>(address);
+            if(ace->Header.AceType!=ACCESS_ALLOWED_ACE_TYPE)throw std::runtime_error("security_probe_ace");
+            LPWSTR sid=nullptr;
+            if(!sid_string(const_cast<DWORD*>(&ace->SidStart),&sid))w::fail("security_probe_sid");
+            const auto text=w::narrow(sid);LocalFree(sid);
+            aces.items.push_back(V::object().put("sid",V::string(text)).put("mask",V::string(std::to_string(ace->Mask)))
+                .put("flags",V::string(std::to_string(ace->Header.AceFlags))));
+        }
+        const auto name=w::wide("Local\\DiskEd.Security.Probe."+security.identity(""));
+        auto create=attributes;SetLastError(ERROR_SUCCESS);
+        w::Handle job(CreateJobObjectW(&create,name.c_str()));const auto created_error=GetLastError();
+        if(!job.valid() || created_error==ERROR_ALREADY_EXISTS)w::fail("security_probe_job");
+        SetLastError(ERROR_SUCCESS);w::Handle opened(OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,name.c_str()));
+        const auto query_error=opened.valid()?0:GetLastError();
+        return V::object().put("protected",V::boolean_value((control&SE_DACL_PROTECTED)!=0))
+            .put("aces",std::move(aces)).put("query_opened",V::boolean_value(opened.valid()))
+            .put("query_error",V::string(std::to_string(query_error)));
+    };
+    return V::object().put("appcontainer",V::boolean_value(container!=0))
+        .put("record",observe(security.attributes)).put("lease",observe(security.lease_attributes));
+}
 V metadata(const std::string &input) {
     const auto path = f::path_for(input);
     auto parents = f::pin_parents(path);
@@ -42,6 +83,11 @@ V metadata(const std::string &input) {
     return f::metadata(file.value).value;
 }
 V exercise(const V &input) {
+    if(const auto* selected=input.find("security_probe")) {
+        if(input.fields.size()!=1 || selected->kind!=V::Kind::boolean || !selected->boolean)
+            throw std::invalid_argument("security_probe_shape");
+        return security_profile();
+    }
     disked::NtfsSnapshotInput request;
     request.capture_epoch = input.find("capture_epoch") ? integer(input, "capture_epoch") : 1;
     request.path = text(input, "path");

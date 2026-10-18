@@ -209,3 +209,31 @@ explicitly adds all four required expectation files, matches their immutable Git
 blob hashes to the source-bound context, and admits936 selected files. This is
 a qualification-input repair; no expected result, native deadline or storage
 budget changes. The new streaming/small-fixture/export path needs native retest.
+
+Attempt17 at099b3fc0 passed the86-call file group and all330 original name-order
+file calls. Incremental archival preserved400,360,119 and232,884,826 raw bytes
+for the file/worker name-order groups; total retained archive571,400 bytes.
+Scratch peaked at63,960,474 allocated file bytes. Owned-reader startup still
+failed in three methods (298 calls), with child exit3 before protocol entry.
+All owned guest media, profiles, source and input copies retired.
+
+Attempt18 is a separate actual confined named-job access diagnostic, not a
+DiskEd qualification: an own user-only job is created but query reopen fails5;
+adding the actual token package SID permits query reopen; another package SID
+still fails5. All three own handles and scratch output retired. The documented
+Windows dual-principal access model agrees with these observations.
+
+The proposed shared-header repair introduces a distinct lease/init-mutex ACL
+for the actual current token package. Original protected user-only record and
+unnamed-capability ACLs, ordinary Win32 descriptor, inherited query rights,
+limits and exit ownership stay intact. Token/SID query failure refuses. The
+worker-lease owner now explicitly distinguishes private single-namespace
+qualification from unqualified cross-package/product admission. No existing
+object ACL is rewritten. A new method in the existing worker group independently
+compares actual Python token SIDs with both normal/fault C++ ACLs and fresh
+named-job query results. Original18 groups and178 full x64 groups remain; this
+adds assertions inside an existing group. This shared change needs native
+qualification; prior header/native evidence is historical for the new header.
+
+Primary references: Microsoft [AppContainer access model](https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer)
+and [token package information](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_appcontainer_information).

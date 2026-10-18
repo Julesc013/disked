@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents access, portable Python, guest 32/512 MiB confinement proofs and restricted x64/Win32 compiler/SDK/native-launch probes passed; disposable output was removed. Guest source verification and pinned x64 configure passed at recorded revisions. A fixture tooling fix passed 119 coordinator tests (one skip); actual guest product build and remaining DE-W105 Win32 tests remain incomplete after a directory-permission compatibility failure. All disposable campaign output is removed. No host UAC request or storage-proof worker remains pending. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is routine; Codex remains an enabled emergency administrator spare. Source099b3fc0 passed the guest86-call file and330-call name-order file groups,12 headers and nine executable/import observations. Per-call compression and sparse fixtures kept peak scratch allocation near61MiB; all owned output was removed. The owned-reader group failed before capture entry. A confined object probe reproduced missing package permission on named lease objects; a scoped lease-only ACL repair and independent normal/fault regression await native evaluation. Record-file ACLs and budgets stay unchanged. Remaining Win32 groups and the full current x64 gate, owner acceptance and release qualification are pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
@@ -31,8 +31,12 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents acce
   x64 CMake configure. Preserve failed attempts, correct worker support ownership
   in the fixture generator and retain 119 coordinator tests (one expected skip).
   [Partial checkpoint](.aide/evidence/2026-10-18-guest-build/README.md); this is not a native Win32 pass.
-- [ ] Build and qualify DiskEd itself in the guest; compiler probes do not
-  substitute for the DE-W105 product/private Win32 criteria.
+- [x] Build the actual pinned private Win32 fixture in the guest:12 header objects,
+  nine executable/security/import observations and the complete86-call file group.
+  Preserve the name-order cap failure and its compact raw evidence.
+- [ ] Qualify all18 private Win32 groups with complete case inventories and bounded
+  per-call retention, then the current all-target x64 product/178-group gate.
+  Compiler probes and a passing first group do not substitute for either gate.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
   a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
   the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build
@@ -62,6 +66,16 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents acce
   extraction. Continue the existing header/layer checks; no broad rewrite needed.
 
 ## 0.1.0 goal
+
+- [x] Incorporate the supplied Windows reference-method review into the
+  [plan](docs/windows-reference.md), canonical testing policy and work definitions.
+  This records planned work; no Windows reference campaign or REA install is claimed.
+- [ ] DE-W106, after current DE-W105 qualification: reject incomplete, duplicate
+  or inconsistently identified differential evidence; migrate the old campaign
+  and documentation to bounded managed output with owned cleanup.
+- [ ] DE-W107: four generated partition cases with exact Windows API/UI reference
+  identities, independent expectations, retained disagreements and cleanup.
+  Apply findings to existing provider/integration gates; REA remains optional.
 
 - [ ] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
   complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);

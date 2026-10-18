@@ -380,11 +380,13 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
 '''
         run('fixture-sparse-preflight', [python, '-B', '-c', sparse_preflight, SOURCE / 'tests', SOURCE / 'tests/images'], timeout=30)
         mode = json.loads((ROOT / 'expected.json').read_bytes()).get('execution_kind', 'win32')
-        if mode == 'path-probe':
-            result['schema'] = 'org.disked.guest-path-api-probe/1'
-            archive.write(ROOT / 'path-api-probe.py', 'recipe/path-api-probe.py')
-            _, raw = run('path-api-probe', [python, '-B', '-c', (ROOT / 'path-api-probe.py').read_text(), SOURCE / 'tests'], timeout=30)
-            result['path_api_probe'] = json.loads(raw.decode().splitlines()[-1])
+        if mode in ('path-probe','object-probe'):
+            name = 'worker-object-probe.py' if mode == 'object-probe' else 'path-api-probe.py'
+            result['schema'] = 'org.disked.guest-'+mode+'/1'
+            archive.write(ROOT / name, 'recipe/'+name)
+            argument = state['profile_sids'][1] if mode == 'object-probe' else SOURCE / 'tests'
+            _, raw = run(mode, [python, '-B', '-c', (ROOT / name).read_text(), argument], timeout=30)
+            result[mode.replace('-','_')] = json.loads(raw.decode().splitlines()[-1])
         elif mode == 'win32':
             # Creating a symlink needs a guest setup privilege; reading/refusing
             # it remains a test of the actual unprivileged native executable.

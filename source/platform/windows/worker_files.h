@@ -67,8 +67,8 @@ template<class T>T symbol(HMODULE module,const char* name) {
     T result;static_assert(sizeof(result)==sizeof(address),"function pointer size");std::memcpy(&result,&address,sizeof(result));return result;
 }
 struct Security {
-    HMODULE module=nullptr;PSECURITY_DESCRIPTOR descriptor=nullptr;
-    SECURITY_ATTRIBUTES attributes{};std::string host_id;
+    HMODULE module=nullptr;PSECURITY_DESCRIPTOR descriptor=nullptr,lease_descriptor=nullptr;
+    SECURITY_ATTRIBUTES attributes{},lease_attributes{};std::string host_id;
     using Random=BOOLEAN (WINAPI*)(PVOID,ULONG);
     Random random=nullptr;
     Security() {
@@ -92,9 +92,32 @@ struct Security {
             const auto sddl=L"D:P(A;;FA;;;"+sid_text+L")";
             if(!convert(sddl.c_str(),SDDL_REVISION_1,&descriptor,nullptr))fail("operation_acl_unavailable");
             attributes.nLength=sizeof(attributes);attributes.lpSecurityDescriptor=descriptor;attributes.bInheritHandle=FALSE;
-        } catch(...) {if(descriptor)LocalFree(descriptor);FreeLibrary(module);module=nullptr;throw;}
+            lease_attributes=attributes;
+            DWORD container=0;
+            if(!info(token.value,TokenIsAppContainer,&container,sizeof(container),&length))fail("operation_identity_unavailable");
+            if(container) {
+                length=0;info(token.value,TokenAppContainerSid,nullptr,0,&length);
+                if(length<sizeof(TOKEN_APPCONTAINER_INFORMATION) || length>65536)fail("operation_identity_unavailable");
+                std::vector<unsigned char> package(length);
+                if(!info(token.value,TokenAppContainerSid,package.data(),length,&length))fail("operation_identity_unavailable");
+                const auto package_sid=reinterpret_cast<TOKEN_APPCONTAINER_INFORMATION*>(package.data())->TokenAppContainer;
+                LPWSTR package_string=nullptr;
+                if(!package_sid || !sid_string(package_sid,&package_string))fail("operation_identity_unavailable");
+                std::wstring package_text;
+                try {package_text.assign(package_string);}catch(...) {LocalFree(package_string);throw;}
+                LocalFree(package_string);
+                // Only named lease objects need reopening by this package.
+                // Record files and unnamed inherited capabilities keep their
+                // original protected user-only descriptor.
+                const auto lease_sddl=sddl+L"(A;;FA;;;"+package_text+L")";
+                if(!convert(lease_sddl.c_str(),SDDL_REVISION_1,&lease_descriptor,nullptr))fail("operation_acl_unavailable");
+                lease_attributes.lpSecurityDescriptor=lease_descriptor;
+            }
+        } catch(...) {if(lease_descriptor)LocalFree(lease_descriptor);if(descriptor)LocalFree(descriptor);FreeLibrary(module);module=nullptr;throw;}
     }
-    ~Security() {if(descriptor)LocalFree(descriptor);if(module)FreeLibrary(module);}
+    ~Security() {if(lease_descriptor)LocalFree(lease_descriptor);if(descriptor)LocalFree(descriptor);if(module)FreeLibrary(module);}
+    Security(const Security&)=delete;
+    Security& operator=(const Security&)=delete;
     std::string identity(const std::string& prefix) const {
         unsigned char bytes[16];if(!random(bytes,16))fail("operation_random_unavailable");
         const char* digits="0123456789abcdef";std::string out=prefix;
@@ -284,7 +307,7 @@ struct WorkerBudget {
             if(!job.valid())fail("operation_worker_budget_mismatch");
             return;
         }
-        auto attributes=security.attributes;
+        auto attributes=security.lease_attributes;
         const auto mutex_name=L"Local\\DiskEd.Fake.Workers.v2.Init."+base;
         Handle mutex(CreateMutexW(&attributes,FALSE,mutex_name.c_str()));
         if(!mutex.valid())fail("operation_worker_budget_unavailable");

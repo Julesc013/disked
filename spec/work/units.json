@@ -3077,7 +3077,8 @@
       "decision_gates": [],
       "context": [
         "DE-025",
-        "DE-063"
+        "DE-063",
+        "DE-074"
       ],
       "allowed_paths": [
         "source/integrations/**",
@@ -3115,7 +3116,10 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "docs/windows-reference.md",
+        "tests/differential/CONTRACT.md"
+      ]
     },
     {
       "id": "DE-W043",
@@ -10908,7 +10912,8 @@
         "docs/**",
         "TODO.MD",
         ".aide/**",
-        "source/providers/image/local_file.cpp"
+        "source/providers/image/local_file.cpp",
+        "source/platform/windows/worker_files.h"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -10941,7 +10946,8 @@
         "W104 intentionally rejected private NameOrder4 at its qualified checkpoint. This public contract admits that known kind. Change the current native-name-order negative guard to a positive validation assertion and keep unknown99 rejection/diagnostic plus existing Upcase3 positive coverage. Retain the original W104 recipe,expected hashes,raw observations and qualification unchanged; bind the evolved current guard recipe separately. Existing command identities,parameter names,old view defaults and public representation versions keep their meaning. Additive prototype admission does not declare a stable public ABI.",
         "Define independent layouts,original bytes/table/order/comparison/group facts,display-prefix/hash/chunk expectations and public status/exit/diagnostics before native evaluation. Cover both versions,auto/explicit/mismatch,empty/siblings/deep/large order,high4GiB window,old/large FILE headers,fragmented table/MFT/list/bitmap forms,all namespace codes,equal raw/mapped groups,sequence-distinct references,nonstandard/non-idempotent tables,alias and mapped-descent findings. Reassemble every table chunk and compare every projected prefix and nested header list to original fixture facts; exercise explicit omissions without inventing resolution. Reject each malformed or coherently forged audit/table/context/domain/counter/claim/phase relationship. Retain authentic source-failure partials and complete negative findings separately from synthetic port-shape/budget cases. Test exact524288-byte framing and one-byte overflow. Exercise actual CLI human/JSON,stdio JSON/NDJSON,GUI,TUI,shell,source-open guard,late replies/source-slot retention,cancel/hang/fault isolation,essential commands and original native guard semantics. Save raw request/reply/stderr,actual process identity and source-preservation receipts before assertions; preserve every failure and unavailable check.",
         "Use an exact clean-source all-target pinned Windows x64 build and the entire registered native suite after common schema/projection/classifier changes,all68 standalone headers,strict C90,product/private executable imports,full tooling/generated/source-map/manifest/context checks. Qualify the same-source private Win32 file/worker/name-order/table/reader slice and evolved known/unknown-kind validation guards,with12 headers and nine executable observations. This is not the full Win32 product,historical compilers,other hosts,hardware or installation qualification. Preserve old failures and diagnose any new failure before a fresh campaign. Source integration after agent review stays separate from owner acceptance,storage privileges and release publication.",
-        "Repair the shared private ordinary-file binding needed by the confined native qualification: preserve strict DOS input syntax/240 units, strong ancestor handles/generations and held-source lifetime, but compare normalized NT names bound to a fresh strong read handle for that selected drive root and matching volume IDs. No opened-name, volume-less, weak-handle or substitute-source fallback. Preserve all original file checks (79 historical completed plus one unavailable symlink gives80 required calls) and six independent binding rows,86 total with an independent per-method count matrix; retain the exact diagnostic probes, all18 Win32 groups and full current x64 suite after this shared change. This is local ordinary-file prototype support, not physical isolation, drive-remapping fencing or a public ABI freeze."
+        "Repair the shared private ordinary-file binding needed by the confined native qualification: preserve strict DOS input syntax/240 units, strong ancestor handles/generations and held-source lifetime, but compare normalized NT names bound to a fresh strong read handle for that selected drive root and matching volume IDs. No opened-name, volume-less, weak-handle or substitute-source fallback. Preserve all original file checks (79 historical completed plus one unavailable symlink gives80 required calls) and six independent binding rows,86 total with an independent per-method count matrix; retain the exact diagnostic probes, all18 Win32 groups and full current x64 suite after this shared change. This is local ordinary-file prototype support, not physical isolation, drive-remapping fencing or a public ABI freeze.",
+        "Repair confined named-lease reopening using the actual current token AppContainer SID only in a distinct lease/init-mutex descriptor; preserve user-only record/unnamed-capability ACLs, ordinary Win32 behavior, query-only inherited handles, quotas and exit ownership. Record namespace applicability explicitly; do not claim production package admission or cross-package aggregate enforcement. Retain the fresh-object access probe and all original native criteria before evaluating this shared-header change."
       ],
       "acceptance": [
         "Define independent layouts,original bytes/table/order/comparison/group facts,display-prefix/hash/chunk expectations and public status/exit/diagnostics before native evaluation. Cover both versions,auto/explicit/mismatch,empty/siblings/deep/large order,high4GiB window,old/large FILE headers,fragmented table/MFT/list/bitmap forms,all namespace codes,equal raw/mapped groups,sequence-distinct references,nonstandard/non-idempotent tables,alias and mapped-descent findings. Reassemble every table chunk and compare every projected prefix and nested header list to original fixture facts; exercise explicit omissions without inventing resolution. Reject each malformed or coherently forged audit/table/context/domain/counter/claim/phase relationship. Retain authentic source-failure partials and complete negative findings separately from synthetic port-shape/budget cases. Test exact524288-byte framing and one-byte overflow. Exercise actual CLI human/JSON,stdio JSON/NDJSON,GUI,TUI,shell,source-open guard,late replies/source-slot retention,cancel/hang/fault isolation,essential commands and original native guard semantics. Save raw request/reply/stderr,actual process identity and source-preservation receipts before assertions; preserve every failure and unavailable check.",
@@ -11035,7 +11041,190 @@
         "tests/tools/test_windows_worker.py",
         "tools/capped-scratch.ps1",
         "tools/qualify-storage.py",
-        "tools/windows-worker.py"
+        "tools/windows-worker.py",
+        "spec/catalog/worker-lease-prototype.json"
+      ]
+    },
+    {
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R2",
+      "decision_gates": [],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw host physical-device access",
+        "customer-data access",
+        "release signing or publication",
+        "unrequested software installation",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unavailable or unrun checks passed",
+        "changing shared guest accounts, security policy or VM configuration as a reference experiment",
+        "bypassing workspace limits or spilling output outside owned managed roots"
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "id": "DE-W106",
+      "title": "Harden differential evidence and migrate bounded campaign output",
+      "dependencies": [
+        "DE-W105"
+      ],
+      "context": [
+        "DE-074",
+        "DE-032",
+        "DE-044",
+        "DE-071"
+      ],
+      "allowed_paths": [
+        "tests/differential/**",
+        "tests/corpus/**",
+        "tests/fuzz/**",
+        "tests/tools/**",
+        "tools/workspace.py",
+        "spec/development/testing-and-ci.md",
+        "spec/work/units.json",
+        "spec/catalog/input-dependencies.json",
+        "spec/references/sources.json",
+        "spec/manifest.json",
+        "spec/generated/**",
+        "spec/index.md",
+        "docs/windows-reference.md",
+        "docs/development-plan.md",
+        "docs/code-structure.md",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/disked-0.1.0.json"
+      ],
+      "deliverables": [
+        "Predeclared exact case/participant/kind set, validated unique complete records, consistent fixture geometry/hash and native/reference identities; preserve diagnostic-only observations and disagreement.",
+        "Separate evidence completeness, execution outcome and behavioral agreement; coordinator success consumes the validated result, never the old passing-control flag alone.",
+        "Managed-workspace migration of the old coordinator, caches, logs and documentation; bounded process/output ownership and success/failure/interruption cleanup. Preserve the historical campaign unchanged."
+      ],
+      "acceptance": [
+        "Missing/duplicate/unexpected observations, unknown cases, empty expected sets, mismatched hash/geometry, changed bytes or raw artifacts and unidentified participants cannot yield complete success. A fully identified refusal may be an observation but cannot pass a successful-projection control.",
+        "Independent regressions retain valid complete disagreements and both GPT candidates; diagnostic-only calls participate in completeness without invented projections.",
+        "No generated campaign data enters .aide-local or an undeclared fallback. Positive/negative managed-path and cleanup controls pass within existing limits and selected OS-enforced confinement. The old WSL recipe stays suspended until that execution profile is demonstrated.",
+        "Freeze exact execution commands, environment, tools and expected sets before native/external evaluation. Run available bounded fixtures; unavailable profiles remain unverified. No historical full campaign rerun merely to refresh a planning record."
+      ],
+      "required_inputs": [
+        "AGENTS.md",
+        "docs/windows-reference.md",
+        "tests/differential/CONTRACT.md",
+        "spec/references/sources.json",
+        "tools/workspace.py",
+        "tests/differential/compare.py",
+        "tests/differential/test_adapters.py",
+        "tests/differential/run_wsl_campaign.py",
+        "tests/differential/README.md",
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py",
+        "tests/corpus/partition_images.py",
+        "tests/fuzz/run_campaign.py",
+        "tests/tools/test_workspace.py",
+        "tools/build-inputs.json"
+      ]
+    },
+    {
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R2",
+      "decision_gates": [],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw host physical-device access",
+        "customer-data access",
+        "release signing or publication",
+        "unrequested software installation",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unavailable or unrun checks passed",
+        "changing shared guest accounts, security policy or VM configuration as a reference experiment",
+        "bypassing workspace limits or spilling output outside owned managed roots"
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "id": "DE-W107",
+      "title": "Observe one bounded Windows partition-inventory reference campaign",
+      "dependencies": [
+        "DE-W106"
+      ],
+      "context": [
+        "DE-074",
+        "DE-034",
+        "DE-025",
+        "DE-044",
+        "DE-063"
+      ],
+      "allowed_paths": [
+        "tests/differential/**",
+        "tests/corpus/**",
+        "tests/fuzz/**",
+        "tests/tools/**",
+        "tools/workspace.py",
+        "spec/development/testing-and-ci.md",
+        "spec/work/units.json",
+        "spec/catalog/input-dependencies.json",
+        "spec/references/sources.json",
+        "spec/manifest.json",
+        "spec/generated/**",
+        "spec/index.md",
+        "docs/windows-reference.md",
+        "docs/development-plan.md",
+        "docs/code-structure.md",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/disked-0.1.0.json",
+        "spec/storage/windows.md",
+        "spec/interaction/native-integration.md",
+        "tests/integration/**"
+      ],
+      "deliverables": [
+        "Four independently recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies; fixed sector geometry and separate disposable participant copies.",
+        "Predeclared documented layout-query and Disk Management UI observations per case, exact call/interaction sequence, identities, effects and comparison contract. Preserve Windows selection, raw metadata and display separately.",
+        "Reviewed behavior contract, replayable independent regressions, retained raw observations/errors, unresolved discrepancies and owned-cleanup receipt. Optional REA pilot only for a remaining precise question; no required installation."
+      ],
+      "acceptance": [
+        "Complete API and UI evidence on the exact guest build, or an explicitly incomplete/unavailable campaign; API-only results never qualify the declared UI set. No physical host media or silent host fallback.",
+        "Bind every record to exact fixture recipe/hash/length/geometry, participant copy, OS/component/tool/code identity, privilege/policy/presentation, action, raw evidence and before/after media effects. No incorrect unchanged-input claim after mount or background writes.",
+        "Record documented fact, observation, inference and unresolved behavior separately. A reference selecting one GPT copy cannot resolve independent conflicting candidates or authorize mutation.",
+        "Use existing bounded guest capacity and aggregate storage limits; coordinate exclusive desktop access; detach owned virtual media, retire owned processes and remove disposable output on success/failure/interruption. Do not reconfigure/reboot/compact the shared VM.",
+        "DE-W030/DE-W035 receive only reviewed findings relevant to their existing gates. New target profiles, production writers, real installation, owner acceptance and release qualification remain separate. REA value is measured by a reproducible finding/regression and cost, not its presence."
+      ],
+      "required_inputs": [
+        "AGENTS.md",
+        "docs/windows-reference.md",
+        "tests/differential/CONTRACT.md",
+        "spec/references/sources.json",
+        "tools/workspace.py",
+        "tests/corpus/partition_images.py",
+        "tests/differential/compare.py",
+        "tests/differential/observe_native.py",
+        "spec/catalog/targets.json",
+        "spec/storage/windows.md",
+        "spec/interaction/native-integration.md",
+        "docs/development-storage.md"
       ]
     }
   ]

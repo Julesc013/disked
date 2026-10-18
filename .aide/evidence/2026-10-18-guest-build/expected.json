@@ -84,5 +84,26 @@
     ".aide/evidence/2026-10-17-ntfs-name-order/expected-after-fixture-review.json",
     ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-startup-review.json",
     ".aide/evidence/2026-10-17-ntfs-name-order-command/expected-after-binding-review.json"
-  ]
+  ],
+  "named_lease_security": {
+    "record_acl": "protected exact current-user ACE only",
+    "lease_acl": "same protected user ACE plus exact current token package ACE only when actually AppContainer",
+    "caller_selected_sid": false,
+    "ordinary_non_appcontainer_descriptor_unchanged": true,
+    "compiled_probe_variants": [
+      "normal",
+      "fault"
+    ],
+    "new_worker_method": "test_named_lease_acl_keeps_record_acl_and_actual_package_identity",
+    "independent_token_observer": "Python GetTokenInformation/ConvertSidToStringSidW compared with actual C++ object ACLs",
+    "record_query_when_confined": {
+      "opened": false,
+      "platform_error": 5
+    },
+    "lease_query_when_confined": {
+      "opened": true,
+      "platform_error": 0
+    },
+    "cross_namespace_product_aggregate_qualified": false
+  }
 }

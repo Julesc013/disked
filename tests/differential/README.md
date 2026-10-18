@@ -4,21 +4,25 @@ Read CONTRACT.md first. This directory adapts generated ordinary files to the
 private native probes and installed external partition readers. All tests are
 local; no installation, device, mount or product command is involved.
 
-From Windows, after a native bootstrap build, run:
-
-```text
-python tests/differential/run_wsl_campaign.py --output .aide-local/campaign/example --mbr-probe build/windows-bootstrap/Release/mbr_probe.exe --gpt-probe build/windows-bootstrap/Release/gpt_probe.exe --probe-identity build/windows-bootstrap/generated/build-identity.json
-```
+The historical `run_wsl_campaign.py` recipe is suspended. It requires generated
+output in `.aide-local`, which now permits only 32 MiB of context and metadata.
+Do not run it under the current resource policy. DE-W106 must migrate the
+coordinator and prove managed output/confinement/cleanup before reuse. The
+current comparator also lacks final evidence-set completeness checks; its
+`adapter_controls_passed` flag alone cannot qualify a complete campaign.
+See [the planned correction](CONTRACT.md#planned-evidence-boundary-correction-de-w106).
 
 The coordinator checks every native build input before reusing its probes. It
 requires the already installed `Ubuntu-24.04` and `Debian` WSL profiles, invokes
 Python explicitly as UID 65534 (`nobody`), and records failures if tools are absent.
 It never installs dependencies. The Linux campaign scopes a Git ownership
 exception to read-only metadata commands for this explicit Windows-owned checkout;
-it does not modify global Git settings. Output directories must be new and within
-the checkout's `.aide-local` tree.
+it does not modify global Git settings. This describes the historical runner,
+not an admitted current execution profile.
 
-The individual adapters also work directly in an unprivileged Linux environment:
+Individual adapters can be composed in an unprivileged Linux worker after its
+resource/confinement profile is qualified. These are adapter arguments, not a
+replacement for the mandatory managed campaign runner:
 
 ```text
 python tests/corpus/partition_images.py --output /path/to/new/corpus
@@ -44,8 +48,11 @@ tested by an intentional campaign failure. Reproduce a retained iteration with
 the recorded `--emit` command and original ordered seed files. Coverage reports
 name both the source file and translation unit, preserving system-header rows.
 
-Generated images, instrumented binaries and complete raw native probe output
-remain in `.aide-local`. Durable evidence can retain the recipe manifest, tool
-observations, source inputs, commands, coverage and any small failing input.
+Generated images, instrumented binaries, caches and raw probe output belong only
+in the owned managed campaign workspace, within its existing aggregate limits.
+Retain compact verified evidence before cleanup: recipe manifest, tool identities,
+commands, structured outcomes, bounded raw observations and a small failure input.
+Do not accumulate images or duplicate archives. Windows API/UI reference work is
+planned in DE-W107; see [the reference plan](../../docs/windows-reference.md).
 Neither agreement with another tool nor a completed bounded campaign proves
 exhaustive correctness, source consistency, recovery safety or platform support.

@@ -2,7 +2,21 @@
 
 The amended baseline is **proposed and awaiting owner acceptance**. The native Windows development composition and bounded image/format prototypes build and run on the recorded host. The programme links each implemented slice to its exact tests and evidence; this does not establish full product, provider, historical-platform or release qualification. See the [native build guide](native-bootstrap.md) for the exact implemented surface. The [amendment review](../spec/roadmap/amendment-review.md) records conflicts and deferred scope. [Root TODO](../TODO.MD) is the short checklist; [work definitions](../spec/work/units.json) own dependencies, deliverables and acceptance criteria.
 
-## Start development in bounded slices
+## Windows reference and compatibility plan
+
+The [Windows reference plan](windows-reference.md) explains Disk Management,
+MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.
+Finish DE-W105's current native gate, then DE-W106 repairs differential evidence
+completeness and old campaign storage routing. DE-W107 observes four generated
+partition layouts through declared API and UI actions on an exact Windows build.
+Reviewed findings improve existing provider/integration contracts. REA is an
+optional research tool; it is not installed or a runtime dependency. These are
+planned tasks with explicit inputs and completion criteria in
+[work definitions](../spec/work/units.json), not completed experiments or extra
+prerequisites for the already-running native work. The original all-platform/
+storage objective and release gates remain unchanged.
+
+## Bounded implementation sequence
 
 | Work | Concrete result | Boundary |
 |---|---|---|

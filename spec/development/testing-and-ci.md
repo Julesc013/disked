@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-074
   profile: disked-spec/1
-  version: 0.1.21-proposed.1
+  version: 0.1.22-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,9 +27,15 @@ disked:
   - DE-REQ-074-03
 updated:
   by: codex
-  at: '2026-10-04T07:27:09.204646+00:00'
-  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
+  at: '2026-10-18T09:32:34.896855+00:00'
+  scope: Proposed Windows reference experiments; no execution or qualification claim
 sources:
+- id: windows-reference-review-2026-10-18
+  resource: ../references/sources.json#windows-reference-review-2026-10-18
+- id: rea-reference-method
+  resource: ../references/sources.json#rea-reference-method
+- id: windows-reference-ui-automation
+  resource: ../references/sources.json#windows-reference-ui-automation
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
 - id: cli-refinement-2026-10-04
@@ -99,6 +105,43 @@ coverage-guided fuzzing or exhaustive qualification; unavailable runtime support
 remains a recorded follow-up, not a substituted pass. W024 owns coherent image
 capture and frontend integration. Historical platforms, independent safety
 qualification and owner acceptance retain their separate gates.
+
+## Windows reference experiments
+
+Reference-driven development extends the differential campaign; it supplies
+evidence for reviewed contracts, not implementation authority or acceptance.
+DE-W106 first repairs evidence-set validation and the historical coordinator's
+obsolete scratch routing. DE-W107 then runs one bounded Windows inventory
+experiment. The experiment contract (`tests/differential/CONTRACT.md` in the implementation repository)
+defines participant identities, expected sets, effects and result dimensions;
+the contributor plan (`docs/windows-reference.md` in the implementation repository) explains component roles.
+
+Declare each question, exact expected case/reference/observation-kind set,
+geometry, normalization rules and allowed effects before evaluation. Validate
+uniqueness, completeness and matching recipe/input/tool identities before
+projecting results. A missing or invalid observation MUST NOT produce a complete
+successful campaign. Required unavailable observations remain unsatisfied; a
+well-identified reference refusal is an observation, not missing evidence.
+Keep evidence completeness separate from behavioral agreement and from capability
+qualification. Retain diagnostics and competing candidates without majority vote.
+
+Use separate disposable participant copies and record before/after bytes and
+attachment/mount side effects. Bind raw results to OS/component/tool versions,
+privilege, policies, device geometry, action and comparison-contract revision.
+Label documented facts, observations, inferences and unresolved discrepancies.
+Cache/reuse only when those dependencies remain applicable. Implementation tests
+use reviewed independent expectations rather than deriving expected behavior
+from the implementation being evaluated.
+
+REA is an optional research aid. Keep public documentation/behavior, licensed
+source and proprietary binary-analysis provenance distinct. Any required
+observer/builder separation needs enforced access boundaries; shared credentials
+or agent profiles are insufficient. No tool install, code reuse, exported asset
+or research result automatically gains product admission or redistribution rights.
+Keep all reference work within the existing managed storage, guest and cleanup
+policy; coordinate the shared interactive desktop. Do not rerun the obsolete
+`.aide-local` campaign recipe or replace current native qualification with a
+reference-tool installation. New target declarations do not imply target support.
 
 ## Normative requirements
 

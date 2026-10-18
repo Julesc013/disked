@@ -74,13 +74,38 @@ verified 931 inputs in a 3.7 MiB pack; the disposable pack/checkout were removed
 Its hash-bound metadata does not qualify a guest build or authorize execution.
 
 The [guest build checkpoint](../.aide/evidence/2026-10-18-guest-build/README.md)
-subsequently verified 931 source inputs inside the guest and completed the pinned
-x64 configuration at its recorded revision. It exposed a fixture support-file
-ownership error, now covered by 119 coordinator tests with one expected skip.
-The later guest attempt stopped on directory DACL editing before native Win32
-evaluation. Source copies, images and context packs were removed. No private
-Win32/product build, owner acceptance or release qualification follows from this
-partial checkpoint; its failed attempts and remaining repair are retained.
+retains those initial transport/configure failures and subsequent repairs.
+At `099b3fc0`, actual Win32 compilation, twelve header objects, nine executable
+and import observations, the86-call file group and330-call name-order file group
+passed. The owned-reader group failed during startup. These results remain
+revision-bound; a proposed shared named-lease ACL repair still needs native
+evaluation. Neither the remaining private groups nor the full current x64,
+owner-acceptance or release gates are complete.
+
+Qualification recipes must export their exact acceptance inputs too. This
+checkpoint explicitly adds four expectation files already hash-bound in the
+task context, comparing their Git blob hashes before guest setup. A build-only
+thin export is not automatically the complete qualification dependency closure.
+
+Generated NTFS images use sparse allocation and native logical EOF for both
+small and large fixtures. Their logical bytes, hashes and expectations stay
+unchanged. Large logical sizes are not retained as dense scratch allocations.
+The name-order harness publishes per-call raw-byte receipts after closing its
+files. The coordinator checks exact group paths and hashes, streams those
+completed bytes into its compressed archive, then deletes only those files.
+Unpublished/in-flight output stays; final receipt parsing is strict. This kept
+the recorded run near61MiB peak allocated scratch, with633MB of exact raw
+observations compressed into571,400 bytes. Archive verification streams data
+without extracting duplicate trees.
+
+The confined named-job probe separately observed user-only query denial,
+current-package access and other-package denial. The proposed lease descriptor
+uses only the actual current token package SID alongside its user SID; existing
+record-file and unnamed-capability ACLs remain protected user-only. Ordinary
+Win32 behavior remains the baseline. AppContainer object namespaces do not by
+themselves prove aggregate accounting across packages and direct processes;
+packaged-product admission remains separate. See the
+[lease contract](../spec/catalog/worker-lease-prototype.json).
 
 The shared NTFS fixture bases use [tests/support/tempdir.py](../tests/support/tempdir.py)
 for temporary directories. Ordinary processes retain Python's standard behavior.
