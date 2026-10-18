@@ -1,0 +1,55 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
+  "spec_manifest_digest": "sha256:1be874956592f41f7cca318c0cf528f703e1b052e7cb6f9fa54aa68495dbd324",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    ".aide/programmes/disked-0.1.0.json",
+    "tools/qualify-storage.py",
+    ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    ".aide/evidence/2026-10-18-storage-proof/live-wait.json",
+    ".aide/handoffs/DE-W105-live-storage-proof-2026-10-18.json"
+  ],
+  "summary": "Fresh resumed audit. Previous goal turn was no progress and marked blocked. Current external state changed: the two old consent processes are absent, source checkout is clean at7442a800 and the same user/setup grant remains. Started exactly one current committed32MiB proof with elevation requested. Its exact requester79196/parent66932 is confirmed live; exec session3682 remains running and fresh Windows consent57972 is live. No setup/image exists yet. Current classification is verified wait, not completion or a terminal blocker. Full original0.1.0 scope is unchanged.",
+  "tests": [
+    {
+      "command": "Read-only repository, process, session and storage-state inspection",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-storage-proof/live-wait.json"
+    },
+    {
+      "command": "32MiB allocation/write/interruption test body (launcher is live in exec session3682; filesystem not provisioned yet)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": ".aide/evidence/2026-10-18-storage-proof/live-wait.json"
+    },
+    {
+      "command": "DE-W105 remaining native qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-storage-proof/live-wait.json",
+      "sha256": "sha256:4370bb297c14c921927ec85d9aed86e4f42fa6664181973f9fa3a22bd8c446a9"
+    }
+  ],
+  "blockers": [
+    "Fresh Windows consent requires VM-console interaction; the owned proof requester is live, so preserve it and poll the same session. No additional setup authorization is missing.",
+    "Capacity proof, final capped runner/compiler qualification, DE-W105 native checks and original all-platform/storage0.1.0 completion are not established."
+  ],
+  "next_safe_step": "Poll the existing exec session3682 and exact proof requester79196 (parent66932,created2026-10-18T00:14:02.220936Z); verify live OS state if a tool observation fails. Do not start another proof or treat observation timeout as termination. Complete the fresh UAC at the VM console; then inspect this run's source-bound receipt and actual capped-filesystem results before any native admission. Original all-platform/storage0.1.0 scope remains.",
+  "performed_remote_writes": false
+}

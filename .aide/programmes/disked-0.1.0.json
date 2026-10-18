@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.development-programme/1",
   "product_version": "0.1.0",
-  "status": "blocked",
+  "status": "active",
   "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
   "scope": "All platforms and storage operations specified at the base revision; future additions require an explicit scope update.",
   "scope_source": "User selected: All currently specified platforms and storage operations.",
@@ -141,7 +141,7 @@
     "DE-W104"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "At the shared VM console resolve relevant Windows consent, cancelling obsolete DiskEd prompts after identifying their helper command. Resume the unchanged full0.1.0 goal, start a fresh blocked audit, recheck live OS/helper/scratch state and execute the already-authorized bounded32MiB proof. Do not queue more prompts, raise budgets or weaken the native storage gate.",
+  "next_action": "Poll the existing exec session3682 and exact proof requester79196 (parent66932,created2026-10-18T00:14:02.220936Z); verify live OS state if a tool observation fails. Do not start another proof or treat observation timeout as termination. Complete the fresh UAC at the VM console; then inspect this run's source-bound receipt and actual capped-filesystem results before any native admission. Original all-platform/storage0.1.0 scope remains.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -2228,8 +2228,8 @@
     "checkpoint_revision": "80919b0391571dc8b09157bfeec664863806cc45",
     "synchronization_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/remote-sync.json"
   },
-  "native_development_state": "blocked_by_windows_consent",
-  "native_pause_reason": "Three consecutive goal turns observed the unresolved Windows elevation/consent gate. No live DiskEd setup worker or capped storage exists. Current tooling is tested; further native progress needs console resolution, not additional user authorization.",
+  "native_development_state": "waiting_live_storage_proof",
+  "native_pause_reason": "Native campaigns still need actual capacity/final-runner proof. Old consent processes cleared; one fresh, already-authorized32MiB proof is live and waiting for Windows consent. No retry or image allocation while waiting.",
   "goal_continuation": {
     "observed_at": "2026-10-17T05:52:40.779318+00:00",
     "source": "User-provided goal continuation; goal service reports active.",
@@ -2301,35 +2301,26 @@
     "latest_admission_evidence": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-admission.json"
   },
   "execution_environment_gate": {
-    "status": "blocked_pending_console_resolution",
-    "first_observed_at": "2026-10-17T07:13:38.856460+00:00",
-    "current_turn": "no_progress",
-    "consecutive_no_progress_turns": 1,
-    "required_change": "Resolve the relevant existing Windows consent prompts at the VM console; cancel obsolete DiskEd requests whose requesters have exited. Recheck live state before the already-authorized capped proof.",
-    "native_capacity_proven": false,
-    "previous_goal_turn": "progress",
-    "consecutive_goal_turns": 3,
-    "last_observed_at": "2026-10-17T07:38:24.1097399Z",
-    "pending_consent_processes": [
-      72136,
-      43448
-    ],
-    "pending_process_session_observed_by_cim": 1,
-    "ownership_of_consent_processes": "not established; command lines unreadable",
-    "additional_authorization_missing": false,
-    "validation": {
-      "tooling_run": 97,
-      "tooling_passed": 96,
-      "tooling_skipped": 1,
-      "focused_admission_tests": 8,
-      "focused_passed": 8,
-      "structural_checks": 1323,
-      "manifest_verified": true,
-      "sampled_work_peak_bytes": 497714,
-      "workspaces_removed": true,
-      "native_capacity_proven": false
+    "status": "verified_wait_for_live_elevation_request",
+    "resumed_at": "2026-10-18T00:20:15.5259164Z",
+    "previous_goal_turn": "no_progress",
+    "current_turn": "verified_wait",
+    "consecutive_goal_turns": 1,
+    "consecutive_no_progress_turns": 0,
+    "previous_blocked_audit": ".aide/evidence/2026-10-17-workspace-cleanup/storage-goal-blocked-audit.json",
+    "requester": {
+      "command": "python -B tools/qualify-storage.py --elevate",
+      "pid": 79196,
+      "parent_pid": 66932,
+      "created_at": "2026-10-18T00:14:02.2209360Z"
     },
-    "latest_review": ".aide/evidence/2026-10-17-workspace-cleanup/storage-elevation-review.md",
-    "audit": ".aide/evidence/2026-10-17-workspace-cleanup/storage-goal-blocked-audit.json"
+    "exec_session_id": 3682,
+    "pending_consent_processes": [
+      57972
+    ],
+    "source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
+    "native_capacity_proven": false,
+    "additional_authorization_missing": false,
+    "audit": ".aide/evidence/2026-10-18-storage-proof/live-wait.json"
   }
 }

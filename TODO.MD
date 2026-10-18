@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal is blocked on unresolved Windows consent at the VM console after three consecutive goal turns. Setup authorization is recorded; normal native campaigns still require actual host-enforced storage-boundary proof. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: the full all-platform/storage 0.1.0 goal is active again: the old consent gate cleared and one fresh authorized storage-proof runner is live, waiting for Windows UAC. Normal native campaigns still require actual host-enforced storage-boundary proof. Disposable scratch is removed and bounded Win32 fixture preparation is tested. Native qualification, baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Storage recovery
 
