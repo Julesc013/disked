@@ -86,3 +86,37 @@ class Tests(unittest.TestCase):
     def test_token_query_failure_is_not_a_fallback(self):
         with mock.patch.object(F,'_is_appcontainer',side_effect=OSError('unverified token')):
             with self.assertRaises(OSError): F.temporary_directory(prefix='fixture-')
+
+    def test_managed_ordinary_fixture_uses_owned_temp_and_cleans_up(self):
+        with mock.patch.object(F,'_is_appcontainer',return_value=False):
+            with F.managed_directory(prefix='managed-') as name:
+                directory=Path(name)
+                self.assertEqual(directory.parent,self.parent)
+                (directory/'fixture.img').write_bytes(b'owned bytes')
+            self.assertFalse(directory.exists())
+
+    def test_managed_ordinary_fixture_refuses_external_temp_and_wrong_owner(self):
+        with mock.patch.object(F,'_is_appcontainer',return_value=False):
+            with mock.patch.object(F.tempfile,'gettempdir',return_value=str(self.base)):
+                with self.assertRaisesRegex(ValueError,'outside'):
+                    F.managed_directory(prefix='managed-')
+            (self.work/'owner.json').write_text(json.dumps(dict(root=str(self.base/'other-source'))))
+            with self.assertRaisesRegex(ValueError,'another source'):
+                F.managed_directory(prefix='managed-')
+
+    def test_managed_fixture_requires_runner_and_rejects_escaping_prefix(self):
+        with mock.patch.dict(os.environ,{},clear=True):
+            with self.assertRaisesRegex(ValueError,'managed workspace'):
+                F.managed_directory(prefix='managed-')
+        with mock.patch.object(F,'_is_appcontainer',return_value=False):
+            for prefix in ('../other','C:\\other','','null\0'):
+                with self.subTest(prefix=prefix),self.assertRaises(ValueError):
+                    F.managed_directory(prefix=prefix)
+
+    def test_managed_confined_fixture_inherits_only_its_verified_parent(self):
+        with mock.patch.object(F,'_is_appcontainer',return_value=True):
+            with F.managed_directory(prefix='managed-') as name:
+                directory=Path(name)
+                self.assertEqual(directory.parent,F.fixture_parent())
+                (directory/'fixture.img').write_bytes(b'owned bytes')
+            self.assertFalse(directory.exists())

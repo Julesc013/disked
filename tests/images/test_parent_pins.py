@@ -3,17 +3,19 @@
 --baseline observes the prior defect; it never qualifies the fixed contract.
 Every rename/replacement and cleanup target stays inside generated scratch.
 """
-import argparse,ctypes as C,hashlib,json,os,queue,subprocess,tempfile,threading
+import argparse,ctypes as C,hashlib,json,os,queue,subprocess,sys,tempfile,threading
 from ctypes import wintypes as W
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 def encode(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
 def sha(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--probe',required=True,type=Path);p.add_argument('--capture-probe',type=Path);p.add_argument('--root',required=True,type=Path);p.add_argument('--evidence',type=Path);p.add_argument('--baseline',action='store_true');a=p.parse_args()
-    root=a.root.resolve();scratch=root/'.aide-local';scratch.mkdir(exist_ok=True);records=[]
+    root=a.root.resolve();scratch=fixture_parent();records=[]
     env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_ACQ_TEST_')};probe=a.probe.resolve()
-    with tempfile.TemporaryDirectory(prefix='disked-parent-',dir=scratch) as tmp:
-        owned=Path(tmp).resolve();assert owned.is_relative_to(scratch) and scratch.is_relative_to(root)
+    with managed_directory(prefix='disked-parent-') as tmp:
+        owned=Path(tmp).resolve();assert owned.is_relative_to(scratch) and scratch.is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve())
         for role in ('destination','map'):
             folder=owned/role;folder.mkdir();paths={}
             for r in ('source','destination','map'):

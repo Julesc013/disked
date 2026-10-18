@@ -1,6 +1,8 @@
 """Independent ordinary-file GPT preview oracle and actual frontend journeys."""
 import argparse,hashlib,json,os,queue,struct,subprocess,sys,tempfile,threading,time,zlib
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import managed_directory
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'property'))
 from test_gpt import fixture,change_header,change_array,fix_header,equal_crc_patch
 from gui_fixture import Gui,U,wait
@@ -77,7 +79,7 @@ def main():
         if decision:args+=['--selection-decision-digest',decision]
         return launch(path.name+'-'+source,args,**kw)[0]
     try:
-        with tempfile.TemporaryDirectory(prefix='gpt-command-',dir=a.root/'.aide-local') as directory:
+        with managed_directory(prefix='gpt-command-') as directory:
             directory=Path(directory);files=[];raws={}
             def put(name,f):
                 path=directory/(name+'.img');raw=image(f);path.write_bytes(raw);files.append(path);raws[path]=raw;return path

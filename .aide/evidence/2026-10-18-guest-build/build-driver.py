@@ -137,14 +137,17 @@ class Observations:
         self.tar.close()
         self.stream.close()
         seen = set()
-        with tarfile.open(self.path, 'r|xz') as archive:
-            for entry in archive:
-                expected = self.entries[entry.name]
-                with archive.extractfile(entry) as stream:
-                    digest = hashlib.file_digest(stream, 'sha256').hexdigest()
-                if digest != expected['sha256'] or entry.size != expected['bytes']:
-                    raise RuntimeError('Retained observation archive does not reproduce its input')
-                seen.add(entry.name)
+        # LZMAFile bounds decompressed reads. tarfile's combined r|xz stream can
+        # repeatedly copy a very large expansion buffer for compressed JSON.
+        with lzma.open(self.path, 'rb') as decoded:
+            with tarfile.open(fileobj=decoded, mode='r|') as archive:
+                for entry in archive:
+                    expected = self.entries[entry.name]
+                    with archive.extractfile(entry) as stream:
+                        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+                    if digest != expected['sha256'] or entry.size != expected['bytes']:
+                        raise RuntimeError('Retained observation archive does not reproduce its input')
+                    seen.add(entry.name)
         if seen != set(self.entries):
             raise RuntimeError('Retained archive omitted observations')
 
@@ -402,6 +405,29 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
                 created_by='guest Agents coordinator',
                 native_consumer='non-elevated AppContainer')).encode())
             env['DISKED_TEST_SYMLINK_ROOT'] = str(fixture_root)
+            symlink_preflight = r'''
+import json,pathlib,sys
+sys.path.insert(0,str(pathlib.Path(sys.argv[1])))
+from test_ntfs_file import temporary_directory,size_fixture,prepared_symlink,file_digest,PREPARED_SYMLINK_OBSERVATIONS
+with temporary_directory(prefix='symlink-source-preflight-') as directory:
+    source=pathlib.Path(directory)/'source.img'
+    for iteration in range(2):
+        with source.open('wb') as stream:
+            size_fixture(stream,40960000)
+            stream.seek(4096);stream.write(b'original independent source '+bytes([iteration]))
+            if not iteration:
+                stream.seek(40959996);stream.write(b'tail')
+        before=file_digest(source)
+        target,link=prepared_symlink(source)
+        assert link.is_symlink() and link.resolve()==target
+        assert file_digest(source)==before==file_digest(target)
+        assert PREPARED_SYMLINK_OBSERVATIONS[-1]['allocated_bytes']<=16*1024*1024
+        assert PREPARED_SYMLINK_OBSERVATIONS[-1]['copied_nonzero_block_bytes']<=131072
+assert not source.exists()
+assert len(PREPARED_SYMLINK_OBSERVATIONS)==2
+print(json.dumps(dict(status='pass',source_removed=True,observations=PREPARED_SYMLINK_OBSERVATIONS)))
+'''
+            run('fixture-symlink-preflight',[python,'-B','-c',symlink_preflight,SOURCE/'tests/images'],timeout=30)
             run('configure-x64', [cmake, '--preset', 'windows-bootstrap', '-S', SOURCE,
                                  '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0', '-DPython3_EXECUTABLE=' + python,
                                  '-DGIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe'])
@@ -476,6 +502,12 @@ print(json.dumps(dict(status='pass',fixtures=SPARSE_OBSERVATIONS,removed=True)))
                     raise RuntimeError('Native group failed: ' + test)
                 if summary and (summary.get('unverified') or summary.get('skipped')):
                     raise RuntimeError('Native group has unverified/skipped checks: ' + test)
+                if test in ('image.ntfs_file','image.ntfs_directory_file'):
+                    prepared = summary.get('prepared_symlinks',[])
+                    if len(prepared)!=1 or any(row['source_sha256']!=row['target_sha256'] or
+                        not 0<=row['allocated_bytes']<=16*1024*1024 or
+                        not 0<row['copied_nonzero_block_bytes']<=16*1024*1024 for row in prepared):
+                        raise RuntimeError('Byte-exact allocated-bounded symlink fixture was not established')
                 if test == 'image.ntfs_file':
                     expected_counts = json.loads((ROOT / 'expected.json').read_bytes())['file_method_cases']
                     if not summary or summary['cases'] != sum(expected_counts.values()) or summary.get('case_counts') != expected_counts:

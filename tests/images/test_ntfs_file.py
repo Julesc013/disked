@@ -22,6 +22,7 @@ RECEIPTS = []
 UNVERIFIED = []
 BINDING_OBSERVATIONS = []
 SPARSE_OBSERVATIONS = []
+PREPARED_SYMLINK_OBSERVATIONS = []
 CASE_COUNTS = {}
 RAW_STEM = None
 RAW_OBSERVATIONS = []
@@ -50,10 +51,30 @@ def prepared_symlink(source):
     assert link.is_symlink() and link.resolve() == target
     info = target.lstat()
     assert not info.st_file_attributes & 0x400 and info.st_nlink == 1
-    assert source.stat().st_size <= 16 * 1024 * 1024
+    size = source.stat().st_size
+    # Logical length is not allocation. The original directory fixture exceeds
+    # 16 MiB; retain its exact bytes without making a dense second copy.
+    assert 0 < size <= 512 * 1024 * 1024
     before = file_digest(source)
-    shutil.copyfile(source,target)
+    copied = 0
+    zero = bytes(65536)
+    with source.open('rb') as original, target.open('r+b') as output:
+        output.truncate(0)
+        size_fixture(output,size)
+        offset = 0
+        while block := original.read(len(zero)):
+            if block != zero[:len(block)]:
+                copied += len(block)
+                assert copied <= 16 * 1024 * 1024
+                output.seek(offset)
+                output.write(block)
+            offset += len(block)
+        assert offset == size
+        allocation = record_sparse_fixture(output,size,all_sizes=True,retain=False)
     assert file_digest(source) == before == file_digest(target)
+    PREPARED_SYMLINK_OBSERVATIONS.append(dict(source_bytes=size,source_sha256=before,
+        target_sha256=file_digest(target),allocated_bytes=allocation['allocated_bytes'],
+        copied_nonzero_block_bytes=copied))
     return target,link
 
 
@@ -79,7 +100,7 @@ def size_fixture(stream, size):
     stream.seek(0)
 
 
-def record_sparse_fixture(stream, size, *, all_sizes=False):
+def record_sparse_fixture(stream, size, *, all_sizes=False, retain=True):
     if size <= (1 << 32) and not all_sizes:
         return
     import msvcrt
@@ -94,7 +115,10 @@ def record_sparse_fixture(stream, size, *, all_sizes=False):
     if not kernel.GetFileInformationByHandleEx(msvcrt.get_osfhandle(stream.fileno()),1,ctypes.byref(info),ctypes.sizeof(info)):
         raise ctypes.WinError(ctypes.get_last_error())
     assert info.end == size and 0 <= info.allocated <= 16 * 1024 * 1024, (info.end,info.allocated)
-    SPARSE_OBSERVATIONS.append(dict(path=str(stream.name),logical_bytes=info.end,allocated_bytes=info.allocated))
+    observation=dict(path=str(stream.name),logical_bytes=info.end,allocated_bytes=info.allocated)
+    if retain:
+        SPARSE_OBSERVATIONS.append(observation)
+    return observation
 
 
 def canonical(value):
@@ -450,6 +474,7 @@ def main():
     summary=dict(cases=len(RECEIPTS),methods=result.testsRun,failures=len(result.failures),errors=len(result.errors),
                  receipts=RECEIPTS,unverified=UNVERIFIED,path_binding=BINDING_OBSERVATIONS,
                  sparse_fixtures=SPARSE_OBSERVATIONS,
+                 prepared_symlinks=PREPARED_SYMLINK_OBSERVATIONS,
                  case_counts=CASE_COUNTS,
                  raw_observations=RAW_OBSERVATIONS,
                  scope='Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission.')

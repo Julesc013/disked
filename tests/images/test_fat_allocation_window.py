@@ -10,6 +10,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import managed_directory
 
 import test_fat_capture as capture
 from test_fat_capture import Volume, MASKS, boot
@@ -178,7 +180,7 @@ class AllocationWindowTests(unittest.TestCase):
         _,r,_=self.observed(v,100,100,copy='1');self.check_oracle(v,r,100,100,1)
 
     def test_actual_ordinary_files_and_recapture_applicability(self):
-        with tempfile.TemporaryDirectory(prefix='fat-window-',dir=ARGS.root/'.aide-local') as folder:
+        with managed_directory(prefix='fat-window-') as folder:
             for bits in (12,16,32):
                 v=SparseVolume(bits,offset=512);path=Path(folder)/f'{bits}.img';v.write(path)
                 before=hashlib.sha256(path.read_bytes()).hexdigest()

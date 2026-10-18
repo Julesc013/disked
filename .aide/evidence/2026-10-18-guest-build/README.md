@@ -237,3 +237,32 @@ qualification; prior header/native evidence is historical for the new header.
 
 Primary references: Microsoft [AppContainer access model](https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer)
 and [token package information](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_appcontainer_information).
+
+
+Attempt19 at7a985be3 passed15 private Win32 groups,all12 headers and nine
+executable/import observations. The complete363-call name-order worker group
+now passes after the named-lease repair. Directory-file retained550 calls and
+failed before its last original symlink call: the new prepared-source helper
+mistakenly limited logical length to16MiB, but the unchanged directory fixture
+is40,960,000 bytes. Two later groups did not run. Scratch peaked at68,028,644
+allocated bytes; all owned media/source/profiles retired and the recorded host
+backing length stayed28,809,625,600 bytes. The1,074,508-byte compressed archive
+binds735,112,791 original entry bytes. The original failure and complete cleanup
+remain in `nineteenth-lease-repair*`.
+
+The next helper copies only nonzero64KiB blocks into a freshly truncated sparse
+prepared target, verifies exact full source/target hashes and actual allocation
+at most16MiB, and records copied-byte/allocation receipts. Logical length is
+bounded by the existing512MiB guest capacity; no scratch/allocation budget,
+source data, original551 directory-file cases or native deadline is relaxed.
+An independent actual-package preflight uses two generations of the original
+40,960,000-byte logical length; the second removes the prior tail and must
+reproduce exact bytes. This candidate still requires native evaluation.
+
+Archive readers now use bounded LZMAFile reads before the plain tar stream,
+keeping all original entry-hash/size/completeness checks. The combined `r|xz`
+reader made repeated large-buffer copies while reviewing the retained evidence.
+Four initial old x64 fixture routes now use a source-bound managed temporary
+parent instead of `.aide-local`. Their new ordinary/confined helper controls
+and archive retention tests are checked separately; wider fixture migration and
+the full current178-group x64 gate remain work.

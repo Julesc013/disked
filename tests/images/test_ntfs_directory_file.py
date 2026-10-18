@@ -333,6 +333,7 @@ def main():
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests))
     summary=dict(cases=len(held.RECEIPTS),methods=result.testsRun,failures=len(result.failures),errors=len(result.errors),
         receipts=held.RECEIPTS,pure_receipts=PURE_RECEIPTS,source_receipts=SOURCE_RECEIPTS,unverified=held.UNVERIFIED,
+        prepared_symlinks=held.PREPARED_SYMLINK_OBSERVATIONS,
         scope='Generated Windows ordinary-file source-bound directory collection only; no worker/public/physical/full-product admission.')
     args.output.write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(0 if result.wasSuccessful() else 1)

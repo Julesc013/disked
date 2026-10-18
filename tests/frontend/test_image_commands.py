@@ -12,6 +12,8 @@ import tempfile
 import threading
 import time
 import uuid
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent,managed_directory
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'corpus'))
 import partition_images as corpus
 from gui_fixture import Gui,U,WP,wait
@@ -79,10 +81,10 @@ def main():
             ac=a['result']['map']['capture'];bc=b['result']['map']['capture']
             for key in ['path','resolved_path','source_before','source_after','regions','region_manifest_sha256','regions_complete','observed_stable']:
                 assert ac[key]==bc[key],(key,ac[key],bc[key])
-    parent=args.root/'.aide-local';parent.mkdir(exist_ok=True)
+    parent=fixture_parent()
     passed=False
     try:
-        with tempfile.TemporaryDirectory(prefix='image-command-',dir=parent) as directory:
+        with managed_directory(prefix='image-command-') as directory:
             directory=Path(directory);files=[]
             for case in corpus.recipes():
                 path=directory/(case['name']+'.img');path.write_bytes(case['data']);files.append(path)

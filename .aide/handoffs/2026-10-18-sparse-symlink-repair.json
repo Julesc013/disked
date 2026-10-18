@@ -1,0 +1,152 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "7a985be30a764c3b4ba23e0e706c1902dea69f47",
+  "spec_manifest_digest": "sha256:57a7b338c2a00c2e3a951afb709910891da3450a7e78576fd871a4ee554bd98b",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/bundle.json",
+    "spec/work/units.json",
+    "spec/catalog/worker-lease-prototype.json",
+    "spec/catalog/ntfs-name-order-command-prototype.json",
+    "tests/images/ntfs_directory_fixture.py",
+    "tests/support/tempdir.py",
+    "tests/tools/test_fixture_temp.py",
+    "tests/images/test_ntfs_file.py",
+    "tests/images/test_ntfs_directory_file.py",
+    "tests/images/test_parent_pins.py",
+    "tests/images/test_fat_allocation_window.py",
+    "tests/frontend/test_gpt_repair_command.py",
+    "tests/frontend/test_image_commands.py",
+    ".aide/evidence/2026-10-18-guest-build/build-driver.py",
+    ".aide/evidence/2026-10-18-guest-build/expected.json",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair.json",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-observations.tar.xz",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-directory-review.json",
+    ".aide/evidence/2026-10-18-guest-build/fixture-preparation-validation.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-build/README.md",
+    ".aide/evidence/2026-10-18-guest-build/build-driver.py",
+    ".aide/evidence/2026-10-18-guest-build/context-7a985be3.json",
+    ".aide/evidence/2026-10-18-guest-build/directory-failure-review.json",
+    ".aide/evidence/2026-10-18-guest-build/expected.json",
+    ".aide/evidence/2026-10-18-guest-build/fixture-preparation-validation.json",
+    ".aide/evidence/2026-10-18-guest-build/fixture-preparation-validation.json.xz",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-directory-review.json",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-cleanup.json",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-observations.tar.xz",
+    ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair.json",
+    ".aide/evidence/2026-10-18-guest-build/retention-validation.json",
+    ".aide/evidence/2026-10-18-guest-build/review-failed-group.py",
+    ".aide/evidence/2026-10-18-guest-build/validate-fixture-preparation.py",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-storage.md",
+    "tests/frontend/test_gpt_repair_command.py",
+    "tests/frontend/test_image_commands.py",
+    "tests/images/test_fat_allocation_window.py",
+    "tests/images/test_ntfs_directory_file.py",
+    "tests/images/test_ntfs_file.py",
+    "tests/images/test_parent_pins.py",
+    "tests/support/tempdir.py",
+    "tests/tools/test_fixture_temp.py"
+  ],
+  "summary": "Source7a985be3 passes15 private Win32 groups/12 headers/nine executable observations, including363 name-order worker calls. Directory-file fails a new helper logical-length assertion before its original40,960,000-byte symlink case; two groups remain unrun. All owned output retired; backing length unchanged. Prepared byte-exact sparse copying with the unchanged16MiB allocation limit and independent two-generation preflight, bounded archive decoding and four initial legacy x64 managed-path migrations. 131 tooling tests/one skip,8 retention tests and all2951 retained entry hashes pass. New native preflight and remaining full x64 qualification are not run. This handoff precedes the authorized dev checkpoint push.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-build/campaign.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-guest-build/validate-fixture-preparation.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-guest-build/fixture-preparation-validation.json"
+    },
+    {
+      "command": "Evaluate amended sparse-copy native preflight and all18 groups; then full current178-group x64 suite",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/support/tempdir.py",
+      "sha256": "sha256:1cdd49b8d02ed527ef55b62aaa49dbcafd8c3026e266e5e1d8a61b693df001ec"
+    },
+    {
+      "path": "tests/tools/test_fixture_temp.py",
+      "sha256": "sha256:cde5630c355be0a07887356eb82df2db4a71d3cf5ca2993e8bdfbd4b627daefa"
+    },
+    {
+      "path": "tests/images/test_ntfs_file.py",
+      "sha256": "sha256:72b73057ce01d26d989509c506da3eaa574a57225ff609b2e61c92d4de9c4945"
+    },
+    {
+      "path": "tests/images/test_ntfs_directory_file.py",
+      "sha256": "sha256:9d4fd5fe066101f7cbd437181236fb538abfb2ecc5645039f1064a2be1b504df"
+    },
+    {
+      "path": "tests/images/test_parent_pins.py",
+      "sha256": "sha256:1722de8b2826b5a0e4a95fcde83afb441103207cc5df852a718f8fe013ba8b24"
+    },
+    {
+      "path": "tests/images/test_fat_allocation_window.py",
+      "sha256": "sha256:da3396940ac84c51d60b53a24ae0280360ea8a604b6ec2d456aded58a33047da"
+    },
+    {
+      "path": "tests/frontend/test_gpt_repair_command.py",
+      "sha256": "sha256:3a4ed80baad6c19feed2925e0966d4758ccfcad599f3db009fd7c47e04d34a94"
+    },
+    {
+      "path": "tests/frontend/test_image_commands.py",
+      "sha256": "sha256:29fb4d0a6c6bf7a86dcf7f31d60a6fb818ea00101f57b8f2a80aeb4a874610c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/build-driver.py",
+      "sha256": "sha256:25a6478f20d28819397d0a75bb02b1711438fc62127c6c1e2c57ee1f5ce242f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/expected.json",
+      "sha256": "sha256:0400bb183a8c37b5ea7142840053b983ad6b4430074305a58627bf319726c908"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair.json",
+      "sha256": "sha256:534739a467651e88cdef32bec9a65560530f7a77d71dd2d1d723f51fcb9025ee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-observations.tar.xz",
+      "sha256": "sha256:1857e8f52532abe2ba88bab3a034a1fe7044decc8ad5906d874f5e24cf7084ce"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/nineteenth-lease-repair-cleanup.json",
+      "sha256": "sha256:ad966add1a32de220c118871c251b5507904fc6f53c824490940769e721a3bd8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/nineteenth-directory-review.json",
+      "sha256": "sha256:3cd52fb0851615c2fed34306f47d928a5881c437b836e69233f30634605c4967"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-guest-build/fixture-preparation-validation.json",
+      "sha256": "sha256:0bb94436b632b71c3852423fd3793275cd2922b0737822478a011077ffcbf515"
+    }
+  ],
+  "blockers": [
+    "Native evaluation of the sparse fixture repair and final two private Win32 groups remains outstanding.",
+    "Four initial managed-path migrations are prepared; other old x64 fixture routes and a suitable write-confined ordinary-token environment remain unqualified.",
+    "Current full178-group x64, original platform/storage, owner and release gates remain open."
+  ],
+  "next_safe_step": "Validate the managed-fixture helper and archive retention changes, freeze the sparse symlink copy and its independent40,960,000-byte two-generation preflight, prepare exact-HEAD context, then rerun all18 private Win32 groups within the same512MiB guest cap and original deadlines. Keep551 directory-file calls. Continue the full x64 scratch/ordinary-token environment preparation and all178-group qualification; no main promotion until complete reviewed evidence. DE-W106/107 remain planned follow-ups.",
+  "performed_remote_writes": false
+}

@@ -85,15 +85,11 @@ class _InheritedDirectory:
         _remove(Path(self.name), self._identity)
 
 
-def temporary_directory(*, prefix):
-    """Use inherited ACLs only inside a verified owned AppContainer workspace."""
-    if not _is_appcontainer():
-        return tempfile.TemporaryDirectory(prefix=prefix)
-    if not isinstance(prefix, str) or not prefix or any(c in prefix for c in '\\/:\0'):
-        raise ValueError('Fixture prefix must be a nonempty basename')
+def fixture_parent():
+    """Resolve TEMP only when it belongs to this source's managed workspace."""
     value = os.environ.get('DISKED_WORK_ROOT')
     if not value:
-        raise ValueError('Owned confined workspace required')
+        raise ValueError('Owned managed workspace required')
     work, parent = Path(value).absolute(), Path(tempfile.gettempdir()).absolute()
     _plain(work)
     _plain(parent)
@@ -107,4 +103,27 @@ def temporary_directory(*, prefix):
     owner = json.loads(marker.read_bytes())
     if Path(owner['root']).resolve() != SOURCE:
         raise ValueError('Fixture workspace belongs to another source')
+    return parent
+
+
+def _check_prefix(prefix):
+    if not isinstance(prefix, str) or not prefix or any(c in prefix for c in '\\/:\0'):
+        raise ValueError('Fixture prefix must be a nonempty basename')
+
+
+def managed_directory(*, prefix):
+    """Require owned managed scratch for either an ordinary or confined token."""
+    _check_prefix(prefix)
+    parent = fixture_parent()
+    if _is_appcontainer():
+        return _InheritedDirectory(parent, prefix)
+    return tempfile.TemporaryDirectory(prefix=prefix, dir=parent)
+
+
+def temporary_directory(*, prefix):
+    """Preserve ordinary tempfile behavior; verify confined inherited fixtures."""
+    if not _is_appcontainer():
+        return tempfile.TemporaryDirectory(prefix=prefix)
+    _check_prefix(prefix)
+    parent = fixture_parent()
     return _InheritedDirectory(parent, prefix)

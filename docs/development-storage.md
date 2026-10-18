@@ -328,3 +328,16 @@ The generated manifest binds fixture-generation inputs; it is not the complete
 work-unit/test-helper execution closure or qualification evidence. Future native
 execution and compact retention still need a bounded campaign; historical
 unbounded orchestration must not be rerun to produce the missing codemodel.
+
+
+The subsequent7a985be3 guest campaign passed15 private Win32 groups,12 headers
+and nine executable/import observations, including the previous name-order
+worker startup failure. Directory-file failed in the new test helper before
+its original symlink call: a40,960,000-byte logical fixture was incorrectly
+rejected by a16MiB logical-length check. Peak scratch allocation was68,028,644
+bytes; recorded shared backing length did not grow, and all owned media/source/
+profiles retired. The proposed repair preserves exact source bytes through a
+sparse copy, keeps actual allocation at most16MiB and proves replacement of a
+previous tail using two independent source generations. It remains native-
+unqualified. Initial x64 test-path migration uses the same verified managed
+scratch owner; other old routes and the full current native suite remain pending.
