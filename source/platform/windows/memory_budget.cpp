@@ -45,10 +45,12 @@ WindowsMemoryBudget::WindowsMemoryBudget() noexcept {
     if(!to_sid(reinterpret_cast<TOKEN_USER*>(user)->User.Sid,&raw_sid)) {platform_=GetLastError();return;}
     sid.value=raw_sid;
     wchar_t name[256]{},mutex_name[256]{},sddl[256]{};
+    // Resolve in the current process namespace. The restricted Win10 session0
+    // has no Local/Global aliases; do not retry in a wider namespace.
 #ifdef DISKED_FRONTEND_MEMORY_TESTING
-    const wchar_t* prefix=L"Local\\DiskEd.Fake.Memory.Test.v1.";
+    const wchar_t* prefix=L"DiskEd.Fake.Memory.Test.v1.";
 #else
-    const wchar_t* prefix=L"Local\\DiskEd.Fake.Memory.v1.";
+    const wchar_t* prefix=L"DiskEd.Fake.Memory.v1.";
 #endif
     if(swprintf_s(name,L"%ls%ls",prefix,raw_sid)<0 || swprintf_s(mutex_name,L"%lsInit.%ls",prefix,raw_sid)<0 ||
        swprintf_s(sddl,L"D:P(A;;GA;;;%ls)",raw_sid)<0) {platform_=ERROR_INSUFFICIENT_BUFFER;return;}

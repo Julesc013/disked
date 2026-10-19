@@ -135,6 +135,15 @@ against a hostile same-user process. An existing job must have the exact expecte
 limits; a mismatch or incompatible inherited job hierarchy refuses admission
 without resetting limits or breaking away from the host's policy.
 
+Private kernel-object names use the process default namespace. A restricted or
+package process may resolve names in a different domain within the same Windows
+session; these prototypes do not establish an aggregate limit across those
+domains. Exact inherited handles and object identity checks still bind a worker
+to its controller's leases. There is no retry in a wider namespace. Ordinary
+session-zero alias compatibility and restricted bare-name creation/reopening
+have bounded guest evidence; other session and platform profiles remain subject
+to qualification. These names are private implementation details, not an SDK ABI.
+
 Both jobs are supplied using Windows 10's
 [`PROC_THREAD_ATTRIBUTE_JOB_LIST`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
 at process creation. There is no suspended child awaiting a later parent-owned

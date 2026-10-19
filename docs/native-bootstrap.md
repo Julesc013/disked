@@ -23,6 +23,13 @@ DE-W105 remains current. Its private Win32 evidence passes all 18 groups at
 `c667318e`; the full current x64 gate is still open. The programme owns the latest
 work state and exact next action. Continue there rather than repeating DE-W010.
 
+The ordinary restricted guest profile now has actual 32/512 MiB hard-cap,
+protected-record, outside-write, descendant and interrupted-cleanup evidence,
+plus a restricted x64 compile and production store-helper journey. The current
+[worker receipts](../.aide/evidence/2026-10-18-ordinary-worker/README.md) bind the
+exact sources and temporary guest crypto-device setup/retirement. These are
+execution-environment results; they do not replace the pending full x64 gate.
+
 ## Implemented development surface and historical recipes
 
 The Windows image/fake prototype executable supports human and JSON/NDJSON build information,

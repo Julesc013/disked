@@ -1,61 +1,101 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "5c838dcd900c8e2cc8fbb3bb6e89aa6fce910b3d",
-  "spec_manifest_digest": "sha256:ff9e12deb44ce88e8a187610749da57da68dab7c82778b7df80820a70df25fc0",
+  "base_revision": "947dc4890e788dc44ec4289901031cc210aaa21d",
+  "spec_manifest_digest": "sha256:2972e11d333d0060ea84b0d37ca63889e3690dd2d868943edd769945f6884e49",
   "status": "partial",
   "files_read": [
-    "AGENTS.md",
-    "spec/work/units.json",
-    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/composition512-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/forensic-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-profile-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/loader-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/native-journey.cpp",
+    ".aide/evidence/2026-10-18-ordinary-worker/native-journey.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
     ".aide/evidence/2026-10-18-ordinary-worker/target.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/full-profile-expectations.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/forensic-expectations.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py"
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/worker_files.h",
+    "spec/work/units.json"
   ],
   "files_changed": [
-    ".aide/programmes/disked-0.1.0.json",
-    ".aide/handoffs/2026-10-19-current-checkpoint.json",
+    ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
     ".aide/evidence/2026-10-18-ordinary-worker/README.md",
-    ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/inspect-startup.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/namespace-review-before.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-review.json",
-    ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json"
+    ".aide/evidence/2026-10-18-ordinary-worker/validate-current.py",
+    ".aide/handoffs/2026-10-19-current-checkpoint.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/verification_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "spec/architecture/execution-topology.md",
+    "spec/catalog/nt-inventory-advance-prototype.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/evidence/test_joined_report_worker.py",
+    "tests/evidence/test_report_worker.py",
+    "tests/evidence/test_verification_worker.py",
+    "tests/frontend/test_acquisition_timeout.py",
+    "tests/frontend/test_image_commands.py",
+    "tests/frontend/test_product_export.py",
+    "tests/frontend/test_product_verification.py",
+    "tests/images/ntfs_worker_probe.cpp",
+    "tests/images/test_acquisition_worker.py",
+    "tests/resilience/memory_fixture.py",
+    "tests/resilience/test_worker_ancestry.py",
+    "tests/resilience/test_worker_budget.py",
+    "tests/windows/inventory_events.py",
+    "tests/windows/native/inventory_advance_probe.cpp"
   ],
-  "summary": "DE-W105 ordinary-worker failure diagnosed with retained bounded guest traces, exact-image static analysis and read-only object security. KernelBase returns false at console stage600 under NO_WINDOW. Detached launch reaches stage700, then bcrypt fails before Python. Native NtOpenFile(KsecDD,0x100003) returnsC0000022; existing RC DACL lacks write-data. Subsystem-client connection, watched DLL opens and section maps succeed. Collector cap/thread/stop defects were repaired with original failures preserved. Every owned process/account/profile/image/source/new diagnostic image/key retired. No shared/product ACL or budget increase. Full current178-group x64 not run; main remains98b75739. Earlier PR1/fixture/AIDE checkpoint remains retained, not rerun or reclassified by this diagnostic. Final read-only cleanup confirms no owned guest processes or disposable actors,qualification root absent,.aide-local0,hostUAC1,Agents routine/Codex spare enabled. A narrowly scoped follow-up design is proposed,not executed.",
+  "summary": "DE-W105 ordinary guest environment passes actual32MiB and512MiB complete primitive controls, including real disk-full denial, exact-user protected records, outside/descendant denial, excluded inherited canary and strong-handle abrupt job retirement. Narrow unique-user KsecDD exception applies, recovers after helper interruption and retires without filesystem/product ACL changes. Actual restricted x64 MSVC compiler/production store/lease/import journey passes at c9f760e4. Restricted session0 cannot resolve Local/Global prefixes; default private lease names work, ordinary Local/default alias identity is proven. Remaining private object/test names and existing contracts now consistently use default namespace; these later changes await full current178-group x64 qualification. All finished native attempts removed owned guest actor/profile/image/source; main stays98b75739. No owner/release/full0.1.0 acceptance.",
   "tests": [
     {
-      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --loader-forensics",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json"
-    },
-    {
-      "command": "Actual restricted detached payload startup",
+      "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
       "cwd": "Windows10 guest",
-      "status": "fail",
-      "exit_code": 3221225794,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json"
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/thirtieth-full32-pass.json"
     },
     {
-      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/inspect-startup.py",
+      "command": "Actual restricted x64 cl compile/production-store protected record and lease reopening/import observations",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-pass.json"
+    },
+    {
+      "command": "Actual full512MiB capacity/record/outside/descendant/canary/abrupt cleanup controls",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-pass.json"
+    },
+    {
+      "command": "Full253 specification tests(2 skips),143 tooling tests(1 skip),1325 structural checks,source map and manifest/template verification",
       "cwd": "D:\\Projects\\DiskEd\\disked",
       "status": "pass",
       "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/kernelbase-stage600-static.json"
-    },
-    {
-      "command": "Fresh DE-W105 context: structural/manifest checks,context generation and verification",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json"
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     },
     {
       "command": "Complete current178-group x64 product qualification",
@@ -63,53 +103,41 @@
       "status": "not_run",
       "exit_code": null,
       "evidence_path": null
-    },
-    {
-      "command": "Bundle.check,index(check=True),manifest(verify=True),validate(handoff)",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/final-metadata-validation.json"
     }
   ],
   "artifacts": [
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
-      "sha256": "sha256:6758037d07e27349a9bf5571fca2523eebcb4b0e8860ca773ff2f5d71be13a60"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirtieth-full32-pass.json",
+      "sha256": "sha256:b22c2637e884aaf96f1f29a3b372eade7034e7eb69f125830c67a1a87013cb08"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security-cleanup.json",
-      "sha256": "sha256:c74809ab934645238ce44fdc27c6e62d262668eb585fbadc787b2528f86e32a0"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-pass.json",
+      "sha256": "sha256:deaf6559cb0093be371fa67685424a3c9befacc79c4ce2cdcb84214783974fdf"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-review.json",
-      "sha256": "sha256:8c28c3647a4b2026d192d592792d047e496786568ad74a6f50789617849cd2ca"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-cleanup.json",
+      "sha256": "sha256:e12054c93e8204910afb684f7ea1f620e2dd82c0b57c33eef43dfc5d72dc82d3"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/kernelbase-static.json",
-      "sha256": "sha256:bdefdbd4a656783e1da35b6cf05d1b8e34a59d4c7472b6fde2eff1577aa93fc8"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-pass.json",
+      "sha256": "sha256:511f43d5337c7f673f7d150b7e4f02e98ae470931c932f6e7abcc52bfdc6c8c8"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/kernelbase-stage600-static.json",
-      "sha256": "sha256:97ab3d00d4412fdd95e357e9de4280f0343ce7a562cb96a1621887a86685597e"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-cleanup.json",
+      "sha256": "sha256:284cddfc97f3f1bb4f74fd33f9dd1abe0412933077bf07222d3d6f8c0a900ad6"
     },
     {
-      "path": ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
-      "sha256": "sha256:421e994961decae6eb710c257bca7d4fb16cedea0194be538647c9166a9067c5"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
+      "sha256": "sha256:94ff86dd01500dd3a51d95c3e041d187b5621597f182903fccadd7b2968167e7"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/final-cleanup-observation.json",
-      "sha256": "sha256:7fc77d6fcab7e706d7f95cd151516f1c0b243732361af25dd66d81d80db5a1df"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/crypto-device-exception-plan.json",
-      "sha256": "sha256:56ee0171c5994bdf3b728113f8b140970bbc43ee0357ae9ff55a52a15cfd9db9"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
+      "sha256": "sha256:3835ce55b6a13172df087178145fc43fc0f576aa331b9dfb1c66d8f3a51d5817"
     }
   ],
   "blockers": [
-    "The current private freshUser+RC write-restricted recipe denies Windows crypto-device write access; worker qualification remains incomplete.",
-    "Full current178-group x64 qualification and main integration remain pending."
+    "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Continue DE-W105 from the retained exact KsecDD denial and read-only DACL evidence. Select, record and agent-review a runtime-compatible bounded execution recipe before another full proof. Preserve hard filesystem confinement, exact-user-only product records, outside-write denial, handle/descendant and abrupt-exit controls. Do not repeat unchanged launch/SID guesses or add broad write-granting SIDs. Then prove32MiB controls, representative compiler/store and all178 current x64 groups; integrate tested reviewed dev into main, then DE-W106/107. Full original all-platform/storage0.1.0 remains active. A concrete scoped follow-up design is retained at .aide/evidence/2026-10-18-ordinary-worker/crypto-device-exception-plan.json; it is not implemented or admitted, and grants no authority itself.",
+  "next_safe_step": "Run the prepared current-source native x64 campaign inside the proven512MiB ordinary guest profile. Keep source/token/crypto/job/storage checks and owned cleanup; diagnose and repair real failures. Require178 groups,68 standalone headers,14 exact executable/import observations and final W105 checks before tested reviewed dev-to-main promotion; then DE-W106/107. Original all-platform/storage0.1.0 scope unchanged.",
   "performed_remote_writes": true
 }

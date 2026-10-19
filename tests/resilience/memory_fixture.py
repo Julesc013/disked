@@ -80,7 +80,7 @@ def sid():
         K.CloseHandle(token)
 
 def name(test=False, mutex=False):
-    return 'Local\\DiskEd.Fake.Memory.' + ('Test.' if test else '') + 'v1.' + ('Init.' if mutex else '') + sid()
+    return 'DiskEd.Fake.Memory.' + ('Test.' if test else '') + 'v1.' + ('Init.' if mutex else '') + sid()
 
 def memory(handle):
     value = Memory(); value.cb = C.sizeof(value)

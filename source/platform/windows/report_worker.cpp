@@ -222,7 +222,7 @@ V start_report_worker(const V& d,const V& g) {
         Handle event(CreateEventW(&attributes,TRUE,FALSE,nullptr));if(!event.valid())fail("report_worker_event_create");
         auto ci=inherited(input.value,GENERIC_READ),cr=inherited(records.value,FILE_APPEND_DATA|FILE_READ_ATTRIBUTES),cc=inherited(cancel.value,GENERIC_READ),ce=inherited(event.value,EVENT_MODIFY_STATE|SYNCHRONIZE);
         std::vector<HANDLE> handles={ci.value,cr.value,cc.value,ce.value};WorkerBudget aggregate(security,true);
-        const auto job_name=L"Local\\DiskEd.Report.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
+        const auto job_name=L"DiskEd.Report.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
         SetLastError(ERROR_SUCCESS);Handle job(CreateJobObjectW(&attributes,job_name.c_str()));const auto job_state=GetLastError();
         if(!job.valid())fail("report_worker_job_create");if(job_state==ERROR_ALREADY_EXISTS)throw Failure("report_worker_job_exists",ERROR_ALREADY_EXISTS);
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY;limits.BasicLimitInformation.ActiveProcessLimit=1;limits.ProcessMemoryLimit=128*1024*1024;

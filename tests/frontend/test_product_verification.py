@@ -113,7 +113,7 @@ def main():
             bad=dict(q,**{'allow_'+f.replace('-','_'):b for f,b in zip(FLAGS,bits)});v,_=wire('missing-grants','image.verify',bad,exits=(2,));check('missing-grant-before-effects',v['status']=='refused' and inert(p))
         v,_=wire('wrong-digest','image.verify',dict(q,definition_digest='sha256:'+'0'*64),exits=(3,));check('wrong-digest-inert',v['status']=='refused' and inert(p));wire('unsupported-watch-feature','image.verify',p,[FEATURE],exits=(3,))
         # A live named gate establishes actual callback occupancy across timeout.
-        gate='Local\\DiskEdVerificationTest-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
+        gate='DiskEdVerificationTest-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
         folder,p=fixture('bounded-wait');folder2,p2=fixture('busy');q=grants(cli(command(p),exe=fault)['result']);process=None
         try:
             process=subprocess.Popen([str(fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=root,env=dict(env,DISKED_VERIFICATION_TEST_GATE=gate));inbox=queue.Queue()
@@ -144,7 +144,7 @@ def main():
                     if not file.closed:file.close()
             K.CloseHandle(entered);K.CloseHandle(release)
         # The actual GUI changes view while its owned callback remains pending.
-        gate='Local\\DiskEdVerificationView-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
+        gate='DiskEdVerificationView-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
         folder,p=fixture('stale-view');ui=None
         try:
             with patch.dict(os.environ,dict(env,DISKED_VERIFICATION_TEST_GATE=gate),clear=True):ui=Gui(fault,['--gui',*command(p)],render=True)

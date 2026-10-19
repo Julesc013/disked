@@ -4,6 +4,11 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
 
 ## Storage recovery
 
+- [x] Prove the ordinary restricted guest profile at 32/512 MiB, actual x64
+  compilation and protected production-record/lease reopening; retain exact
+  [receipts and cleanup](.aide/evidence/2026-10-18-ordinary-worker/README.md).
+  Full current native qualification remains open.
+
 - [x] Remove `.aide-local` after reviewing the surviving checkouts; retain compact
   [cleanup observations](.aide/evidence/2026-10-17-workspace-cleanup/cleanup-result.json).
 - [x] Add reviewed cleanup and workspace watchdogs: 32 MiB metadata, 1 GiB work,

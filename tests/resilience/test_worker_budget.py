@@ -93,7 +93,7 @@ def outcome(process):
 def slot_jobs(host):
     jobs=[]
     for index in range(4):
-        handle=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v2.'+host+'.'+str(index))
+        handle=K.OpenJobObjectW(4,False,'DiskEd.Fake.Workers.v2.'+host+'.'+str(index))
         if handle:jobs.append(handle)
     return jobs
 
@@ -161,7 +161,7 @@ class Budget(unittest.TestCase):
             started = time.monotonic()
             processes.append(launch(directories[0]))
             first = eventually(lambda: header(directories[0]))
-            host=first['definition']['host_id'];name='Local\\DiskEd.Fake.Workers.v1.'+host
+            host=first['definition']['host_id'];name='DiskEd.Fake.Workers.v1.'+host
             job = eventually(lambda: K.OpenJobObjectW(4, False, name))  # query only
             frontend_job = K.OpenJobObjectW(4, False, memory_name())
             self.assertTrue(frontend_job)

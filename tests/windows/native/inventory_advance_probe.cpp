@@ -15,7 +15,7 @@ struct Controls final {
     explicit Controls(const V& input,const V* completion_name=nullptr){
         const std::array<const char*,4> actions{{"advance","release","cancel","timeout"}};
         if(input.kind!=V::Kind::object || input.fields.size()!=4)throw std::invalid_argument("fixture_controls");
-        const std::string prefix="Local\\DiskEd.Inventory.";std::string nonce;
+        const std::string prefix="DiskEd.Inventory.";std::string nonce;
         for(const auto action:actions){const auto name=text(input,action);
             if(name.size()!=prefix.size()+32+1+std::strlen(action) || name.compare(0,prefix.size(),prefix)!=0 ||
                 name.substr(prefix.size()+32)!="."+std::string(action))throw std::invalid_argument("fixture_controls");

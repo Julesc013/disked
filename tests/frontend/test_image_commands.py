@@ -27,7 +27,7 @@ K.CloseHandle.argtypes=[C.c_void_p];K.CloseHandle.restype=C.c_int
 class Gate:
     """Test-owned local events; never a product execution or storage grant."""
     def __init__(self):
-        self.name='Local\\DiskEdImageTest.'+uuid.uuid4().hex;self.handles=[]
+        self.name='DiskEdImageTest.'+uuid.uuid4().hex;self.handles=[]
         try:
             for suffix in ['.entered','.release']:
                 handle=K.CreateEventW(None,True,False,self.name+suffix)

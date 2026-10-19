@@ -189,7 +189,7 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         auto child_input=inherited(input.value,GENERIC_READ),child_records=inherited(records.value,FILE_APPEND_DATA|FILE_READ_ATTRIBUTES),child_cancel=inherited(cancel.value,GENERIC_READ),child_event=inherited(event.value,EVENT_MODIFY_STATE|SYNCHRONIZE);
         std::vector<HANDLE> handles={child_input.value,child_records.value,child_cancel.value,child_event.value};
         WorkerBudget aggregate(security,true);
-        const auto job_name=L"Local\\DiskEd.Acquisition.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
+        const auto job_name=L"DiskEd.Acquisition.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
         SetLastError(ERROR_SUCCESS);Handle job(CreateJobObjectW(&attributes,job_name.c_str()));const auto job_state=GetLastError();
         if(!job.valid())worker_files::fail("acquisition_job_create");if(job_state==ERROR_ALREADY_EXISTS)throw Failure("acquisition_job_exists",ERROR_ALREADY_EXISTS);
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY;

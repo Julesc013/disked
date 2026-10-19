@@ -222,7 +222,7 @@ def main():
         interim=call(dict(mode='inspect',operation_id=result['operation_id'],state_directory=str(store)),fault);before=(store/'report.records').read_bytes();again=call(request(d),fault)
         check('late-admission-no-replacement',interim['value']['worker_observation']=='running' and again['operation_id']==result['operation_id'] and before==(store/'report.records').read_bytes())
         process=report_process(interim['value']['state'],fault);assert process
-        job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Report.Attempt.v1.'+d['definition']['host_id']+'.'+result['operation_id']);assert job
+        job=K.OpenJobObjectW(4,False,'DiskEd.Report.Attempt.v1.'+d['definition']['host_id']+'.'+result['operation_id']);assert job
         try:
             member=W.BOOL();limits=JobLimits();assert K.IsProcessInJob(process,job,C.byref(member)) and member.value
             assert K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)

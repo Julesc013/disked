@@ -1,5 +1,11 @@
 # Ordinary worker qualification remains open
 
+Current result: the original 32 MiB controls, representative restricted x64
+compiler/production-store journey and complete 512 MiB controls pass. See
+`thirtieth-full32-pass.json`, `thirty-third-native-store-pass.json` and
+`thirty-fourth-full512-pass.json`, with their separate cleanup receipts. The
+full current product suite remains pending. Earlier failures below are history.
+
 This is a guest-only development experiment under the existing owner grant.
 Agents coordinates. Each run creates one nonce/SID-bound **temporary standard
 user**, a new fixed 32 MiB virtual disk inside the guest and private UI objects.
@@ -85,7 +91,8 @@ path. It does not qualify another token or authorize broad write-granting SIDs.
 The next execution recipe must retain the hard filesystem boundary and all
 original protected-record, outside-write, descendant and interruption controls.
 Any proposed guest setup exception needs explicit scope, agent review and
-verified retirement before admission. No crypto-device ACL was changed here.
+verified retirement before admission. No crypto-device ACL was changed in
+attempts 1–25.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. Use the now-observed console and crypto-device boundaries when
@@ -95,3 +102,25 @@ original protected-record, outside-write denial, hard-cap exhaustion, descendant
 restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey
 remain pending regardless of any primitive or diagnostic result here.
+
+Attempts 26–29 prove the narrowly scoped guest setup: a journaled ACE gives only
+the fresh actor SID the observed `0x100003` KsecDD access. Actual helper interruption
+and recovery, exact removal, and failure of a new restricted process after removal
+are recorded. The ordinary worker retains exactly fresh-user and Restricted Code
+restricting SIDs, medium integrity and no administrator/AppContainer identity.
+No filesystem/product-record ACL or host setting is relaxed. A fresh containing
+job is required for each command; every owned member retires before removal.
+
+Attempt 30 passes all original 32 MiB controls. Attempts 31–32 compile real
+production helpers but expose prefixed kernel-object path failures; the first
+cleanup refuses nested source entries, then exact-source-parent cleanup succeeds.
+Attempt 33 uses the default namespace, verifies the ordinary session-zero alias
+identity and passes actual protected user-only record and lease reopening. Its
+x64 executable has only ADVAPI32/KERNEL32 direct dependencies.
+Its actual artifact hash/length are in the receipt; no executable is retained.
+
+Attempt 34 passes every primitive control at 512 MiB. It writes 518,717,440 bytes
+before disk-full 112, observes zero filesystem free bytes, removes the fixture
+and restores the prior free capacity. Normal and interrupted worker trees,
+temporary ACE, actor/profile, image and source copies retire. This qualifies the
+declared guest execution primitive, not the full native product or other hosts.

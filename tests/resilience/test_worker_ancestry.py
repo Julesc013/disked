@@ -38,7 +38,7 @@ try:
                 first.send(request)
                 deadline = time.monotonic() + 2; lease = None
                 while not lease:
-                    lease = K.OpenJobObjectW(4, False, 'Local\\DiskEd.Fake.Workers.v2.' + host + '.0')
+                    lease = K.OpenJobObjectW(4, False, 'DiskEd.Fake.Workers.v2.' + host + '.0')
                     if time.monotonic() > deadline: raise AssertionError('no first reader lease')
                     if not lease: time.sleep(.01)
                 try:
@@ -61,12 +61,12 @@ try:
         # Observe the namespace; elapsed frontend wait is not an exit claim.
         deadline=time.monotonic()+3
         while True:
-            retained=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v1.'+host)
+            retained=K.OpenJobObjectW(4,False,'DiskEd.Fake.Workers.v1.'+host)
             if not retained:break
             K.CloseHandle(retained)
             if time.monotonic()>deadline:raise AssertionError('owned reader guard remains retained')
             time.sleep(.01)
-        with Job(128*MIB, 'Local\\DiskEd.Fake.Workers.v1.' + host) as legacy:
+        with Job(128*MIB, 'DiskEd.Fake.Workers.v1.' + host) as legacy:
             value=Limits();value.basic.flags=0x308;value.basic.active_limit=4
             value.process_memory=128*MIB;value.job_memory=512*MIB
             checked(K.SetInformationJobObject(legacy.handle,9,C.byref(value),C.sizeof(value)))

@@ -56,7 +56,7 @@ V security_profile() {
             aces.items.push_back(V::object().put("sid",V::string(text)).put("mask",V::string(std::to_string(ace->Mask)))
                 .put("flags",V::string(std::to_string(ace->Header.AceFlags))));
         }
-        const auto name=w::wide("Local\\DiskEd.Security.Probe."+security.identity(""));
+        const auto name=w::wide("DiskEd.Security.Probe."+security.identity(""));
         auto create=attributes;SetLastError(ERROR_SUCCESS);
         w::Handle job(CreateJobObjectW(&create,name.c_str()));const auto created_error=GetLastError();
         if(!job.valid() || created_error==ERROR_ALREADY_EXISTS)w::fail("security_probe_job");

@@ -387,6 +387,7 @@ def loader_diagnose():
 
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
+    elif len(sys.argv)>1 and sys.argv[1]=='--native-x64':load('full_native',ROOT/'full-native.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--native-journey':load('native_journey',ROOT/'native-journey.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--crypto-full':load('crypto_device',ROOT/'crypto-device.py').coordinate_full(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--crypto-device':load('crypto_device',ROOT/'crypto-device.py').coordinate(sys.modules[__name__])

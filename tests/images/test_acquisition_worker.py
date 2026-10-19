@@ -380,7 +380,7 @@ def main():
         live=inspect('aggregate-membership',active[0][0],active[0][1]['operation_id'],True)
         state=live['value']['state'];handle=owned_process(state,probes[1]);assert handle
         host=live['value']['definition']['host_id']
-        job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Acquisition.Attempt.v1.'+host+'.'+active[0][1]['operation_id']);assert job
+        job=K.OpenJobObjectW(4,False,'DiskEd.Acquisition.Attempt.v1.'+host+'.'+active[0][1]['operation_id']);assert job
         try:
             limits=JobLimits();assert K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)
             member=W.BOOL();assert K.IsProcessInJob(handle,job,C.byref(member)) and member.value

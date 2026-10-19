@@ -198,7 +198,7 @@ def main():
         # timeout; release its actual callback, never replace it or invent exit.
         K.CreateEventW.argtypes=[C.c_void_p,W.BOOL,W.BOOL,W.LPCWSTR];K.CreateEventW.restype=W.HANDLE;K.SetEvent.argtypes=[W.HANDLE];K.SetEvent.restype=W.BOOL
         K.ResetEvent.argtypes=[W.HANDLE];K.ResetEvent.restype=W.BOOL
-        gate='Local\\DiskEdReportTest-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
+        gate='DiskEdReportTest-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
         folder,p=fixture('bounded-wait');folder2,p2=fixture('busy');process=None
         q=grants(cli(command(p),exe=fault)['result'])
         try:

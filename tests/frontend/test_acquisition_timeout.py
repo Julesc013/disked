@@ -76,7 +76,7 @@ def main():
             else:path.write_bytes(source_bytes(65537))
             # A missing private gate throws before provider entry in this fault
             # product. The async GUI/TUI/shell fallback must keep the same route.
-            missing=dict(DISKED_IMAGE_TEST_GATE='Local\\DiskEdMissingGate-'+uuid.uuid4().hex)
+            missing=dict(DISKED_IMAGE_TEST_GATE='DiskEdMissingGate-'+uuid.uuid4().hex)
             p,elapsed=cli(args(command,execute),missing,fault,(6,));expected(p,str(state),review['definition_digest']);responses.append(dict(frontend='cli-throw',command=command,response=p,seconds=elapsed))
             original=os.environ.get('DISKED_IMAGE_TEST_GATE');os.environ.update(missing)
             try:
@@ -95,7 +95,7 @@ def main():
             finally:
                 if original is None:os.environ.pop('DISKED_IMAGE_TEST_GATE',None)
                 else:os.environ['DISKED_IMAGE_TEST_GATE']=original
-            gate='Local\\DiskEdAcquisitionRoute-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
+            gate='DiskEdAcquisitionRoute-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
             process=None
             try:
                 process=subprocess.Popen([str(fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=root,env=dict(env,DISKED_IMAGE_TEST_GATE=gate))

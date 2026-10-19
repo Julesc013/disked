@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-18-ordinary-worker\campaign.py", line 241, in <module>
+    try: code=main()
+              ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-18-ordinary-worker\campaign.py", line 120, in main
+    if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-18-ordinary-worker\\native-x64-expectations.json'

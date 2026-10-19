@@ -178,7 +178,7 @@ def main():
                 assert time.monotonic()<endtime,(name,observed);time.sleep(.025)
             handle=report_process(s,fault)
             assert handle
-            job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Verification.Attempt.v1.'+cd['definition']['host_id']+'.'+id);assert job
+            job=K.OpenJobObjectW(4,False,'DiskEd.Verification.Attempt.v1.'+cd['definition']['host_id']+'.'+id);assert job
             try:
                 member=W.BOOL();limits=JobLimits();assert K.IsProcessInJob(handle,job,C.byref(member)) and member.value
                 assert K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)

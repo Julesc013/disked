@@ -1,6 +1,7 @@
 """Adapt the qualified guest cap setup for the ordinary-token experiment."""
 import ast
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -72,10 +73,26 @@ RETIRE_ACTOR=r'''
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     cleanup_only='--cleanup-only' in sys.argv
-    size=512 if '--size-mib=512' in sys.argv else 32
-    if size==512 and '--crypto-full' not in sys.argv:raise ValueError('512MiB is restricted to its declared complete primitive proof')
+    full_native='--native-x64' in sys.argv
+    size=512 if '--size-mib=512' in sys.argv or full_native else 32
+    if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
+    full_files=('full-native.py','build-driver.py','guest-source.py','source-snapshot.py','source.pack','source.json')
+    if full_native:
+        for name in full_files[:4]:
+            origin=HERE/name if name=='full-native.py' else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+            data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
+        if '--prepare-only' in sys.argv or cleanup_only:
+            (stage/'source.pack').write_bytes(b'not-an-executable-qualification-pack');(stage/'source.json').write_text('{}\n')
+        else:
+            revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+            context=json.loads((ROOT/'.aide-local/context/current/manifest.json').read_bytes())
+            if context['work_id']!='DE-W105' or context['git_head']!=revision:raise ValueError('Exact work context required')
+            definition=importlib.util.spec_from_file_location('full_snapshot',ROOT/'tools/source-snapshot.py');snapshot=importlib.util.module_from_spec(definition);definition.loader.exec_module(snapshot)
+            selected=snapshot.selected_inputs(ROOT,'DE-W105',revision=revision)
+            source=snapshot.export(ROOT,selected,work/'source-export',work,revision=revision)
+            for name in full_files[-2:]:shutil.copyfile(work/'source-export'/name,stage/name)
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     native='--native-journey' in sys.argv
@@ -95,11 +112,12 @@ def main():
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
     crypto_full='--crypto-full' in sys.argv
-    crypto='--crypto-device' in sys.argv or crypto_full or native
+    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
+    if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
@@ -122,7 +140,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -146,12 +164,17 @@ def main():
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
+    if full_native:
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in full_files)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]
     host=once(host,"    foreach($file in $selected)","    $backing=@(Get-VMHardDiskDrive -VM $vm);if($backing.Count-ne1){throw 'Unexpected VM backing topology.'}\n    $backingPath=$backing[0].Path;$result.host_backing_start_bytes=(Get-Item -LiteralPath $backingPath).Length\n    foreach($file in $selected)")
     host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
+    if full_native:
+        host=once(host,"    $result.host_backing_end_bytes=", "    $retained=Invoke-Command -Session $session -ScriptBlock { $p='C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz';if(Test-Path -LiteralPath $p){$f=Get-Item -LiteralPath $p;if($f.Length-gt32MB-or($f.Attributes-band[IO.FileAttributes]::ReparsePoint)){throw 'Invalid retained archive.'};$true}else{$false}}\n    if($retained){Copy-Item -FromSession $session -LiteralPath 'C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz' -Destination (Join-Path $PSScriptRoot 'retained.tar.xz')}\n    $result.host_backing_end_bytes=")
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
     cleanup=once(cleanup,'$paths=@($Expected',"$extra=@(\"$root\\scratch\\ordinary-actor.json\",\"$root\\scratch\\outside\\baseline\",\"$root\\scratch\\outside\\forbidden\",\"$root\\scratch\\outside\\descendant-forbidden\",\"$root\\scratch\\outside\\inheritance-canary.bin\")\n        $paths=$extra+@($Expected")
@@ -166,6 +189,7 @@ def main():
         }
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
+    if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\retained.tar.xz",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
     parser="$e=$null;$t=$null;foreach($f in Get-ChildItem -LiteralPath $args[0] -Filter '*.ps1'){$null=[Management.Automation.Language.Parser]::ParseFile($f.FullName,[ref]$t,[ref]$e);if($e.Count){throw ($e|Out-String)}}"
@@ -175,12 +199,14 @@ def main():
     (HERE/'prepared.json').write_text(json.dumps(dict(status='pass',scope='Source/AST/template/Windows PowerShell5.1 parse only; no guest execution',generated_sha256=hashes),indent=2)+'\n',encoding='utf-8',newline='\n')
     if '--prepare-only' in sys.argv:return 0
     if cleanup_only:
-        shutil.copyfile(HERE/'result.json',stage/'proof-32.json')
-        cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=60)
+        previous=json.loads((HERE/'result.json').read_bytes())
+        if previous['guest']['setup']['size_mib']!=size:raise ValueError('Cleanup size differs from receipt')
+        shutil.copyfile(HERE/'result.json',stage/('proof-'+str(size)+'.json'))
+        cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=60)
         if cleaned.returncode:raise RuntimeError((cleaned.stdout+cleaned.stderr)[-16384:].decode(errors='replace'))
         shutil.copyfile(stage/'cleanups.json',HERE/'cleanup.json')
         return 0
-    call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=600)
+    call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=9000 if full_native else 600)
     raw=(stage/('proof-'+str(size)+'.json')).read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
     result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
@@ -191,6 +217,16 @@ def main():
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
+    if full_native:
+        result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
+        proof=result.get('guest',{}).get('proof') or {}
+        result['template_native_product_tests_run']=result.get('native_product_tests_run',False)
+        result['native_product_tests_run']=bool(proof.get('tests'))
+        result['native_product_build_run']=any(row['label']=='build' for row in proof.get('commands',[]))
+        if (stage/'retained.tar.xz').exists():
+            digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
+            if digest!=result.get('guest',{}).get('proof',{}).get('archive_sha256'):raise ValueError('Transferred archive hash mismatch')
+            shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if crypto and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):

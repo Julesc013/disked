@@ -170,7 +170,7 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
     interim=inspect(r['operation_id'],store,fault);before=(store/'report.records').read_bytes();again=start(d,exe=fault)
     check('joined-late-worker-no-replacement',interim['value']['worker_observation']=='running' and again['operation_id']==r['operation_id'] and (store/'report.records').read_bytes()==before)
     process=report_process(interim['value']['state'],fault);assert process
-    job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Report.Attempt.v1.'+d['definition']['host_id']+'.'+r['operation_id']);assert job
+    job=K.OpenJobObjectW(4,False,'DiskEd.Report.Attempt.v1.'+d['definition']['host_id']+'.'+r['operation_id']);assert job
     try:
         member=W.BOOL();limits=JobLimits();assert K.IsProcessInJob(process,job,C.byref(member)) and member.value and K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)
         check('joined-independent-private-job-limits',limits.basic.flags==0x108 and limits.basic.process_limit==1 and limits.process_memory==128*1024*1024 and limits.job_memory==0)

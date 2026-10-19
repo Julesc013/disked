@@ -13,7 +13,7 @@ class InventoryEvents:
         self.handles={};self.names={};self.completion_name=None;nonce=uuid.uuid4().hex
         try:
             for action in ('advance','release','cancel','timeout')+(('complete',) if completion else ()):
-                name='Local\\DiskEd.Inventory.'+nonce+'.'+action
+                name='DiskEd.Inventory.'+nonce+'.'+action
                 handle=k.CreateEventW(None,False,False,name)
                 error=c.get_last_error()
                 if not handle:raise OSError(error,'owned inventory event')

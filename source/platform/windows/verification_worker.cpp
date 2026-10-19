@@ -156,7 +156,7 @@ V start_verification_worker(const V& d,const V& g) {
         Handle event(CreateEventW(&attributes,TRUE,FALSE,nullptr));if(!event.valid())fail("verification_worker_event_create");
         auto ci=inherited(input.value,GENERIC_READ),cr=inherited(records.value,FILE_APPEND_DATA|FILE_READ_ATTRIBUTES),cc=inherited(cancel.value,GENERIC_READ),ce=inherited(event.value,EVENT_MODIFY_STATE|SYNCHRONIZE),co=inherited(collection.value,GENERIC_READ|GENERIC_WRITE);
         std::vector<HANDLE> handles={ci.value,cr.value,cc.value,ce.value,co.value};WorkerBudget aggregate(security,true);
-        const auto job_name=L"Local\\DiskEd.Verification.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
+        const auto job_name=L"DiskEd.Verification.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
         SetLastError(ERROR_SUCCESS);
         Handle job(CreateJobObjectW(&attributes,job_name.c_str()));
         const auto job_state=GetLastError();
