@@ -258,6 +258,32 @@ def coordinate(g):
             result.update(status='fail',cleanup_error=traceback.format_exc()[-8192:]);raise
         finally:(ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
+def coordinate_full(g):
+    """Original full32MiB proof, under the separately declared crypto recipe."""
+    import traceback
+    g.actor()  # Verify current credentials/journal before setup; leave its env for main.
+    grant=Grant();result=None
+    try:
+        grant.apply();grant.started()
+        g.main()
+    finally:
+        try:
+            path=ROOT/'proof-result.json'
+            if path.exists():result=json.loads(path.read_bytes())
+            if result is None and grant.read().get('crypto_device',{}).get('workers_started') is False:
+                grant.retire(quiescent=True)
+                result=dict(status='fail',all_owned_processes_retired=True,error='Setup failed before any worker was admitted')
+            if not result or result.get('all_owned_processes_retired') is not True:
+                raise RuntimeError('Preserve crypto journal: full proof retirement not established')
+            grant.retire(quiescent=True)
+            result.update(scope='Original32MiB ordinary-token primitive proof with scoped guest crypto setup; no compiler/product qualification',execution_profile='fresh-user-rc-crypto-guest/v1',crypto_device_retired=True,crypto_device=grant.report,full_product_qualified=False)
+        except BaseException:
+            if result is None:result=dict(status='fail',all_owned_processes_retired=False)
+            result.update(status='fail',crypto_device_retired=False,crypto_cleanup_error=traceback.format_exc()[-8192:]);raise
+        finally:
+            grant.close()
+            (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+
 if __name__=='__main__':
     if sys.argv[1:]!=['--apply-and-exit']:raise ValueError('Fixed prelaunch interruption probe only')
     instance=Grant();instance.apply()

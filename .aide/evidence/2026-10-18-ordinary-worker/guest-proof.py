@@ -49,6 +49,18 @@ def plan(work, data):
         outside=str(ROOT/'scratch/outside'),backing=state['image'],profile='fresh-user-restricted-code/v1')))
     return path
 
+def retire_job(job):
+    class Accounting(C.Structure):_fields_=[('times',C.c_longlong*4),('faults',T.DWORD),('total',T.DWORD),('active',T.DWORD),('terminated',T.DWORD)]
+    query=W.bind(job.api,'QueryInformationJobObject',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.c_void_p)
+    W.require(job.api.TerminateJobObject(job.handle,78));until=time.monotonic()+10
+    while True:
+        info=Accounting();W.require(query(job.handle,1,C.byref(info),C.sizeof(info),None))
+        if info.active==0:break
+        if time.monotonic()>until:raise TimeoutError('Owned ordinary job did not quiesce')
+        time.sleep(.05)
+    result=dict(active_processes=info.active,total_processes=info.total,terminated_processes=info.terminated)
+    job.close();return result
+
 def controller():
     data=actor(); private={k:v for k,v in os.environ.items() if k.startswith('DISKED_TEST_ACTOR_')}
     work=Path(sys.argv[2]);assert work==Path(json.loads((ROOT/'scratch/state.json').read_bytes())['work'])/'abrupt'
@@ -56,7 +68,7 @@ def controller():
     try:
         instance=worker(work,private,namespace_compat=True); request=plan(work,data);job=S.WindowsJob()
         child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'hold'],os.environ,job)
-        (work/'controller.json').write_text(json.dumps(dict(controller_pid=os.getpid(),worker_pid=child.pid)))
+        (work/'controller.json').write_text(json.dumps(dict(controller_pid=os.getpid(),worker_pid=child.pid,job_handle=hex(job.handle))))
         child.wait(timeout=35)
         raise RuntimeError('Outer coordinator failed to interrupt the owned controller')
     finally:
@@ -226,7 +238,7 @@ def main():
         assert hashlib.sha256((ROOT/'ordinary-worker.py').read_bytes()).hexdigest()==source_before
         assert (outside/'sentinel').read_bytes()==b'preserve-owned-sentinel'
         assert set(p.name for p in outside.iterdir())=={'sentinel','inheritance-canary.bin'}
-        job.close();job=None;child.close();child=None
+        result['normal_job_retirement']=retire_job(job);job=None;child.close();child=None
         W.require(instance.k.CloseHandle(canary));canary=None
         instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
@@ -262,11 +274,31 @@ def main():
                 if handle!=C.c_void_p(-1).value:k.CloseHandle(handle)
                 result['held_before_interruption'].append(dict(path=name,winerror=error))
                 assert handle==C.c_void_p(-1).value and error==32
-            for pid in (held['pid'],descendant['pid']):
-                handle=W.require(k.OpenProcess(0x101000,False,pid))
-                born,exited,kernel,user=T.FILETIME(),T.FILETIME(),T.FILETIME(),T.FILETIME()
-                W.require(k.GetProcessTimes(handle,C.byref(born),C.byref(exited),C.byref(kernel),C.byref(user)))
-                observed.append((handle,dict(pid=pid,creation_time=str((born.dwHighDateTime<<32)|born.dwLowDateTime))))
+            # Snapshot all actual job members, including any owned console host.
+            # Close the duplicate before killing the controller so its death
+            # really closes the last job handle and exercises KILL_ON_JOB_CLOSE.
+            W.bind(k,'GetCurrentProcess',T.HANDLE)
+            W.bind(k,'DuplicateHandle',T.BOOL,T.HANDLE,T.HANDLE,T.HANDLE,C.POINTER(T.HANDLE),T.DWORD,T.BOOL,T.DWORD)
+            W.bind(k,'QueryInformationJobObject',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.c_void_p)
+            W.bind(k,'IsProcessInJob',T.BOOL,T.HANDLE,T.HANDLE,C.POINTER(T.BOOL))
+            duplicate=T.HANDLE();W.require(k.DuplicateHandle(int(coordinator._handle),int(identity['job_handle'],16),k.GetCurrentProcess(),C.byref(duplicate),4,False,0))
+            try:
+                class ProcessIds(C.Structure):_fields_=[('assigned',T.DWORD),('count',T.DWORD),('ids',C.c_size_t*64)]
+                ids=ProcessIds();W.require(k.QueryInformationJobObject(duplicate,3,C.byref(ids),C.sizeof(ids),None))
+                assert 2<=ids.count<=64 and ids.assigned==ids.count
+                pids=list(ids.ids[:ids.count]);assert len(set(pids))==len(pids) and {held['pid'],descendant['pid']}<=set(pids)
+                result['abrupt_job_process_ids']=pids
+                for pid in pids:
+                    handle=W.require(k.OpenProcess(0x101000,False,pid))
+                    try:
+                        inside=T.BOOL();W.require(k.IsProcessInJob(handle,duplicate,C.byref(inside)));assert inside.value
+                        born,exited,kernel,user=T.FILETIME(),T.FILETIME(),T.FILETIME(),T.FILETIME()
+                        W.require(k.GetProcessTimes(handle,C.byref(born),C.byref(exited),C.byref(kernel),C.byref(user)))
+                        observed.append((handle,dict(pid=pid,creation_time=str((born.dwHighDateTime<<32)|born.dwLowDateTime))));handle=None
+                    finally:
+                        if handle:W.require(k.CloseHandle(handle))
+                result['abrupt_snapshot_complete']=True
+            finally:W.require(k.CloseHandle(duplicate))
             coordinator.kill();coordinator.wait(timeout=10)
             result['abrupt_controller_exit']=coordinator.returncode
             result['retired_processes']=[]
@@ -285,7 +317,7 @@ def main():
     finally:
         if coordinator and coordinator.poll() is None:
             coordinator.kill();coordinator.wait(timeout=10)
-        if job:job.close()
+        if job:result['failure_job_retirement']=retire_job(job)
         if child:
             child.wait(timeout=10);child.close()
         if canary and instance:W.require(instance.k.CloseHandle(canary))
@@ -293,7 +325,7 @@ def main():
         if observed:
             for handle,record in observed:
                 W.require(k.WaitForSingleObject(handle,10000)==0);W.require(k.CloseHandle(handle))
-        result['all_owned_processes_retired']=True
+        result['all_owned_processes_retired']=coordinator is None or result.get('abrupt_snapshot_complete') is True
         result['guest_c_free_bytes']=shutil.disk_usage('C:/').free
         result['python_sha256']=hashlib.sha256(Path(sys.executable).read_bytes()).hexdigest()
         if 'normal' in locals() and (normal/'worker-basic-stdio.log').exists():
@@ -355,6 +387,7 @@ def loader_diagnose():
 
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
+    elif len(sys.argv)>1 and sys.argv[1]=='--crypto-full':load('crypto_device',ROOT/'crypto-device.py').coordinate_full(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--crypto-device':load('crypto_device',ROOT/'crypto-device.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--loader-forensics':load('loader_forensics',ROOT/'loader-forensics.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--namespace-diagnostic':load('namespace_forensics',ROOT/'loader-forensics.py').coordinate_namespace(sys.modules[__name__])
