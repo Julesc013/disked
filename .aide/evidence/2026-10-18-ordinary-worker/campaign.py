@@ -143,6 +143,9 @@ def main():
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
     if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
+    if full_native:
+        setup=once(setup,'$acl.AddAccessRule($readRule);Set-Acl -LiteralPath $volumeRoot -AclObject $acl',
+            "$acl.AddAccessRule($readRule)\n    $packageRead=[Security.AccessControl.FileSystemAccessRule]::new([Security.Principal.SecurityIdentifier]::new($attach.profiles[0].sid),[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]'ContainerInherit,ObjectInherit',[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow)\n    $acl.AddAccessRule($packageRead);Set-Acl -LiteralPath $volumeRoot -AclObject $acl")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
     (stage/'guest-proof.ps1').write_text(setup,encoding='utf-8',newline='\n')
