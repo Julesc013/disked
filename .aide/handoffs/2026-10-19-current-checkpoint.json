@@ -132,7 +132,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/finish-backing-cleanup.ps1",
     "tests/tools/test_native_stop_request.py"
   ],
-  "summary": "DE-W105 is active. All six focused repair groups pass at e59eb622. Full x64 attempt85 was interrupted during compilation by the shared VM backing-growth guard and all owned cleanup was recovered. Controller-stop proof87 at ad9186db now passes exact request consumption,owned job retirement,three temporary-grant retirements and complete cleanup,with zero backing growth. Full180 x64,same-source privateWin32,current C90 and detailed review remain required. Original all-platform/storage0.1.0,owner acceptance and release remain incomplete.",
+  "summary": "DE-W105 active. Six focused repair groups and controller-stop proof87 pass. Full x64 attempt88 passed schema/source preflight but its new parallel2 MSBuild setting stalled;the exact owned root was stopped and all cleanup verified,with zero backing growth. Serial1 is restored to its previously measured build setting. Full180 x64,same-source privateWin32,C90/detail review and main integration remain pending;owner/release/full0.1 acceptance remains separate.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -1177,12 +1177,28 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json",
       "sha256": "sha256:2d8efdd5207500abf260fa52a14527af13d7e07026fdb4082bd48933d565f30e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-parallel-stall.json",
+      "sha256": "sha256:e0f2e129f77ad1d8e310eba0252cd6e7f70eb4034779378e2ce289ba80b132d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-stall-observation.json",
+      "sha256": "sha256:a3f40a813bacd6e3e3a34e042f5b01fad6c3690ee2ce9ac1b4906bbbddcc4c66"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-cleanup.json",
+      "sha256": "sha256:93173de9219113ef11c285a1eb37371d9b6fad550156a24e31caa5a319345248"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-review.json",
+      "sha256": "sha256:e2538701ec5a0ebe51f643456b3fafa29d48891fd509b926b1489925da6f3790"
     }
   ],
   "blockers": [
     "Full180 x64,same-source privateWin32,current C90 and detailed review remain unqualified. Controller-stop proof87 passes;no current setup/authority blocker.",
     "Owner acceptance,production storage/release gates and original all-platform0.1 completion remain separate."
   ],
-  "next_safe_step": "Freeze closing checkpoint,verify complete W105 context and run --native-x64 --interactive-ui with declared parallel2 and unchanged storage/build/test limits. Keep exact HEAD for same-source privateWin32,C90 --current and detailed retained-case review. Preserve any failure and cleanup before diagnosis;merge tested dev into main after W105 review,then continue W106/W107.",
+  "next_safe_step": "Freeze closing checkpoint and verify W105 context;run --native-x64 --interactive-ui using restored serial1,unchanged1800s build deadline and storage limits. Keep same HEAD for privateWin32,C90 --current and detailed review after full pass,then integrate tested dev into main. Continue W106/W107 after W105 review.",
   "performed_remote_writes": true
 }

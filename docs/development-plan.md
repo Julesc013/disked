@@ -12,7 +12,7 @@ proof, including job/grant retirement, complete cleanup and zero backing growth.
 [Current evidence](../.aide/evidence/2026-10-18-ordinary-worker/README.md) separates
 these results from the full qualification still required.
 
-Run the complete 180-group x64 suite with the existing two-job build setting and
+Run the complete 180-group x64 suite with the previously measured serial build setting and
 unchanged limits, then same-source private Win32, current C90 and detailed
 retained-case review. Integrate the tested checkpoint into main after that
 review. No current account/UAC/authentication or confined-worker setup grant is

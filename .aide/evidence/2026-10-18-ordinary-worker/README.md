@@ -1,5 +1,10 @@
 # Ordinary worker and current native qualification
 
+Run88 at `8aa0a422` passed schema/source preflight but parallel2 MSBuild stalled
+at Checking Build System. The exact owned root was stopped after PID/creation/
+parent/owner checks; all owned cleanup and the 16-entry archive verify. Backing
+growth was zero. Serial1 is restored; see `eighty-eighth-review.json`.
+
 Controller-stop proof87 at `ad9186db` passes: the exact injected request was
 consumed, both owned jobs reached zero active processes, all three temporary
 grants retired and owned source/account/profile/media/task/credential cleanup

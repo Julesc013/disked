@@ -227,7 +227,7 @@
     "guest_overall_seconds": 7200,
     "ctest_reporting_grace_seconds": 30,
     "group_seconds_scope": "Default maximum CTest property;named aggregate fixture overrides are explicit. Controller adds only reporting grace.",
-    "build_parallelism": 2
+    "build_parallelism": 1
   },
   "owner_accepted": false,
   "release_qualified": false,
@@ -284,5 +284,6 @@
     "acknowledgement_seconds": 30,
     "cleanup_only_seconds": 300,
     "semantics": "Abort current owned job and retain incomplete evidence;bounded cleanup grace is not workload permission or a larger storage budget. No full/product qualification on interruption. Forced fallback preserves exact recovery state."
-  }
+  },
+  "build_parallelism_basis": "Serial1 previously completed exact-source all-target builds in1340.9/1380.0s. Parallel2 stalled at Checking Build System in run88 and was specifically stopped after ownership/creation/parent validation;not qualified. Existing1800s deadline and storage limits unchanged."
 }
