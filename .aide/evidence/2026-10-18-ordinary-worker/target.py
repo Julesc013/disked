@@ -120,7 +120,34 @@ def bootstrap(plan):
     original,restricted,process=T.HANDLE(),T.HANDLE(),b.ProcessInfo()
     sid=P();handles=[];attributes=None
     report=dict(standard_bootstrap=observed,child_job_inherited=False)
+    station,desktop,u=None,None,None
     try:
+        if plan.get('create_ui'):
+            import uuid
+            u=C.WinDLL('user32',use_last_error=True)
+            bind(u,'GetProcessWindowStation',T.HANDLE)
+            bind(u,'CreateWindowStationW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(b.SecurityAttributes))
+            bind(u,'SetProcessWindowStation',T.BOOL,T.HANDLE)
+            bind(u,'CreateDesktopW',T.HANDLE,T.LPCWSTR,P,P,T.DWORD,T.DWORD,C.POINTER(b.SecurityAttributes))
+            bind(u,'CloseDesktop',T.BOOL,T.HANDLE);bind(u,'CloseWindowStation',T.BOOL,T.HANDLE)
+            station_name,desktop_name='DiskEdActor-'+uuid.uuid4().hex,'Proof-'+uuid.uuid4().hex
+            descriptors=[]
+            try:
+                for access in ('0xf037f','0xf01ff'):
+                    sd=P();sddl='D:P(A;;'+access+';;;SY)(A;;'+access+';;;'+observed['user_sid']+')(A;;'+access+';;;'+plan['coordinator_sid']+')S:(ML;;NW;;;ME)'
+                    require(a.ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl,1,C.byref(sd),None));descriptors.append(sd)
+                sa=b.SecurityAttributes(C.sizeof(b.SecurityAttributes),descriptors[0],False)
+                previous=require(u.GetProcessWindowStation())
+                try:
+                    station=require(u.CreateWindowStationW(station_name,1,0xf037f,C.byref(sa)))
+                    require(u.SetProcessWindowStation(station))
+                    sa=b.SecurityAttributes(C.sizeof(b.SecurityAttributes),descriptors[1],False)
+                    desktop=require(u.CreateDesktopW(desktop_name,None,None,0,0xf01ff,C.byref(sa)))
+                finally:require(u.SetProcessWindowStation(previous))
+            finally:
+                for sd in descriptors:k.LocalFree(sd)
+            plan['desktop']=station_name+'\\'+desktop_name
+            report['actor_created_ui']=dict(station=station_name,desktop=desktop_name,user_sid=observed['user_sid'])
         require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
         bind(a,'ConvertStringSidToSidW',T.BOOL,T.LPCWSTR,C.POINTER(P))
         require(a.ConvertStringSidToSidW(observed['user_sid'],C.byref(sid)))
@@ -168,6 +195,8 @@ def bootstrap(plan):
             if h:k.LocalFree(h)
         for h in (restricted,original):
             if h:k.CloseHandle(h)
+        if desktop:require(u.CloseDesktop(desktop))
+        if station:require(u.CloseWindowStation(station))
         Path('bootstrap-result.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 
 def main():

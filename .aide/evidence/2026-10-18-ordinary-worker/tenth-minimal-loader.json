@@ -1,0 +1,178 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T08:56:08.7816292Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "base_revision": "23547938de9496eedf670c89e6b26809cb053fc5",
+    "files": [
+      {
+        "path": "loader-observer.py",
+        "bytes": 1032,
+        "sha256": "81987F5DB7211564BAF73D540E9B2AAC49C45E2CF220F8914C199674DDC262FD"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 21959,
+        "sha256": "E22D0E85BDC1AFBECAF7CDD284558BC9489DC3C19515E13548EBC5F40ABC98D2"
+      },
+      {
+        "path": "target.py",
+        "bytes": 16663,
+        "sha256": "A09598CE1C2765298C0ABA1FA410857DDCBDD368A05E22E603750EC7C614317F"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 21522,
+        "sha256": "615E1A71DCAA6ACBA5C6E964ED7F6FEF203A02333156920E237362D11DDF666F"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13479,
+        "sha256": "93BC2592B4E290EA246BAC3AB6C18811A4AFE34F37574D03BA8DFAC17D3D2C51"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 5983,
+        "sha256": "1EB11E37620C927108549EEAB68971D78E072FDD3388EC1BF71312FE5BD5F6F9"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T08:56:09.5368166Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-98a855f8",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1012",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "6AAAF4F85B6F834D81006244D986B7E3",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.421b2de6d197417fbbf85d773be65481",
+            "sid": "S-1-15-2-552320294-646514819-2286036484-1876381254-3510252833-2627017417-491054084"
+          },
+          {
+            "name": "org.disked.worker.da0106b7d15e42148d064e4193c10c99",
+            "sid": "S-1-15-2-3695733213-3700712898-36197132-3128547978-1048889193-266921005-919511038"
+          },
+          {
+            "name": "org.disked.worker.5ac615e99d2b48ff9839b00f3f517c96",
+            "sid": "S-1-15-2-3824484181-241274181-2580463206-1664064897-962285088-2776169268-3497416101"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1012)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "600224806AAAF4F85B6F6244D986B7E3",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 599, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T08:56:23.3363576Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "Pure Python entry/import breadcrumb diagnostic only",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "variants": [
+        {
+          "name": "standard",
+          "observer_receipt": "python_entered\r\nbefore_import json\r\nafter_import json\r\nbefore_import pathlib\r\nafter_import pathlib\r\nbefore_import subprocess\r\nafter_import subprocess\r\nbefore_import tempfile\r\nafter_import tempfile\r\nbefore_import ctypes\r\nafter_import ctypes\r\nbefore_import ctypes.wintypes\r\nafter_import ctypes.wintypes\r\nbefore_load user32\r\nafter_load user32\r\nbefore_load shell32\r\nafter_load shell32\r\ncomplete\r\n",
+          "exit_code": 0,
+          "observer_sha256": "9699b36e6db9f3e3e845f58ae90f152cf5562ed39e40f250422e660bc42cf77e",
+          "standard_output": "",
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "2332498535619157290",
+              "identity": "2f000000000001000000000000000000"
+            },
+            "token_kind": "fresh_standard_baseline"
+          }
+        },
+        {
+          "name": "restricted",
+          "observer_receipt": null,
+          "exit_code": 3221225794,
+          "standard_output": "",
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "2332498535619157290",
+              "identity": "31000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted"
+          }
+        }
+      ],
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 329, in loader_diagnose\n    assert result['variants'][0]['observer_receipt'].endswith('complete\\n')\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "free_c_bytes": 98109071360
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T08:56:27.9238680Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "1eb11e37620c927108549eeab68971d78e072fdd3388ec1bf71312fe5bd5f6f9",
+    "guest-proof.ps1": "93bc2592b4e290ea246bac3ab6c18811a4afe34f37574d03ba8dfac17d3d2c51",
+    "guest-proof.py": "615e1a71dcaa6acba5c6e964ed7f6fef203a02333156920e237362d11ddf666f",
+    "loader-observer.py": "81987f5db7211564baf73d540e9b2aac49c45e2cf220f8914c199674ddc262fd",
+    "ordinary-worker.py": "e22d0e85bdc1afbecaf7cdd284558bc9489dc3c19515e13548ebc5f40abc98d2",
+    "run-proof.ps1": "a68f51eef8087c2bb8a23140de6fe9410eaa538629f8e291ce23e839786d61be",
+    "target.py": "a09598ce1c2765298c0aba1fa410857ddcbdd368a05e22e603750ec7c614317f"
+  },
+  "host_exit_code": 1,
+  "experiment_kind": "minimal Python entry and native-import diagnostic; no profile admission",
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-_7dt1ljf\\ordinary-proof\\run-proof.ps1:66\r\nLine |\r\n  66 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

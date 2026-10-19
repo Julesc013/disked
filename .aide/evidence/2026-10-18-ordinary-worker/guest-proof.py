@@ -325,7 +325,22 @@ def loader_diagnose():
                 if job:job.close();job=None
                 if child:child.wait(timeout=10);child.close();child=None
                 result['variants'].append(row)
-        assert len(result['variants'])==2 and result['variants'][0]['exit_code']==0
+        request=selected/'own-ui-request.json'
+        request.write_text(json.dumps(dict(variant='actor-owned-ui',create_ui=True,user_sid=data['sid'],coordinator_sid=instance.coordinator_sid)))
+        row=dict(name='actor-owned-ui-bootstrap')
+        try:
+            job=S.WindowsJob()
+            child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'bootstrap'],os.environ,job,diagnostic_original=True)
+            row['exit_code']=child.wait(timeout=15)
+            row['bootstrap']=json.loads((selected/'bootstrap-result.json').read_bytes())
+            path=selected/'startup-actor-owned-ui.json'
+            row['observation']=json.loads(path.read_bytes()) if path.exists() else None
+        finally:
+            row['parameters']=instance.last_launch
+            if job:job.close();job=None
+            if child:child.wait(timeout=10);child.close();child=None
+            result['variants'].append(row)
+        assert len(result['variants'])==3 and result['variants'][0]['exit_code']==0
         assert result['variants'][0]['observer_receipt'].endswith('complete\n')
         result['status']='pass'  # Diagnostic collection only.
     except BaseException:

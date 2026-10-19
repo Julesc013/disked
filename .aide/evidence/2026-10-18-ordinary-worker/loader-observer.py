@@ -6,7 +6,7 @@ name=sys.argv[1]
 if name not in ('loader-standard.log','loader-restricted.log'):
     raise ValueError('Fixed owned observation basename required')
 
-with open(name,'x',encoding='utf-8') as output:
+with open(name,'x',encoding='utf-8',newline='\n') as output:
     def mark(text):
         output.write(text+'\n');output.flush();os.fsync(output.fileno())
     mark('python_entered')
