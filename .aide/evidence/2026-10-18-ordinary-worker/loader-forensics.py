@@ -172,7 +172,7 @@ def actor(plan):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
             row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],native_call_scope='Three ntdll entrypoints on the owned initial thread only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
-            watches=None;pending=None
+            watches=None;pending=None;stop_requested=False
             def retain_trace(complete):
                 raw=trace_path.read_bytes();assert len(raw)<=2097152
                 compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])
@@ -239,11 +239,8 @@ def actor(plan):
                             row['modules'].append(dict(event=event.code,path=path.value if 0<length<len(path) else None))
                             if length and Path(path.value).name.lower()=='python314.dll':
                                 row['native_observation_stop_thread']=event.tid
-                                row['native_call_pending_at_observation_stop']=pending;pending=None
-                                storage,value=context();value.flags=0x100010
-                                for i in range(6):value.dr[i]=0
-                                require(k.SetThreadContext(process.thread,C.byref(value)))
-                                row['native_observation_stopped_at']='python314.dll LOAD_DLL_DEBUG_EVENT'
+                                stop_requested=True
+                                row['native_observation_stop_requested_at']='python314.dll LOAD_DLL_DEBUG_EVENT'
                             if length and Path(path.value).name.lower()=='ntdll.dll':
                                 assert event.tid==process.tid and watches is None
                                 watches=[info.base+offsets[name] for name in selected_functions]
@@ -262,7 +259,16 @@ def actor(plan):
                             code=event.data.exception.record.code
                             if code==0x80000004 and event.tid==process.tid and watches:
                                 storage,value=context();hit=value.dr[4]&15
-                                if pending is not None and hit==4:
+                                if stop_requested:
+                                    assert hit in (1,2,4,8)
+                                    row['native_call_pending_at_observation_stop']=pending;pending=None
+                                    value.flags=0x100010
+                                    for i in range(6):value.dr[i]=0
+                                    require(k.SetThreadContext(process.thread,C.byref(value)))
+                                    row['post_stop_breakpoints']=row.get('post_stop_breakpoints',0)+1
+                                    assert row['post_stop_breakpoints']<=8
+                                    row['native_observation_stopped_at']='next owned initial-thread breakpoint after python314.dll load'
+                                elif pending is not None and hit==4:
                                     pending['returned_rax_low32']=hex(value.regs[0]&0xffffffff)
                                     if pending['function']=='CsrClientConnectToServer':pending['status']=hex(value.regs[0]&0xffffffff)
                                     row['native_calls'].append(pending);pending=None

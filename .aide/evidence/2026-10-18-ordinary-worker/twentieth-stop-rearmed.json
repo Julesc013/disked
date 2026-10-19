@@ -1,0 +1,3355 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T09:55:09.1244735Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "eafacbe53c900f9702a2e3f47250be9d9c02c90e",
+    "files": [
+      {
+        "path": "loader-forensics.py",
+        "bytes": 30265,
+        "sha256": "AD0BE59B723D04AE79F27B7748542449589C578C324E8F5188313A31F8AE5F37"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1045,
+        "sha256": "61D42483B78EC9430A2BFFF0EC22A2FAFCCA25E7BD897A396A614E87B303B6C0"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23013,
+        "sha256": "BB4CC19AC8E76D0CA818D15145B254D49B7CC7AFCD9293EDE6861CD3C2D01793"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13774,
+        "sha256": "B624A297F552DE4042A9F3DBC131C394BB68E0B5E54445DE67DABCCEF946B4EA"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9787,
+        "sha256": "7365139BA734091DA064C70AD26011997CB114E339C9D18F3EF3D91990262309"
+      }
+    ]
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T09:55:13.5945504Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-5163d5ec",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1022",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "C60AB3FBB3D57644BB18E911B2FE9971",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.a429b6a5c94d4d32af7b55a63bf24c08",
+            "sid": "S-1-15-2-2565114450-3954969420-84125860-1121876856-2200972280-275186748-894128336"
+          },
+          {
+            "name": "org.disked.worker.f1d487031039474dba8ad1c0c10e327a",
+            "sid": "S-1-15-2-2632389532-3722287005-2390892036-513274123-3367655809-107138178-4149525663"
+          },
+          {
+            "name": "org.disked.worker.130a24684a7949e1b6c4dde00a8f3fe7",
+            "sid": "S-1-15-2-2238335691-2582406438-2800954758-470037437-4097161148-1645388617-124199440"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1022)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480C60AB3FBB3D5E911B2FE9971",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 695, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T09:55:24.6226408Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "Per-image loader diagnostic only; no ordinary-worker qualification",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "actor_exit_code": 1,
+      "debug": {
+        "status": "fail",
+        "bootstrap_identity": {
+          "pid": 1480,
+          "restricted": false,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1022",
+          "restricting_sids": [],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeShutdownPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            },
+            {
+              "name": "SeUndockPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeIncreaseWorkingSetPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeTimeZonePrivilege",
+              "attributes": 0
+            }
+          ]
+        },
+        "variants": [
+          {
+            "name": "baseline",
+            "phase": "resume_and_collect",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-5163d5ec23a74c23b5fae25eec83e091.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ws2_32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\version.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcrt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\rpcrt4.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcrypt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\advapi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\sechost.dll"
+              }
+            ],
+            "exceptions": [
+              {
+                "code": "0x80000003",
+                "first_chance": 1
+              }
+            ],
+            "events": 1356,
+            "native_calls": [
+              {
+                "function": "CsrClientConnectToServer",
+                "arguments": [
+                  "0x6a216dead0",
+                  "0x1",
+                  "0x6a216dea98",
+                  "0x8"
+                ],
+                "return_address": "0x7ffa8d10b126",
+                "returned_rax_low32": "0x0",
+                "status": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32ErrorAndNtStatusFromNtStatus",
+                "arguments": [
+                  "0xc00700bb",
+                  "0x0",
+                  "0x6a216de778",
+                  "0x6a216de880"
+                ],
+                "error_argument_low32": "0xc00700bb",
+                "return_address": "0x7ffa8d10a0c9",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x6a216de958",
+                  "0x6a216de9d0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d0e72c1",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x2",
+                  "0xc0000034",
+                  "0x58",
+                  "0x5a"
+                ],
+                "error_argument_low32": "0x2",
+                "return_address": "0x7ffa8d0ee0cd",
+                "returned_rax_low32": "0x2"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x6a216de628",
+                  "0x6a216de6b0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x6a216de628",
+                  "0x6a216de6b0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x0",
+                  "0x6a216de948",
+                  "0x6a216deae0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x16f25d40000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x16f25d40000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x16f25d40000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x16f25d44ed0",
+                  "0x4",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x16f25d43090",
+                  "0x5",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xcb",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dfb68"
+                ],
+                "error_argument_low32": "0xcb",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0xcb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xcb",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dfb08"
+                ],
+                "error_argument_low32": "0xcb",
+                "return_address": "0x7ffa8d5d2663",
+                "returned_rax_low32": "0xcb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0xffff817498691078",
+                  "0x2",
+                  "0x0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d123400",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dfb38"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dfb68"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dfb98"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df578"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5ccd32",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df518"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d60ac90",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df548"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd1be",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd25e",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2aa",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2fb",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cc477",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df578"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5ccd32",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df518"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d60ac90",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df548"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dee78"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216debe8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216deb68"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x6a216de968",
+                  "0x6a216de9f0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d0e3e9c",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd1be",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd25e",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2aa",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2fb",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cc477",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df568"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df568"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df588"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df588"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df568"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df588"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df4e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df558"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df578"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5ccd32",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df518"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d60ac90",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df548"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dee78"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd1be",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd25e",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2aa",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df498"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2fb",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cc477",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df608"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5ccd32",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5a8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d60ac90",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df5d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216def08"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216dec78"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216ded88"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df528"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd1be",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df528"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd25e",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df528"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2aa",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df528"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cd2fb",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df688"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5cc477",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df338"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df338"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df338"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df388"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3496",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df358"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df358"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df358"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3496",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3a8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3a8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3a8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df318"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3c8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df388"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2e8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3a8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df328"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df378"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df3d8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df398"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5c39ce",
+                "returned_rax_low32": "0x213a4000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x16f25d4d230",
+                  "0x2",
+                  "0x6a216df2f8"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d5d3036",
+                "returned_rax_low32": "0x213a4000"
+              }
+            ],
+            "native_call_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": false,
+            "restricting_sids": [],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 5032,
+            "job_inherited": true,
+            "native_entrypoints": {
+              "CsrClientConnectToServer": "0x7ffa8f818e20",
+              "RtlSetLastWin32ErrorAndNtStatusFromNtStatus": "0x7ffa8f8618b0",
+              "RtlSetLastWin32Error": "0x7ffa8f8618d0"
+            },
+            "native_observation_stop_thread": 2616,
+            "native_call_pending_at_observation_stop": null,
+            "native_observation_stopped_at": "python314.dll LOAD_DLL_DEBUG_EVENT",
+            "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 271, in actor\n    assert len(row['native_calls'])<256\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+            "trace": {
+              "complete": false,
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 103770,
+              "sha256": "170e4db075f9acccb66ab4098cb75bfe5702e8774dafa30f0c5c39be334d0179",
+              "xz_sha256": "f2ebc843320993ad2756dd099998fef2a5722aef2c58a2f204658cc42c3acff1",
+              "xz_base64": "/Td6WFoAAATm1rRGAgAhARIAAAAjuIcs4ZVZFKJdABiMyKR5GkkwRUiYVBZVAtsH5LXg1N5Qk6Wc5TmSg4Cnb+se6zZyRQu26nJcxz/keS/cmm2SPS992CMZb/oa6dH+g/H53wRHe1uauLfNBDTV1O+bgcEfOLj5RVGJcPQzrcjjztGY6AG6AJzkk+pbUWtW6kQQKynfo/923JZAYc1vWaAuxMXQazB5MnIglWV9+qwBoB8PpqWk8LDpqh5yfAz0OqmOxf/sxQbHtVBilmqG3Qs/SVT0qr0lqmoDXXI3084ZMKSeJuZZNXWZMmfJ6N293juagyjOBzBvh04fVX4/Xz7Fsdd54ev/GHwJmIgvW1eJnJBZNPGAX9Dtx2H/wooX/XquHHwob+/2JwpYTgON5zm7PMX/QEC2z+2gu3hFOVv9lYcac0QOZ+o8gZWrrws+OWJQySWIezR1GTn6eFBmRwC1PpKmkydI7+MpJB4RJhpZLgHWbYrF2PmXFdascKF4vzqWBcuHO047ntltWpBQw/V0TRQUIU+QiJtVopHe5Wjjw5sqXZEmRCvTBhmskN727Z+Uthx0lS0zJEYDto2zy+sEHFkSa6b0X1krwmKmVv+lDPn5fjfcx7MN0290CiXjIaKJkQ0OtJhJW22Sew102pY+Nr4rwp8qj7QOgi4u3hufDF9KN8VOc2p2vRgpbtX/kkoSm22WMhIxRziz+7NGt8pHTisCPcybQeyAogYJFlPdI2FiOPAe7lzmeMkU97kJuKzMqR8fvLyPd+y9lai6ZV4a6ts+VHksBCDYIbJqOebZJkMAvBbf2xUKj6DtPbqhPi21JhIuEAySaColmH105DZ/nJkXmv/u5Jk/c8sOnbBqikp8REDHanCcqdZ0g58PuXI5KDXOLC9xSn8qz0VVH/jz/sVpBlWa9WGlCiMA70UgBaxVVc0nhX1WmGLwxxmTkr851/YjOlE6YnjPR1/Ru6hy0aZ+elpbGyXlJ1cXlGsV0yGGlfyWmZCSpfYL5f0FFbvDBmF48IOBchPQ/OoVC9M6LvewxRvnLJ+QAXdphD5yEFA8Fa4ehoTQSzdwVf5Qp2r4NzBSGpp6zWMjqH6K+0Q3Lu7Hz1jL2OiaWbYPSssmKp1OO0x46wZPOaA0704ulvdZm62/DlLVrhEZuH0Vwd/hV1zRaSGYvfxdR0Nmg1BXElbQSMhQIsTGjHKF+fRh0rwU/z3S78w42p+7v2xG4W1whIIWRE/uaSVMvCyYkfbZC1+FcmrCK3aB+8BWdINygxhXe6pNZl7YaJskBiAl2NyeWkC7jsVw6VlMYKgizJvKqX68XcxnXugc0kNZHUxqAcC8BuVflar9JT7vrtgW62Ms60Prc1aMFsXj5m/iTki/+NzGetDnsrI38Wm6VMOgrtCTafYM7jE7cH7Vbu2rQwsGzM2Cd4ULD6bFw9qsglfWZx9EAlvyohSAPO+BgbefDX4LxUDUbuKYWauO2aIm6EvD3seAK3oJ+scJ51zR9k2S1EMoFkrntVTKoEvzg+W/RAP4XZZh3p/D0YJZIEANQG8veEmnlU5mvPgMthkOeXN/ZApPL29vw104eY7cSsvrGKqFM6EDx9GlVy7+jcOilGQN3x+Yghwtq0pnPJwiMQH93UN+v2xeUrhZS/6Ztp/GUXPbl6480GC5jAz6L6Vl7i2Tp1OXYkK2e3svnnA1hARL1wd+oPa0IX9qiF5NmaaC/+qSmkaEcyusJCwi2zHUb6g0pFBjSzLH4KOvyh+pdldJ9/YyJo/KM1/hlIn/9o5t/PXBYBtbHBpC9Q9S+vS7VkYxFPHxEQpGBaPXMj97LOCT13mNBwCQ24obQx6F4nItoR2QgzMke9ElA3XTCg2Z34Mvaix6COrzfczcZ/Qz6O5s/EHFavPXcHcW347xzdibDxtD4IgoQ4YeWHR9aewpsYLgvVwuXuQ7PszxonyH2CLeg1Bwonzg92kwQEnTSvtoXer8Jn5FOwWrawQdU93uB9LNf1oIBwCC3VuTUqF0CyLyzpttmidKjP5OnQYHC2VzuTPIyG4k6xTafB9vuP7lPv5/l8RaHDpa0lNhzXv9gbhWEBuUvbsiStOO42cuUELNuvkrSoYU0pPXGa2ZiGBSDiNzlIn9eK1wADO7kc7UMUHKkve9WGKuoIwNbEJVLrVbkieB3KiR3pEJ2cNZ/yLKIC3FuNljIqmAyN/mIAawj2+06xwq08BNT4zEgrTsF7C95zwhArl3u3ldzhD1W8eyQri/kl0/oaa07OjjeLy3ABGRMDYYbS3aJQOul/CYarW4OADjW5hE0BqOaSmhq6yUC3xEF/h/sI9FD8lK/3QX1MaaK3qhT+jasp7lgWRR8CTg3OkSwRtrX4UB6VI1+bKrC8zkICtZfVKjDvqvPtuOCA91zWxxV1UxqZbE77yR3LCKmmYD7vh9Cbv7NV6fspfDAEMircrxVrSE8/UXaHKafNQK094e5EwP99OyjDtURUbW7FzwNlEOQrm+V7z4iYl93B6dGgGXaLh8Nk/lS9ZmQVglU1wlHggknQ0cYweZwqFdKj1/nt+c+il2jYxakb+3ntKZvW456jOAofaWQmfXd1+N7ZEtXR0llKyLtqszWEuYLHeKLUwW5PJvIgF817tZodGjOGjnljCMoZGTQrAPmMtDm6HS0y06Ji7taWosaFub/VyiwVSXV0UI23N+OKFliyTO2O4y8GWt5GbJEV5Eryoju3SMF/v3LE6qxzvjoAQbw/jM1KQ8SOn+RG9UaKoll5vThdSseqDceZ57AEs85wnlAzOBBHBdqjVz5B4dO3ifL4d4mmMx7pkxNoe5g0t8/G8FS1PAHhsf/CR6R8sxRa6U+bFi1g95TlW2B1NprsxOnVLvZYk6323ZVFVWy5VePKHLqN/VHqR6erSVIijtfCApKBQla59QC1E2wcBdHqUrO7X47tubWZfAzEq7IpIpE21dthto/CgjW3QlDW13xWneFVYJuqj/+cwgUcQrXaYwrGxeutwyDCzJ1vDLb7w1NH+IARAml/IUZKSkeuPLrFn50xe3l2uo583ACOEeAS7v3wCHN3ZJQg/xIov5QKqQOMoazMBr+IAts4ntVAnal9GVu3yQ94u8oD7sZG3o1ew06UjJJ+oBSKnNK4afoN0XOCnh8vKlTOyHA8KYHY8CoNrBvC12mciz66pRBhUb5TvYlgEkSUicewBcXGa/oWHDt58//iJAMlFf1aslyTzSbetY9wFTxVKrCkaf+DP/y34m250rbOrjYn1NOPcf5PFgnhgYFue5MVNqlYz+P1+iRxyZH7bZF83GqN1TB98Ga44cdHgP1fedRP4jlZUAggRSOR7jHjIzAF4OXFrlFXYmc2vy9xM9VPYFFewh8mXJnmk/dV0cRkW8mGS47NZkAGxyB7c5q7ZpG3LF+IRneRZjt9rWoJJm9VspDzEEbXxFY6OiAWtOjafpoeGzXI5a5JzZ5nRU4jOOSBDQrYgzju4GGVG9d8Mmv1TPip1pIPhuk/0ZAVLLf5es+A6+HpacIffVmO0aW2ro2b6FmgtdJzEQprz7tduAYIIwAwb0WG+8nZK2GNxKum3m8c/ydaC2vcJwK9xIyVcnKeiMhWmBzyeU8k2n/80jhexrRNaah7PngCPAO8yDgSXCFSEDacgPY+vNKa77KtbqehwTqnlyFnMjnPjTE4fK0nUpIgrgJNMptpqD2Fa8CtN06WKlgcFSuplLC9FjEHE4y9Fsw+elI4chx9YThazI+jCBgaVBhU9MnRLgOwf+YrHtpykWWG3G8LcoZM6/ljvrMP7c4GFHO3pW/wbwjITCPtKf30ea5TijBGi5iZouyqSaPekmV5OgnEkKtp1mU+EOvnLPM55xDbueMZFJ+gx9QJFPu+f+Xoy/8UnXDCAqWOW/0kxsXfGY0za3+PvUfoDfRonNsLoQhlMWazWgx0tR6kehRgiJB6w8GSVYUaRSK3ic7d6tO4AlyRoMUP7TRAOkK9Ck1geI0nKiDbgohuEYWrslJSUI3UDLpFt1pOCd9Ck1rKCJQhyhAIV5M/6xZ+5y90tzuQnmJc369H5dewVXOKk6MsJy/xlo0n1+EXwpypHP+aJkytc8jgJQLxsUvBUKwheTl9jdc+0zwCCB23jYeVjmbH4fktajv44SZnYUbjKmlv/o0Elqw44GU0+xt+jRXutAAFYFDkJGFsw4vbO7C60QlvFgSvLuCvQyurL4szbyImHrR5DaH2VMbGXQOjx541JZZKpr4qZNCUCDDnd50YFffeRgT/p40eZh2StJukyM4uA84AbKBwTkCzLCdpdk836BuIFPhOgt7hhRYElm57HZgFxUFZ8vWtr4cwI6NHXBFYMT+ML0OK4/VJ3Q3bwahpTjuxaeUzwtNrPMufXq5y/pNtuEmY8NeCcjmU2Oifr0bTGsjXaRh83vEBXe2phhTYUbP1vimGecDba0JUrQa9zJ74aUNPrk3rt4HtMS5s9go+mLa0TbCFVgAGaO625FY7rT8zMCPi/Abouxc0xv8qwyfMtYvM3WY0+Fz8a8ob79FRU8TTxPKZxd7E8PBinWCMMTFnERiNpJYIkgRRb+ZCZdrBTB1sxa8cn+rdnNkdvWReWIam39Vx3lmcsgtcUG77785riHUOHwIdgPBmwTDT2xjaJ+jgT0FQp+s9dfStM9C7+cFLmsIen6QyMfNmeIcG8+8DCIoBN1xaw0T+jIIkVyINEVCpLhElI7mZUOUocYm+B4gOg+RZ/glq/JOlIduKkpzxK6WjNyo2ekHU4HP4AQECzMQki7FTMjFcVs6EGZnNZi2d7A6FEhF1gNwc4ettO0ZH183UxHJ0m8v5PoT2FNS2Ene8HO/3aLpYHGCPRhjWg16y1wiCQLAc2rJHH489gMVSjakjMIDAhu2E+lQwQ/Ro0l0t6pjsj0/maqp50A8ksdMpQaipzq1c1rXKyatX/+7mhW3raJEyvohYL90Ge1vGnFjmdt9PurDIZsF7yfC+/ELYGqDirBJytToAXPzKEWbHJLdkdCRoIsaqjQw6qHCCgRKLWeqr3a81uB7oNgasMH3Wl5GBgDEICK5JDy4hbB7SzSQDrr2oMUeNFKqJM9XumVw261BHkykPdcHmVt6L+cVJYNdHm1VMO6PFQf7jyycx7PKGX3n7sTONFK2RHrm4PaSFF/eOXMK7K0jpAzh75UcsIWVpjpi7CINXgp8V1oaSslCiFkwY7DPnU8+PHvi/NZfVmWoDIlB4SoI84DdFmdHMm2gml7d2VCmZt011LIotcW+u6Mq/YUWRM0eAXutzW1LWXDK9p7Gy/yzrIr0KqiTk07lBYaX/xylC4ntEEMsvrp1nK1XJPLB+uBmNK4UuFA2MfxceBnXbNysrY6oWYksKtfbhDMqRo1oZa/l8oIopQpW+95H0gZo/KjLPnxiAl01nkNVwjFCJJca3mbezJBmzBvHGs/xZIdGUcOrWzH5PQi9WvYb7bAPt4An7OGKIhkZIsmrFN5Q88yZaQO/7ekFinYjkb4nM6eiBuAmHjXlyHudHfLciAXN36v5c646hPwhNfbPwhzIqfWGqGNSfrvrLcOGgQ80WMfLE+vq2VQl3pMUtHd+FYduxtxHZHCrNio0078uuKMwtfh5i/Xzxu721oklm4zwbcI/qrwpMzO3K3pZEqxOTx6R8qCKu2Gfm7bgzhjiBF3Rcm+rSSXI1ZVJ5V0JehItszTgDzw5II2BC4l7IJ7cGGUK4tvMUUe2P3wLw3FA8i7CPOmB5x+KRnc93NEVMgobdAiqtAh9uAfmXCcvFK5V3hHX0ZGXffdnu0ScRLmoGXFMq36eWKwFI74Hz17bIBaB08WxROmO7NPI8o9tEpr7pgUUWDlS8gmMzXk/OiisKR0JJHHeqsU9v2DFRB4e8JpHgmQtQpEp7iryrWv99Dd7C07s+x1GqRnUnLRVX135bVqnMmSUoiGC+zNZPCosDmlChgFSG1s8YgUk6AA+9fCltH/PmS77tpVglNZvd87z0FMDI+69VJL3hTfP2y5dQ4hIajUeViTozs4fBNVFtB/ms2D7g/l+iCaHpQ+gTmCIrw3hMWic2iAzkV1nSp6IZDnPQNosD+TSRF8zBkj6py6cxy8NW5YBLTmoBFwX/KKUpR/acvaTRUwhy2VxWAz8SXFbqe5LVy7Cd3Jmw5/QBokiWa4/NNtEml+OSZe1XqLLskn8alenKMr0a/FP4YSWndqyi677ChTJ7knSNqGM/AE/BDYiFti+r42phwmg8lkYtBCYptVeMakYL2km22mYMaOnqxskH+lZPXKQdV5/8rIc02NsQQbE7OxdTvxCLbPaMI0/+S2HuYy6qCCpiR62lqTemTW9nfbMIjhwWNFe4C/WJjbGErueEJS4NRoaIuvfTmtZq7oaOF7vOnS53+xFKwp2ywEw8V6+uD1GGOHpYB1goaOIrmvYZGVkXBBK6XtgkWRcD/LPzeKbJ9EofSmLNKDZv/ZTymbJEx/Qb9lYXDbvb/ws9MAUCzNJZwBmgk3shDWUcoNmuVwdKJNBvaqRouFIY6BMv3LnkkKrz0W9EOUYvYdJ8rau/7nGjuA6VuvlxAzsnGgIluD71Cbhb0lCsehZegUZQ0kHrwQ8Fz0LlGRYH6L0i3V5fMSgxUuK8xOMi+BeD2l/+U13dDUBZbiU9jfNymXUVh/mJZ8uG73VMHSxCW/tX7WG9WlK8Wwgh4eWPMAHrLyCG2h3KN7b3N6yeajfrzsww4Ht9w+1+Qs5j75jEmyMq63nHYTMQb7Mw415ZaCTbZjV8gLUVGCI+uNXE54Xc7nlJ+k1UfLgnqkvRHcROwUaTrvfGldXFaPio5jzNNk3EvlcLGXVhdAuOhmamrWKDLxL2bAFZdz4G1W5REf0xc/QzJiimvR72nIrZZAb6JXZ7qiOWdthW7OZQWkd80oE0l1eOeQD1xohCjakhHeAuXWCSZlc4QVTo7F5ltm8r/PlP9sZ14FJQhLHkr8t19f7HfB0MEcloAinoBZfmAqSjPav8F3T7yuns+13ZsiQFW5Maseap5iOR8y9LCSg1OAtCrAxSZHdokSsgykxVT5Tqc0AAAAiEa+4gL8qwkAAb4p2qoGAGDNGOSxxGf7AgAAAAAEWVo="
+            }
+          }
+        ],
+        "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 271, in actor\n    assert len(row['native_calls'])<256\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 371, in coordinate\n    assert code==0 and result['debug']['status']=='pass'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "job_active_processes_at_retirement": 0,
+      "image_registry_removed": true,
+      "diagnostic_image_removed": true,
+      "original_runtime_preserved": true
+    },
+    "free_c_bytes": 98171985920
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T09:55:24.7394925Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "7365139ba734091da064c70ad26011997cb114e339c9d18f3ef3d91990262309",
+    "guest-proof.ps1": "b624a297f552de4042a9f3dbc131c394bb68e0b5e54445de67dabccef946b4ea",
+    "guest-proof.py": "bb4cc19ac8e76d0ca818d15145b254d49b7cc7afcd9293ede6861cd3c2d01793",
+    "loader-forensics.py": "ad0be59b723d04ae79f27b7748542449589c578c324e8f5188313a31f8ae5f37",
+    "loader-observer.py": "61d42483b78ec9430a2bfff0ec22a2fafcca25e7bd897a396a614e87b303b6c0",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "f581fcf3972df35f9d1816079158eac6aae366b74a1a2a66a790f62f01c9213d",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 1,
+  "experiment_kind": "owned per-image loader tracing; no profile admission",
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-x2t2hvlt\\ordinary-proof\\run-proof.ps1:67\r\nLine |\r\n  67 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

@@ -1,6 +1,6 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "nineteenth-loader-thread-stop.json: python314.dll load need not arrive on the initial thread; old stop assertion aborted collection before restricted case",
+  "base": "twentieth-stop-rearmed.json: collection rearmed after a stop requested on another loader thread; baseline reached256-call cap, restricted case not_run",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
   "actor": "Existing fresh standard-user debugger inside its containing job derives a privilege-filtered baseline and the exact fresh-user+S-1-5-12 restricting set. Verify actual complete token restricting sets before launching each debug-only child. Preserve prior user-only trace separately. No fallback.",
   "bounds": {
@@ -20,7 +20,7 @@
     "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
     "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup",
-    "Stop initial-thread native-call watching at the observed python314.dll load on any loader thread. Debug events suspend the process; preserve any pending call as incomplete at this observation boundary. Keep256-call/event/time/storage limits and require baseline payload completion."
+    "At python314.dll load request observation stop. Apply it at the next owned initial-thread breakpoint without rearming, preserving any pending call as incomplete. Bound post-stop pending breakpoint handling to8, keep256-call/event/time/storage caps and require baseline payload completion."
   ],
   "original_full_profile_controls_unchanged": true,
   "sources": [
