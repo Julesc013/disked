@@ -129,7 +129,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/memory-desktop-driver.py"
   ],
-  "summary": "DE-W105 still open. Pair81 ataee4a3f8 compiles/executes direct native memory/User32 component successfully,then stops on fixture desktop descriptor string comparison before new-child evaluation. All owned cleanup passes. Actual descriptor was not included in that assertion;candidate now retains partial/full rows on exit and defers the same descriptor assertion until child outcomes have been collected. No expected result,permission or product guard changed. Current paired regression remains failed/unqualified until actual readback is reviewed.",
+  "summary": "DE-W105 still unqualified. Pair82 at525de4cb now retains complete evidence:old NULL-security desktop gives User32 error1114;actual explicit factory desktop loads User32 and native256MiB memory guard succeeds. All cleanup passes. Remaining assertion fails because Windows serializes numeric desktop rights as symbolic ACE strings and marks SACL auto-inherited. Reviewed candidate compares exact DACL/label ACE bytes to unchanged fixed user/SYSTEM0xf01ff and Medium/NW expectations and requires protected DACL;raw SDDL/control retained. No SID/mask/ACE/label relaxation. AST/PS5.1 preparation passes;semantic native regression not yet run.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -571,6 +571,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-descriptor-readback-failure.json"
+    },
+    {
+      "command": "Pair82 at525de4cb:old DLL init refusal,new User32+budget success;literal descriptor-format assertion fails;all cleanup",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-desktop-format-refusal.json"
     }
   ],
   "artifacts": [
@@ -884,7 +891,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:bf4492befa1911fac9fbb186158d5d27438b0b1f93b4ace34097ee4d6257a3d7"
+      "sha256": "sha256:0c4dc7ce0dcaf90b969f0d145948e73e9da3ba3189d14959d28a51a3c22a37f2"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1020,7 +1027,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
-      "sha256": "sha256:962d5d0cecc250a2444e13810dfb1b18f0706b42bccc3ec80d1d52494c4033f6"
+      "sha256": "sha256:f73ac5b2acfb15424febcf1e0466424157b5e34428e05a928eb9d00a889b00cb"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-ninth-native-memory-pass.json",
@@ -1049,12 +1056,24 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-cleanup.json",
       "sha256": "sha256:973087c8aee2bb39d57fb272d283c99f1fdebafa87d92ab5ba3cd25fb131f89b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-desktop-format-refusal.json",
+      "sha256": "sha256:eb3a6f61b107fad426c0bd2bcf80c0fc304d398596077dd4cb12187cdc198c6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-cleanup.json",
+      "sha256": "sha256:54a9ae8eb69fa8d955340dcf44d8859cfc48c251c34ed07861fb594936cfedc8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/desktop-security-review.json",
+      "sha256": "sha256:2e324473312f2ad61baff324be8db46e5a99fa94b8c66c95555054d8a059c128"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Rerun --native-memory --interactive-ui tiny paired case with complete descriptor/outcome receipt. Preserve the same assertions and record actual mismatch. Evaluate security semantics explicitly before any assertion/contract change. Then replay affected native groups and full gates only after regression succeeds.",
+  "next_safe_step": "Rerun tiny native-memory paired case with exact ACL/label byte and protection validation. After pass replay six original native groups then full180/currentWin32/detailed source/tooling/C90 applicability review before main. No owner/release/full-product claim.",
   "performed_remote_writes": true
 }

@@ -1,17 +1,17 @@
 {
   "status": "failed_cleaned",
   "work_id": "DE-W105",
-  "source_revision": "aee4a3f82d34b7aa060baf9466be866a8f6fa9a9",
-  "observed_at": "2026-10-19T20:53:32.631889+00:00",
-  "host_exec_session": 45422,
+  "source_revision": "525de4cbfdbb9bd19bd63d03ea4d1f0b8341ed5a",
+  "observed_at": "2026-10-19T20:57:14.825560+00:00",
+  "host_exec_session": 59478,
   "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --native-memory --interactive-ui",
   "guest": "Windows 10",
   "guest_root": "C:/ProgramData/DiskEd/qualification",
-  "run": 81,
-  "native_result": "DE-W105 still open. Pair81 ataee4a3f8 compiles/executes direct native memory/User32 component successfully,then stops on fixture desktop descriptor string comparison before new-child evaluation. All owned cleanup passes. Actual descriptor was not included in that assertion;candidate now retains partial/full rows on exit and defers the same descriptor assertion until child outcomes have been collected. No expected result,permission or product guard changed. Current paired regression remains failed/unqualified until actual readback is reviewed.",
+  "run": 82,
+  "native_result": "DE-W105 still unqualified. Pair82 at525de4cb now retains complete evidence:old NULL-security desktop gives User32 error1114;actual explicit factory desktop loads User32 and native256MiB memory guard succeeds. All cleanup passes. Remaining assertion fails because Windows serializes numeric desktop rights as symbolic ACE strings and marks SACL auto-inherited. Reviewed candidate compares exact DACL/label ACE bytes to unchanged fixed user/SYSTEM0xf01ff and Medium/NW expectations and requires protected DACL;raw SDDL/control retained. No SID/mask/ACE/label relaxation. AST/PS5.1 preparation passes;semantic native regression not yet run.",
   "authority": "Existing bounded guest development grant; no owner/release acceptance",
-  "next_action": "Rerun --native-memory --interactive-ui tiny paired case with complete descriptor/outcome receipt. Preserve the same assertions and record actual mismatch. Evaluate security semantics explicitly before any assertion/contract change. Then replay affected native groups and full gates only after regression succeeds.",
+  "next_action": "Rerun tiny native-memory paired case with exact ACL/label byte and protection validation. After pass replay six original native groups then full180/currentWin32/detailed source/tooling/C90 applicability review before main. No owner/release/full-product claim.",
   "host_exec_session_closed": true,
-  "result": "eighty-first-descriptor-readback-failure.json",
-  "cleanup": "eighty-first-cleanup.json"
+  "result": "eighty-second-desktop-format-refusal.json",
+  "cleanup": "eighty-second-cleanup.json"
 }
