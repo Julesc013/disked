@@ -14,8 +14,9 @@
   "ui": [
     "Verify exact session3/WinSta0/visible before worker creation",
     "Create only nonce-named hidden desktop with protected original user/coordinator ACL and Medium label",
-    "Read and compare existing station security;do not change it",
-    "Actual restricted User32/GDI/static-window/new-console observations must succeed"
+    "Actual restricted User32/GDI/static-window/new-console observations must succeed",
+    "No station label/owner/group change;only declared0x2012b temporary subject ACE",
+    "Actual parent/console child must open READATTR and be denied error5 for each excluded right"
   ],
   "task": [
     "Credential transferred only through DPAPI-protected guest file accessible to Agents/SYSTEM",
@@ -28,6 +29,33 @@
     "Product GUI",
     "Full native suite",
     "Physical devices",
-    "Owner/release acceptance"
-  ]
+    "Owner/release acceptance",
+    "Production privilege broker",
+    "Broader UI access"
+  ],
+  "revision": 2,
+  "station_setup": {
+    "basis": "sixty-sixth-interactive-access-refusal.json",
+    "subject": "Exact fresh disposable actor SID from nonce-bound journal",
+    "mask": "0x2012b",
+    "rights": [
+      "READ_CONTROL",
+      "WINSTA_ENUMDESKTOPS",
+      "WINSTA_READATTRIBUTES",
+      "WINSTA_CREATEDESKTOP",
+      "WINSTA_ACCESSGLOBALATOMS",
+      "WINSTA_ENUMERATE"
+    ],
+    "excluded": [
+      "DELETE",
+      "WRITE_DAC",
+      "WRITE_OWNER",
+      "clipboard",
+      "global attribute writes",
+      "exit/logoff",
+      "screen access"
+    ],
+    "lifecycle": "Fault after apply before workers;recover/remove exact ACE;apply for original primitive;remove after all owned jobs0;refuse actor deletion until retired",
+    "concurrency": "Observed-current exact-subject delta;preserve all unrelated ACE bytes,owner,group,label;concurrent descriptor maintenance excluded"
+  }
 }

@@ -247,14 +247,20 @@ def main():
         W.require(instance.k.CloseHandle(canary));canary=None
         if instance.interactive_ui:
             job=S.WindowsJob()
-            child=instance.launch([sys.executable,'-B',str(ROOT/'ui-probe.py'),'--basic'],os.environ,job)
+            child=instance.launch([sys.executable,'-B',str(ROOT/'ui-probe.py'),'--basic','--station-limits'],os.environ,job)
             assert child.wait(timeout=30)==0
             result['interactive_ui_observation']=json.loads(instance.log_path.read_bytes())
             assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
             assert result['interactive_ui_observation']['libraries'][0]['window_created']
+            for row in result['interactive_ui_observation']['libraries'][0]['station_access']:
+                assert row['opened']==(row['right']=='read_attributes')
+                assert row['error']==(0 if row['opened'] else 5)
             console=result['interactive_ui_observation']['console_child']
             assert console['exit_code']==0 and not console['stderr']
-            assert json.loads(console['stdout'])['console_opened']
+            console_ui=json.loads(console['stdout']);assert console_ui['console_opened']
+            for row in console_ui['libraries'][0]['station_access']:
+                assert row['opened']==(row['right']=='read_attributes')
+                assert row['error']==(0 if row['opened'] else 5)
             result['interactive_ui_job_retirement']=retire_job(job);job=None;child.close();child=None
         instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
@@ -401,7 +407,7 @@ def loader_diagnose():
         result['all_owned_processes_retired']=True
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
-if __name__=='__main__':
+def dispatch():
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
     elif len(sys.argv)>1 and sys.argv[1]=='--native-x64':load('full_native',ROOT/'full-native.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--native-journey':load('native_journey',ROOT/'native-journey.py').coordinate(sys.modules[__name__])
@@ -413,3 +419,11 @@ if __name__=='__main__':
     elif len(sys.argv)>1 and sys.argv[1]=='--startup-diagnostic':startup_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--diagnostic':diagnose()
     else:main()
+
+
+if __name__=='__main__':
+    mode=sys.argv[1] if len(sys.argv)>1 else ''
+    if mode in ('--crypto-full','--native-x64') and json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui'):
+        load('interactive_station',ROOT/'window-station.py').coordinate(sys.modules[__name__],dispatch)
+    else:
+        dispatch()

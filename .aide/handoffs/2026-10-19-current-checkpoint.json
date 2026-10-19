@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "48d5624b4348153af6a3c20587441a80ff5ac6db",
+  "base_revision": "ceaaa46a15589549b538e993554da453f7b55937",
   "spec_manifest_digest": "sha256:f870050dc0ea530057e2abe9879b4f012c07d54c622cc89ae0121cc9cad5e0e5",
   "status": "partial",
   "files_read": [
@@ -67,6 +67,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/ui-probe.py",
     ".aide/evidence/2026-10-18-ordinary-worker/validate-current.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/window-station.py",
     ".aide/handoffs/2026-10-19-current-checkpoint.json",
     ".aide/programmes/disked-0.1.0.json",
     "CMakeLists.txt",
@@ -114,6 +115,7 @@
     "tests/support/sparse.py",
     "tests/tools/test_source_snapshot.py",
     "tests/tools/test_sparse_fixture.py",
+    "tests/tools/test_window_station.py",
     "tests/tools/test_workspace.py",
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp",
@@ -121,7 +123,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 unfinished. Attempt61 at8a290a7c passes build/68headers/14imports and28 of33 recorded groups,including13 FAT history methods in467.651s;missing validator,dense FAT fixtures and UI harness fail. Fixed512MiB fills;all owned cleanup and complete compact archive verified. Candidate adds missing validator and byte-exact shared sparse sizing;253 spec(two skips)/150 tools(one skip) pass. Diagnostic62/63 proves ordinary UI APIs/private window/new console;original viewport240 fails87 against measuredmaximum128x46. GUI fixture wrongly targeted WinSta0 after creating a private-station desktop;candidate queries actual station. Console candidate preserves240x1000 buffer and caps viewport to actual display/font limit. Six-group native replay is pending;full180/current Win32/detail/main/owner/release/all0.1.0 remain open. Focused64 at6e25f431 builds14 targets/two PE checks;verification_commands passes. Five groups now fail only at unchanged GUI display-unavailable guard in the noninteractive station. Sparse FAT cases no longer exhaust capacity;actual console preflight passes240x1000 buffer/128x25 viewport. Peak175812608 bytes,44492-byte verified archive,all owned cleanup pass. Read-only quser confirms active Agents console session3;no guest Jules/Codex use. Read-only transient task at48d5624b succeeds as Agents SID1003/session3/visible WinSta0;payload hash and independent task/root absence verified. Existing station DACL includes RC access. This proves only the coordinator route,not confined worker GUI. No station ACL,host setting,VM restart or product change. Candidate now has a fixed-mode transient interactive dispatcher,DPAPI-bound actor credential,owned task/credential retirement,and a borrowed visible WinSta0 with only a newly owned Medium hidden desktop. Original noninteractive profile remains default. Staging/Windows PowerShell5.1 parse and150 tooling checks pass;interactive ordinary-worker proof has not run.",
+  "summary": "DE-W105 unfinished. Full61 at8a290a7c passes build/68headers/14imports and28 of33 recorded groups;full suite fails. Source/sparse/viewport repairs at6e25f431 make verification_commands pass and five affected groups advance to unchanged GUI display guard;peak175812608 bytes,all cleanup. Transient Agents session3 route works. Primitive66 atceaaa46a keeps station ACL unchanged but fresh restricted Python fails DLL init. Task/account/media removed;two-frame cleanup parser mismatch leaves small metadata,then guarded lossless receipt projection removes it and root/task absence is independently verified. Candidate uses temporary exact-subject station mask0x2012b,no clipboard/screen/logoff/global-attribute/DACL/owner rights;original token/filesystem/product-record/display rules unchanged. Four pure ACL-delta tests and154 tooling checks pass;candidate primitive has not run. Original all-platform/storage0.1.0 remains incomplete.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -367,6 +369,27 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-check.json"
+    },
+    {
+      "command": "managed32MiB crypto-full interactive primitive atceaaa46a",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json"
+    },
+    {
+      "command": "guarded cleanup-only with lossless original receipt projection",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-recovery.json"
+    },
+    {
+      "command": "managed pure station ACL delta checks",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/station-delta-checks.json"
     }
   ],
   "artifacts": [
@@ -580,7 +603,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:9829d38835d08b9eeec15811babbafd444bf0b4e507538881d9f0edc83ff44ed"
+      "sha256": "sha256:2743de9c6eb23ba0265ce0cd4858aa2e6b6e6d22495b428438025f51ac455b35"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
@@ -676,17 +699,37 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
-      "sha256": "sha256:bb699664747862a9aa69e5635eb097fa4f7a8e49b07367b615d4c492b566a830"
+      "sha256": "sha256:b13c6fa278f8c8717dde72a2398abcc63b72920a86d3f299fb411b5c1c5a9a0d"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:0ff670aae61309ca86e7a776045084c8ea2053ca469bfc48611ee168a33929d7"
+      "sha256": "sha256:1dfd73383929cd624f4324870ebe8838a786e57de7f6bf6621f48401fa0e0000"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
+      "sha256": "sha256:e94b79402f0838f9036dbf49b12e99fe182876237878e209e62f52ebaf585a68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-derived-cleanup-input.json",
+      "sha256": "sha256:02f37c34a040149459862519d7e230161f33b841ee32ca790f2ad9468b50cc8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-recovery.json",
+      "sha256": "sha256:3b8f831825cc8f3f5c4698935d2436b8d71a4c166e5b59453feea78e9443c00d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-parser-error.txt",
+      "sha256": "sha256:7178c40c20c5761d6a26abd85d7542563e31514786b3fbbc234321e244de1e70"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/station-delta-checks.json",
+      "sha256": "sha256:454cc685a801eb1aa98e03860e7cf1476e28999b31c730c7d498fbb48b96ecec"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Freeze candidate and run --crypto-full --interactive-ui at32MiB. Prove original protected-record,capacity,outside/descendant/job-retirement controls plus actual restricted hidden-window/new-console APIs through the temporary Agents session3 task. No existing station ACL changes. Only after this proof,replay affected native groups;full180/current Win32/main/owner/release gates stay open.",
+  "next_safe_step": "Run frozen32MiB --crypto-full --interactive-ui with declared station-only0x2012b subject ACE. Require setup-fault recovery,original protected-record/cap/outside/descendant/job controls,actual hidden-window/console success,explicit denied rights,and exact ACE/task/credential/account/media/root cleanup. No product rebuild until primitive passes;full180/current Win32/main/owner/release gates remain open.",
   "performed_remote_writes": true
 }

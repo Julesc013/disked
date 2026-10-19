@@ -36,6 +36,17 @@ for name in ('user32.dll', 'gdi32.dll'):
             row['window_error'] = 0 if window else C.get_last_error()
             if window and not u.DestroyWindow(window):
                 raise C.WinError(C.get_last_error())
+            if '--station-limits' in sys.argv:
+                if row['station']!='WinSta0':raise ValueError('Exact interactive station required')
+                u.OpenWindowStationW.argtypes=[T.LPCWSTR,T.BOOL,T.DWORD];u.OpenWindowStationW.restype=T.HANDLE
+                u.CloseWindowStation.argtypes=[T.HANDLE]
+                row['station_access']=[]
+                for label,mask in [('read_attributes',2),('delete',0x10000),('write_dacl',0x40000),
+                                   ('write_owner',0x80000),('clipboard',4),('write_attributes',0x10),
+                                   ('exit_windows',0x40),('read_screen',0x200)]:
+                    C.set_last_error(0);opened=u.OpenWindowStationW('WinSta0',False,mask);error=C.get_last_error()
+                    row['station_access'].append(dict(right=label,mask=mask,opened=bool(opened),error=0 if opened else error))
+                    if opened and not u.CloseWindowStation(opened):raise C.WinError(C.get_last_error())
     finally:
         if handle:
             k.FreeLibrary(handle)
@@ -85,7 +96,8 @@ if '--console-child' in sys.argv:
         finally:
             k.CloseHandle(handle)
 else:
-    child = subprocess.run([sys.executable, '-B', str(Path(__file__).resolve()), '--console-child', *(['--basic'] if '--basic' in sys.argv else [])],
+    child = subprocess.run([sys.executable, '-B', str(Path(__file__).resolve()), '--console-child',
+                            *[flag for flag in ('--basic','--station-limits') if flag in sys.argv]],
                            capture_output=True, creationflags=subprocess.CREATE_NEW_CONSOLE, timeout=15)
     report['console_child'] = dict(exit_code=child.returncode,
                                    stdout=child.stdout.decode(errors='replace')[-8192:],

@@ -53,6 +53,7 @@ RETIRE_ACTOR=r'''
                 }
             }
             $actorCurrent=Get-Content -LiteralPath $actorJournal -Raw|ConvertFrom-Json
+            if($actorCurrent.PSObject.Properties['window_station']-and$actorCurrent.window_station.phase-ne'retired'){throw 'Preserve actor/journal: window-station exception retirement unverified.'}
             if($actorCurrent.PSObject.Properties['crypto_device']-and$actorCurrent.crypto_device.phase-ne'retired'){throw 'Preserve actor/journal: crypto-device exception retirement unverified.'}
             foreach($key in @('null_build','null_user')){if($actorCurrent.PSObject.Properties[$key]-and$actorCurrent.$key.phase-ne'retired'){throw 'Preserve actor/journal: null-sink exception retirement unverified.'}}
             $existing=Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue
@@ -128,6 +129,7 @@ def main():
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     if interactive_ui:
         shutil.copyfile(HERE/'interactive-run.ps1',stage/'interactive-run.ps1')
+        data=(HERE/'window-station.py').read_bytes();ast.parse(data);(stage/'window-station.py').write_bytes(data)
         if not full_native:shutil.copyfile(HERE/'ui-probe.py',stage/'ui-probe.py')
     native='--native-journey' in sys.argv
     native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
@@ -142,7 +144,7 @@ def main():
     expected.update(experiment='ordinary-token-'+str(size)+'mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=size)
     if interactive_ui:
         expected['interactive_ui']=True
-        expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned hidden desktop in existing visible WinSta0;no existing station ACL change'
+        expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2012b station-only subject ACE with setup-fault recovery and exact retirement;no filesystem/token/product-record change'
         expected['interactive_worker_review']=json.loads((HERE/'interactive-worker-plan.json').read_bytes())
     diagnostic='--diagnostic' in sys.argv
     startup_diagnostic='--startup-diagnostic' in sys.argv
@@ -225,7 +227,7 @@ def main():
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
-            "        $dispatch=& ([scriptblock]::Create([IO.File]::ReadAllText((Join-Path $root 'interactive-run.ps1'))))\n        $log=@($dispatch.output)\n        $code=[int]$dispatch.exit_code")
+            "        $dispatch=& ([scriptblock]::Create([IO.File]::ReadAllText((Join-Path $root 'interactive-run.ps1'))))\n        $log=@($dispatch.output)\n        $code=[int]$dispatch.exit_code\n        $result.interactive_dispatch=$dispatch.metadata")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     if full_native:
         setup=once(setup,'$acl.AddAccessRule($readRule);Set-Acl -LiteralPath $volumeRoot -AclObject $acl',
@@ -250,7 +252,7 @@ def main():
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'crypto-device.py');relative='crypto-device.py'},")
     if interactive_ui:
-        selected=('interactive-run.ps1',) if full_native else ('interactive-run.ps1','ui-probe.py')
+        selected=('interactive-run.ps1','window-station.py') if full_native else ('interactive-run.ps1','window-station.py','ui-probe.py')
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if native:

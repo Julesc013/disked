@@ -93,5 +93,5 @@ try{
         Remove-Item -LiteralPath $inputPath
     }
 }
-$summary=@{interactive_task=$name;session_id=3;quiescent=$quiescent;task_removed=$true;credential_removed=(-not(Test-Path -LiteralPath $inputPath))}|ConvertTo-Json -Compress
-[pscustomobject]@{output=@($summary)+@($record.output|ForEach-Object {[string]$_});exit_code=[int]$record.exit_code}
+$summary=@{interactive_task=$name;session_id=3;quiescent=$quiescent;task_removed=$true;credential_removed=(-not(Test-Path -LiteralPath $inputPath))}
+[pscustomobject]@{output=@($record.output|ForEach-Object {[string]$_});exit_code=[int]$record.exit_code;metadata=$summary}

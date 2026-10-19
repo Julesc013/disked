@@ -180,7 +180,7 @@ class Worker:
             self.desktop_name=name.value+'\\'+desktop_name
             self.ui_security={'station':after,'desktop':self.user_object_security(self.desktop)}
             self.ui_host=dict(session_id=session.value,station=name.value,visible=True,
-                              existing_station_security_unchanged=True)
+                              station_security_unchanged_during_desktop_creation=True)
             return
         station_descriptor = self.descriptor('D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;' +
             self.coordinator_sid + ')(A;;0xf037f;;;' + self.user_sid + ')S:(ML;;NW;;;ME)')
