@@ -303,7 +303,7 @@ def coordinate(g):
                     observations=summary,scope='Original assertion body outside CTest for elapsed-time diagnosis only; no full/native-group qualification'))
             else:
                 properties=next(row['properties'] for row in registered if row['name']==test)
-                ctest_seconds=next(row['value'] for row in properties if row['name']=='TIMEOUT')
+                ctest_seconds=next((row['value'] for row in properties if row['name']=='TIMEOUT'),expected['bounds']['group_seconds'])
                 configured=expected.get('aggregate_fixture_timeouts',{}).get(test)
                 assert ctest_seconds==int(ctest_seconds) and 0<ctest_seconds<=(configured or 300)
                 if configured:assert ctest_seconds==configured
@@ -313,6 +313,7 @@ def coordinate(g):
                 grace=expected['bounds']['ctest_reporting_grace_seconds'];assert grace==30
                 command_seconds=int(ctest_seconds)+grace
                 code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
+                    '--timeout',str(expected['bounds']['group_seconds']),
                     '--verbose','--output-on-failure','--output-junit',work/'test.xml'],command_seconds,allow_failure=True)
                 archive.write(work/'test.xml','junit/'+test+'.xml')
                 cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))

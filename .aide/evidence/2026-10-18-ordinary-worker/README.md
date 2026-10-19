@@ -140,6 +140,13 @@ the controller permits 30 seconds afterward for termination/JUnit collection.
 Its old fixed300-second limit also undercut the already-existing600-second
 backend test. The revised profile requires actual CTest/full-native qualification.
 
+Five legacy registrations omit an explicit TIMEOUT: retention store, both build
+checks, compiled registry and GPT planner. The controller now supplies CTest's
+300-second default while preserving explicit per-test properties and reporting
+grace. Two small host tooling regressions verify timeout failure/JUnit retention
+and explicit-property precedence; no DiskEd product code runs on the host.
+`tooling-refresh.json` records all 146 tooling tests (one existing skip) passing.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

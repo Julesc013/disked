@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from unittest import mock
 
 TOOL = Path(__file__).resolve().parents[2] / 'tools/workspace.py'
@@ -256,6 +257,31 @@ class WorkspaceTests(unittest.TestCase):
         script.write_text('set(CMAKE_BINARY_DIR "' + Path(binary).as_posix() + '")\ninclude("' + module + '")\n')
         env = dict(os.environ, DISKED_WORK_ROOT=str(work))
         return subprocess.run(['cmake', '-P', str(script)], cwd=self.root, env=env, capture_output=True, text=True)
+
+    def ctest_timeout_case(self, duration, explicit=None):
+        if not shutil.which('ctest'):
+            self.skipTest('CTest unavailable')
+        source='add_test(probe [=['+Path(sys.executable).as_posix()+']=] "-c" "import time; time.sleep('+str(duration)+')")\n'
+        if explicit is not None:
+            source+='set_tests_properties(probe PROPERTIES TIMEOUT '+str(explicit)+')\n'
+        (self.root/'CTestTestfile.cmake').write_text(source)
+        report=self.root/'result.xml'
+        result=subprocess.run(['ctest','--test-dir',str(self.root),'--timeout','1','--output-junit',str(report)],
+                              capture_output=True,timeout=15)
+        cases=list(ET.parse(report).getroot().iter('testcase'))
+        self.assertEqual([row.get('name') for row in cases],['probe'])
+        return result,cases[0]
+
+    def test_ctest_default_timeout_retains_failure_junit(self):
+        result,case=self.ctest_timeout_case(2)
+        self.assertNotEqual(result.returncode,0)
+        self.assertTrue(any(row.tag in ('failure','error') for row in case))
+        self.assertIn(b'Timeout',result.stdout+result.stderr)
+
+    def test_ctest_explicit_timeout_overrides_shorter_default(self):
+        result,case=self.ctest_timeout_case(1.2,4)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertFalse(any(row.tag in ('failure','error','skipped') for row in case))
 
     def test_native_configure_refuses_unmanaged_before_compiler_discovery(self):
         if not shutil.which('cmake'):
