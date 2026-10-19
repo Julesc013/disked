@@ -285,11 +285,13 @@ def main():
             trace_only=json.loads((ROOT/'expected.json').read_bytes()).get('object_startup_trace_only',False)
             if not trace_only:
                 assert all(row['created'] and row['error']==0 for row in result['interactive_ui_observation']['owned_kernel_object_startup'])
-                assert all(row.get('object_path','').startswith('\\Sessions\\3\\BaseNamedObjects\\DiskEd.Owned.Startup.') for row in result['interactive_ui_observation']['owned_kernel_object_startup'] if row['named'])
+                assert all(row.get('object_path','').startswith('\\Sessions\\3\\BaseNamedObjects\\Restricted\\DiskEd.Owned.Startup.') for row in result['interactive_ui_observation']['owned_kernel_object_startup'] if row['named'])
                 namespace={(row['path'],row['access']):row['status'] for row in result['interactive_ui_observation']['namespace_access']}
-                assert namespace[('\\Sessions\\3\\BaseNamedObjects',7)]=='0x0'
-                for path,access in [('\\Sessions\\3\\BaseNamedObjects',15),('\\Sessions\\3\\BaseNamedObjects',0x20003),('\\Sessions\\3\\BaseNamedObjects\\Restricted',7),('\\Sessions\\3\\BaseNamedObjects\\Restricted',15)]:
+                assert namespace[('\\Sessions\\3\\BaseNamedObjects\\Restricted',15)]=='0x0'
+                for path,access in [('\\Sessions\\3\\BaseNamedObjects',7),('\\Sessions\\3\\BaseNamedObjects',15),('\\Sessions\\3\\BaseNamedObjects',0x20003),('\\Sessions\\3\\BaseNamedObjects\\Restricted',0x20003)]:
                     assert namespace[(path,access)]=='0xc0000022'
+                for path in ('\\Sessions\\3\\BaseNamedObjects','\\Sessions\\3\\BaseNamedObjects\\Restricted'):
+                    for access in (0x10003,0x40003,0x80003):assert namespace[(path,access)]=='0xc0000022'
             assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
             assert result['interactive_ui_observation']['libraries'][0]['window_created']
             for row in result['interactive_ui_observation']['libraries'][0]['station_access']:
@@ -311,6 +313,7 @@ def main():
                 job=S.WindowsJob()
                 child=instance.launch([sys.executable,'-B',str(ROOT/'loader-forensics.py'),'--object-actor',str(request)],os.environ,job,diagnostic_original=True)
                 code=child.wait(timeout=40)
+                result['object_startup_trace_log']=instance.log_path.read_bytes()[-8192:].decode(errors='replace')
                 result['object_startup_trace']=json.loads((normal/'debug-report.json').read_bytes())
                 result['object_startup_trace_exit_code']=code
                 result['object_startup_trace_job_retirement']=retire_job(job);job=None;child.close();child=None

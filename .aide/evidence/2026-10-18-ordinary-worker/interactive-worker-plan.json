@@ -34,7 +34,7 @@
     "Production privilege broker",
     "Broader UI access"
   ],
-  "revision": 4,
+  "revision": 5,
   "station_setup": {
     "basis": "seventieth-station-startup-matrix.json",
     "subject": "Exact fresh disposable actor SID from nonce-bound journal",
@@ -95,27 +95,29 @@
     "basis": [
       "seventy-fourth-object-startup-observations.json",
       "namespace-coordinator-read.json",
-      "seventy-fifth-restricted-directory-refusal.json"
+      "seventy-fifth-restricted-directory-refusal.json",
+      "seventy-seventh-owned-object-trace.json"
     ],
-    "target": "\\Sessions\\3\\BaseNamedObjects",
+    "target": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
     "subject": "Exact nonce-bound disposable actor SID only;never Everyone/RestrictedCode/Administrators",
-    "access": "0x4 DIRECTORY_CREATE_OBJECT only;no subdirectory/delete/security-edit/owner right",
+    "access": "0xC DIRECTORY_CREATE_OBJECT|DIRECTORY_CREATE_SUBDIRECTORY;required by observed Win32 request0xF with existing query/traverse;no READ_CONTROL,DELETE,WRITE_DAC,WRITE_OWNER",
     "lifecycle": "Dedicated prelaunch helper exit19;recover exact ACE;apply for owned jobs;retire after all owned processes0;exact readback owner/group/label and current-delta DACL preservation;actor removal blocked until journal retired",
     "controls": [
-      "Original32MiB confinement controls",
-      "Only own named/unnamed mutex/job creation succeeds;record actual NtQueryObject name under exact modified session directory",
-      "Session root subdirectory creation and READ_CONTROL remain denied",
-      "Session Restricted directory creation remains denied",
-      "No global directory/filesystem/token/owner/group/label change",
-      "Current inherited ACE bytes preserved;no inherited grant added"
+      "Original32MiB confinement/UI/job/cap/record controls",
+      "Actual named mutex/job paths must resolve below exact Restricted target",
+      "Normal session directory creation remains denied",
+      "Both directories deny READ_CONTROL and all security-edit/delete rights",
+      "No global/filesystem/owner/group/label change",
+      "All current unrelated ACE bytes retained;exact subject entry removed only after owned jobs0"
     ],
     "sources": [
       "https://learn.microsoft.com/en-us/windows/win32/devnotes/ntopendirectoryobject",
       "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-ntsetsecurityobject"
     ],
-    "status": "both single-directory candidates failed;no namespace grant used in next trace",
+    "status": "evidence-based creation-bits candidate-not-yet-executed",
     "prior_refusal": "seventy-fifth-restricted-directory-refusal.json:Restricted-directory grant/recovery/retirement succeed but default Win32 named mutex/job creation still denied;all cleanup passes",
-    "second_refusal": "seventy-sixth-session-directory-refusal.json:normal-directory4-only delta/recovery/retirement succeed;Win32 named creation still denied;all cleanup passes"
+    "second_refusal": "seventy-sixth-session-directory-refusal.json:normal-directory4-only delta/recovery/retirement succeed;Win32 named creation still denied;all cleanup passes",
+    "limits": "Subdirectory creation is part of this private fixture grant;do not claim its denial. No permanent objects,existing object mutation,shared desktop/session action or product authority."
   },
   "object_startup_trace": {
     "scope": "One owned restricted child;no namespace/registry/image mutation or worker/product admission",

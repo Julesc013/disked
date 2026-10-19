@@ -64,7 +64,7 @@ if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
     for name in ('\\BaseNamedObjects','\\BaseNamedObjects\\Restricted','\\Sessions\\3\\BaseNamedObjects','\\Sessions\\3\\BaseNamedObjects\\Restricted'):
         text=C.create_unicode_buffer(name);value=Unicode(len(name)*2,C.sizeof(text),C.cast(text,T.LPWSTR))
         attrs=ObjectAttributes(C.sizeof(ObjectAttributes),None,C.pointer(value),0x40,None,None)
-        for mask in (3,7,15,0x20003):
+        for mask in (3,7,15,0x20003,0x10003,0x40003,0x80003):
             handle=T.HANDLE();status=n.NtOpenDirectoryObject(C.byref(handle),mask,C.byref(attrs))
             row=dict(path=name,access=mask,status=hex(status&0xffffffff));report['namespace_access'].append(row)
             try:

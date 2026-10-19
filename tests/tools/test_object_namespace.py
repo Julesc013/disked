@@ -19,9 +19,10 @@ def acl(rows):
 
 class NamespaceDeltaTests(unittest.TestCase):
     def test_only_fixed_directory_name_creation_and_isolated_codec(self):
-        self.assertEqual(N.api.DEVICE,'\\Sessions\\3\\BaseNamedObjects')
-        self.assertEqual(N.api.MASK,4)
-        self.assertEqual(struct.unpack_from('<I',N.api.owned_ace(sid(8)),4)[0],4)
+        self.assertEqual(N.api.DEVICE,'\\Sessions\\3\\BaseNamedObjects\\Restricted')
+        self.assertEqual(N.api.MASK,0xc)
+        self.assertEqual(N.api.MASK&0xf0000,0)
+        self.assertEqual(struct.unpack_from('<I',N.api.owned_ace(sid(8)),4)[0],0xc)
         self.assertEqual(C.DEVICE,'\\Device\\KsecDD')
         self.assertEqual(C.MASK,0x100003)
         self.assertEqual(struct.unpack_from('<I',C.owned_ace(sid(8)),4)[0],0x100003)

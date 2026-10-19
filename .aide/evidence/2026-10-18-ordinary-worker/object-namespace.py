@@ -1,4 +1,4 @@
-"""Exact disposable-subject creation right in one guest session directory.
+"""Exact disposable-subject creation rights in one guest session directory.
 
 Private qualification setup, not product code. Never alters a broad SID, label,
 owner, parent directory or existing object's security. Reuses the bounded,
@@ -15,8 +15,10 @@ from pathlib import Path
 ROOT=Path('C:/ProgramData/DiskEd/qualification')
 definition=importlib.util.spec_from_file_location('namespace_acl_api',Path(__file__).with_name('crypto-device.py'))
 api=importlib.util.module_from_spec(definition);definition.loader.exec_module(api)
-api.DEVICE='\\Sessions\\3\\BaseNamedObjects'
-api.MASK=4  # DIRECTORY_CREATE_OBJECT only; no subdirectory/security/delete right.
+api.DEVICE='\\Sessions\\3\\BaseNamedObjects\\Restricted'
+# Run77 observes Win32 requesting0xf on this directory. Query/traverse already
+# exist; add only the two creation bits. No standard security/delete rights.
+api.MASK=0xc
 strict_aces=api.aces
 api.aces=lambda raw:strict_aces(raw,allow_inherited=True)
 
@@ -30,7 +32,7 @@ class Grant(api.Grant):
         super().__init__(recovery=recovery)
         try:
             self.before_label=self.label()
-            if self.before_label!='S:(ML;;NW;;;LW)':raise ValueError('Unexpected namespace label; no label change')
+            if self.before_label!='S:AI(ML;;NW;;;LW)':raise ValueError('Unexpected namespace label; no label change')
             self.report.update(object_type='Directory',session_id=3,mandatory_label=self.before_label)
         except BaseException:self.close();raise
 
@@ -63,7 +65,7 @@ class Grant(api.Grant):
 
     def apply(self):
         before=self.snapshot()
-        expected='(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)(A;OICIIO;GA;;;SY)(A;OICIIO;GA;;;CO)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GA;;;S-1-5-5-0-1279203)(A;;CCDCLCSWRC;;;S-1-5-5-0-1279203)(A;;CCDCLCSWRC;;;BA)(A;CI;CCDC;;;WD)(A;;DC;;;RC)'
+        expected='(A;;CCDC;;;WD)(A;;CCDCRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)'
         if before['sddl'].split('D:',1)[1]!=expected:raise ValueError('Unexpected exact session namespace baseline')
         self.record(dict(phase='prepared',device=api.DEVICE,subject=self.sid_text,mask=api.MASK,workers_started=False,
             before_sddl=before['sddl'],before_sha256=before['sha256'],mandatory_label=self.before_label,
