@@ -240,6 +240,23 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
         if focused:
+            _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
+            result['native_token_identity']=json_record(raw)
+            a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True)
+            read=g.W.bind(a,'GetNamedSecurityInfoW',T.DWORD,T.LPWSTR,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+            convert=g.W.bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,C.c_void_p,T.DWORD,T.DWORD,C.c_void_p,C.c_void_p)
+            free=g.W.bind(k,'LocalFree',C.c_void_p,C.c_void_p)
+            result['artifact_labels']=[]
+            for path in [Path(sys.executable),*(build/'Release'/(name+'.exe') for name in expected['focus_targets'])]:
+                sd=C.c_void_p();label=T.LPWSTR()
+                error=read(str(path),1,0x10,None,None,None,None,C.byref(sd))
+                if error:raise C.WinError(error)
+                try:
+                    g.W.require(convert(sd,1,0x10,C.byref(label),None))
+                    result['artifact_labels'].append(dict(path=str(path),label=label.value,sha256=retention.sha(path)))
+                finally:
+                    if label:free(C.cast(label,C.c_void_p))
+                    free(sd)
             parent_probe=work/'parent-read-diagnostic.py'
             parent_probe.write_text('''import ctypes as C,json,pathlib,tempfile,shutil
 from ctypes import wintypes as T

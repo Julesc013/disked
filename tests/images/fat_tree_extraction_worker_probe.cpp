@@ -34,8 +34,56 @@ static void emit(V value) {
 static bool exited(const V &v) {
     return text(field(v, "worker"), "observation") == "exited";
 }
+static V process_identity() {
+    auto value = V::object();
+    HANDLE token = nullptr;
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token))
+        throw std::runtime_error("probe_token_open");
+    for (const auto kind : {TokenUser, TokenIntegrityLevel, TokenRestrictedSids}) {
+        DWORD size = 0;
+        GetTokenInformation(token, kind, nullptr, 0, &size);
+        if (!size || size > 65536) {
+            CloseHandle(token);
+            throw std::runtime_error("probe_token_size");
+        }
+        std::vector<unsigned char> buffer(size);
+        if (!GetTokenInformation(token, kind, buffer.data(), size, &size)) {
+            CloseHandle(token);
+            throw std::runtime_error("probe_token_query");
+        }
+        auto sids = V::array();
+        auto add = [&](PSID sid) {
+            LPWSTR result = nullptr;
+            if (!ConvertSidToStringSidW(sid, &result))
+                throw std::runtime_error("probe_token_sid");
+            sids.items.push_back(V::string(f::utf8(result)));
+            LocalFree(result);
+        };
+        if (kind == TokenRestrictedSids) {
+            const auto *groups = reinterpret_cast<const TOKEN_GROUPS *>(buffer.data());
+            for (DWORD i = 0; i < groups->GroupCount; ++i)
+                add(groups->Groups[i].Sid);
+            value.put("restricting_sids", std::move(sids));
+        } else {
+            add(reinterpret_cast<const SID_AND_ATTRIBUTES *>(buffer.data())->Sid);
+            value.put(kind == TokenUser ? "user_sid" : "integrity_sid", std::move(sids.items[0]));
+        }
+    }
+    DWORD size = 0, container = ~0u, elevated = ~0u;
+    if (GetTokenInformation(token, TokenIsAppContainer, &container, sizeof(container), &size))
+        value.put("appcontainer", V::string(std::to_string(container)));
+    if (GetTokenInformation(token, TokenElevation, &elevated, sizeof(elevated), &size))
+        value.put("elevated", V::string(std::to_string(elevated)));
+    value.put("restricted", V::boolean_value(IsTokenRestricted(token) != FALSE));
+    CloseHandle(token);
+    return value;
+}
 int wmain(int argc, wchar_t **argv) {
     std::wstring observed_source;
+    if (argc == 2 && std::wcscmp(argv[1], L"--token-identity") == 0) {
+        emit(process_identity());
+        return 0;
+    }
     if (argc > 1 && std::wcscmp(argv[1], L"__disked_fat_tree_extraction_worker") == 0)
         return n::fat_tree_extraction_worker_role(argc, argv);
     try {
@@ -190,26 +238,7 @@ int wmain(int argc, wchar_t **argv) {
         return 0;
     } catch (const f::Error &error) {
         auto parents = V::array();
-        auto token_info = V::object();
-        HANDLE token = nullptr;
-        if (OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&token)) {
-            DWORD size = 0;GetTokenInformation(token,TokenUser,nullptr,0,&size);
-            if (size && size <= 65536) {
-                std::vector<unsigned char> buffer(size);
-                if (GetTokenInformation(token,TokenUser,buffer.data(),size,&size)) {
-                    LPWSTR sid = nullptr;
-                    if (ConvertSidToStringSidW(reinterpret_cast<TOKEN_USER*>(buffer.data())->User.Sid,&sid)) {
-                        token_info.put("user_sid",V::string(f::utf8(sid)));LocalFree(sid);
-                    }
-                }
-            }
-            DWORD container=~0u,elevated=~0u;
-            if(GetTokenInformation(token,TokenIsAppContainer,&container,sizeof(container),&size))
-                token_info.put("appcontainer",V::string(std::to_string(container)));
-            if(GetTokenInformation(token,TokenElevation,&elevated,sizeof(elevated),&size))
-                token_info.put("elevated",V::string(std::to_string(elevated)));
-            token_info.put("restricted",V::boolean_value(IsTokenRestricted(token)!=FALSE));CloseHandle(token);
-        }
+        auto token_info = process_identity();
         if (!observed_source.empty()) {
             std::size_t end = 2;
             for (;;) {
