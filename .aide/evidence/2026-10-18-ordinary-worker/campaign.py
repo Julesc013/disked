@@ -72,6 +72,11 @@ def main():
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
+    diagnostic='--diagnostic' in sys.argv
+    if diagnostic:
+        expected['launch_diagnostic']=json.loads((HERE/'launch-diagnostic-expectations.json').read_bytes())
+        expected.update(experiment='WithToken startup parameter isolation',variants=['handles','ex-empty','basic-empty'],
+            admission='Diagnostic only. Each successful child must report its actual restricted nonelevated/non-AppContainer token. Candidate launches must inherit neither an excluded write canary nor valid standard handles. Full protected-record,capacity,outside-write and interruption checks remain pending.')
     (stage/'expected.json').write_text(json.dumps(expected,indent=2)+'\n',encoding='utf-8',newline='\n')
     setup=(PRIOR/'guest-proof.ps1').read_text()
     setup=once(setup,'[int]$SizeMiB=32)','[int]$SizeMiB=32,[Security.SecureString]$ActorPassword)')
@@ -79,6 +84,7 @@ def main():
     marker=next(line for line in setup.splitlines() if "[IO.File]::WriteAllText((Join-Path $scratch 'owner.json')" in line)
     setup=once(setup,marker,marker+'\n'+CREATE_ACTOR)
     setup=once(setup,"actor_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value","actor_sid=$actorSid")
+    if diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --diagnostic 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -103,7 +109,7 @@ def main():
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
-    cleanup=once(cleanup,'$paths=@($Expected',"$extra=@(\"$root\\scratch\\ordinary-actor.json\",\"$root\\scratch\\outside\\baseline\",\"$root\\scratch\\outside\\forbidden\",\"$root\\scratch\\outside\\descendant-forbidden\")\n        $paths=$extra+@($Expected")
+    cleanup=once(cleanup,'$paths=@($Expected',"$extra=@(\"$root\\scratch\\ordinary-actor.json\",\"$root\\scratch\\outside\\baseline\",\"$root\\scratch\\outside\\forbidden\",\"$root\\scratch\\outside\\descendant-forbidden\",\"$root\\scratch\\outside\\inheritance-canary.bin\")\n        $paths=$extra+@($Expected")
     cleanup=once(cleanup,'$items.Count-gt32','$items.Count-gt40')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
@@ -116,6 +122,7 @@ def main():
     call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=600)
     raw=(stage/'proof-32.json').read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
+    result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if result.get('guest',{}).get('setup',{}).get('image_removed'):

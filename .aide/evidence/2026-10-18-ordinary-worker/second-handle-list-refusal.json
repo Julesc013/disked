@@ -1,0 +1,141 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T07:36:57.6112463Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 14318,
+        "sha256": "8EB26B6A37D19BC01DD938C2FFF5A3BE796C21D92450B075824C1331516F9131"
+      },
+      {
+        "path": "target.py",
+        "bytes": 9258,
+        "sha256": "86952468DEFA14F1E1906A8BC8CEAC8EB594C57172DC78FAAACB6FFF2B64FBC0"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 9958,
+        "sha256": "5DF122DC6581648EBDC2D98605D8347ABEE24B18BA8DCE8DBC279C511766CCC1"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13459,
+        "sha256": "5F08AF5E4E163ACDC8164E53974C9401538643C63449020D40A09C3E171A4BE4"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 3807,
+        "sha256": "8CD253585779EE242B444B2FA7E53C150D89ABA70299BCA40CEE428E518F2914"
+      }
+    ],
+    "base_revision": "d44d0e144786da74d49e8639b53064a59dfcfacd",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T07:36:58.3339942Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-3108f297",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1004",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "30A32576B091EA43A646B80CAD384B65",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.460fdc1a8101459a939508b1c3162822",
+            "sid": "S-1-15-2-2158940447-2674153959-183705687-1843545863-39711631-1000735620-3856091046"
+          },
+          {
+            "name": "org.disked.worker.9ae8c26fe6c94bb5891a234b031fea83",
+            "sid": "S-1-15-2-3564802680-4025228389-3800903598-2869428983-1931511902-3098757744-2090832725"
+          },
+          {
+            "name": "org.disked.worker.1cb13382dc7c4610902399fb44095404",
+            "sid": "S-1-15-2-4209778328-3867385528-3619506091-2548653657-1606250942-3042767378-2480740318"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1004)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248030A32576B091B80CAD384B65",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 1050, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T07:38:02.8450511Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "Ordinary-token primitive proof only; no DiskEd/compiler qualification",
+      "all_owned_processes_retired": true,
+      "actor": {
+        "name": "DiskEdTest-3108f297",
+        "sid": "S-1-5-21-385394198-2603589104-1765785984-1004",
+        "nonce": "3108f2977b514bd8ae25e69b18c53d8e"
+      },
+      "image_uuid": "30A32576B091EA43A646B80CAD384B65",
+      "capped_volume": "\\\\?\\Volume{4a4f6f17-0000-0000-0000-010000000000}\\",
+      "coordinator_sid": "S-1-5-21-385394198-2603589104-1765785984-1003",
+      "ordinary_group_write_control": true,
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 92, in main\n    child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request)],os.environ,job)\n  File \"C:\\ProgramData\\DiskEd\\qualification\\ordinary-worker.py\", line 216, in launch\n    self.require(a.CreateProcessWithTokenW(self.token, 0, executable,\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        C.create_unicode_buffer(line), 0x08080404, block, str(self.work),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        C.byref(startup), C.byref(process)))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\tools\\windows-worker.py\", line 55, in require\n    raise ctypes.WinError(ctypes.get_last_error())\nOSError: [WinError 87] The parameter is incorrect.\n",
+      "guest_c_free_bytes": 98077396992,
+      "python_sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "normal_log": ""
+    },
+    "free_c_bytes": 98110881792
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T07:38:08.0935947Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "3bd467743703d3443981749e99b80d934e3a0ac0ae8c3247a7dccf85fb353dc8",
+    "expected.json": "8cd253585779ee242b444b2fa7e53c150d89aba70299bca40cee428e518f2914",
+    "guest-proof.ps1": "5f08af5e4e163acdc8164e53974c9401538643c63449020d40a09c3e171a4be4",
+    "guest-proof.py": "5df122dc6581648ebdc2d98605d8347abee24b18ba8dce8dbc279c511766ccc1",
+    "ordinary-worker.py": "8eb26b6a37d19bc01dd938c2fff5a3be796c21d92450b075824c1331516f9131",
+    "run-proof.ps1": "abbe42c829dff731956243b2d322f907d2d42be5599fac160566114693cc9a7d",
+    "target.py": "86952468defa14f1e1906a8bc8ceac8eb594c57172dc78faaacb6fff2b64fbc0"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-waz_l9cr\\ordinary-proof\\run-proof.ps1:65\r\nLine |\r\n  65 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

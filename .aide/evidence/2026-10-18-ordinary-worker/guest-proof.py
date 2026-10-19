@@ -61,6 +61,66 @@ def controller():
         if child:child.close()
         if instance:instance.close()
 
+def diagnose():
+    """Finite API-parameter isolation; does not qualify the full worker profile."""
+    result=dict(status='running',scope='WithToken startup/handle-attribute diagnostic only',
+                full_profile_qualified=False,all_owned_processes_retired=False,variants=[])
+    instance,job,child,canary=None,None,None,None
+    try:
+        data=actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
+        expected=json.loads((ROOT/'expected.json').read_bytes())['launch_diagnostic']
+        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
+        root=W.plain_directory(state['work']);selected=fresh(root/'diagnostic');instance=worker(selected,private)
+        outside=ROOT/'scratch/outside';outside.mkdir();(outside/'sentinel').write_bytes(b'preserve-owned-sentinel')
+        k=instance.k
+        W.bind(k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(W.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
+        W.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD)
+        class FileIdentity(C.Structure):
+            _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
+        sa=W.SecurityAttributes(C.sizeof(W.SecurityAttributes),None,True)
+        canary=k.CreateFileW(str(outside/'inheritance-canary.bin'),0xc0000000,3,C.byref(sa),1,0x80,None)
+        if canary==C.c_void_p(-1).value:canary=None;raise C.WinError(C.get_last_error())
+        identity=FileIdentity();W.require(k.GetFileInformationByHandleEx(canary,18,C.byref(identity),C.sizeof(identity)))
+        request=selected/'launch.json'
+        for variant in expected['variants']:
+            request.write_text(json.dumps(dict(user_sid=data['sid'],variant=variant,canary_handle=canary,
+                canary_volume=identity.volume,canary_identity=bytes(identity.identity).hex())))
+            row=dict(variant=variant)
+            try:
+                job=S.WindowsJob()
+                child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'launch'],os.environ,job,variant=variant)
+                row.update(api_succeeded=True,pid=child.pid)
+                row['exit_code']=child.wait(timeout=15)
+                path=selected/('launch-'+variant+'.json')
+                row['observation']=json.loads(path.read_bytes()) if path.exists() else None
+            except OSError as error:
+                if (getattr(instance,'last_launch',None) or {}).get('api_succeeded') or isinstance(error,TimeoutError):raise
+                row.update(api_succeeded=False,winerror=error.winerror)
+            finally:
+                row['launch_parameters']=getattr(instance,'last_launch',None)
+                if job:job.close();job=None
+                if child:child.wait(timeout=10);child.close();child=None
+                result['variants'].append(row)
+        candidates=[]
+        for row in result['variants']:
+            observed=row.get('observation')
+            if (row.get('api_succeeded') and row['exit_code']==0 and observed and
+                    not observed['canary_inherited'] and
+                    all(item['kind']==0 and item['winerror']==6 for item in observed['stdio'])):
+                candidates.append(row['variant'])
+        result['candidate_variants']=candidates
+        assert [r['variant'] for r in result['variants']]==expected['variants'] and candidates
+        result.update(status='pass',actor=dict(name=data['name'],sid=data['sid'],nonce=data['nonce']))
+    except BaseException:
+        result.update(status='fail',error=traceback.format_exc()[-16384:]);raise
+    finally:
+        if job:job.close()
+        if child:child.wait(timeout=10);child.close()
+        if canary:W.require(instance.k.CloseHandle(canary))
+        if instance:instance.close()
+        result['all_owned_processes_retired']=True
+        (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+
 def main():
     if ROOT!=Path('C:/ProgramData/DiskEd/qualification') or not __debug__:
         raise RuntimeError('Fixed guest source and active assertions required')
@@ -174,4 +234,5 @@ def main():
 
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
+    elif len(sys.argv)>1 and sys.argv[1]=='--diagnostic':diagnose()
     else:main()

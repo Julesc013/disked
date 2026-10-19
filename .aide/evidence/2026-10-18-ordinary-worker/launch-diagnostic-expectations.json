@@ -1,0 +1,20 @@
+{
+  "scope": "Finite WithToken startup-parameter isolation; not full profile qualification",
+  "source_refusal": "second-handle-list-refusal.json",
+  "variants": [
+    "handles",
+    "ex-empty",
+    "basic-empty"
+  ],
+  "constants": [
+    "Same actual fresh-user restricted token,private desktop,environment,command,job-before-resume and32MiB cap",
+    "No LOGON_WITH_PROFILE,additional privileges,policy grant or API fallback"
+  ],
+  "required_observations": [
+    "Exact startup size/flags/attributes and actual Win32 error or process result for each variant",
+    "For launched children: actual user/restricting SID,nonelevated/nonadmin/non-AppContainer token and privilege observations",
+    "A deliberately inheritable excluded canary must not be available by exact volume/file identity in a candidate child",
+    "Candidate initial stdio is invalid; no inherited writable output outside owned scratch"
+  ],
+  "full_profile_controls_still_required": true
+}

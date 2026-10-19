@@ -162,7 +162,10 @@ class Worker:
             self.k.LocalFree(desktop_descriptor)
             self.k.LocalFree(station_descriptor)
 
-    def launch(self, command, env, job):
+    def launch(self, command, env, job, *, variant='handles'):
+        self.last_launch=None
+        if variant not in ('handles','ex-empty','basic-empty'):
+            raise ValueError('Unknown finite launch experiment variant')
         executable = shutil.which(command[0])
         if not executable:
             raise FileNotFoundError(command[0])
@@ -176,7 +179,7 @@ class Worker:
         self.bind(k, 'UpdateProcThreadAttribute', T.BOOL, P, T.DWORD, C.c_size_t, P, C.c_size_t, P, P)
         self.bind(k, 'DeleteProcThreadAttributeList', None, P)
         self.bind(a, 'CreateProcessWithTokenW', T.BOOL, T.HANDLE, T.DWORD, T.LPCWSTR,
-                  T.LPWSTR, T.DWORD, P, T.LPCWSTR, C.POINTER(b.StartupInfoEx), C.POINTER(b.ProcessInfo))
+                  T.LPWSTR, T.DWORD, P, T.LPCWSTR, P, C.POINTER(b.ProcessInfo))
         self.bind(k, 'ResumeThread', T.DWORD, T.HANDLE)
         self.bind(k, 'TerminateProcess', T.BOOL, T.HANDLE, T.UINT)
         self.bind(k, 'WaitForSingleObject', T.DWORD, T.HANDLE, T.DWORD)
@@ -184,24 +187,27 @@ class Worker:
         handles, process, initialized = [], b.ProcessInfo(), False
         try:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
-            for path, access, disposition in ((str(self.work/'worker.log'), 0x40000000, 1), ('NUL', 0x80000000, 3)):
-                handle = k.CreateFileW(path, access, 3, C.byref(sa), disposition, 0x80, None)
-                if handle == C.c_void_p(-1).value:
-                    raise C.WinError(C.get_last_error())
-                handles.append(handle)
-            size = C.c_size_t()
-            k.InitializeProcThreadAttributeList(None, 1, 0, C.byref(size))
-            attributes = C.create_string_buffer(size.value)
-            self.require(k.InitializeProcThreadAttributeList(attributes, 1, 0, C.byref(size)))
-            initialized = True
-            inherited = (T.HANDLE * 2)(*handles)
-            self.require(k.UpdateProcThreadAttribute(attributes, 0, 0x20002, inherited,
-                                                     C.sizeof(inherited), None, None))
-            startup = b.StartupInfoEx()
-            startup.startup.cb, startup.attributes = C.sizeof(startup), C.addressof(attributes)
-            startup.startup.desktop, startup.startup.flags = self.desktop_name, 0x100
-            startup.startup.stdin = handles[1]
-            startup.startup.stdout = startup.startup.stderr = handles[0]
+            if variant=='handles':
+                for path, access, disposition in ((str(self.work/'worker.log'), 0x40000000, 1), ('NUL', 0x80000000, 3)):
+                    handle = k.CreateFileW(path, access, 3, C.byref(sa), disposition, 0x80, None)
+                    if handle == C.c_void_p(-1).value:
+                        raise C.WinError(C.get_last_error())
+                    handles.append(handle)
+                size = C.c_size_t()
+                k.InitializeProcThreadAttributeList(None, 1, 0, C.byref(size))
+                attributes = C.create_string_buffer(size.value)
+                self.require(k.InitializeProcThreadAttributeList(attributes, 1, 0, C.byref(size)))
+                initialized = True
+                inherited = (T.HANDLE * 2)(*handles)
+                self.require(k.UpdateProcThreadAttribute(attributes, 0, 0x20002, inherited,
+                                                         C.sizeof(inherited), None, None))
+            startup = b.StartupInfo() if variant=='basic-empty' else b.StartupInfoEx()
+            info=startup if variant=='basic-empty' else startup.startup
+            info.cb=C.sizeof(startup)
+            if variant!='basic-empty':startup.attributes=C.addressof(attributes) if initialized else None
+            info.desktop,info.flags=self.desktop_name,0x100
+            info.stdin=handles[1] if handles else C.c_void_p(-1).value
+            info.stdout=info.stderr=handles[0] if handles else C.c_void_p(-1).value
             env = {key: str(value) for key, value in env.items() if not key.startswith('DISKED_TEST_ACTOR_')}
             env.update(TEMP=str(self.native_temp), TMP=str(self.native_temp), TMPDIR=str(self.native_temp),
                        USERPROFILE=str(self.work/'profile'), HOME=str(self.work/'profile'),
@@ -213,9 +219,13 @@ class Worker:
                        sorted(env.items(), key=lambda row: row[0].upper()))+'\0\0')
             # No LOGON_WITH_PROFILE, network-only logon, fallback API or policy
             # grant. Ownership in the job precedes the first worker instruction.
+            flags=0x08000404 | (0x80000 if variant!='basic-empty' else 0)
+            self.last_launch=dict(variant=variant,creation_flags=flags,startup_size=C.sizeof(startup),
+                                  attribute_count=int(initialized),allowed_inherited_handles=len(handles),api_succeeded=False)
             self.require(a.CreateProcessWithTokenW(self.token, 0, executable,
-                C.create_unicode_buffer(line), 0x08080404, block, str(self.work),
+                C.create_unicode_buffer(line), flags, block, str(self.work),
                 C.byref(startup), C.byref(process)))
+            self.last_launch['api_succeeded']=True
             self.require(job.api.AssignProcessToJobObject(job.handle, process.process))
             if k.ResumeThread(process.thread) == 0xffffffff:
                 raise C.WinError(C.get_last_error())

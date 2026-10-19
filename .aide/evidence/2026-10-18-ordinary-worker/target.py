@@ -27,6 +27,9 @@ bind(k, 'LocalFree', P, P)
 bind(k, 'CreateFileW', T.HANDLE, T.LPCWSTR, T.DWORD, T.DWORD, P, T.DWORD, T.DWORD, T.HANDLE)
 bind(k, 'WriteFile', T.BOOL, T.HANDLE, P, T.DWORD, C.POINTER(T.DWORD), P)
 bind(k, 'GetTempPathW', T.DWORD, T.DWORD, T.LPWSTR)
+bind(k, 'GetStdHandle', T.HANDLE, T.DWORD)
+bind(k, 'GetFileType', T.DWORD, T.HANDLE)
+bind(k, 'GetFileInformationByHandleEx', T.BOOL, T.HANDLE, C.c_int, P, T.DWORD)
 bind(a, 'OpenProcessToken', T.BOOL, T.HANDLE, T.DWORD, C.POINTER(T.HANDLE))
 bind(a, 'GetTokenInformation', T.BOOL, T.HANDLE, C.c_int, P, T.DWORD, C.POINTER(T.DWORD))
 bind(a, 'ConvertSidToStringSidW', T.BOOL, P, C.POINTER(T.LPWSTR))
@@ -50,6 +53,9 @@ class Privilege(C.Structure):
 
 class Privileges(C.Structure):
     _fields_ = [('count', T.DWORD), ('first', Privilege)]
+
+class FileIdentity(C.Structure):
+    _fields_ = [('volume', C.c_ulonglong), ('identity', C.c_ubyte*16)]
 
 def string_sid(value):
     text = T.LPWSTR(); require(a.ConvertSidToStringSidW(value, C.byref(text)))
@@ -99,6 +105,18 @@ def main():
     result = identity()
     assert result['restricted'] and not any(result[k] for k in ('administrator','elevated','appcontainer'))
     assert result['user_sid'] == result['restricting_sid'] == plan['user_sid']
+    if mode == 'launch':
+        result['stdio']=[]
+        for which in (0xfffffff6,0xfffffff5,0xfffffff4):
+            handle=k.GetStdHandle(which);C.set_last_error(0)
+            kind=k.GetFileType(handle)
+            result['stdio'].append(dict(selector=which,kind=kind,winerror=C.get_last_error()))
+        info=FileIdentity()
+        ok=k.GetFileInformationByHandleEx(plan['canary_handle'],18,C.byref(info),C.sizeof(info))
+        result['canary_inherited']=bool(ok and info.volume==plan['canary_volume'] and bytes(info.identity).hex()==plan['canary_identity'])
+        result['variant']=plan['variant']
+        Path('launch-'+plan['variant']+'.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        return
     if mode == 'descendant':
         result['outside'] = denied(Path(plan['outside'])/'descendant-forbidden', True)
         assert result['outside']['denied'] and result['outside']['winerror'] == 5
