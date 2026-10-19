@@ -1,7 +1,8 @@
 {
-  "scope": "Four finite startup observations, not ordinary-worker or product qualification",
+  "scope": "Five finite startup observations, not ordinary-worker or product qualification",
   "basis": "fifth-private-ui-refusal.json: full rights and medium labels on owned private UI objects did not resolve C0000142",
-  "variants": ["standard-no-window", "restricted-no-window", "restricted-detached", "restricted-user-default-dacl"],
+  "variants": ["standard-no-window", "restricted-no-window", "restricted-detached", "restricted-user-default-dacl", "own-restricted-bootstrap"],
+  "bootstrap_control": "Last case runs the fixed trusted observer as the fresh standard user inside the coordinator job. It derives its own restricted token and invokes CreateProcessAsUserW with an explicit handle list, verifies automatic job inheritance before resuming, and waits for its exact child. It cannot log on another user, load a profile or add policy privileges. This is a separately declared control, never an automatic fallback or admitted worker.",
   "refinement": "sixth-startup-partial.json establishes successful original-standard-user startup. Its later cases were not executed because the harness reused a CREATE_NEW log filename. Use distinct owned logs and require actual API execution in all four cases. Last case changes only the private restricted token default DACL to SYSTEM and its exact user SID and records before/after; all existing and shared object ACLs stay unchanged.",
   "controls": "Same fresh standard-user principal, owned private desktop, runtime, capped directory, environment and job-before-resume. Original-token baseline may execute only the fixed repository-owned startup observer; it is not admitted as a worker.",
   "required": "Retain actual process exit and Python-entry/user32/token/session observations when available. Collection completeness and launch success are distinct. No fallback, additional policy rights, shared UI changes or product ACL changes.",

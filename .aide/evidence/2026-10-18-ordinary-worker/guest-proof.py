@@ -137,17 +137,19 @@ def startup_diagnose():
         result['private_ui_security']=instance.ui_security
         for name,variant,original in (('standard-no-window','basic-stdio',True),
                 ('restricted-no-window','basic-stdio',False),('restricted-detached','basic-detached',False),
-                ('restricted-user-default-dacl','basic-stdio',False)):
+                ('restricted-user-default-dacl','basic-stdio',False),('own-restricted-bootstrap','basic-stdio',True)):
             if name=='restricted-user-default-dacl':result['token_default_dacl_change']=instance.set_default_dacl()
-            request=selected/'startup-request.json';request.write_text(json.dumps(dict(variant=name)))
+            request=selected/'startup-request.json';request.write_text(json.dumps(dict(variant=name,user_sid=data['sid'],desktop=instance.desktop_name)))
             row=dict(name=name)
             try:
                 job=S.WindowsJob()
-                child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'startup'],
+                mode='bootstrap' if name=='own-restricted-bootstrap' else 'startup'
+                child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),mode],
                                       os.environ,job,variant=variant,diagnostic_original=original)
                 row['exit_code']=child.wait(timeout=15)
                 path=selected/('startup-'+name+'.json')
                 row['observation']=json.loads(path.read_bytes()) if path.exists() else None
+                if mode=='bootstrap':row['bootstrap']=json.loads((selected/'bootstrap-result.json').read_bytes())
             except OSError as error:
                 row['error']=str(error)
             finally:
@@ -155,7 +157,7 @@ def startup_diagnose():
                 if job:job.close();job=None
                 if child:child.wait(timeout=10);child.close();child=None
                 result['variants'].append(row)
-        assert len(result['variants'])==4 and all(r['parameters'] for r in result['variants'])
+        assert len(result['variants'])==5 and all(r['parameters'] for r in result['variants'])
         result['status']='pass'  # Complete diagnostic, not successful launch/admission.
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-16384:]);raise

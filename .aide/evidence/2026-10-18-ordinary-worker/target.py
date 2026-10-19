@@ -2,6 +2,7 @@
 import ctypes as C
 from ctypes import wintypes as T
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -101,9 +102,74 @@ def denied(path, new=False):
     if h != C.c_void_p(-1).value: require(k.CloseHandle(h))
     return dict(path=str(path), denied=h == C.c_void_p(-1).value, winerror=error)
 
+def bootstrap(plan):
+    """Finite own-token AsUser control; no credentials, profile or policy change."""
+    root=Path(__file__).resolve().parent
+    if root!=Path('C:/ProgramData/DiskEd/qualification'):raise ValueError('Wrong source')
+    spec=importlib.util.spec_from_file_location('bootstrap_base',root/'tools/windows-worker.py')
+    b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
+    observed=identity()
+    assert not any(observed[x] for x in ('restricted','administrator','elevated','appcontainer'))
+    assert observed['user_sid']==plan['user_sid']
+    bind(k,'IsProcessInJob',T.BOOL,T.HANDLE,T.HANDLE,C.POINTER(T.BOOL))
+    inside=T.BOOL();require(k.IsProcessInJob(k.GetCurrentProcess(),None,C.byref(inside)));assert inside.value
+    original,restricted,process=T.HANDLE(),T.HANDLE(),b.ProcessInfo()
+    sid=P();handles=[];attributes=None
+    report=dict(standard_bootstrap=observed,child_job_inherited=False)
+    try:
+        require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
+        bind(a,'ConvertStringSidToSidW',T.BOOL,T.LPCWSTR,C.POINTER(P))
+        require(a.ConvertStringSidToSidW(observed['user_sid'],C.byref(sid)))
+        bind(a,'CreateRestrictedToken',T.BOOL,T.HANDLE,T.DWORD,T.DWORD,P,T.DWORD,P,T.DWORD,P,C.POINTER(T.HANDLE))
+        entry=Sid(sid,0);require(a.CreateRestrictedToken(original,9,0,None,0,None,1,C.byref(entry),C.byref(restricted)))
+        bind(k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(b.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
+        sa=b.SecurityAttributes(C.sizeof(b.SecurityAttributes),None,True)
+        for path,access in ((str(Path.cwd()/'bootstrap-child.log'),0x40000000),('NUL',0x80000000)):
+            h=k.CreateFileW(path,access,3,C.byref(sa),1 if access==0x40000000 else 3,0x80,None)
+            if h==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+            handles.append(h)
+        bind(k,'InitializeProcThreadAttributeList',T.BOOL,P,T.DWORD,T.DWORD,C.POINTER(C.c_size_t))
+        bind(k,'UpdateProcThreadAttribute',T.BOOL,P,T.DWORD,C.c_size_t,P,C.c_size_t,P,P)
+        bind(k,'DeleteProcThreadAttributeList',None,P)
+        size=C.c_size_t();k.InitializeProcThreadAttributeList(None,1,0,C.byref(size))
+        attributes=C.create_string_buffer(size.value);require(k.InitializeProcThreadAttributeList(attributes,1,0,C.byref(size)))
+        inherited=(T.HANDLE*2)(*handles)
+        require(k.UpdateProcThreadAttribute(attributes,0,0x20002,inherited,C.sizeof(inherited),None,None))
+        startup=b.StartupInfoEx();startup.startup.cb=C.sizeof(startup)
+        startup.startup.desktop=plan['desktop'];startup.startup.flags=0x100
+        startup.startup.stdin=handles[1];startup.startup.stdout=startup.startup.stderr=handles[0]
+        startup.attributes=C.addressof(attributes)
+        bind(a,'CreateProcessAsUserW',T.BOOL,T.HANDLE,T.LPCWSTR,T.LPWSTR,P,P,T.BOOL,T.DWORD,P,T.LPCWSTR,P,C.POINTER(b.ProcessInfo))
+        line=subprocess.list2cmdline([sys.executable,'-B',__file__,sys.argv[1],'startup'])
+        require(a.CreateProcessAsUserW(restricted,sys.executable,C.create_unicode_buffer(line),None,None,True,
+                                      0x08080404,None,str(Path.cwd()),C.byref(startup),C.byref(process)))
+        report['api_succeeded']=True;report['child_pid']=process.pid
+        inside=T.BOOL();require(k.IsProcessInJob(process.process,None,C.byref(inside)));assert inside.value
+        report['child_job_inherited']=True
+        bind(k,'ResumeThread',T.DWORD,T.HANDLE);assert k.ResumeThread(process.thread)!=0xffffffff
+        bind(k,'WaitForSingleObject',T.DWORD,T.HANDLE,T.DWORD)
+        assert k.WaitForSingleObject(process.process,10000)==0
+        bind(k,'GetExitCodeProcess',T.BOOL,T.HANDLE,C.POINTER(T.DWORD))
+        code=T.DWORD();require(k.GetExitCodeProcess(process.process,C.byref(code)));report['exit_code']=code.value
+    except BaseException as error:
+        report['error']=repr(error)
+    finally:
+        if process.process:
+            bind(k,'TerminateProcess',T.BOOL,T.HANDLE,T.UINT)
+            k.TerminateProcess(process.process,78);k.WaitForSingleObject(process.process,10000);k.CloseHandle(process.process)
+        if process.thread:k.CloseHandle(process.thread)
+        if attributes:k.DeleteProcThreadAttributeList(attributes)
+        for h in handles:k.CloseHandle(h)
+        for h in (sid,):
+            if h:k.LocalFree(h)
+        for h in (restricted,original):
+            if h:k.CloseHandle(h)
+        Path('bootstrap-result.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+
 def main():
     plan = json.loads(Path(sys.argv[1]).read_bytes())
     mode = sys.argv[2] if len(sys.argv)>2 else 'normal'
+    if mode=='bootstrap':bootstrap(plan);return
     if mode=='startup':
         observation=Path('startup-'+plan['variant']+'.json')
         observation.write_text(json.dumps(dict(phase='python_entered',pid=os.getpid())))
