@@ -13,6 +13,10 @@ from test_fat_capture import Volume, short, slots, code_units
 from test_fat_auxiliary import MetadataVolume
 from test_fat_namespace import query
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 PROBE=None
 FAULT=None
 QUOTA_OBSERVATIONS=[]
@@ -38,9 +42,9 @@ def all_false(value):
 
 class WorkerTests(unittest.TestCase):
     def setUp(self):
-        root=Path(__file__).resolve().parents[2];scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
-        assert scratch.resolve().is_relative_to(root.resolve())
-        self.folder=tempfile.TemporaryDirectory(prefix='fatworker-',dir=scratch)
+        root=Path(__file__).resolve().parents[2];scratch=managed_parent();scratch.mkdir(exist_ok=True)
+        assert scratch.resolve()==managed_parent().resolve()
+        self.folder=managed_directory(prefix='fatworker-')
         self.addCleanup(self.folder.cleanup);self.root=Path(self.folder.name)
         assert self.root.resolve().is_relative_to(scratch.resolve())
 

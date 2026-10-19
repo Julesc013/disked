@@ -14,6 +14,10 @@ import time
 from test_acquisition_worker import (canonical, digest, source_bytes, map_check,
     history_check, owned_process, fixture_directory, K)
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def frame(parameters):
     return dict(schema='org.disked.request/1', request_id='acquisition-test',
@@ -26,7 +30,7 @@ def main():
     ap.add_argument('--evidence')
     args = ap.parse_args(); root = Path(args.root).resolve(); probe = str(Path(args.probe).resolve())
     env = {k:v for k,v in os.environ.items() if not k.startswith(('DISKED_ACQ_', 'DISKED_TEST_'))}
-    observations = []; verified = []; scratch = root/'.aide-local'; scratch.mkdir(exist_ok=True)
+    observations = []; verified = []; scratch = managed_parent(); scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         def call(name, value, exits=(0,), injected=()):
             callenv = dict(env)

@@ -10,6 +10,9 @@ from test_report_worker import report_process
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,fixture_directory,owned_process,JobLimits,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     p=argparse.ArgumentParser()
     for n in ('probe','fault','product','collection'):p.add_argument('--'+n,type=Path,required=True)
@@ -59,7 +62,7 @@ def main():
             rows.append(row)
         check('independent-progress-chain',rows and rows[0]['state']['phase']=='prepared' and raw.endswith(b'\n'))
         return h,raw,rows
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         original_dir=owned/'original';original_dir.mkdir();case_store=original_dir/'state';case_store.mkdir()
         source=original_dir/'source.img';image=original_dir/'copy.img';mapping=original_dir/'copy.map';expected=source_bytes(262145);source.write_bytes(expected)

@@ -10,6 +10,9 @@ from test_report_worker import report_process
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 FEATURE='org.disked.verification-operation-events/1'
 FLAGS=('case_read','image_read','map_read','store_write','host_effects','private_metadata')
 NATIVE_KEYS=('definition','definition_digest','state','request_binding','last_digest','history_complete','worker_observation','cancellation_request','admission','collection_validation','attachment_applicability')
@@ -69,7 +72,7 @@ def main():
     def reader(header,events,**cursor):
         p=subprocess.run([str(probe)],input=canonical(dict(mode='watch-reader',header=header,events=events,**cursor)),capture_output=True,cwd=root,env=env,timeout=15)
         assert p.returncode==0 and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)['results']
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         folder=owned/'case';folder.mkdir();case=folder/'state';case.mkdir();src=folder/'generated.img';image=folder/'copy.img';mapping=folder/'copy.map';expected=source_bytes(262145);src.write_bytes(expected)
         r=cli(['image','acquire','prepare',str(src),str(image),'--map',str(mapping),'--state-dir',str(case)])['result']

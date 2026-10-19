@@ -9,6 +9,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,owned_process,fixture_directory,K
 from test_report_worker import report_process,history_check
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def frame(p):return dict(schema='org.disked.request/1',request_id='export-test',command='evidence.export',parameters=p,required_features=[])
 def main():
     ap=argparse.ArgumentParser()
@@ -41,7 +44,7 @@ def main():
     selected='report-op:'+'1'*32
     out=call('expired-observation',dict(mode='unresolved',request_id='expired-observation',parameters=dict(operation_id=selected)),exits=(6,))
     check('expired-observation-retains-identity',out['result']['request_kind']=='operation-observation' and out['operation_id']==selected)
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         folder=owned/'case';folder.mkdir();case=folder/'state';case.mkdir();src=folder/'generated.img';dst=folder/'copy.img';mapping=folder/'copy.map';expected=source_bytes(65537);src.write_bytes(expected)
         prepared=product_call(['image','acquire','prepare',str(src),str(dst),'--map',str(mapping),'--state-dir',str(case)])['result']

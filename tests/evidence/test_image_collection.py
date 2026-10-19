@@ -9,6 +9,9 @@ from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixt
 from test_case import encode
 from test_image_observation import POLICIES,expected_support
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 CLAIMS=dict(authenticity='not_established',custody_authentication='not_established',latest_image_state='not_established',worker_exit='not_observed',power_loss_persistence='not_established',physical_admission=False,mutation_authority=False)
 def main():
     p=argparse.ArgumentParser()
@@ -72,7 +75,7 @@ def main():
             child.stdin.write(canonical(grant)+b'\n');child.stdin.flush();reviews.append(review)
         child.stdin.close();child.stdin=None;assert child.wait(timeout=35)==0;assert not child.stderr.read();result=json.loads(lines.get(timeout=10));assert len(result['exports'])==len(items)
         return result,reviews
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         state=owned/'state';state.mkdir();src=owned/'private-customer-source.img';image=owned/'private-customer-copy.img';mapping=owned/'private-customer-map.jsonl';expected=source_bytes(262145);src.write_bytes(expected)
         review=cli(['image','acquire','prepare',str(src),str(image),'--map',str(mapping),'--state-dir',str(state)])['result']

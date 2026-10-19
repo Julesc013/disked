@@ -11,6 +11,9 @@ from test_case import policy
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,JobLimits,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def report_exit_observation(handle):
     # Observe once on the caller's creation-verified handle. Keep the original
     # budget and raw result; a finished effect receipt supplies no exit proof.
@@ -71,7 +74,7 @@ def main():
         raw=canonical(selected)
         try:result=subprocess.run([str(exe)],input=raw,capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=12)
         except subprocess.TimeoutExpired as error:
-            saved=root/'.aide-local'/('report-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
+            saved=managed_parent()/('report-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
             (saved/'input.json').write_bytes(raw);(saved/'stdout.jsonl').write_bytes(error.stdout or b'');(saved/'stderr.log').write_bytes(error.stderr or b'')
             (saved/'request.json').write_bytes(canonical(dict(original_mode=value['mode'],instrumented=trace,
                 timeout_seconds=12,executable=str(exe),executable_sha256=digest(exe.read_bytes()),extra=extra or {})))
@@ -111,7 +114,7 @@ def main():
                 return last
             time.sleep(.025)
         raise AssertionError(('retain incomplete worker/store',last))
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         source_dir=owned/'case';source_dir.mkdir();case_store=source_dir/'state';case_store.mkdir()
         src=source_dir/'generated.img';dst=source_dir/'copy.img';mapping=source_dir/'copy.map';expected=source_bytes(262145);src.write_bytes(expected)

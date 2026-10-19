@@ -15,6 +15,10 @@ import subprocess
 import tempfile
 import threading
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
@@ -67,8 +71,8 @@ def main():
     probes = [str(Path(p).resolve()) for p in (args.probe, args.fault)]
     env = {k:v for k,v in os.environ.items() if not k.startswith('DISKED_ACQ_TEST_')}
     records = []; process_observations = []
-    scratch = root / '.aide-local'; scratch.mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='disked-acquire-', dir=scratch) as tmp:
+    scratch = managed_parent(); scratch.mkdir(exist_ok=True)
+    with managed_directory(prefix='disked-acquire-') as tmp:
         owned = Path(tmp)
 
         def fixture(name, size=9000):

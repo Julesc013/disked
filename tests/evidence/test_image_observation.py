@@ -9,6 +9,9 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 FIELDS=('identifiers','raw_values','interpretations','customer_data')
 POLICIES=[dict(zip(FIELDS,[bool(n & (1<<i)) for i in range(4)])) for n in range(16)]
 CLAIMS=dict(authenticity='not_established',source_preservation='not_established',point_in_time_acquisition='not_established',latest_image_state='not_established',worker_exit='not_observed',physical_admission=False,mutation_authority=False)
@@ -96,7 +99,7 @@ def main():
             child.stdin.write(canonical(grant)+b'\n');child.stdin.flush();reviews.append(review)
         out=json.loads(lines.get(timeout=25));assert child.wait(timeout=15)==0 and not child.stderr.read(),out;child.stdin.close();child.stdout.close();child.stderr.close()
         return out,reviews
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         native,expected=acquisition(owned/'nonempty',262145)
         before={str(p.relative_to(owned)):digest(p.read_bytes()) for p in owned.rglob('*') if p.is_file()}

@@ -9,6 +9,9 @@ from gui_fixture import Gui,wait
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,history_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def quote(word):return '"'+word.replace('"','""')+'"'
 
 def main():
@@ -76,7 +79,7 @@ def main():
         rows=history_check(Path(p['state_directory'])/'acquisition.records')
         assert state['outcome']['status']=='completed' and state['quiescent']
         verified.append(dict(bytes=str(len(data)),sha256=digest(data),operation_id=first['operation_id']));return rows
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         def fixture(letters,size):
             folder=owned/('磁'*letters);folder.mkdir();state=folder/'state';state.mkdir();src=folder/'source.img'

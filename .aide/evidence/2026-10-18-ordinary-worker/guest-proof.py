@@ -137,8 +137,10 @@ def startup_diagnose():
         result['private_ui_security']=instance.ui_security
         for name,variant,original in (('standard-no-window','basic-stdio',True),
                 ('restricted-no-window','basic-stdio',False),('restricted-detached','basic-detached',False),
-                ('restricted-user-default-dacl','basic-stdio',False),('own-restricted-bootstrap','basic-stdio',True)):
+                ('restricted-user-default-dacl','basic-stdio',False),('own-restricted-bootstrap','basic-stdio',True),
+                ('restricted-user-logon','basic-stdio',False)):
             if name=='restricted-user-default-dacl':result['token_default_dacl_change']=instance.set_default_dacl()
+            if name=='restricted-user-logon':result['fresh_logon_candidate']=instance.use_logon_restriction()
             request=selected/'startup-request.json';request.write_text(json.dumps(dict(variant=name,user_sid=data['sid'],desktop=instance.desktop_name)))
             row=dict(name=name)
             try:
@@ -157,7 +159,7 @@ def startup_diagnose():
                 if job:job.close();job=None
                 if child:child.wait(timeout=10);child.close();child=None
                 result['variants'].append(row)
-        assert len(result['variants'])==5 and all(r['parameters'] for r in result['variants'])
+        assert len(result['variants'])==6 and all(r['parameters'] for r in result['variants'])
         result['status']='pass'  # Complete diagnostic, not successful launch/admission.
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-16384:]);raise

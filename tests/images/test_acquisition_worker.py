@@ -18,6 +18,10 @@ import shutil
 import tempfile
 import time
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
@@ -166,7 +170,7 @@ def main():
     args = parser.parse_args(); root = Path(args.root).resolve()
     probes = [str(Path(p).resolve()) for p in (args.probe, args.fault)]
     env = {k:v for k,v in os.environ.items() if not k.startswith(('DISKED_ACQ_', 'DISKED_TEST_'))}
-    observations = []; workers = []; scratch = root/'.aide-local'; scratch.mkdir(exist_ok=True)
+    observations = []; workers = []; scratch = managed_parent(); scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
 
         def call(name, request, fault=False, injected=None, refusal=None):

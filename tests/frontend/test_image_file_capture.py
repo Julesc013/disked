@@ -17,6 +17,9 @@ import zlib
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'corpus'))
 import partition_images as corpus
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 K=C.WinDLL('kernel32',use_last_error=True)
 A=C.WinDLL('advapi32',use_last_error=True)
 K.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,C.c_void_p,W.DWORD,W.DWORD,W.HANDLE];K.CreateFileW.restype=W.HANDLE
@@ -68,8 +71,8 @@ def main():
         records.append(dict(name=name,argv=argv,cwd=str(cwd) if cwd else str(Path.cwd()),fault=fault,
                             exit_code=result.returncode,output_sha256=corpus.digest(result.stdout)))
         return value
-    scratch=Path.cwd()/'.aide-local';scratch.mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='disked-image-',dir=scratch) as tmp:
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
+    with managed_directory(prefix='disked-image-') as tmp:
         root=Path(tmp)
         def ordinary(name,data,unit=512):
             path=root/(name+'.img');path.write_bytes(data);before=path.read_bytes()

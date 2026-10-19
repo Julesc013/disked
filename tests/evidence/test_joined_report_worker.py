@@ -11,6 +11,10 @@ from test_acquisition_worker import canonical,digest,JobLimits,K
 from test_report_worker import report_process,history_check
 from test_image_observation import POLICIES
 
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def exercise(root,owned,probe,fault,product,env,operation,case,collection,collection_bytes,acq,coll,check,samples,exports):
     from test_verification_case import combined_support
     sys.path.insert(0,str(root/'spec/tools'))
@@ -23,7 +27,7 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
         raw=canonical(selected)
         try:r=subprocess.run([str(exe)],input=raw,capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=18)
         except subprocess.TimeoutExpired as error:
-            saved=root/'.aide-local'/('joined-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
+            saved=managed_parent()/('joined-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
             (saved/'input.json').write_bytes(raw);(saved/'stdout.jsonl').write_bytes(error.stdout or b'');(saved/'stderr.log').write_bytes(error.stderr or b'')
             (saved/'request.json').write_bytes(canonical(dict(original_mode=v['mode'],instrumented=stream,
                 timeout_seconds=18,executable=str(exe),executable_sha256=digest(exe.read_bytes()),extra=extra or {})))

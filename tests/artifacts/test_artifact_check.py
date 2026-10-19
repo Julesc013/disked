@@ -18,17 +18,20 @@ import warnings
 import zipfile
 import zlib
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent, managed_directory
+
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('disked_artifact_check',ROOT/'tools/release/artifact_check.py');check=importlib.util.module_from_spec(spec);sys.modules[spec.name]=check;spec.loader.exec_module(check)
 
 class Artifacts(unittest.TestCase):
     def setUp(self):
-        base=ROOT/'.aide-local/artifact-tests';base.mkdir(parents=True,exist_ok=True)
-        self.temp=tempfile.TemporaryDirectory(dir=base);self.work=Path(self.temp.name).resolve();assert self.work.is_relative_to(base.resolve())
+        base=fixture_parent()
+        self.temp=managed_directory(prefix='artifact-tests-');self.work=Path(self.temp.name).resolve();assert self.work.is_relative_to(base.resolve())
         self.stage=self.work/'stage';self.stage.mkdir();(self.stage/'disked.exe').write_bytes(b'owned fixture executable bytes, never executed');(self.stage/'docs').mkdir();(self.stage/'docs/readme.txt').write_bytes(b'fixture documentation')
         self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
     def tearDown(self):
-        assert self.work.is_relative_to((ROOT/'.aide-local/artifact-tests').resolve());self.temp.cleanup()
+        assert self.work.is_relative_to(fixture_parent().resolve());self.temp.cleanup()
     def zip(self,entries=None,compression=zipfile.ZIP_STORED):
         if entries is None:entries=[(x['path'],(self.stage/x['path']).read_bytes()) for x in self.expected['files']]
         with warnings.catch_warnings():

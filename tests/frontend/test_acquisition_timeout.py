@@ -7,6 +7,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,fixture_directory,K
 from test_fat_content import fixture as fat_fixture
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     ap=argparse.ArgumentParser()
     for name in ('product','fault','probe'):ap.add_argument('--'+name,type=Path,required=True)
@@ -35,7 +38,7 @@ def main():
     def no_effects(p):return not Path(p['destination']).exists() and not Path(p['map']).exists() and not list(Path(p['state_directory']).iterdir())
     def expected(value,store,digest_value,kind='acquisition-execution'):
         result=value['result'];check('exact-unknown-routing',value['status']=='unknown' and value['operation_id'] is None and result['request_state']=='unresolved' and result['request_kind']==kind and result.get('state_directory')==store and result.get('definition_digest')==digest_value and 'scope' not in result,result=result)
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     K.CreateEventW.argtypes=[C.c_void_p,C.c_int,C.c_int,C.c_wchar_p];K.CreateEventW.restype=C.c_void_p
     K.SetEvent.argtypes=[C.c_void_p];K.SetEvent.restype=C.c_int
     with fixture_directory(scratch) as owned:

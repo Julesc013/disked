@@ -7,6 +7,9 @@ from test_gpt import fixture,change_array,change_header,fix_header,equal_crc_pat
 from test_gpt_repair import capture,metadata,fingerprint
 from test_gpt_repair_command import image as image_bytes
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()
 def sha(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
 def regions(raw,c):
@@ -134,8 +137,8 @@ def main():
             if process.poll() is None:process.kill();process.wait(timeout=5)
             reader.join(timeout=1);process.stdout.close();process.stderr.close()
     try:
-        parent=a.root/'.aide-local';parent.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix='gpt-effects-',dir=parent) as directory:
+        parent=managed_parent();parent.mkdir(exist_ok=True)
+        with managed_directory(prefix='gpt-effects-') as directory:
             directory=Path(directory);assert directory.resolve().is_relative_to(parent.resolve());normal=None
             for unit in (512,4096):
                 for source in ('primary','backup'):

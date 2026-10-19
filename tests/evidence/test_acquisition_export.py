@@ -11,6 +11,9 @@ from test_case import encode,digest,policy
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,source_bytes,map_check,history_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('probe','fault','product'):p.add_argument('--'+name,required=True,type=Path)
@@ -35,7 +38,7 @@ def main():
     def cli(args):
         r=subprocess.run([str(product),'--json',*args],capture_output=True,cwd=root,env=env,timeout=15)
         assert r.returncode in (0,5) and not r.stderr,(r.returncode,r.stdout,r.stderr);return json.loads(r.stdout)
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     K.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,W.LPVOID,W.DWORD,W.DWORD,W.HANDLE];K.CreateFileW.restype=W.HANDLE
     K.GetFileTime.argtypes=[W.HANDLE,C.POINTER(W.FILETIME),C.POINTER(W.FILETIME),C.POINTER(W.FILETIME)]
     K.SetFileTime.argtypes=[W.HANDLE,C.POINTER(W.FILETIME),C.POINTER(W.FILETIME),C.POINTER(W.FILETIME)]

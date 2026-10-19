@@ -16,6 +16,9 @@ from test_verification_case import combined_support
 from test_image_observation import POLICIES
 from ctypes import wintypes as W
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--product',type=Path,required=True);ap.add_argument('--fault',type=Path,required=True)
     ap.add_argument('--root',type=Path,default=Path('.'));ap.add_argument('--evidence',type=Path);ap.add_argument('--joined',action='store_true');ap.add_argument('--probe',type=Path);a=ap.parse_args()
@@ -82,7 +85,7 @@ def main():
             state=value['result'].get('state',{})
             if state and ((terminal and state['phase']=='finished') or (not terminal and value['result']['worker_observation']!='running')):exit_worker(state,exe);return value
             assert time.monotonic()<end,('retain incomplete report',value);time.sleep(.03)
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         case=owned/'case';case.mkdir();src=owned/'source.img';dst=owned/'copy.img';mapping=owned/'copy.map';expected=source_bytes(65537);src.write_bytes(expected)
         review=cli(['image','acquire','prepare',str(src),str(dst),'--map',str(mapping),'--state-dir',str(case)])['result']

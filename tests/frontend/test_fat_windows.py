@@ -13,6 +13,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_fat_allocation_window import SparseVolume,window,oracle
 from gui_fixture import Gui,U,wait
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def sha(path):
     h=hashlib.sha256()
@@ -52,8 +55,8 @@ def main():
         assert expected['status']==actual['status'] and expected['diagnostics']==actual['diagnostics'],(expected,actual)
         assert stable(expected)==stable(actual),(stable(expected),stable(actual))
     try:
-        scratch=a.root/'.aide-local';assert scratch.is_dir()
-        with tempfile.TemporaryDirectory(prefix='fat-window-product-',dir=scratch) as folder:
+        scratch=managed_parent();assert scratch.is_dir()
+        with managed_directory(prefix='fat-window-product-') as folder:
             folder=Path(folder);assert folder.resolve().is_relative_to(scratch)
             fixtures=[]
             for bits in (12,16,32):

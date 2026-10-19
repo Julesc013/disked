@@ -5,9 +5,11 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from test_gpt_restoration import Replies, close, fixture_parent
+from support.tempdir import managed_directory
 
 
 class FixtureHarnessTests(unittest.TestCase):
@@ -68,7 +70,7 @@ class FixtureHarnessTests(unittest.TestCase):
         self.assertIn('UNCONFIRMED_RETIREMENT', errors.getvalue())
 
     def test_failed_fixture_retains_dependencies_and_unconfirmed_cleanup_fails(self):
-        with tempfile.TemporaryDirectory(prefix='disked-harness-') as outer:
+        with managed_directory(prefix='disked-harness-') as outer, patch('test_gpt_restoration.managed_parent',return_value=Path(outer)):
             root, state = Path(outer), {}
             with contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaisesRegex(AssertionError, 'confirmed process exit'):
@@ -78,7 +80,7 @@ class FixtureHarnessTests(unittest.TestCase):
             self.assertEqual((Path(state['directory']) / 'backup.bin').read_bytes(), b'retained dependency')
 
     def test_successful_fixture_cleanup_requires_confirmed_exit(self):
-        with tempfile.TemporaryDirectory(prefix='disked-harness-') as outer:
+        with managed_directory(prefix='disked-harness-') as outer, patch('test_gpt_restoration.managed_parent',return_value=Path(outer)):
             state = {}
             with fixture_parent(Path(outer), state, [dict(exit_confirmed=True)]) as directory:
                 (directory / 'backup.bin').write_bytes(b'finished fixture')

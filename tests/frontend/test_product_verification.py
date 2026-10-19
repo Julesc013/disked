@@ -13,6 +13,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'evidence'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
 from test_report_worker import report_process
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
 FEATURE='org.disked.verification-operation-events/1'
 
 def main():
@@ -71,7 +74,7 @@ def main():
             collection=json.loads(body);check('independent-collection-and-observer',body.endswith(b'\n') and digest(body)==s['retention']['digest'] and len(body)==int(s['retention']['bytes']) and digest(canonical(collection))==s['retention']['collection_revision'] and collection['records'][0]['observation']['outcome']==s['outcome'] and collection['records'][0]['observer']=={n:s['binding'][n] for n in ('attempt_id','worker_epoch','capture_epoch','process_id','process_created')})
         samples.append(dict(header=header,rows=rows,result=done['result'],history_sha256=digest(raw),collection_sha256=digest(body),collection_hex=body.hex()));return header,rows
     K.CreateEventW.argtypes=[C.c_void_p,W.BOOL,W.BOOL,W.LPCWSTR];K.CreateEventW.restype=W.HANDLE;K.SetEvent.argtypes=[W.HANDLE];K.SetEvent.restype=W.BOOL
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         case=owned/'case';case.mkdir();src=owned/'source.img';image=owned/'copy.img';mapping=owned/'copy.map';expected=source_bytes(262145);src.write_bytes(expected)
         r=cli(['image','acquire','prepare',str(src),str(image),'--map',str(mapping),'--state-dir',str(case)])['result'];start=cli(['image','acquire','execute','--definition-json',canonical(r['definition']).decode(),'--definition-digest',r['definition_digest'],'--allow-source-read','--allow-destination-write','--allow-map-write','--allow-host-effects'],(0,5));deadline=time.monotonic()+20

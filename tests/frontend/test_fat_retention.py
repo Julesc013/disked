@@ -18,6 +18,9 @@ from test_fat_capture import Volume,short,slots,code_units
 from gui_fixture import Gui,U,wait
 from test_image_commands import Gate
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def digest(data):return 'sha256:'+hashlib.sha256(data).hexdigest()
 
@@ -95,11 +98,11 @@ def main():
             byte_offset=str(len(encoded)),byte_count='1'))['result']
         assert empty['data']=='' and empty['next_offset'] is None
         return value
-    scratch=args.root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     try:
         # ExitStack runs before TemporaryDirectory so a failing assertion closes
         # its owned sessions before cleanup attempts to unlink held source files.
-        with tempfile.TemporaryDirectory(prefix='fat-retention-',dir=scratch) as folder,session_cleanup:
+        with managed_directory(prefix='fat-retention-') as folder,session_cleanup:
             folder=Path(folder);assert folder.resolve().is_relative_to(scratch.resolve())
             for bits in (12,16,32):
                 volume=MetadataVolume(bits,offset=512);item=short();long,_=slots(code_units('界🙂 retained.txt'),item)

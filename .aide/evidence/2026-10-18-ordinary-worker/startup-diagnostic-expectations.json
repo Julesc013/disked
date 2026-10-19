@@ -1,9 +1,17 @@
 {
-  "scope": "Five finite startup observations, not ordinary-worker or product qualification",
+  "scope": "Six finite startup observations, not ordinary-worker or product qualification",
   "basis": "fifth-private-ui-refusal.json: full rights and medium labels on owned private UI objects did not resolve C0000142",
-  "variants": ["standard-no-window", "restricted-no-window", "restricted-detached", "restricted-user-default-dacl", "own-restricted-bootstrap"],
-  "bootstrap_control": "Last case runs the fixed trusted observer as the fresh standard user inside the coordinator job. It derives its own restricted token and invokes CreateProcessAsUserW with an explicit handle list, verifies automatic job inheritance before resuming, and waits for its exact child. It cannot log on another user, load a profile or add policy privileges. This is a separately declared control, never an automatic fallback or admitted worker.",
-  "refinement": "sixth-startup-partial.json establishes successful original-standard-user startup. Its later cases were not executed because the harness reused a CREATE_NEW log filename. Use distinct owned logs and require actual API execution in all four cases. Last case changes only the private restricted token default DACL to SYSTEM and its exact user SID and records before/after; all existing and shared object ACLs stay unchanged.",
+  "variants": [
+    "standard-no-window",
+    "restricted-no-window",
+    "restricted-detached",
+    "restricted-user-default-dacl",
+    "own-restricted-bootstrap",
+    "restricted-user-logon"
+  ],
+  "fresh_logon_candidate": "Eighth diagnostic shows own-token AsUser also creates a child that failsC0000142, so changing launch APIs did not solve it. Final separately declared candidate uses only the exact fresh user and its actual fresh logon SID as restricting SIDs; no Everyone,Users,Administrators or RestrictedCode group. Independently retain the complete actual restricting SID set. This candidate changes the proposed profile and must pass every original full confinement/cap/interruption criterion before use; startup alone admits nothing.",
+  "bootstrap_control": "The own-restricted-bootstrap case runs the fixed trusted observer as the fresh standard user inside the coordinator job. It derives its own restricted token and invokes CreateProcessAsUserW with an explicit handle list, verifies automatic job inheritance before resuming, and waits for its exact child. It cannot log on another user, load a profile or add policy privileges. This is a separately declared control, never an automatic fallback or admitted worker.",
+  "refinement": "sixth-startup-partial.json establishes successful original-standard-user startup. Its later cases were not executed because the harness reused a CREATE_NEW log filename. Use distinct owned logs and require actual API execution in all declared cases. The restricted-user-default-dacl case changes only the private restricted token default DACL to SYSTEM and its exact user SID and records before/after; all existing and shared object ACLs stay unchanged.",
   "controls": "Same fresh standard-user principal, owned private desktop, runtime, capped directory, environment and job-before-resume. Original-token baseline may execute only the fixed repository-owned startup observer; it is not admitted as a worker.",
   "required": "Retain actual process exit and Python-entry/user32/token/session observations when available. Collection completeness and launch success are distinct. No fallback, additional policy rights, shared UI changes or product ACL changes.",
   "full_original_profile_controls_remain_required": true

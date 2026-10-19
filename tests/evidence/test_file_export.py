@@ -5,6 +5,10 @@ API fault seams and owned-process termination are not physical power-loss tests.
 import argparse,copy,ctypes,hashlib,itertools,json,os,queue,subprocess,tempfile,threading
 from pathlib import Path
 from test_case import encode
+
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
 def digest(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
 def grant():return dict(definition_digest='$prepared',report_write=True,host_effects=True)
 def policy(flags):return dict(zip(('identifiers','raw_values','interpretations','customer_data'),flags))
@@ -12,9 +16,9 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--probe',required=True,type=Path);p.add_argument('--fault',required=True,type=Path);p.add_argument('--root',required=True,type=Path);p.add_argument('--evidence',type=Path);a=p.parse_args()
     profile=json.loads((a.root/'spec/catalog/report-export-prototype.json').read_bytes());assert profile['windows'] and profile['limits']['producer_bytes']==16777216
     probes=[a.probe.resolve(),a.fault.resolve()];env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_REPORT_TEST_')};records=[];process_records=[]
-    scratch=a.root.resolve()/'.aide-local';scratch.mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='disked-report-',dir=scratch) as tmp:
-        owned=Path(tmp).resolve();assert owned.is_relative_to(scratch) and scratch.is_relative_to(a.root.resolve())
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
+    with managed_directory(prefix='disked-report-') as tmp:
+        owned=Path(tmp).resolve();assert owned.is_relative_to(scratch) and scratch==managed_parent().resolve()
         def request(name,**extra):
             folder=owned/name;folder.mkdir();v=dict(mode='execute',destination=str(folder/'support.json'),grant=grant());v.update(extra);return v
         def inspect(v):

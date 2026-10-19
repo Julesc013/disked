@@ -4,6 +4,10 @@ from pathlib import Path
 import test_fat_traversal as tree_fixture
 from test_fat_traversal import Tree,files,short,slots,check_metadata
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 PROBE=None;FAULT=None;RECEIPTS=[]
 
 
@@ -97,8 +101,8 @@ class TreeFileTests(unittest.TestCase):
             self.assertTrue(all(selected<=int(e['source_offset'])<selected+tree.table for e in events if e['type']=='allocation'))
 
     def setUp(self):
-        root=Path(__file__).resolve().parents[2];scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
-        self.temp=tempfile.TemporaryDirectory(prefix='fattree-',dir=scratch);self.addCleanup(self.temp.cleanup);self.folder=Path(self.temp.name)
+        root=Path(__file__).resolve().parents[2];scratch=managed_parent();scratch.mkdir(exist_ok=True)
+        self.temp=managed_directory(prefix='fattree-');self.addCleanup(self.temp.cleanup);self.folder=Path(self.temp.name)
         assert self.folder.resolve().is_relative_to(scratch.resolve())
 
     def make(self,bits=12,large=False):

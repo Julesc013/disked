@@ -3,6 +3,10 @@ import argparse,copy,json,os,struct,subprocess,tempfile
 from pathlib import Path
 from test_gpt_restoration import canonical,sha,expected,receipts,fixture,change_array,request,Replies,send,close,fixture_parent,recovery_receipts,inspect_fixture
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def make_fixture(probe,parent,name,case,observations,source='primary'):
     folder=parent/name;folder.mkdir();process=subprocess.Popen([str(probe),'--fixture-parent',str(folder)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows=Replies(process)
     try:
@@ -35,7 +39,7 @@ def main():
     def record(name,code,output,raw,prepared,store):records.append(dict(name=name,exit_code=code,inspection=output,journal_hex=raw.hex(),definition=prepared['definition'],restoration_digest=prepared['restoration_digest'],store=store));print('CASE '+ascii(name),flush=True)
     try:
         with fixture_parent(a.root,fixture_state,observations) as directory:
-            parent=Path(directory);assert parent.resolve().is_relative_to((a.root/'.aide-local').resolve())
+            parent=Path(directory);assert parent.resolve().is_relative_to((managed_parent()).resolve())
             def case_for(unit,source):
                 target='backup' if source=='primary' else 'primary';f=fixture(unit=unit);change_array(f,lambda b:b.__setitem__(0,b[0]^1),target,False);header=bytearray.fromhex(f[target]);header[16]^=1;f[target]=header.hex();return expected(f,source)
             context=None

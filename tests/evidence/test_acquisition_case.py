@@ -10,6 +10,9 @@ from test_case import encode,digest,policy
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,source_bytes,map_check,history_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('probe','product','worker-fault'):p.add_argument('--'+name,required=True,type=Path)
@@ -17,7 +20,7 @@ def main():
     root=a.root.resolve();probe=a.probe.resolve();product=a.product.resolve();fault=a.worker_fault.resolve()
     env={k:v for k,v in os.environ.items() if not k.startswith(('DISKED_ACQ_','DISKED_TEST_'))}
     K.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,W.LPVOID,W.DWORD,W.DWORD,W.HANDLE];K.CreateFileW.restype=W.HANDLE
-    observations=[];copies=[];scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    observations=[];copies=[];scratch=managed_parent();scratch.mkdir(exist_ok=True)
     def check(name,value,**extra):
         assert value,(name,extra);observations.append(dict(name=name,passed=True,**extra))
     def call(value,refusal=None):

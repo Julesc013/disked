@@ -18,6 +18,9 @@ from test_fat_auxiliary import MetadataVolume
 from gui_fixture import Gui,U,wait
 from test_image_commands import Gate
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def digest(data):return 'sha256:'+hashlib.sha256(data).hexdigest()
 
@@ -63,10 +66,10 @@ def main():
     def compare(expected,actual):
         assert expected['status']==actual['status'] and expected['diagnostics']==actual['diagnostics'],(expected,actual)
         assert stable(expected)==stable(actual),(stable(expected),stable(actual))
-    scratch=args.root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     assert scratch.resolve().is_relative_to(args.root)
     try:
-        with tempfile.TemporaryDirectory(prefix='fat-command-',dir=scratch) as folder:
+        with managed_directory(prefix='fat-command-') as folder:
             folder=Path(folder);assert folder.resolve().is_relative_to(scratch.resolve())
             fixtures=[]
             for bits in (12,16,32):

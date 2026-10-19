@@ -15,6 +15,9 @@ from gui_fixture import Gui,wait,send
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,history_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 
 def main():
     ap=argparse.ArgumentParser()
@@ -43,7 +46,7 @@ def main():
         report=json.loads(output.read_bytes());assert p.returncode==0 and 'fixture_error' not in report,report
         assert report['frontend']=='tui'
         native.append(dict(phase=params['phase'],**report));return report['response']
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         def fixture(name):
             folder=owned/name/('owned-'+ '磁'*70);folder.mkdir(parents=True);state=folder/'state';state.mkdir()

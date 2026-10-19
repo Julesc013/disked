@@ -36,9 +36,13 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
   Preserve the name-order cap failure and its compact raw evidence.
 - [x] Qualify all18 private Win32 groups at `c667318e`, with complete case inventories,
   bounded per-call retention and verified owned cleanup. This is a private slice.
+- [x] Migrate native fixture and artifact-staging scratch paths into the verified
+  managed parent, retaining independent fixture values and failure dependencies.
+  [Source audit and coordinator checks](.aide/evidence/2026-10-19-managed-fixtures/README.md).
+  Actual migrated native behavior still requires the current qualification.
 - [ ] Complete the current all-target x64 product/178-group gate. Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
-  profile and finish migrating old fixture routes into managed scratch first.
+  profile, then exercise the migrated fixtures in the bounded guest campaign.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
   a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
   the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build

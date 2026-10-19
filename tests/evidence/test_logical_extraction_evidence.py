@@ -10,6 +10,9 @@ from test_acquisition_worker import canonical,digest,fixture_directory,owned_pro
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'frontend'))
 from gui_fixture import Gui,wait
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 POLICIES=[dict(zip(('identifiers','raw_values','interpretations','customer_data'),v)) for v in itertools.product([False,True],repeat=4)]
 def logical_support(case,p):
     v=acq_support(case,p);v['schema']='org.disked.acquisition-case-support-prototype/2';v['scope']='recorded-ordinary-fat-file-extraction'
@@ -94,7 +97,7 @@ def main():
             result=subprocess.run([sys.executable,str(helper),exe,str(source),str(target),frontend],env=env,timeout=40,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=startup)
             observed=json.loads(target.read_bytes());assert result.returncode==0,observed;response=observed['response'];assert all(observed['restored'].values())
         note('native-'+frontend,phase=params['phase'],status=response['status']);return response
-    scratch=Path(__file__).resolve().parents[2]/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     try:
         with fixture_directory(scratch) as root:
             serial=0

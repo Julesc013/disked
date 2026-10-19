@@ -12,6 +12,9 @@ from test_report_worker import report_process
 from test_image_observation import POLICIES,expected_support
 from test_image_collection import CLAIMS as COLLECTION_CLAIMS
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 CLAIMS=dict(historical_verification='recorded',authenticity='not_established',custody_authentication='not_established',current_image_state='not_established',worker_exit='not_observed',power_loss_persistence='not_established',physical_admission=False,mutation_authority=False)
 ACQ_CLAIMS=dict(authenticity='not_established',source_preservation='not_established',current_image_verification='not_performed',worker_exit='not_observed_by_this_case',physical_admission=False,power_loss_persistence='not_established',mutation_authority=False)
 FLAGS=('case_read','collection_read','report_write','host_effects')
@@ -84,7 +87,7 @@ def main():
         exports.append(dict(name=name,outcome=v['outcome'],receipt=v['receipt'],bytes=None if body is None else len(body),sha256=None if body is None else digest(body)))
         return body
     K.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,W.LPVOID,W.DWORD,W.DWORD,W.HANDLE];K.CreateFileW.restype=W.HANDLE
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         case=owned/'case';case.mkdir();state=owned/'verify';state.mkdir();src=owned/'private-customer-source.img';image=owned/'private-customer-copy.img';mapping=owned/'private-customer-copy.map';data=source_bytes(262145);src.write_bytes(data)
         reviewed=cli(['image','acquire','prepare',str(src),str(image),'--map',str(mapping),'--state-dir',str(case)])['result']

@@ -3362,7 +3362,8 @@
       "depends_on": [
         "tests/corpus/partition_images.py",
         "tests/frontend/image_file_capture_probe.cpp",
-        "tests/frontend/image_observation_probe.cpp"
+        "tests/frontend/image_observation_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-102",
@@ -3606,7 +3607,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/images/file_acquisition_probe.cpp"
+        "tests/images/file_acquisition_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3687,7 +3689,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/images/acquisition_worker_probe.cpp"
+        "tests/images/acquisition_worker_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3771,7 +3774,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/images/acquisition_command_probe.cpp",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3904,7 +3908,8 @@
         "tests/operation/watch_probe.cpp",
         "source/apps/disked/cli.cpp",
         "spec/schemas/acquisition-operation-event.schema.json",
-        "spec/schemas/acquisition-worker-record.schema.json"
+        "spec/schemas/acquisition-worker-record.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3936,7 +3941,8 @@
         "spec/schemas/acquisition-command-parameters.schema.json",
         "tests/frontend/acquisition_console_fixture.py",
         "tests/frontend/gui_fixture.py",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3953,7 +3959,8 @@
         "tests/frontend/gui_fixture.py",
         "tests/images/test_acquisition_worker.py",
         "spec/schemas/acquisition-command-parameters.schema.json",
-        "spec/schemas/acquisition-operation-event.schema.json"
+        "spec/schemas/acquisition-operation-event.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -4335,7 +4342,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tools/release/artifact_check.py",
-        "spec/catalog/artifact-checker-prototype.json"
+        "spec/catalog/artifact-checker-prototype.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-077"
@@ -4700,7 +4708,8 @@
         "tests/evidence/file_export_probe.cpp",
         "tests/evidence/export_fixture.h",
         "spec/catalog/report-export-prototype.json",
-        "tests/evidence/test_case.py"
+        "tests/evidence/test_case.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -4756,7 +4765,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/operation/directory_probe.cpp"
+        "tests/operation/directory_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-015",
@@ -4862,7 +4872,8 @@
         "tests/evidence/acquisition_case_probe.cpp",
         "tests/evidence/test_case.py",
         "tests/images/test_acquisition_worker.py",
-        "spec/catalog/acquisition-case-prototype.json"
+        "spec/catalog/acquisition-case-prototype.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -4954,7 +4965,8 @@
         "tests/images/test_acquisition_worker.py",
         "spec/catalog/acquisition-case-export-prototype.json",
         "spec/schemas/acquisition-case-export-definition.schema.json",
-        "spec/schemas/acquisition-case-export-outcome.schema.json"
+        "spec/schemas/acquisition-case-export-outcome.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5091,7 +5103,8 @@
         "tests/evidence/test_case.py",
         "spec/catalog/report-worker-prototype.json",
         "spec/schemas/report-worker-definition.schema.json",
-        "spec/schemas/report-worker-grant.schema.json"
+        "spec/schemas/report-worker-grant.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5207,7 +5220,8 @@
         "tests/evidence/export_command_probe.cpp",
         "tests/evidence/test_report_worker.py",
         "tests/images/test_acquisition_worker.py",
-        "spec/catalog/export-command-prototype.json"
+        "spec/catalog/export-command-prototype.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5357,7 +5371,8 @@
         "tests/evidence/test_report_worker.py",
         "tests/images/test_acquisition_worker.py",
         "spec/catalog/report-watch-prototype.json",
-        "spec/schemas/report-operation-event.schema.json"
+        "spec/schemas/report-operation-event.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5444,7 +5459,8 @@
         "source/apps/disked/cli.cpp",
         "source/platform/windows/report_worker.cpp",
         "spec/catalog/joined-report-public-prototype.json",
-        "tests/evidence/test_verification_case.py"
+        "tests/evidence/test_verification_case.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5473,7 +5489,8 @@
       "kind": "fixture",
       "delivery": "artifact",
       "depends_on": [
-        "tests/frontend/gui_fixture.py"
+        "tests/frontend/gui_fixture.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-024"
@@ -5603,7 +5620,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/evidence/image_verification_probe.cpp",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5678,7 +5696,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/evidence/image_observation_probe.cpp",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5780,7 +5799,8 @@
         "tests/evidence/image_collection_probe.cpp",
         "tests/evidence/test_case.py",
         "tests/evidence/test_image_observation.py",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -5898,7 +5918,8 @@
         "tests/evidence/test_report_worker.py",
         "tests/evidence/image_collection_probe.cpp",
         "tests/images/test_acquisition_worker.py",
-        "spec/catalog/verification-worker-prototype.json"
+        "spec/catalog/verification-worker-prototype.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -6141,7 +6162,8 @@
       "depends_on": [
         "tests/evidence/verification_command_probe.cpp",
         "spec/catalog/verification-command-prototype.json",
-        "tests/evidence/verification_budget_fixture.py"
+        "tests/evidence/verification_budget_fixture.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-044",
@@ -6203,7 +6225,8 @@
         "tests/frontend/verification_console_fixture.py",
         "tests/frontend/gui_fixture.py",
         "source/apps/disked/cli.cpp",
-        "source/platform/windows/verification_worker.cpp"
+        "source/platform/windows/verification_worker.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-044",
@@ -6348,7 +6371,8 @@
         "tests/evidence/test_image_collection.py",
         "tests/evidence/test_report_worker.py",
         "tests/images/test_acquisition_worker.py",
-        "tests/evidence/test_joined_report_worker.py"
+        "tests/evidence/test_joined_report_worker.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -6462,7 +6486,8 @@
         "tests/evidence/test_report_worker.py",
         "spec/catalog/joined-report-worker-prototype.json",
         "spec/schemas/report-worker-definition-v2.schema.json",
-        "spec/schemas/acquisition-verification-export-outcome.schema.json"
+        "spec/schemas/acquisition-verification-export-outcome.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -9219,7 +9244,8 @@
       "depends_on": [
         "tests/images/test_gpt_repair.py",
         "tests/property/test_gpt.py",
-        "tests/frontend/test_gpt_repair_command.py"
+        "tests/frontend/test_gpt_repair_command.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-104",
@@ -9286,7 +9312,8 @@
       "depends_on": [
         "tests/images/test_gpt_execution.py",
         "tests/images/gpt_execution_probe.cpp",
-        "tests/property/test_gpt.py"
+        "tests/property/test_gpt.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-043"
@@ -9327,7 +9354,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/recovery/test_gpt_restoration.py",
-        "tests/images/gpt_execution_probe.cpp"
+        "tests/images/gpt_execution_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-043"
@@ -10132,7 +10160,8 @@
         "tests/images/fat_worker_probe.cpp",
         "tests/images/test_fat_capture.py",
         "tests/images/test_fat_namespace.py",
-        "tests/images/test_fat_auxiliary.py"
+        "tests/images/test_fat_auxiliary.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -10277,7 +10306,8 @@
         "tests/frontend/gui_fixture.py",
         "tests/frontend/image_console_fixture.py",
         "tests/images/test_fat_capture.py",
-        "tests/images/test_fat_auxiliary.py"
+        "tests/images/test_fat_auxiliary.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -10406,7 +10436,8 @@
         "tests/images/test_fat_allocation_window.py",
         "tests/frontend/gui_fixture.py",
         "tests/frontend/image_console_fixture.py",
-        "tests/images/fat_worker_probe.cpp"
+        "tests/images/fat_worker_probe.cpp",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-037",
@@ -10550,7 +10581,9 @@
       "path": "tests/frontend/test_fat_retention.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-037",
         "DE-102"
@@ -10863,7 +10896,9 @@
       "path": "tests/frontend/test_fat_extraction_commands.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-021",
         "DE-037",
@@ -11007,7 +11042,9 @@
       "path": "tests/evidence/test_logical_extraction_evidence.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-044",
         "DE-103",
@@ -11349,7 +11386,9 @@
       "path": "tests/images/test_fat_tree_file.py",
       "kind": "fixture",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/support/tempdir.py"
+      ],
       "spec_ids": [
         "DE-031",
         "DE-037",
@@ -13344,7 +13383,8 @@
       "kind": "fixture",
       "delivery": "artifact",
       "depends_on": [
-        "tests/recovery/test_gpt_restoration.py"
+        "tests/recovery/test_gpt_restoration.py",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-043"
@@ -14153,7 +14193,8 @@
       "depends_on": [
         "spec/schemas/acquisition-command-parameters.schema.json",
         "spec/schemas/acquisition-worker-definition.schema.json",
-        "spec/schemas/acquisition-worker-definition-logical.schema.json"
+        "spec/schemas/acquisition-worker-definition-logical.schema.json",
+        "tests/support/tempdir.py"
       ],
       "spec_ids": [
         "DE-103",

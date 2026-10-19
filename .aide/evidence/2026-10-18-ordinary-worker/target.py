@@ -78,9 +78,13 @@ def identity():
             if kind in (1,25): sid = C.cast(data, C.POINTER(Sid)).contents.sid
             else:
                 groups = C.cast(data, C.POINTER(Groups)).contents
+                assert groups.count<=2
+                result['restricting_sids']=[string_sid(Sid.from_buffer(data,Groups.first.offset+i*C.sizeof(Sid)).sid) for i in range(groups.count)]
                 if groups.count==0:
                     result[key]=None;continue
-                assert groups.count == 1; sid = groups.first.sid
+                if groups.count!=1:
+                    result[key]=None;continue
+                sid = groups.first.sid
             result[key] = string_sid(sid)
         a.GetTokenInformation(token,3,None,0,C.byref(size));assert 0 < size.value <= 16384
         data=C.create_string_buffer(size.value)

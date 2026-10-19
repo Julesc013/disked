@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('probe','product'):p.add_argument('--'+name,required=True,type=Path)
@@ -50,7 +53,7 @@ def main():
             if row['type']=='header':row['payload']['plan_digest']=digest(canonical(row['payload']['plan']))
             body=canonical(row);previous=digest(body);raw.append(body+b'\n')
         return b''.join(raw).decode()
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         native,expected,rows=acquire(owned/'normal',262145);dst=Path(native['image']);mapping=Path(native['map']);map_raw=mapping.read_bytes()
         file_set={str(f.relative_to(owned)):digest(f.read_bytes()) for f in owned.rglob('*') if f.is_file()}

@@ -208,6 +208,32 @@ class Worker:
         finally:self.k.LocalFree(descriptor)
         return dict(before=before,after=observed())
 
+    def use_logon_restriction(self):
+        """Candidate limited to this fresh account and this exact logon session."""
+        class Groups(C.Structure):
+            _fields_=[('count',T.DWORD),('first',self.base.SidAttributes)]
+        size=T.DWORD();self.a.GetTokenInformation(self.original,2,None,0,C.byref(size))
+        if not 0<size.value<=16384:raise ValueError('Unexpected logon group size')
+        data=C.create_string_buffer(size.value)
+        self.require(self.a.GetTokenInformation(self.original,2,data,size,C.byref(size)))
+        count=C.cast(data,C.POINTER(Groups)).contents.count
+        if count>128:raise ValueError('Too many token groups')
+        candidates=[self.base.SidAttributes.from_buffer(data,Groups.first.offset+i*C.sizeof(self.base.SidAttributes)) for i in range(count)]
+        logon=[g for g in candidates if g.attributes&0xc0000000==0xc0000000]
+        if len(logon)!=1:raise ValueError('Unique actual logon SID required')
+        text=T.LPWSTR();self.require(self.a.ConvertSidToStringSidW(logon[0].sid,C.byref(text)))
+        try:logon_sid=text.value
+        finally:self.k.LocalFree(C.cast(text,P))
+        if not re.fullmatch(r'S-1-5-5-[0-9]+-[0-9]+',logon_sid):raise ValueError('Unexpected logon SID')
+        user=P();replacement=T.HANDLE()
+        self.require(self.a.ConvertStringSidToSidW(self.user_sid,C.byref(user)))
+        try:
+            entries=(self.base.SidAttributes*2)(self.base.SidAttributes(user,0),self.base.SidAttributes(logon[0].sid,0))
+            self.require(self.a.CreateRestrictedToken(self.original,9,0,None,0,None,2,entries,C.byref(replacement)))
+            self.k.CloseHandle(self.token);self.token=replacement
+        finally:self.k.LocalFree(user)
+        return dict(restricting_sids=[self.user_sid,logon_sid],scope='Fresh account and its actual logon session only')
+
     def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False):
         self.last_launch=None
         if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached'):

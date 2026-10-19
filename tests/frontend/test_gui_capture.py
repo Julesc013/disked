@@ -9,6 +9,9 @@ from ctypes import wintypes as W
 from pathlib import Path
 from gui_fixture import Gui,U,capture_client_content
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 @contextmanager
 def capture_directory(root):
     root=root.resolve();root.mkdir(exist_ok=True)
@@ -52,7 +55,7 @@ def main():
         check(name+'-client-classification',capture_client_content(body,w,h,box)==expected)
     alpha=bytes([0,0,0,0,0,0,0,255]);check('unused-alpha-is-not-painted-content',not capture_client_content(alpha,2,1,(0,0,2,1)))
     # The output folder belongs to this harness; nothing touches physical media.
-    with capture_directory(root/'.aide-local') as output:
+    with capture_directory(managed_parent()) as output:
         for name,argv in [('inventory',[]),('review',['--gui','target','inspect','fake:alpha@1']),('minimum',['--gui','target','inspect','fake:alpha@1'])]:
             ui=Gui(exe,argv,render=True)
             try:

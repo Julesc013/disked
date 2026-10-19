@@ -6,14 +6,18 @@ import argparse,ctypes as C,hashlib,json,queue,subprocess,tempfile,threading
 from ctypes import wintypes as W
 from pathlib import Path
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def sha(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--probe',required=True,type=Path);p.add_argument('--root',required=True,type=Path)
     p.add_argument('--evidence',type=Path);p.add_argument('--baseline',action='store_true');a=p.parse_args()
-    root=a.root.resolve();scratch=root/'.aide-local';scratch.mkdir(exist_ok=True);probe=a.probe.resolve();records=[]
-    with tempfile.TemporaryDirectory(prefix='worker-directory-',dir=scratch) as temp:
-        owned=Path(temp).resolve();assert owned.is_relative_to(scratch) and scratch.is_relative_to(root)
+    root=a.root.resolve();scratch=managed_parent();scratch.mkdir(exist_ok=True);probe=a.probe.resolve();records=[]
+    with managed_directory(prefix='worker-directory-') as temp:
+        owned=Path(temp).resolve();assert owned.is_relative_to(scratch) and scratch==managed_parent().resolve()
         for role in ('directory','ancestor'):
             folder=owned/role;parent=folder/'parent';directory=parent/'state';directory.mkdir(parents=True)
             target=directory if role=='directory' else parent;renamed=folder/'moved'

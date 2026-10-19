@@ -6,6 +6,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_fat_content import fixture
 from test_acquisition_worker import canonical,digest,map_check,fixture_directory,owned_process,K
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     for name in ('exe','gui','tui','fat','output'):ap.add_argument('--'+name,type=Path,required=True)
@@ -61,7 +64,7 @@ def main():
         copies.append(dict(bytes=len(data),sha256=digest(data),operation_id=first['operation_id']))
         record('verified-copy',bytes=len(data),sha256=digest(data))
         return out
-    scratch=Path(__file__).resolve().parents[2]/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     try:
         with fixture_directory(scratch) as root:
             serial=0

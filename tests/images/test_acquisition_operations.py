@@ -15,6 +15,10 @@ import time
 from test_acquisition_worker import (canonical, digest, source_bytes, map_check,
     history_check, owned_process, fixture_directory, K)
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 FEATURE = 'org.disked.acquisition-operation-events/1'
 
 
@@ -56,7 +60,7 @@ def main():
         row['digest']=hashlib.sha256(canonical(row)).hexdigest()
         return event
 
-    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    scratch=managed_parent();scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         def prepare(name,size):
             folder=owned/name;folder.mkdir();state=folder/'state';state.mkdir()

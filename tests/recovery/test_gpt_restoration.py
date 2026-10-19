@@ -4,6 +4,9 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_gpt_execution import canonical,sha,expected,receipts,fixture,change_array
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import fixture_parent as managed_parent, managed_directory
+
 def request(case,source='primary',phase='create',**extra):
     v=dict(phase=phase,image_hex=case['raw'].hex(),logical_block_bytes=case['capture']['block_bytes'],authoritative_copy=source,expected_capture_digest=case['definition']['capture_digest'],expected_plan_digest=case['plan_digest']);v.update(extra);return v
 class Replies:
@@ -122,7 +125,7 @@ def close(process, replies, observations):
 
 @contextlib.contextmanager
 def fixture_parent(root, state, observations):
-    parent = (root / '.aide-local').resolve()
+    parent = (managed_parent()).resolve()
     parent.mkdir(exist_ok=True)
     directory = Path(tempfile.mkdtemp(prefix='gpt-restore-', dir=parent)).resolve()
     assert directory.is_relative_to(parent) and directory != parent
@@ -291,9 +294,9 @@ def main():
             return finish,prepared,store
         finally:close(process,rows,observations)
     try:
-        parent=a.root/'.aide-local';parent.mkdir(exist_ok=True)
+        parent=managed_parent();parent.mkdir(exist_ok=True)
         with fixture_parent(a.root,fixture_state,observations) as directory:
-            parent=Path(directory);assert parent.resolve().is_relative_to((a.root/'.aide-local').resolve())
+            parent=Path(directory);assert parent.resolve().is_relative_to((managed_parent()).resolve())
             def case_for(unit=512,source='primary'):
                 target='backup' if source=='primary' else 'primary';f=fixture(unit=unit);change_array(f,lambda b:b.__setitem__(0,b[0]^1),target,False)
                 header=bytearray.fromhex(f[target]);header[16]^=1;f[target]=header.hex();return expected(f,source)
