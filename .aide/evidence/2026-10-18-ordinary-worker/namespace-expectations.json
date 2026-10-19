@@ -1,0 +1,9 @@
+{
+  "scope":"Read-only Win10/x64 object-directory access checks,not native worker qualification",
+  "basis":"twelfth-loader-trace.json proves failure in KERNELBASE initialization before Python or USER32 modules load; privilege-filtered own-token baseline starts",
+  "method":"A fixed standard-user observer derives baseline and exact-user write-restricted tokens,verifies actual thread impersonation,and opens six fixed existing kernel object directories with five declared access masks:3,7,15,0x20003,0x2000f. The read/control combination permits observing a DACL without requiring create permission. Collect exact NTSTATUS and available DACLs. Opening for create permission does not create an object.",
+  "required_observations":60,
+  "mutations_excluded":["No object creation or DACL change in Windows namespaces","No registry or runtime image change","No broad restricting SID or policy privilege grant","No filesystem write outside capped observation output"],
+  "sources":["https://learn.microsoft.com/en-us/windows/win32/devnotes/ntopendirectoryobject","https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser"],
+  "full_original_profile_controls_unchanged":true
+}

@@ -355,6 +355,7 @@ def loader_diagnose():
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
     elif len(sys.argv)>1 and sys.argv[1]=='--loader-forensics':load('loader_forensics',ROOT/'loader-forensics.py').coordinate(sys.modules[__name__])
+    elif len(sys.argv)>1 and sys.argv[1]=='--namespace-diagnostic':load('namespace_forensics',ROOT/'loader-forensics.py').coordinate_namespace(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--loader-diagnostic':loader_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--startup-diagnostic':startup_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--diagnostic':diagnose()

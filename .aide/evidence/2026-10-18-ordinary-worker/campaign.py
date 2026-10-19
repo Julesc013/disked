@@ -79,6 +79,8 @@ def main():
     startup_diagnostic='--startup-diagnostic' in sys.argv
     loader_diagnostic='--loader-diagnostic' in sys.argv
     forensic='--loader-forensics' in sys.argv
+    namespace='--namespace-diagnostic' in sys.argv
+    if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
     if startup_diagnostic:
@@ -99,6 +101,7 @@ def main():
     if startup_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --startup-diagnostic 2>&1)")
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
+    if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -141,6 +144,7 @@ def main():
     if startup_diagnostic:result['experiment_kind']='standard/restricted token and console diagnostic; no profile admission'
     if loader_diagnostic:result['experiment_kind']='minimal Python entry and native-import diagnostic; no profile admission'
     if forensic:result['experiment_kind']='owned per-image loader tracing; no profile admission'
+    if namespace:result['experiment_kind']='existing object namespace access checks; no profile admission'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if forensic:

@@ -36,6 +36,87 @@ class EventData(C.Union):
 class Event(C.Structure):
     _fields_=[('code',T.DWORD),('pid',T.DWORD),('tid',T.DWORD),('data',EventData)]
 
+def namespace_actor(plan):
+    """Open/query existing object directories; never create or change one."""
+    t=load('namespace_identity',ROOT/'target.py');b=load('namespace_base',ROOT/'tools/windows-worker.py')
+    k,a=t.k,t.a;bind,require=t.bind,t.require;n=C.WinDLL('ntdll',use_last_error=True)
+    observed=t.identity();assert observed['user_sid']==plan['user_sid'] and not any(observed[x] for x in ('restricted','administrator','elevated','appcontainer'))
+    assert Path.cwd()==Path(plan['work']) and C.sizeof(P)==8
+    class Unicode(C.Structure):_fields_=[('length',T.WORD),('maximum',T.WORD),('buffer',P)]
+    class Attributes(C.Structure):_fields_=[('length',T.DWORD),('root',T.HANDLE),('name',C.POINTER(Unicode)),('attributes',T.DWORD),('security',P),('qos',P)]
+    assert C.sizeof(Attributes)==48
+    bind(k,'GetCurrentThread',T.HANDLE);bind(k,'ProcessIdToSessionId',T.BOOL,T.DWORD,C.POINTER(T.DWORD))
+    bind(a,'OpenThreadToken',T.BOOL,T.HANDLE,T.DWORD,T.BOOL,C.POINTER(T.HANDLE))
+    bind(a,'ImpersonateLoggedOnUser',T.BOOL,T.HANDLE);bind(a,'RevertToSelf',T.BOOL)
+    bind(a,'ConvertStringSidToSidW',T.BOOL,T.LPCWSTR,C.POINTER(P))
+    bind(a,'CreateRestrictedToken',T.BOOL,T.HANDLE,T.DWORD,T.DWORD,P,T.DWORD,P,T.DWORD,P,C.POINTER(T.HANDLE))
+    bind(n,'NtOpenDirectoryObject',T.LONG,C.POINTER(T.HANDLE),T.DWORD,C.POINTER(Attributes))
+    bind(n,'NtQuerySecurityObject',T.LONG,T.HANDLE,T.DWORD,P,T.DWORD,C.POINTER(T.DWORD))
+    session=T.DWORD();require(k.ProcessIdToSessionId(os.getpid(),C.byref(session)))
+    prefix='\\Sessions\\'+str(session.value)
+    names=['\\BaseNamedObjects','\\BaseNamedObjects\\Restricted',prefix+'\\BaseNamedObjects',prefix+'\\BaseNamedObjects\\Restricted',prefix+'\\Windows',prefix+'\\Windows\\WindowStations']
+    original,sid=T.HANDLE(),P();report=dict(status='running',bootstrap=observed,session=session.value,observations=[])
+    require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
+    try:
+        require(a.ConvertStringSidToSidW(plan['user_sid'],C.byref(sid)))
+        for name,restricted in (('baseline',False),('restricted',True)):
+            token=T.HANDLE();entry=b.SidAttributes(sid,0)
+            require(a.CreateRestrictedToken(original,9 if restricted else 1,0,None,0,None,int(restricted),C.byref(entry) if restricted else None,C.byref(token)))
+            try:
+                require(a.ImpersonateLoggedOnUser(token))
+                try:
+                    actual=T.HANDLE();require(a.OpenThreadToken(k.GetCurrentThread(),8,True,C.byref(actual)))
+                    try:assert bool(a.IsTokenRestricted(actual))==restricted
+                    finally:k.CloseHandle(actual)
+                    for path in names:
+                        text=C.create_unicode_buffer(path);value=Unicode(len(path)*2,(len(path)+1)*2,C.cast(text,P))
+                        attrs=Attributes(C.sizeof(Attributes),None,C.pointer(value),0x40,None,None)
+                        for mask in (3,7,15,0x20003,0x2000f):
+                            handle=T.HANDLE();status=n.NtOpenDirectoryObject(C.byref(handle),mask,C.byref(attrs))
+                            row=dict(token=name,path=path,access=hex(mask),status=hex(status&0xffffffff))
+                            try:
+                                if status==0 and mask&0x20000:
+                                    length=T.DWORD();n.NtQuerySecurityObject(handle,4,None,0,C.byref(length));assert 0<length.value<=32768
+                                    sd=C.create_string_buffer(length.value);security_status=n.NtQuerySecurityObject(handle,4,sd,length,C.byref(length));row['security_status']=hex(security_status&0xffffffff)
+                                    if security_status==0:
+                                        output=T.LPWSTR();require(a.ConvertSecurityDescriptorToStringSecurityDescriptorW(sd,1,4,C.byref(output),None))
+                                        try:row['dacl']=output.value
+                                        finally:k.LocalFree(C.cast(output,P))
+                            finally:
+                                if handle:k.CloseHandle(handle)
+                            report['observations'].append(row)
+                finally:require(a.RevertToSelf())
+            finally:k.CloseHandle(token)
+        assert len(report['observations'])==60
+        report['status']='pass'
+    finally:
+        if sid:k.LocalFree(sid)
+        if original:k.CloseHandle(original)
+        Path('namespace-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
+
+def coordinate_namespace(g):
+    result=dict(status='running',scope='Read-only existing object-namespace access diagnostic; no profile admission',full_profile_qualified=False,all_owned_processes_retired=False)
+    instance,job,child=None,None,None
+    try:
+        data=g.actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
+        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
+        selected=g.fresh(g.W.plain_directory(state['work'])/'namespace');instance=g.worker(selected,private)
+        request=selected/'debug-plan.json';request.write_text(json.dumps(dict(work=str(selected),user_sid=data['sid'])))
+        job=g.S.WindowsJob();child=instance.launch([sys.executable,'-B',str(ROOT/'loader-forensics.py'),'--namespace',str(request)],os.environ,job,diagnostic_original=True)
+        code=child.wait(timeout=15);result['actor_exit_code']=code
+        if (selected/'namespace-report.json').exists():result['namespace']=json.loads((selected/'namespace-report.json').read_bytes())
+        result['actor_output']=instance.log_path.read_text(errors='replace')[:65536]
+        assert code==0 and result['namespace']['status']=='pass'
+        result['status']='pass'
+    except BaseException:
+        result.update(status='fail',error=traceback.format_exc()[-8192:]);raise
+    finally:
+        if job:job.close()
+        if child:child.wait(timeout=10);child.close()
+        if instance:instance.close()
+        result['all_owned_processes_retired']=True
+        (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+
 def actor(plan):
     b=load('debug_base',ROOT/'tools/windows-worker.py')
     target=load('debug_identity',ROOT/'target.py')
@@ -248,5 +329,5 @@ def coordinate(context):
             (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 if __name__=='__main__':
-    if Path(__file__).resolve().parent!=ROOT or len(sys.argv)!=3 or sys.argv[1]!='--actor':raise ValueError('Fixed guest actor invocation only')
-    actor(json.loads(Path(sys.argv[2]).read_bytes()))
+    if Path(__file__).resolve().parent!=ROOT or len(sys.argv)!=3 or sys.argv[1] not in ('--actor','--namespace'):raise ValueError('Fixed guest actor invocation only')
+    (namespace_actor if sys.argv[1]=='--namespace' else actor)(json.loads(Path(sys.argv[2]).read_bytes()))

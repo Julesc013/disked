@@ -1,0 +1,72 @@
+{
+  "status": "diagnostic_collected",
+  "source_revision": null,
+  "observations": [
+    {
+      "name": "baseline",
+      "exit_code": 0,
+      "raw_bytes": 275496,
+      "compressed_bytes": 13112,
+      "trace_sha256": "25622d5076acad51f685a2f6bd12e83515b8b389f30dc3185fdd78b8f152b66c",
+      "modules": [
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-800ab47ff78a422e800c6e50ef7ac9b0.exe",
+        "\\\\?\\C:\\Windows\\System32\\ntdll.dll",
+        "\\\\?\\C:\\Windows\\System32\\kernel32.dll",
+        "\\\\?\\C:\\Windows\\System32\\KernelBase.dll",
+        "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll",
+        "\\\\?\\C:\\Windows\\System32\\ws2_32.dll",
+        "\\\\?\\C:\\Windows\\System32\\version.dll",
+        "\\\\?\\C:\\Windows\\System32\\msvcrt.dll",
+        "\\\\?\\C:\\Windows\\System32\\rpcrt4.dll",
+        "\\\\?\\C:\\Windows\\System32\\bcrypt.dll",
+        "\\\\?\\C:\\Windows\\System32\\advapi32.dll",
+        "\\\\?\\C:\\Windows\\System32\\sechost.dll",
+        "\\\\?\\C:\\Windows\\System32\\bcryptprimitives.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_bz2.pyd",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_lzma.pyd",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_zstd.pyd",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_ctypes.pyd",
+        "\\\\?\\C:\\Windows\\System32\\ole32.dll",
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\libffi-8.dll",
+        "\\\\?\\C:\\Windows\\System32\\combase.dll",
+        "\\\\?\\C:\\Windows\\System32\\gdi32.dll",
+        "\\\\?\\C:\\Windows\\System32\\win32u.dll",
+        "\\\\?\\C:\\Windows\\System32\\gdi32full.dll",
+        "\\\\?\\C:\\Windows\\System32\\msvcp_win.dll",
+        "\\\\?\\C:\\Windows\\System32\\user32.dll",
+        "\\\\?\\C:\\Windows\\System32\\oleaut32.dll",
+        "\\\\?\\C:\\Windows\\System32\\shell32.dll",
+        "\\\\?\\C:\\Windows\\System32\\kernel.appcore.dll"
+      ],
+      "failure_lines": []
+    },
+    {
+      "name": "restricted",
+      "exit_code": 3221225794,
+      "raw_bytes": 19823,
+      "compressed_bytes": 1432,
+      "trace_sha256": "827dcca1306ff84012dde0d84b432e8e708ba657ceae0973a635ad9895a5c971",
+      "modules": [
+        "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-800ab47ff78a422e800c6e50ef7ac9b0.exe",
+        "\\\\?\\C:\\Windows\\System32\\ntdll.dll",
+        "\\\\?\\C:\\Windows\\System32\\kernel32.dll",
+        "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+      ],
+      "failure_lines": [
+        "16e0:12cc @ 107285218 - LdrpInitializeNode - ERROR: Init routine 00007FFA8D109550 for DLL \"C:\\Windows\\System32\\KERNELBASE.dll\" failed during DLL_PROCESS_ATTACH",
+        "16e0:12cc @ 107285218 - LdrpInitializeProcess - ERROR: Loading Windows subsystem DLL \"KERNEL32.DLL\" failed with status 0xc0000142",
+        "16e0:12cc @ 107285218 - _LdrpInitialize - ERROR: Process initialization failed with status 0xc0000142",
+        "16e0:12cc @ 107285218 - LdrpInitializationFailure - ERROR: Process initialization failed with status 0xc0000142"
+      ]
+    }
+  ],
+  "conclusion": "Restricted initialization fails in KERNELBASE before Python or USER32 loads. Privilege-filtered baseline starts. Previous private UI experiments did not locate this earlier failure.",
+  "hypothesis_not_proven": "A restricted kernel object namespace access check may differ; inspect declared read-only namespace cases before changing the profile.",
+  "full_profile_qualified": false,
+  "temporary_image_and_registry_retired": true,
+  "original_runtime_preserved": true
+}
