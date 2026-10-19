@@ -163,6 +163,30 @@ def actor(plan):
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[],baseline_scope='No new baseline: retained three-case comparison in twenty-third-detached-comparison.json')
+    # Read only the existing crypto device DACL using the ordinary bootstrap.
+    # Never send an IOCTL or change an object permission from this observer.
+    class Unicode(C.Structure):_fields_=[('length',T.WORD),('maximum',T.WORD),('buffer',P)]
+    class Attributes(C.Structure):_fields_=[('length',T.DWORD),('root',T.HANDLE),('name',C.POINTER(Unicode)),('attributes',T.DWORD),('security',P),('qos',P)]
+    class IoStatus(C.Structure):_fields_=[('status_or_pointer',P),('information',C.c_size_t)]
+    assert C.sizeof(Attributes)==48 and C.sizeof(IoStatus)==16
+    bind(ntdll,'NtOpenFile',T.LONG,C.POINTER(T.HANDLE),T.DWORD,C.POINTER(Attributes),C.POINTER(IoStatus),T.DWORD,T.DWORD)
+    bind(ntdll,'NtQuerySecurityObject',T.LONG,T.HANDLE,T.DWORD,P,T.DWORD,C.POINTER(T.DWORD))
+    bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,P,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),P)
+    text=C.create_unicode_buffer('\\Device\\KsecDD');value=Unicode((len(text)-1)*2,len(text)*2,C.cast(text,P))
+    attrs=Attributes(48,None,C.pointer(value),0x40,None,None);device=T.HANDLE();iosb=IoStatus()
+    status=ntdll.NtOpenFile(C.byref(device),0x20000,C.byref(attrs),C.byref(iosb),7,0)
+    result['device_security']=dict(path='\\Device\\KsecDD',desired_access='READ_CONTROL only',open_status=hex(status&0xffffffff),mutated=False)
+    try:
+        if status==0:
+            size=T.DWORD();ntdll.NtQuerySecurityObject(device,4,None,0,C.byref(size));assert 0<size.value<=32768
+            buffer=C.create_string_buffer(size.value);status=ntdll.NtQuerySecurityObject(device,4,buffer,size,C.byref(size))
+            result['device_security']['query_status']=hex(status&0xffffffff)
+            if status==0:
+                output=T.LPWSTR();require(a.ConvertSecurityDescriptorToStringSecurityDescriptorW(buffer,1,4,C.byref(output),None))
+                try:result['device_security']['dacl']=output.value
+                finally:k.LocalFree(C.cast(output,P))
+    finally:
+        if device:require(k.CloseHandle(device))
     original,sid,compatibility=T.HANDLE(),P(),P()
     require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
     try:

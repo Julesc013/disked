@@ -1,0 +1,438 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T10:14:02.0268307Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "loader-forensics.py",
+        "bytes": 30949,
+        "sha256": "35F9B1828E0057DB54DE254A68596062FA3CFCD7F29CC979BDFDD7998434233A"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1067,
+        "sha256": "716585F4A1AA49D17468B47AC7D3DC4C80951FAF8990652D61057A9508EF8DFF"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23013,
+        "sha256": "BB4CC19AC8E76D0CA818D15145B254D49B7CC7AFCD9293EDE6861CD3C2D01793"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13774,
+        "sha256": "B624A297F552DE4042A9F3DBC131C394BB68E0B5E54445DE67DABCCEF946B4EA"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9917,
+        "sha256": "A1E7845638CFAA23CE24680A608D8B49D41C26B96F5B0D962530E6F3C045DCB9"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "29392ef2c4180e34df888ed46ac8c9350b3b5116"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T10:14:06.3051054Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-7cbcef68",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1026",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "A56392B1887F614DB207CD8721CB3103",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.5ea7e9c0c11f4f8b986db662eaea8bf9",
+            "sid": "S-1-15-2-3737145727-815366980-183068123-2388013801-3229563065-798548076-1988943048"
+          },
+          {
+            "name": "org.disked.worker.a0280891393b47caa38e4c5fcf1f463d",
+            "sid": "S-1-15-2-3187990043-1000516407-535523828-1846087445-3723790097-288548149-3507305582"
+          },
+          {
+            "name": "org.disked.worker.ebf54d52b76246f7bd5d40f0fb921b19",
+            "sid": "S-1-15-2-1929248952-4128607894-3602703467-4173624717-1016698274-2317606143-4130197445"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1026)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480A56392B1887FCD8721CB3103",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 52, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T10:14:17.5184489Z"
+    },
+    "proof": {
+      "status": "pass",
+      "scope": "Per-image loader diagnostic only; no ordinary-worker qualification",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "actor_exit_code": 0,
+      "debug": {
+        "status": "pass",
+        "bootstrap_identity": {
+          "pid": 2432,
+          "restricted": false,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1026",
+          "restricting_sids": [],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeShutdownPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            },
+            {
+              "name": "SeUndockPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeIncreaseWorkingSetPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeTimeZonePrivilege",
+              "attributes": 0
+            }
+          ]
+        },
+        "variants": [
+          {
+            "name": "restricted_detached",
+            "phase": "collected",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-7cbcef688b404d1bbbfb7922c94a2850.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ws2_32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\version.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcrt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\rpcrt4.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcrypt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\advapi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\sechost.dll"
+              }
+            ],
+            "exceptions": [
+              {
+                "code": "0x80000003",
+                "first_chance": 1
+              }
+            ],
+            "events": 797,
+            "native_calls": [
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f8e0fcd",
+                "access": "0x1",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0041004300480049004e0045005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530065007300730069006f006e0020004d0061006e006100670065007200",
+                "name": "\\Registry\\MACHINE\\System\\CurrentControlSet\\Control\\Session Manager",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f886512",
+                "access": "0x9",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c0053006f006600740077006100720065005c004d006900630072006f0073006f00660074005c00570069006e0064006f007700730020004e0054005c00430075007200720065006e007400560065007200730069006f006e005c0049006d006100670065002000460069006c006500200045007800650063007500740069006f006e0020004f007000740069006f006e007300",
+                "name": "\\Registry\\Machine\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f8863e7",
+                "access": "0x9",
+                "root_handle": "0x8",
+                "name_utf16le": "4400690073006b00450064004c006f0061006400650072002d00370063006200630065006600360038003800620034003000340064003100620062006200660062003700390032003200630039003400610032003800350030002e00650078006500",
+                "name": "DiskEdLoader-7cbcef688b404d1bbbfb7922c94a2850.exe",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f90444d",
+                "access": "0x1",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530059005300540045004d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530065007300730069006f006e0020004d0061006e0061006700650072005c005300650067006d0065006e00740020004800650061007000",
+                "name": "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Segment Heap",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88d642",
+                "access": "0x9",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530059005300540045004d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530065007300730069006f006e0020004d0061006e006100670065007200",
+                "name": "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenFile",
+                "return_address": "0x7ffa8f86fdc8",
+                "access": "0x100020",
+                "root_handle": "0x0",
+                "name_utf16le": "5c003f003f005c0052003a005c0077006f0072006b005c0066006f00720065006e007300690063005c00",
+                "name": "\\??\\R:\\work\\forensic\\",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f85a496",
+                "access": "0x20019",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c0053007400610074006500530065007000610072006100740069006f006e005c005200650064006900720065006300740069006f006e004d00610070005c004b00650079007300",
+                "name": "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\StateSeparation\\RedirectionMap\\Keys",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f8863e7",
+                "access": "0x9",
+                "root_handle": "0x8",
+                "name_utf16le": "4400690073006b00450064004c006f0061006400650072002d00370063006200630065006600360038003800620034003000340064003100620062006200660062003700390032003200630039003400610032003800350030002e00650078006500",
+                "name": "DiskEdLoader-7cbcef688b404d1bbbfb7922c94a2850.exe",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88c40d",
+                "access": "0x3",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0041004300480049004e0045005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530061006600650042006f006f0074005c004f007000740069006f006e00",
+                "name": "\\Registry\\MACHINE\\System\\CurrentControlSet\\Control\\SafeBoot\\Option",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88c433",
+                "access": "0x20019",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c005300720070005c00470050005c0044004c004c00",
+                "name": "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\Srp\\GP\\DLL",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88c44f",
+                "access": "0x1",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c0053006f006600740077006100720065005c0050006f006c00690063006900650073005c004d006900630072006f0073006f00660074005c00570069006e0064006f00770073005c00530061006600650072005c0043006f00640065004900640065006e007400690066006900650072007300",
+                "name": "\\Registry\\Machine\\Software\\Policies\\Microsoft\\Windows\\Safer\\CodeIdentifiers",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88c54d",
+                "access": "0x1",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520045004700490053005400520059005c0055005300450052005c0053002d0031002d0035002d00320031002d003300380035003300390034003100390038002d0032003600300033003500380039003100300034002d0031003700360035003700380035003900380034002d0031003000320036005c0053006f006600740077006100720065005c0050006f006c00690063006900650073005c004d006900630072006f0073006f00660074005c00570069006e0064006f00770073005c00530061006600650072005c0043006f00640065004900640065006e007400690066006900650072007300",
+                "name": "\\REGISTRY\\USER\\S-1-5-21-385394198-2603589104-1765785984-1026\\Software\\Policies\\Microsoft\\Windows\\Safer\\CodeIdentifiers",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8d118435",
+                "access": "0x20019",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00460069006c006500530079007300740065006d005c00",
+                "name": "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\FileSystem\\",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88d642",
+                "access": "0x9",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530059005300540045004d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530065007300730069006f006e0020004d0061006e006100670065007200",
+                "name": "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8d0f7e6e",
+                "access": "0x20019",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530079007300740065006d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c004e006c0073005c0053006f007200740069006e0067005c00560065007200730069006f006e007300",
+                "name": "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\Nls\\Sorting\\Versions",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenKey",
+                "return_address": "0x7ffa8f88d642",
+                "access": "0x9",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00520065006700690073007400720079005c004d0061006300680069006e0065005c00530059005300540045004d005c00430075007200720065006e00740043006f006e00740072006f006c005300650074005c0043006f006e00740072006f006c005c00530065007300730069006f006e0020004d0061006e006100670065007200",
+                "name": "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenFile",
+                "return_address": "0x7ffa8d4e7502",
+                "access": "0x100003",
+                "root_handle": "0x0",
+                "name_utf16le": "5c004400650076006900630065005c004b0073006500630044004400",
+                "name": "\\Device\\KsecDD",
+                "status": "0xc0000022"
+              }
+            ],
+            "scope": "Three native file/registry entrypoints on the owned initial thread; diagnostic only",
+            "token_restricted": true,
+            "restricting_sids": [
+              "S-1-5-21-385394198-2603589104-1765785984-1026",
+              "S-1-5-12"
+            ],
+            "elevated": 0,
+            "appcontainer": 0,
+            "creation_flags": "0x8040e",
+            "pid": 1468,
+            "job_inherited": true,
+            "native_entrypoints": {
+              "NtOpenFile": "0x7ffa8f8adc60",
+              "NtOpenKey": "0x7ffa8f8ad840",
+              "NtDeviceIoControlFile": "0x7ffa8f8ad6e0"
+            },
+            "exit_code": 3221225794,
+            "native_call_pending_at_exit": null,
+            "trace": {
+              "complete": true,
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 95925,
+              "sha256": "86bb8fa3aab9854ee9ba5130d2143b06ef163342ed3276a0860748b4fd9a0814",
+              "xz_sha256": "8ef9751e32743fb6de436e139331446e5d97eea8f1319143bf1b9889a0e1f63e",
+              "xz_base64": "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"
+            },
+            "breadcrumb": null
+          }
+        ],
+        "baseline_scope": "No new baseline: retained three-case comparison in twenty-third-detached-comparison.json"
+      },
+      "image_sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "registry_scope": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\DiskEdLoader-7cbcef688b404d1bbbfb7922c94a2850.exe",
+      "job_active_processes_at_retirement": 0,
+      "image_registry_removed": true,
+      "diagnostic_image_removed": true,
+      "original_runtime_preserved": true
+    },
+    "free_c_bytes": 98351583232
+  },
+  "host_backing_end_bytes": 31896633344,
+  "finished_at": "2026-10-19T10:14:18.4703805Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "a1e7845638cfaa23ce24680a608d8b49d41c26b96f5b0d962530e6f3c045dcb9",
+    "guest-proof.ps1": "b624a297f552de4042a9f3dbc131c394bb68e0b5e54445de67dabccef946b4ea",
+    "guest-proof.py": "bb4cc19ac8e76d0ca818d15145b254d49b7cc7afcd9293ede6861cd3c2d01793",
+    "loader-forensics.py": "35f9b1828e0057db54de254a68596062fa3cfcd7f29cc979bdfdd7998434233a",
+    "loader-observer.py": "716585f4a1aa49d17468b47ac7d3dc4c80951faf8990652d61057a9508ef8dff",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "f581fcf3972df35f9d1816079158eac6aae366b74a1a2a66a790f62f01c9213d",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 0,
+  "experiment_kind": "owned per-image loader tracing; no profile admission",
+  "host_error_tail": ""
+}
