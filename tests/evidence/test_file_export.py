@@ -33,9 +33,9 @@ def main():
         def run(name,v,fault=False,injected=None,refusal=None):
             ce=dict(env);ce.update({'DISKED_REPORT_TEST_'+k:str(s) for k,s in (injected or {}).items()});raw=encode(v)
             r=subprocess.run([str(probes[int(fault)])],input=raw,capture_output=True,timeout=25,cwd=a.root,env=ce)
-            assert r.returncode==(3 if refusal else 0) and not r.stderr,(name,r.returncode,r.stdout,r.stderr)
             raw_calls.append(dict(name=name,input_utf8=raw.decode('utf-8'),stdout_utf8=r.stdout.decode('utf-8',errors='backslashreplace'),stderr_utf8=r.stderr.decode('utf-8',errors='backslashreplace'),exit_code=r.returncode))
             if a.evidence:a.evidence.with_name(a.evidence.stem+'-raw.json').write_text(json.dumps(raw_calls,indent=2)+'\n',encoding='utf-8',newline='\n')
+            assert r.returncode==(3 if refusal else 0) and not r.stderr,(name,r.returncode,r.stdout,r.stderr)
             o=json.loads(r.stdout.splitlines()[-1]);path=Path(v['destination']);existing=path.read_bytes() if path.is_file() else None
             if refusal:assert o['refusal']==refusal,(name,o)
             else:
