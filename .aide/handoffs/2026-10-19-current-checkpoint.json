@@ -1,13 +1,19 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "947dc4890e788dc44ec4289901031cc210aaa21d",
+  "base_revision": "d62f10c98d60264c3bc3e4217a22de13894a1b8a",
   "spec_manifest_digest": "sha256:2972e11d333d0060ea84b0d37ca63889e3690dd2d868943edd769945f6884e49",
   "status": "partial",
   "files_read": [
+    ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/composition512-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
     ".aide/evidence/2026-10-18-ordinary-worker/forensic-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/forty-sixth-native-low-integrity.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-build-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/full-profile-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/loader-expectations.json",
@@ -26,6 +32,7 @@
   "files_changed": [
     ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
     ".aide/evidence/2026-10-18-ordinary-worker/README.md",
+    ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
     ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
     ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
@@ -33,6 +40,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
     ".aide/evidence/2026-10-18-ordinary-worker/namespace-review-before.json",
     ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/null-device.py",
     ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
@@ -59,15 +67,17 @@
     "tests/frontend/test_image_commands.py",
     "tests/frontend/test_product_export.py",
     "tests/frontend/test_product_verification.py",
+    "tests/images/fat_tree_extraction_worker_probe.cpp",
     "tests/images/ntfs_worker_probe.cpp",
     "tests/images/test_acquisition_worker.py",
+    "tests/images/test_fat_tree_review.py",
     "tests/resilience/memory_fixture.py",
     "tests/resilience/test_worker_ancestry.py",
     "tests/resilience/test_worker_budget.py",
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp"
   ],
-  "summary": "DE-W105 ordinary guest environment passes actual32MiB and512MiB complete primitive controls, including real disk-full denial, exact-user protected records, outside/descendant denial, excluded inherited canary and strong-handle abrupt job retirement. Narrow unique-user KsecDD exception applies, recovers after helper interruption and retires without filesystem/product ACL changes. Actual restricted x64 MSVC compiler/production store/lease/import journey passes at c9f760e4. Restricted session0 cannot resolve Local/Global prefixes; default private lease names work, ordinary Local/default alias identity is proven. Remaining private object/test names and existing contracts now consistently use default namespace; these later changes await full current178-group x64 qualification. All finished native attempts removed owned guest actor/profile/image/source; main stays98b75739. No owner/release/full0.1.0 acceptance.",
+  "summary": "DE-W105 remains partial. Original32/512MiB worker controls and actual restricted x64 compiler/store journey pass. f86f72fa all-target x64 build passes with178 registration,68 headers and14 executable observations; first group passes and original FAT review fails. Focused evidence identifies native Low versus Python Medium integrity from Low executable labels. d62f10c9 original FAT review passes after a controlled Low-to-Medium handoff of only owned new executables,with exact bytes/hashes/owner/group/DACL unchanged and native Medium/exact-user/restricting-SID verification. All completed guest jobs,temporary kernel ACEs,actors/profiles,source andimages retired. Full178 test gate remains pending;main stays98b75739. No owner/release/full0.1.0 acceptance.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -98,7 +108,28 @@
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     },
     {
-      "command": "Complete current178-group x64 product qualification",
+      "command": "All-target pinned x64 build,178 registration,68 headers,14 executable/import observations",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json"
+    },
+    {
+      "command": "Native qualification at f86f72fa: first group passes,FAT review fails",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json"
+    },
+    {
+      "command": "Unchanged focused FAT review after verified artifact handoff at d62f10c9",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json"
+    },
+    {
+      "command": "Complete current178-group native test qualification",
       "cwd": "Windows10 guest",
       "status": "not_run",
       "exit_code": null,
@@ -128,16 +159,40 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
-      "sha256": "sha256:94ff86dd01500dd3a51d95c3e041d187b5621597f182903fccadd7b2968167e7"
+      "sha256": "sha256:96880c3d7ce9f6a88336fb0a87f1cb898e3d2533b777f4f740ce07cf015ff45e"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
       "sha256": "sha256:3835ce55b6a13172df087178145fc43fc0f576aa331b9dfb1c66d8f3a51d5817"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
+      "sha256": "sha256:148f4de6291b9c6b8cb59e935d4386a755d845f51861c5b34b73b29b42cfa58b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/full-build-review.json",
+      "sha256": "sha256:7beb5bf6d74d6a783f0a76fdd1f9d204290fedc7fa8531c1501d0f80fc098fe7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json",
+      "sha256": "sha256:5e3ec6496ea68d678d84baca284882f51dca99870f97936b969ad5db31f7866b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-sixth-native-low-integrity.json",
+      "sha256": "sha256:bc549d3956912fd570f6a11acaf32df2a1049270d2ab32c5d912cb975d83ad69"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json",
+      "sha256": "sha256:23bca1a0cea8f82c8b18c9f677f354d7e4be0507512d3ed1db33b710c54d29ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-cleanup.json",
+      "sha256": "sha256:652bb5c76d4a078c53f287c9f929eaee62ade615493cf0441b47d138460d9119"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Run the prepared current-source native x64 campaign inside the proven512MiB ordinary guest profile. Keep source/token/crypto/job/storage checks and owned cleanup; diagnose and repair real failures. Require178 groups,68 standalone headers,14 exact executable/import observations and final W105 checks before tested reviewed dev-to-main promotion; then DE-W106/107. Original all-platform/storage0.1.0 scope unchanged.",
+  "next_safe_step": "Run full178 using the prepared exact-source two-profile campaign and proven hash-verified artifact handoff. Retain unchanged group expectations,68 headers,14 executable observations,actual token/label/ACL/hash evidence and cleanup. Final W105 review before main promotion;then W106/107.",
   "performed_remote_writes": true
 }

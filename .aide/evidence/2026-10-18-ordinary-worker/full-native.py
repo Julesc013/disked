@@ -288,12 +288,14 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             run('ordinary-git-with-null',[git,'--version'],30)
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
+        assert result['actual_token']['integrity_sid']=='S-1-16-8192'
+        _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
+        result['native_token_identity']=json_record(raw)
+        assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'
+        assert result['native_token_identity']['user_sid']==result['actual_token']['user_sid']
+        assert set(result['native_token_identity']['restricting_sids'])==set(result['actual_token']['restricting_sids'])
+        assert result['native_token_identity']['appcontainer']=='0' and result['native_token_identity']['elevated']=='0'
         if focused:
-            _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
-            result['native_token_identity']=json_record(raw)
-            assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'
-            assert result['native_token_identity']['user_sid']==result['actual_token']['user_sid']
-            assert set(result['native_token_identity']['restricting_sids'])==set(result['actual_token']['restricting_sids'])
             a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True)
             read=g.W.bind(a,'GetNamedSecurityInfoW',T.DWORD,T.LPWSTR,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
             convert=g.W.bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,C.c_void_p,T.DWORD,T.DWORD,C.c_void_p,C.c_void_p)

@@ -13,7 +13,13 @@ The all-target x64 build at `f86f72fa` passed, with 178 groups registered,
 `acquisition.fat_tree_review` failed with `image_parent_open`.
 Attempts 43–45 narrow this to Windows access-denied on every native parent open,
 while a Python control under the same ordinary worker opens those directories.
-This difference remains under investigation; it is not a native test pass.
+Attempt 46 identifies the differing integrity levels: native Low versus Python
+Medium, with the same user/restricting SIDs and Low labels on new native files.
+Attempt 47 at `d62f10c9` passes the original FAT review after the explicit
+artifact handoff in `artifact-handoff-review.json`. Both native tokens are now
+Medium; executable bytes, owner, group and DACL remain unchanged. See
+`forty-seventh-medium-fat-review-pass.json` and its cleanup/archive. This is one
+focused regression; the full 178-group test gate is still required.
 
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
