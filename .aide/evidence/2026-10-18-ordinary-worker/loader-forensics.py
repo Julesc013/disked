@@ -165,7 +165,7 @@ def actor(plan):
     try:
         require(a.ConvertStringSidToSidW(plan['user_sid'],C.byref(sid)))
         require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
-        for name,restricted_case in (('baseline',False),('restricted_compat',True)):
+        for name,restricted_case,detached in (('baseline',False,False),('restricted_compat',True,False),('restricted_detached',True,True)):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
             row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,initialization_returns=[],scope='Exact-image DLL initialization return and stage counter; diagnostic only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
@@ -212,15 +212,17 @@ def actor(plan):
                 inherited=(T.HANDLE*2)(*handles);require(k.UpdateProcThreadAttribute(attributes,0,0x20002,inherited,C.sizeof(inherited),None,None))
                 startup=b.StartupInfoEx();startup.startup.cb=C.sizeof(startup);startup.startup.desktop=plan['desktop'];startup.startup.flags=0x100
                 startup.startup.stdin=handles[1];startup.startup.stdout=startup.startup.stderr=handles[0];startup.attributes=C.addressof(attributes)
-                filename='loader-standard.log' if name=='baseline' else 'loader-restricted.log'
+                filename={'baseline':'loader-standard.log','restricted_compat':'loader-restricted.log','restricted_detached':'loader-detached.log'}[name]
                 line=subprocess.list2cmdline([plan['image'],'-B',str(ROOT/'loader-observer.py'),filename])
                 row['phase']='CreateProcessAsUserW_DEBUG_ONLY_THIS_PROCESS'
-                require(a.CreateProcessAsUserW(token,plan['image'],C.create_unicode_buffer(line),None,None,True,0x08080406,None,str(Path.cwd()),C.byref(startup),C.byref(process)))
+                flags=0x0008040e if detached else 0x08080406
+                row['creation_flags']=hex(flags)
+                require(a.CreateProcessAsUserW(token,plan['image'],C.create_unicode_buffer(line),None,None,True,flags,None,str(Path.cwd()),C.byref(startup),C.byref(process)))
                 row['pid']=process.pid;inside=T.BOOL();require(k.IsProcessInJob(process.process,None,C.byref(inside)));assert inside.value
                 row['job_inherited']=True;row['phase']='resume_and_collect';assert k.ResumeThread(process.thread)!=0xffffffff
-                trace=trace_path.open('xb');total=0;deadline=time.monotonic()+15
+                trace=trace_path.open('xb');total=0;deadline=time.monotonic()+10
                 while not exited:
-                    if time.monotonic()>deadline:raise TimeoutError('Owned debuggee exceeded15seconds')
+                    if time.monotonic()>deadline:raise TimeoutError('Owned debuggee exceeded10seconds')
                     event=Event()
                     if not k.WaitForDebugEventEx(C.byref(event),100):
                         if C.get_last_error()==121:continue

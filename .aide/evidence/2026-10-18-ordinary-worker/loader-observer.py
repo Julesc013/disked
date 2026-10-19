@@ -3,7 +3,7 @@ import os
 import sys
 
 name=sys.argv[1]
-if name not in ('loader-standard.log','loader-restricted.log'):
+if name not in ('loader-standard.log','loader-restricted.log','loader-detached.log'):
     raise ValueError('Fixed owned observation basename required')
 
 with open(name,'x',encoding='utf-8',newline='\n') as output:

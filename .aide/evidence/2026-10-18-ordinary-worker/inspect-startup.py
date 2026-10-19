@@ -81,7 +81,7 @@ result=dict(scope='Read-only Windows binary analysis; no product or clean-room c
 # deliberately bound to this one exact Windows DLL rather than a public ABI.
 assert meta['sha256']=='c5e318c29e2bb032b21d981d3c130f0645c37b4330f5ef9659456452b2d0f00c'
 result['followups']=[]
-for selected in (0x49670,0x496e4,0x7c90):
+for selected in (0x49670,0x496e4,0x7c90,0x4a6ec):
     found=[]
     for at in range(pdata,pdata+pdata_size,12):
         left,right,_=struct.unpack_from('<III',raw,at)
@@ -110,5 +110,5 @@ for item in [result['disassembly']]+result['followups']:
     text=lzma.decompress(base64.b64decode(item['xz_base64']))
     referenced={int(value,16) for value in re.findall(rb'# 0x([a-f0-9]+)',text)}
     item['referenced_imports']={hex(address):imports[address] for address in referenced if address in imports}
-(HERE/'kernelbase-static.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+(HERE/'kernelbase-stage600-static.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 print(json.dumps(dict(input=meta,init_rva=hex(entry),runtime_function_rva=result['runtime_function_rva'],output_bytes=len(output),compressed_bytes=len(compressed))))
