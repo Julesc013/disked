@@ -1,0 +1,19 @@
+{
+  "status": "agent_reviewed_for_bounded_proof_not_qualified",
+  "authority": "Existing owner guest-administration/test setup grant; no host security/physical/customer effects.",
+  "observations": [
+    "Package compilers/headers built until real Git startup failed opening/dev/null. No native groups ran.",
+    "Independent guest READ_CONTROL-only NUL owner/group/DACL/mandatory-label query: O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)S:AI(ML;;NW;;;LW). No security descriptor change in that query.",
+    "Git implementation unconditionally opens/dev/null O_RDWR in sanitize_stdfds. Exact installed Git behavior is independently observed in the failed build; no promise based only on upstream source."
+  ],
+  "primary_reference": "https://raw.githubusercontent.com/git-for-windows/git/main/setup.c",
+  "proposed_setup": "One fixed Device Null sink,exact fresh profile0 package SID during build or exact temporary actor SID during ordinary tests only when original Git startup actually fails. Mask0x12019f (file generic read/write),no delete/writeDAC/writeOwner for worker. Keep existing owner/group/low mandatory label and all other ACEs. Remove exact subject delta after strong job retirement.",
+  "implementation": "Isolated instance of the already tested ACL codec/API implementation with fixed Null constants and a guarded two-role journal adapter. No arbitrary device/SID/mask CLI. Original crypto module and tests remain unchanged.",
+  "required_before_full_build": [
+    "Original package Git fails128/dev/null; actual helper apply-and-exit19 leaves no workers; recover/remove its journaled exact ACE.",
+    "Apply one package ACE,real Git version/revision/clean status succeeds with exact selected source; remove ACE,then a new Git process again fails128/dev/null.",
+    "Every owned job/account/profile/image/source and both security journals retire; label remains low; no source/build/fixture assertions weakened."
+  ],
+  "budgets_unchanged": true,
+  "product_qualified": false
+}

@@ -54,6 +54,7 @@ RETIRE_ACTOR=r'''
             }
             $actorCurrent=Get-Content -LiteralPath $actorJournal -Raw|ConvertFrom-Json
             if($actorCurrent.PSObject.Properties['crypto_device']-and$actorCurrent.crypto_device.phase-ne'retired'){throw 'Preserve actor/journal: crypto-device exception retirement unverified.'}
+            foreach($key in @('null_build','null_user')){if($actorCurrent.PSObject.Properties[$key]-and$actorCurrent.$key.phase-ne'retired'){throw 'Preserve actor/journal: null-sink exception retirement unverified.'}}
             $existing=Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue
             if($existing){
                 if($existing.Description-ne$actorDescription-or($actorSid-and$existing.SID.Value-ne$actorSid)){throw 'Actor ownership changed; preserve account.'}
@@ -73,15 +74,16 @@ RETIRE_ACTOR=r'''
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     cleanup_only='--cleanup-only' in sys.argv
-    full_native='--native-x64' in sys.argv
+    null_proof='--null-proof' in sys.argv
+    full_native='--native-x64' in sys.argv or null_proof
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    full_files=('full-native.py','build-driver.py','guest-source.py','source-snapshot.py','source.pack','source.json')
+    full_files=('full-native.py','null-device.py','build-driver.py','guest-source.py','source-snapshot.py','source.pack','source.json')
     if full_native:
-        for name in full_files[:4]:
-            origin=HERE/name if name=='full-native.py' else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+        for name in full_files[:-2]:
+            origin=HERE/name if name in ('full-native.py','null-device.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
         if '--prepare-only' in sys.argv or cleanup_only:
             (stage/'source.pack').write_bytes(b'not-an-executable-qualification-pack');(stage/'source.json').write_text('{}\n')
@@ -118,6 +120,7 @@ def main():
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+    if null_proof:expected['native_x64']['null_proof_only']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
@@ -237,6 +240,8 @@ def main():
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if crypto and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
         raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
+    if full_native and not result.get('guest',{}).get('proof',{}).get('null_device_retired'):
+        raise RuntimeError('Preserve guest actor journal: null-sink exception retirement not established')
     if forensic:
         proof=result.get('guest',{}).get('proof',{})
         if not all(proof.get(name) for name in ('image_registry_removed','diagnostic_image_removed','original_runtime_preserved')):

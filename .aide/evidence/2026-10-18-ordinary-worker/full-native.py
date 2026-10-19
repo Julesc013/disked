@@ -22,13 +22,14 @@ SOURCE=ROOT/'source'
 
 def coordinate(g):
     helper=g.load('full_crypto',ROOT/'crypto-device.py')
+    null_helper=g.load('full_null',ROOT/'null-device.py')
     retention=g.load('full_retention',ROOT/'build-driver.py')
     source_setup=g.load('full_source',ROOT/'guest-source.py')
     expected=json.loads((ROOT/'expected.json').read_bytes())['native_x64']
     manifest=json.loads((ROOT/'source.json').read_bytes())
     result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
                 all_owned_processes_retired=False,crypto_device_retired=False,commands=[],tests=[],owner_accepted=False)
-    grant,instance,archive,job,child=None,None,None,None,None
+    grant,instance,archive,job,child,null_grant=None,None,None,None,None,None
     source_prepared=False;quiescent=True
     ordinary=False;directory_grant=False
     campaign_started=time.monotonic()
@@ -182,6 +183,24 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         archive.write(fixture_probe,'recipe/fixture-preflight.py')
         _,raw=run('sparse-and-two-generation-symlink-preflight',[sys.executable,'-B',fixture_probe,SOURCE/'tests',SOURCE/'tests/images'],60)
         result['fixture_preflight']=json_record(raw);assert result['fixture_preflight']['status']=='pass'
+        git=Path('C:/Program Files/Git/cmd/git.exe')
+        code,raw=run('package-git-before-null',[git,'--version'],30,allow_failure=True)
+        assert code==128 and b'/dev/null' in raw
+        interrupted=subprocess.run([sys.executable,'-B',str(ROOT/'null-device.py'),'--build-apply-and-exit'],capture_output=True,timeout=15)
+        assert interrupted.returncode==19
+        null_grant=null_helper.Grant('build',recovery=True);null_grant.retire(quiescent=True)
+        result['null_interruption_recovery']=null_grant.report;null_grant.close();null_grant=None
+        null_grant=null_helper.Grant('build');null_grant.apply();null_grant.started()
+        run('package-git-version',[git,'--version'],30)
+        _,raw=run('package-git-revision',[git,'-C',SOURCE,'rev-parse','HEAD'],30)
+        assert raw.decode().strip()==manifest['revision']
+        _,raw=run('package-git-clean',[git,'-C',SOURCE,'status','--porcelain','--untracked-files=normal'],30);assert not raw
+        if expected.get('null_proof_only'):
+            null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
+            code,raw=run('package-git-after-null-removal',[git,'--version'],30,allow_failure=True)
+            assert code==128 and b'/dev/null' in raw
+            result.update(status='pass',qualification='Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
+            return
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
@@ -203,11 +222,17 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 if mode=='headers':assert all(text in raw for text in (b'Dynamic base',b'NX compatible',b'Control Flow Guard'))
                 if mode=='dependents':assert not re.search(rb'(?:MSVCP|VCRUNTIME|UCRTBASE|API-MS-WIN-CRT)[^\s]*\.DLL',raw.upper())
         result['native_build_passed']=True
+        null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
         instance.close();instance=None;shared_read_access(False)
         native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
         (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
         directory_acl(compile_work,shared_acl)
         grant=helper.Grant();grant.apply();grant.started()
+        code,raw=run('ordinary-git-before-null',[git,'--version'],30,allow_failure=True)
+        if code:
+            assert code==128 and b'/dev/null' in raw
+            null_grant=null_helper.Grant('user');null_grant.apply();null_grant.started()
+            run('ordinary-git-with-null',[git,'--version'],30)
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
         for test in expected['groups']:
@@ -243,10 +268,12 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
     finally:
         try:
             stop()
+            if null_grant:
+                null_grant.retire(quiescent=quiescent);result['null_'+null_grant.role]=null_grant.report;null_grant.close()
             if instance:instance.close()
             if directory_grant:shared_read_access(False)
             if grant:grant.retire(quiescent=quiescent);result['crypto_device']=grant.report;grant.close()
-            result.update(all_owned_processes_retired=True,crypto_device_retired=True)
+            result.update(all_owned_processes_retired=True,crypto_device_retired=True,null_device_retired=True)
             if archive:
                 entries=json.dumps(archive.entries,sort_keys=True,separators=(',',':')).encode()
                 if len(entries)>4*1024*1024 or len(archive.entries)>20000:raise RuntimeError('Evidence entry inventory bound')
