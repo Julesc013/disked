@@ -94,24 +94,26 @@
   "namespace_setup": {
     "basis": [
       "seventy-fourth-object-startup-observations.json",
-      "namespace-coordinator-read.json"
+      "namespace-coordinator-read.json",
+      "seventy-fifth-restricted-directory-refusal.json"
     ],
-    "target": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+    "target": "\\Sessions\\3\\BaseNamedObjects",
     "subject": "Exact nonce-bound disposable actor SID only;never Everyone/RestrictedCode/Administrators",
     "access": "0x4 DIRECTORY_CREATE_OBJECT only;no subdirectory/delete/security-edit/owner right",
     "lifecycle": "Dedicated prelaunch helper exit19;recover exact ACE;apply for owned jobs;retire after all owned processes0;exact readback owner/group/label and current-delta DACL preservation;actor removal blocked until journal retired",
     "controls": [
-      "Original32MiB token/record/outside/descendant/cap/interruption controls",
-      "Named and unnamed own mutex/job creation succeeds",
-      "Current session parent directory creation stays denied",
-      "Restricted directory subdirectory creation and READ_CONTROL stay denied",
-      "No filesystem or global object-directory ACL change",
-      "No existing object access or modification"
+      "Original32MiB confinement controls",
+      "Only own named/unnamed mutex/job creation succeeds;record actual NtQueryObject name under exact modified session directory",
+      "Session root subdirectory creation and READ_CONTROL remain denied",
+      "Session Restricted directory creation remains denied",
+      "No global directory/filesystem/token/owner/group/label change",
+      "Current inherited ACE bytes preserved;no inherited grant added"
     ],
     "sources": [
       "https://learn.microsoft.com/en-us/windows/win32/devnotes/ntopendirectoryobject",
       "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-ntsetsecurityobject"
     ],
-    "status": "candidate-not-yet-executed"
+    "status": "replacement-candidate-not-yet-executed",
+    "prior_refusal": "seventy-fifth-restricted-directory-refusal.json:Restricted-directory grant/recovery/retirement succeed but default Win32 named mutex/job creation still denied;all cleanup passes"
   }
 }

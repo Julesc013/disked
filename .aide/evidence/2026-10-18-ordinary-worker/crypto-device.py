@@ -20,7 +20,7 @@ DEVICE='\\Device\\KsecDD'
 MASK=0x100003
 P=C.c_void_p
 
-def aces(acl):
+def aces(acl,*,allow_inherited=False):
     if not 8<=len(acl)<=32768:raise ValueError('ACL size')
     revision,reserved,size,count,reserved2=struct.unpack_from('<BBHHH',acl)
     if revision not in (2,4) or reserved or reserved2 or size!=len(acl) or count>64:raise ValueError('ACL header')
@@ -28,7 +28,7 @@ def aces(acl):
     for _ in range(count):
         if position+4>size:raise ValueError('Truncated ACE')
         kind,flags,length=struct.unpack_from('<BBH',acl,position)
-        if kind not in (0,1) or flags or length<16 or length%4 or position+length>size:raise ValueError('Unsupported ACE')
+        if kind not in (0,1) or flags&~(31 if allow_inherited else 0) or length<16 or length%4 or position+length>size:raise ValueError('Unsupported ACE')
         item=acl[position:position+length];sid=item[8:]
         if sid[0]!=1 or len(sid)!=8+4*sid[1]:raise ValueError('ACE SID length')
         result.append(item);position+=length

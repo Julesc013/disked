@@ -125,7 +125,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
     "tests/tools/test_object_namespace.py"
   ],
-  "summary": "DE-W105 qualification open. Probe74 ate13ce09b:original32MiB controls pass;unnamed own mutex/job creation succeeds,named creation denied5. Current session3 BaseNamedObjects and Restricted deny create-object access. Separate existing Agents coordinator read records exact Restricted directory DACL/Low label. Candidate grants only DIRECTORY_CREATE_OBJECT(4) to exact fresh actor SID in session3 Restricted directory,with typed isolated existing bounded ACL codec,prelaunch fault/recovery,current-delta retirement and actor-removal guard. No parent/global namespace/filesystem/token/product source change. New candidate has158 passing tooling tests(one skip),AST/PS5.1 preparation;live grant not yet run. Full native/Win32/main gates remain pending.",
+  "summary": "DE-W105 native gate remains open. At8a1ce9df probe75 applies/retires exact subject DIRECTORY_CREATE_OBJECT in session3 Restricted directory with successful setup-fault recovery and all owned cleanup,but default Win32 named mutex/job still denied5;unchanged assertion fails. Candidate replaces that grant with same4-only right in session3 normal BaseNamedObjects,leaving Restricted creation denied;actual created kernel paths must be reported and match target. Namespace codec now preserves preexisting inheritance flags without changing strict device parsing/defaults.159 tooling tests pass(one skip);live replacement not yet run. Product memory guard/limits/source remain unchanged.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -483,6 +483,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Exact Restricted-directory grant/recovery/retirement at8a1ce9df;original named-object assertion still fails",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-restricted-directory-refusal.json"
+    },
+    {
+      "command": "159 tooling tests plus structural/AST/source-map/manifest;one documented skip",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
@@ -696,7 +710,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:d2b03e7449f71f5260ce48a5f33a325b8a63e355e0bb9baf39222b0fefb77fbb"
+      "sha256": "sha256:b2928d9668ec8eb5a09abc9c16e59e86a212743e9ff71583fc79b53a6043c128"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
@@ -792,11 +806,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
-      "sha256": "sha256:19d443584481c8666751c1ca6d67dba0aa92c902c75ab5d5093a7263c191b2ca"
+      "sha256": "sha256:54b8471b00b5915738f7a9cafbc4951ff86eada4a5bdbbd9e4c87374f740706c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:af20a4f877b62a3004f38319ce9f2d7e9d554d012ae8799639f8f46f5797344c"
+      "sha256": "sha256:aa35663b72972414d25a381ca21182e957ff175bf6c1e0d7fe12b23d5cdc1865"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -897,12 +911,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/namespace-coordinator-read.json",
       "sha256": "sha256:7fddfbb37c9835133081097d3940059d9c00b840463be561b36e675dcb957130"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-restricted-directory-refusal.json",
+      "sha256": "sha256:9bbc087263b44818a08f1588ef68d7ff61b568b32fbc7ba81f09095824ff6d50"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-cleanup.json",
+      "sha256": "sha256:66e67578046407a0eac98e3af6070a40fca5d48d03951e80f3c360d8f422c6b0"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run original32MiB interactive primitive with journaled exact-subject session Restricted-directory creation right;require named/unnamed own mutex/job success,parent/subdirectory/security access denials,all original confinement controls and exact grant/process/account/media/task cleanup. Then prove exact native memory-budget component in small build before six-group replay;do not widen grants or weaken product guards.",
+  "next_safe_step": "Run bounded original32MiB interactive proof with replacement exact-subject normal-session directory right;require actual own object names under that directory,Restricted/subdirectory/security access denials,all original confinement and all exact grant/task/actor/media cleanup. On success prove unchanged native memory-budget component in small compile before six native groups/full x64/Win32/main integration.",
   "performed_remote_writes": true
 }

@@ -28,6 +28,9 @@ if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
     k.CloseHandle.argtypes=[T.HANDLE];k.CloseHandle.restype=T.BOOL
     k.CreateMutexW.argtypes=[C.POINTER(Attributes),T.BOOL,T.LPCWSTR];k.CreateMutexW.restype=T.HANDLE
     k.CreateJobObjectW.argtypes=[C.POINTER(Attributes),T.LPCWSTR];k.CreateJobObjectW.restype=T.HANDLE
+    native=C.WinDLL('ntdll',use_last_error=True)
+    native.NtQueryObject.argtypes=[T.HANDLE,C.c_int,T.LPVOID,T.DWORD,C.POINTER(T.DWORD)];native.NtQueryObject.restype=T.LONG
+    class ObjectName(C.Structure):_fields_=[('length',T.USHORT),('maximum',T.USHORT),('text',T.LPVOID)]
     report['owned_kernel_object_startup']=[]
     try:
         for kind in ('mutex','job'):
@@ -36,7 +39,16 @@ if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
                 C.set_last_error(0)
                 opened=k.CreateMutexW(C.byref(attributes),False,name) if kind=='mutex' else k.CreateJobObjectW(C.byref(attributes),name)
                 error=C.get_last_error()
-                report['owned_kernel_object_startup'].append(dict(kind=kind,named=named,created=bool(opened),error=0 if opened else error))
+                row=dict(kind=kind,named=named,created=bool(opened),error=0 if opened else error)
+                report['owned_kernel_object_startup'].append(row)
+                if opened and named:
+                    size=T.DWORD();native.NtQueryObject(opened,1,None,0,C.byref(size))
+                    if not 0<size.value<=4096:raise ValueError('Owned object name bound')
+                    buffer=C.create_string_buffer(size.value);status=native.NtQueryObject(opened,1,buffer,size,C.byref(size));row['name_status']=hex(status&0xffffffff)
+                    if status==0:
+                        value=ObjectName.from_buffer(buffer)
+                        if value.length%2 or not value.text or not C.addressof(buffer)<=value.text<=value.text+value.length<=C.addressof(buffer)+size.value:raise ValueError('Owned object name range')
+                        row['object_path']=C.wstring_at(value.text,value.length//2)
                 if opened and not k.CloseHandle(opened):raise C.WinError(C.get_last_error())
     finally:k.LocalFree(descriptor)
     # Read access checks only: requesting CREATE_OBJECT on an open directory

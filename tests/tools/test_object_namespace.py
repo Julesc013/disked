@@ -19,7 +19,7 @@ def acl(rows):
 
 class NamespaceDeltaTests(unittest.TestCase):
     def test_only_fixed_directory_name_creation_and_isolated_codec(self):
-        self.assertEqual(N.api.DEVICE,'\\Sessions\\3\\BaseNamedObjects\\Restricted')
+        self.assertEqual(N.api.DEVICE,'\\Sessions\\3\\BaseNamedObjects')
         self.assertEqual(N.api.MASK,4)
         self.assertEqual(struct.unpack_from('<I',N.api.owned_ace(sid(8)),4)[0],4)
         self.assertEqual(C.DEVICE,'\\Device\\KsecDD')
@@ -39,5 +39,13 @@ class NamespaceDeltaTests(unittest.TestCase):
         for rows in ([changed],[own,own]):
             with self.subTest(rows=rows),self.assertRaises(ValueError):N.api.remove_subject(acl(rows),sid(8))
         with self.assertRaises(ValueError):N.api.add_subject(acl([own]),sid(8))
+
+    def test_inheritance_flags_preserved_without_relaxing_device_parser(self):
+        inherited=bytearray(N.api.owned_ace(sid(1)));inherited[1]=11
+        before=acl([bytes(inherited)]);applied=N.api.add_subject(before,sid(8))
+        self.assertEqual(N.api.remove_subject(applied,sid(8)),(before,1))
+        with self.assertRaises(ValueError):C.aces(before)
+        inherited[1]=32
+        with self.assertRaises(ValueError):N.api.aces(acl([bytes(inherited)]))
 
 if __name__=='__main__':unittest.main()
