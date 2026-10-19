@@ -33,10 +33,23 @@ diagnostic collection completeness:
 - `ninth-fresh-logon-diagnostic`: adding only the actual fresh logon SID alongside
   the fresh user SID also fails before Python entry. The ordinary standard-user
   control still starts, and all owned resources retire.
+- `tenth-minimal-loader`: the standard pure-Python observer reaches every import
+  and DLL marker; the restricted process produces no breadcrumb. Its collector
+  also exposes a CRLF/LF mismatch. Raw evidence is retained.
+- `eleventh-actor-ui-diagnostic`: explicit LF output fixes that collector issue.
+  Standard reaches all markers; restricted still exits `0xC0000142` without a
+  breadcrumb. A trusted actor bootstrap reports access denied during private-UI
+  setup, before it creates its restricted child. Exact failing setup API is not
+  yet identified. Diagnostic collection passes; worker admission remains false.
 
 All completed runs above have separate account/profile/image/source cleanup
 receipts. Volume/file identities in newer receipts use decimal strings to avoid
 PowerShell JSON integer rounding; older rounded observations are not exact IDs.
+
+Earlier "before Python" shorthand was an inference from the original observer's
+missing receipt, which followed imports. The minimal observer narrows the fact:
+the restricted process produces no first breadcrumb; the exact DLL/API failure
+still needs diagnosis.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. The next investigation must identify the actual restricted-process DLL
