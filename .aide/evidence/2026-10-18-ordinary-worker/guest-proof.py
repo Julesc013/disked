@@ -125,6 +125,45 @@ def diagnose():
         result['all_owned_processes_retired']=True
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
+def startup_diagnose():
+    """Original versus restricted token; no product or confinement admission."""
+    result=dict(status='running',scope='Token/console startup diagnostic only',
+                full_profile_qualified=False,all_owned_processes_retired=False,variants=[])
+    instance,job,child=None,None,None
+    try:
+        data=actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
+        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
+        selected=fresh(W.plain_directory(state['work'])/'startup');instance=worker(selected,private)
+        result['private_ui_security']=instance.ui_security
+        for name,variant,original in (('standard-no-window','basic-stdio',True),
+                ('restricted-no-window','basic-stdio',False),('restricted-detached','basic-detached',False)):
+            request=selected/'startup-request.json';request.write_text(json.dumps(dict(variant=name)))
+            row=dict(name=name)
+            try:
+                job=S.WindowsJob()
+                child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'startup'],
+                                      os.environ,job,variant=variant,diagnostic_original=original)
+                row['exit_code']=child.wait(timeout=15)
+                path=selected/('startup-'+name+'.json')
+                row['observation']=json.loads(path.read_bytes()) if path.exists() else None
+            except OSError as error:
+                row['error']=str(error)
+            finally:
+                row['parameters']=instance.last_launch
+                if job:job.close();job=None
+                if child:child.wait(timeout=10);child.close();child=None
+                result['variants'].append(row)
+        assert len(result['variants'])==3
+        result['status']='pass'  # Complete diagnostic, not successful launch/admission.
+    except BaseException:
+        result.update(status='fail',error=traceback.format_exc()[-16384:]);raise
+    finally:
+        if job:job.close()
+        if child:child.wait(timeout=10);child.close()
+        if instance:instance.close()
+        result['all_owned_processes_retired']=True
+        (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+
 def main():
     if ROOT!=Path('C:/ProgramData/DiskEd/qualification') or not __debug__:
         raise RuntimeError('Fixed guest source and active assertions required')
@@ -257,5 +296,6 @@ def main():
 
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
+    elif len(sys.argv)>1 and sys.argv[1]=='--startup-diagnostic':startup_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--diagnostic':diagnose()
     else:main()

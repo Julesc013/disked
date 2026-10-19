@@ -181,9 +181,9 @@ class Worker:
         try:return text.value
         finally:self.k.LocalFree(C.cast(text,P))
 
-    def launch(self, command, env, job, *, variant='basic-stdio'):
+    def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False):
         self.last_launch=None
-        if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio'):
+        if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached'):
             raise ValueError('Unknown finite launch experiment variant')
         executable = shutil.which(command[0])
         if not executable:
@@ -206,7 +206,7 @@ class Worker:
         handles, process, initialized = [], b.ProcessInfo(), False
         try:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
-            if variant in ('handles','basic-stdio'):
+            if variant in ('handles','basic-stdio','basic-detached'):
                 log_name='worker.log' if variant=='handles' else 'worker-basic-stdio.log'
                 self.log_path=self.work/log_name
                 log_access=0x40000000 if variant=='handles' else 0x40000080
@@ -244,17 +244,22 @@ class Worker:
                        sorted(env.items(), key=lambda row: row[0].upper()))+'\0\0')
             # No LOGON_WITH_PROFILE, network-only logon, fallback API or policy
             # grant. Ownership in the job precedes the first worker instruction.
-            flags=0x08000404 | (0x80000 if not basic else 0)
+            flags=(0x0000040c if variant=='basic-detached' else 0x08000404) | (0x80000 if not basic else 0)
             self.last_launch=dict(variant=variant,creation_flags=flags,startup_size=C.sizeof(startup),
                                   attribute_count=int(initialized),allowed_inherited_handles=len(handles),api_succeeded=False)
-            if variant=='basic-stdio':
+            if variant in ('basic-stdio','basic-detached'):
                 class FileIdentity(C.Structure):
                     _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
                 self.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD)
                 identity=FileIdentity()
                 self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
                 self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
-            self.require(a.CreateProcessWithTokenW(self.token, 0, executable,
+            if diagnostic_original and not (len(command)==5 and command[-1]=='startup' and
+                    Path(command[2])==ROOT/'target.py'):
+                raise ValueError('Unrestricted baseline is limited to the owned startup observer')
+            selected_token=self.original if diagnostic_original else self.token
+            self.last_launch['token_kind']='fresh_standard_baseline' if diagnostic_original else 'write_restricted'
+            self.require(a.CreateProcessWithTokenW(selected_token, 0, executable,
                 C.create_unicode_buffer(line), flags, block, str(self.work),
                 C.byref(startup), C.byref(process)))
             self.last_launch['api_succeeded']=True

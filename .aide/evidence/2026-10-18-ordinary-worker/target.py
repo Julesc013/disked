@@ -77,6 +77,8 @@ def identity():
             if kind in (1,25): sid = C.cast(data, C.POINTER(Sid)).contents.sid
             else:
                 groups = C.cast(data, C.POINTER(Groups)).contents
+                if groups.count==0:
+                    result[key]=None;continue
                 assert groups.count == 1; sid = groups.first.sid
             result[key] = string_sid(sid)
         a.GetTokenInformation(token,3,None,0,C.byref(size));assert 0 < size.value <= 16384
@@ -102,6 +104,20 @@ def denied(path, new=False):
 def main():
     plan = json.loads(Path(sys.argv[1]).read_bytes())
     mode = sys.argv[2] if len(sys.argv)>2 else 'normal'
+    if mode=='startup':
+        observation=Path('startup-'+plan['variant']+'.json')
+        observation.write_text(json.dumps(dict(phase='python_entered',pid=os.getpid())))
+        result=identity()
+        u=C.WinDLL('user32',use_last_error=True)
+        bind(u,'GetProcessWindowStation',T.HANDLE)
+        bind(u,'GetUserObjectInformationW',T.BOOL,T.HANDLE,T.UINT,P,T.DWORD,C.POINTER(T.DWORD))
+        station,needed=C.create_unicode_buffer(1024),T.DWORD()
+        require(u.GetUserObjectInformationW(u.GetProcessWindowStation(),2,station,C.sizeof(station),C.byref(needed)))
+        bind(k,'ProcessIdToSessionId',T.BOOL,T.DWORD,C.POINTER(T.DWORD))
+        session=T.DWORD();require(k.ProcessIdToSessionId(os.getpid(),C.byref(session)))
+        result.update(phase='user32_initialized',station=station.value,session=session.value)
+        observation.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        return
     result = identity()
     assert result['restricted'] and not any(result[k] for k in ('administrator','elevated','appcontainer'))
     assert result['user_sid'] == result['restricting_sid'] == plan['user_sid']

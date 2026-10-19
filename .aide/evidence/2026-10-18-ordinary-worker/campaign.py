@@ -73,6 +73,9 @@ def main():
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
     diagnostic='--diagnostic' in sys.argv
+    startup_diagnostic='--startup-diagnostic' in sys.argv
+    if startup_diagnostic:
+        expected['startup_diagnostic']=json.loads((HERE/'startup-diagnostic-expectations.json').read_bytes())
     if diagnostic:
         expected['launch_diagnostic']=json.loads((HERE/'launch-diagnostic-expectations.json').read_bytes())
         expected.update(experiment='WithToken startup parameter isolation',variants=expected['launch_diagnostic']['variants'],
@@ -86,6 +89,7 @@ def main():
     setup=once(setup,marker,marker+'\n'+CREATE_ACTOR)
     setup=once(setup,"actor_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value","actor_sid=$actorSid")
     if diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --diagnostic 2>&1)")
+    if startup_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --startup-diagnostic 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -124,6 +128,7 @@ def main():
     raw=(stage/'proof-32.json').read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
     result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
+    if startup_diagnostic:result['experiment_kind']='standard/restricted token and console diagnostic; no profile admission'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if result.get('guest',{}).get('setup',{}).get('image_removed'):
