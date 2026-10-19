@@ -190,6 +190,26 @@ int wmain(int argc, wchar_t **argv) {
         return 0;
     } catch (const f::Error &error) {
         auto parents = V::array();
+        auto token_info = V::object();
+        HANDLE token = nullptr;
+        if (OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&token)) {
+            DWORD size = 0;GetTokenInformation(token,TokenUser,nullptr,0,&size);
+            if (size && size <= 65536) {
+                std::vector<unsigned char> buffer(size);
+                if (GetTokenInformation(token,TokenUser,buffer.data(),size,&size)) {
+                    LPWSTR sid = nullptr;
+                    if (ConvertSidToStringSidW(reinterpret_cast<TOKEN_USER*>(buffer.data())->User.Sid,&sid)) {
+                        token_info.put("user_sid",V::string(f::utf8(sid)));LocalFree(sid);
+                    }
+                }
+            }
+            DWORD container=~0u,elevated=~0u;
+            if(GetTokenInformation(token,TokenIsAppContainer,&container,sizeof(container),&size))
+                token_info.put("appcontainer",V::string(std::to_string(container)));
+            if(GetTokenInformation(token,TokenElevation,&elevated,sizeof(elevated),&size))
+                token_info.put("elevated",V::string(std::to_string(elevated)));
+            token_info.put("restricted",V::boolean_value(IsTokenRestricted(token)!=FALSE));CloseHandle(token);
+        }
         if (!observed_source.empty()) {
             std::size_t end = 2;
             for (;;) {
@@ -206,6 +226,7 @@ int wmain(int argc, wchar_t **argv) {
         }
         emit(V::object().put("kind",V::string("error")).put("code",V::string(error.what()))
             .put("platform_code",V::string(std::to_string(error.platform_code)))
+            .put("process_token",std::move(token_info))
             .put("parents_after_failure",std::move(parents)));
         return 0;
     } catch (const std::exception &error) {

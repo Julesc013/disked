@@ -239,6 +239,39 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             run('ordinary-git-with-null',[git,'--version'],30)
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
+        if focused:
+            parent_probe=work/'parent-read-diagnostic.py'
+            parent_probe.write_text('''import ctypes as C,json,pathlib,tempfile,shutil
+from ctypes import wintypes as T
+k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)
+k.CreateFileW.argtypes=[T.LPCWSTR,T.DWORD,T.DWORD,C.c_void_p,T.DWORD,T.DWORD,T.HANDLE];k.CreateFileW.restype=T.HANDLE
+k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]
+a.GetNamedSecurityInfoW.argtypes=[T.LPWSTR,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p,C.POINTER(C.c_void_p)];a.GetNamedSecurityInfoW.restype=T.DWORD
+a.ConvertSecurityDescriptorToStringSecurityDescriptorW.argtypes=[C.c_void_p,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),C.c_void_p]
+sample=pathlib.Path(tempfile.mkdtemp(prefix='owned-parent-read-'));rows=[]
+try:
+    for path in reversed([sample,*sample.parents]):
+        row=dict(path=str(path),opens=[])
+        for access,share in ((0x80000000,1),(0x80000000,7),(0x20080,7)):
+            C.set_last_error(0);h=k.CreateFileW(str(path),access,share,None,3,0x02200000,None);error=C.get_last_error()
+            opened=h!=C.c_void_p(-1).value;row['opens'].append(dict(access=hex(access),share=share,opened=opened,error=0 if opened else error))
+            if opened:k.CloseHandle(h)
+        sd=C.c_void_p();error=a.GetNamedSecurityInfoW(str(path),1,7,None,None,None,None,C.byref(sd));row['security_error']=error
+        if error==0:
+            text=T.LPWSTR()
+            try:
+                assert a.ConvertSecurityDescriptorToStringSecurityDescriptorW(sd,1,7,C.byref(text),None)
+                row['sddl']=text.value
+            finally:
+                if text:k.LocalFree(C.cast(text,C.c_void_p))
+                k.LocalFree(sd)
+        rows.append(row)
+finally:shutil.rmtree(sample)
+print(json.dumps(dict(scope='Read-only parent-open observations,not qualification',rows=rows)))
+''')
+            archive.write(parent_probe,'recipe/parent-read-diagnostic.py')
+            _,raw=run('ordinary-parent-read-diagnostic',[sys.executable,'-B',parent_probe],30)
+            result['parent_read_diagnostic']=json_record(raw)
         selected=expected['focus_groups'] if focused else expected['groups']
         assert set(selected)<=set(expected['groups'])
         for test in selected:
