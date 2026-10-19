@@ -1,0 +1,12 @@
+{
+  "status": "agent_reviewed_for_bounded_native_trial",
+  "source_result": "thirty-second-namespace-result.json",
+  "observed": "Exact restricted Win10 session0: bare mutex/job creation succeeds; both Local and Global prefixes fail3. Existing BaseNamedObjects and Restricted directories open3, session0 BaseNamedObjects path absent.",
+  "change": "Use default namespace only for private WorkerBudget lease/mutex names. Preserve exact host/user suffixes, limits, DACLs, inherited handles and identity validation; no retry/fallback/global privilege.",
+  "compatibility": "Default session namespace documented for clients. Actual ordinary session0 bare-versus-Local handle identity required before accepting this trial. Broader desktop/legacy/other-session compatibility remains unverified. Other private prefixed objects remain untouched pending this representative result.",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/termserv/kernel-object-namespaces",
+    "https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createmutexw"
+  ],
+  "full_product_qualified": false
+}

@@ -259,6 +259,9 @@ struct AttributeList {
     ~AttributeList() {if(list)DeleteProcThreadAttributeList(list);}
 };
 struct WorkerBudget {
+    // Use the process default object namespace: explicit Local\ prefixes fail
+    // with ERROR_PATH_NOT_FOUND in the qualified restricted Win10 session0.
+    // Ordinary client names still resolve in their session; no global fallback.
     // Four unassociated named jobs lease worker slots without imposing a
     // shared ancestry. Each compiled worker also validates its own128MiB
     // private process job. Inherited query handles retain names until exit;
@@ -287,14 +290,14 @@ struct WorkerBudget {
     }
     explicit WorkerBudget(const Security& security,bool create,HANDLE slot_lease=nullptr,HANDLE guard_lease=nullptr) {
         const auto base=wide(security.host_id);
-        const auto legacy=L"Local\\DiskEd.Fake.Workers.v1."+base;
+        const auto legacy=L"DiskEd.Fake.Workers.v1."+base;
         if(!create) {
             guard=Handle(OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,legacy.c_str()));
             if(!guard.valid())fail("operation_worker_budget_unavailable");
             validate(guard.value);
             if(!same(guard.value,guard_lease))fail("operation_worker_budget_mismatch");
             for(DWORD index=0;index<slot_count;++index) {
-                const auto name=L"Local\\DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
+                const auto name=L"DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
                 Handle candidate(OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,name.c_str()));
                 if(!candidate.valid()) {
                     if(GetLastError()!=ERROR_FILE_NOT_FOUND)fail("operation_worker_budget_unavailable");
@@ -308,7 +311,7 @@ struct WorkerBudget {
             return;
         }
         auto attributes=security.lease_attributes;
-        const auto mutex_name=L"Local\\DiskEd.Fake.Workers.v2.Init."+base;
+        const auto mutex_name=L"DiskEd.Fake.Workers.v2.Init."+base;
         Handle mutex(CreateMutexW(&attributes,FALSE,mutex_name.c_str()));
         if(!mutex.valid())fail("operation_worker_budget_unavailable");
         const auto acquired=WaitForSingleObject(mutex.value,250);
@@ -325,7 +328,7 @@ struct WorkerBudget {
         if(guard_state!=ERROR_ALREADY_EXISTS)configure(guard.value);
         validate(guard.value);
         for(DWORD index=0;index<slot_count;++index) {
-            const auto name=L"Local\\DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
+            const auto name=L"DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
             SetLastError(ERROR_SUCCESS);
             Handle candidate(CreateJobObjectW(&attributes,name.c_str()));
             const auto state=GetLastError();

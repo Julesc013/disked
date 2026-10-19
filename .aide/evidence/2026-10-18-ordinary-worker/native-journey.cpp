@@ -38,6 +38,15 @@ static void namespace_diagnostic() {
 int wmain(int argc,wchar_t** argv) {
     using namespace disked::worker_files;
     try {
+        if(argc==2 && std::wstring(argv[1])==L"--namespace-aliases") {
+            Security security;const auto name=wide(security.identity("DiskEd.Qualification.Alias."));
+            Handle bare(CreateMutexW(&security.attributes,FALSE,name.c_str()));
+            Handle local(CreateMutexW(&security.attributes,FALSE,(L"Local\\"+name).c_str()));
+            if(!bare.valid() || !local.valid() || !WorkerBudget::same(bare.value,local.value))return 3;
+            DWORD session=~0u;if(!ProcessIdToSessionId(GetCurrentProcessId(),&session))return 3;
+            std::printf("{\"status\":\"pass\",\"same_local_object\":true,\"session\":%lu}\n",static_cast<unsigned long>(session));
+            return 0;
+        }
         if(argc!=4)return 2;
         Handle token;HANDLE raw=nullptr;
         if(!OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&raw))fail("probe_token");

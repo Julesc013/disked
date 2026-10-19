@@ -43,10 +43,10 @@ def coordinate(g):
             LIB=os.pathsep.join(str(p) for p in [vc/'lib/x64',*[sdk/'Lib/10.0.19041.0'/name/'x64' for name in ('ucrt','um')]]))
         for name in ('CL','_CL_'):env.pop(name,None)
         result['commands']=[]
-        def run(label,command):
+        def run(label,command,*,original=False):
             nonlocal job,child,quiescent
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic()
-            child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio')
+            child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio',diagnostic_original=original)
             code=child.wait(timeout=120);raw=instance.log_path.read_bytes();assert len(raw)<=131072
             row=dict(label=label,arguments=list(map(str,command)),exit_code=code,seconds=time.monotonic()-started,output=raw.decode(errors='replace'),launch=instance.last_launch)
             result['commands'].append(row);stop()
@@ -61,6 +61,9 @@ def coordinate(g):
         image=executable.read_bytes();pe=struct.unpack_from('<I',image,60)[0]
         assert image[pe:pe+4]==b'PE\0\0' and struct.unpack_from('<H',image,pe+4)[0]==0x8664
         digest=hashlib.sha256(image).hexdigest();result['artifact']=dict(bytes=len(image),sha256=digest,pe_machine='0x8664')
+        aliases=json.loads(run('standard-namespace-aliases',[executable,'--namespace-aliases'],original=True))
+        assert aliases['status']=='pass' and aliases['same_local_object'] and aliases['session']==0
+        result['standard_namespace_aliases']=aliases
         observed=json.loads(run('store',[executable,work/'records',data['sid'],outside/'native-forbidden']))
         assert observed['status']=='pass' and observed['user_sid']==data['sid'] and observed['restricted'] and observed['elevated']==observed['appcontainer']==0
         assert observed['pointer_bits']==64 and observed['msc_full_ver']==194435228 and observed['outside_error']==5 and observed['lease_reopened']
