@@ -14,6 +14,7 @@ PROBE = None
 WORKER = None
 RESULTS = []
 NATIVE = []
+NATIVE_RAW = []
 
 
 def canonical(value):
@@ -82,9 +83,13 @@ def prepare(source, destination, ledger, tree):
                    offset=str(tree.offset), length=str(tree.length), mode="prepare_only")
     original = sha(source.read_bytes())
     r = subprocess.run([str(WORKER)], input=canonical(request), capture_output=True, timeout=30)
+    NATIVE_RAW.append(dict(request=request, exit_code=r.returncode,
+                           stdout=r.stdout.decode("utf-8", errors="replace"),
+                           stderr=r.stderr.decode("utf-8", errors="replace"),
+                           stdout_sha256=sha(r.stdout), stderr_sha256=sha(r.stderr)))
     assert r.returncode == 0 and not r.stderr, (r.returncode, r.stderr)
     rows = [json.loads(line) for line in r.stdout.splitlines()]
-    assert rows[-1]["kind"] == "finished"
+    assert rows[-1]["kind"] == "finished", rows[-1]
     state = rows[-1]["value"]
     assert state["worker"]["observation"] == "exited" and not state["dependencies_retained"]
     assert not state["grant_sent"] and rows[-1]["retained"] == "0"
@@ -238,7 +243,7 @@ def main():
     PROBE, WORKER = args.probe.resolve(), args.worker.resolve()
     result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(ReviewTests))
     args.output.write_text(json.dumps(dict(passed=result.wasSuccessful(), methods=result.testsRun,
-                           cases=len(RESULTS), records=RESULTS, native=NATIVE), indent=2) + "\n",
+                           cases=len(RESULTS), records=RESULTS, native=NATIVE, native_raw=NATIVE_RAW), indent=2) + "\n",
                            encoding="utf-8", newline="\n")
     raise SystemExit(0 if result.wasSuccessful() else 1)
 

@@ -75,7 +75,8 @@ def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     cleanup_only='--cleanup-only' in sys.argv
     null_proof='--null-proof' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof
+    focus_fat='--focus-fat-review' in sys.argv
+    full_native='--native-x64' in sys.argv or null_proof or focus_fat
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
@@ -121,6 +122,9 @@ def main():
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
     if null_proof:expected['native_x64']['null_proof_only']=True
+    if focus_fat:
+        expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
+        expected['native_x64']['focus_targets']=['fat_tree_review_probe','fat_tree_extraction_worker_probe']
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())

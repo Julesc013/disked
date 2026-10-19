@@ -206,16 +206,18 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
-        run('build',[cmake,'--build',build,'--config','Release','--parallel','1'],1800)
+        focused=bool(expected.get('focus_groups'))
+        targets=['--target','bootstrap_registry',*expected['focus_targets']] if focused else []
+        run('build',[cmake,'--build',build,'--config','Release','--parallel','1',*targets],1800)
         _,raw=run('registered',[ctest,'--test-dir',build,'-C','Release','--show-only=json-v1'])
         registered=json.loads(raw)['tests'];assert sorted(t['name'] for t in registered)==expected['groups']
         result['registered_native_groups']=len(registered)
         headers=sorted(p for folder in build.glob('*_headers.dir') for p in (folder/'Release').glob('*.obj'))
-        assert len(headers)==expected['standalone_headers']==68
+        if not focused:assert len(headers)==expected['standalone_headers']==68
         result['standalone_headers']=[dict(path=p.relative_to(work).as_posix(),sha256=retention.sha(p)) for p in headers]
         identity=json.loads((build/'generated/build-identity.json').read_bytes());result['build_identity']=identity
         dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe');result['executables']={}
-        for name in expected['executables']:
+        for name in expected['focus_targets'] if focused else expected['executables']:
             path=build/'Release'/(name+'.exe');image=path.read_bytes();offset=struct.unpack_from('<I',image,60)[0]
             assert image[offset:offset+4]==b'PE\0\0' and struct.unpack_from('<H',image,offset+4)[0]==0x8664
             result['executables'][name]=dict(bytes=len(image),sha256=hashlib.sha256(image).hexdigest(),machine='0x8664')
@@ -237,7 +239,9 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             run('ordinary-git-with-null',[git,'--version'],30)
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
-        for test in expected['groups']:
+        selected=expected['focus_groups'] if focused else expected['groups']
+        assert set(selected)<=set(expected['groups'])
+        for test in selected:
             stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
             active_stem=stem
             before={p.name for p in build.iterdir() if p.is_file()}
@@ -255,9 +259,9 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 archive.write(path,'groups/'+test+'/'+path.name)
                 if not path.name.endswith('-cases.json'):retention.retire_file(path)
             if not passed:raise RuntimeError('Native group failed: '+test)
-        result['full_x64_product_suite_run']=len(result['tests'])==178 and all(t['passed'] for t in result['tests'])
-        assert result['full_x64_product_suite_run']
-        result.update(status='pass',qualification='Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
+        result['full_x64_product_suite_run']=not focused and len(result['tests'])==178 and all(t['passed'] for t in result['tests'])
+        assert focused or result['full_x64_product_suite_run']
+        result.update(status='pass',qualification='Focused native regression only; full178 remains required' if focused else 'Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:])
         if archive and 'build' in locals() and build.exists():
