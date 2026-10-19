@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "f320ee3977cb804ad3328619ae0e9e1c48e91a2a",
+  "base_revision": "48d5624b4348153af6a3c20587441a80ff5ac6db",
   "spec_manifest_digest": "sha256:f870050dc0ea530057e2abe9879b4f012c07d54c622cc89ae0121cc9cad5e0e5",
   "status": "partial",
   "files_read": [
@@ -118,7 +118,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 unfinished. Attempt61 at8a290a7c passes build/68headers/14imports and28 of33 recorded groups,including13 FAT history methods in467.651s;missing validator,dense FAT fixtures and UI harness fail. Fixed512MiB fills;all owned cleanup and complete compact archive verified. Candidate adds missing validator and byte-exact shared sparse sizing;253 spec(two skips)/150 tools(one skip) pass. Diagnostic62/63 proves ordinary UI APIs/private window/new console;original viewport240 fails87 against measuredmaximum128x46. GUI fixture wrongly targeted WinSta0 after creating a private-station desktop;candidate queries actual station. Console candidate preserves240x1000 buffer and caps viewport to actual display/font limit. Six-group native replay is pending;full180/current Win32/detail/main/owner/release/all0.1.0 remain open. Focused64 at6e25f431 builds14 targets/two PE checks;verification_commands passes. Five groups now fail only at unchanged GUI display-unavailable guard in the noninteractive station. Sparse FAT cases no longer exhaust capacity;actual console preflight passes240x1000 buffer/128x25 viewport. Peak175812608 bytes,44492-byte verified archive,all owned cleanup pass. Read-only quser confirms active Agents console session3;no guest Jules/Codex use.",
+  "summary": "DE-W105 unfinished. Attempt61 at8a290a7c passes build/68headers/14imports and28 of33 recorded groups,including13 FAT history methods in467.651s;missing validator,dense FAT fixtures and UI harness fail. Fixed512MiB fills;all owned cleanup and complete compact archive verified. Candidate adds missing validator and byte-exact shared sparse sizing;253 spec(two skips)/150 tools(one skip) pass. Diagnostic62/63 proves ordinary UI APIs/private window/new console;original viewport240 fails87 against measuredmaximum128x46. GUI fixture wrongly targeted WinSta0 after creating a private-station desktop;candidate queries actual station. Console candidate preserves240x1000 buffer and caps viewport to actual display/font limit. Six-group native replay is pending;full180/current Win32/detail/main/owner/release/all0.1.0 remain open. Focused64 at6e25f431 builds14 targets/two PE checks;verification_commands passes. Five groups now fail only at unchanged GUI display-unavailable guard in the noninteractive station. Sparse FAT cases no longer exhaust capacity;actual console preflight passes240x1000 buffer/128x25 viewport. Peak175812608 bytes,44492-byte verified archive,all owned cleanup pass. Read-only quser confirms active Agents console session3;no guest Jules/Codex use. Read-only transient task at48d5624b succeeds as Agents SID1003/session3/visible WinSta0;payload hash and independent task/root absence verified. Existing station DACL includes RC access. This proves only the coordinator route,not confined worker GUI. No station ACL,host setting,VM restart or product change.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -357,6 +357,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused-ui-environment-failure.json"
+    },
+    {
+      "command": "python tools/workspace.py run -- pwsh -NoProfile -File .aide/evidence/2026-10-18-ordinary-worker/check-interactive.ps1",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-check.json"
     }
   ],
   "artifacts": [
@@ -655,12 +662,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-plan.json",
       "sha256": "sha256:f04b02fa1b5eecca764abe87e58f909238340688e6050c237bd601c5014c0727"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-check.json",
+      "sha256": "sha256:8d8a13a1b0d9608b8228caf4165e6a70b0cf9bb8f90f3e2faee74ff8984ff165"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-review.json",
+      "sha256": "sha256:2ebd51b8ba97a93e80fa117a26ddc8372a81f9c2056ab1bf917ba0aa8c56f7a3"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Prove the tiny read-only Agents session3 InteractiveToken task and inspect actual WinSta0 access. Keep product display guard unchanged. Then qualify session-bound confined UI execution before retrying focused groups;no fresh full build until environment proof. Original0.1.0/owner/release/main gates unchanged.",
+  "next_safe_step": "Use the proven transient InteractiveToken task to qualify an Agents session3 coordinator,with the same ordinary restricted fresh-user token on a uniquely owned hidden desktop in visible WinSta0. First inspect/prove existing station access without ACL changes,retain original filesystem/cap/retirement controls and task cleanup,then rerun focused GUI groups. Keep product display guard unchanged;no new full build until environment proof.",
   "performed_remote_writes": true
 }
