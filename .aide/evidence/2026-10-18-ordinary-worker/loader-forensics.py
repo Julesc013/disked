@@ -238,7 +238,8 @@ def actor(plan):
                             length=k.GetFinalPathNameByHandleW(file_handle,path,len(path),0) if file_handle else 0
                             row['modules'].append(dict(event=event.code,path=path.value if 0<length<len(path) else None))
                             if length and Path(path.value).name.lower()=='python314.dll':
-                                assert event.tid==process.tid and pending is None
+                                row['native_observation_stop_thread']=event.tid
+                                row['native_call_pending_at_observation_stop']=pending;pending=None
                                 storage,value=context();value.flags=0x100010
                                 for i in range(6):value.dr[i]=0
                                 require(k.SetThreadContext(process.thread,C.byref(value)))

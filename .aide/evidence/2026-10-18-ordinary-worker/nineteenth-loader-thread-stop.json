@@ -1,0 +1,451 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T09:53:46.2204235Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "loader-forensics.py",
+        "bytes": 30167,
+        "sha256": "1B692226DB63C1DC09D16B0ADE29CB3B88BBF813C0A0F78AF84C27EE8C40062C"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1045,
+        "sha256": "61D42483B78EC9430A2BFFF0EC22A2FAFCCA25E7BD897A396A614E87B303B6C0"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23013,
+        "sha256": "BB4CC19AC8E76D0CA818D15145B254D49B7CC7AFCD9293EDE6861CD3C2D01793"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13774,
+        "sha256": "B624A297F552DE4042A9F3DBC131C394BB68E0B5E54445DE67DABCCEF946B4EA"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9754,
+        "sha256": "4CCFC87DE0EE52439B8F421FFC0FF1059802EA722AE0F43740D73ED526958335"
+      }
+    ],
+    "base_revision": "f29c26a88d8bd6f5eafdd8b3a5c2c1bf0ec711bd",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T09:53:50.9208270Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-6f868426",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1021",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "70D7976F9990F242A251E7465BC2D864",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.698530c7ee0a47caa6930e18ab1618fe",
+            "sid": "S-1-15-2-2213184165-1874050471-686527213-2543939961-781522447-3980323261-3078330259"
+          },
+          {
+            "name": "org.disked.worker.7681a49090964bacb32cd0b897ec2f61",
+            "sid": "S-1-15-2-2458205868-101768134-4185508176-2683647214-3598031923-2505400800-3762079954"
+          },
+          {
+            "name": "org.disked.worker.2bcef52ae92e44498939bd27139c5d01",
+            "sid": "S-1-15-2-2767247142-2928773431-3983887295-1931921013-575486810-3313355810-1323502717"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1021)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248070D7976F9990E7465BC2D864",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 695, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T09:54:03.5079223Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "Per-image loader diagnostic only; no ordinary-worker qualification",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "actor_exit_code": 1,
+      "debug": {
+        "status": "fail",
+        "bootstrap_identity": {
+          "pid": 1012,
+          "restricted": false,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1021",
+          "restricting_sids": [],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeShutdownPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            },
+            {
+              "name": "SeUndockPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeIncreaseWorkingSetPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeTimeZonePrivilege",
+              "attributes": 0
+            }
+          ]
+        },
+        "variants": [
+          {
+            "name": "baseline",
+            "phase": "resume_and_collect",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-6f868426c0a645919cc02bb5919763e4.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll"
+              }
+            ],
+            "exceptions": [],
+            "events": 321,
+            "native_calls": [
+              {
+                "function": "CsrClientConnectToServer",
+                "arguments": [
+                  "0x760acde800",
+                  "0x1",
+                  "0x760acde7c8",
+                  "0x8"
+                ],
+                "return_address": "0x7ffa8d10b126",
+                "returned_rax_low32": "0x0",
+                "status": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32ErrorAndNtStatusFromNtStatus",
+                "arguments": [
+                  "0xc00700bb",
+                  "0x0",
+                  "0x760acde4a8",
+                  "0x760acde5b0"
+                ],
+                "error_argument_low32": "0xc00700bb",
+                "return_address": "0x7ffa8d10a0c9",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x760acde688",
+                  "0x760acde700"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d0e72c1",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x2",
+                  "0xc0000034",
+                  "0x58",
+                  "0x5a"
+                ],
+                "error_argument_low32": "0x2",
+                "return_address": "0x7ffa8d0ee0cd",
+                "returned_rax_low32": "0x2"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x760acde358",
+                  "0x760acde3e0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x760acde358",
+                  "0x760acde3e0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x0",
+                  "0x760acde678",
+                  "0x760acde810"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x24806c20000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x24806c20000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x24806c20000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x24806c24ed0",
+                  "0x4",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x24806c23090",
+                  "0x5",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xa8ea000"
+              }
+            ],
+            "native_call_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": false,
+            "restricting_sids": [],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 4612,
+            "job_inherited": true,
+            "native_entrypoints": {
+              "CsrClientConnectToServer": "0x7ffa8f818e20",
+              "RtlSetLastWin32ErrorAndNtStatusFromNtStatus": "0x7ffa8f8618b0",
+              "RtlSetLastWin32Error": "0x7ffa8f8618d0"
+            },
+            "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 241, in actor\n    assert event.tid==process.tid and pending is None\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+            "trace": {
+              "complete": false,
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 34836,
+              "sha256": "7fd61211234c9b3ae203283c98ae83b270e00a96c49a35c1033929b523e52cec",
+              "xz_sha256": "1fc32be665af97cda4e110aeb51776564a57f163189af886e241e55b56218d08",
+              "xz_base64": "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"
+            }
+          }
+        ],
+        "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 241, in actor\n    assert event.tid==process.tid and pending is None\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\loader-forensics.py\", line 370, in coordinate\n    assert code==0 and result['debug']['status']=='pass'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "job_active_processes_at_retirement": 0,
+      "image_registry_removed": true,
+      "diagnostic_image_removed": true,
+      "original_runtime_preserved": true
+    },
+    "free_c_bytes": 98213314560
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T09:54:04.0406906Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "4ccfc87de0ee52439b8f421ffc0ff1059802ea722ae0f43740d73ed526958335",
+    "guest-proof.ps1": "b624a297f552de4042a9f3dbc131c394bb68e0b5e54445de67dabccef946b4ea",
+    "guest-proof.py": "bb4cc19ac8e76d0ca818d15145b254d49b7cc7afcd9293ede6861cd3c2d01793",
+    "loader-forensics.py": "1b692226db63c1dc09d16b0ade29cb3b88bbf813c0a0f78af84c27ee8c40062c",
+    "loader-observer.py": "61d42483b78ec9430a2bfff0ec22a2fafcca25e7bd897a396a614e87b303b6c0",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "f581fcf3972df35f9d1816079158eac6aae366b74a1a2a66a790f62f01c9213d",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 1,
+  "experiment_kind": "owned per-image loader tracing; no profile admission",
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-r7uafman\\ordinary-proof\\run-proof.ps1:67\r\nLine |\r\n  67 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}
