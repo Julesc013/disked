@@ -134,6 +134,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         archive.write(fixture_probe,'recipe/fixture-preflight.py')
         _,raw=run('sparse-and-two-generation-symlink-preflight',[sys.executable,'-B',fixture_probe,SOURCE/'tests',SOURCE/'tests/images'],60)
         result['fixture_preflight']=json.loads(raw);assert result['fixture_preflight']['status']=='pass'
+        run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
         run('build',[cmake,'--build',build,'--config','Release','--parallel','1'],1800)
@@ -177,6 +178,12 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         result.update(status='pass',qualification='Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:])
+        if archive and 'build' in locals() and build.exists():
+            for path in build.rglob('*'):
+                if path.name not in ('CMakeConfigureLog.yaml','CMakeError.log','CMakeOutput.log','VCTargetsPath.vcxproj'):continue
+                info=path.lstat()
+                if stat.S_ISREG(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400 and info.st_nlink==1 and info.st_size<=1048576:
+                    archive.write(path,'diagnostics/'+path.relative_to(build).as_posix())
         raise
     finally:
         try:
