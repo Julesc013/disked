@@ -362,8 +362,16 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
                     raise RuntimeError('Linked/non-file native observation; preserved')
                 archive.write(path,'groups/'+test+'/'+path.name)
                 if not path.name.endswith('-cases.json'):retention.retire_file(path)
-            if not passed:raise RuntimeError('Native group failed: '+test)
+            if not passed:
+                result.setdefault('failed_native_groups',[]).append(test)
+                if focused:raise RuntimeError('Native group failed: '+test)
+        # Assertion failures do not discard unrelated evidence from this exact
+        # build. Each group is a separate retired job. Infrastructure, resource
+        # or timeout failures still abort immediately in run(). Any failed group
+        # keeps the whole qualification failed; no skipped/reclassified pass.
+        result['attempted_native_groups']=len(result['tests'])
         result['full_x64_product_suite_run']=not focused and len(result['tests'])==178 and all(t['passed'] for t in result['tests'])
+        if result.get('failed_native_groups'):raise RuntimeError('Native groups failed: '+','.join(result['failed_native_groups']))
         assert focused or result['full_x64_product_suite_run']
         result.update(status='pass',qualification='Focused native regression only; full178 remains required' if focused else 'Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
     except BaseException:
