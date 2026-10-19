@@ -22,6 +22,31 @@ ROOT=Path('C:/ProgramData/DiskEd/qualification')
 SOURCE=ROOT/'source'
 
 
+class CampaignStop(InterruptedError):
+    """The owning host controller requested retirement, never a product failure."""
+
+
+def require_uninterrupted(root, nonce, *, allow_probe=False):
+    path=Path(root)/'stop-request.json'
+    try:info=path.lstat()
+    except FileNotFoundError:return
+    if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400 or info.st_size>4096:
+        raise ValueError('Invalid bounded stop request')
+    request=json.loads(path.read_bytes())
+    if (type(request) is not dict or set(request)!={'schema','nonce','reason','observed_growth_bytes','limit_bytes'} or
+            request['schema']!='org.disked.guest-stop/1' or request['nonce']!=nonce or
+            request['reason'] not in ('shared_backing_growth','controller_probe') or
+            type(request['limit_bytes']) is not int or request['limit_bytes']!=1073741824 or
+            type(request['observed_growth_bytes']) is not int or
+            not 0<=request['observed_growth_bytes']<2**64):
+        raise ValueError('Stop request identity or bounds differ')
+    if request['reason']=='controller_probe':
+        if not allow_probe:raise ValueError('Stop proof is not enabled for this campaign')
+    elif request['observed_growth_bytes']<=request['limit_bytes']:
+        raise ValueError('Backing-growth request does not exceed its declared limit')
+    raise CampaignStop(request)
+
+
 def coordinate(g):
     helper=g.load('full_crypto',ROOT/'crypto-device.py')
     null_helper=g.load('full_null',ROOT/'null-device.py')
@@ -252,13 +277,14 @@ def coordinate(g):
 
         def run(label,command,timeout=300,allow_failure=False):
             nonlocal job,child,quiescent
-            job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False
+            job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
             try:
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
                 process_id=child.pid
                 log_path=instance.log_path if ordinary else instance.work/'worker.log'
                 until=started+timeout
                 while child.poll() is None:
+                    require_uninterrupted(ROOT,state['nonce'],allow_probe=expected.get('controller_stop_proof') is True)
                     drain();budget()
                     if log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
                     if time.monotonic()>until:raise TimeoutError(label+' deadline')
@@ -270,8 +296,15 @@ def coordinate(g):
                     seconds=time.monotonic()-started,sha256=hashlib.sha256(raw).hexdigest(),tail=raw[-4096:].decode(errors='replace')))
                 if code and not allow_failure:raise RuntimeError(label+' failed: '+raw[-2048:].decode(errors='replace'))
                 return code,raw
+            except CampaignStop as error:
+                stop_request=error.args[0]
+                result['controller_interruption']=dict(request=stop_request,command=label,product_failure=False)
+                raise
             finally:
                 stop()
+                if stop_request:
+                    (ROOT/'stop-acknowledged.json').write_text(json.dumps(dict(
+                        nonce=state['nonce'],owned_job_processes_retired=True,command=label))+'\n',encoding='utf-8',newline='\n')
                 if 'log_path' in locals() and log_path.exists():
                     if not saved:archive.writestr('commands/'+label+'-incomplete.log',log_path.read_bytes()[:524288])
                     retention.retire_file(log_path)
@@ -396,6 +429,10 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         _,raw=run('package-git-revision',[git,'-C',SOURCE,'rev-parse','HEAD'],30)
         assert raw.decode().strip()==manifest['revision']
         _,raw=run('package-git-clean',[git,'-C',SOURCE,'status','--porcelain','--untracked-files=normal'],30);assert not raw
+        if expected.get('controller_stop_proof'):
+            (ROOT/'stop-ready.json').write_text(json.dumps(dict(nonce=state['nonce']))+'\n',encoding='utf-8',newline='\n')
+            run('owned-stop-proof-wait',[sys.executable,'-B','-c','import time; time.sleep(60)'],90)
+            raise AssertionError('Controller did not interrupt the declared proof child')
         if expected.get('null_proof_only'):
             if expected.get('powershell_proof'):
                 shell=stage_powershell7() if expected.get('powershell7_proof') else Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
@@ -436,7 +473,9 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
         focused=bool(expected.get('focus_groups'))
         targets=['--target','bootstrap_registry',*expected['focus_targets']] if focused else []
-        run('build',[cmake,'--build',build,'--config','Release','--parallel','1',*targets],1800)
+        parallel=expected['bounds'].get('build_parallelism',1)
+        assert type(parallel) is int and 1<=parallel<=2
+        run('build',[cmake,'--build',build,'--config','Release','--parallel',str(parallel),*targets],1800)
         _,raw=run('registered',[ctest,'--test-dir',build,'-C','Release','--show-only=json-v1'])
         registered=json.loads(raw)['tests'];assert sorted(t['name'] for t in registered)==expected['groups']
         result['registered_native_groups']=len(registered)

@@ -1,5 +1,12 @@
 # Ordinary worker and current native qualification
 
+Current full attempt: `e65c5baf` was interrupted during all-target compilation by
+the shared VM backing-growth guard. No native groups ran. Exact forced cleanup
+removed owned jobs/grants/source/account/profile aliases/tasks/credential/media.
+The VM backing file grew 1,241,513,984 bytes; it was not compacted.
+See `eighty-fifth-review.json` and its exact receipts. Cooperative stop and
+two-job build candidates require a small interruption proof before another full run.
+
 Latest focused result: `e59eb622` passes all six original repair groups,
 including real GUI/TUI/shell/extraction paths. The 48-entry archive's membership,
 sizes and hashes verify; it retains 665,024 raw bytes in 43,656 compressed bytes.

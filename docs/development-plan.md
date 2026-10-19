@@ -4,14 +4,9 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
-DE-W105 closing qualification remains open. The source-transport, sparse-fixture,
-console-viewport, confined named-object and owned-desktop repairs now pass the
-six original native repair groups at `e59eb622`, with verified raw evidence and
-complete cleanup. Fresh specification/tooling, structural, source-map and
-manifest checks pass. [Retained results and cleanup](../.aide/evidence/2026-10-18-ordinary-worker/README.md)
-separate this focused qualification from the required full 180-group x64,
-same-source private Win32, current C90 and detailed review gates before main.
-The existing storage limits and original product assertions remain in force.
+DE-W105 remains active. All six focused repair groups pass at e59eb622. Full x64 attempt85 at e65c5baf was interrupted during all-target compilation by the shared VM backing-growth guard,not a reported product assertion. No native groups ran. Exact forced-interruption cleanup passes;the VM backing file grew1241513984 bytes and was not compacted. Cooperative stop and two-job build are candidates awaiting fault-injection verification. Full180 x64,same-source privateWin32,current C90 and detailed review remain open. No owner/release/full0.1 acceptance. See [current evidence](../.aide/evidence/2026-10-18-ordinary-worker/README.md).
+
+Validate candidate controller/template/tooling;freeze and verify W105 context;run --controller-stop-proof --interactive-ui and review exact stop acknowledgement,job/grant/media/source/account/profile cleanup and archive hashes. Only after that proof retry full180 x64 with declared parallel2 and unchanged limits/deadlines;retain exact source for privateWin32/C90. Integrate tested dev into main after W105 review,then W106/W107.
 
 The [Windows reference plan](windows-reference.md) explains Disk Management,
 MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.

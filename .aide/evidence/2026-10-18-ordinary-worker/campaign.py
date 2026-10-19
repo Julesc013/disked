@@ -96,6 +96,8 @@ def main():
     if station_matrix and not (interactive_ui and '--crypto-full' in sys.argv):
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
+    controller_stop_proof='--controller-stop-proof' in sys.argv
+    full_native=full_native or controller_stop_proof
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
@@ -192,6 +194,7 @@ def main():
     if powershell_proof or powershell7_proof:expected['native_x64']['powershell_proof']=True
     if powershell7_proof:expected['native_x64']['powershell7_proof']=True
     if cleanup_proof:expected['native_x64']['cleanup_proof']=True
+    if controller_stop_proof:expected['native_x64']['controller_stop_proof']=True
     if ui_proof:expected['native_x64']['ui_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
@@ -303,7 +306,56 @@ def main():
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]
     host=once(host,"    foreach($file in $selected)","    $backing=@(Get-VMHardDiskDrive -VM $vm);if($backing.Count-ne1){throw 'Unexpected VM backing topology.'}\n    $backingPath=$backing[0].Path;$result.host_backing_start_bytes=(Get-Item -LiteralPath $backingPath).Length\n    foreach($file in $selected)")
-    host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
+    if full_native:
+        # A remoting-job stop can kill the interactive coordinator before its
+        # finally blocks retire the journaled grants. First signal its existing
+        # owned-job poll loop; leave only bounded cleanup, never more workload.
+        host=once(host,'    $job=Invoke-Command',"    $controlSession=& (Join-Path $root 'tools\\connect-vm.ps1') -OpenSession\n    $job=Invoke-Command")
+        host=once(host,'        Start-Sleep -Seconds 1',r'''        $growth=(Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes
+        $proofReady=$false
+        if($controllerStopProof-and-not$result.resource_stop_requested){
+            $proofReady=Invoke-Command -Session $controlSession -ScriptBlock {
+                $p='C:\ProgramData\DiskEd\qualification\stop-ready.json'
+                if(Test-Path -LiteralPath $p){$d=Get-Content -LiteralPath $p -Raw|ConvertFrom-Json;$state=Get-Content -LiteralPath 'C:\ProgramData\DiskEd\qualification\scratch\state.json' -Raw|ConvertFrom-Json;if($d.nonce-ne$state.nonce){throw 'Stop-proof ownership changed.'};$true}else{$false}
+            }
+        }
+        if($growth-gt1GB-or$proofReady-or$result.resource_stop_requested){
+            if(-not$result.resource_stop_requested){
+                $reason=if($proofReady-and$growth-le1GB){'controller_probe'}else{'shared_backing_growth'}
+                $signal=Invoke-Command -Session $controlSession -ArgumentList ([long]$growth),$reason -ScriptBlock {
+                    param($Growth,$Reason)
+                    $r='C:\ProgramData\DiskEd\qualification'
+                    $state=Get-Content -LiteralPath "$r\scratch\state.json" -Raw|ConvertFrom-Json
+                    $owner=Get-Content -LiteralPath "$r\scratch\owner.json" -Raw|ConvertFrom-Json
+                    if($state.nonce-ne$owner.nonce-or$state.nonce-notmatch'^[0-9a-f]{32}$'){throw 'Stop ownership changed.'}
+                    $request=@{schema='org.disked.guest-stop/1';nonce=$state.nonce;reason=$Reason;observed_growth_bytes=$Growth;limit_bytes=[long]1GB}
+                    $path="$r\stop-request.json";$temporary="$r\stop-request.$($state.nonce).tmp"
+                    if((Test-Path -LiteralPath $path)-or(Test-Path -LiteralPath $temporary)){throw 'Existing stop signal;no adoption.'}
+                    [IO.File]::WriteAllText($temporary,($request|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+                    [IO.File]::Move($temporary,$path)
+                    [pscustomobject]@{nonce=$state.nonce;reason=$Reason;observed_growth_bytes=$Growth;limit_bytes=[long]1GB}
+                }
+                $result.resource_stop_requested=$signal|Select-Object nonce,reason,observed_growth_bytes,limit_bytes
+                $stopStarted=[DateTime]::UtcNow
+            }
+            $elapsed=([DateTime]::UtcNow-$stopStarted).TotalSeconds
+            if($elapsed-gt30-and-not$result.resource_stop_acknowledged){
+                $ack=Invoke-Command -Session $controlSession -ScriptBlock {
+                    $p='C:\ProgramData\DiskEd\qualification\stop-acknowledged.json'
+                    if(Test-Path -LiteralPath $p){Get-Content -LiteralPath $p -Raw|ConvertFrom-Json}
+                }
+                if(-not$ack-or$ack.nonce-ne$result.resource_stop_requested.nonce-or$ack.owned_job_processes_retired-ne$true){Stop-Job -Job $job;throw 'Guest stop was not acknowledged;inspect owned recovery state.'}
+                $result.resource_stop_acknowledged=$ack|Select-Object nonce,owned_job_processes_retired,command
+            }
+            if($elapsed-gt300){Stop-Job -Job $job;throw 'Bounded guest cleanup did not finish;inspect owned recovery state.'}
+        }
+        Start-Sleep -Seconds 1''')
+        host=once(host,'$session=$null','$session=$null;$controlSession=$null')
+        host=once(host,'$controlSession=$null',"$controlSession=$null;$controllerStopProof="+('$true' if controller_stop_proof else '$false'))
+        host=once(host,'    if($session){Remove-PSSession -Session $session}',
+                  '    if($controlSession){Remove-PSSession -Session $controlSession}\n    if($session){Remove-PSSession -Session $session}')
+    else:
+        host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
     if full_native:
         host=once(host,"    $result.host_backing_end_bytes=", "    $retained=Invoke-Command -Session $session -ScriptBlock { $p='C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz';if(Test-Path -LiteralPath $p){$f=Get-Item -LiteralPath $p;if($f.Length-gt32MB-or($f.Attributes-band[IO.FileAttributes]::ReparsePoint)){throw 'Invalid retained archive.'};$true}else{$false}}\n    if($retained){Copy-Item -FromSession $session -LiteralPath 'C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz' -Destination (Join-Path $PSScriptRoot 'retained.tar.xz')}\n    $result.host_backing_end_bytes=")
@@ -321,7 +373,7 @@ def main():
         }
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
-    if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
+    if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\stop-ready.json","$root\stop-request.json","$root\stop-acknowledged.json","$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
     if interactive_ui:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\interactive-input.xml","$root\interactive-result.json",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
@@ -351,6 +403,7 @@ def main():
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
     if interactive_ui:result['interactive_scope']=expected['interactive_scope']
+    if controller_stop_proof:result['experiment_kind']='Predeclared controller-stop fault injection against one owned Python wait child;no native product build/test or qualification'
     if station_matrix:result['experiment_kind']='Six fixed trusted standard-user station bootstrap comparisons only;no worker/product admission'
     if object_trace:result['experiment_kind']='Bounded owned-child object API trace with original primitive controls;no namespace grant or worker/product admission'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'

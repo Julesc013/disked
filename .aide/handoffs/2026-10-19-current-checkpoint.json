@@ -127,9 +127,12 @@
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey.cpp",
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey.py",
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/memory-desktop-driver.py"
+    ".aide/evidence/2026-10-18-ordinary-worker/memory-desktop-driver.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/recover-backing-limit.ps1",
+    ".aide/evidence/2026-10-18-ordinary-worker/finish-backing-cleanup.ps1",
+    "tests/tools/test_native_stop_request.py"
   ],
-  "summary": "DE-W105 closing qualification. Focus84 ate59eb622a8da8641a6494c069a6133d5a7d19524 passes all six original repair groups,selected14-target build,two executable/import observations,and full owned cleanup. Complete48-entry archive verified(665024 raw/43656 compressed bytes);filesystem peak175951872 bytes. New closing validation passes253 spec tests(two skips),159 tooling tests(one skip),1327 structural checks,327-file source map,421-file manifest and template checks. Original32MiB confinement,named-object and paired owned-desktop regressions pass separately. Full180 x64 and same-source privateWin32/68+12headers/14+9imports/current C90/detailed evidence review remain open. No owner/release or all-platform0.1.0 completion claim.",
+  "summary": "DE-W105 remains active. All six focused repair groups pass at e59eb622. Full x64 attempt85 at e65c5baf was interrupted during all-target compilation by the shared VM backing-growth guard,not a reported product assertion. No native groups ran. Exact forced-interruption cleanup passes;the VM backing file grew1241513984 bytes and was not compacted. Cooperative stop and two-job build are candidates awaiting fault-injection verification. Full180 x64,same-source privateWin32,current C90 and detailed review remain open. No owner/release/full0.1 acceptance.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -599,6 +602,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json"
+    },
+    {
+      "command": "Full x64 attempt85 at e65c5baf;shared backing-growth guard interruption before native tests",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-backing-growth-stop.json"
+    },
+    {
+      "command": "164 tooling tests(one skip),1327 structural/source-map/manifest/template checks",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
@@ -809,10 +826,6 @@
     {
       "path": "spec/catalog/native-fixture-timeouts.json",
       "sha256": "sha256:ba5a46f3f26fdfe5990c0d78524952420e96f71cd142e76f52b4d5ff871294bb"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:fb1cf4df7bbf2269edb1e322b52fd9cd0e8b701ccdf8a31b29b75ef938fb3d96"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
@@ -1113,12 +1126,32 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
       "sha256": "sha256:780a031427bd35a234ec9af0b604807fdf2ce313131d961fd29704003c5b538b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-backing-growth-stop.json",
+      "sha256": "sha256:78ea07ac97dcbce8730da80b313f656e84ebdde65d63f209825aee2c988cda1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-delta-retirement.json",
+      "sha256": "sha256:dc2e0cdfcdf4e4c8e6502951fbd9e037e169e4c3d304bf693a53b35aec7f6768"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-cleanup-recovery.json",
+      "sha256": "sha256:208b8a9b2cc21dfb1c2323e100760524a92373cf09d430c296ada4a36ffe61c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-review.json",
+      "sha256": "sha256:1874b3e9f1d457bc5a5a865b07e705220d6a562d5dee4405c0f44c894a1f5ce9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
+      "sha256": "sha256:2f6cc8f2788a226bc16851c6ac2585ed32878a6edb1163bdaf3a6243b78d9509"
     }
   ],
   "blockers": [
-    "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
-    "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
+    "Current full x64 qualification incomplete after measured resource-guard interruption;cooperative stop candidate needs actual guest fault-injection verification.",
+    "Full180 x64,same-source privateWin32,current C90/detailed review and main integration remain pending. Owner acceptance/release and original all-platform0.1 remain separate."
   ],
-  "next_safe_step": "Freeze this closing source,verify complete W105 context,run --native-x64 --interactive-ui(all180 groups). Keep the exact same source HEAD for current privateWin32 campaign and C90 --current receipt. Review detailed cases/archives/identities and full cleanup,then merge tested dev\u2192main. Continue W106 evidence repair and W107 API/UI observations after W105 review.",
+  "next_safe_step": "Validate candidate controller/template/tooling;freeze and verify W105 context;run --controller-stop-proof --interactive-ui and review exact stop acknowledgement,job/grant/media/source/account/profile cleanup and archive hashes. Only after that proof retry full180 x64 with declared parallel2 and unchanged limits/deadlines;retain exact source for privateWin32/C90. Integrate tested dev into main after W105 review,then W106/W107.",
   "performed_remote_writes": true
 }
