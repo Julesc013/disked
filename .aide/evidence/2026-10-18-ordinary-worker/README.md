@@ -52,6 +52,14 @@ PowerShell invocation groups in AppContainer, all other 176 groups in the
 ordinary restricted profile, with unchanged assertions/timeouts and per-group
 profile receipts. This is not qualification of ordinary restricted CLR.
 
+Attempt 53 at `a534b672` reproduces the read-only cleanup defect using tiny
+ordinary restricted-owner files. Exactly READONLY (attribute 1) survives Python
+`chmod` with access denied; `SetFileAttributesW` permits subsequent deletion
+without an ACL change. All diagnostic files and outer resources retire; the
+archive is 2,504 bytes. The cleanup repair clears only READONLY after the existing
+containment, reparse-point and hard-link guards. Its guest regression must pass
+before relying on it in another full campaign.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

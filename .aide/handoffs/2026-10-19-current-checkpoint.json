@@ -80,9 +80,12 @@
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp",
     "tools/build-inputs.json",
-    "tools/release/artifact_check.py"
+    "tools/release/artifact_check.py",
+    "tools/workspace.py",
+    "tests/tools/test_workspace.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepare-powershell.py"
   ],
-  "summary": "DE-W105 partial. Focused FAT review passes at d62f10c9 after verified Medium artifact handoff. Attempt48 at792d66b0 completes the x64 build but records14 passing/six failing groups, then a further file-export failure has empty JUnit. Capped guest storage fills and raw archive finalization fails; only structured receipts/command tails survive. All owned processes/security grants/actor/image/source retire, including guarded source cleanup recovery. Working-tree repairs enumerate all inventory generations before hashing, add missing schema-export source inputs, stage disposable pinned Python tooling, retire compiler objects after build checks and retire per-group temporary fixtures under their restricted owner.52 artifact checks and253 spec/143 tooling tests pass; actual new cleanup/dependency/native behaviors remain to be evaluated. Strict C90 syntax passes on ten NTFS C units/two headers. Main promotion,owner acceptance,release and full0.1.0 remain open. Attempt49 actual AppContainer PowerShell startup passes. Attempt50 refuses incomplete75-schema source before compiling. Attempt51 at97f2b168 passes unchanged native file-export semantics,95-schema loading and actual restricted-owner cleanup. Prepared next full matrix retains two complete invocation groups in AppContainer and remaining176 in ordinary Medium,with per-group profiles and unchanged assertions/timeouts. Full178/current Win32/detail gates still open. Run52 at7d07616e remains failed: original300-second FAT history deadline,AppContainer0700 invocation fixture errors and final readonly cleanup denial5. Storage stayed bounded,720 compiler objects retired,and87196-byte archive plus final outer cleanup survive. Managed invocation fixtures and bounded tracing are prepared. Guest PowerShell7 is absent; preflight now rejects that prerequisite before a full build. No original native assertion/deadline has changed.",
+  "summary": "DE-W105 partial. Focused FAT review passes at d62f10c9 after verified Medium artifact handoff. Attempt48 at792d66b0 completes the x64 build but records14 passing/six failing groups, then a further file-export failure has empty JUnit. Capped guest storage fills and raw archive finalization fails; only structured receipts/command tails survive. All owned processes/security grants/actor/image/source retire, including guarded source cleanup recovery. Working-tree repairs enumerate all inventory generations before hashing, add missing schema-export source inputs, stage disposable pinned Python tooling, retire compiler objects after build checks and retire per-group temporary fixtures under their restricted owner.52 artifact checks and253 spec/143 tooling tests pass; actual new cleanup/dependency/native behaviors remain to be evaluated. Strict C90 syntax passes on ten NTFS C units/two headers. Main promotion,owner acceptance,release and full0.1.0 remain open. Attempt49 actual AppContainer PowerShell startup passes. Attempt50 refuses incomplete75-schema source before compiling. Attempt51 at97f2b168 passes unchanged native file-export semantics,95-schema loading and actual restricted-owner cleanup. Prepared next full matrix retains two complete invocation groups in AppContainer and remaining176 in ordinary Medium,with per-group profiles and unchanged assertions/timeouts. Full178/current Win32/detail gates still open. Run52 at7d07616e remains failed: original300-second FAT history deadline,AppContainer0700 invocation fixture errors and final readonly cleanup denial5. Storage stayed bounded,720 compiler objects retired,and87196-byte archive plus final outer cleanup survive. Managed invocation fixtures and bounded tracing are prepared. Guest PowerShell7 is absent; preflight now rejects that prerequisite before a full build. No original native assertion/deadline has changed. Attempt53 reproduces exact READONLY chmod denial under the ordinary restricted owner; native attribute clearing deletes it without ACL edits. Cleanup now clears only READONLY after existing ownership/link guards;253 spec tests(two skips) and144 tooling tests(one skip) pass. New guest cleanup regression and temporary PowerShell7 proof await execution.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -188,6 +191,20 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-timeout.json"
+    },
+    {
+      "command": "Ordinary restricted-owner attribute diagnostic; no product qualification",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json"
+    },
+    {
+      "command": "253 spec/144 tooling tests plus structural/source-map/manifest checks",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     }
   ],
   "artifacts": [
@@ -217,7 +234,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:69988e1a39e8cccbfdaa9e6771f7d386543d40d606ff4160964c67fe88771903"
+      "sha256": "sha256:1c8ca8470637bb2a276f46e85739a1a87fc3bc6e59fc1c43aaff94482432acd9"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -302,11 +319,23 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
       "sha256": "sha256:f28965b8a4bac497f8d6e8474c57714705d60e0b986bc9a904affda1a00337ad"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
+      "sha256": "sha256:a8c2893bc62421e10476c8975534238b8b3b2c8fafcd4d47164c031519bc8472"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-cleanup.json",
+      "sha256": "sha256:becb6d986ce039700bd36f810d28b2ffb0f880ccfd68f587ce3b660299063643"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute.tar.xz",
+      "sha256": "sha256:527eb221ef99dff41be0a32300da3d14d472c8add9afe9077b2c96ad998cec5a"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Run the prepared tiny ordinary cleanup-attribute diagnostic,then focused FAT history with live bounded method/input tracing. Preserve all assertions/deadlines and512MiB cap. Qualify required guest PowerShell7 tooling within existing budgets before invocation/full reruns. Full178/current Win32/detail review remains required for main;W106/107 follow;original0.1.0 and owner/release/storage gates unchanged.",
+  "next_safe_step": "Verify the repaired read-only cleanup under the ordinary guest owner, then run focused FAT history with bounded tracing and unchanged deadlines. Qualify the temporary PowerShell7 runtime before wiring the two invocation groups into a complete178 run. Current Win32/detail gates and owner/release/storage gates remain separate; keep dev pushed and merge main after applicable qualification.",
   "performed_remote_writes": true
 }

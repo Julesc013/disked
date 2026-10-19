@@ -76,21 +76,28 @@ def main():
     cleanup_only='--cleanup-only' in sys.argv
     null_proof='--null-proof' in sys.argv
     powershell_proof='--powershell-proof' in sys.argv
+    powershell7_proof='--powershell7-proof' in sys.argv
     cleanup_proof='--cleanup-proof' in sys.argv
     focus_fat='--focus-fat-review' in sys.argv
     focus_export='--focus-file-export' in sys.argv
     focus_history='--focus-fat-history' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or cleanup_proof or focus_fat or focus_export or focus_history
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or focus_fat or focus_export or focus_history
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    full_files=('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','build-driver.py','guest-source.py','source-snapshot.py','pydeps.zip','pydeps.json','source.pack','source.json')
+    helper_files=('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
+    full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
-        for name in full_files[:-4]:
+        for name in helper_files:
             origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
-        if '--prepare-only' in sys.argv or cleanup_only or null_proof or powershell_proof or cleanup_proof:
+        if powershell7_proof and '--prepare-only' not in sys.argv and not cleanup_only:
+            definition=importlib.util.spec_from_file_location('powershell_setup',HERE/'prepare-powershell.py');tool=importlib.util.module_from_spec(definition);definition.loader.exec_module(tool)
+            tool.prepare(stage)
+        else:
+            (stage/'pwsh7.zip').write_bytes(b'not-a-runtime');(stage/'pwsh7.json').write_text('{}\n')
+        if '--prepare-only' in sys.argv or cleanup_only or null_proof or powershell_proof or powershell7_proof or cleanup_proof:
             (stage/'pydeps.zip').write_bytes(b'non-executable parser fixture');(stage/'pydeps.json').write_text('{}\n')
         else:
             ast.parse((HERE/'prepare-dependencies.py').read_bytes())
@@ -131,8 +138,9 @@ def main():
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
-    if null_proof or powershell_proof or cleanup_proof:expected['native_x64']['null_proof_only']=True
-    if powershell_proof:expected['native_x64']['powershell_proof']=True
+    if null_proof or powershell_proof or powershell7_proof or cleanup_proof:expected['native_x64']['null_proof_only']=True
+    if powershell_proof or powershell7_proof:expected['native_x64']['powershell_proof']=True
+    if powershell7_proof:expected['native_x64']['powershell7_proof']=True
     if cleanup_proof:expected['native_x64']['cleanup_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']

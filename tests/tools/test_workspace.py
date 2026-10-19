@@ -72,6 +72,21 @@ class WorkspaceTests(unittest.TestCase):
         self.assertFalse(Path((self.root / 'observed-work.txt').read_text()).exists())
 
     @unittest.skipUnless(os.name == 'nt', 'Windows read-only deletion semantics')
+    def test_exact_readonly_attribute_removed_without_chmod_or_acl_change(self):
+        work = self.root / 'owned-attributes'
+        work.mkdir()
+        path = work / 'readonly.bin'
+        path.write_bytes(b'owned disposable output')
+        api = W.ctypes.WinDLL('kernel32', use_last_error=True)
+        api.SetFileAttributesW.argtypes = [W.wintypes.LPCWSTR, W.wintypes.DWORD]
+        api.SetFileAttributesW.restype = W.wintypes.BOOL
+        self.assertTrue(api.SetFileAttributesW(str(path), 1))
+        self.assertEqual(path.stat().st_file_attributes, 1)
+        with mock.patch.object(Path, 'chmod', side_effect=AssertionError('No chmod fallback')):
+            W.remove_owned_work(work, self.root, 'owned-')
+        self.assertFalse(work.exists())
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows read-only deletion semantics')
     def test_readonly_hardlink_does_not_change_external_sentinel_attributes(self):
         work = self.root / 'owned-work'
         work.mkdir()

@@ -214,10 +214,24 @@ def remove_owned_work(path, base, prefix):
             raise error
         if not target.is_dir() and target.stat().st_nlink > 1:
             raise StorageLimit('Refusing to change attributes shared by a hard link; review owned workspace: ' + str(path))
-        mode = target.stat().st_mode | filemode.S_IWUSR | filemode.S_IRUSR
-        if target.is_dir():
-            mode |= filemode.S_IXUSR
-        target.chmod(mode)
+        if os.name == 'nt':
+            # Python's chmod can itself fail opening an exactly READONLY file
+            # under the restricted owner token. Change only that attribute;
+            # never replace an owned file's DACL to make cleanup succeed.
+            attributes = target.stat().st_file_attributes
+            if not attributes & filemode.FILE_ATTRIBUTE_READONLY:
+                raise error
+            api = ctypes.WinDLL('kernel32', use_last_error=True)
+            api.SetFileAttributesW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD]
+            api.SetFileAttributesW.restype = wintypes.BOOL
+            attributes &= ~filemode.FILE_ATTRIBUTE_READONLY
+            if not api.SetFileAttributesW(str(target), attributes or filemode.FILE_ATTRIBUTE_NORMAL):
+                raise ctypes.WinError(ctypes.get_last_error())
+        else:
+            mode = target.stat().st_mode | filemode.S_IWUSR | filemode.S_IRUSR
+            if target.is_dir():
+                mode |= filemode.S_IXUSR
+            target.chmod(mode)
         function(name)
     for attempt in range(20):
         try:

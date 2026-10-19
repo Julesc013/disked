@@ -2,6 +2,7 @@
 import ctypes as C
 from ctypes import wintypes as T
 import json
+import importlib.util
 import os
 from pathlib import Path
 import stat
@@ -53,4 +54,13 @@ for flags in (0x80,1,2,4,0x27):
             row['attempts'].append(dict(action=action,deleted=False,winerror=error.winerror,attributes=attrs(str(path))))
     row['remains']=path.exists();rows.append(row)
 if not list(folder.iterdir()):folder.rmdir()
-print(json.dumps(dict(scope=__doc__,rows=rows,all_removed=all(not r['remains'] for r in rows))))
+owned=Path(tempfile.mkdtemp(prefix='owned-cleanup-regression-',dir=parent))
+for flags in (1,0x27):
+    path=owned/(str(flags)+'.bin');path.write_bytes(b'owned disposable output')
+    if not setattrs(str(path),flags):raise C.WinError(C.get_last_error())
+definition=importlib.util.spec_from_file_location('owned_workspace',Path(__file__).parent/'source/tools/workspace.py')
+workspace=importlib.util.module_from_spec(definition);definition.loader.exec_module(workspace)
+workspace.remove_owned_work(owned,parent,'owned-cleanup-regression-')
+if owned.exists():raise ValueError('Owned cleanup regression left output')
+print(json.dumps(dict(scope=__doc__,rows=rows,all_removed=all(not r['remains'] for r in rows),
+    production_cleanup_regression=dict(flags=[1,0x27],removed=True,acl_changes=False))))

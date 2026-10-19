@@ -176,6 +176,30 @@ def coordinate(g):
         cmake=Path('C:/Program Files/CMake/bin/cmake.exe');ctest=cmake.with_name('ctest.exe')
         active_stem=None;active_group=None;active_before=set()
 
+        def stage_powershell7():
+            metadata=json.loads((ROOT/'pwsh7.json').read_bytes())
+            assert metadata['archive_sha256']==retention.sha(ROOT/'pwsh7.zip')
+            entries={row['path']:row for row in metadata['files']}
+            assert 0<len(entries)==len(metadata['files'])<=1024 and 0<metadata['bytes']<=256*1024*1024
+            tool=work/'powershell7';tool.mkdir();total=0
+            with zipfile.ZipFile(ROOT/'pwsh7.zip') as payload:
+                assert len(payload.infolist())==len(entries) and {p.filename for p in payload.infolist()}==set(entries)
+                for info in payload.infolist():
+                    name=PurePosixPath(info.filename);row=entries[info.filename]
+                    assert not name.is_absolute() and '..' not in name.parts and not any(c in info.filename for c in '\\:*?[]\0')
+                    assert not info.is_dir() and not stat.S_ISLNK(info.external_attr>>16) and info.file_size==row['bytes']<=64*1024*1024
+                    content=payload.read(info);total+=len(content);assert total<=256*1024*1024
+                    assert hashlib.sha256(content).hexdigest()==row['sha256']
+                    path=tool/str(name);path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(content)
+            assert total==metadata['bytes'] and (tool/'pwsh.exe').is_file()
+            directory_acl(tool,source_acl)
+            env['PATH']=str(tool)+os.pathsep+env.get('PATH',os.defpath)
+            env['PSModulePath']=str(tool/'Modules')
+            result['powershell7_tool']=metadata
+            archive.write(ROOT/'pwsh7.json','recipe/pwsh7.json')
+            budget()
+            return tool/'pwsh.exe'
+
         def budget():
             if time.monotonic()-campaign_started>7200:raise TimeoutError('Guest campaign overall deadline')
             g.S.check(ROOT)
@@ -304,7 +328,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         _,raw=run('package-git-clean',[git,'-C',SOURCE,'status','--porcelain','--untracked-files=normal'],30);assert not raw
         if expected.get('null_proof_only'):
             if expected.get('powershell_proof'):
-                shell=Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
+                shell=stage_powershell7() if expected.get('powershell7_proof') else Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
                 command="[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);@{sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value;clr=[Environment]::Version.ToString();version=$PSVersionTable.PSVersion.ToString()}|ConvertTo-Json -Compress"
                 _,raw=run('package-powershell-clr-startup',[shell,'-NoLogo','-NoProfile','-NonInteractive','-Command',command],30)
                 observed=json.loads(raw.decode('utf-8-sig'))
