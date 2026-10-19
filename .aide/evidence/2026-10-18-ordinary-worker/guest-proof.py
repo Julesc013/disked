@@ -136,7 +136,9 @@ def startup_diagnose():
         selected=fresh(W.plain_directory(state['work'])/'startup');instance=worker(selected,private)
         result['private_ui_security']=instance.ui_security
         for name,variant,original in (('standard-no-window','basic-stdio',True),
-                ('restricted-no-window','basic-stdio',False),('restricted-detached','basic-detached',False)):
+                ('restricted-no-window','basic-stdio',False),('restricted-detached','basic-detached',False),
+                ('restricted-user-default-dacl','basic-stdio',False)):
+            if name=='restricted-user-default-dacl':result['token_default_dacl_change']=instance.set_default_dacl()
             request=selected/'startup-request.json';request.write_text(json.dumps(dict(variant=name)))
             row=dict(name=name)
             try:
@@ -153,7 +155,7 @@ def startup_diagnose():
                 if job:job.close();job=None
                 if child:child.wait(timeout=10);child.close();child=None
                 result['variants'].append(row)
-        assert len(result['variants'])==3
+        assert len(result['variants'])==4 and all(r['parameters'] for r in result['variants'])
         result['status']='pass'  # Complete diagnostic, not successful launch/admission.
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-16384:]);raise

@@ -181,6 +181,33 @@ class Worker:
         try:return text.value
         finally:self.k.LocalFree(C.cast(text,P))
 
+    def set_default_dacl(self):
+        """Only this private token's future object defaults, not existing ACLs."""
+        self.bind(self.a,'InitializeSecurityDescriptor',T.BOOL,P,T.DWORD)
+        self.bind(self.a,'SetSecurityDescriptorDacl',T.BOOL,P,T.BOOL,P,T.BOOL)
+        self.bind(self.a,'SetTokenInformation',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD)
+        self.bind(self.a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,P,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),P)
+        def observed():
+            needed=T.DWORD();self.a.GetTokenInformation(self.token,6,None,0,C.byref(needed))
+            if not 0<needed.value<=16384:raise ValueError('Unexpected default ACL size')
+            data=C.create_string_buffer(needed.value)
+            self.require(self.a.GetTokenInformation(self.token,6,data,needed,C.byref(needed)))
+            acl=C.cast(data,C.POINTER(P)).contents
+            sd=C.create_string_buffer(64);text=T.LPWSTR()
+            self.require(self.a.InitializeSecurityDescriptor(sd,1))
+            self.require(self.a.SetSecurityDescriptorDacl(sd,True,acl,False))
+            self.require(self.a.ConvertSecurityDescriptorToStringSecurityDescriptorW(sd,1,4,C.byref(text),None))
+            try:return text.value
+            finally:self.k.LocalFree(C.cast(text,P))
+        before=observed()
+        descriptor=self.descriptor('D:(A;;GA;;;SY)(A;;GA;;;'+self.user_sid+')')
+        try:
+            acl,present,defaulted=P(),T.BOOL(),T.BOOL()
+            self.require(self.a.GetSecurityDescriptorDacl(descriptor,C.byref(present),C.byref(acl),C.byref(defaulted)))
+            self.require(self.a.SetTokenInformation(self.token,6,C.byref(acl),C.sizeof(acl)))
+        finally:self.k.LocalFree(descriptor)
+        return dict(before=before,after=observed())
+
     def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False):
         self.last_launch=None
         if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached'):
@@ -208,6 +235,8 @@ class Worker:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
             if variant in ('handles','basic-stdio','basic-detached'):
                 log_name='worker.log' if variant=='handles' else 'worker-basic-stdio.log'
+                self.launch_index=getattr(self,'launch_index',0)+1
+                if self.launch_index>1:log_name=log_name.removesuffix('.log')+'-'+str(self.launch_index)+'.log'
                 self.log_path=self.work/log_name
                 log_access=0x40000000 if variant=='handles' else 0x40000080
                 for path, access, disposition in ((str(self.work/log_name), log_access, 1), ('NUL', 0x80000000, 3)):
