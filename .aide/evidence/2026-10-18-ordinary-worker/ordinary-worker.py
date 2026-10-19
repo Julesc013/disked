@@ -309,8 +309,9 @@ class Worker:
                 identity=FileIdentity()
                 self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
                 self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
-            if diagnostic_original and not (len(command)==5 and command[-1] in ('startup','bootstrap') and
-                    Path(command[2])==ROOT/'target.py'):
+            observer_control=(len(command)==4 and Path(command[2])==ROOT/'loader-observer.py' and command[-1]=='loader-standard.log')
+            startup_control=(len(command)==5 and command[-1] in ('startup','bootstrap') and Path(command[2])==ROOT/'target.py')
+            if diagnostic_original and not (observer_control or startup_control):
                 raise ValueError('Unrestricted baseline is limited to the owned startup observer')
             selected_token=self.original if diagnostic_original else self.token
             self.last_launch['token_kind']='fresh_standard_baseline' if diagnostic_original else 'write_restricted'

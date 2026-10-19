@@ -300,8 +300,46 @@ def main():
             result['normal_log']=data.decode(errors='replace')
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
+def loader_diagnose():
+    result=dict(status='running',scope='Pure Python entry/import breadcrumb diagnostic only',
+                full_profile_qualified=False,all_owned_processes_retired=False,variants=[])
+    instance,job,child=None,None,None
+    try:
+        data=actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
+        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
+        selected=fresh(W.plain_directory(state['work'])/'loader');instance=worker(selected,private)
+        for name,original in (('standard',True),('restricted',False)):
+            row=dict(name=name,observer_receipt=None)
+            try:
+                job=S.WindowsJob();filename='loader-'+name+'.log'
+                child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),filename],os.environ,job,diagnostic_original=original)
+                row['exit_code']=child.wait(timeout=15)
+                path=selected/filename
+                if path.exists():
+                    raw=path.read_bytes();assert len(raw)<=8192
+                    row['observer_receipt']=raw.decode('utf-8');row['observer_sha256']=hashlib.sha256(raw).hexdigest()
+                log=instance.log_path.read_bytes();assert len(log)<=65536
+                row['standard_output']=log.decode(errors='replace')
+            finally:
+                row['parameters']=instance.last_launch
+                if job:job.close();job=None
+                if child:child.wait(timeout=10);child.close();child=None
+                result['variants'].append(row)
+        assert len(result['variants'])==2 and result['variants'][0]['exit_code']==0
+        assert result['variants'][0]['observer_receipt'].endswith('complete\n')
+        result['status']='pass'  # Diagnostic collection only.
+    except BaseException:
+        result.update(status='fail',error=traceback.format_exc()[-16384:]);raise
+    finally:
+        if job:job.close()
+        if child:child.wait(timeout=10);child.close()
+        if instance:instance.close()
+        result['all_owned_processes_retired']=True
+        (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+
 if __name__=='__main__':
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
+    elif len(sys.argv)>1 and sys.argv[1]=='--loader-diagnostic':loader_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--startup-diagnostic':startup_diagnose()
     elif len(sys.argv)>1 and sys.argv[1]=='--diagnostic':diagnose()
     else:main()
