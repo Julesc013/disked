@@ -147,7 +147,7 @@ def main():
     expected.update(experiment='ordinary-token-'+str(size)+'mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=size)
     if interactive_ui:
         expected['interactive_ui']=True
-        expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2012b station-only subject ACE with setup-fault recovery and exact retirement;no filesystem/token/product-record change'
+        expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2016b station-only subject ACE with setup-fault recovery and exact retirement;EXITWINDOWS right required for User32 startup but no exit/logoff invocation;no filesystem/token/product-record change'
         expected['interactive_worker_review']=json.loads((HERE/'interactive-worker-plan.json').read_bytes())
         if station_matrix:
             expected['station_bootstrap_matrix_only']=True
@@ -345,7 +345,14 @@ def main():
             shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
-    if crypto and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
+    if station_matrix:
+        proof=result.get('guest',{}).get('proof',{})
+        rows=proof.get('station_bootstrap_matrix',[])
+        if len(rows)!=6 or not proof.get('all_owned_processes_retired') or not all(
+                row.get('station_retirement',{}).get('retired') and
+                row.get('job_retirement',{}).get('active_processes')==0 for row in rows):
+            raise RuntimeError('Preserve matrix journal: station/process retirement not established')
+    if crypto and not station_matrix and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
         raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
     if full_native and not result.get('guest',{}).get('proof',{}).get('null_device_retired'):
         raise RuntimeError('Preserve guest actor journal: null-sink exception retirement not established')

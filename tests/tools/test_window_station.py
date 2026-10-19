@@ -38,8 +38,9 @@ class StationDeltaTests(unittest.TestCase):
             with self.subTest(value=value),self.assertRaises(ValueError):S.aces(value)
 
     def test_minimal_declared_mask_excludes_shared_desktop_authority(self):
-        self.assertEqual(struct.unpack_from('<I',S.owned_ace(sid(8)),4)[0],0x2012b)
-        for forbidden in (0x10000,0x40000,0x80000,4,0x10,0x40,0x200):
+        self.assertEqual(struct.unpack_from('<I',S.owned_ace(sid(8)),4)[0],0x2016b)
+        self.assertEqual(S.MASK^S.BASE_MASK,0x40)
+        for forbidden in (0x10000,0x40000,0x80000,4,0x10,0x200):
             self.assertEqual(S.MASK&forbidden,0)
 
     def test_fixed_diagnostic_masks_never_edit_security_or_delete_station(self):

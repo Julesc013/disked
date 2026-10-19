@@ -47,6 +47,13 @@ for name in ('user32.dll', 'gdi32.dll'):
                     C.set_last_error(0);opened=u.OpenWindowStationW('WinSta0',False,mask);error=C.get_last_error()
                     row['station_access'].append(dict(right=label,mask=mask,opened=bool(opened),error=0 if opened else error))
                     if opened and not u.CloseWindowStation(opened):raise C.WinError(C.get_last_error())
+                u.OpenDesktopW.argtypes=[T.LPCWSTR,T.DWORD,T.BOOL,T.DWORD];u.OpenDesktopW.restype=T.HANDLE
+                u.CloseDesktop.argtypes=[T.HANDLE]
+                row['default_desktop_access']=[]
+                for label,mask in [('read_objects',1),('hook_control',8),('write_objects',0x80),('switch_desktop',0x100)]:
+                    C.set_last_error(0);opened=u.OpenDesktopW('Default',0,False,mask);error=C.get_last_error()
+                    row['default_desktop_access'].append(dict(right=label,mask=mask,opened=bool(opened),error=0 if opened else error))
+                    if opened and not u.CloseDesktop(opened):raise C.WinError(C.get_last_error())
     finally:
         if handle:
             k.FreeLibrary(handle)

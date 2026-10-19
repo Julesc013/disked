@@ -15,8 +15,9 @@
     "Verify exact session3/WinSta0/visible before worker creation",
     "Create only nonce-named hidden desktop with protected original user/coordinator ACL and Medium label",
     "Actual restricted User32/GDI/static-window/new-console observations must succeed",
-    "No station label/owner/group change;only declared0x2012b temporary subject ACE",
-    "Actual parent/console child must open READATTR and be denied error5 for each excluded right"
+    "Station owner/group/label unchanged;temporary exact-subject0x2016b;normalEXITWINDOWS API access is required by observed startup,not an executed session action",
+    "Actual parent/console child must open READATTR and be denied error5 for each excluded right",
+    "Original restricted parent and new-console child must be denied Default-desktop read/write/hook/switch handle access;never invoke those actions"
   ],
   "task": [
     "Credential transferred only through DPAPI-protected guest file accessible to Agents/SYSTEM",
@@ -33,18 +34,19 @@
     "Production privilege broker",
     "Broader UI access"
   ],
-  "revision": 2,
+  "revision": 3,
   "station_setup": {
-    "basis": "sixty-sixth-interactive-access-refusal.json",
+    "basis": "seventieth-station-startup-matrix.json",
     "subject": "Exact fresh disposable actor SID from nonce-bound journal",
-    "mask": "0x2012b",
+    "mask": "0x2016b",
     "rights": [
       "READ_CONTROL",
       "WINSTA_ENUMDESKTOPS",
       "WINSTA_READATTRIBUTES",
       "WINSTA_CREATEDESKTOP",
       "WINSTA_ACCESSGLOBALATOMS",
-      "WINSTA_ENUMERATE"
+      "WINSTA_ENUMERATE",
+      "WINSTA_EXITWINDOWS:required User32 bootstrap access;no exit/logoff call permitted"
     ],
     "excluded": [
       "DELETE",
@@ -52,11 +54,11 @@
       "WRITE_OWNER",
       "clipboard",
       "global attribute writes",
-      "exit/logoff",
       "screen access"
     ],
     "lifecycle": "Fault after apply before workers;recover/remove exact ACE;apply for original primitive;remove after all owned jobs0;refuse actor deletion until retired",
-    "concurrency": "Observed-current exact-subject delta;preserve all unrelated ACE bytes,owner,group,label;concurrent descriptor maintenance excluded"
+    "concurrency": "Observed-current exact-subject delta;preserve all unrelated ACE bytes,owner,group,label;concurrent descriptor maintenance excluded",
+    "not_tested": "No logoff/shutdown action or shared desktop interaction attempted;this profile does not claim EXITWINDOWS access denial."
   },
   "bootstrap_diagnostic": [
     "Observe actual suspended child process and primary-token session IDs without changing them",
@@ -86,6 +88,7 @@
     "subject": "Exact disposable standard-user SID;previously allowed trusted read-only startup observer only",
     "excluded": "No actual clipboard/screen/exit action;no DACL-edit/owner/delete grant;no DiskEd or untrusted input",
     "controls": "Same session3/interpreter/user;new owned hidden desktop;every job0 and exact subject ACE removal before next case",
-    "interpretation": "Collect all refusals/successes;diagnostic completeness is not worker/product qualification"
+    "interpretation": "Collect all refusals/successes;diagnostic completeness is not worker/product qualification",
+    "observed": "All six observations complete at9357f819;only0x2016b and0x2037f startup succeed;all jobs0 and exact descriptor restoration. Host postguard incorrectly demands unused crypto receipt;guarded cleanup-only removes remaining small metadata."
   }
 }

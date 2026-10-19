@@ -12,8 +12,11 @@ import subprocess
 import sys
 
 ROOT=Path('C:/ProgramData/DiskEd/qualification')
-MASK=0x2012b  # read-control, enumeration, attributes, atoms, own desktop creation
-DIAGNOSTIC_MASKS=(MASK,MASK|0x200,MASK|4,MASK|0x10,MASK|0x40,0x2037f)
+BASE_MASK=0x2012b  # read-control, enumeration, attributes, atoms, own desktop creation
+# Run70 isolates EXITWINDOWS as necessary for User32 initialization on WinSta0.
+# Opening this right is tested; invoking exit/logoff is outside the test grant.
+MASK=BASE_MASK|0x40
+DIAGNOSTIC_MASKS=(BASE_MASK,BASE_MASK|0x200,BASE_MASK|4,BASE_MASK|0x10,MASK,0x2037f)
 P=C.c_void_p
 spec=importlib.util.spec_from_file_location('station_crypto_support',Path(__file__).with_name('crypto-device.py'))
 support=importlib.util.module_from_spec(spec);spec.loader.exec_module(support)

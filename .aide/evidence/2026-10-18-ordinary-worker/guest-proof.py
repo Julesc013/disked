@@ -285,14 +285,16 @@ def main():
             assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
             assert result['interactive_ui_observation']['libraries'][0]['window_created']
             for row in result['interactive_ui_observation']['libraries'][0]['station_access']:
-                assert row['opened']==(row['right']=='read_attributes')
+                assert row['opened']==(row['right'] in ('read_attributes','exit_windows'))
                 assert row['error']==(0 if row['opened'] else 5)
             console=result['interactive_ui_observation']['console_child']
             assert console['exit_code']==0 and not console['stderr']
             console_ui=json.loads(console['stdout']);assert console_ui['console_opened']
             for row in console_ui['libraries'][0]['station_access']:
-                assert row['opened']==(row['right']=='read_attributes')
+                assert row['opened']==(row['right'] in ('read_attributes','exit_windows'))
                 assert row['error']==(0 if row['opened'] else 5)
+            for observation in (result['interactive_ui_observation'],console_ui):
+                assert all(not row['opened'] and row['error']==5 for row in observation['libraries'][0]['default_desktop_access'])
             result['interactive_ui_job_retirement']=retire_job(job);job=None;child.close();child=None
         instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
