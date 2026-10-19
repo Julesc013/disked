@@ -95,7 +95,7 @@ def coordinate(g):
                     if not saved:archive.writestr('commands/'+label+'-incomplete.log',instance.log_path.read_bytes()[:524288])
                     retention.retire_file(instance.log_path)
 
-        probe=work/'token.py'
+        probe=work/'worker-identity-preflight.py'
         probe.write_text("import sys,json,pathlib\nsys.path.insert(0,sys.argv[1])\nimport target\nr=target.identity()\nassert r['restricted'] and not any(r[k] for k in ('elevated','administrator','appcontainer'))\nassert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
         _,raw=run('actual-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write'],30)
         result['actual_token']=json.loads(raw);assert result['actual_token']['user_sid']==data['sid']
