@@ -1,5 +1,6 @@
-"""Current-source x64 qualification in the independently proven ordinary guest."""
+"""Pinned x64 AppContainer build followed by ordinary restricted guest tests."""
 import ctypes as C
+import base64
 from ctypes import wintypes as T
 import hashlib
 import json
@@ -29,6 +30,7 @@ def coordinate(g):
                 all_owned_processes_retired=False,crypto_device_retired=False,commands=[],tests=[],owner_accepted=False)
     grant,instance,archive,job,child=None,None,None,None,None
     source_prepared=False;quiescent=True
+    ordinary=False;directory_grant=False
     campaign_started=time.monotonic()
 
     def stop():
@@ -37,6 +39,37 @@ def coordinate(g):
         if child:child.wait(timeout=10);child.close();child=None
         quiescent=True
 
+    def shared_read_access(add):
+        nonlocal directory_grant
+        sid=state['profile_sids'][0]
+        paths=[str(Path('C:/')),str(Path('C:/ProgramData')),str(Path('C:/ProgramData/DiskEd')),str(ROOT)]
+        journal=ROOT/'scoped-directory-access.json'
+        if add:directory_grant=True
+        entry=dict(nonce=state['nonce'],sid=sid,paths=paths,phase='pending' if add else 'removing')
+        journal.write_text(json.dumps(entry)+'\n')
+        script=source_setup.directory_script(sid,paths,add)
+        call=subprocess.run([str(Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'),
+            '-NoProfile','-EncodedCommand',base64.b64encode(script.encode('utf-16-le')).decode('ascii')],capture_output=True,timeout=30)
+        if len(call.stdout)+len(call.stderr)>32768:raise RuntimeError('Directory access observation bound')
+        result.setdefault('directory_access',[]).append(dict(add=add,exit_code=call.returncode,output=call.stdout.decode(errors='replace')))
+        if call.returncode:raise RuntimeError('Scoped directory read delta failed: '+call.stderr.decode(errors='replace'))
+        entry['phase']='active' if add else 'retired';journal.write_text(json.dumps(entry)+'\n');directory_grant=add
+
+    def directory_acl(path,sddl):
+        g.W.plain_directory(path)
+        a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True);descriptor=C.c_void_p()
+        convert=g.W.bind(a,'ConvertStringSecurityDescriptorToSecurityDescriptorW',T.BOOL,T.LPCWSTR,T.DWORD,C.c_void_p,C.c_void_p)
+        dacl=g.W.bind(a,'GetSecurityDescriptorDacl',T.BOOL,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+        edit=g.W.bind(a,'SetNamedSecurityInfoW',T.DWORD,T.LPWSTR,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+        free=g.W.bind(k,'LocalFree',C.c_void_p,C.c_void_p)
+        g.W.require(convert(sddl,1,C.byref(descriptor),None))
+        try:
+            present,defaulted,acl=T.BOOL(),T.BOOL(),C.c_void_p()
+            g.W.require(dacl(descriptor,C.byref(present),C.byref(acl),C.byref(defaulted)))
+            error=edit(str(path),1,0x80000004,None,None,acl,None)
+            if error:raise C.WinError(error)
+        finally:free(descriptor)
+
     try:
         data=g.actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
         state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==512
@@ -44,12 +77,18 @@ def coordinate(g):
         if prepared.returncode:raise RuntimeError('Source preparation: '+prepared.stderr[-4096:].decode(errors='replace'))
         source_prepared=True
         result['source_prepared']=json.loads((ROOT/'source-prepared.json').read_bytes())
-        grant=helper.Grant();grant.apply();grant.started()
-        work=g.fresh(g.W.plain_directory(state['work'])/'native-x64');instance=g.worker(work,private,namespace_compat=True)
+        work=g.W.plain_directory(state['work']);(work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+        compile_work=g.fresh(work/'compile-x64')
+        instance=g.W.Worker(compile_work,control=Path(os.environ['DISKED_WORK_ROOT']),private_station=True,profile_name=state['profile_names'][0])
+        assert instance.restricting_sid==state['profile_sids'][0]
+        pkg_sid=instance.restricting_sid;coordinator_sid=instance.user_sid
+        source_acl='D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;'+coordinator_sid+')(A;OICI;0x1200a9;;;'+pkg_sid+')(A;OICI;0x1200a9;;;'+data['sid']+')'
+        shared_acl='D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;'+coordinator_sid+')(A;OICI;0x1301bf;;;'+pkg_sid+')(A;OICI;0x1301bf;;;'+data['sid']+')'
+        directory_acl(SOURCE,source_acl);directory_acl(work,shared_acl);shared_read_access(True)
         # The same freshly owned output now serves the materialized source. Its
         # source-bound marker is required by the existing managed fixture helper.
-        (work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
-        build=work/'build';archive=retention.Observations(work/'observations.tar.xz')
+        (compile_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+        build=compile_work/'build';archive=retention.Observations(work/'observations.tar.xz')
         env=dict(os.environ,DISKED_WORK_ROOT=str(work),GIT_OPTIONAL_LOCKS='0',GIT_TERMINAL_PROMPT='0',
                  GIT_CONFIG_COUNT='1',GIT_CONFIG_KEY_0='safe.directory',GIT_CONFIG_VALUE_0=str(SOURCE),
                  MSBUILDDISABLENODEREUSE='1',CMAKE_BUILD_PARALLEL_LEVEL='1',DISKED_TEST_OTHER_VOLUME_ROOT='C:\\')
@@ -75,30 +114,32 @@ def coordinate(g):
             nonlocal job,child,quiescent
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False
             try:
-                child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio')
+                child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
+                process_id=child.pid
+                log_path=instance.log_path if ordinary else instance.work/'worker.log'
                 until=started+timeout
                 while child.poll() is None:
                     drain();budget()
-                    if instance.log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
+                    if log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
                     if time.monotonic()>until:raise TimeoutError(label+' deadline')
                     time.sleep(.2)
                 code=child.wait();stop();drain(final=True)
-                raw=instance.log_path.read_bytes();assert len(raw)<=524288
+                raw=log_path.read_bytes();assert len(raw)<=524288
                 archive.writestr('commands/'+label+'.log',raw);saved=True
-                result['commands'].append(dict(label=label,arguments=list(map(str,command)),exit_code=code,
+                result['commands'].append(dict(label=label,pid=process_id,execution_profile='ordinary' if ordinary else 'appcontainer-build',arguments=list(map(str,command)),exit_code=code,
                     seconds=time.monotonic()-started,sha256=hashlib.sha256(raw).hexdigest(),tail=raw[-4096:].decode(errors='replace')))
                 if code and not allow_failure:raise RuntimeError(label+' failed: '+raw[-2048:].decode(errors='replace'))
                 return code,raw
             finally:
                 stop()
-                if getattr(instance,'log_path',None) and instance.log_path.exists():
-                    if not saved:archive.writestr('commands/'+label+'-incomplete.log',instance.log_path.read_bytes()[:524288])
-                    retention.retire_file(instance.log_path)
+                if 'log_path' in locals() and log_path.exists():
+                    if not saved:archive.writestr('commands/'+label+'-incomplete.log',log_path.read_bytes()[:524288])
+                    retention.retire_file(log_path)
 
         probe=work/'worker-identity-preflight.py'
-        probe.write_text("import sys,json,pathlib\nsys.path.insert(0,sys.argv[1])\nimport target\nr=target.identity()\nassert r['restricted'] and not any(r[k] for k in ('elevated','administrator','appcontainer'))\nassert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
-        _,raw=run('actual-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write'],30)
-        result['actual_token']=json.loads(raw);assert result['actual_token']['user_sid']==data['sid']
+        probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
+        _,raw=run('build-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
+        result['build_token']=json.loads(raw);assert result['build_token']['user_sid']==coordinator_sid
         fixture_root=work/'symlink-fixture';fixture_root.mkdir()
         target,link=fixture_root/'source.img',fixture_root/'leaf.img';target.write_bytes(b'');os.symlink(target,link)
         assert link.is_symlink() and link.resolve()==target
@@ -155,6 +196,13 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 if mode=='headers':assert all(text in raw for text in (b'Dynamic base',b'NX compatible',b'Control Flow Guard'))
                 if mode=='dependents':assert not re.search(rb'(?:MSVCP|VCRUNTIME|UCRTBASE|API-MS-WIN-CRT)[^\s]*\.DLL',raw.upper())
         result['native_build_passed']=True
+        instance.close();instance=None;shared_read_access(False)
+        native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
+        (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+        directory_acl(compile_work,shared_acl)
+        grant=helper.Grant();grant.apply();grant.started()
+        _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
+        result['actual_token']=json.loads(raw);assert result['actual_token']['user_sid']==data['sid']
         for test in expected['groups']:
             stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
             active_stem=stem
@@ -189,6 +237,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         try:
             stop()
             if instance:instance.close()
+            if directory_grant:shared_read_access(False)
             if grant:grant.retire(quiescent=quiescent);result['crypto_device']=grant.report;grant.close()
             result.update(all_owned_processes_retired=True,crypto_device_retired=True)
             if archive:

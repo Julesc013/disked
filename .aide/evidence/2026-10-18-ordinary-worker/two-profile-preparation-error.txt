@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-18-ordinary-worker\campaign.py", line 250, in <module>
+    try: code=main()
+              ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-18-ordinary-worker\campaign.py", line 138, in main
+    if full_native:setup=once(setup,'actor_sid=$actorSid','actor_sid=$actorSid;build_user_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value')
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-18-ordinary-worker\campaign.py", line 18, in once
+    if text.count(before)!=1:raise ValueError('Template identity changed: '+before[:90])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Template identity changed: actor_sid=$actorSid

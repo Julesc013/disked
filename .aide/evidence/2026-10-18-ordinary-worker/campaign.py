@@ -134,7 +134,8 @@ def main():
     setup=once(setup,"$environmentVerified=$false","$environmentVerified=$false\n$actorName=$null;$actorSid=$null;$actorDescription=$null")
     marker=next(line for line in setup.splitlines() if "[IO.File]::WriteAllText((Join-Path $scratch 'owner.json')" in line)
     setup=once(setup,marker,marker+'\n'+CREATE_ACTOR)
-    setup=once(setup,"actor_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value","actor_sid=$actorSid")
+    setup=once(setup,"actor_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value",
+               "actor_sid=$actorSid;build_user_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value" if full_native else "actor_sid=$actorSid")
     if diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --diagnostic 2>&1)")
     if startup_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --startup-diagnostic 2>&1)")
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
@@ -147,7 +148,9 @@ def main():
     (stage/'guest-proof.ps1').write_text(setup,encoding='utf-8',newline='\n')
     attach=(PRIOR/'attach-image.py').read_text()
     attach=once(attach,"(A;;GA;;;' + config['actor_sid']", "(A;;0x1301bf;;;' + config['actor_sid']")
-    attach=once(attach,"''.join('(A;;0x1301bf;;;' + p['sid'] + ')' for p in profiles)", "''")
+    if full_native:attach=once(attach,"config['actor_sid'] + ')' +", "config['actor_sid'] + ')' + '(A;;0x1301bf;;;' + config['build_user_sid'] + ')' +")
+    attach=once(attach,"''.join('(A;;0x1301bf;;;' + p['sid'] + ')' for p in profiles)",
+                "''.join('(A;;0x1301bf;;;' + p['sid'] + ')' for p in profiles[:1])" if full_native else "''")
     ast.parse(attach);(stage/'attach-image.py').write_text(attach,encoding='utf-8',newline='\n')
     root_line="$root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\\..\\..'))"
     fixed_root="$root='"+str(ROOT).replace("'","''")+"'"
@@ -189,7 +192,7 @@ def main():
         }
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
-    if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\retained.tar.xz",''')
+    if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
     parser="$e=$null;$t=$null;foreach($f in Get-ChildItem -LiteralPath $args[0] -Filter '*.ps1'){$null=[Management.Automation.Language.Parser]::ParseFile($f.FullName,[ref]$t,[ref]$e);if($e.Count){throw ($e|Out-String)}}"
