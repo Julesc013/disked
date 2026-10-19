@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.15
+  version: 0.1.5-proposed.16
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-16T14:05:05.877908+00:00'
-  scope: DE-W098 bounded public membership qualification; original platform/storage/release gates remain
+  at: '2026-10-18T10:43:10+00:00'
+  scope: Correct Windows-reference routing and bounded integration gates; current qualification unchanged
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -104,11 +104,16 @@ reference plan (`docs/windows-reference.md` in the implementation repository),
 [testing policy](../development/testing-and-ci.md) and
 experiment contract (`tests/differential/CONTRACT.md` in the implementation repository).
 
-MMC/Computer Management, Explorer and relevant service behavior enter through
-the existing DE-W030/DE-W035 provider/integration gates. Historical/other-target
-observations remain target-specific DE-W018/DE-W080 work. REA stays optional and
-uninstalled; its presence supplies no compatibility evidence. No target is added
-to the owner's original scope solely because the supplied proposal mentions it.
+MMC/Computer Management and Explorer enter through DE-W035's selected read-only
+host/activation/selection/lifetime profile. Relevant provider/service availability
+enters DE-W030; privileged execution stays at DE-W050 and managed integration or
+optional-service installation at DE-W060/DE-063. Remote selector tests do not
+admit remote execution. Historical/other-target observations follow DE-W018 and
+the selected DE-050/DE-051/DE-052 profile, with DE-W070 where JC-DOS/Carbon applies.
+DE-W080 owns later advanced operation/provider admission, not historical hosts;
+DE-W042 retains interrupted recovery/cancellation qualification. REA stays optional
+and uninstalled; its presence supplies no compatibility evidence. New target
+profiles require explicit scope decisions and target-specific qualification.
 Current state remains in the programme; no reference work replaces native,
 recovery, owner or release qualification.
 

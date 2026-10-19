@@ -1,0 +1,76 @@
+{
+  "schema": "org.disked.windows-integration-plan-final-checks/1",
+  "base_revision": "c667318e258db237b56f103343360d1457dcb2c7",
+  "status": "fail",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 1.618,
+      "output": "{\n  \"files\": 25,\n  \"changed\": [\n    \"generated/index.json\"\n  ],\n  \"mode\": \"regenerate\"\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 3.642,
+      "output": "{\n  \"schema\": \"org.disked.spec-check/1\",\n  \"status\": \"PASS\",\n  \"checks\": 1325,\n  \"concepts\": 72,\n  \"requirements\": 150,\n  \"work_units\": 98,\n  \"schemas\": 95,\n  \"errors\": [],\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\n  \"not_validated\": [\n    \"DiskEd runtime\",\n    \"Windows binaries/GUI\",\n    \"physical storage\",\n    \"power-loss recovery\",\n    \"live AIDE CLI\",\n    \"Universal Setup integration\",\n    \"owner acceptance\"\n  ]\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-p",
+        "test_specctl.py",
+        "-k",
+        "test_specctl.BundleTests",
+        "-v"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 7.687,
+      "output": "test_all_target_claims_remain_unqualified (test_specctl.BundleTests.test_all_target_claims_remain_unqualified) ... ok\ntest_cli_doctor_reports_actual_environment (test_specctl.BundleTests.test_cli_doctor_reports_actual_environment) ... ok\ntest_cli_error_is_structured_and_nonzero (test_specctl.BundleTests.test_cli_error_is_structured_and_nonzero) ... ok\ntest_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check) ... ok\ntest_generation_is_deterministic (test_specctl.BundleTests.test_generation_is_deterministic) ... ok\ntest_impact_is_conservative_and_named (test_specctl.BundleTests.test_impact_is_conservative_and_named) ... ok\ntest_no_acceptance_is_manufactured (test_specctl.BundleTests.test_no_acceptance_is_manufactured) ... ok\ntest_only_first_review_is_dependency_ready (test_specctl.BundleTests.test_only_first_review_is_dependency_ready) ... ok\ntest_readiness_never_runs_commands (test_specctl.BundleTests.test_readiness_never_runs_commands) ... ok\ntest_real_requirements_have_test_specifications (test_specctl.BundleTests.test_real_requirements_have_test_specifications) ... ok\ntest_schema_registry_is_offline (test_specctl.BundleTests.test_schema_registry_is_offline) ... ok\ntest_show_unknown_concept_is_refused (test_specctl.BundleTests.test_show_unknown_concept_is_refused) ... ok\ntest_transitive_context_is_dependency_ordered (test_specctl.BundleTests.test_transitive_context_is_dependency_ordered) ... ok\ntest_unknown_context_seed_is_refused (test_specctl.BundleTests.test_unknown_context_seed_is_refused) ... ok\ntest_unknown_impact_is_not_no_impact (test_specctl.BundleTests.test_unknown_impact_is_not_no_impact) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 7.520s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python",
+        "tools/workspace.py",
+        "check",
+        "--planned-bytes",
+        "22000000"
+      ],
+      "cwd": "repository-root",
+      "status": "fail",
+      "exit_code": 78,
+      "seconds": 0.065,
+      "output": "{\"status\": \"blocked\", \"reason\": \".aide-local budget exceeded; remove disposable context/cache before continuing\"}\n"
+    }
+  ],
+  "scope": "After full 253-test tooling success, two reviewed prose clarifications scope integration cases and API availability. No implementation, tooling, schema or expected-result code changed. Recheck affected bundle structure, work/context and manifest.",
+  "review_clarifications": [
+    "Apply integration cases only to the selected mechanism; omitted surfaces are explicitly unavailable.",
+    "Named service APIs retain each target's qualified import/cancellation profile."
+  ],
+  "native_tests": "not_run",
+  "reference_experiments": "not_run",
+  "started_at": "2026-10-18T10:53:17.536548+00:00",
+  "error": "Failed command: python tools/workspace.py check --planned-bytes 22000000",
+  "context_removed": true,
+  "finished_at": "2026-10-18T10:53:30.583396+00:00"
+}

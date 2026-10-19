@@ -1,0 +1,173 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W035",
+  "base_revision": "9556b090b974489847683b801e6558af0dfb046f",
+  "spec_manifest_digest": "sha256:353c8b7cdb79c14805e6a01efdb9ae330b406a169aa1b5e35c0d1b97d5ba63f4",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/bundle.json",
+    "spec/foundation/authority.md",
+    "docs/windows-reference.md",
+    "spec/interaction/native-integration.md",
+    "spec/storage/windows.md",
+    "spec/architecture/execution-topology.md",
+    "spec/interaction/protocol.md",
+    "spec/safety/broker-and-authorization.md",
+    "spec/safety/degraded-operation.md",
+    "spec/delivery/deployment-profiles.md",
+    "spec/platforms/other-hosts-and-media.md",
+    "spec/development/testing-and-ci.md",
+    "tests/differential/CONTRACT.md",
+    "spec/work/units.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/references/sources.json",
+    "tools/workspace.py",
+    "spec/tools/specctl.py",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-18-guest-build/PRIVATE-WIN32-REVIEW.md",
+    ".aide/evidence/2026-10-18-guest-build/twentieth-review.json"
+  ],
+  "files_changed": [
+    "docs/windows-reference.md",
+    "spec/catalog/requirements.json",
+    "spec/catalog/tests.json",
+    "spec/generated/index.json",
+    "spec/interaction/native-integration.md",
+    "spec/manifest.json",
+    "spec/references/sources.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/windows.md",
+    "spec/work/units.json",
+    ".aide/evidence/2026-10-18-windows-integration-plan/README.md",
+    ".aide/evidence/2026-10-18-windows-integration-plan/final-checks-reservation-refusal.json",
+    ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json",
+    ".aide/evidence/2026-10-18-windows-integration-plan/input-hashes.json",
+    ".aide/evidence/2026-10-18-windows-integration-plan/validation.json",
+    ".aide/evidence/2026-10-18-windows-integration-plan/workspace-results.json",
+    ".aide/handoffs/2026-10-19-windows-integration-plan.json"
+  ],
+  "summary": "Owner-requested planning amendment for Windows/MMC/shell/service reference engineering. Correct W080 historical-host misrouting, refine one selected read-only W035 adapter and DE-025 semantics, distinguish required-service status/capability/outcome in DE-034, and retain broker/install/remote ownership. Only W035 changes in the work catalog; W105/106/107 and current programme remain unchanged. Reviewed against eight primary Microsoft documents and independently by disked_structure_review. Full 253-test tooling run passed at the initial c667318e-based amendment; following two prose clarifications and rebase onto 9556b090, affected bundle/context/manifest checks passed. A refused context reservation is retained. No native/reference experiment, provider/installation/platform admission or owner acceptance is claimed. Publication resumed on 19 October after a catalog-change rejection; the first GitHub blob creation has now succeeded. User request authorizes this isolated planning branch and draft PR targeting dev; product main qualification remains separate.",
+  "tests": [
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/validation.json"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -p test_specctl.py -k test_specctl.BundleTests -v",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json"
+    },
+    {
+      "command": "python spec/tools/specctl.py check",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json"
+    },
+    {
+      "command": "python spec/tools/specctl.py verify-context .aide-local/context/windows-integration",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json"
+    },
+    {
+      "command": "python spec/tools/specctl.py verify-manifest",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json"
+    },
+    {
+      "command": "python tools/check-source-map.py",
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-windows-integration-plan/validation.json"
+    },
+    {
+      "command": "Native Windows and reference experiments",
+      "cwd": "not applicable",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/windows-reference.md",
+      "sha256": "sha256:da98b71033b21b4da169644dbf47da3ee53bc715be9480d715366471631bef27"
+    },
+    {
+      "path": "spec/catalog/requirements.json",
+      "sha256": "sha256:4237b6a61ec5a0969cf6f6569e0649a2c59edf635a4b4e8adc142e863d7b7fd1"
+    },
+    {
+      "path": "spec/catalog/tests.json",
+      "sha256": "sha256:78338bba7b04576f6820d11c53967183f5031d7e95f174d88258684ad7c276b2"
+    },
+    {
+      "path": "spec/generated/index.json",
+      "sha256": "sha256:cab20e15d58bac54ddc62ac640ad716ef3046c1dff35f35386e3a90611487950"
+    },
+    {
+      "path": "spec/interaction/native-integration.md",
+      "sha256": "sha256:0539718922bffb95f304758452c6d5265566636db204dc6aac8e09b35384624d"
+    },
+    {
+      "path": "spec/manifest.json",
+      "sha256": "sha256:353c8b7cdb79c14805e6a01efdb9ae330b406a169aa1b5e35c0d1b97d5ba63f4"
+    },
+    {
+      "path": "spec/references/sources.json",
+      "sha256": "sha256:44f03174e847a076d59d5ecd6f03a683b5d6fe5284c5122ff49303a9691a4585"
+    },
+    {
+      "path": "spec/roadmap/implementation.md",
+      "sha256": "sha256:a1f79c2dc29c5b551abaa4436ebad34ad39002094601b21e71f1dfa076f54734"
+    },
+    {
+      "path": "spec/storage/windows.md",
+      "sha256": "sha256:1b5fb0eb896568956626052a3c27a3616f9d7f62fda687646b9caa4ea803d2f0"
+    },
+    {
+      "path": "spec/work/units.json",
+      "sha256": "sha256:41c891d6f72ddbb9c8ee8405a03c6903b809d70b1ef43df544d3327e24b6d92b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/README.md",
+      "sha256": "sha256:d115091eb2a742acf0bd9a818d577a60befdf8730e08bce4ec530ba936b593c0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks-reservation-refusal.json",
+      "sha256": "sha256:5a69c66afcf78344c5659c4d0ab8b392bfe19cfe97863217bc9cde9a9267cbab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/final-checks.json",
+      "sha256": "sha256:e879364a6c2d7e34799c544a1ae6f3675c40f6c2d771a054ed0a682ae8d95dea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/input-hashes.json",
+      "sha256": "sha256:892c6bfe17e0dcd33465ccf351ce2b609511e3df6fa79568a89f4990643d750c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/validation.json",
+      "sha256": "sha256:11ed41cd3ae030e5180738b9a8408d80c19be1701e12eb65e7fc7100ebaddbd4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-windows-integration-plan/workspace-results.json",
+      "sha256": "sha256:b82bd8275bf63146ac7089575d7b9954c7d70dcc0c7439173b687a9ffb8187c2"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Review the proposed plan amendment against dev. Continue DE-W105 full x64/native qualification under its current grant, followed by DE-W106 comparator/runner repair and the bounded DE-W107 partition pilot. Select one W035 integration profile at its existing dependency and registration gates.",
+  "performed_remote_writes": true
+}

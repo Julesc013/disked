@@ -416,7 +416,7 @@
       "id": "DE-REQ-025-01",
       "spec": "DE-025",
       "statement": "Native integrations MUST be thin, explicitly owned and removable; strict portable execution MUST create no persistent registrations.",
-      "verification": "Install/remove a fixture adapter, preserve foreign entries, and trace portable execution for zero integration writes.",
+      "verification": "Exercise the selected host/ABI/bitness, failed activation, independent instances, load/unload and missing/stalled backend fixtures. Compare typed requests/results with the shared standalone service. Install/remove a fixture adapter, preserve foreign and subsequently changed entries, and trace portable execution for zero integration writes.",
       "test_ids": [
         "DE-TEST-025-01"
       ],
@@ -426,7 +426,7 @@
       "id": "DE-REQ-025-02",
       "spec": "DE-025",
       "statement": "Integration selectors MUST be revalidated by the shared engine with explicit host identity before any effects.",
-      "verification": "Change drive letter, replace media and disconnect a remote host after selection; no action may follow a stale locator or switch to local storage.",
+      "verification": "Exercise supported structured selections and quoted/non-ASCII/malformed locators. Change drive letter, replace media and disconnect or retarget a remote host after selection; deliver the old host's delayed result after retargeting. No action may follow a stale locator, adopt another instance's selection or switch to local storage.",
       "test_ids": [
         "DE-TEST-025-02"
       ],

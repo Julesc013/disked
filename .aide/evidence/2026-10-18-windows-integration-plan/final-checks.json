@@ -1,0 +1,140 @@
+{
+  "schema": "org.disked.windows-integration-plan-final-checks/1",
+  "base_revision": "9556b090b974489847683b801e6558af0dfb046f",
+  "full_suite_base_revision": "c667318e258db237b56f103343360d1457dcb2c7",
+  "status": "pass",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 2.224,
+      "output": "{\n  \"files\": 25,\n  \"changed\": [],\n  \"mode\": \"regenerate\"\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "tools/workspace.py",
+        "check",
+        "--planned-bytes",
+        "22000000"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 0.118,
+      "output": "{\"status\": \"pass\", \"local_bytes\": 0, \"local_limit_bytes\": 33554432, \"planned_bytes\": 22000000, \"work_limit_bytes\": 1073741824, \"work_file_limit\": 20000, \"minimum_free_bytes\": 21474836480}\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W035",
+        "--output",
+        ".aide-local/context/windows-integration",
+        "--byte-budget",
+        "1000000",
+        "--artifact-byte-budget",
+        "18000000"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 2.833,
+      "output": "{\n  \"output\": \".aide-local/context/windows-integration\",\n  \"bytes\": 600129,\n  \"concepts\": [\n    \"DE-001\",\n    \"DE-002\",\n    \"DE-005\",\n    \"DE-010\",\n    \"DE-030\",\n    \"DE-020\",\n    \"DE-021\",\n    \"DE-022\",\n    \"DE-033\",\n    \"DE-040\",\n    \"DE-003\",\n    \"DE-004\",\n    \"DE-070\",\n    \"DE-041\",\n    \"DE-042\",\n    \"DE-043\",\n    \"DE-044\",\n    \"DE-074\",\n    \"DE-075\",\n    \"DE-023\",\n    \"DE-013\",\n    \"DE-011\",\n    \"DE-012\",\n    \"DE-050\",\n    \"DE-060\",\n    \"DE-061\",\n    \"DE-025\",\n    \"DE-063\",\n    \"DE-015\",\n    \"DE-045\"\n  ],\n  \"execution_authorized\": false\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/windows-integration"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 2.226,
+      "output": "{\n  \"status\": \"PASS\",\n  \"work_id\": \"DE-W035\",\n  \"scope\": \"Declared task-input closure and included artifact freshness, not execution approval.\"\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 3.937,
+      "output": "{\n  \"schema\": \"org.disked.spec-check/1\",\n  \"status\": \"PASS\",\n  \"checks\": 1325,\n  \"concepts\": 72,\n  \"requirements\": 150,\n  \"work_units\": 98,\n  \"schemas\": 95,\n  \"errors\": [],\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\n  \"not_validated\": [\n    \"DiskEd runtime\",\n    \"Windows binaries/GUI\",\n    \"physical storage\",\n    \"power-loss recovery\",\n    \"live AIDE CLI\",\n    \"Universal Setup integration\",\n    \"owner acceptance\"\n  ]\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-p",
+        "test_specctl.py",
+        "-k",
+        "test_specctl.BundleTests",
+        "-v"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 9.01,
+      "output": "test_all_target_claims_remain_unqualified (test_specctl.BundleTests.test_all_target_claims_remain_unqualified) ... ok\ntest_cli_doctor_reports_actual_environment (test_specctl.BundleTests.test_cli_doctor_reports_actual_environment) ... ok\ntest_cli_error_is_structured_and_nonzero (test_specctl.BundleTests.test_cli_error_is_structured_and_nonzero) ... ok\ntest_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check) ... ok\ntest_generation_is_deterministic (test_specctl.BundleTests.test_generation_is_deterministic) ... ok\ntest_impact_is_conservative_and_named (test_specctl.BundleTests.test_impact_is_conservative_and_named) ... ok\ntest_no_acceptance_is_manufactured (test_specctl.BundleTests.test_no_acceptance_is_manufactured) ... ok\ntest_only_first_review_is_dependency_ready (test_specctl.BundleTests.test_only_first_review_is_dependency_ready) ... ok\ntest_readiness_never_runs_commands (test_specctl.BundleTests.test_readiness_never_runs_commands) ... ok\ntest_real_requirements_have_test_specifications (test_specctl.BundleTests.test_real_requirements_have_test_specifications) ... ok\ntest_schema_registry_is_offline (test_specctl.BundleTests.test_schema_registry_is_offline) ... ok\ntest_show_unknown_concept_is_refused (test_specctl.BundleTests.test_show_unknown_concept_is_refused) ... ok\ntest_transitive_context_is_dependency_ordered (test_specctl.BundleTests.test_transitive_context_is_dependency_ordered) ... ok\ntest_unknown_context_seed_is_refused (test_specctl.BundleTests.test_unknown_context_seed_is_refused) ... ok\ntest_unknown_impact_is_not_no_impact (test_specctl.BundleTests.test_unknown_impact_is_not_no_impact) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 8.816s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 1.276,
+      "output": "{\n  \"status\": \"PASS\",\n  \"mode\": \"generate\",\n  \"files\": 420,\n  \"bytes\": 3910064\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "repository-root",
+      "status": "pass",
+      "exit_code": 0,
+      "seconds": 1.226,
+      "output": "{\n  \"status\": \"PASS\",\n  \"mode\": \"verify\",\n  \"files\": 420,\n  \"bytes\": 3910064\n}\n"
+    }
+  ],
+  "scope": "After full 253-test tooling success, two reviewed prose clarifications scope integration cases and API availability. Rebased onto 9556b090, retaining its upstream native-fixture and dependency-catalog changes. This amendment changes no implementation, tooling, schema or expected-result code. Recheck affected bundle structure, work/context and manifest; do not qualify upstream native fixture changes.",
+  "review_clarifications": [
+    "Apply integration cases only to the selected mechanism; omitted surfaces are explicitly unavailable.",
+    "Named service APIs retain each target's qualified import/cancellation profile."
+  ],
+  "native_tests": "not_run",
+  "reference_experiments": "not_run",
+  "started_at": "2026-10-18T10:57:16.208869+00:00",
+  "context": {
+    "work_id": "DE-W035",
+    "files": 1170,
+    "payload_bytes": 600129,
+    "artifact_bytes": 16512581,
+    "manifest_sha256": "sha256:467dca0e256d253c9e475f1be17a65419b57f609f34908b3ba243e38d8a34819"
+  },
+  "context_removed": true,
+  "finished_at": "2026-10-18T10:57:39.093924+00:00"
+}

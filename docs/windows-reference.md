@@ -40,6 +40,13 @@ observing it.
    using independent expectations.
 6. Retain the smallest replayable evidence and remove disposable output.
 
+For each promoted finding, record the question, exact evidence, applicable target
+and profile, canonical contract owner, adoption decision and regression/work-item
+link in the existing evidence and handoff records. The decision can be to use a
+documented API, reuse an admitted upstream implementation, reproduce an observed
+behavior, deliberately differ for a stated reason, or leave the question open.
+Do not turn every observed quirk into a requirement or create a second registry.
+
 The [canonical testing policy](../spec/development/testing-and-ci.md) and
 [differential contract](../tests/differential/CONTRACT.md) own the evidence rules.
 Independent implementation means more than generating code and matching tests
@@ -53,8 +60,11 @@ erase conflicting GPT candidates or prove physical persistence.
 | DE-W105, current | Finish the existing same-source native qualification | Preserve failures and all original Win32/x64 checks; reference research does not replace them. |
 | DE-W106 | Validate complete differential evidence and migrate the old runner | Reject missing, duplicate, mismatched or unidentified evidence; run only in managed bounded workspace; prove owned cleanup. |
 | DE-W107 | One small Windows partition-inventory experiment | Four recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies. Bind API and Disk Management UI observations to the same recipes and explicit participant copies. |
-| DE-W030 / DE-W035 | Apply reviewed findings to providers and optional integrations | Existing capability, host identity, installation and teardown gates remain. Service/integration experiments are scheduled only for a named contract gap. |
-| DE-W018 / DE-W080 | Repeat relevant contracts on selected historical/other targets | Record actual compile/import/launch/operation evidence per target. New target profiles require an explicit scope decision. |
+| DE-W030 | Settle a named read-only API/provider or required-service ambiguity | Existing inventory, capability, source identity and provider admission gates remain. Reviewed reference findings enter the relevant follow-on slice without blocking unrelated current inventory work. |
+| DE-W035 | Qualify one selected MMC or shell adapter profile | Thin read-only dispatch, exact host/selection/callback lifetime, standalone-service parity and owned fixture registration/teardown. Subsequent surfaces are separately bounded selections. |
+| DE-W050 / DE-W060 | Apply relevant findings to execution and deployment | DE-W050 owns the local privileged broker boundary. DE-W060 owns Setup integration; optional service/adapter installation follows DE-061/DE-063 lifecycle and account ownership. Research does not select a persistent service. |
+| DE-W018 with DE-050 / DE-051 / DE-052 | Repeat relevant contracts on selected historical/other targets | Record actual compile/import/launch/operation evidence per target. DE-W070 applies to JC-DOS/Carbon integration where selected. New target profiles require an explicit scope decision. |
+| DE-W042 / DE-W080 and the selected operation owner | Investigate later mutation, interruption and recovery behavior | DE-W042 owns recovery/cancellation experiments; DE-W080 owns advanced operation/provider admission, not historical-host qualification. Existing writer and recovery gates remain. |
 
 DE-W106 records a current comparator gap, not a finding that the historical
 campaign was invalid. Its current function can report passing adapter controls
@@ -66,6 +76,47 @@ The first Windows campaign records observations rather than selecting a winning
 parser. An unavailable API or inaccessible UI remains explicit. A reference
 refusal can be a complete observation; missing evidence cannot. API-only results
 do not satisfy a campaign that declared UI observations too.
+
+## Integration experiments at their implementation gates
+
+DE-025 owns adapter semantics; DE-034 owns Windows provider strategy. Select one
+surface, question and host profile before implementation. The following cases
+sharpen those existing gates; they are not additions to the four-case DE-W107
+partition pilot or a claim that any adapter is already implemented.
+
+| Surface or transition | Bounded experiment | Required interpretation |
+|---|---|---|
+| MMC console and snap-in | Save/reopen a DiskEd-owned console; exercise the selected standalone or extension mode, host bitness, multiple instances, failed activation and unload | Console composition, COM adapter lifetime and backend capability are separately qualified. One instance cannot retain callbacks into another or into unloaded code. |
+| Computer Management retargeting | Select fixture computer A, expand its Storage extension, retarget to B, then deliver A's delayed observation and attempt another read | Invalidate A's selection and pending presentation. Preserve the old result's identity; it cannot publish as B or authorize an action on B. An unsupported remote target remains unavailable. |
+| Explorer activation | Exercise the declared file/volume/multiple-selection contexts, spaces, non-ASCII names, unsupported namespace items and a removed/replaced target | Preserve structured selection or exact supported locators, then resolve them in the shared engine. A display name, drive letter or disk number is not target authority. |
+| Shell host responsiveness | Construct a menu with a missing or stalled provider, invoke an action, then close one adapter instance | Menu callbacks remain bounded. Parsing and long work use the existing operation machinery; presentation closure does not establish an operation's cancellation or outcome. |
+| Required service or provider | Inject absent, denied, pending, running-but-unavailable and dependency-loss states | Record SCM status, endpoint availability, provider/target capability and the actual operation result separately. An unavailable provider is not a successful empty inventory. |
+| Cancellation and reconnect | Race completion with cancellation; disconnect and reconnect to an existing owned attempt; observe restart with an unresolved operation | Request, actual completion and recovery are different events. Keep the existing operation identity and reconcile uncertain effects before considering a new attempt. |
+| Managed integration lifecycle | Exercise the selected adapter/service install, update and removal on owned fixtures with later foreign changes | Preserve unrelated registrations, account selections and active/recovery dependencies. Strict portable use remains free of persistent registration. |
+
+Microsoft documents a [Storage extension point in Computer Management](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mmc/computer-management-extensible-node-types)
+and a [retargeting lifecycle](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mmc/retargeting-the-computer-management-snap-in)
+in which the extension's component instance survives removal of its old subtree.
+That makes delayed results and target changes useful tests, beyond visual parity.
+
+Choose the simplest sufficient [classic shell activation method](https://learn.microsoft.com/en-us/windows/win32/shell/shortcut-choose-method).
+Classic verbs, COM local-server activation and the
+[Windows 11 package/sparse-package command registration](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/integrate-packaged-app-with-file-explorer)
+are distinct host profiles. A context-menu command, property page and namespace
+extension do not inherit one another's compatibility. The selected profile must
+record its actual COM hosting, process architecture and installation mechanism.
+
+Use injected states or owned fixtures for the first read-only adapter. Observe
+real reference services only as needed by a named capability; an API may activate
+a service, so declare and record those effects. Do not stop or replace unrelated
+services to make a fixture convenient. A service-control or recovery event is not
+proof of storage transaction recovery.
+
+MMC retargeting tests establish selector and refusal behavior. Actual remote
+observation or execution additionally needs the authenticated host, transport,
+provider and reconnect contracts in DE-015/DE-022/DE-041/DE-052. The first broker
+remains local-only. Integration qualification does not enable a network listener
+or silently redirect an unavailable remote request to local storage.
 
 ## REA's role
 

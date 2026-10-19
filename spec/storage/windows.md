@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.20-proposed.1
+  version: 0.1.21-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -29,6 +29,14 @@ sources:
   resource: ../references/sources.json#windows-reference-storage-management
 - id: windows-reference-services
   resource: ../references/sources.json#windows-reference-services
+- id: windows-reference-service-status
+  resource: ../references/sources.json#windows-reference-service-status
+- id: windows-reference-service-transitions
+  resource: ../references/sources.json#windows-reference-service-transitions
+- id: windows-reference-service-recovery
+  resource: ../references/sources.json#windows-reference-service-recovery
+- id: windows-reference-cancel-io
+  resource: ../references/sources.json#windows-reference-cancel-io
 - id: windows-ns-winioctl-storage_device_descriptor
   resource: ../references/sources.json#windows-ns-winioctl-storage_device_descriptor
 - id: windows-ni-winioctl-ioctl_storage_get_device_number
@@ -53,8 +61,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-18T09:32:34.896855+00:00'
-  scope: Proposed Windows reference experiments; no execution or qualification claim
+  at: '2026-10-18T10:43:10+00:00'
+  scope: Required-service applicability and lifecycle experiments; proposed, no provider admission
 ---
 
 # Windows NT provider strategy
@@ -78,6 +86,47 @@ MMC consoles/snap-ins, Computer Management and Explorer are presentation and
 integration surfaces under [DE-025](../interaction/native-integration.md), not
 alternate engines. Study service lifecycle only where a concrete DiskEd
 operation needs it; no general replacement of Windows services is added.
+
+## Required services and lifecycle observations
+
+For a named provider profile, record any required service or activation-capable
+API, exact version/access conditions and declared activation effects. Observation
+can cause service activation; do not label it effect-free without evidence.
+Essential help/build/command discovery retains the nonactivating DE-015 contract.
+
+Keep SCM-reported status, endpoint availability, provider availability, selected
+target/operation capability and individual operation outcome separate.
+`QueryServiceStatusEx` reports the latest status supplied to SCM; `SERVICE_RUNNING`
+is not proof that every provider, target or storage operation is usable. Qualify
+absent, disabled, denied, pending, running-but-unavailable and dependency-loss
+states without projecting an unavailable provider as successful empty inventory.
+Bound startup waits by observed progress and the selected deadline; a timeout
+does not establish process exit or stopped effects.
+
+Use the existing work owners. DE-W030 owns relevant read-only provider lifecycle
+fixtures; DE-W050 owns the local privileged broker boundary. Installing an
+optional service, selecting its account/startup behavior and removing its owned
+registrations belong to DE-W060 and [DE-063](../delivery/deployment-profiles.md),
+through [DE-061](../delivery/universal-setup.md). No persistent service is required
+merely to present an MMC or Explorer interface. Use owned test services or
+injected failures; do not disturb unrelated services for reference experiments.
+
+Service stop/control, client disconnect, cancellation request and actual operation
+completion are distinct events. `CancelIoEx` requests cancellation without waiting
+for completion; a raced operation may complete normally, be aborted or fail for
+another reason. Observe its actual completion before retiring its asynchronous
+state. Service recovery/restart does not prove transaction recovery or authorize
+automatic replay. Reconnect and reconcile the original operation/attempt through
+[DE-015](../architecture/execution-topology.md), [DE-022](../interaction/protocol.md),
+[DE-043](../safety/journal-and-recovery.md) and [DE-045](../safety/degraded-operation.md).
+An unresolved result remains unresolved until supported by actual evidence.
+These named APIs illustrate profiles where they are available; each target
+retains its separately qualified imports and cancellation mechanism.
+
+Record a remote provider's schema/API separately from its transport and
+authenticated host identity. A successful connection is not provider admission.
+Unavailable authentication, transport or provider support remains explicit; the
+integration plan supplies no listener, remote execution grant or local fallback.
 
 ## Operation selection and capability admission
 
