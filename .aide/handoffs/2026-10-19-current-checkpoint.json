@@ -129,7 +129,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/memory-desktop-driver.py"
   ],
-  "summary": "DE-W105 still unqualified. Focus80 ata374113a passes selected build/import/UI preflight and verification_commands;five other groups reach GUI and fail User32 initialization. Full49-entry archive verified(723661 raw bytes,44412 compressed);all cleanup passes. Actual fixture creates second desktop with NULL security,while proven worker desktop has explicit actor/SYSTEM ACL. Candidate gives only newly owned fixture desktop explicit exact-user/SYSTEM rights and Medium label;station/default desktop/product guards unchanged. Small same-binary paired regression retains exact old NULL-security call and current real factory;expected User32 denial then success,with unchanged production256MiB guard ready in both.159 tooling tests(one skip),AST/PS5.1 preparation pass;paired native test not yet run.",
+  "summary": "DE-W105 still open. Pair81 ataee4a3f8 compiles/executes direct native memory/User32 component successfully,then stops on fixture desktop descriptor string comparison before new-child evaluation. All owned cleanup passes. Actual descriptor was not included in that assertion;candidate now retains partial/full rows on exit and defers the same descriptor assertion until child outcomes have been collected. No expected result,permission or product guard changed. Current paired regression remains failed/unqualified until actual readback is reviewed.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -564,6 +564,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Paired desktop81 ataee4a3f8:descriptor comparison fails before new child;direct component passes;all cleanup",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-descriptor-readback-failure.json"
     }
   ],
   "artifacts": [
@@ -877,7 +884,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:2538b1f7de945ac5f207d7a7cefd13c2c8608201fdaaa9ce4d97589eac5fce90"
+      "sha256": "sha256:bf4492befa1911fac9fbb186158d5d27438b0b1f93b4ace34097ee4d6257a3d7"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1034,12 +1041,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-focused.tar.xz",
       "sha256": "sha256:be34b07818eedf791b1f6e843fddd5866e26a2f805ef9b4bdcae38ca057acee9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-descriptor-readback-failure.json",
+      "sha256": "sha256:1c92f1afe5de302f9c6bbdd38c006ad822a1e951f43fa7636ad9ca09ba85f10a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-cleanup.json",
+      "sha256": "sha256:973087c8aee2bb39d57fb272d283c99f1fdebafa87d92ab5ba3cd25fb131f89b"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run --native-memory --interactive-ui paired desktop regression in32MiB. Retain actual old/current User32 and memory-budget outcomes,descriptor,artifact/source/import identities and full cleanup. If successful replay six native groups,then full180/currentWin32 and detailed applicability review before dev\u2192main. Do not weaken product or GUI assertions.",
+  "next_safe_step": "Rerun --native-memory --interactive-ui tiny paired case with complete descriptor/outcome receipt. Preserve the same assertions and record actual mismatch. Evaluate security semantics explicitly before any assertion/contract change. Then replay affected native groups and full gates only after regression succeeds.",
   "performed_remote_writes": true
 }

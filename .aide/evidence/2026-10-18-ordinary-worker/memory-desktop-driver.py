@@ -1,5 +1,6 @@
 """Paired old/default versus actual fixture desktop; owned children only."""
 import ctypes as C
+import atexit
 from ctypes import wintypes as T
 import importlib.util
 import json
@@ -13,6 +14,7 @@ fixture=importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture)
 exe=Path(sys.argv[1]).resolve();work=Path.cwd()
 if exe.parent!=work or exe.name!='memory-budget.exe' or len(sys.argv)!=3:raise ValueError('Owned component arguments only')
 sid=sys.argv[2];rows=[]
+atexit.register(lambda:print(json.dumps(dict(scope=__doc__,cases=rows))))
 for explicit in (False,True):
     desktop=process=previous=None;row=dict(explicit_subject_acl=explicit)
     try:
@@ -37,7 +39,6 @@ for explicit in (False,True):
             if not convert(data,1,kind.value,C.byref(text),None):raise C.WinError(C.get_last_error())
             try:row['security']=text.value
             finally:fixture.K.LocalFree(C.cast(text,T.LPVOID))
-            assert row['security']=='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+sid+')S:(ML;;NW;;;ME)'
         previous=fixture.U.GetThreadDesktop(fixture.K.GetCurrentThreadId())
         if not fixture.U.SetThreadDesktop(desktop):raise C.WinError(C.get_last_error())
         process=fixture.DesktopProcess([str(exe)],str(work),name)
@@ -49,7 +50,7 @@ for explicit in (False,True):
             if not fixture.U.CloseDesktop(desktop):raise C.WinError(C.get_last_error())
             row['desktop_handle_closed']=True
         rows.append(row)
-print(json.dumps(dict(scope=__doc__,cases=rows)))
+assert rows[1]['security']=='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+sid+')S:(ML;;NW;;;ME)',rows[1]['security']
 assert rows[0]['exit_code']==3 and not rows[0]['native']['user32_loaded'] and rows[0]['native']['ready']
 assert rows[1]['exit_code']==0 and rows[1]['native']['user32_loaded'] and rows[1]['native']['ready']
 assert all(row['desktop_handle_closed'] and not row['stderr'] for row in rows)
