@@ -194,7 +194,9 @@ def main():
     if powershell_proof or powershell7_proof:expected['native_x64']['powershell_proof']=True
     if powershell7_proof:expected['native_x64']['powershell7_proof']=True
     if cleanup_proof:expected['native_x64']['cleanup_proof']=True
-    if controller_stop_proof:expected['native_x64']['controller_stop_proof']=True
+    if controller_stop_proof:
+        expected['native_x64']['controller_stop_proof']=True
+        expected['native_x64']['null_proof_only']=True
     if ui_proof:expected['native_x64']['ui_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
