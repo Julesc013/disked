@@ -220,6 +220,27 @@ def main():
         source_before=hashlib.sha256((ROOT/'ordinary-worker.py').read_bytes()).hexdigest()
         request=plan(normal,data)
         if instance.interactive_ui:
+            isolated=fresh(work_root/'private-station-observer')
+            comparison=O.Worker(W,isolated,Path(os.environ['DISKED_WORK_ROOT']),
+                private['DISKED_TEST_ACTOR_NAME'],private['DISKED_TEST_ACTOR_PASS'],
+                private['DISKED_TEST_ACTOR_SID'],namespace_compat=True,interactive_ui=False)
+            result['private_station_startup_diagnostics']=[]
+            try:
+                for original in (True,False):
+                    observer=isolated/'startup-request.json'
+                    variant='standard-private' if original else 'restricted-private'
+                    observer.write_text(json.dumps(dict(variant=variant,user_sid=data['sid'],desktop=comparison.desktop_name)))
+                    job=S.WindowsJob()
+                    child=comparison.launch([sys.executable,'-B',str(ROOT/'target.py'),str(observer),'startup'],
+                                            os.environ,job,diagnostic_original=original)
+                    code=child.wait(timeout=15)
+                    result['private_station_startup_diagnostics'].append(dict(original=original,exit_code=code,
+                        parameters=comparison.last_launch,log=comparison.log_path.read_bytes()[-8192:].decode(errors='replace')))
+                    retire_job(job);job=None;child.close();child=None
+            finally:
+                if job:retire_job(job);job=None
+                if child:child.wait(timeout=10);child.close();child=None
+                comparison.close()
             observer=normal/'startup-request.json'
             observer.write_text(json.dumps(dict(variant='interactive-standard-baseline',user_sid=data['sid'],desktop=instance.desktop_name)))
             job=S.WindowsJob()
