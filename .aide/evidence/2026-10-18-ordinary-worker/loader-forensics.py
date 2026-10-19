@@ -173,6 +173,11 @@ def actor(plan):
             row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],native_call_scope='Three ntdll entrypoints on the owned initial thread only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
             watches=None;pending=None
+            def retain_trace(complete):
+                raw=trace_path.read_bytes();assert len(raw)<=2097152
+                compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])
+                assert len(compressed)<=131072 and lzma.decompress(compressed)==raw
+                row['trace']=dict(complete=complete,encoding='normalized UTF-8 debugger strings; xz/base64',dictionary_bytes=2097152,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),xz_sha256=hashlib.sha256(compressed).hexdigest(),xz_base64=base64.b64encode(compressed).decode('ascii'))
             def read(address,length):
                 assert address and 0<length<=4096
                 data=C.create_string_buffer(length);got=C.c_size_t()
@@ -232,6 +237,12 @@ def actor(plan):
                             path=C.create_unicode_buffer(2048)
                             length=k.GetFinalPathNameByHandleW(file_handle,path,len(path),0) if file_handle else 0
                             row['modules'].append(dict(event=event.code,path=path.value if 0<length<len(path) else None))
+                            if length and Path(path.value).name.lower()=='python314.dll':
+                                assert event.tid==process.tid and pending is None
+                                storage,value=context();value.flags=0x100010
+                                for i in range(6):value.dr[i]=0
+                                require(k.SetThreadContext(process.thread,C.byref(value)))
+                                row['native_observation_stopped_at']='python314.dll LOAD_DLL_DEBUG_EVENT'
                             if length and Path(path.value).name.lower()=='ntdll.dll':
                                 assert event.tid==process.tid and watches is None
                                 watches=[info.base+offsets[name] for name in selected_functions]
@@ -262,6 +273,7 @@ def actor(plan):
                                     pending=dict(function=selected_functions[index],arguments=[hex(value.regs[i]) for i in (1,2,8,9)])
                                     if index in (1,2):pending['error_argument_low32']=hex(value.regs[1]&0xffffffff)
                                     return_address=int.from_bytes(read(value.regs[4],8),'little')
+                                    pending['return_address']=hex(return_address)
                                     watch(value,return_address)
                                 else:raise ValueError('Unexpected owned hardware breakpoint state')
                             else:
@@ -276,15 +288,16 @@ def actor(plan):
                 row['native_call_pending_at_exit']=pending
                 assert watches is not None
                 assert k.WaitForSingleObject(process.process,5000)==0
-                raw=trace_path.read_bytes();compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])
-                assert len(compressed)<=131072 and lzma.decompress(compressed)==raw
-                row['trace']=dict(encoding='normalized UTF-8 debugger strings; xz/base64',dictionary_bytes=2097152,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),xz_sha256=hashlib.sha256(compressed).hexdigest(),xz_base64=base64.b64encode(compressed).decode('ascii'))
+                retain_trace(True)
                 observation=Path(filename);row['breadcrumb']=observation.read_text(encoding='utf-8') if observation.exists() else None
                 row['phase']='collected'
             except BaseException:
                 row['error']=traceback.format_exc()[-8192:];raise
             finally:
                 if trace:trace.close()
+                if trace_path.exists() and 'trace' not in row:
+                    try:retain_trace(False)
+                    except BaseException:row['trace_retention_error']=traceback.format_exc()[-2048:]
                 if process.process:
                     if not exited:k.TerminateProcess(process.process,78)
                     # Drain debug events after termination so no debug-stop keeps
