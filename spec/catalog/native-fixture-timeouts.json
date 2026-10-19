@@ -1,0 +1,52 @@
+{
+  "schema": "org.disked.native-fixture-timeouts/1",
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "status": "agent_reviewed_execution_allowance_not_qualified",
+  "evidence": "fifty-ninth-complete-history-diagnostic-pass.json",
+  "tested_source": "422f6ee03baffe8263c4e06c99ef9d0d6709152f",
+  "observed": {
+    "body_seconds": 430.268883,
+    "writer_seconds": 417.936597,
+    "reader_seconds": 2.500626,
+    "methods": 13,
+    "reader_cases": 78,
+    "native_histories": 16,
+    "owned_histories": 3
+  },
+  "finding": "The original300-second aggregate history limit expires during valid serial native fixture creation. Three150-file writers each take100-110 seconds and the large fragmented writer93.7 seconds;all original assertions and180/100/30-second child limits pass in the separate complete-body diagnostic. This does not qualify the original CTest gate.",
+  "changes_before_evaluation": {
+    "evidence.fat_tree_history": {
+      "ctest_seconds_before": 300,
+      "ctest_seconds": 600,
+      "child_timeouts": "Unchanged180/100/30"
+    },
+    "image.fat_tree_extraction": {
+      "ctest_seconds_before": 600,
+      "ctest_seconds": 1200,
+      "large300_file_completion_child_before": 180,
+      "large300_file_completion_child_seconds": 360,
+      "other_children": "Unchanged180"
+    },
+    "image.fat_tree_extraction_worker": {
+      "ctest_seconds_before": 300,
+      "ctest_seconds": 600,
+      "large_completion_probe_observation_before": "Default30000ms for150 files;60000ms for fragmented content",
+      "large_completion_probe_observation_ms": 180000,
+      "large_completion_outer_child_before": 100,
+      "large_completion_outer_child_seconds": 240,
+      "fault_and_other_cases": "Unchanged inputs and100-second outer limits"
+    },
+    "controller": "Use the exact registered CTest TIMEOUT,validated against these explicit overrides or the300-second default maximum,plus30 seconds for termination/JUnit collection. The old hardcoded300-second outer limit incorrectly undercut the existing600-second backend test. Reporting grace does not extend CTest's test deadline."
+  },
+  "rationale": "The three300-file completions double the measured150-file workload;360 seconds is a declared allowance,not an observed completion claim. Owned150-file and fragmented completions need an observation window longer than the measured100-110/93.7 seconds,with bounded collection time. Actual backend/owned/native results must still pass before qualification.",
+  "invariants": [
+    "All fixture bytes,entry counts,content/metadata/hash oracles and original assertions remain exact. No test is skipped or converted into a synthetic pass.",
+    "Production waits,responsiveness,cancellation,hang,late-result,dependency-retention and retirement deadlines are unchanged. Only named completion-fixture/probe observation envelopes change;no production C/C++ source changes.",
+    "512MiB filesystem,1GiB aggregate disposable storage,32MiB local metadata,20000 entries,20GiB shared-volume floors and7200-second guest campaign remain unchanged.",
+    "Retain original failures and separate complete-body diagnostic. Rerun actual CTest groups and full180-group composition;do not relabel diagnostic success as qualification.",
+    "No new driver,software installation,VM configuration,host storage operation or owner/release acceptance."
+  ],
+  "evidence_repository_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json",
+  "evidence_sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666"
+}

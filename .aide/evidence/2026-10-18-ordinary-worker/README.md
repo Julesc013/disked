@@ -122,6 +122,24 @@ once across both products, with no skips; raw summaries bind the review projecti
 No original assertion or child/test timeout is removed. This partition remains
 unqualified until its actual native run succeeds.
 
+Attempt 59 at `422f6ee0` completes the separate history diagnostic: all 13 methods,
+78 reader cases, 16 native histories and three owned histories pass in 430.269
+seconds. Native writer calls total 417.937 seconds; readers total 2.501 seconds.
+The sampled filesystem peak is 181,796,864 bytes used, with at least 353,955,840
+free. All owned cleanup passes; the archive is 27,944 bytes. This diagnostic does
+not qualify the original 300-second CTest gate.
+
+The source-bound proposed allowances now live in the canonical
+`spec/catalog/native-fixture-timeouts.json`, owned by DE-074. Actual completion
+fixture generation is distinct from production/fault deadlines. The three named
+aggregate CTest envelopes become 600/1200/600 seconds; only the 300-file direct
+completion and 150-file/fragmented owned completions get the explicitly listed
+probe/process observation allowances. All other child/fault inputs and every
+assertion/data count stay intact. CTest's declared timeout controls execution;
+the controller permits 30 seconds afterward for termination/JUnit collection.
+Its old fixed300-second limit also undercut the already-existing600-second
+backend test. The revised profile requires actual CTest/full-native qualification.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

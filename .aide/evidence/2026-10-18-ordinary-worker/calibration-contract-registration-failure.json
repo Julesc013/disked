@@ -1,0 +1,63 @@
+{
+  "status": "fail",
+  "scope": "Bounded host metadata/tooling checks; no DiskEd or guest test execution.",
+  "commands": [
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-cache-dir",
+        "--no-deps",
+        "--only-binary=:all:",
+        "--target",
+        "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-urxoxwse\\dependencies",
+        "PyYAML==6.0.3"
+      ],
+      "exit_code": 0,
+      "seconds": 1.1860823000315577,
+      "stdout": "Collecting PyYAML==6.0.3\r\n  Downloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl.metadata (2.4 kB)\r\nDownloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl (156 kB)\r\nInstalling collected packages: PyYAML\r\nSuccessfully installed PyYAML-6.0.3\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2926414997782558,
+      "stdout": "{\r\n  \"files\": 25,\r\n  \"changed\": [\r\n    \"generated/index.json\"\r\n  ],\r\n  \"mode\": \"regenerate\"\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9497036999091506,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"generate\",\r\n  \"files\": 420,\r\n  \"bytes\": 3920130\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 1,
+      "seconds": 3.4921866001095623,
+      "stdout": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"FAIL\",\r\n  \"checks\": 1325,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 98,\r\n  \"schemas\": 95,\r\n  \"errors\": [\r\n    \"required input closure: Unknown required input: .aide/evidence/2026-10-18-ordinary-worker/history-io-calibration-review.json\",\r\n    \"Escaping link ../../.aide/evidence/2026-10-18-ordinary-worker/history-io-calibration-review.json\"\r\n  ],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n",
+      "stderr": ""
+    }
+  ],
+  "error": "RuntimeError('Metadata check failed')"
+}

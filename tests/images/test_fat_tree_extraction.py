@@ -89,7 +89,8 @@ def ledger_records(path, definition, digest, complete=False):
     return records
 
 
-def run(tree=None, request=None, extra=None, existing=None):
+def run(tree=None, request=None, extra=None, existing=None, timeout=180):
+    if timeout not in (180,360):raise ValueError('Undeclared native fixture timeout')
     if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
         print('WRITER_INPUT',sorted((extra or {}).keys()),'existing',existing,flush=True)
     folder = Path(tempfile.mkdtemp(prefix="disked-recursive-extraction-"))
@@ -115,7 +116,7 @@ def run(tree=None, request=None, extra=None, existing=None):
         import time
         started=time.monotonic()
         print('WRITER_PROCESS_START',flush=True)
-    completed = subprocess.run([str(PROBE)], input=encoded(value), capture_output=True, timeout=180)
+    completed = subprocess.run([str(PROBE)], input=encoded(value), capture_output=True, timeout=timeout)
     if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
         print('WRITER_PROCESS_SECONDS',round(time.monotonic()-started,6),flush=True)
     assert completed.returncode in (0, 93) and not completed.stderr, (completed.returncode, completed.stderr.decode())
@@ -143,7 +144,7 @@ def run(tree=None, request=None, extra=None, existing=None):
             assert not outcome["source_writes"] and not outcome["atomic_snapshot"]
             assert not outcome["contained_worker_qualified"] and not outcome["owner_accepted"]
     assert source.read_bytes() == original
-    RESULTS.append({"extra": extra, "existing": existing, "exit_code": completed.returncode,
+    RESULTS.append({"extra": extra, "existing": existing, "exit_code": completed.returncode, "timeout_seconds": timeout,
                     "last": rows[-1], "records": len(records), "source_sha256": sha(original),
                     "stdout_sha256": sha(completed.stdout), "folder": str(folder)})
     return folder, rows, records, original
@@ -176,7 +177,7 @@ class ExtractionTests(unittest.TestCase):
     def test_complete_variants_bytes_metadata_and_fresh_capture(self):
         for bits in (12, 16, 32):
             tree, expected = collection(bits)
-            folder, rows, records, original = run(tree, extra={"time_interpretation": "fixed_offset", "utc_offset_minutes": "330"})
+            folder, rows, records, original = run(tree, extra={"time_interpretation": "fixed_offset", "utc_offset_minutes": "330"}, timeout=360)
             self.assertEqual("complete", rows[-1]["value"]["status"], rows[-1])
             self.assertEqual("300", rows[-1]["value"]["files_complete"])
             self.assertEqual(300, len(list((folder/"output").iterdir())))

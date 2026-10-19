@@ -143,7 +143,9 @@ def main():
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
-    if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+    if full_native:
+        expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+        expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
     if full_native:
         # The transferred runtime zip is removed on the host before guest work
         # starts. Account for all remaining host scratch and current context in

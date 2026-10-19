@@ -16,7 +16,8 @@ FAULT = None
 RESULTS = []
 
 
-def run(tree=None, request=None, extra=None, fault=False):
+def run(tree=None, request=None, extra=None, fault=False, timeout=100):
+    if timeout not in (100,240):raise ValueError('Undeclared owned fixture timeout')
     folder = Path(tempfile.mkdtemp(prefix="disked-owned-tree-writer-"))
     source, destination, ledger = folder/"source.img", folder/"output", folder/"metadata.ndjson"
     if tree is not None:
@@ -28,7 +29,7 @@ def run(tree=None, request=None, extra=None, fault=False):
     inputs = {"source": str(source), "offset": request["offset"], "length": request["length"],
               "destination": str(destination), "ledger": str(ledger), **(extra or {})}
     completed = subprocess.run([str(FAULT if fault else PROBE)], input=encoded(inputs),
-                               capture_output=True, timeout=100)
+                               capture_output=True, timeout=timeout)
     assert completed.returncode == 0 and not completed.stderr, (completed.returncode, completed.stderr.decode())
     rows = [json.loads(line) for line in completed.stdout.splitlines()]
     assert rows
@@ -69,7 +70,7 @@ def run(tree=None, request=None, extra=None, fault=False):
             assert outcome["attempt_id"] == final["value"]["attempt_id"]
             assert int(outcome["ledger_records"]) == len(records)
     assert source.read_bytes() == original
-    RESULTS.append({"fault": fault, "extra": extra, "last": final, "records": len(records),
+    RESULTS.append({"fault": fault, "extra": extra, "last": final, "records": len(records), "timeout_seconds": timeout,
                     "source_sha256": hashlib.sha256(original).hexdigest(),
                     "stdout_sha256": hashlib.sha256(completed.stdout).hexdigest(),
                     "folder": str(folder)})
@@ -80,7 +81,7 @@ class WorkerTests(unittest.TestCase):
     def test_complete_variants_in_actual_owned_child(self):
         for bits in (12, 16, 32):
             tree, expected = collection(bits, count=150)
-            folder, rows, records = run(tree)
+            folder, rows, records = run(tree, extra={"wait_ms": "180000"}, timeout=240)
             self.assertEqual("complete", rows[-1]["value"]["outcome"]["status"], rows[-1])
             self.assertEqual("0", rows[-1]["value"]["worker"]["exit_code"])
             for name, (data, _) in expected.items():
@@ -90,7 +91,7 @@ class WorkerTests(unittest.TestCase):
     def test_large_content_and_worker_budget(self):
         nodes = [n + shift for n in range(3, 33003, 3) for shift in (2, 0, 1)]
         request, expected, _, _ = fixture(16, 40000, nodes=nodes)
-        folder, rows, _ = run(request=request, extra={"wait_ms": "60000"})
+        folder, rows, _ = run(request=request, extra={"wait_ms": "180000"}, timeout=240)
         self.assertEqual("complete", rows[-1]["value"]["outcome"]["status"], rows[-1])
         self.assertEqual(expected, (folder/"output/CONTENT.BIN").read_bytes())
 

@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-074
   profile: disked-spec/1
-  version: 0.1.22-proposed.1
+  version: 0.1.23-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,8 +27,8 @@ disked:
   - DE-REQ-074-03
 updated:
   by: codex
-  at: '2026-10-18T09:32:34.896855+00:00'
-  scope: Proposed Windows reference experiments; no execution or qualification claim
+  at: '2026-10-19T16:56:37.826562+00:00'
+  scope: Separate fixture-generation allowances from product deadlines; no new qualification claim
 sources:
 - id: windows-reference-review-2026-10-18
   resource: ../references/sources.json#windows-reference-review-2026-10-18
@@ -53,6 +53,24 @@ sources:
 ## Bootstrap validation
 
 The included tools validate OKF/profile structure, schemas/examples, links, stable IDs, requirement/test mappings, work dependencies, catalog references, invocation fixture policy and generated freshness. Their own unit tests cover malformed inputs and tooling safety. Passing these checks proves only the listed properties of this archive. No DiskEd executable, provider, physical disk or OS GUI is tested by the bootstrap.
+
+## Native campaign time accounting
+
+Keep product response, progress, cancellation, hang and retirement deadlines separate
+from the test harness's time to generate completed fixtures and collect evidence.
+A campaign controller must honour each registered CTest timeout and leave bounded
+termination/reporting time after it; an equal or shorter outer timer can discard
+the JUnit record of a genuine timeout.
+
+Calibrate completion-fixture allowances from retained measurements and declared
+workload sizes before evaluation. Preserve original failures, exact assertions and
+fixture counts; identify every changed process/probe observation envelope. A
+longer completion-fixture allowance does not authorize changing fault-test or
+product deadlines, storage budgets, outcome expectations or admission rules.
+Diagnostic completion under a different aggregate window does not qualify the
+earlier window. The current proposed guest allowances are source-bound in the
+[fixture I/O review](../catalog/native-fixture-timeouts.json)
+and require actual native requalification.
 
 ## Product test pyramid
 

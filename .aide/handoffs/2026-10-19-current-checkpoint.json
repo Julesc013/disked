@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "d2da7842fdd6afd63cf855ec4ba502d15267d5c6",
-  "spec_manifest_digest": "sha256:3eb9cf6573a42f203b9acd55d32279a060a3682579b37b9d99170e4f45e94c21",
+  "base_revision": "422f6ee03baffe8263c4e06c99ef9d0d6709152f",
+  "spec_manifest_digest": "sha256:e5efcb4fe0fddbb83d42b0fea062e386b82e83f942303c5cfc07de5f2a5b1117",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -42,6 +42,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/inspect-startup.py",
     ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
     ".aide/evidence/2026-10-18-ordinary-worker/namespace-review-before.json",
     ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/null-device.py",
@@ -65,7 +66,11 @@
     "source/platform/windows/worker_files.h",
     "spec/architecture/execution-topology.md",
     "spec/catalog/artifact-checker-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-fixture-timeouts.json",
     "spec/catalog/nt-inventory-advance-prototype.json",
+    "spec/development/testing-and-ci.md",
     "spec/generated/index.json",
     "spec/manifest.json",
     "spec/work/units.json",
@@ -81,6 +86,8 @@
     "tests/images/fat_tree_extraction_worker_probe.cpp",
     "tests/images/ntfs_worker_probe.cpp",
     "tests/images/test_acquisition_worker.py",
+    "tests/images/test_fat_tree_extraction.py",
+    "tests/images/test_fat_tree_extraction_worker.py",
     "tests/images/test_fat_tree_review.py",
     "tests/invocation/test_windows.py",
     "tests/resilience/memory_fixture.py",
@@ -93,7 +100,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 partial. Retained primitive32/512MiB controls,compiler/protected-record journey,focused FAT/file-export and read-only cleanup pass at their stated revisions. Actual confined PowerShell7.6.7/CLR10.0.13 startup/cleanup pass. Run55 original300-second history gate fails during FAT32 fixture generation;timing cause not fully diagnosed. Run58 atd2da7842 passes four invocation methods in AppContainer but invalid stdin terminates0xC0000008 with no output;entry timing unmeasured. Prior ordinary run48 passes all four non-shell methods and fails legacy CLR. New candidate partitions each product's same five methods4+1,retains original group IDs and adds two shell companions(total180),with exact per-method zero-skip witnesses. Default direct script still runs all five;no assertion/child timeout changes. Full253 spec(two skips)/144 tooling(one skip) and structural/source-map/manifest checks pass. Partitioned native run and separate600-second history timing diagnostic are unverified;diagnostic cannot qualify original300-second group. All completed owned cleanup retained. Dev is authorized;full180/current Win32/detail review,main promotion,owner/release and original all-platform/storage0.1.0 completion remain open.",
+  "summary": "DE-W105 partial. Retained32/512MiB controls,compiler/user-only-record journey,focused FAT/file-export and readonly cleanup pass. Actual confined PowerShell7 startup passes. Run58 AppContainer invalid-stdin0xC0000008 remains unqualified;prior ordinary run passes that case. Current candidate partitions each product's original five invocation methods4 ordinary+1 shell,with explicit zero-skip witnesses and180 groups. Diagnostic59 at422f6ee0 completes all13 history methods/78 reader cases/16 native+3 owned histories in430.269s:417.937s native writers,2.501s readers. It does not qualify the original300-second CTest gate. Canonical proposed fixture-timeout profile declares aggregate600/1200/600s and named large-completion probe/process allowances;unchanged assertions/counts and product/fault/storage limits. Controller respects registered CTest deadlines plus30s reporting grace. Full253 spec(two skips)/144 tools(one skip),structural/source-map/manifest checks pass;new native profile/partition/full180,current Win32/detail review remain pending before main. All completed cleanup retained. Original all-platform/storage0.1.0,owner and release gates remain open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -255,6 +262,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
+    },
+    {
+      "command": "Separate complete-history timing diagnostic,not original300-second CTest qualification",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json"
+    },
+    {
+      "command": "Registered canonical completion-fixture contract;253 spec/144 tool tests plus structural/source-map/manifest checks",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     }
   ],
   "artifacts": [
@@ -280,11 +301,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
-      "sha256": "sha256:36549b4ad7a5bf73c734874451d9a0e7b80ba111c369c105120f3cd16a7b1aa6"
+      "sha256": "sha256:aa93c4b24c8a52fd580842da0bf952bb2c8e0961774c6fdd96db40620bb9a5f8"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:7561be69c1f03cb04e0dc9bca44b06d24b144a776bc9e478b19a38dc1d5f0264"
+      "sha256": "sha256:233e4754c30458685a821c1d1b4c30854aaf25f41398a8dbc518ca9081bd5987"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -352,7 +373,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
-      "sha256": "sha256:89ca5cc5568f3f59053da18df090c709c54c6ec1494886d9ba211a6cb8750895"
+      "sha256": "sha256:d4c50cc4f819191c67d871b32ab0ee9f753b05e29e977ee29a0199dcb13c804c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-timeout.json",
@@ -368,7 +389,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:e155f4dbf0e71de70386a25339744274c4eac9fc8aefe98e1695e4b63a408906"
+      "sha256": "sha256:253428d1397b87dbaababa7f22a24e4f964ecc0329594fe72c0a770ad442744b"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -445,11 +466,31 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle.tar.xz",
       "sha256": "sha256:ad959346a6e8f1946fa589526f345361b1e3bf4ca0410fea2884f8fbd99ba174"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json",
+      "sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-cleanup.json",
+      "sha256": "sha256:ac29b5e5bc67e93bcc049bdcac6c7813a8c0360b8d2b35e7e833cff4f910ce09"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic.tar.xz",
+      "sha256": "sha256:ff2dddc6484d4893d70433641c4f5c54d782413c457cdbc34ea01bf7d807fb43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/calibration-contract-registration-failure.json",
+      "sha256": "sha256:f7c62fc2b05503758aa56a7dda664d9ac72ec79a353cd169e188985ec503624b"
+    },
+    {
+      "path": "spec/catalog/native-fixture-timeouts.json",
+      "sha256": "sha256:ba5a46f3f26fdfe5990c0d78524952420e96f71cd142e76f52b4d5ff871294bb"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Run the separately labelled complete-history timing diagnostic at this exact candidate,then the four invocation partitions. The600-second diagnostic cannot qualify the original300-second CTest gate. New inventory180 preserves all ten original invocation methods4+1 per product with explicit summary witnesses. Use measured facts for the remaining history repair. Full180/current Win32/detail review remain for main;W106/107 follow;original0.1.0 and owner/release/storage gates remain unchanged.",
+  "next_safe_step": "Run the four predeclared invocation partitions through the ordinary-to-AppContainer transition,then the complete current180-group x64 campaign with canonical completion-fixture allowances. Original300-second history failure stays retained;diagnostic success is not qualification. Verify actual CTest timeouts,all ten original invocation methods,full180/current Win32/detail review before main. Preserve storage/product/fault limits;W106/107 follow;original0.1.0 and owner/release gates unchanged.",
   "performed_remote_writes": true
 }

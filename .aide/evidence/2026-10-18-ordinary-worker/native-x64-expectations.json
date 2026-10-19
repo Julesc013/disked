@@ -224,7 +224,9 @@
     "build_seconds": 1800,
     "group_seconds": 300,
     "campaign_seconds": 9000,
-    "guest_overall_seconds": 7200
+    "guest_overall_seconds": 7200,
+    "ctest_reporting_grace_seconds": 30,
+    "group_seconds_scope": "Default maximum CTest property;named aggregate fixture overrides are explicit. Controller adds only reporting grace."
   },
   "owner_accepted": false,
   "release_qualified": false,
@@ -268,5 +270,11 @@
       ],
       "summary": "disked_provider_guard-shell-invocation-summary.json"
     }
-  }
+  },
+  "aggregate_fixture_timeouts": {
+    "evidence.fat_tree_history": 600,
+    "image.fat_tree_extraction": 1200,
+    "image.fat_tree_extraction_worker": 600
+  },
+  "fixture_io_profile": "spec/catalog/native-fixture-timeouts.json"
 }

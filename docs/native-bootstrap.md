@@ -55,6 +55,14 @@ shell groups bring the current complete inventory to 180. Per-method receipts mu
 account for all ten original methods without skips. The programme retains the
 earlier failures; this new matrix and the current full gate remain unqualified.
 
+The completed timing diagnostic at `422f6ee0` runs all 13 original history methods
+in 430 seconds: 418 seconds in fixture writers and 2.5 in readers. The original
+300-second CTest failure remains recorded. The proposed
+[fixture timeout profile](../spec/catalog/native-fixture-timeouts.json) declares
+larger envelopes only for named completion fixtures, with unchanged data/counts
+and product/fault deadlines. Actual CTest requalification is required. Controller
+reporting grace follows each registered timeout so failure JUnit can be retained.
+
 ## Implemented development surface and historical recipes
 
 The Windows image/fake prototype executable supports human and JSON/NDJSON build information,

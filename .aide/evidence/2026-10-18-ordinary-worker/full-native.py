@@ -136,6 +136,7 @@ def coordinate(g):
         if prepared.returncode:raise RuntimeError('Source preparation: '+prepared.stderr[-4096:].decode(errors='replace'))
         source_prepared=True
         result['source_prepared']=json.loads((ROOT/'source-prepared.json').read_bytes())
+        assert json.loads((SOURCE/'spec/catalog/native-fixture-timeouts.json').read_bytes())==expected['fixture_io_review']
         work=g.W.plain_directory(state['work']);(work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
         compile_work=g.fresh(work/'compile-x64')
         instance=g.W.Worker(compile_work,control=Path(os.environ['DISKED_WORK_ROOT']),private_station=True,profile_name=state['profile_names'][0])
@@ -301,8 +302,18 @@ def coordinate(g):
                     deadline_seconds=600,original_ctest_deadline_seconds=300,original_ctest_qualified=False,
                     observations=summary,scope='Original assertion body outside CTest for elapsed-time diagnosis only; no full/native-group qualification'))
             else:
+                properties=next(row['properties'] for row in registered if row['name']==test)
+                ctest_seconds=next(row['value'] for row in properties if row['name']=='TIMEOUT')
+                configured=expected.get('aggregate_fixture_timeouts',{}).get(test)
+                assert ctest_seconds==int(ctest_seconds) and 0<ctest_seconds<=(configured or 300)
+                if configured:assert ctest_seconds==configured
+                # CTest owns its test timeout. Leave a bounded interval for its
+                # termination/JUnit output; an equal outer deadline can discard
+                # the very failure evidence the runner is required to retain.
+                grace=expected['bounds']['ctest_reporting_grace_seconds'];assert grace==30
+                command_seconds=int(ctest_seconds)+grace
                 code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
-                    '--verbose','--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
+                    '--verbose','--output-on-failure','--output-junit',work/'test.xml'],command_seconds,allow_failure=True)
                 archive.write(work/'test.xml','junit/'+test+'.xml')
                 cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
                 passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
@@ -311,7 +322,8 @@ def coordinate(g):
                     wanted=expected['invocation_method_coverage'][test]
                     methods=json.loads((build/wanted['summary']).read_bytes())
                     passed=passed and methods['passed'] is True and methods['partition']==wanted['partition'] and methods['methods']==wanted['methods'] and methods['tests_run']==len(wanted['methods']) and methods['skipped']==0
-                result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer',invocation_methods=methods))
+                result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer',
+                    ctest_timeout_seconds=ctest_seconds,controller_timeout_seconds=command_seconds,invocation_methods=methods))
             for path in sorted(build.iterdir()):
                 if not path.is_file() or path.name in before:continue
                 info=path.lstat()
