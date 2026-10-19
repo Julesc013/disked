@@ -92,11 +92,14 @@ class Grant:
             self.sid_bytes=C.string_at(self.sid,self.a.GetLengthSid(self.sid));owned_ace(self.sid_bytes)
             text=C.create_unicode_buffer(DEVICE);value=Unicode((len(text)-1)*2,len(text)*2,C.cast(text,P))
             attrs=Attributes(C.sizeof(Attributes),None,C.pointer(value),0x40,None,None);iosb=IoStatus()
-            status=self.n.NtOpenFile(C.byref(self.device),0x60000,C.byref(attrs),C.byref(iosb),7,0)
+            status=self.open_object(attrs,iosb)
             self.report['open_status']=hex(status&0xffffffff)
             if status!=0:raise RuntimeError('Crypto READ_CONTROL/WRITE_DAC open: '+hex(status&0xffffffff))
             self.snapshot()
         except BaseException:self.close();raise
+
+    def open_object(self,attrs,iosb):
+        return self.n.NtOpenFile(C.byref(self.device),0x60000,C.byref(attrs),C.byref(iosb),7,0)
 
     def read(self):
         for path in (ROOT,ROOT/'scratch',ROOT/'scratch/ordinary-actor.json'):

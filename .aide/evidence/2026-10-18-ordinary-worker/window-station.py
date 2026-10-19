@@ -161,49 +161,63 @@ def bootstrap_matrix(g):
     return rows
 
 def coordinate(g,body):
-    grant=None;body_started=False
+    instances={};body_started=False;recoveries={};namespace=None
     try:
         interrupted=subprocess.run([sys.executable,'-B',str(ROOT/'window-station.py'),'--apply-and-exit'],capture_output=True,timeout=15)
         if interrupted.returncode!=19:raise RuntimeError('Station setup fault did not reach boundary: '+interrupted.stderr[-4096:].decode(errors='replace'))
-        grant=Grant();assert grant.read()['window_station']['workers_started'] is False
-        grant.retire(quiescent=True);recovery=dict(grant.report);grant.close();grant=None
+        station=Grant();instances['window_station']=station
+        assert station.read()['window_station']['workers_started'] is False
+        station.retire(quiescent=True);recoveries['window_station_recovery']=dict(station.report)
+        station.close();instances.pop('window_station')
         if json.loads((ROOT/'expected.json').read_bytes()).get('station_bootstrap_matrix_only'):
             rows=bootstrap_matrix(g)
             proof=dict(status='pass',scope='Six fixed trusted standard-user bootstrap observations only;no restricted worker or product qualification',
-                       all_owned_processes_retired=True,window_station_recovery=recovery,station_bootstrap_matrix=rows)
+                       all_owned_processes_retired=True,station_bootstrap_matrix=rows,**recoveries)
             assert len(rows)==len(DIAGNOSTIC_MASKS) and all(row['station_retirement']['retired'] for row in rows)
             (ROOT/'proof-result.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
             return
-        grant=Grant();grant.apply();grant.started();body_started=True;body()
+        namespace=g.load('interactive_object_namespace',ROOT/'object-namespace.py')
+        interrupted=subprocess.run([sys.executable,'-B',str(ROOT/'object-namespace.py'),'--apply-and-exit'],capture_output=True,timeout=15,creationflags=0x08000000)
+        if interrupted.returncode!=19:raise RuntimeError('Namespace setup fault did not reach boundary: '+interrupted.stderr[-4096:].decode(errors='replace'))
+        entry=namespace.Grant(recovery=True);instances['object_namespace']=entry
+        assert entry.read()['crypto_device']['workers_started'] is False
+        entry.retire(quiescent=True);recoveries['object_namespace_recovery']=dict(entry.report)
+        entry.close();instances.pop('object_namespace')
+        station=Grant();instances['window_station']=station;station.apply()
+        entry=namespace.Grant();instances['object_namespace']=entry;entry.apply()
+        station.started();entry.started();body_started=True;body()
     except BaseException as error:
         if not body_started:
-            if grant is None:
-                state=json.loads((ROOT/'scratch/ordinary-actor.json').read_bytes()).get('window_station',{})
-                grant=Grant(state.get('mask',MASK))
-            state=grant.read().get('window_station',{})
-            if state.get('workers_started') is True:raise ValueError('Prior worker retirement uncertain') from error
-            grant.retire(quiescent=True)
-            proof=dict(status='fail',scope='Station setup failed before restricted worker launch',
-                       all_owned_processes_retired=True,window_station=grant.report,error=repr(error))
+            journal=json.loads((ROOT/'scratch/ordinary-actor.json').read_bytes())
+            quiescent=all(journal.get(key,{}).get('workers_started') is not True for key in ('window_station','object_namespace'))
+            proof=dict(status='fail',scope='Interactive setup failed before restricted worker launch',
+                       all_owned_processes_retired=quiescent,error=repr(error),**recoveries)
             (ROOT/'proof-result.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
         raise
     finally:
-        if grant:
-            path=ROOT/'proof-result.json';proof=json.loads(path.read_bytes()) if path.exists() else {}
-            state=grant.read().get('window_station',{})
-            quiescent=bool(proof.get('all_owned_processes_retired')) or state.get('workers_started') is False
+        errors=[];path=ROOT/'proof-result.json';proof=json.loads(path.read_bytes()) if path.exists() else {}
+        for key in ('object_namespace','window_station'):
+            instance=instances.get(key)
             try:
-                grant.retire(quiescent=quiescent)
-                if proof:
-                    proof['window_station']=grant.report
-                    if 'recovery' in locals():proof['window_station_recovery']=recovery
-                    path.write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
+                journal=json.loads((ROOT/'scratch/ordinary-actor.json').read_bytes());state=journal.get(key,{})
+                if not instance and state:
+                    if key=='object_namespace':
+                        if namespace is None:namespace=g.load('interactive_object_namespace_recovery',ROOT/'object-namespace.py')
+                        instance=namespace.Grant(recovery=True)
+                    else:instance=Grant(state.get('mask',MASK))
+                if instance:
+                    quiescent=bool(proof.get('all_owned_processes_retired')) or state.get('workers_started') is False
+                    instance.retire(quiescent=quiescent);proof[key]=instance.report
+                    if key=='object_namespace':proof['object_namespace_retired']=instance.report['retired']
             except BaseException as error:
-                if proof:
-                    proof.update(status='fail',window_station_cleanup_error=repr(error))
-                    path.write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
-                raise
-            finally:grant.close()
+                errors.append(repr(error));proof.update(status='fail');proof[key+'_cleanup_error']=repr(error)
+            finally:
+                if instance:
+                    try:instance.close()
+                    except BaseException as error:errors.append(repr(error));proof.update(status='fail');proof[key+'_close_error']=repr(error)
+        if proof:
+            proof.update(recoveries);path.write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
+        if errors:raise RuntimeError('Interactive grant retirement needs review: '+';'.join(errors))
 
 if __name__=='__main__':
     if sys.argv[1:]!=['--apply-and-exit']:raise ValueError('Only owned setup fault supported')

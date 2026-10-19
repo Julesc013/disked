@@ -53,6 +53,7 @@ RETIRE_ACTOR=r'''
                 }
             }
             $actorCurrent=Get-Content -LiteralPath $actorJournal -Raw|ConvertFrom-Json
+            if($actorCurrent.PSObject.Properties['object_namespace']-and$actorCurrent.object_namespace.phase-ne'retired'){throw 'Preserve actor/journal: object namespace retirement unverified.'}
             if($actorCurrent.PSObject.Properties['window_station']-and$actorCurrent.window_station.phase-ne'retired'){throw 'Preserve actor/journal: window-station exception retirement unverified.'}
             if($actorCurrent.PSObject.Properties['crypto_device']-and$actorCurrent.crypto_device.phase-ne'retired'){throw 'Preserve actor/journal: crypto-device exception retirement unverified.'}
             foreach($key in @('null_build','null_user')){if($actorCurrent.PSObject.Properties[$key]-and$actorCurrent.$key.phase-ne'retired'){throw 'Preserve actor/journal: null-sink exception retirement unverified.'}}
@@ -133,6 +134,7 @@ def main():
     if interactive_ui:
         shutil.copyfile(HERE/'interactive-run.ps1',stage/'interactive-run.ps1')
         data=(HERE/'window-station.py').read_bytes();ast.parse(data);(stage/'window-station.py').write_bytes(data)
+        data=(HERE/'object-namespace.py').read_bytes();ast.parse(data);(stage/'object-namespace.py').write_bytes(data)
         if not full_native:shutil.copyfile(HERE/'ui-probe.py',stage/'ui-probe.py')
     native='--native-journey' in sys.argv
     native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
@@ -258,7 +260,7 @@ def main():
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'crypto-device.py');relative='crypto-device.py'},")
     if interactive_ui:
-        selected=('interactive-run.ps1','window-station.py') if full_native else ('interactive-run.ps1','window-station.py','ui-probe.py')
+        selected=('interactive-run.ps1','window-station.py','object-namespace.py') if full_native else ('interactive-run.ps1','window-station.py','object-namespace.py','ui-probe.py')
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if native:
@@ -354,6 +356,8 @@ def main():
             raise RuntimeError('Preserve matrix journal: station/process retirement not established')
     if crypto and not station_matrix and not proof.get('crypto_device_retired'):
         raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
+    if interactive_ui and not station_matrix and not proof.get('object_namespace_retired'):
+        raise RuntimeError('Preserve guest actor journal: object namespace retirement not established')
     if full_native and not proof.get('null_device_retired'):
         raise RuntimeError('Preserve guest actor journal: null-sink exception retirement not established')
     if forensic:

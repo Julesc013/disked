@@ -282,6 +282,11 @@ def main():
             child=instance.launch([sys.executable,'-B',str(ROOT/'ui-probe.py'),'--basic','--station-limits'],os.environ,job)
             assert child.wait(timeout=30)==0
             result['interactive_ui_observation']=json.loads(instance.log_path.read_bytes())
+            assert all(row['created'] and row['error']==0 for row in result['interactive_ui_observation']['owned_kernel_object_startup'])
+            namespace={(row['path'],row['access']):row['status'] for row in result['interactive_ui_observation']['namespace_access']}
+            assert namespace[('\\Sessions\\3\\BaseNamedObjects\\Restricted',7)]=='0x0'
+            for path,access in [('\\Sessions\\3\\BaseNamedObjects',7),('\\Sessions\\3\\BaseNamedObjects\\Restricted',15),('\\Sessions\\3\\BaseNamedObjects\\Restricted',0x20003)]:
+                assert namespace[(path,access)]=='0xc0000022'
             assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
             assert result['interactive_ui_observation']['libraries'][0]['window_created']
             for row in result['interactive_ui_observation']['libraries'][0]['station_access']:
