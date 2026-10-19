@@ -1,0 +1,15 @@
+{
+  "status": "agent_reviewed_for_focused_execution_not_qualified",
+  "evidence": "forty-sixth-native-low-integrity.json",
+  "observation": "Python is Medium S-1-16-8192; newly built native probe is Low S-1-16-4096 with the same user and restricting SIDs. Both selected executable files have inherited Low mandatory labels. Native parent reads fail5; Python controls succeed. No product failure cause beyond this mismatch is assumed yet.",
+  "primary_reference": "https://learn.microsoft.com/en-us/windows/win32/secauthz/mandatory-integrity-control",
+  "decision": "After all build jobs retire, trusted guest coordinator hands new owned build/Release/*.exe artifacts to the intended ordinary Medium profile by replacing only their Low label with Medium NW. This is an explicit build-to-test trust transition under the existing guest setup grant, not automatic admission of arbitrary upstream output.",
+  "guards": [
+    "Single owned512MiB filesystem; exact source and selected artifact hashes retained; all build jobs quiescent before handoff.",
+    "At most256 newly generated plain single-link executables directly in this build's Release directory. Hold each file with no write/delete sharing. Require exact observed Low label before changing it.",
+    "Change LABEL_SECURITY_INFORMATION only; retain identical owner,group,DACL and bytes/hashes; no directory,source,shared executable,product-record or host label/ACL change.",
+    "Observe native Medium token and exact original user/restricting SIDs before evaluating the unchanged FAT review regression. Retain any new failure without changing expected behavior.",
+    "All generated artifacts and labels are removed with owned campaign output. No retained executable or lasting guest setting. Full178 gate remains separate."
+  ],
+  "expected": "Native diagnostic mode reports Medium with the same user and restricting SIDs. Exact original FAT review assertions pass, or the next concrete failure is retained and investigated. No weakening of source ancestor pins or product-record security."
+}

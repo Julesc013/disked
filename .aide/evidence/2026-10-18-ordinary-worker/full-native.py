@@ -78,6 +78,54 @@ def coordinate(g):
             if error:raise C.WinError(error)
         finally:free(descriptor)
 
+    def artifact_handoff(build):
+        # Compile jobs are already quiescent. Only this campaign's new executable
+        # files enter the ordinary Medium test profile; never relabel inputs,
+        # directories, shared tools, product records or other guest objects.
+        a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True)
+        open_file=g.W.bind(k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.c_void_p,T.DWORD,T.DWORD,T.HANDLE)
+        close=g.W.bind(k,'CloseHandle',T.BOOL,T.HANDLE)
+        read=g.W.bind(a,'GetSecurityInfo',T.DWORD,T.HANDLE,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+        edit=g.W.bind(a,'SetSecurityInfo',T.DWORD,T.HANDLE,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+        convert=g.W.bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,C.c_void_p,T.DWORD,T.DWORD,C.c_void_p,C.c_void_p)
+        descriptor=g.W.bind(a,'ConvertStringSecurityDescriptorToSecurityDescriptorW',T.BOOL,T.LPCWSTR,T.DWORD,C.c_void_p,C.c_void_p)
+        get_sacl=g.W.bind(a,'GetSecurityDescriptorSacl',T.BOOL,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
+        free=g.W.bind(k,'LocalFree',C.c_void_p,C.c_void_p)
+        def security(handle,fields):
+            sd=C.c_void_p();text=T.LPWSTR();error=read(handle,1,fields,None,None,None,None,C.byref(sd))
+            if error:raise C.WinError(error)
+            try:
+                g.W.require(convert(sd,1,fields,C.byref(text),None));return text.value
+            finally:
+                if text:free(C.cast(text,C.c_void_p))
+                free(sd)
+        paths=sorted((build/'Release').glob('*.exe'));assert 1<=len(paths)<=256
+        result['artifact_handoff']=[]
+        for path in paths:
+            info=path.lstat()
+            assert stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
+            handle=open_file(str(path),0x800a0000,1,None,3,0x00200000,None)
+            if handle==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+            desired=C.c_void_p()
+            try:
+                before=security(handle,7);before_label=security(handle,0x10);digest=retention.sha(path)
+                assert before_label=='S:AI(ML;ID;NW;;;LW)',before_label
+                g.W.require(descriptor('S:(ML;;NW;;;ME)',1,C.byref(desired),None))
+                present,defaulted,sacl=T.BOOL(),T.BOOL(),C.c_void_p()
+                g.W.require(get_sacl(desired,C.byref(present),C.byref(sacl),C.byref(defaulted)))
+                assert present.value and sacl.value
+                error=edit(handle,1,0x10,None,None,None,sacl)
+                if error:raise C.WinError(error)
+                after_label=security(handle,0x10)
+                assert after_label in ('S:(ML;;NW;;;ME)','S:AI(ML;;NW;;;ME)')
+                assert security(handle,7)==before and retention.sha(path)==digest
+                if path.stem in result['executables']:assert digest==result['executables'][path.stem]['sha256']
+                result['artifact_handoff'].append(dict(path=path.relative_to(build).as_posix(),sha256=digest,
+                    before_label=before_label,after_label=after_label,bytes_unchanged=True,dacl_owner_group_unchanged=True))
+            finally:
+                if desired:free(desired)
+                close(handle)
+
     try:
         if not __debug__:raise RuntimeError('Qualification coordinator requires active assertions')
         data=g.actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
@@ -228,6 +276,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         result['native_build_passed']=True
         null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
         instance.close();instance=None;shared_read_access(False)
+        artifact_handoff(build)
         native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
         (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
         directory_acl(compile_work,shared_acl)
@@ -242,6 +291,9 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         if focused:
             _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
             result['native_token_identity']=json_record(raw)
+            assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'
+            assert result['native_token_identity']['user_sid']==result['actual_token']['user_sid']
+            assert set(result['native_token_identity']['restricting_sids'])==set(result['actual_token']['restricting_sids'])
             a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True)
             read=g.W.bind(a,'GetNamedSecurityInfoW',T.DWORD,T.LPWSTR,C.c_int,T.DWORD,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
             convert=g.W.bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,C.c_void_p,T.DWORD,T.DWORD,C.c_void_p,C.c_void_p)

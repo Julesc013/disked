@@ -45,7 +45,11 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
   managed parent, retaining independent fixture values and failure dependencies.
   [Source audit and coordinator checks](.aide/evidence/2026-10-19-managed-fixtures/README.md).
   Actual migrated native behavior still requires the current qualification.
-- [ ] Complete the current all-target x64 product/178-group gate. Preserve the
+- [x] Complete the all-target x64 build at `f86f72fa`, with 178 groups registered,
+  68 standalone headers and 14 executable/import observations. Retain the
+  [first native failure](.aide/evidence/2026-10-18-ordinary-worker/full-build-review.json)
+  separately from the passing build.
+- [ ] Complete the current x64 product/178-group native test gate. Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,

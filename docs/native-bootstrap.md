@@ -30,6 +30,16 @@ plus a restricted x64 compile and production store-helper journey. The current
 exact sources and temporary guest crypto-device setup/retirement. These are
 execution-environment results; they do not replace the pending full x64 gate.
 
+The all-target x64 build at `f86f72fa` completed with all 178 groups registered,
+68 standalone headers and 14 executable/import observations. The first native
+group passed; `acquisition.fat_tree_review` then failed while opening its
+fixture's parent directory. The
+[build review](../.aide/evidence/2026-10-18-ordinary-worker/full-build-review.json)
+retains that distinction. Compilation uses the confined AppContainer profile;
+product tests use the ordinary restricted profile. Their source and artifact
+identities are recorded separately. The current full native test gate remains
+open; these build results do not authorize main integration or release.
+
 ## Implemented development surface and historical recipes
 
 The Windows image/fake prototype executable supports human and JSON/NDJSON build information,

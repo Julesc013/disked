@@ -6,6 +6,22 @@ compiler/production-store journey and complete 512 MiB controls pass. See
 `thirty-fourth-full512-pass.json`, with their separate cleanup receipts. The
 full current product suite remains pending. Earlier failures below are history.
 
+The all-target x64 build at `f86f72fa` passed, with 178 groups registered,
+68 standalone headers and 14 executable/import observations. See
+`full-build-review.json` and the complete compressed
+`forty-second-full-build-first-native.tar.xz`. The first native group passed;
+`acquisition.fat_tree_review` failed with `image_parent_open`.
+Attempts 43–45 narrow this to Windows access-denied on every native parent open,
+while a Python control under the same ordinary worker opens those directories.
+This difference remains under investigation; it is not a native test pass.
+
+The two-profile campaign compiles in the previously demonstrated AppContainer,
+then retires its jobs before testing the exact artifacts under the ordinary
+restricted profile. `two-profile-review.json` records the boundary. Real Git
+requires a temporary exact-subject read/write ACE on the guest Null sink;
+`forty-first-null-build-pass.json` records setup, helper-interruption recovery,
+real Git calls and post-removal denial. No product-record ACL was relaxed.
+
 This is a guest-only development experiment under the existing owner grant.
 Agents coordinates. Each run creates one nonce/SID-bound **temporary standard
 user**, a new fixed 32 MiB virtual disk inside the guest and private UI objects.
