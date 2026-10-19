@@ -21,5 +21,5 @@ try {
         if($LASTEXITCODE-ne0){throw 'Guarded owned-source retirement failed.'}
         Get-Content -LiteralPath (Join-Path $root 'source-retired.json') -Raw|ConvertFrom-Json
     }
-    [IO.File]::WriteAllText((Join-Path $PSScriptRoot 'source-retirement-recovery.json'),($result|Select-Object status,source_removed,nonce|ConvertTo-Json))
+    [IO.File]::WriteAllText((Join-Path $PSScriptRoot 'source-retirement-recovery.json'),($result|Select-Object status,source_removed,nonce|ConvertTo-Json).Replace("`r`n","`n"))
 } finally {Remove-PSSession -Session $session}
