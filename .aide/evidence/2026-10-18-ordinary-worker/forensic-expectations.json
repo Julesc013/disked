@@ -1,8 +1,8 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "twenty-second-init-stage.json: working returnAL1/stage700 versus restricted returnAL0/stage600. kernelbase-stage600-static.json places that stage in the console initialization helper; precise inner failing call is not yet observed.",
+  "base": "twenty-third-detached-comparison.json at f0da6dd8: baseline completes, old restricted fails KernelBase stage600, detached restricted passes KernelBase stage700 then fails bcrypt DLL_PROCESS_ATTACH. No payload entry.",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
-  "actor": "Fresh standard-user debugger, one privilege-filtered baseline and two exact freshUser+RC restricted cases: existing CREATE_NO_WINDOW and documented DETACHED_PROCESS headless candidate. Exact restricting SID sets,token properties,handles/job/desktop/budgets are unchanged. No new permission.",
+  "actor": "One exact freshUser+RC detached case under the unchanged fresh standard-user debugger. No fresh baseline claimed: prior three-case comparison is retained separately. Collect only failure diagnosis; no full-profile admission.",
   "bounds": {
     "initial_mib": 32,
     "executable_copy_bytes": 262144,
@@ -13,10 +13,10 @@
     "actor_seconds": 40
   },
   "required": [
-    "Baseline reaches complete/exits0; retain actual old restricted and detached candidate outcomes separately. Detached startup success requires its own exit0 and complete breadcrumb and still does not qualify the full worker.",
+    "Retain actual detached exit/module/payload outcome, even on failure. Do not report a new unrestricted baseline or startup success without observed completion.",
     "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
-    "Continue only first loader breakpoint and at most4 observations at the one hash/byte-verified initialization return point on the owned initial thread; other exceptions remain not-handled",
-    "Bind KernelBase SHA256 c5e318c29e2bb032b21d981d3c130f0645c37b4330f5ef9659456452b2d0f00c and verify instruction bytes at RVA0x49663. Record AL/EAX and read-only WORD at RVA0x2b7da4. Both cases must retain actual return observations; no invented symbol/API or portable-offset claim.",
+    "Continue first loader breakpoint and explicitly owned entry/return hardware breakpoints for the three selected ntdll functions; other exceptions remain not-handled",
+    "Capture NtCreateFile,NtOpenKeyEx,NtOpenKey object names,UTF16 bytes,access,root handle,return address and NTSTATUS on the owned initial thread. Bound256 calls. Relative root handles remain unresolved; absent calls are not evidence of process-wide absence.",
     "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
     "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"

@@ -1,0 +1,24 @@
+{
+  "source_revision": "f0da6dd8a9fd9e7f46364f67fdd5730fac058ec4",
+  "status": "diagnostic_collection_pass",
+  "baseline": {
+    "exit_code": 0,
+    "stage": 700,
+    "payload_complete": true
+  },
+  "old_restricted": {
+    "exit_code": 3221225794,
+    "stage": 600,
+    "failed_dll": "KernelBase.dll"
+  },
+  "detached_restricted": {
+    "exit_code": 3221225794,
+    "stage": 700,
+    "failed_dll": "bcrypt.dll",
+    "payload_entered": false
+  },
+  "interpretation": "Detached launch resolves the observed KernelBase console-init failure but exposes a later distinct bcrypt initialization failure. No worker admission.",
+  "next_action": "One bounded detached file/registry call trace; no broader restricting SID/ACL/privilege change",
+  "all_owned_cleanup_verified": true,
+  "worker_qualified": false
+}

@@ -48,8 +48,31 @@ PowerShell JSON integer rounding; older rounded observations are not exact IDs.
 
 Earlier "before Python" shorthand was an inference from the original observer's
 missing receipt, which followed imports. The minimal observer narrows the fact:
-the restricted process produces no first breadcrumb; the exact DLL/API failure
-still needs diagnosis.
+the restricted process produces no first breadcrumb. Later exact-image loader
+observations identify the failing module and distinguish successive failures:
+
+- Attempts 12/15 identify KernelBase initialization failure for user-only and
+  fresh-user plus Restricted Code SID tokens. Attempt 13 records object-directory
+  access differences, but does not establish that those caused the failure.
+- Attempts 16/17 show successful watched DLL/shared-section opens and mappings.
+  Neither watched port-connect function occurs; this is a limited observation.
+- Attempts 18-20 expose collector bounds/thread/stop defects. These are failed
+  diagnostic collections, with the restricted case unrun. Partial traces are
+  preserved where available; all owned cleanup completed. Attempt 21 corrects
+  collection and records subsystem-client success in both token cases.
+- Attempt 22 binds read-only binary analysis to the exact guest KernelBase hash:
+  the baseline returns true at initialization stage 700; restricted returns
+  false at stage 600. These private offsets are not a Windows API or DiskEd ABI.
+- Attempt 23 compares both launch modes in one run. Explicit detached launch
+  passes KernelBase stage 700 but then fails **bcrypt.dll** initialization before
+  Python entry. The original no-window case still fails KernelBase at stage 600.
+  Detached launch therefore resolves one observed obstacle, not worker startup.
+
+The current finite probe captures native file/registry arguments and statuses
+for the detached failure. The prior three-case control remains retained; this
+new single-case probe does not claim a new baseline. No shared-object ACL,
+product-record ACL, privilege or storage-budget expansion is authorized by
+these results. All completed native experiments have owned cleanup receipts.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. The next investigation must identify the actual restricted-process DLL

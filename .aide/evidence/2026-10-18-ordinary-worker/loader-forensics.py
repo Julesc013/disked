@@ -158,18 +158,21 @@ def actor(plan):
     bind(a,'CreateProcessAsUserW',T.BOOL,T.HANDLE,T.LPCWSTR,T.LPWSTR,P,P,T.BOOL,T.DWORD,P,T.LPCWSTR,P,C.POINTER(b.ProcessInfo))
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
-    kernelbase_sha='c5e318c29e2bb032b21d981d3c130f0645c37b4330f5ef9659456452b2d0f00c'
-    result=dict(status='running',bootstrap_identity=identity,variants=[])
+    ntdll=C.WinDLL('ntdll')
+    selected_functions=('NtCreateFile','NtOpenKeyEx','NtOpenKey')
+    offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
+    assert all(0<offset<0x400000 for offset in offsets.values())
+    result=dict(status='running',bootstrap_identity=identity,variants=[],baseline_scope='No new baseline: retained three-case comparison in twenty-third-detached-comparison.json')
     original,sid,compatibility=T.HANDLE(),P(),P()
     require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
     try:
         require(a.ConvertStringSidToSidW(plan['user_sid'],C.byref(sid)))
         require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
-        for name,restricted_case,detached in (('baseline',False,False),('restricted_compat',True,False),('restricted_detached',True,True)):
+        for name,restricted_case,detached in (('restricted_detached',True,True),):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
-            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,initialization_returns=[],scope='Exact-image DLL initialization return and stage counter; diagnostic only')
+            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],scope='Three native file/registry entrypoints on the owned initial thread; diagnostic only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
-            watch_address=None;kernelbase_base=None
+            watches=None;pending=None
             def retain_trace(complete):
                 raw=trace_path.read_bytes();assert len(raw)<=2097152
                 compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])
@@ -184,10 +187,11 @@ def actor(plan):
                 storage,value=aligned_context();value.flags=0x100013
                 require(k.GetThreadContext(process.thread,C.byref(value)))
                 return storage,value
-            def watch(value):
+            def watch(value,return_address=None):
                 value.flags=0x100010
                 for i in range(6):value.dr[i]=0
-                value.dr[0]=watch_address;value.dr[5]=1
+                value.dr[0]=watches[0];value.dr[1]=watches[1];value.dr[2]=return_address or 0;value.dr[3]=watches[2]
+                value.dr[5]=0x10 if return_address else 0x45
                 require(k.SetThreadContext(process.thread,C.byref(value)))
             try:
                 entries=(b.SidAttributes*2)(b.SidAttributes(sid,0),b.SidAttributes(compatibility,0))
@@ -236,15 +240,12 @@ def actor(plan):
                             path=C.create_unicode_buffer(2048)
                             length=k.GetFinalPathNameByHandleW(file_handle,path,len(path),0) if file_handle else 0
                             row['modules'].append(dict(event=event.code,path=path.value if 0<length<len(path) else None))
-                            if length and Path(path.value).name.lower()=='kernelbase.dll':
-                                assert watch_address is None
-                                assert Path(path.value)==Path('\\\\?\\C:/Windows/System32/KernelBase.dll')
-                                assert hashlib.sha256(Path(path.value).read_bytes()).hexdigest()==kernelbase_sha
-                                kernelbase_base=info.base;watch_address=kernelbase_base+0x49663
-                                assert read(watch_address,6)==bytes.fromhex('4883c4205bc3')
+                            if length and Path(path.value).name.lower()=='ntdll.dll':
+                                assert event.tid==process.tid and watches is None
+                                watches=[info.base+offsets[name] for name in selected_functions]
                                 storage,value=context();assert value.dr[5]&0xff==0
                                 watch(value)
-                                row['binary_binding']=dict(sha256=kernelbase_sha,base=hex(kernelbase_base),return_rva='0x49663',stage_rva='0x2b7da4')
+                                row['native_entrypoints']={name:hex(address) for name,address in zip(selected_functions,watches)}
                         elif event.code==8:
                             info=event.data.string;n=info.length*(2 if info.unicode else 1);assert n<=131070
                             if n:
@@ -255,13 +256,23 @@ def actor(plan):
                                 trace.write(message)
                         elif event.code==1:
                             code=event.data.exception.record.code
-                            if code==0x80000004 and event.tid==process.tid and watch_address:
+                            if code==0x80000004 and event.tid==process.tid and watches:
                                 storage,value=context();hit=value.dr[4]&15
-                                assert hit==1 and value.rip==watch_address and len(row['initialization_returns'])<4
-                                row['initialization_returns'].append(dict(eax=hex(value.regs[0]&0xffffffff),al=value.regs[0]&255,stage=int.from_bytes(read(kernelbase_base+0x2b7da4,2),'little')))
-                                value.flags=0x100010
-                                for i in range(6):value.dr[i]=0
-                                require(k.SetThreadContext(process.thread,C.byref(value)))
+                                if pending is not None and hit==4:
+                                    pending['status']=hex(value.regs[0]&0xffffffff)
+                                    row['native_calls'].append(pending);pending=None;watch(value)
+                                elif pending is None and hit in (1,2,8):
+                                    assert len(row['native_calls'])<256
+                                    index={1:0,2:1,8:2}[hit];assert value.rip==watches[index]
+                                    attrs=read(value.regs[8],48);name_pointer=int.from_bytes(attrs[16:24],'little');text=b''
+                                    if name_pointer:
+                                        descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
+                                        assert length<=1024 and length%2==0
+                                        if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
+                                    return_address=int.from_bytes(read(value.regs[4],8),'little')
+                                    pending=dict(function=selected_functions[index],access=hex(value.regs[2]&0xffffffff),root_handle=hex(int.from_bytes(attrs[8:16],'little')),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'),return_address=hex(return_address))
+                                    watch(value,return_address)
+                                else:raise ValueError('Unexpected owned hardware breakpoint state')
                             else:
                                 row['exceptions'].append(dict(code=hex(code),first_chance=event.data.exception.first))
                                 if code==0x80000003 and not initial_breakpoint_seen:initial_breakpoint_seen=True
@@ -271,7 +282,8 @@ def actor(plan):
                         if file_handle:require(k.CloseHandle(file_handle))
                         require(k.ContinueDebugEvent(event.pid,event.tid,continuation))
                 trace.close();trace=None
-                assert watch_address is not None and row['initialization_returns']
+                row['native_call_pending_at_exit']=pending
+                assert watches is not None and row['native_calls']
                 assert k.WaitForSingleObject(process.process,5000)==0
                 retain_trace(True)
                 observation=Path(filename);row['breadcrumb']=observation.read_text(encoding='utf-8') if observation.exists() else None
@@ -302,7 +314,7 @@ def actor(plan):
                 for h in handles:k.CloseHandle(h)
                 if token:k.CloseHandle(token)
                 result['variants'].append(row)
-        assert result['variants'][0]['exit_code']==0 and result['variants'][0]['breadcrumb'].endswith('complete\n')
+        assert len(result['variants'])==1 and result['variants'][0]['name']=='restricted_detached'
         assert all(r['trace']['bytes']>0 for r in result['variants'])
         result['status']='pass'
     except BaseException:
