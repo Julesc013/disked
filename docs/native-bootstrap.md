@@ -44,9 +44,16 @@ Subsequent focused FAT-review and file-export runs pass. A later complete-run
 attempt fills the bounded scratch volume before finishing its tests; its raw
 archive cannot be finalized. The next prepared run retires compiler objects
 after their checks and temporary images after each group. Its declared profile
-matrix uses AppContainer for the two PowerShell invocation groups and the
-ordinary restricted user for the remaining 176. The programme and worker receipts
-retain these limits and failures; the current full native gate is still open.
+matrix initially used AppContainer for both whole invocation groups. That profile
+passes shell and console checks but the deliberately invalid startup-handle
+case terminates with STATUS_INVALID_HANDLE and no output (entry-point timing was
+not instrumented); the ordinary worker passes that case
+but cannot start the legacy CLR. The current candidate partitions each product's
+same five methods into four ordinary handle/console methods and one AppContainer
+shell method, retaining each original assertion and child timeout. Two companion
+shell groups bring the current complete inventory to 180. Per-method receipts must
+account for all ten original methods without skips. The programme retains the
+earlier failures; this new matrix and the current full gate remain unqualified.
 
 ## Implemented development surface and historical recipes
 

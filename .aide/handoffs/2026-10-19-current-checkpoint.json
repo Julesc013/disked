@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "7d07616e93e5a9a713cfdb55e96925145bd6b640",
-  "spec_manifest_digest": "sha256:fc0c5c34b673d5ad099213c2d6e5fea29ab9bde5601665216436478276b3bb69",
+  "base_revision": "d2da7842fdd6afd63cf855ec4ba502d15267d5c6",
+  "spec_manifest_digest": "sha256:3eb9cf6573a42f203b9acd55d32279a060a3682579b37b9d99170e4f45e94c21",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -27,13 +27,17 @@
     "AGENTS.md",
     "source/platform/windows/memory_budget.cpp",
     "source/platform/windows/worker_files.h",
-    "spec/work/units.json"
+    "spec/work/units.json",
+    "tests/differential/CONTRACT.md",
+    "tests/differential/compare.py",
+    "tests/differential/test_adapters.py"
   ],
   "files_changed": [
     ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
     ".aide/evidence/2026-10-18-ordinary-worker/README.md",
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
     ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
     ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/inspect-startup.py",
@@ -41,13 +45,17 @@
     ".aide/evidence/2026-10-18-ordinary-worker/namespace-review-before.json",
     ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/null-device.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepare-powershell.py",
     ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/validate-current.py",
     ".aide/handoffs/2026-10-19-current-checkpoint.json",
     ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
     "TODO.MD",
     "docs/native-bootstrap.md",
     "source/platform/windows/acquisition_worker.cpp",
@@ -74,18 +82,18 @@
     "tests/images/ntfs_worker_probe.cpp",
     "tests/images/test_acquisition_worker.py",
     "tests/images/test_fat_tree_review.py",
+    "tests/invocation/test_windows.py",
     "tests/resilience/memory_fixture.py",
     "tests/resilience/test_worker_ancestry.py",
     "tests/resilience/test_worker_budget.py",
+    "tests/tools/test_workspace.py",
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp",
     "tools/build-inputs.json",
     "tools/release/artifact_check.py",
-    "tools/workspace.py",
-    "tests/tools/test_workspace.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/prepare-powershell.py"
+    "tools/workspace.py"
   ],
-  "summary": "DE-W105 partial. Original32/512MiB execution controls,representative x64 protected-record journey,focused FAT review/file-export and read-only cleanup pass at their retained revisions.253 spec/t144 tooling checks passed before latest private harness edits;metadata/AST/manifest checks passed afterward. Run56 verifies actual confined PowerShell7.6.7/CLR10.0.13 startup and complete cleanup. Run55 original300-second FAT history fails during FAT32 fixture generation after earlier cases pass;130313370 allocated fixture bytes removed. Tiny32-flush probe1.825s versus0.052s with one final flush does not alone diagnose full runtime. Run57 atbf494856 passes the two-product build/import/PowerShell preflight,then fails before native groups on duplicate manifest retention. Candidate verifies existing entry size/hash on restaging. LZMA transfer78642619 bytes. Separate600-second complete-body timing diagnostic is prepared,not a native-group/full178 qualification. Every original child assertion/timeout and storage limit remains unchanged. All completed campaign cleanup receipts retained. Dev synchronization is authorized;main/full178,current Win32/detail review,owner/release and original all-platform0.1.0 completion remain open.",
+  "summary": "DE-W105 partial. Retained primitive32/512MiB controls,compiler/protected-record journey,focused FAT/file-export and read-only cleanup pass at their stated revisions. Actual confined PowerShell7.6.7/CLR10.0.13 startup/cleanup pass. Run55 original300-second history gate fails during FAT32 fixture generation;timing cause not fully diagnosed. Run58 atd2da7842 passes four invocation methods in AppContainer but invalid stdin terminates0xC0000008 with no output;entry timing unmeasured. Prior ordinary run48 passes all four non-shell methods and fails legacy CLR. New candidate partitions each product's same five methods4+1,retains original group IDs and adds two shell companions(total180),with exact per-method zero-skip witnesses. Default direct script still runs all five;no assertion/child timeout changes. Full253 spec(two skips)/144 tooling(one skip) and structural/source-map/manifest checks pass. Partitioned native run and separate600-second history timing diagnostic are unverified;diagnostic cannot qualify original300-second group. All completed owned cleanup retained. Dev is authorized;full180/current Win32/detail review,main promotion,owner/release and original all-platform/storage0.1.0 completion remain open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -233,6 +241,20 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive-defect.json"
+    },
+    {
+      "command": "Run58 original invocation body under AppContainer;invalid-stdin failure retained",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-failure.json"
+    },
+    {
+      "command": "Candidate253 specification/144 tooling tests plus structural/source-map/manifest checks",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     }
   ],
   "artifacts": [
@@ -258,11 +280,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
-      "sha256": "sha256:01d44d4b10056dbc1962bf3eab72126edc5bcb236e2020c539cf6bbd5f125729"
+      "sha256": "sha256:36549b4ad7a5bf73c734874451d9a0e7b80ba111c369c105120f3cd16a7b1aa6"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:1c8ca8470637bb2a276f46e85739a1a87fc3bc6e59fc1c43aaff94482432acd9"
+      "sha256": "sha256:7561be69c1f03cb04e0dc9bca44b06d24b144a776bc9e478b19a38dc1d5f0264"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -330,7 +352,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
-      "sha256": "sha256:40a033472c5ec94ddd4ad9369d1a73db80abb8105ac136d2a4b3082414171918"
+      "sha256": "sha256:89ca5cc5568f3f59053da18df090c709c54c6ec1494886d9ba211a6cb8750895"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-timeout.json",
@@ -411,11 +433,23 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/history-timing-review.json",
       "sha256": "sha256:56ecb41f850e5e3f49b5295606a3d5b02865e4305f56554e44f814e5ff7ade7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-failure.json",
+      "sha256": "sha256:3d07f2946e9c600f53c2d052dd95c13784b070da2e177a95054d8acfa3ae3014"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-cleanup.json",
+      "sha256": "sha256:835e3013342d025a7fe7ac18c121c8a02e4a27b2c0d0b164c010cba186ab8aa2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle.tar.xz",
+      "sha256": "sha256:ad959346a6e8f1946fa589526f345361b1e3bf4ca0410fea2884f8fbd99ba174"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Rerun both original invocation groups after the exact-hash archive-restaging fix. Then run the separately labelled complete-history timing diagnostic. Its600-second observation window cannot qualify the original300-second CTest gate or count toward178. Review actual timings before changing any gate or implementation. Full178/current Win32/detail review remains for main;W106/107 follow;original0.1.0 and owner/release/storage gates remain unchanged.",
+  "next_safe_step": "Run the separately labelled complete-history timing diagnostic at this exact candidate,then the four invocation partitions. The600-second diagnostic cannot qualify the original300-second CTest gate. New inventory180 preserves all ten original invocation methods4+1 per product with explicit summary witnesses. Use measured facts for the remaining history repair. Full180/current Win32/detail review remain for main;W106/107 follow;original0.1.0 and owner/release/storage gates remain unchanged.",
   "performed_remote_writes": true
 }

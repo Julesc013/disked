@@ -49,7 +49,8 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
   68 standalone headers and 14 executable/import observations. Retain the
   [first native failure](.aide/evidence/2026-10-18-ordinary-worker/full-build-review.json)
   separately from the passing build.
-- [ ] Complete the current x64 product/178-group native test gate. Preserve the
+- [ ] Complete the current x64 product/180-group native test gate (the same
+  invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,

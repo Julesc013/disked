@@ -4,16 +4,19 @@
     "forty-ninth-powershell-profile-pass.json",
     "fifty-first-file-export-pass.json",
     "thirty-fourth-full512-pass.json",
-    "fifty-sixth-powershell7-and-io-pass.json"
+    "fifty-sixth-powershell7-and-io-pass.json",
+    "forty-eighth-full-x64-cap-failure.json",
+    "fifty-eighth-appcontainer-handle-failure.json"
   ],
-  "decision": "Preflight the temporary PowerShell7 tool before compilation and retire its extracted copy. Focused invocation run:release reproducible compiler/link files,restage the tool,and run both original groups in AppContainer. Future full run:all176 ordinary groups first,then retire that worker/jobs/temporary device grants;release reproducible build binaries except the two exact product executables;recreate the same already-owned AppContainer identity and run its two unchanged invocation groups. This full phase ordering remains unqualified.",
-  "basis": "Ordinary restricted Windows PowerShell CLR startup returns80070005. Actual AppContainer PowerShell5.1.19041.7548/CLR4.0.30319.42000 startup passes. Ordinary protected-record and image work retain their required user-only profile. File-export passes unchanged product semantics with95 schemas and owner cleanup. Actual confined7.6.7/CLR10.0.13 startup,tool transfer hashes and owned cleanup pass in56. The runtime is temporary;no guest installation or host mutation.",
+  "decision": "Partition each product's original five Windows invocation methods into the four handle/console methods under the ordinary restricted Medium worker and the CMD/WindowsPowerShell/PowerShell7 method under AppContainer. Keep original .invocation test IDs for handles;add explicit .shell_invocation companions. Default direct script invocation still runs all five. New inventory is180 groups:178 ordinary and2 shell AppContainer. Full/mixed-focused phases remain serial,retire prior jobs and keep exact product bytes while releasing reproducible build files before staging the tool.",
+  "basis": "Retained ordinary run48 passes all four handle/console methods for both products,but WindowsPowerShell fails CLR startup80070005. Actual run58 passes shell,console,transport and UTF16 methods in AppContainer,but arbitrary invalid stdin terminates with0xC0000008 and no output. Entry-point timing/cause is not instrumented;AppContainer invalid-handle behavior remains unqualified. Run56 establishes actual confined7.6.7/CLR10.0.13 startup and cleanup. This evidence motivates profile selection;it does not qualify the new mixed partition.",
   "guards": [
     "Every original assertion,expected outcome and in-scope process/test deadline remains unchanged. Optional diagnostic tracing does not replace a test. No omitted group,synthetic shell result or unavailable check becomes a pass.",
     "One512MiB guest filesystem,one campaign and existing aggregate/log/file/free-space limits. Exact source/build/14 executable/header identities and per-group profile are retained.",
-    "Shared invocation tests run in the measured AppContainer; no administrator product execution. All remaining groups use the measured ordinary restricted Medium token and unchanged protected-record ACLs.",
+    "Shared invocation tests run in the measured AppContainer; no administrator product execution. All178 ordinary groups use the measured ordinary restricted Medium token and unchanged protected-record ACLs.",
     "Retire compiler objects after both build-boundary checks,then retire temporary images after each whole test process tree exits and its observations are archived. Cleanup executes as the fixture owner and records its actual token.",
-    "Full178 passing groups qualify only this declared profile matrix. Ordinary restricted CLR,other hosts/historical targets,physical storage,installation,release and owner acceptance remain unqualified.",
-    "Temporary runtime hashes bind all files/modules. Delete host transfer and consumed dependency preparation trees;reserve remaining host scratch/context in aggregate watchdog. Do not expand512MiB or1GiB budgets. Preserve exact retained product hashes across artifact retirement."
+    "Full180 passing groups qualify only this declared profile matrix. Ordinary restricted CLR,other hosts/historical targets,physical storage,installation,release and owner acceptance remain unqualified.",
+    "Temporary runtime hashes bind all files/modules. Delete host transfer and consumed dependency preparation trees;reserve remaining host scratch/context in aggregate watchdog. Do not expand512MiB or1GiB budgets. Preserve exact retained product hashes across artifact retirement.",
+    "Each product retains its exact five original methods. Across both products,all ten method identities must appear exactly once in explicit4+1 summary receipts,with matching source-bound expected sets,tests_run and zero skips. New group count180 must match actual registration. Do not treat old178 or a failed AppContainer launch as a new pass."
   ]
 }

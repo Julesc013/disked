@@ -234,6 +234,11 @@ def coordinate(g):
             g.S.check(ROOT)
             allocated=g.S.tree_bytes(work,allocated=True,file_limit=20000,allow_links=True)
             result['peak_scratch_allocated_bytes']=max(result.get('peak_scratch_allocated_bytes',0),allocated)
+            capacity=shutil.disk_usage(work)
+            assert 0<capacity.total<=512*1024*1024
+            result['scratch_filesystem_capacity_bytes']=capacity.total
+            result['peak_scratch_filesystem_used_bytes']=max(result.get('peak_scratch_filesystem_used_bytes',0),capacity.used)
+            result['minimum_scratch_filesystem_free_bytes']=min(result.get('minimum_scratch_filesystem_free_bytes',capacity.free),capacity.free)
             combined=g.S.tree_bytes(ROOT,allocated=True,file_limit=20000,allow_links=False)
             combined+=g.S.tree_bytes(Path(os.environ['DISKED_WORK_ROOT']),allocated=True,file_limit=20000,allow_links=False)
             combined+=expected.get('host_disposable_reserved_bytes',0)
@@ -278,7 +283,15 @@ def coordinate(g):
             diagnostic=bool(expected.get('diagnose_fat_history'))
             if diagnostic:
                 assert focused and test=='evidence.fat_tree_history' and expected['history_diagnostic_seconds']==600
-                command=next(row['command'] for row in registered if row['name']==test)
+                command=[sys.executable,SOURCE/'tests/evidence/test_fat_tree_history.py',
+                    '--probe',build/'Release/fat_tree_history_probe.exe',
+                    '--writer',build/'Release/fat_tree_extraction_probe.exe',
+                    '--worker',build/'Release/fat_tree_extraction_worker_probe.exe',
+                    '--worker-fault',build/'Release/fat_tree_extraction_worker_fault.exe',
+                    '--output',build/'fat-tree-history-cases.json']
+                observed_command=next(row['command'] for row in registered if row['name']==test)
+                normalize=lambda values:[os.path.normcase(os.path.normpath(str(value))) for value in values]
+                assert normalize(observed_command)==normalize(command)
                 code,_=run('diagnose-fat-history-complete',command,expected['history_diagnostic_seconds'],allow_failure=True)
                 observed=json.loads((build/'fat-tree-history-cases.json').read_bytes())
                 summary=dict(methods=observed['methods'],cases=observed['cases'],
@@ -293,7 +306,12 @@ def coordinate(g):
                 archive.write(work/'test.xml','junit/'+test+'.xml')
                 cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
                 passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
-                result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer'))
+                methods=None
+                if test in expected.get('invocation_method_coverage',{}):
+                    wanted=expected['invocation_method_coverage'][test]
+                    methods=json.loads((build/wanted['summary']).read_bytes())
+                    passed=passed and methods['passed'] is True and methods['partition']==wanted['partition'] and methods['methods']==wanted['methods'] and methods['tests_run']==len(wanted['methods']) and methods['skipped']==0
+                result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer',invocation_methods=methods))
             for path in sorted(build.iterdir()):
                 if not path.is_file() or path.name in before:continue
                 info=path.lstat()
@@ -303,7 +321,7 @@ def coordinate(g):
                 if not path.name.endswith('-cases.json'):retention.retire_file(path)
             if not passed:
                 result.setdefault('failed_native_groups',[]).append(test)
-                if focused:raise RuntimeError('Native group failed: '+test)
+                if focused and len(expected['focus_groups'])==1:raise RuntimeError('Native group failed: '+test)
             if ordinary:
                 _,raw=run('retire-temp-'+test,[sys.executable,'-B',ROOT/'retire-temp.py',instance.native_temp],60)
                 retired=json_record(raw);assert retired['root_recreated_empty']
@@ -421,11 +439,12 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         selected=expected['focus_groups'] if focused else expected['groups']
         package_tests=expected.get('appcontainer_test_groups',[])
         assert len(set(package_tests))==len(package_tests) and set(package_tests)<=set(expected['groups'])
+        package_selection=[test for test in package_tests if test in selected]
         if focused and all(test in package_tests for test in selected):
             release_build_binaries();stage_powershell7()
             for test in selected:test_group(test)
             assert len(result['tests'])==len(selected) and all(test['passed'] for test in result['tests'])
-            result.update(status='pass',qualification='Two unchanged focused invocation groups only; full178 remains required')
+            result.update(status='pass',qualification='Focused invocation partitions only; full current native inventory remains required')
             return
         null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
         instance.close();instance=None;shared_read_access(False)
@@ -523,7 +542,7 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             assert focused and not result['tests'] and len(result['diagnostics'])==1 and result['diagnostics'][0]['passed']
             result.update(status='pass',qualification='Elapsed-time diagnosis only; original300-second group remains unqualified')
             return
-        if not focused and package_tests:
+        if package_selection:
             # Retire the ordinary worker and all its jobs before reusing this
             # campaign's package identity for the two shell/console groups.
             # Remove reproducible binaries first, so the temporary shell and
@@ -545,17 +564,17 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             result['invocation_token']=json_record(raw)
             if (work/'test.xml').exists():retention.retire_file(work/'test.xml')
             stage_powershell7()
-            for test in package_tests:test_group(test)
+            for test in package_selection:test_group(test)
         # Assertion failures do not discard unrelated evidence from this exact
         # build. Each group is a separate retired job. Infrastructure, resource
         # or timeout failures still abort immediately in run(). Any failed group
         # keeps the whole qualification failed; no skipped/reclassified pass.
         result['attempted_native_groups']=len(result['tests'])
         assert sorted(t['name'] for t in result['tests'])==sorted(expected['focus_groups'] if focused else expected['groups'])
-        result['full_x64_product_suite_run']=not focused and len(result['tests'])==178 and all(t['passed'] for t in result['tests'])
+        result['full_x64_product_suite_run']=not focused and len(result['tests'])==len(expected['groups'])==180 and all(t['passed'] for t in result['tests'])
         if result.get('failed_native_groups'):raise RuntimeError('Native groups failed: '+','.join(result['failed_native_groups']))
         assert focused or result['full_x64_product_suite_run']
-        result.update(status='pass',qualification='Focused native regression only; full178 remains required' if focused else 'Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
+        result.update(status='pass',qualification='Focused native regression only; full current native inventory remains required' if focused else 'Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:])
         if archive and 'build' in locals() and build.exists():

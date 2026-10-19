@@ -27,8 +27,10 @@ def main():
     def git_bytes(path):
         return subprocess.check_output(['git', 'show', revision + ':' + path], cwd=ROOT, timeout=30)
     fixed = json.loads(git_bytes('.aide/evidence/2026-10-18-guest-build/expected.json'))
+    current = json.loads(git_bytes('.aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json'))
     needed = {'groups/' + group + '/' + group.replace('image.', '').replace('_', '-') + '-cases.json'
               for group in fixed['fixed_group_cases']}
+    needed.update('groups/'+name+'/'+wanted['summary'] for name,wanted in current['invocation_method_coverage'].items())
     for group, stem in [('portable.ntfs_upcase', 'ntfs-upcase'),
                         ('image.ntfs_upcase_commands', 'ntfs-upcase-command'),
                         ('image.ntfs_name_order_commands', 'ntfs-name-order-command'),
@@ -37,7 +39,12 @@ def main():
         needed.add('groups/' + group + '/' + stem + '-cases.json')
     require(result['status'] == proof['status'] == 'pass', 'Campaign did not pass')
     require(proof['full_x64_product_suite_run'], 'Full native gate did not pass')
-    require(len(proof['tests']) == 178 and all(t['passed'] for t in proof['tests']), 'Incomplete group inventory')
+    require(len(proof['tests']) == len(current['groups']) == 180 and all(t['passed'] for t in proof['tests']), 'Incomplete group inventory')
+    require(sorted(t['name'] for t in proof['tests']) == current['groups'], 'Native group membership differs from frozen inputs')
+    for name, wanted in current['invocation_method_coverage'].items():
+        row=next(t for t in proof['tests'] if t['name']==name);observed=row['invocation_methods']
+        require(observed['methods']==wanted['methods'] and observed['tests_run']==len(wanted['methods']) and observed['skipped']==0 and observed['passed'], 'Invocation method coverage')
+        require(row['execution_profile']==('appcontainer' if wanted['partition']=='shells' else 'ordinary'), 'Invocation execution profile')
     require(len(proof['standalone_headers']) == 68 and len(proof['executables']) == 14, 'Build inventory')
     require(all(proof[key] for key in ('all_owned_processes_retired', 'crypto_device_retired', 'null_device_retired')), 'Retirement')
     require(proof['native_token_identity']['integrity_sid'] == 'S-1-16-8192', 'Native integrity')
@@ -84,6 +91,9 @@ def main():
                 if selected:
                     summaries[member.name] = json.loads(value)
     require(manifest == inventory, 'Exact archive membership/hashes')
+    for name,wanted in current['invocation_method_coverage'].items():
+        observed=next(t['invocation_methods'] for t in proof['tests'] if t['name']==name)
+        require(summaries['groups/'+name+'/'+wanted['summary']]==observed, 'Raw invocation summary differs from campaign receipt')
     record.update(archive_entries=len(names), uncompressed_bytes=raw_bytes, archive_sha256=proof['archive_sha256'])
 
     def expected(folder, name):

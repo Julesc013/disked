@@ -1745,8 +1745,15 @@ if(BUILD_TESTING)
     PROPERTIES RESOURCE_LOCK disked_fake_workers)
   foreach(target disked disked_provider_guard)
     add_test(NAME ${target}.invocation COMMAND "${Python3_EXECUTABLE}"
-      "${CMAKE_CURRENT_SOURCE_DIR}/tests/invocation/test_windows.py" --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/invocation/test_windows.py" --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+      --partition handles --evidence "${CMAKE_CURRENT_BINARY_DIR}/${target}-invocation-cases.json"
+      --summary "${CMAKE_CURRENT_BINARY_DIR}/${target}-invocation-summary.json")
     set_tests_properties(${target}.invocation PROPERTIES TIMEOUT 120)
+    add_test(NAME ${target}.shell_invocation COMMAND "${Python3_EXECUTABLE}"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/invocation/test_windows.py" --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+      --partition shells --evidence "${CMAKE_CURRENT_BINARY_DIR}/${target}-shell-invocation-cases.json"
+      --summary "${CMAKE_CURRENT_BINARY_DIR}/${target}-shell-invocation-summary.json")
+    set_tests_properties(${target}.shell_invocation PROPERTIES TIMEOUT 120)
     add_test(NAME ${target}.acceptance
       COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/native/test_protocol.py"
         --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}"

@@ -133,7 +133,17 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--exe',type=Path,required=True);parser.add_argument('--root',type=Path,required=True)
     parser.add_argument('--evidence',type=Path)
+    parser.add_argument('--summary',type=Path)
+    parser.add_argument('--partition',choices=['all','handles','shells'],default='all')
     ARGS=parser.parse_args();ARGS.exe=ARGS.exe.resolve();ARGS.root=ARGS.root.resolve()
-    result=unittest.main(argv=[__file__],verbosity=2,exit=False)
+    names=unittest.defaultTestLoader.getTestCaseNames(WindowsInvocation)
+    shell='test_cmd_and_powershell_actual_launches'
+    assert shell in names
+    if ARGS.partition=='shells':names=[shell]
+    elif ARGS.partition=='handles':names=[name for name in names if name!=shell]
+    assert names
+    result=unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(WindowsInvocation(name) for name in names))
     if ARGS.evidence:ARGS.evidence.write_text(json.dumps(LAUNCHES,indent=2)+'\n',encoding='utf-8',newline='\n')
-    raise SystemExit(not result.result.wasSuccessful())
+    if ARGS.summary:ARGS.summary.write_text(json.dumps(dict(partition=ARGS.partition,methods=names,
+        tests_run=result.testsRun,skipped=len(result.skipped),passed=result.wasSuccessful()),indent=2)+'\n',encoding='utf-8',newline='\n')
+    raise SystemExit(not result.wasSuccessful())

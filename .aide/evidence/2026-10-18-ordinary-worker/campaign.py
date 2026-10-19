@@ -171,8 +171,9 @@ def main():
         expected['native_x64']['history_diagnostic_seconds']=600
         expected['native_x64']['history_timing_review']=json.loads((HERE/'history-timing-review.json').read_bytes())
     if focus_invocations:
-        expected['native_x64']['focus_groups']=['disked.invocation','disked_provider_guard.invocation']
-        expected['native_x64']['focus_targets']=['disked','disked_provider_guard']
+        expected['native_x64']['focus_groups']=['disked.invocation','disked_provider_guard.invocation',
+            'disked.shell_invocation','disked_provider_guard.shell_invocation']
+        expected['native_x64']['focus_targets']=['disked','disked_provider_guard','fat_tree_extraction_worker_probe']
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())

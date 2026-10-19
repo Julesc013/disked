@@ -105,6 +105,23 @@ It invokes the exact registered command directly with a 600-second observation
 window; each original child timeout/assertion stays intact. Its results cannot
 enter the CTest/JUnit pass count or qualify the still-failing 300-second gate.
 
+Attempt 58 at `d2da7842` passes actual CMD/WindowsPowerShell/PowerShell7 launches,
+inherited-console, transport and UTF16 methods under AppContainer. Its invalid
+startup-handle method terminates with STATUS_INVALID_HANDLE and no output;
+entry-point timing was not instrumented. Prior ordinary run 48 passes all four
+non-shell methods for both products and fails legacy CLR startup. These remain
+different source/profile results, not a combined new qualification. All run 58
+cleanup passes; its archive is 32,808 bytes.
+
+The next declared matrix retains the original `.invocation` IDs for four ordinary
+handle/console methods and adds two `.shell_invocation` companions for the original
+shell method. Direct script invocation defaults to all five for compatibility.
+The complete inventory becomes 180: 178 ordinary groups and two AppContainer shell
+groups. Per-method summary receipts must establish all ten original method IDs
+once across both products, with no skips; raw summaries bind the review projection.
+No original assertion or child/test timeout is removed. This partition remains
+unqualified until its actual native run succeeds.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git
