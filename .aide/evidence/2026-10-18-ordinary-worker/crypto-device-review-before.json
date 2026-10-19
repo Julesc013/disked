@@ -1,0 +1,24 @@
+{
+  "status": "agent_reviewed_for_one_bounded_guest_probe",
+  "reviewer": "implementing agent; not independent or owner acceptance",
+  "base_revision": "a8a9ac0cbd2fe9816d51819ad6275dc80ebf4f9c",
+  "authority": "Existing direct owner guest-administrator/development grant and AGENTS guest setup exception. Routine coordinator setup only; restricted payload remains nonelevated. Host administration,physical/customer storage,public admission and release gates unchanged.",
+  "checks": [
+    "Fixed guest/Agents/source/account nonce+SID and exact device+mask guards; no external subject/path parameter",
+    "Before-mutation journal,unique actor ACE,existing DACL guard,pinned handle,no owner/label/broad-SID/privilege-policy change",
+    "Prelaunch helper exit and journal recovery,actual token/stdio/import startup,active-job retirement,owned-ACE removal and independent post-revocation refusal",
+    "Failures preserve bounded account/journal/image state until device retirement; unsupported access/API remains a failure",
+    "Normal crypto clients unaffected by the extra unique-subject ACE; concurrent ACL maintenance excluded and no OS CAS claimed"
+  ],
+  "tooling_tests": 143,
+  "tooling_skipped": 1,
+  "pure_acl_cases": 12,
+  "source_sha256": {
+    "crypto-device.py": "2ae68720323673aabb8f961e4ca9800a58a9fdbdaf1bc98920310f8fdef7d22e",
+    "crypto-device-expectations.json": "b549cfb5f1d8d77bdb92ab2c3df476b1003e4e12e5464983defbb2d1110a830d",
+    "campaign.py": "9e0aeb43495b41cc7156e7d0d53e64ef7e7f93040529d55609eccf43b3328c7a",
+    "guest-proof.py": "b2681419ccd9294d56ab17066447cd3b5aa5125bdc07fec4fba5ec653aee5979"
+  },
+  "worker_qualified": false,
+  "owner_accepted": false
+}

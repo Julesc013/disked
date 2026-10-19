@@ -51,6 +51,8 @@ RETIRE_ACTOR=r'''
                     throw 'Preserve actor journal: diagnostic image/registry retirement unverified.'
                 }
             }
+            $actorCurrent=Get-Content -LiteralPath $actorJournal -Raw|ConvertFrom-Json
+            if($actorCurrent.PSObject.Properties['crypto_device']-and$actorCurrent.crypto_device.phase-ne'retired'){throw 'Preserve actor/journal: crypto-device exception retirement unverified.'}
             $existing=Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue
             if($existing){
                 if($existing.Description-ne$actorDescription-or($actorSid-and$existing.SID.Value-ne$actorSid)){throw 'Actor ownership changed; preserve account.'}
@@ -71,7 +73,7 @@ def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     if (HERE/'result.json').exists():raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py'):
+    for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
@@ -80,6 +82,8 @@ def main():
     loader_diagnostic='--loader-diagnostic' in sys.argv
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
+    crypto='--crypto-device' in sys.argv
+    if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
@@ -102,6 +106,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --crypto-device 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -119,6 +124,7 @@ def main():
     host=once(host,'    if($session){Remove-PSSession -Session $session}','    if($session){Remove-PSSession -Session $session}\n    $testCredential=$null')
     host=once(host,"        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},", "        @{host=(Join-Path $PSScriptRoot 'ordinary-worker.py');relative='ordinary-worker.py'},\n        @{host=(Join-Path $PSScriptRoot 'target.py');relative='target.py'},\n        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
+    host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'crypto-device.py');relative='crypto-device.py'},")
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]
@@ -145,8 +151,11 @@ def main():
     if loader_diagnostic:result['experiment_kind']='minimal Python entry and native-import diagnostic; no profile admission'
     if forensic:result['experiment_kind']='owned per-image loader tracing; no profile admission'
     if namespace:result['experiment_kind']='existing object namespace access checks; no profile admission'
+    if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+    if crypto and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
+        raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
     if forensic:
         proof=result.get('guest',{}).get('proof',{})
         if not all(proof.get(name) for name in ('image_registry_removed','diagnostic_image_removed','original_runtime_preserved')):
