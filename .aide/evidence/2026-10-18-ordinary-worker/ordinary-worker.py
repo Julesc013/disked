@@ -164,7 +164,7 @@ class Worker:
 
     def launch(self, command, env, job, *, variant='handles'):
         self.last_launch=None
-        if variant not in ('handles','ex-empty','basic-empty'):
+        if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio'):
             raise ValueError('Unknown finite launch experiment variant')
         executable = shutil.which(command[0])
         if not executable:
@@ -187,12 +187,15 @@ class Worker:
         handles, process, initialized = [], b.ProcessInfo(), False
         try:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
-            if variant=='handles':
-                for path, access, disposition in ((str(self.work/'worker.log'), 0x40000000, 1), ('NUL', 0x80000000, 3)):
+            if variant in ('handles','basic-stdio'):
+                log_name='worker.log' if variant=='handles' else 'worker-basic-stdio.log'
+                log_access=0x40000000 if variant=='handles' else 0x40000080
+                for path, access, disposition in ((str(self.work/log_name), log_access, 1), ('NUL', 0x80000000, 3)):
                     handle = k.CreateFileW(path, access, 3, C.byref(sa), disposition, 0x80, None)
                     if handle == C.c_void_p(-1).value:
                         raise C.WinError(C.get_last_error())
                     handles.append(handle)
+            if variant=='handles':
                 size = C.c_size_t()
                 k.InitializeProcThreadAttributeList(None, 1, 0, C.byref(size))
                 attributes = C.create_string_buffer(size.value)
@@ -201,13 +204,15 @@ class Worker:
                 inherited = (T.HANDLE * 2)(*handles)
                 self.require(k.UpdateProcThreadAttribute(attributes, 0, 0x20002, inherited,
                                                          C.sizeof(inherited), None, None))
-            startup = b.StartupInfo() if variant=='basic-empty' else b.StartupInfoEx()
-            info=startup if variant=='basic-empty' else startup.startup
+            basic=variant.startswith('basic-')
+            startup = b.StartupInfo() if basic else b.StartupInfoEx()
+            info=startup if basic else startup.startup
             info.cb=C.sizeof(startup)
-            if variant!='basic-empty':startup.attributes=C.addressof(attributes) if initialized else None
-            info.desktop,info.flags=self.desktop_name,0x100
-            info.stdin=handles[1] if handles else C.c_void_p(-1).value
-            info.stdout=info.stderr=handles[0] if handles else C.c_void_p(-1).value
+            if not basic:startup.attributes=C.addressof(attributes) if initialized else None
+            info.desktop,info.flags=self.desktop_name,0 if variant=='basic-default' else 0x100
+            empty=None if variant in ('basic-null','basic-default') else C.c_void_p(-1).value
+            info.stdin=handles[1] if handles else empty
+            info.stdout=info.stderr=handles[0] if handles else empty
             env = {key: str(value) for key, value in env.items() if not key.startswith('DISKED_TEST_ACTOR_')}
             env.update(TEMP=str(self.native_temp), TMP=str(self.native_temp), TMPDIR=str(self.native_temp),
                        USERPROFILE=str(self.work/'profile'), HOME=str(self.work/'profile'),
@@ -219,9 +224,16 @@ class Worker:
                        sorted(env.items(), key=lambda row: row[0].upper()))+'\0\0')
             # No LOGON_WITH_PROFILE, network-only logon, fallback API or policy
             # grant. Ownership in the job precedes the first worker instruction.
-            flags=0x08000404 | (0x80000 if variant!='basic-empty' else 0)
+            flags=0x08000404 | (0x80000 if not basic else 0)
             self.last_launch=dict(variant=variant,creation_flags=flags,startup_size=C.sizeof(startup),
                                   attribute_count=int(initialized),allowed_inherited_handles=len(handles),api_succeeded=False)
+            if variant=='basic-stdio':
+                class FileIdentity(C.Structure):
+                    _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
+                self.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD)
+                identity=FileIdentity()
+                self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
+                self.last_launch['stdout_identity']=dict(volume=identity.volume,identity=bytes(identity.identity).hex())
             self.require(a.CreateProcessWithTokenW(self.token, 0, executable,
                 C.create_unicode_buffer(line), flags, block, str(self.work),
                 C.byref(startup), C.byref(process)))

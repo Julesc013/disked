@@ -104,9 +104,12 @@ def diagnose():
         candidates=[]
         for row in result['variants']:
             observed=row.get('observation')
+            empty=bool(observed and all(item['kind']==0 and item['winerror']==6 for item in observed['stdio']))
+            declared=bool(observed and row['variant']=='basic-stdio' and observed['stdio'][0]['kind']==2 and
+                all(item.get('file_identity')==row['launch_parameters'].get('stdout_identity') and item['kind']==1
+                    for item in observed['stdio'][1:]))
             if (row.get('api_succeeded') and row['exit_code']==0 and observed and
-                    not observed['canary_inherited'] and
-                    all(item['kind']==0 and item['winerror']==6 for item in observed['stdio'])):
+                    not observed['canary_inherited'] and (empty or declared)):
                 candidates.append(row['variant'])
         result['candidate_variants']=candidates
         assert [r['variant'] for r in result['variants']]==expected['variants'] and candidates

@@ -75,8 +75,8 @@ def main():
     diagnostic='--diagnostic' in sys.argv
     if diagnostic:
         expected['launch_diagnostic']=json.loads((HERE/'launch-diagnostic-expectations.json').read_bytes())
-        expected.update(experiment='WithToken startup parameter isolation',variants=['handles','ex-empty','basic-empty'],
-            admission='Diagnostic only. Each successful child must report its actual restricted nonelevated/non-AppContainer token. Candidate launches must inherit neither an excluded write canary nor valid standard handles. Full protected-record,capacity,outside-write and interruption checks remain pending.')
+        expected.update(experiment='WithToken startup parameter isolation',variants=expected['launch_diagnostic']['variants'],
+            admission='Diagnostic only. Each successful child must report its actual restricted nonelevated/non-AppContainer token. No excluded canary or undeclared standard handle may reach a candidate. Full protected-record,capacity,outside-write and interruption checks remain pending.')
     (stage/'expected.json').write_text(json.dumps(expected,indent=2)+'\n',encoding='utf-8',newline='\n')
     setup=(PRIOR/'guest-proof.ps1').read_text()
     setup=once(setup,'[int]$SizeMiB=32)','[int]$SizeMiB=32,[Security.SecureString]$ActorPassword)')

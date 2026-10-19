@@ -110,7 +110,12 @@ def main():
         for which in (0xfffffff6,0xfffffff5,0xfffffff4):
             handle=k.GetStdHandle(which);C.set_last_error(0)
             kind=k.GetFileType(handle)
-            result['stdio'].append(dict(selector=which,kind=kind,winerror=C.get_last_error()))
+            row=dict(selector=which,kind=kind,winerror=C.get_last_error())
+            if kind==1:
+                value=FileIdentity()
+                if k.GetFileInformationByHandleEx(handle,18,C.byref(value),C.sizeof(value)):
+                    row['file_identity']=dict(volume=value.volume,identity=bytes(value.identity).hex())
+            result['stdio'].append(row)
         info=FileIdentity()
         ok=k.GetFileInformationByHandleEx(plan['canary_handle'],18,C.byref(info),C.sizeof(info))
         result['canary_inherited']=bool(ok and info.volume==plan['canary_volume'] and bytes(info.identity).hex()==plan['canary_identity'])
