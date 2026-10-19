@@ -83,9 +83,31 @@ The [decision register](../spec/catalog/decisions.json) retains the original-cod
 
 Conflicting attachments remain attributed proposals. The machine-readable [amendment map](../spec/catalog/amendments.json) traces 23 architecture amendments, audit findings and 33 acceptance-test designs to canonical owners and work. Those 33 designs have **not been executed**. The supplied audit's reported ZIP checks cannot certify this repository or an archive that was not supplied.
 
+## Priorities for 19–25 October 2026
+
+The supplied status review and Windows integration amendment sharpen the current
+sequence without replacing the original 0.1.0 scope. These are priority slots,
+not guaranteed daily completion dates:
+
+1. Finish DE-W105's ordinary confined-worker and managed-fixture proof, then its
+   current full x64/native/tooling qualification and reviewed `dev` → `main`
+   integration. Preserve protected product ACLs, fixture bytes and resource limits.
+2. Complete DE-W106's expected-evidence accounting and bounded differential
+   coordinator before relying on a new reference campaign.
+3. Run DE-W107's four partition cases with the declared API and UI observations.
+   Preserve refusals, disagreement and any observation effects on owned media.
+4. Replay findings through the existing DE-W030/035 ownership and demonstrate
+   an image inspection/acquisition/verification/report workflow. Prepare a
+   reproducible internal checkpoint only when its applicable checks pass.
+
+Defer later slots when earlier evidence is incomplete. A weekly checkpoint is
+not the finished all-platform/storage 0.1.0 release. Retain the five source owners
+and existing provider, integration, broker, Setup and release gates. The supplied
+reports are advisory evidence; they grant no new execution or release authority.
+
 ## AIDE maintenance
 
-The current reviewed AIDE `dev` pin is `6f2abc4cd69e0d94f86a00495cb8feeebe20398a` (12 October 2026); the exact tree, inspected file hashes and limits live in [aide-lock.json](../spec/references/aide-lock.json). The checkout is disposable at `.aide-local/upstream/aide`. No upstream runtime or worker was launched. Passive validation of DiskEd exports against the pinned queue schema is separate from the live import and isolation qualification in DE-W061.
+The current reviewed AIDE `dev` pin is `6f2abc4cd69e0d94f86a00495cb8feeebe20398a` (12 October 2026); the exact tree, inspected file hashes and limits live in [aide-lock.json](../spec/references/aide-lock.json). Use one bounded managed workspace for any disposable source comparison and remove it after retaining compact identities/results. Never clone into `.aide-local/`. No upstream runtime or worker was launched. Passive validation of DiskEd exports against the pinned queue schema is separate from the live import and isolation qualification in DE-W061.
 
 Review upstream approximately weekly; the next review is **19 October 2026, Australia/Sydney**. Compare the current pin with the next candidate, inspect changed protocol/authority requirements, revalidate projections and record actual evidence before changing the lock. No automatic schedule, floating dependency, upstream execution or stable-release claim is installed by this policy. After a stable release appears, review and qualify an exact version before adopting it.
 

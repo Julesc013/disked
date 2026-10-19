@@ -1,0 +1,78 @@
+{
+  "schema": "org.disked.external-status-review/1",
+  "observed_date": "2026-10-19",
+  "timezone": "Australia/Melbourne",
+  "project": "Julesc013/disked",
+  "refs": {
+    "main": "98b7573935c07d575d9500849662b3cafcfc9ee1",
+    "dev": "9556b090b974489847683b801e6558af0dfb046f",
+    "goal/disked-0.1.0": "dd4846591e39a26b86f928870091fff0302e9533"
+  },
+  "current_work": "DE-W105",
+  "next_work": [
+    "DE-W106",
+    "DE-W107"
+  ],
+  "original_scope_preserved": true,
+  "week_start": "2026-10-19",
+  "week_end": "2026-10-25",
+  "recommended_minimum": [
+    "Current DE-W105 qualification and reviewed main integration",
+    "DE-W106 complete-evidence checks and bounded campaign runner"
+  ],
+  "recommended_intended": [
+    "DE-W107 four-case API/UI observation",
+    "Coherent internal Windows image-workbench checkpoint"
+  ],
+  "newly_executed_checks": {
+    "scope": "Independent pure-function probes only; no native binaries, full suite, devices or remote mutations",
+    "repository": "Julesc013/disked",
+    "revision": "9556b090b974489847683b801e6558af0dfb046f",
+    "path": "tests/differential/compare.py",
+    "git_blob_sha1": "c1e882e848fd8878ffb8cd5f9953db970a6fa137",
+    "sha256": "5ab591bf8e9e1efd2e683bd7c2ee05e55631ffce6f281a0fa73d9216812c0a97",
+    "bytes": 2911,
+    "python": "3.13.5",
+    "results": [
+      {
+        "case": "empty_external_map",
+        "adapter_controls_passed": true,
+        "comparisons": 0,
+        "control_failures": []
+      },
+      {
+        "case": "empty_observation_list",
+        "adapter_controls_passed": true,
+        "comparisons": 0,
+        "control_failures": []
+      },
+      {
+        "case": "mismatched_fixture_digest",
+        "adapter_controls_passed": true,
+        "comparisons": 1,
+        "control_failures": []
+      },
+      {
+        "case": "duplicate_observation",
+        "adapter_controls_passed": true,
+        "comparisons": 2,
+        "control_failures": []
+      }
+    ],
+    "interpretation": "All four insufficient/mismatched/duplicate evidence cases produce adapter_controls_passed=true; confirms the scoped W106 weakness, not invalidity of any historical campaign."
+  },
+  "not_run": [
+    "Full native suite",
+    "Full specification suite",
+    "Windows VM access",
+    "Physical storage",
+    "Live AIDE runtime",
+    "Universal Setup installation"
+  ],
+  "remote_writes": false,
+  "review_artifact": {
+    "path": "DiskEd-status-and-week-plan-2026-10-19.md",
+    "sha256": "61d0b17dd125f88028d7703fb571ad2f0c7ed2d437b4908259fd8760c80d037e",
+    "bytes": 19904
+  }
+}

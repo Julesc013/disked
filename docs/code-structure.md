@@ -33,7 +33,7 @@ The repository roots have different lifetimes and consumers:
 | `release/` | Product packaging/carrier bindings and content-inventory checks |
 | `external/` | Pinned upstream dependencies and provenance; upstream lifecycle ownership stays separate |
 | `.aide/` | Durable programme state, handoffs and revision-bound evidence |
-| `.aide-local/` | Disposable builds, scratch data, context packs and local artifacts |
+| `.aide-local/` | Disposable context and small metadata only; 32 MiB aggregate maximum |
 | Future `include/`, `sdk/` | Only admitted public headers, bindings and examples when actual consumers require them |
 
 Root CMake files compose the selected build; README introduces the product;
@@ -118,8 +118,9 @@ header's declared compile dependencies. CMake owns the current selection; retain
 campaigns state the exact number actually compiled. The FAT allocation-window
 campaign at `543826fe` compiled 17 standalone headers; see the
 [source-bound results](../.aide/evidence/2026-10-13-fat-window/summary.json).
-Run the normal configure/build/test
-presets; retain `build/windows-bootstrap/build-boundaries.json` with evidence.
+Run configure/build/test in the managed, capped guest workspace described in
+[development storage](development-storage.md). Retain the compact
+`build-boundaries.json` result with evidence; remove the build tree afterward.
 The checker distinguishes generated build closure from header visibility through
 direct and exported compile dependencies. Cross-module include qualification is
 checked in the main composition. Broader standalone header coverage and adapter

@@ -1,5 +1,30 @@
 # Build and run the native development executable
 
+## Current execution workflow
+
+Start with root [AGENTS.md](../AGENTS.md), the
+[current programme](../.aide/programmes/disked-0.1.0.json) and
+[development storage](development-storage.md). Native campaigns use the existing
+Windows 10 guest, a qualified restricted worker and an OS-enforced scratch cap.
+The host coordinates through `tools/connect-vm.ps1`; Agents is the routine guest
+coordinator. Use `python tools/workspace.py run -- COMMAND ...` for the campaign
+and put all disposable output in its owned workspace. The watchdog is not the
+filesystem cap. Keep the aggregate limits and verify owned cleanup.
+
+`.aide-local/` holds context and small metadata only, with a 32 MiB aggregate
+limit. It cannot hold builds, clones, images or native output. Do not run the
+older direct recipes below in the shared host checkout. They document command
+syntax and revision-bound historical qualification; current campaigns must
+relocate build and fixture output into the managed guest workspace and retain
+their applicable checks. A passing compiler probe or private Win32 slice does
+not qualify the full current x64 product.
+
+DE-W105 remains current. Its private Win32 evidence passes all 18 groups at
+`c667318e`; the full current x64 gate is still open. The programme owns the latest
+work state and exact next action. Continue there rather than repeating DE-W010.
+
+## Implemented development surface and historical recipes
+
 The Windows image/fake prototype executable supports human and JSON/NDJSON build information,
 static command discovery, actual host/mode inspection and contextual help. `protocol serve` admits synchronous
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
