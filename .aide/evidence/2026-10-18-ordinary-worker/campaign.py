@@ -47,6 +47,9 @@ RETIRE_ACTOR=r'''
             if($workersStarted){
                 $proof=Get-Content -LiteralPath (Join-Path $root 'proof-result.json') -Raw|ConvertFrom-Json
                 if(-not$proof.all_owned_processes_retired){throw 'Owned actor process retirement unverified.'}
+                if($proof.scope-like'Per-image loader*' -and (-not$proof.image_registry_removed-or-not$proof.diagnostic_image_removed-or-not$proof.original_runtime_preserved)){
+                    throw 'Preserve actor journal: diagnostic image/registry retirement unverified.'
+                }
             }
             $existing=Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue
             if($existing){
@@ -68,13 +71,15 @@ def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     if (HERE/'result.json').exists():raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py'):
+    for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
     diagnostic='--diagnostic' in sys.argv
     startup_diagnostic='--startup-diagnostic' in sys.argv
     loader_diagnostic='--loader-diagnostic' in sys.argv
+    forensic='--loader-forensics' in sys.argv
+    if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
     if startup_diagnostic:
         expected['startup_diagnostic']=json.loads((HERE/'startup-diagnostic-expectations.json').read_bytes())
@@ -93,6 +98,7 @@ def main():
     if diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --diagnostic 2>&1)")
     if startup_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --startup-diagnostic 2>&1)")
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
+    if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -109,7 +115,7 @@ def main():
     host=once(host,'-ArgumentList $true,$SizeMiB','-ArgumentList $true,$SizeMiB,$testCredential.Password')
     host=once(host,'    if($session){Remove-PSSession -Session $session}','    if($session){Remove-PSSession -Session $session}\n    $testCredential=$null')
     host=once(host,"        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},", "        @{host=(Join-Path $PSScriptRoot 'ordinary-worker.py');relative='ordinary-worker.py'},\n        @{host=(Join-Path $PSScriptRoot 'target.py');relative='target.py'},\n        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},")
-    host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
+    host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]
@@ -134,8 +140,13 @@ def main():
     result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
     if startup_diagnostic:result['experiment_kind']='standard/restricted token and console diagnostic; no profile admission'
     if loader_diagnostic:result['experiment_kind']='minimal Python entry and native-import diagnostic; no profile admission'
+    if forensic:result['experiment_kind']='owned per-image loader tracing; no profile admission'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+    if forensic:
+        proof=result.get('guest',{}).get('proof',{})
+        if not all(proof.get(name) for name in ('image_registry_removed','diagnostic_image_removed','original_runtime_preserved')):
+            raise RuntimeError('Preserve guest actor journal: loader image/registry cleanup not established')
     if result.get('guest',{}).get('setup',{}).get('image_removed'):
         cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=60)
         if cleaned.returncode:

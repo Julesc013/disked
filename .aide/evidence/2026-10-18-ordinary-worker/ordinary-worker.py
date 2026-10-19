@@ -311,7 +311,8 @@ class Worker:
                 self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
             observer_control=(len(command)==4 and Path(command[2])==ROOT/'loader-observer.py' and command[-1]=='loader-standard.log')
             startup_control=(len(command)==5 and command[-1] in ('startup','bootstrap') and Path(command[2])==ROOT/'target.py')
-            if diagnostic_original and not (observer_control or startup_control):
+            forensic_control=(len(command)==5 and Path(command[2])==ROOT/'loader-forensics.py' and command[3]=='--actor' and Path(command[4])==self.work/'debug-plan.json')
+            if diagnostic_original and not (observer_control or startup_control or forensic_control):
                 raise ValueError('Unrestricted baseline is limited to the owned startup observer')
             selected_token=self.original if diagnostic_original else self.token
             self.last_launch['token_kind']='fresh_standard_baseline' if diagnostic_original else 'write_restricted'
