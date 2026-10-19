@@ -88,6 +88,7 @@ def main():
     focus_invocations='--focus-invocations' in sys.argv
     focus_repairs='--focus-qualification-repairs' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
+    native_memory='--native-memory' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv
     object_trace='--object-startup-trace' in sys.argv
     if object_trace and not (interactive_ui and '--crypto-full' in sys.argv):
@@ -96,7 +97,7 @@ def main():
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
-    if interactive_ui and not (full_native or '--crypto-full' in sys.argv):
+    if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
@@ -148,6 +149,12 @@ def main():
             (stage/name).write_bytes(data)
         for path in native_files:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
+    memory_files=('source/platform/windows/memory_budget.cpp','source/platform/windows/memory_budget.h')
+    if native_memory:
+        for name in ('memory-journey.py','memory-journey.cpp'):shutil.copyfile(HERE/name,stage/name)
+        ast.parse((stage/'memory-journey.py').read_bytes())
+        for path in memory_files:
+            target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-'+str(size)+'mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=size)
     if interactive_ui:
@@ -164,11 +171,12 @@ def main():
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
     crypto_full='--crypto-full' in sys.argv
-    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native
+    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native or native_memory
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
+    if native_memory:expected['native_memory']=json.loads((HERE/'memory-journey-expectations.json').read_bytes())
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
@@ -235,7 +243,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -269,6 +277,11 @@ def main():
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if native:
         selected=('native-journey.py','native-journey.cpp')+native_files
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
+        host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
+    if native_memory:
+        selected=('memory-journey.py','memory-journey.cpp')+memory_files
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
@@ -341,6 +354,7 @@ def main():
     if station_matrix:result['experiment_kind']='Six fixed trusted standard-user station bootstrap comparisons only;no worker/product admission'
     if object_trace:result['experiment_kind']='Bounded owned-child object API trace with original primitive controls;no namespace grant or worker/product admission'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
+    if native_memory:result['experiment_kind']='Exact production x64 memory-budget component compile/launch in32MiB;not product qualification'
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
         proof=result.get('guest',{}).get('proof') or {}

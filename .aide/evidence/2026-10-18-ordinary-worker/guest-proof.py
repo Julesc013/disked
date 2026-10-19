@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--native-memory':
+        load('memory_journey',ROOT/'memory-journey.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()
     elif len(sys.argv)>1 and sys.argv[1]=='--native-x64':load('full_native',ROOT/'full-native.py').coordinate(sys.modules[__name__])
     elif len(sys.argv)>1 and sys.argv[1]=='--native-journey':load('native_journey',ROOT/'native-journey.py').coordinate(sys.modules[__name__])
@@ -479,7 +481,7 @@ def dispatch():
 
 if __name__=='__main__':
     mode=sys.argv[1] if len(sys.argv)>1 else ''
-    if mode in ('--crypto-full','--native-x64') and json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui'):
+    if mode in ('--crypto-full','--native-x64','--native-memory') and json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui'):
         load('interactive_station',ROOT/'window-station.py').coordinate(sys.modules[__name__],dispatch)
     else:
         dispatch()

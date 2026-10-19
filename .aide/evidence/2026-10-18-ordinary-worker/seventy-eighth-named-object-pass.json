@@ -1,0 +1,835 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T20:25:23.9594332Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "interactive-run.ps1",
+        "bytes": 7368,
+        "sha256": "564C1B92AC4515EF77806370CB9E6AB69048086C3F1C8003E5C6C97F4168F5DB"
+      },
+      {
+        "path": "window-station.py",
+        "bytes": 16175,
+        "sha256": "46BAD7A3C0D8EBACB6E59C27D5114FE0CD640216D50E98241CD4B51B7CC12928"
+      },
+      {
+        "path": "object-namespace.py",
+        "bytes": 4825,
+        "sha256": "683E8F13898063EBACF9C1AAE55A15F54F0F21FF6AC1749BFC81C7AEFADDFA0E"
+      },
+      {
+        "path": "ui-probe.py",
+        "bytes": 12323,
+        "sha256": "1072493EF3590070E5A8D2AA0591993993D983D36578A1B6BD34E74E4E6E8BF9"
+      },
+      {
+        "path": "crypto-device.py",
+        "bytes": 19949,
+        "sha256": "E5C0C93B21BA4799D952B062EBD13C288D1C4180B899DE64791BA27AE0B7450F"
+      },
+      {
+        "path": "loader-forensics.py",
+        "bytes": 35199,
+        "sha256": "425E30973C8726E878601AEC889B14411ED2B7A0FB664FB85BDC91DFF2E4575C"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1091,
+        "sha256": "3F7963DD1EB0916C73A8E9B9959BBDE04212C10DA68294C91FC57BAF579F40C3"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 15537,
+        "sha256": "996EF928FE5493DF92C6712EEFDC0A84F992D711C8CE4291CE0664CB9F6B9C83"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 26516,
+        "sha256": "BED8692A6B234E689837518EF2AEFD0173FB149973619AFB0801B3EF1629A26D"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18898,
+        "sha256": "64E81E2AC3A1EB74119636A353BEF010C72E510A5EDAF2A1020F3487A3063176"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 33074,
+        "sha256": "A9EC91A79AB6359301586234EA577F849F9E74194488EDC9A28FD941FDFCF5D7"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 14733,
+        "sha256": "0497892124F59C8199CF19F262F046E148806CD5F2EDE67FEE181E32A2B30A60"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 21253,
+        "sha256": "8AA3254BB394661F63F46F5B6DE663913C3D9EBB41F44D69B4AE6CC4CD517A93"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "2e74ccbeaac057921b28572bf45da4b88c0e1f65"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T20:25:28.6915571Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-ec029d97",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1079",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "58339DAC71954B428CAB6A333C63E232",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.8e725318948c404db52517e4ccacbcc1",
+            "sid": "S-1-15-2-2314230485-3995284286-3175993134-2413992040-3450263389-978935833-714518011"
+          },
+          {
+            "name": "org.disked.worker.a27905b0a0464e859424d4c283d69a01",
+            "sid": "S-1-15-2-2921617234-985714307-2826927624-1062407909-2585470047-4185737373-1008964830"
+          },
+          {
+            "name": "org.disked.worker.5af8f62ee6f7423895772208b803cf28",
+            "sid": "S-1-15-2-1551821990-2650173430-1160335919-806119676-2119715957-840801167-980803529"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1079)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248058339DAC71956A333C63E232",
+      "disk_identity_guard_verified": true,
+      "interactive_dispatch": {
+        "quiescent": true,
+        "credential_removed": true,
+        "session_id": 3,
+        "task_removed": true,
+        "interactive_task": "DiskEd-Native-Interactive-ec029d97f8a4458795c0bd34fdcdc40d"
+      },
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 52, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T20:26:00.6551750Z"
+    },
+    "proof": {
+      "status": "pass",
+      "scope": "Complete ordinary-token primitive proof with scoped guest crypto setup; no full product qualification",
+      "all_owned_processes_retired": true,
+      "actor": {
+        "name": "DiskEdTest-ec029d97",
+        "sid": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "nonce": "ec029d97f8a4458795c0bd34fdcdc40d"
+      },
+      "image_uuid": "58339DAC71954B428CAB6A333C63E232",
+      "capped_volume": "\\\\?\\Volume{cfde3afb-0000-0000-0000-010000000000}\\",
+      "cap_mib": 32,
+      "coordinator_sid": "S-1-5-21-385394198-2603589104-1765785984-1003",
+      "coordinator_integrity_sid": "S-1-16-12288",
+      "actor_integrity_sid": "S-1-16-8192",
+      "private_ui_security": {
+        "station": "D:(A;NP;LCWP;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GAGXGWGR;;;S-1-5-5-0-1279203)(A;NP;0xf037f;;;S-1-5-5-0-1279203)(A;NP;0x20363;;;S-1-5-96-0-3)(A;NP;0xf037f;;;S-1-5-90-0-3)(A;OICIIO;GAGXGWGR;;;RC)(A;NP;0xf037f;;;RC)(A;OICIIO;CCDCLCDTLOGX;;;BA)(A;NP;DCLCWPDTCRRC;;;BA)(A;OICIIO;GAGXGWGR;;;SY)(A;NP;0xf037f;;;SY)(A;OICIIO;GXGR;;;S-1-15-2-2)(A;NP;0x20327;;;S-1-15-2-2)(A;OICIIO;GXGR;;;AC)(A;NP;0x20327;;;AC)(A;;CCDCSWWPDTCRRC;;;S-1-5-21-385394198-2603589104-1765785984-1079)S:(ML;;NW;;;LW)",
+        "desktop": "D:P(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1079)S:AI(ML;;NW;;;ME)"
+      },
+      "interactive_ui_host": {
+        "session_id": 3,
+        "station": "WinSta0",
+        "visible": true,
+        "station_security_unchanged_during_desktop_creation": true
+      },
+      "ordinary_group_write_control": true,
+      "private_station_startup_diagnostics": [
+        {
+          "original": true,
+          "exit_code": 0,
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "5371949898528709631",
+              "identity": "39000000000001000000000000000000"
+            },
+            "token_kind": "fresh_standard_baseline",
+            "input_token_session_id": 3,
+            "child_process_session_id": 3,
+            "child_token_session_id": 3
+          },
+          "log": ""
+        },
+        {
+          "original": false,
+          "exit_code": 0,
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "5371949898528709631",
+              "identity": "3b000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted",
+            "input_token_session_id": 3,
+            "child_process_session_id": 3,
+            "child_token_session_id": 3
+          },
+          "log": ""
+        }
+      ],
+      "standard_startup_diagnostic": {
+        "exit_code": 0,
+        "parameters": {
+          "variant": "basic-stdio",
+          "creation_flags": 134218756,
+          "startup_size": 104,
+          "attribute_count": 0,
+          "allowed_inherited_handles": 2,
+          "api_succeeded": true,
+          "stdout_identity": {
+            "volume": "5371949898528709631",
+            "identity": "3e000000000001000000000000000000"
+          },
+          "token_kind": "fresh_standard_baseline",
+          "input_token_session_id": 3,
+          "child_process_session_id": 3,
+          "child_token_session_id": 3
+        },
+        "log": "",
+        "scope": "Trusted existing startup observer under original fresh standard-user token only;not worker admission"
+      },
+      "standard_startup_job_retirement": {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      },
+      "normal_exit_code": 0,
+      "launch_parameters": {
+        "variant": "basic-stdio",
+        "creation_flags": 134218756,
+        "startup_size": 104,
+        "attribute_count": 0,
+        "allowed_inherited_handles": 2,
+        "api_succeeded": true,
+        "stdout_identity": {
+          "volume": "5371949898528709631",
+          "identity": "40000000000001000000000000000000"
+        },
+        "token_kind": "write_restricted",
+        "input_token_session_id": 3,
+        "child_process_session_id": 3,
+        "child_token_session_id": 3
+      },
+      "normal_log": "",
+      "payload": {
+        "pid": 1772,
+        "restricted": true,
+        "administrator": false,
+        "elevated": 0,
+        "appcontainer": 0,
+        "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "restricting_sids": [
+          "S-1-5-21-385394198-2603589104-1765785984-1079",
+          "S-1-5-12"
+        ],
+        "restricting_sid": null,
+        "integrity_sid": "S-1-16-8192",
+        "privileges": [
+          {
+            "name": "SeChangeNotifyPrivilege",
+            "attributes": 3
+          }
+        ],
+        "stdio": [
+          {
+            "selector": 4294967286,
+            "kind": 2,
+            "winerror": 0
+          },
+          {
+            "selector": 4294967285,
+            "kind": 1,
+            "winerror": 0,
+            "file_identity": {
+              "volume": "5371949898528709631",
+              "identity": "40000000000001000000000000000000"
+            }
+          },
+          {
+            "selector": 4294967284,
+            "kind": 1,
+            "winerror": 0,
+            "file_identity": {
+              "volume": "5371949898528709631",
+              "identity": "40000000000001000000000000000000"
+            }
+          }
+        ],
+        "canary_inherited": false,
+        "native_temp": "R:\\work\\normal\\temp\\",
+        "python_temp": "R:\\work\\normal\\temp",
+        "outside": [
+          {
+            "path": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\outside\\forbidden",
+            "denied": true,
+            "winerror": 5
+          },
+          {
+            "path": "C:\\ProgramData\\DiskEd\\qualification\\ordinary-worker.py",
+            "denied": true,
+            "winerror": 5
+          },
+          {
+            "path": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+            "denied": true,
+            "winerror": 5
+          }
+        ],
+        "descendant": {
+          "pid": 7516,
+          "restricted": true,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1079",
+          "restricting_sids": [
+            "S-1-5-21-385394198-2603589104-1765785984-1079",
+            "S-1-5-12"
+          ],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            }
+          ],
+          "stdio": [
+            {
+              "selector": 4294967286,
+              "kind": 2,
+              "winerror": 0
+            },
+            {
+              "selector": 4294967285,
+              "kind": 3,
+              "winerror": 0
+            },
+            {
+              "selector": 4294967284,
+              "kind": 3,
+              "winerror": 0
+            }
+          ],
+          "canary_inherited": false,
+          "outside": {
+            "path": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\outside\\descendant-forbidden",
+            "denied": true,
+            "winerror": 5
+          }
+        },
+        "record_sddl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1079)",
+        "record_sha256": "a1a8a8cbbed4eb53ae62ee4fb0787504087232c29aa4d817757d06b68d0501ca",
+        "space_before": {
+          "total": 32436224,
+          "used": 10285056,
+          "free": 22151168
+        },
+        "failed_write_bytes": 0,
+        "bytes_written": 22151168,
+        "allocation_error": 112,
+        "space_full": {
+          "total": 32436224,
+          "used": 32436224,
+          "free": 0
+        },
+        "space_after_removal": {
+          "total": 32436224,
+          "used": 10285056,
+          "free": 22151168
+        },
+        "status": "pass"
+      },
+      "normal_job_retirement": {
+        "active_processes": 0,
+        "total_processes": 3,
+        "terminated_processes": 0
+      },
+      "interactive_ui_observation": {
+        "scope": "Observe owned private-desktop and console startup; no product qualification.",
+        "libraries": [
+          {
+            "name": "user32.dll",
+            "loaded": true,
+            "error": 0,
+            "station": "WinSta0",
+            "station_error": 0,
+            "window_created": true,
+            "window_error": 0,
+            "station_access": [
+              {
+                "right": "read_attributes",
+                "mask": 2,
+                "opened": true,
+                "error": 0
+              },
+              {
+                "right": "delete",
+                "mask": 65536,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "write_dacl",
+                "mask": 262144,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "write_owner",
+                "mask": 524288,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "clipboard",
+                "mask": 4,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "write_attributes",
+                "mask": 16,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "exit_windows",
+                "mask": 64,
+                "opened": true,
+                "error": 0
+              },
+              {
+                "right": "read_screen",
+                "mask": 512,
+                "opened": false,
+                "error": 5
+              }
+            ],
+            "default_desktop_access": [
+              {
+                "right": "read_objects",
+                "mask": 1,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "hook_control",
+                "mask": 8,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "write_objects",
+                "mask": 128,
+                "opened": false,
+                "error": 5
+              },
+              {
+                "right": "switch_desktop",
+                "mask": 256,
+                "opened": false,
+                "error": 5
+              }
+            ]
+          },
+          {
+            "name": "gdi32.dll",
+            "loaded": true,
+            "error": 0
+          }
+        ],
+        "owned_kernel_object_startup": [
+          {
+            "kind": "mutex",
+            "named": false,
+            "created": true,
+            "error": 0
+          },
+          {
+            "kind": "mutex",
+            "named": true,
+            "created": true,
+            "error": 0,
+            "name_status": "0x0",
+            "object_path": "\\Sessions\\3\\BaseNamedObjects\\Restricted\\DiskEd.Owned.Startup.S-1-5-21-385394198-2603589104-1765785984-1079.1536.mutex"
+          },
+          {
+            "kind": "job",
+            "named": false,
+            "created": true,
+            "error": 0
+          },
+          {
+            "kind": "job",
+            "named": true,
+            "created": true,
+            "error": 0,
+            "name_status": "0x0",
+            "object_path": "\\Sessions\\3\\BaseNamedObjects\\Restricted\\DiskEd.Owned.Startup.S-1-5-21-385394198-2603589104-1765785984-1079.1536.job"
+          }
+        ],
+        "namespace_access": [
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 3,
+            "status": "0x0"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 7,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 15,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 131075,
+            "status": "0x0",
+            "query_status": "0x0",
+            "dacl": "D:(A;;CCDCLCSWRC;;;WD)(A;;DC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-0)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 65539,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 262147,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects",
+            "access": 524291,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 3,
+            "status": "0x0"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 7,
+            "status": "0x0"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 15,
+            "status": "0x0"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 131075,
+            "status": "0x0",
+            "query_status": "0x0",
+            "dacl": "D:(A;;CCDCLCSWRC;;;WD)(A;;CCDCLCSWRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-0)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 65539,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 262147,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\BaseNamedObjects\\Restricted",
+            "access": 524291,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 3,
+            "status": "0x0"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 7,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 15,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 131075,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 65539,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 262147,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects",
+            "access": 524291,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 3,
+            "status": "0x0"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 7,
+            "status": "0x0"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 15,
+            "status": "0x0"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 131075,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 65539,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 262147,
+            "status": "0xc0000022"
+          },
+          {
+            "path": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+            "access": 524291,
+            "status": "0xc0000022"
+          }
+        ],
+        "console_child": {
+          "exit_code": 0,
+          "stdout": "{\"scope\": \"Observe owned private-desktop and console startup; no product qualification.\", \"libraries\": [{\"name\": \"user32.dll\", \"loaded\": true, \"error\": 0, \"station\": \"WinSta0\", \"station_error\": 0, \"window_created\": true, \"window_error\": 0, \"station_access\": [{\"right\": \"read_attributes\", \"mask\": 2, \"opened\": true, \"error\": 0}, {\"right\": \"delete\", \"mask\": 65536, \"opened\": false, \"error\": 5}, {\"right\": \"write_dacl\", \"mask\": 262144, \"opened\": false, \"error\": 5}, {\"right\": \"write_owner\", \"mask\": 524288, \"opened\": false, \"error\": 5}, {\"right\": \"clipboard\", \"mask\": 4, \"opened\": false, \"error\": 5}, {\"right\": \"write_attributes\", \"mask\": 16, \"opened\": false, \"error\": 5}, {\"right\": \"exit_windows\", \"mask\": 64, \"opened\": true, \"error\": 0}, {\"right\": \"read_screen\", \"mask\": 512, \"opened\": false, \"error\": 5}], \"default_desktop_access\": [{\"right\": \"read_objects\", \"mask\": 1, \"opened\": false, \"error\": 5}, {\"right\": \"hook_control\", \"mask\": 8, \"opened\": false, \"error\": 5}, {\"right\": \"write_objects\", \"mask\": 128, \"opened\": false, \"error\": 5}, {\"right\": \"switch_desktop\", \"mask\": 256, \"opened\": false, \"error\": 5}]}, {\"name\": \"gdi32.dll\", \"loaded\": true, \"error\": 0}], \"console_opened\": true, \"console_error\": 0, \"console_mode\": 3, \"console_mode_error\": 0}\r\n",
+          "stderr": ""
+        }
+      },
+      "interactive_ui_job_retirement": {
+        "active_processes": 0,
+        "total_processes": 4,
+        "terminated_processes": 0
+      },
+      "held_before_interruption": [
+        {
+          "path": "held.bin",
+          "winerror": 32
+        },
+        {
+          "path": "descendant-held.bin",
+          "winerror": 32
+        }
+      ],
+      "abrupt_job_process_ids": [
+        3408,
+        7432,
+        7636
+      ],
+      "abrupt_snapshot_complete": true,
+      "abrupt_controller_exit": 1,
+      "retired_processes": [
+        {
+          "pid": 3408,
+          "creation_time": "134369151563261945",
+          "exit_code": 0
+        },
+        {
+          "pid": 7432,
+          "creation_time": "134369151563316420",
+          "exit_code": 0
+        },
+        {
+          "pid": 7636,
+          "creation_time": "134369151565343834",
+          "exit_code": 0
+        }
+      ],
+      "held_files_released": true,
+      "controller_log": "",
+      "source_preserved": true,
+      "outside_sentinel_preserved": true,
+      "guest_c_free_bytes": 98084179968,
+      "python_sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "execution_profile": "fresh-user-rc-crypto-guest/v1",
+      "crypto_device_retired": true,
+      "crypto_device": {
+        "device": "\\Device\\KsecDD",
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "access": "0x100003",
+        "events": [
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          },
+          {
+            "action": "applied",
+            "before_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)",
+            "after_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)(A;;0x100003;;;S-1-5-21-385394198-2603589104-1765785984-1079)"
+          },
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          }
+        ],
+        "retired": true,
+        "open_status": "0x0",
+        "removed_owned_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)"
+      },
+      "full_product_qualified": false,
+      "object_namespace": {
+        "device": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "access": "0xc",
+        "events": [
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          },
+          {
+            "action": "applied",
+            "before_sddl": "O:BAG:SYD:(A;;CCDC;;;WD)(A;;CCDCRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)",
+            "after_sddl": "O:BAG:SYD:(A;;CCDC;;;WD)(A;;CCDCRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)(A;;LCSW;;;S-1-5-21-385394198-2603589104-1765785984-1079)"
+          },
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          }
+        ],
+        "retired": true,
+        "open_status": "0x0",
+        "object_type": "Directory",
+        "session_id": 3,
+        "mandatory_label": "S:AI(ML;;NW;;;LW)",
+        "removed_owned_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;;CCDC;;;WD)(A;;CCDCRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+      },
+      "object_namespace_retired": true,
+      "window_station": {
+        "station": "WinSta0",
+        "session_id": 3,
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "mask": 131435,
+        "retired": true,
+        "before_sddl": "O:BAG:SYD:(A;NP;LCWP;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GAGXGWGR;;;S-1-5-5-0-1279203)(A;NP;0xf037f;;;S-1-5-5-0-1279203)(A;NP;0x20363;;;S-1-5-96-0-3)(A;NP;0xf037f;;;S-1-5-90-0-3)(A;OICIIO;GAGXGWGR;;;RC)(A;NP;0xf037f;;;RC)(A;OICIIO;CCDCLCDTLOGX;;;BA)(A;NP;DCLCWPDTCRRC;;;BA)(A;OICIIO;GAGXGWGR;;;SY)(A;NP;0xf037f;;;SY)(A;OICIIO;GXGR;;;S-1-15-2-2)(A;NP;0x20327;;;S-1-15-2-2)(A;OICIIO;GXGR;;;AC)(A;NP;0x20327;;;AC)S:(ML;;NW;;;LW)",
+        "applied_sddl": "O:BAG:SYD:(A;NP;LCWP;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GAGXGWGR;;;S-1-5-5-0-1279203)(A;NP;0xf037f;;;S-1-5-5-0-1279203)(A;NP;0x20363;;;S-1-5-96-0-3)(A;NP;0xf037f;;;S-1-5-90-0-3)(A;OICIIO;GAGXGWGR;;;RC)(A;NP;0xf037f;;;RC)(A;OICIIO;CCDCLCDTLOGX;;;BA)(A;NP;DCLCWPDTCRRC;;;BA)(A;OICIIO;GAGXGWGR;;;SY)(A;NP;0xf037f;;;SY)(A;OICIIO;GXGR;;;S-1-15-2-2)(A;NP;0x20327;;;S-1-15-2-2)(A;OICIIO;GXGR;;;AC)(A;NP;0x20327;;;AC)(A;;CCDCSWWPDTCRRC;;;S-1-5-21-385394198-2603589104-1765785984-1079)S:(ML;;NW;;;LW)",
+        "removed_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;NP;LCWP;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GAGXGWGR;;;S-1-5-5-0-1279203)(A;NP;0xf037f;;;S-1-5-5-0-1279203)(A;NP;0x20363;;;S-1-5-96-0-3)(A;NP;0xf037f;;;S-1-5-90-0-3)(A;OICIIO;GAGXGWGR;;;RC)(A;NP;0xf037f;;;RC)(A;OICIIO;CCDCLCDTLOGX;;;BA)(A;NP;DCLCWPDTCRRC;;;BA)(A;OICIIO;GAGXGWGR;;;SY)(A;NP;0xf037f;;;SY)(A;OICIIO;GXGR;;;S-1-15-2-2)(A;NP;0x20327;;;S-1-15-2-2)(A;OICIIO;GXGR;;;AC)(A;NP;0x20327;;;AC)S:(ML;;NW;;;LW)"
+      },
+      "window_station_recovery": {
+        "station": "WinSta0",
+        "session_id": 3,
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "mask": 131435,
+        "retired": true,
+        "removed_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;NP;LCWP;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;OICIIO;GAGXGWGR;;;S-1-5-5-0-1279203)(A;NP;0xf037f;;;S-1-5-5-0-1279203)(A;NP;0x20363;;;S-1-5-96-0-3)(A;NP;0xf037f;;;S-1-5-90-0-3)(A;OICIIO;GAGXGWGR;;;RC)(A;NP;0xf037f;;;RC)(A;OICIIO;CCDCLCDTLOGX;;;BA)(A;NP;DCLCWPDTCRRC;;;BA)(A;OICIIO;GAGXGWGR;;;SY)(A;NP;0xf037f;;;SY)(A;OICIIO;GXGR;;;S-1-15-2-2)(A;NP;0x20327;;;S-1-15-2-2)(A;OICIIO;GXGR;;;AC)(A;NP;0x20327;;;AC)S:(ML;;NW;;;LW)"
+      },
+      "object_namespace_recovery": {
+        "device": "\\Sessions\\3\\BaseNamedObjects\\Restricted",
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1079",
+        "access": "0xc",
+        "events": [
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          }
+        ],
+        "retired": true,
+        "open_status": "0x0",
+        "object_type": "Directory",
+        "session_id": 3,
+        "mandatory_label": "S:AI(ML;;NW;;;LW)",
+        "removed_owned_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;;CCDC;;;WD)(A;;CCDCRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-3)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+      }
+    },
+    "free_c_bytes": 98117722112
+  },
+  "host_backing_end_bytes": 31896633344,
+  "finished_at": "2026-10-19T20:26:00.9353168Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "65cbbe2d9272b2d60af4eb9b6917b4c8f17fa81355efa9757a14b3442fd6f732",
+    "crypto-device.py": "e5c0c93b21ba4799d952b062ebd13c288d1c4180b899de64791ba27ae0b7450f",
+    "expected.json": "8aa3254bb394661f63f46f5b6de663913c3d9ebb41f44d69b4ae6cc4cd517a93",
+    "guest-proof.ps1": "0497892124f59c8199cf19f262f046e148806cd5f2ede67fee181e32a2b30a60",
+    "guest-proof.py": "a9ec91a79ab6359301586234ea577f849f9e74194488edc9a28fd941fdfcf5d7",
+    "interactive-run.ps1": "564c1b92ac4515ef77806370cb9e6ab69048086c3f1c8003e5c6c97f4168f5db",
+    "loader-forensics.py": "425e30973c8726e878601aec889b14411ed2b7a0fb664fb85bdc91dff2e4575c",
+    "loader-observer.py": "3f7963dd1eb0916c73a8e9b9959bbde04212c10da68294c91fc57baf579f40c3",
+    "object-namespace.py": "683e8f13898063ebacf9c1aae55a15f54f0f21ff6ac1749bfc81c7aefaddfa0e",
+    "ordinary-worker.py": "bed8692a6b234e689837518ef2aefd0173fb149973619afb0801b3ef1629a26d",
+    "run-proof.ps1": "fe2d41f191ffb0b34c7054638e36f594afec81f9f22eece56861f279a0ac2457",
+    "target.py": "64e81e2ac3a1eb74119636a353bef010c72e510a5edaf2a1020f3487a3063176",
+    "ui-probe.py": "1072493ef3590070e5a8d2aa0591993993d983d36578a1b6bd34e74e4e6e8bf9",
+    "window-station.py": "46bad7a3c0d8ebacb6e59c27d5114fe0cd640216d50e98241cd4b51b7cc12928"
+  },
+  "host_exit_code": 0,
+  "experiment_kind": "32MiB ordinary worker controls with scoped crypto exception; no full product qualification",
+  "interactive_scope": "Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2016b station-only subject ACE with setup-fault recovery and exact retirement;EXITWINDOWS right required for User32 startup but no exit/logoff invocation;no filesystem/token/product-record change",
+  "host_error_tail": ""
+}

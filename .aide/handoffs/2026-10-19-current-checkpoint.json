@@ -123,9 +123,12 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py",
     ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
-    "tests/tools/test_object_namespace.py"
+    "tests/tools/test_object_namespace.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/memory-journey.cpp",
+    ".aide/evidence/2026-10-18-ordinary-worker/memory-journey.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json"
   ],
-  "summary": "DE-W105 current gate still open. Run77 at9056d376 completes owned-child object trace:151 debug events,53 native calls,child exit0,original32MiB controls and all cleanup pass,no namespace mutation. Exact trace:Win32 opens session3 BaseNamedObjects with0xF(denied),falls back to0x2(success),then opens relative Restricted with0xF(denied). Unnamed mutex/job creation succeeds. Candidate now grants only creation bits0xC to exact fresh actor on Restricted node;existing query/traverse plus0xC satisfy observed0xF. Normal parent remains unchanged. Subdirectory creation is explicitly permitted in this private fixture grant;security/read-control/delete rights remain excluded and checked.159 tooling tests(one skip) and preparation pass;new live grant not yet run. No native memory-budget/product qualification.",
+  "summary": "DE-W105 unfinished. Original32MiB restricted interactive proof78 at2e74ccbe passes:own named/unnamed mutex/job creation succeeds and actual object paths resolve in session3 Restricted directory;normal-parent creation and both directories security/read-control/delete access denied. Exact-subject0xC grant permits two creation bits,not security rights;setup-fault recovery,baseline DACL/label restoration,original filesystem/record/descendant/cap/job controls and all owned cleanup pass. Candidate small native-memory mode compiles/executes unchanged production WindowsMemoryBudget with frozen256MiB/ready criteria;no full product/storage effects. Metadata/AST/source-map/manifest and PS5.1 memory-template preparation pass. Component not yet run;full x64/Win32/main gates open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -525,6 +528,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Original32MiB proof with measured0xC Restricted creation rights and exact named paths at2e74ccbe",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-named-object-pass.json"
+    },
+    {
+      "command": "Current metadata/AST/source-map/manifest and memory-mode PS5.1 preparation;no native execution",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json"
     }
   ],
   "artifacts": [
@@ -638,7 +655,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:616f71bd3ccf5263516b5530abb4da42a9ef6c67461ad9da39f98154ea5b0013"
+      "sha256": "sha256:e5d3b38e65beb3d612c9ef71acb667e25d48a4e49b5658660d9b0d2be2d742b0"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -834,11 +851,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
-      "sha256": "sha256:e8fded3be2b8e21cb66adaae488763fe1414f516a617e699a1fe46293a66bb7f"
+      "sha256": "sha256:b6eff7ba78f5d285903f4f2a96bff7ed76b229718fbed483d1ee75e0efc298d9"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:7cc19af3d4c275fcdb4556ef805b0402aa2292bfd6019cd52920ec3a0c1f83ac"
+      "sha256": "sha256:5706f2a8c5aba363157a3417a60d001d0ce40a7311332e94b1a1ca4cb8c661b4"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -963,12 +980,24 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-seventh-cleanup.json",
       "sha256": "sha256:ab48d3bcbca66151e8952c3b1050e432b8c723836def38953e24dbeb89872fca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-named-object-pass.json",
+      "sha256": "sha256:9cdf3df4bf1b6aa42a9eacd5c0b08dfa681ad38eaeda04cf4a93f6644adce619"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-cleanup.json",
+      "sha256": "sha256:50f8ff8fa75541f5f3b8b17730d380afcc173bd8eb48bf415168c28e34eef188"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
+      "sha256": "sha256:9aec7d98626286d213e098962271d3e3fb7f3d2834539899aeda86cfd2644292"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run32MiB original interactive proof with exact-subject0xC on session Restricted directory. Require actual named mutex/job paths below Restricted,normal-parent creation denied,security/read-control/delete access denied,all original controls and setup-fault/current-delta retirement. Then small exact native memory-budget/store journey before six-group/full x64/Win32/main gate;continue W106/W107 afterward.",
+  "next_safe_step": "Run --native-memory --interactive-ui in32MiB and require exact unchanged production component ready,platform_error0,process_limit_bytes268435456,static x64 artifact/import/source identities and all cleanup. Then six native repair groups,full180 x64,current privateWin32,retained-case/tooling/C90 applicability review and tested dev\u2192main integration. Continue W106/W107;original all-platform/storage0.1.0 remains incomplete.",
   "performed_remote_writes": true
 }
