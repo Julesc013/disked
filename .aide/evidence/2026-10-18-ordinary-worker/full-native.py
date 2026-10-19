@@ -408,15 +408,20 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
             code,raw=run('package-git-after-null-removal',[git,'--version'],30,allow_failure=True)
             assert code==128 and b'/dev/null' in raw
-            if expected.get('cleanup_proof'):
+            if expected.get('cleanup_proof') or expected.get('ui_proof'):
                 instance.close();instance=None;shared_read_access(False)
                 native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
                 (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
                 grant=helper.Grant();grant.apply();grant.started()
-                _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
-                result['cleanup_attribute_diagnostic']=json_record(raw)
+                if expected.get('ui_proof'):
+                    _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
+                    result['private_ui_diagnostic']=json_record(raw)
+                else:
+                    _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
+                    result['cleanup_attribute_diagnostic']=json_record(raw)
             result.update(status='pass',qualification='Confined PowerShell startup plus Null setup/recovery/real-Git/revocation; no product tests' if expected.get('powershell_proof') else 'Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
             if expected.get('cleanup_proof'):result['qualification']='Owned attribute/deletion observations only; no product qualification'
+            if expected.get('ui_proof'):result['qualification']='Private-desktop and console API observations only; no product or GUI qualification'
             return
         selected=expected.get('focus_groups',expected['groups'])
         if any(name in selected for name in expected.get('appcontainer_test_groups',[])):

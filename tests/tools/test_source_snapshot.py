@@ -1,4 +1,5 @@
 """Actual tiny Git fixtures for exact, bounded, history-free source transport."""
+import ast
 import importlib.util
 import json
 import os
@@ -14,6 +15,17 @@ definition.loader.exec_module(S)
 
 
 class SnapshotTests(unittest.TestCase):
+    def test_semantic_validator_siblings_are_transported(self):
+        selected = set(S.selected_inputs(ROOT, 'DE-W105'))
+        directory = ROOT / 'spec/tools'
+        tree = ast.parse((directory / 'specctl.py').read_bytes())
+        siblings = {node.module for node in ast.walk(tree)
+                    if isinstance(node, ast.ImportFrom) and node.module
+                    and (directory / (node.module + '.py')).is_file()}
+        self.assertGreaterEqual(len(siblings), 3)
+        self.assertFalse({'spec/tools/' + name + '.py' for name in siblings} - selected,
+                         'Native source transport omitted a local semantic validator')
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix='disked-source-snapshot-')
         self.work = Path(self.temporary.name)

@@ -79,25 +79,8 @@ def prepared_symlink(source):
 
 
 def size_fixture(stream, size):
-    # CRT-backed truncate can write zeros while extending. Set the logical EOF
-    # directly on an explicitly sparse, newly created owned fixture instead.
-    import msvcrt
-    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
-    kernel.DeviceIoControl.argtypes = [wintypes.HANDLE,wintypes.DWORD,wintypes.LPVOID,wintypes.DWORD,
-                                      wintypes.LPVOID,wintypes.DWORD,ctypes.POINTER(wintypes.DWORD),wintypes.LPVOID]
-    kernel.DeviceIoControl.restype = wintypes.BOOL
-    kernel.SetFilePointerEx.argtypes = [wintypes.HANDLE,ctypes.c_longlong,wintypes.LPVOID,wintypes.DWORD]
-    kernel.SetFilePointerEx.restype = wintypes.BOOL
-    kernel.SetEndOfFile.argtypes = [wintypes.HANDLE]
-    kernel.SetEndOfFile.restype = wintypes.BOOL
-    handle = msvcrt.get_osfhandle(stream.fileno())
-    returned = wintypes.DWORD()
-    stream.flush()
-    if not kernel.DeviceIoControl(handle,0x000900c4,None,0,None,0,ctypes.byref(returned),None):
-        raise ctypes.WinError(ctypes.get_last_error())
-    if not kernel.SetFilePointerEx(handle,size,None,0) or not kernel.SetEndOfFile(handle):
-        raise ctypes.WinError(ctypes.get_last_error())
-    stream.seek(0)
+    from support.sparse import size_empty_file
+    size_empty_file(stream,size)
 
 
 def record_sparse_fixture(stream, size, *, all_sizes=False, retain=True):

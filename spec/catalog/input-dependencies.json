@@ -9806,7 +9806,8 @@
         "spec/catalog/fat-capture-prototype.json",
         "tests/property/test_fat.py",
         "tests/property/test_fat_directory.py",
-        "tests/support/tempdir.py"
+        "tests/support/tempdir.py",
+        "tests/support/sparse.py"
       ],
       "spec_ids": [
         "DE-037"
@@ -14008,7 +14009,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/catalog/ntfs-file-prototype.json",
-        "tests/support/tempdir.py"
+        "tests/support/tempdir.py",
+        "tests/support/sparse.py"
       ],
       "spec_ids": [
         "DE-031",
@@ -17931,6 +17933,34 @@
         "tests/images/test_fat_tree_extraction_worker.py"
       ],
       "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/support/sparse.py",
+      "path": "tests/support/sparse.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/support/__init__.py"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-071",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_sparse_fixture.py",
+      "path": "tests/tools/test_sparse_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/support/sparse.py"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-071",
         "DE-074"
       ]
     }

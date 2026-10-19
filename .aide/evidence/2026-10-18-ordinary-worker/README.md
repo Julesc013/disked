@@ -11,7 +11,7 @@ The all-target x64 build at `f86f72fa` passed, with 178 groups registered,
 `full-build-review.json` and the complete compressed
 `forty-second-full-build-first-native.tar.xz`. The first native group passed;
 `acquisition.fat_tree_review` failed with `image_parent_open`.
-Attempts 43–45 narrow this to Windows access-denied on every native parent open,
+Attempts 43â€“45 narrow this to Windows access-denied on every native parent open,
 while a Python control under the same ordinary worker opens those directories.
 Attempt 46 identifies the differing integrity levels: native Low versus Python
 Medium, with the same user/restricting SIDs and Low labels on new native files.
@@ -249,7 +249,7 @@ The next execution recipe must retain the hard filesystem boundary and all
 original protected-record, outside-write, descendant and interruption controls.
 Any proposed guest setup exception needs explicit scope, agent review and
 verified retirement before admission. No crypto-device ACL was changed in
-attempts 1–25.
+attempts 1â€“25.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. Use the now-observed console and crypto-device boundaries when
@@ -260,7 +260,7 @@ restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey
 remain pending regardless of any primitive or diagnostic result here.
 
-Attempts 26–29 prove the narrowly scoped guest setup: a journaled ACE gives only
+Attempts 26â€“29 prove the narrowly scoped guest setup: a journaled ACE gives only
 the fresh actor SID the observed `0x100003` KsecDD access. Actual helper interruption
 and recovery, exact removal, and failure of a new restricted process after removal
 are recorded. The ordinary worker retains exactly fresh-user and Restricted Code
@@ -268,7 +268,7 @@ restricting SIDs, medium integrity and no administrator/AppContainer identity.
 No filesystem/product-record ACL or host setting is relaxed. A fresh containing
 job is required for each command; every owned member retires before removal.
 
-Attempt 30 passes all original 32 MiB controls. Attempts 31–32 compile real
+Attempt 30 passes all original 32 MiB controls. Attempts 31â€“32 compile real
 production helpers but expose prefixed kernel-object path failures; the first
 cleanup refuses nested source entries, then exact-source-parent cleanup succeeds.
 Attempt 33 uses the default namespace, verifies the ordinary session-zero alias
@@ -281,3 +281,25 @@ before disk-full 112, observes zero filesystem free bytes, removes the fixture
 and restores the prior free capacity. Normal and interrupted worker trees,
 temporary ACE, actor/profile, image and source copies retire. This qualifies the
 declared guest execution primitive, not the full native product or other hosts.
+# Attempt61: full build passes; qualification remains failed
+
+At `8a290a7c`, all-target x64 compilation, 68 headers and 14 executable/import
+observations pass. Of 33 recorded native groups, 28 pass and five fail. The FAT
+history group completes all 13 methods in 467.651 seconds under its declared
+600-second CTest allowance. This is actual CTest evidence, distinct from the
+earlier diagnostic and from the unqualified original 300-second allowance.
+
+The source export omitted `verification_contracts.py`. Ordinary private-desktop
+GUI loading and console setup also fail. Dense FAT fixtures exhaust the fixed
+512 MiB filesystem during logical-extraction and frontend-extraction groups;
+the latter cannot finish JUnit output, ending the campaign before the remaining
+groups. `sixty-first-failure-review.json` verifies the complete 130,564-byte
+archive and records these failures. Owned media, source, actor and host workspace
+are removed; no VM backing-file compaction or host-space reclamation is claimed.
+
+The next candidate includes the missing validator and shares sparse sizing
+between FAT and NTFS fixtures, preserving logical bytes. Fourteen focused host
+tooling checks pass, including the regression's observed failure before the
+catalog repair and a tiny byte/hash/allocation check. Guest UI observations and
+focused native replay are still required before another complete campaign.
+There is no full x64, current Win32, owner or release qualification or main merge.

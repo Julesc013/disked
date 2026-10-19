@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "b40da4fbcd1327e03ef13ee58c57144e46b5f133",
-  "spec_manifest_digest": "sha256:e5efcb4fe0fddbb83d42b0fea062e386b82e83f942303c5cfc07de5f2a5b1117",
+  "base_revision": "8a290a7cdfb33dc3ff9540f885a2995169bae2aa",
+  "spec_manifest_digest": "sha256:f870050dc0ea530057e2abe9879b4f012c07d54c622cc89ae0121cc9cad5e0e5",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -26,11 +26,18 @@
     ".aide/programmes/disked-0.1.0.json",
     "AGENTS.md",
     "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/ui/gui.cpp",
     "source/platform/windows/worker_files.h",
+    "spec/tools/specctl.py",
+    "spec/tools/verification_contracts.py",
     "spec/work/units.json",
     "tests/differential/CONTRACT.md",
     "tests/differential/compare.py",
-    "tests/differential/test_adapters.py"
+    "tests/differential/test_adapters.py",
+    "tests/frontend/test_fat_extraction_commands.py",
+    "tests/images/test_fat_capture.py",
+    "tools/build-inputs.json",
+    "tools/source-snapshot.py"
   ],
   "files_changed": [
     ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
@@ -53,6 +60,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-device-security.json",
     ".aide/evidence/2026-10-18-ordinary-worker/twenty-fifth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/ui-probe.py",
     ".aide/evidence/2026-10-18-ordinary-worker/validate-current.py",
     ".aide/handoffs/2026-10-19-current-checkpoint.json",
     ".aide/programmes/disked-0.1.0.json",
@@ -86,13 +94,18 @@
     "tests/images/fat_tree_extraction_worker_probe.cpp",
     "tests/images/ntfs_worker_probe.cpp",
     "tests/images/test_acquisition_worker.py",
+    "tests/images/test_fat_capture.py",
     "tests/images/test_fat_tree_extraction.py",
     "tests/images/test_fat_tree_extraction_worker.py",
     "tests/images/test_fat_tree_review.py",
+    "tests/images/test_ntfs_file.py",
     "tests/invocation/test_windows.py",
     "tests/resilience/memory_fixture.py",
     "tests/resilience/test_worker_ancestry.py",
     "tests/resilience/test_worker_budget.py",
+    "tests/support/sparse.py",
+    "tests/tools/test_source_snapshot.py",
+    "tests/tools/test_sparse_fixture.py",
     "tests/tools/test_workspace.py",
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp",
@@ -100,7 +113,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 partial. Retained32/512MiB controls,compiler/user-only-record journey,focused FAT/file-export and readonly cleanup pass. Actual confined PowerShell7 startup passes. Run58 AppContainer invalid-stdin0xC0000008 remains unqualified;prior ordinary run passes that case. Current candidate partitions each product's original five invocation methods4 ordinary+1 shell,with explicit zero-skip witnesses and180 groups. Diagnostic59 at422f6ee0 completes all13 history methods/78 reader cases/16 native+3 owned histories in430.269s:417.937s native writers,2.501s readers. It does not qualify the original300-second CTest gate. Canonical proposed fixture-timeout profile declares aggregate600/1200/600s and named large-completion probe/process allowances;unchanged assertions/counts and product/fault/storage limits. Controller respects registered CTest deadlines plus30s reporting grace. Full253 spec(two skips)/144 tools(one skip),structural/source-map/manifest checks pass;new native profile/partition/full180,current Win32/detail review remain pending before main. All completed cleanup retained. Original all-platform/storage0.1.0,owner and release gates remain open. Preflight identifies five legacy registrations without TIMEOUT. The harness now supplies explicit CTest default300,keeps per-test properties and reporting grace;two small timeout/JUnit precedence regressions and all146 tools(one skip) pass. Native partition/full180 evaluation remains pending. Run60 at94687218 passes all four invocation partitions(ten original methods,zero skips),real profile transition and all cleanup. Implementing-agent review validates raw method summaries against frozen expectations and every archive entry hash. Peak filesystem286699520 bytes;archive34812 bytes. Full180/current Win32/detail review remain pending before main.",
+  "summary": "DE-W105 unfinished. Full x64 attempt61 at8a290a7c builds all targets,68headers/14imports;28 of33 recorded groups pass,including all13 FAT history methods in467.651s. Missing verification validator,ordinary GUI/console startup and dense FAT images fail;34th group fills fixed512MiB and leaves empty JUnit. Archive130564 bytes fully hash/entry verified. Owned media/source/account and host workspace cleaned. No full pass/main promotion. Candidate fixes source closure and shares sparse fixture sizing;14 focused host-tooling checks pass. Guest UI diagnostic and focused native replay remain unverified. Full candidate metadata/AST/source-map/manifest checks pass;253 spec tests(two skips) and150 tooling tests(one skip) pass. These checks do not qualify guest GUI or a complete native suite.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -290,6 +303,34 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json"
+    },
+    {
+      "command": "python tools/workspace.py run -- python .aide/evidence/2026-10-18-ordinary-worker/campaign.py --native-x64",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-failure.json"
+    },
+    {
+      "command": "managed source-closure regression before repair",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/closure-regression-before.json"
+    },
+    {
+      "command": "managed source-closure and tiny sparse-fixture checks",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/closure-and-sparse-checks.json"
+    },
+    {
+      "command": "python tools/workspace.py run -- python .aide/evidence/2026-10-18-ordinary-worker/validate-current.py",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
     }
   ],
   "artifacts": [
@@ -319,7 +360,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:233e4754c30458685a821c1d1b4c30854aaf25f41398a8dbc518ca9081bd5987"
+      "sha256": "sha256:fa67d5b2cf252e8d6799d21c670f315baff07043fe71815827d0f34fa4e68cee"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -520,11 +561,36 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/invocation-partition-review.json",
       "sha256": "sha256:338d78951341259782d5d12a53d4bb67e5235c75fbf77829a393fa8579c7f0eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-failure.json",
+      "sha256": "sha256:9c1c8949ca88e02df2f8826875b9ded0d213e0002a5cdf78d80092e2ac476982"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-failure-review.json",
+      "sha256": "sha256:0e29161693a967d90f31a79ab37490d2e17b5bce0bc6a844d21dcdc6beb95632"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-cleanup.json",
+      "sha256": "sha256:50941fec12937460fca890d46819a0841abc43e50f568e62797ee7159d2ac975"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64.tar.xz",
+      "sha256": "sha256:56df3cb0bc32f57cb39e15a5fce622029a1719680eba72d9afc9d0d891f09d31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-regression-before.json",
+      "sha256": "sha256:6283063838f87ae662a56b76396bc64fbbdd46656aeb04b9098a0ec901957a8c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-and-sparse-checks.json",
+      "sha256": "sha256:f909ca475a808905ca9781694f3e00c85b68392721c8401b82ee7209503472ce"
     }
   ],
   "blockers": [
-    "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
+    "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
+    "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run complete current180-group x64 campaign at the next frozen revision with canonical fixture allowances,all68 headers/14 executable/import observations and exact method witnesses. Focused four-partition transition passes at94687218;this is not full qualification. After full pass,perform detailed W105/current Win32/C90/tooling review,then merge tested agent-reviewed dev to main. Keep original0.1.0/owner/release/storage gates;W106/107 follow.",
+  "next_safe_step": "Run the tiny ordinary-worker private UI/console diagnostic,repair its measured cause,then prove sparse FAT generation and replay the six affected groups before another complete180 x64 campaign. Preserve512MiB/1GiB limits. Complete current Win32/detail/C90 review after full pass,then merge reviewed dev to main;W106/107 remain next. Original0.1.0/owner/release gates unchanged.",
   "performed_remote_writes": true
 }

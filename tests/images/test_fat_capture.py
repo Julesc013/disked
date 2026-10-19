@@ -11,6 +11,7 @@ import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from support.tempdir import fixture_parent,managed_directory
+from support.sparse import size_empty_file
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'property'))
 from test_fat import boot, packed, MASKS
@@ -54,7 +55,7 @@ class Volume:
     def write(self,path):
         request=self.request()
         with path.open('xb') as stream:
-            stream.truncate(int(request['source_bytes']))
+            size_empty_file(stream,int(request['source_bytes']))
             for row in request['regions']:stream.seek(int(row['offset']));stream.write(bytes.fromhex(row['hex']))
 
 

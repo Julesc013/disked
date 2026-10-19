@@ -78,21 +78,22 @@ def main():
     powershell_proof='--powershell-proof' in sys.argv
     powershell7_proof='--powershell7-proof' in sys.argv
     cleanup_proof='--cleanup-proof' in sys.argv
+    ui_proof='--ui-proof' in sys.argv
     focus_fat='--focus-fat-review' in sys.argv
     focus_export='--focus-file-export' in sys.argv
     diagnose_history='--diagnose-fat-history' in sys.argv
     focus_history='--focus-fat-history' in sys.argv or diagnose_history
     focus_invocations='--focus-invocations' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or focus_fat or focus_export or focus_history or focus_invocations
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    helper_files=('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
+    helper_files=('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
     full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
         for name in helper_files:
-            origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+            origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
         shell_tool=powershell7_proof or focus_invocations or '--native-x64' in sys.argv
         if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:
@@ -100,7 +101,7 @@ def main():
             tool.prepare(stage)
         else:
             (stage/'pwsh7.zip').write_bytes(b'not-a-runtime');(stage/'pwsh7.json').write_text('{}\n')
-        if '--prepare-only' in sys.argv or cleanup_only or null_proof or powershell_proof or powershell7_proof or cleanup_proof:
+        if '--prepare-only' in sys.argv or cleanup_only or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof:
             (stage/'pydeps.zip').write_bytes(b'non-executable parser fixture');(stage/'pydeps.json').write_text('{}\n')
         else:
             ast.parse((HERE/'prepare-dependencies.py').read_bytes())
@@ -154,10 +155,11 @@ def main():
         reserved+=storage.tree_bytes(ROOT/'.aide-local',allocated=True,file_limit=20000,allow_links=False)
         reserved-=storage.stored_bytes(stage/'pwsh7.zip',(stage/'pwsh7.zip').stat())
         expected['native_x64']['host_disposable_reserved_bytes']=reserved+1024*1024
-    if null_proof or powershell_proof or powershell7_proof or cleanup_proof:expected['native_x64']['null_proof_only']=True
+    if null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof:expected['native_x64']['null_proof_only']=True
     if powershell_proof or powershell7_proof:expected['native_x64']['powershell_proof']=True
     if powershell7_proof:expected['native_x64']['powershell7_proof']=True
     if cleanup_proof:expected['native_x64']['cleanup_proof']=True
+    if ui_proof:expected['native_x64']['ui_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
         expected['native_x64']['focus_targets']=['fat_tree_review_probe','fat_tree_extraction_worker_probe']
