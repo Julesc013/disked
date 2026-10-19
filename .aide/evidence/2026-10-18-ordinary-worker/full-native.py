@@ -79,6 +79,7 @@ def coordinate(g):
         finally:free(descriptor)
 
     try:
+        if not __debug__:raise RuntimeError('Qualification coordinator requires active assertions')
         data=g.actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
         state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==512
         prepared=subprocess.run([sys.executable,'-B',str(ROOT/'guest-source.py'),'prepare'],capture_output=True,timeout=180)
@@ -99,7 +100,8 @@ def coordinate(g):
         build=compile_work/'build';archive=retention.Observations(work/'observations.tar.xz')
         env=dict(os.environ,DISKED_WORK_ROOT=str(work),GIT_OPTIONAL_LOCKS='0',GIT_TERMINAL_PROMPT='0',
                  GIT_CONFIG_COUNT='1',GIT_CONFIG_KEY_0='safe.directory',GIT_CONFIG_VALUE_0=str(SOURCE),
-                 MSBUILDDISABLENODEREUSE='1',CMAKE_BUILD_PARALLEL_LEVEL='1',DISKED_TEST_OTHER_VOLUME_ROOT='C:\\')
+                 MSBUILDDISABLENODEREUSE='1',CMAKE_BUILD_PARALLEL_LEVEL='1',DISKED_TEST_OTHER_VOLUME_ROOT='C:\\',
+                 PYTHONOPTIMIZE='0',PYTHONDONTWRITEBYTECODE='1')
         for key in ('CL','_CL_','LINK','_LINK_','CFLAGS','CXXFLAGS','LDFLAGS'):env.pop(key,None)
         cmake=Path('C:/Program Files/CMake/bin/cmake.exe');ctest=cmake.with_name('ctest.exe')
         active_stem=None
