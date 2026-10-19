@@ -147,6 +147,14 @@ grace. Two small host tooling regressions verify timeout failure/JUnit retention
 and explicit-property precedence; no DiskEd product code runs on the host.
 `tooling-refresh.json` records all 146 tooling tests (one existing skip) passing.
 
+Attempt 60 at `94687218` passes all four native invocation partitions: each
+product's four ordinary handle/console methods and one AppContainer shell method,
+ten methods total with zero skips. Raw summaries match the predeclared method
+sets and verified archive hashes. The profile transition, exact product retention
+and all owned teardown pass. Sampled filesystem use peaks at 286,699,520 bytes;
+34,812 bytes of compressed evidence remain. `invocation-partition-review.json`
+records implementing-agent review for this focused scope. Full180 remains open.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git
