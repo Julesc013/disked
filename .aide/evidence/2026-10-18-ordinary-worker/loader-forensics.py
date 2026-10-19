@@ -159,7 +159,7 @@ def actor(plan):
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
     ntdll=C.WinDLL('ntdll')
-    selected_functions=('NtOpenDirectoryObject','NtOpenSection','NtOpenSymbolicLinkObject')
+    selected_functions=('NtMapViewOfSection','NtAlpcConnectPort','NtSecureConnectPort')
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[])
@@ -170,7 +170,7 @@ def actor(plan):
         require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
         for name,restricted_case in (('baseline',False),('restricted_compat',True)):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
-            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_opens=[],native_open_scope='Three ntdll entrypoints on the owned initial thread only')
+            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],native_call_scope='Three ntdll entrypoints on the owned initial thread only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
             watches=None;pending=None
             def read(address,length):
@@ -237,7 +237,7 @@ def actor(plan):
                                 watches=[info.base+offsets[name] for name in selected_functions]
                                 storage,value=context();assert value.dr[5]&0xff==0
                                 watch(value)
-                                row['native_open_entrypoints']={name:hex(address) for name,address in zip(selected_functions,watches)}
+                                row['native_entrypoints']={name:hex(address) for name,address in zip(selected_functions,watches)}
                         elif event.code==8:
                             info=event.data.string;n=info.length*(2 if info.unicode else 1);assert n<=131070
                             if n:
@@ -252,20 +252,19 @@ def actor(plan):
                                 storage,value=context();hit=value.dr[4]&15
                                 if pending is not None and hit==4:
                                     pending['status']=hex(value.regs[0]&0xffffffff)
-                                    row['native_opens'].append(pending);pending=None
+                                    row['native_calls'].append(pending);pending=None
                                     watch(value)
                                 elif pending is None and hit in (1,2,8):
-                                    assert len(row['native_opens'])<256
+                                    assert len(row['native_calls'])<256
                                     index={1:0,2:1,8:2}[hit]
                                     assert value.rip==watches[index]
-                                    attrs=read(value.regs[8],48)
-                                    root=int.from_bytes(attrs[8:16],'little');name_pointer=int.from_bytes(attrs[16:24],'little')
-                                    text=b''
-                                    if name_pointer:
+                                    pending=dict(function=selected_functions[index],arguments=[hex(value.regs[i]) for i in (1,2,8,9)])
+                                    if index in (1,2):
+                                        name_pointer=value.regs[2];text=b''
                                         descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
                                         assert length<=1024 and length%2==0
                                         if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
-                                    pending=dict(function=selected_functions[index],access=hex(value.regs[2]&0xffffffff),root_handle=hex(root),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
+                                        pending.update(name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
                                     return_address=int.from_bytes(read(value.regs[4],8),'little')
                                     watch(value,return_address)
                                 else:raise ValueError('Unexpected owned hardware breakpoint state')
@@ -278,7 +277,7 @@ def actor(plan):
                         if file_handle:require(k.CloseHandle(file_handle))
                         require(k.ContinueDebugEvent(event.pid,event.tid,continuation))
                 trace.close();trace=None
-                row['native_open_pending_at_exit']=pending
+                row['native_call_pending_at_exit']=pending
                 assert watches is not None
                 assert k.WaitForSingleObject(process.process,5000)==0
                 raw=trace_path.read_bytes();compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])

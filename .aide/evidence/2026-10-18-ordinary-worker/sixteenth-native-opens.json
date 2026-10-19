@@ -1,0 +1,611 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T09:46:43.6856998Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "loader-forensics.py",
+        "bytes": 29632,
+        "sha256": "74A3422187D241240F88B24F1FF34BC563E3F3F2FE1338920D7F8AC5892428AA"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1045,
+        "sha256": "61D42483B78EC9430A2BFFF0EC22A2FAFCCA25E7BD897A396A614E87B303B6C0"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23013,
+        "sha256": "BB4CC19AC8E76D0CA818D15145B254D49B7CC7AFCD9293EDE6861CD3C2D01793"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13774,
+        "sha256": "B624A297F552DE4042A9F3DBC131C394BB68E0B5E54445DE67DABCCEF946B4EA"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9352,
+        "sha256": "CB33EDAF76F66A843CCE0CFAD3FC2D9EB336E01DA17408F0EC2A37ACF72B7229"
+      }
+    ],
+    "base_revision": "15e73fa1603eee1ea490227cc1fe64faed2392aa",
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T09:46:49.3808046Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-570eb866",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1018",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "F392A6526322854D9E5034034639F1A9",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.16f0caebd16a4697b36e4371cfc3b053",
+            "sid": "S-1-15-2-3594022080-2429310808-2728635232-4181193012-3797240472-3538993236-3571908487"
+          },
+          {
+            "name": "org.disked.worker.f56c68950d954b5c9e1b6eb7d9f62e18",
+            "sid": "S-1-15-2-70648664-1759558474-3806358920-3918177308-2182406472-164555868-1289142155"
+          },
+          {
+            "name": "org.disked.worker.2cf6b13a50734dfeb3e81e34fc13f8aa",
+            "sid": "S-1-15-2-371291656-444809956-543349133-2035073885-2147678434-2128035395-2177420123"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1018)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480F392A652632234034639F1A9",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 52, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T09:47:17.5978708Z"
+    },
+    "proof": {
+      "status": "pass",
+      "scope": "Per-image loader diagnostic only; no ordinary-worker qualification",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "actor_exit_code": 0,
+      "debug": {
+        "status": "pass",
+        "bootstrap_identity": {
+          "pid": 4916,
+          "restricted": false,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1018",
+          "restricting_sids": [],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeShutdownPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            },
+            {
+              "name": "SeUndockPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeIncreaseWorkingSetPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeTimeZonePrivilege",
+              "attributes": 0
+            }
+          ]
+        },
+        "variants": [
+          {
+            "name": "baseline",
+            "phase": "collected",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-570eb86662ae474a8deda82ccac6794c.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ws2_32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\version.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcrt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\rpcrt4.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcrypt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\advapi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\sechost.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcryptprimitives.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_bz2.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_lzma.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_zstd.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_ctypes.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ole32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\libffi-8.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\combase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\gdi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\win32u.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\gdi32full.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcp_win.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\user32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\oleaut32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\shell32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel.appcore.dll"
+              }
+            ],
+            "exceptions": [
+              {
+                "code": "0x80000003",
+                "first_chance": 1
+              }
+            ],
+            "events": 2384,
+            "native_opens": [
+              {
+                "function": "NtOpenDirectoryObject",
+                "access": "0x3",
+                "root_handle": "0x0",
+                "name_utf16le": "5c004b006e006f0077006e0044006c006c007300",
+                "name": "\\KnownDlls",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSymbolicLinkObject",
+                "access": "0x1",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b006e006f0077006e0044006c006c005000610074006800",
+                "name": "KnownDllPath",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b00450052004e0045004c00330032002e0044004c004c00",
+                "name": "KERNEL32.DLL",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b00450052004e0045004c0042004100530045002e0064006c006c00",
+                "name": "KERNELBASE.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0x4",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00570069006e0064006f00770073005c00530068006100720065006400530065006300740069006f006e00",
+                "name": "\\Windows\\SharedSection",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenDirectoryObject",
+                "access": "0xf",
+                "root_handle": "0x0",
+                "name_utf16le": "5c0042006100730065004e0061006d00650064004f0062006a006500630074007300",
+                "name": "\\BaseNamedObjects",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "70007900740068006f006e003300310034002e0064006c006c00",
+                "name": "python314.dll",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "56004300520055004e00540049004d0045003100340030002e0064006c006c00",
+                "name": "VCRUNTIME140.dll",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "750063007200740062006100730065002e0064006c006c00",
+                "name": "ucrtbase.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "6200630072007900700074007000720069006d006900740069007600650073002e0064006c006c00",
+                "name": "bcryptprimitives.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "6c00690062006600660069002d0038002e0064006c006c00",
+                "name": "libffi-8.dll",
+                "status": "0xc0000034"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "6f006c006500330032002e0064006c006c00",
+                "name": "ole32.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "63006f006d0062006100730065002e0064006c006c00",
+                "name": "combase.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "470044004900330032002e0064006c006c00",
+                "name": "GDI32.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "770069006e003300320075002e0064006c006c00",
+                "name": "win32u.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "67006400690033003200660075006c006c002e0064006c006c00",
+                "name": "gdi32full.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "6d0073007600630070005f00770069006e002e0064006c006c00",
+                "name": "msvcp_win.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "5500530045005200330032002e0064006c006c00",
+                "name": "USER32.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "4f004c004500410055005400330032002e0064006c006c00",
+                "name": "OLEAUT32.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "7300680065006c006c00330032002e0044004c004c00",
+                "name": "shell32.DLL",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "6b00650072006e0065006c002e0061007000700063006f00720065002e0064006c006c00",
+                "name": "kernel.appcore.dll",
+                "status": "0xc0000034"
+              }
+            ],
+            "native_open_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": false,
+            "restricting_sids": [],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 3356,
+            "job_inherited": true,
+            "native_open_entrypoints": {
+              "NtOpenDirectoryObject": "0x7ffa8f8ae100",
+              "NtOpenSection": "0x7ffa8f8adce0",
+              "NtOpenSymbolicLinkObject": "0x7ffa8f8afbb0"
+            },
+            "exit_code": 0,
+            "native_open_pending_at_exit": null,
+            "trace": {
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 275496,
+              "sha256": "1ebbe160d8aa71aeaaa22c9bd0eb9fea4253c0b5058ce0ea056be8a3f3e0cc9a",
+              "xz_sha256": "fcc48adb9001089cc721970d39dff0d5606b047fb07e5bd28b3bd7b863b4ddaf",
+              "xz_base64": "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"
+            },
+            "breadcrumb": "python_entered\nbefore_import json\nafter_import json\nbefore_import pathlib\nafter_import pathlib\nbefore_import subprocess\nafter_import subprocess\nbefore_import tempfile\nafter_import tempfile\nbefore_import ctypes\nafter_import ctypes\nbefore_import ctypes.wintypes\nafter_import ctypes.wintypes\nbefore_load user32\nafter_load user32\nbefore_load shell32\nafter_load shell32\ncomplete\n"
+          },
+          {
+            "name": "restricted_compat",
+            "phase": "collected",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-570eb86662ae474a8deda82ccac6794c.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              }
+            ],
+            "exceptions": [],
+            "events": 156,
+            "native_opens": [
+              {
+                "function": "NtOpenDirectoryObject",
+                "access": "0x3",
+                "root_handle": "0x0",
+                "name_utf16le": "5c004b006e006f0077006e0044006c006c007300",
+                "name": "\\KnownDlls",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSymbolicLinkObject",
+                "access": "0x1",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b006e006f0077006e0044006c006c005000610074006800",
+                "name": "KnownDllPath",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b00450052004e0045004c00330032002e0044004c004c00",
+                "name": "KERNEL32.DLL",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0xd",
+                "root_handle": "0x3c",
+                "name_utf16le": "4b00450052004e0045004c0042004100530045002e0064006c006c00",
+                "name": "KERNELBASE.dll",
+                "status": "0x0"
+              },
+              {
+                "function": "NtOpenSection",
+                "access": "0x4",
+                "root_handle": "0x0",
+                "name_utf16le": "5c00570069006e0064006f00770073005c00530068006100720065006400530065006300740069006f006e00",
+                "name": "\\Windows\\SharedSection",
+                "status": "0x0"
+              }
+            ],
+            "native_open_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": true,
+            "restricting_sids": [
+              "S-1-5-21-385394198-2603589104-1765785984-1018",
+              "S-1-5-12"
+            ],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 5184,
+            "job_inherited": true,
+            "native_open_entrypoints": {
+              "NtOpenDirectoryObject": "0x7ffa8f8ae100",
+              "NtOpenSection": "0x7ffa8f8adce0",
+              "NtOpenSymbolicLinkObject": "0x7ffa8f8afbb0"
+            },
+            "exit_code": 3221225794,
+            "native_open_pending_at_exit": null,
+            "trace": {
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 19823,
+              "sha256": "97b225f0161be7c0b890c68f9b0ee6b0bf948e5c59eb96712eaf6bd53044d491",
+              "xz_sha256": "bf4ed5347a3730df1917465be0e50593189c14da619a5311dd0a76a866141506",
+              "xz_base64": "/Td6WFoAAATm1rRGAgAhARIAAAAjuIcs4E1uBWBdABiNLGA9mZx5Ah84n33+arXuzs5nxBt/YSSUB2KYXEm3PPp0F0z/FXpJwfy+HjQ5i/9tI7KfMiQrzVIEGTW+E6tC6w2IrbIqXsqce6Z+F9ZV9oHhIJD0G96nctOmjIlVII88ePj9psH6C40lbM587GYMAt2DuFiN3NLVo6h+pvRUPgoPVnl4JNdu5rXP58RhW/O78lHAyuJWsc02udM03eTdP6Nt9K3+8qQGZ+gnEcJ3EagUcRc9UXakgCvfRO1+zjGYlLef/qwfdG8jN/CMjTcwuYZnW1/ej8/jnykT02o4Viawbs3ajht9F9YnCubrboPA8mAhRSAxqH4G5ArwEklq5nB+77rNNlEd0SKtkFHt1oVQuwIJUYmQ8LGyTv2vaY5eK+nXaBjyBl7HQkoeElyXmzbZh7ua508yT5Ri7g9NbLyjRwWba9vQvcxCwSoq9YH6jMNS/rL09kr2O7ECm7589jlOqqZKFiqjpAKCb2CddVJS67abxfoB22MbMofp4IBFtysdfnHPYwZ4WL6YRIgVBZuGyHjdDobTPv6G9ATO0tLCBZf3eeIjtQIqP/lVR+/TZcYh/ZLtSMzSl9StKj0Xw4PhnJ9XU0h0dx6jcT5npN0PfBf38D3qQtjwHUFiIi2Oc5zqnqRm4ZA8xWk+7l3+zx75gHLwBZyhyd4/x7eDL4GcjZRJi5pSvHBDVoicxsAH2p5kRYVCQDJLG2HzBUpl/wVouuyROnrhw/eoeYfcLijo0bAtSWjB33GiGdcmOKUXMxbWKQjFiG4EP3/B9XQwazgBkAsOBxpAE9HQlUzorDZrc6YRB4Nfhy2WtLWyVNDz9YsUamKF4zbDMBHhVNWl1vX+lgxFr3NW9LzKslaXAwgupyTAOpik4IqdI75GiWt8tKeTs/68e5g8xON16HMN2UW3YnxxxUc7w1vdXs6dn8uhMaMZjDQ/kCt0uTtRFnMaMVeMhkTWdMzy5Zb6kxVZI5p2nbvlYIVmnMSJ2FimTB/kvSbnI0YwPHiV+Sz6o0PV6O9ouummqRwEa+I3ck3SvwXqB72OhbgF2SVYvot0Se9ot6GWEBogxvDRIRoCppXojJD0D3J5ee67fDuMBEx4nL1dNwI9N6wbbQRmCI7rZtNrE0cY8R965O65Lyso1qtSYG+JTFlE4309RzQniIZyo8rN5pGKqUsdjdLJ4A5jcg2hussYPulh+vUv8z4TAhJITrT3KYQLApjdy3I6mXSEwbv5pO6mT2Vm6+43xLEzHINPiEUcsExQ5xyX+aVW0aexhw/eFKzYap23mlf39S5cbKwNqjap+egkWYapOLLDV0SBeo401KVvtc+RoRc4Cp5B3PCzMYCyiIKvzNvOQ22aJEKncx67q25/aLtP0Aye0jUFRtNXLND1hO83IyPVNz9T/g2KULqp5nKDCqQZ9gj2fJKVZj0oAgCcwuhgeYivkG7N4p7X5Wo2Lv43Wv/NqcztmEkO4b1PKzpNVr62E6nKk4cDqh/1F40LtTypG0PvTo8AK7gDaFQjDD2FX/GuOj/hG8GKEcerKy1oscDo/anxjHiB3TB+xgYbGnKRVHacdVLDjWjaZ8yo1YFuDB8usCQTAtYIoVcwsFHJ+3AJCFow2Ri4oao0J87RJzu6CoScrz5EMbUvqFjenVWOJrv5F4DuHwAG+npZzhWGD96uSUDStNdhiV5gjqjnLhjj2WwIV0LGNrgCyQqSmWYtfG9ogVKByac/bIILAQBEqH8s6giGuMx810s/JXCKajrEJMF0rncW85oq7ijIziKwAHvh2ICf98lcI+cvVyBXjlrXrT1kosqVaZhewHkVtNutPpoyAGLxz28kSWVAAAH8Cu+aAQAXSDaMscRn+wIAAAAABFla"
+            },
+            "breadcrumb": null
+          }
+        ]
+      },
+      "image_sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "registry_scope": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\DiskEdLoader-570eb86662ae474a8deda82ccac6794c.exe",
+      "job_active_processes_at_retirement": 0,
+      "image_registry_removed": true,
+      "diagnostic_image_removed": true,
+      "original_runtime_preserved": true
+    },
+    "free_c_bytes": 97897799680
+  },
+  "host_backing_end_bytes": 31896633344,
+  "finished_at": "2026-10-19T09:47:18.5832407Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "cb33edaf76f66a843cce0cfad3fc2d9eb336e01da17408f0ec2a37acf72b7229",
+    "guest-proof.ps1": "b624a297f552de4042a9f3dbc131c394bb68e0b5e54445de67dabccef946b4ea",
+    "guest-proof.py": "bb4cc19ac8e76d0ca818d15145b254d49b7cc7afcd9293ede6861cd3c2d01793",
+    "loader-forensics.py": "74a3422187d241240f88b24f1ff34bc563e3f3f2fe1338920d7f8ac5892428aa",
+    "loader-observer.py": "61d42483b78ec9430a2bfff0ec22a2fafcca25e7bd897a396a614e87b303b6c0",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "f581fcf3972df35f9d1816079158eac6aae366b74a1a2a66a790f62f01c9213d",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 0,
+  "experiment_kind": "owned per-image loader tracing; no profile admission",
+  "host_error_tail": ""
+}
