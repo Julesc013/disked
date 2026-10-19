@@ -1,6 +1,6 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "fourteenth-compatibility-refusal.json: full candidate still exitsC0000142 before its normal receipt",
+  "base": "fifteenth-compatibility-trace.json: exact fresh-user+RC candidate still fails KernelBase DLL_PROCESS_ATTACH",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
   "actor": "Existing fresh standard-user debugger inside its containing job derives a privilege-filtered baseline and the exact fresh-user+S-1-5-12 restricting set. Verify actual complete token restricting sets before launching each debug-only child. Preserve prior user-only trace separately. No fallback.",
   "bounds": {
@@ -15,7 +15,9 @@
   "required": [
     "Baseline reaches complete and exits0; record actual restricted process outcome separately",
     "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
-    "Only known first breakpoint is continued; other exceptions remain not-handled",
+    "Continue only the first loader breakpoint and the explicitly owned initial-thread hardware breakpoints; other exceptions remain not-handled",
+    "Record NtOpenDirectoryObject,NtOpenSection,NtOpenSymbolicLinkObject entry arguments and return NTSTATUS on the owned initial thread; bound256 calls per case. Preserve UTF16 name bytes and unresolved root handles without inventing resolved names",
+    "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
     "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"
   ],
@@ -24,7 +26,9 @@
     "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/show-loader-snaps",
     "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags-details",
     "https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex",
-    "https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-debug_event"
+    "https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-debug_event",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadcontext",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext"
   ],
   "comparison": "Compare the full RC compatibility candidate to the retained user-only KernelBase failure. A different later failure is not equivalent to the same module failure. Both actual traces remain required."
 }

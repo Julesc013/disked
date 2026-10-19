@@ -1,0 +1,25 @@
+{
+  "source_revision": "d64e070a",
+  "scope": "Diagnostic collection only; no worker qualification",
+  "observations": [
+    {
+      "name": "baseline",
+      "exit_code": 0,
+      "restricting_sids": [],
+      "errors": []
+    },
+    {
+      "name": "restricted_compat",
+      "exit_code": 3221225794,
+      "restricting_sids": [
+        "S-1-5-21-385394198-2603589104-1765785984-1017",
+        "S-1-5-12"
+      ],
+      "errors": [
+        "15d4:175c @ 108426156 - LdrpInitializeNode - ERROR: Init routine 00007FFA8D109550 for DLL \"C:\\Windows\\System32\\KERNELBASE.dll\" failed during DLL_PROCESS_ATTACH"
+      ]
+    }
+  ],
+  "cleanup_verified": true,
+  "next_action": "Read-only native object-open arguments/status on the owned initial thread"
+}

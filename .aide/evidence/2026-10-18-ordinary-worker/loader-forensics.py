@@ -36,6 +36,18 @@ class EventData(C.Union):
 class Event(C.Structure):
     _fields_=[('code',T.DWORD),('pid',T.DWORD),('tid',T.DWORD),('data',EventData)]
 
+class Context64(C.Structure):
+    # SDK 10.0.19041 winnt.h AMD64 CONTEXT. The unused tail includes XMM,
+    # vector and branch state; only DEBUG_REGISTERS are ever written.
+    _fields_=[('homes',C.c_uint64*6),('flags',T.DWORD),('mxcsr',T.DWORD),
+        ('segments',T.WORD*6),('eflags',T.DWORD),('dr',C.c_uint64*6),
+        ('regs',C.c_uint64*16),('rip',C.c_uint64),('unused',C.c_ubyte*976)]
+
+def aligned_context():
+    storage=C.create_string_buffer(C.sizeof(Context64)+15)
+    context=Context64.from_address((C.addressof(storage)+15)&~15)
+    return storage,context
+
 def namespace_actor(plan):
     """Open/query existing object directories; never create or change one."""
     t=load('namespace_identity',ROOT/'target.py');b=load('namespace_base',ROOT/'tools/windows-worker.py')
@@ -131,6 +143,8 @@ def actor(plan):
     bind(k,'WaitForDebugEventEx',T.BOOL,C.POINTER(Event),T.DWORD)
     bind(k,'ContinueDebugEvent',T.BOOL,T.DWORD,T.DWORD,T.DWORD)
     bind(k,'ReadProcessMemory',T.BOOL,T.HANDLE,P,P,C.c_size_t,C.POINTER(C.c_size_t))
+    bind(k,'GetThreadContext',T.BOOL,T.HANDLE,P)
+    bind(k,'SetThreadContext',T.BOOL,T.HANDLE,P)
     bind(k,'GetFinalPathNameByHandleW',T.DWORD,T.HANDLE,T.LPWSTR,T.DWORD,T.DWORD)
     bind(k,'ResumeThread',T.DWORD,T.HANDLE)
     bind(k,'WaitForSingleObject',T.DWORD,T.HANDLE,T.DWORD)
@@ -143,6 +157,11 @@ def actor(plan):
     bind(a,'CreateRestrictedToken',T.BOOL,T.HANDLE,T.DWORD,T.DWORD,P,T.DWORD,P,T.DWORD,P,C.POINTER(T.HANDLE))
     bind(a,'CreateProcessAsUserW',T.BOOL,T.HANDLE,T.LPCWSTR,T.LPWSTR,P,P,T.BOOL,T.DWORD,P,T.LPCWSTR,P,C.POINTER(b.ProcessInfo))
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
+    assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
+    ntdll=C.WinDLL('ntdll')
+    selected_functions=('NtOpenDirectoryObject','NtOpenSection','NtOpenSymbolicLinkObject')
+    offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
+    assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[])
     original,sid,compatibility=T.HANDLE(),P(),P()
     require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
@@ -151,8 +170,23 @@ def actor(plan):
         require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
         for name,restricted_case in (('baseline',False),('restricted_compat',True)):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
-            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0)
+            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_opens=[],native_open_scope='Three ntdll entrypoints on the owned initial thread only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
+            watches=None;pending=None
+            def read(address,length):
+                assert address and 0<length<=4096
+                data=C.create_string_buffer(length);got=C.c_size_t()
+                require(k.ReadProcessMemory(process.process,address,data,length,C.byref(got)));assert got.value==length
+                return data.raw
+            def context():
+                storage,value=aligned_context();value.flags=0x100013
+                require(k.GetThreadContext(process.thread,C.byref(value)))
+                return storage,value
+            def watch(value,return_address=None):
+                value.flags=0x100010
+                value.dr[0]=watches[0];value.dr[1]=watches[1];value.dr[2]=return_address or 0;value.dr[3]=watches[2]
+                value.dr[4]=0;value.dr[5]=0x10 if return_address else 0x45
+                require(k.SetThreadContext(process.thread,C.byref(value)))
             try:
                 entries=(b.SidAttributes*2)(b.SidAttributes(sid,0),b.SidAttributes(compatibility,0))
                 require(a.CreateRestrictedToken(original,9 if restricted_case else 1,0,None,0,None,2 if restricted_case else 0,entries if restricted_case else None,C.byref(token)))
@@ -198,6 +232,12 @@ def actor(plan):
                             path=C.create_unicode_buffer(2048)
                             length=k.GetFinalPathNameByHandleW(file_handle,path,len(path),0) if file_handle else 0
                             row['modules'].append(dict(event=event.code,path=path.value if 0<length<len(path) else None))
+                            if length and Path(path.value).name.lower()=='ntdll.dll':
+                                assert event.tid==process.tid and watches is None
+                                watches=[info.base+offsets[name] for name in selected_functions]
+                                storage,value=context();assert value.dr[5]&0xff==0
+                                watch(value)
+                                row['native_open_entrypoints']={name:hex(address) for name,address in zip(selected_functions,watches)}
                         elif event.code==8:
                             info=event.data.string;n=info.length*(2 if info.unicode else 1);assert n<=131070
                             if n:
@@ -208,14 +248,38 @@ def actor(plan):
                                 trace.write(message)
                         elif event.code==1:
                             code=event.data.exception.record.code
-                            row['exceptions'].append(dict(code=hex(code),first_chance=event.data.exception.first))
-                            if code==0x80000003 and not initial_breakpoint_seen:initial_breakpoint_seen=True
-                            else:continuation=0x80010001
+                            if code==0x80000004 and event.tid==process.tid and watches:
+                                storage,value=context();hit=value.dr[4]&15
+                                if pending is not None and hit==4:
+                                    pending['status']=hex(value.regs[0]&0xffffffff)
+                                    row['native_opens'].append(pending);pending=None
+                                    watch(value)
+                                elif pending is None and hit in (1,2,8):
+                                    assert len(row['native_opens'])<256
+                                    index={1:0,2:1,8:2}[hit]
+                                    assert value.rip==watches[index]
+                                    attrs=read(value.regs[8],48)
+                                    root=int.from_bytes(attrs[8:16],'little');name_pointer=int.from_bytes(attrs[16:24],'little')
+                                    text=b''
+                                    if name_pointer:
+                                        descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
+                                        assert length<=1024 and length%2==0
+                                        if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
+                                    pending=dict(function=selected_functions[index],access=hex(value.regs[2]&0xffffffff),root_handle=hex(root),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
+                                    return_address=int.from_bytes(read(value.regs[4],8),'little')
+                                    watch(value,return_address)
+                                else:raise ValueError('Unexpected owned hardware breakpoint state')
+                            else:
+                                row['exceptions'].append(dict(code=hex(code),first_chance=event.data.exception.first))
+                                if code==0x80000003 and not initial_breakpoint_seen:initial_breakpoint_seen=True
+                                else:continuation=0x80010001
                         elif event.code==5:row['exit_code']=event.data.exit_code;exited=True
                     finally:
                         if file_handle:require(k.CloseHandle(file_handle))
                         require(k.ContinueDebugEvent(event.pid,event.tid,continuation))
                 trace.close();trace=None
+                row['native_open_pending_at_exit']=pending
+                assert watches is not None
                 assert k.WaitForSingleObject(process.process,5000)==0
                 raw=trace_path.read_bytes();compressed=lzma.compress(raw,filters=[dict(id=lzma.FILTER_LZMA2,preset=9|lzma.PRESET_EXTREME,dict_size=2097152)])
                 assert len(compressed)<=131072 and lzma.decompress(compressed)==raw
