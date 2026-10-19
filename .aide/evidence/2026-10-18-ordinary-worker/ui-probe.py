@@ -56,35 +56,36 @@ if '--console-child' in sys.argv:
             ok = k.GetConsoleMode(handle, C.byref(mode))
             report['console_mode'] = mode.value if ok else None
             report['console_mode_error'] = 0 if ok else C.get_last_error()
-            sys.path.insert(0, str(Path(__file__).parent / 'source/tests/frontend'))
-            import console_tui_fixture as fixture
-            value = fixture.info(handle)
-            report['console_geometry'] = dict(buffer=[value.size.X,value.size.Y],
-                viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
-            largest = fixture.api('GetLargestConsoleWindowSize',[T.HANDLE],fixture.Coord)(handle)
-            report['largest_viewport'] = [largest.X,largest.Y]
-            steps=[]
-            for name in ('SetConsoleWindowInfo','SetConsoleScreenBufferSize'):
-                original=getattr(fixture.k,name)
-                def observe(*args,_name=name,_original=original):
-                    result=_original(*args);error=C.get_last_error()
-                    steps.append(dict(api=_name,success=bool(result),error=0 if result else error))
-                    return result
-                setattr(fixture.k,name,observe)
-            try:
-                fixture.configure(handle,240,25)
-                report['configure_passed']=True
-            except OSError as error:
-                report['configure_passed']=False
-                report['configure_error']=error.winerror
-            report['configure_steps']=steps
-            value=fixture.info(handle)
-            report['configured_geometry']=dict(buffer=[value.size.X,value.size.Y],
-                viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
+            if '--basic' not in sys.argv:
+                sys.path.insert(0, str(Path(__file__).parent / 'source/tests/frontend'))
+                import console_tui_fixture as fixture
+                value = fixture.info(handle)
+                report['console_geometry'] = dict(buffer=[value.size.X,value.size.Y],
+                    viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
+                largest = fixture.api('GetLargestConsoleWindowSize',[T.HANDLE],fixture.Coord)(handle)
+                report['largest_viewport'] = [largest.X,largest.Y]
+                steps=[]
+                for name in ('SetConsoleWindowInfo','SetConsoleScreenBufferSize'):
+                    original=getattr(fixture.k,name)
+                    def observe(*args,_name=name,_original=original):
+                        result=_original(*args);error=C.get_last_error()
+                        steps.append(dict(api=_name,success=bool(result),error=0 if result else error))
+                        return result
+                    setattr(fixture.k,name,observe)
+                try:
+                    fixture.configure(handle,240,25)
+                    report['configure_passed']=True
+                except OSError as error:
+                    report['configure_passed']=False
+                    report['configure_error']=error.winerror
+                report['configure_steps']=steps
+                value=fixture.info(handle)
+                report['configured_geometry']=dict(buffer=[value.size.X,value.size.Y],
+                    viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
         finally:
             k.CloseHandle(handle)
 else:
-    child = subprocess.run([sys.executable, '-B', str(Path(__file__).resolve()), '--console-child'],
+    child = subprocess.run([sys.executable, '-B', str(Path(__file__).resolve()), '--console-child', *(['--basic'] if '--basic' in sys.argv else [])],
                            capture_output=True, creationflags=subprocess.CREATE_NEW_CONSOLE, timeout=15)
     report['console_child'] = dict(exit_code=child.returncode,
                                    stdout=child.stdout.decode(errors='replace')[-8192:],

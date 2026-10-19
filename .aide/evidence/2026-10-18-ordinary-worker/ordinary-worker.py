@@ -19,13 +19,14 @@ ROOT = Path('C:/ProgramData/DiskEd/qualification')
 
 
 class Worker:
-    def __init__(self, base, work, control, username, password, expected_sid, *, namespace_compat=False):
+    def __init__(self, base, work, control, username, password, expected_sid, *, namespace_compat=False, interactive_ui=False):
         if (os.name != 'nt' or socket.gethostname().casefold() != 'blackglass-hyperv' or
                 Path(__file__).resolve().parent != ROOT or
                 not re.fullmatch(r'DiskEdTest-[0-9a-f]{8}', username)):
             raise ValueError('Fixed guest and disposable actor identity required')
         self.base, self.bind, self.require = base, base.bind, base.require
         self.username = username
+        self.interactive_ui = interactive_ui
         self.work, self.control = base.plain_directory(work), base.plain_directory(control)
         if set(p.name for p in self.work.iterdir()) != {'owner.json'}:
             raise ValueError('Fresh owned worker directory required')
@@ -153,6 +154,34 @@ class Worker:
             self.k.LocalFree(descriptor)
 
     def create_desktop(self):
+        if self.interactive_ui:
+            self.bind(self.u,'GetUserObjectInformationW',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD,C.POINTER(T.DWORD))
+            self.bind(self.k,'ProcessIdToSessionId',T.BOOL,T.DWORD,C.POINTER(T.DWORD))
+            self.bind(self.k,'GetCurrentProcessId',T.DWORD)
+            session=T.DWORD();self.require(self.k.ProcessIdToSessionId(self.k.GetCurrentProcessId(),C.byref(session)))
+            current=self.require(self.u.GetProcessWindowStation())
+            name=C.create_unicode_buffer(1024);needed=T.DWORD()
+            self.require(self.u.GetUserObjectInformationW(current,2,name,C.sizeof(name),C.byref(needed)))
+            class Flags(C.Structure):_fields_=[('inherit',T.BOOL),('reserved',T.BOOL),('flags',T.DWORD)]
+            flags=Flags();self.require(self.u.GetUserObjectInformationW(current,1,C.byref(flags),C.sizeof(flags),C.byref(needed)))
+            if session.value!=3 or name.value!='WinSta0' or not flags.flags&1:
+                raise ValueError('Existing visible Agents session3 required; no fallback')
+            before=self.user_object_security(current)
+            descriptor=self.descriptor('D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+self.coordinator_sid+
+                ')(A;;0xf01ff;;;'+self.user_sid+')S:(ML;;NW;;;ME)')
+            desktop_name='Proof-'+uuid.uuid4().hex
+            try:
+                attributes=self.base.SecurityAttributes(C.sizeof(self.base.SecurityAttributes),descriptor,False)
+                self.desktop=self.require(self.u.CreateDesktopW(desktop_name,None,None,0,0xf01ff,C.byref(attributes)))
+            finally:self.k.LocalFree(descriptor)
+            after=self.user_object_security(current)
+            if before!=after:raise ValueError('Existing station security changed; no overwrite')
+            # Borrow the station; close only the newly owned hidden desktop.
+            self.desktop_name=name.value+'\\'+desktop_name
+            self.ui_security={'station':after,'desktop':self.user_object_security(self.desktop)}
+            self.ui_host=dict(session_id=session.value,station=name.value,visible=True,
+                              existing_station_security_unchanged=True)
+            return
         station_descriptor = self.descriptor('D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;' +
             self.coordinator_sid + ')(A;;0xf037f;;;' + self.user_sid + ')S:(ML;;NW;;;ME)')
         desktop_descriptor = self.descriptor('D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;' +

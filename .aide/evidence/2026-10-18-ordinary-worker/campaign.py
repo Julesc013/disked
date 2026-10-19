@@ -85,8 +85,11 @@ def main():
     focus_history='--focus-fat-history' in sys.argv or diagnose_history
     focus_invocations='--focus-invocations' in sys.argv
     focus_repairs='--focus-qualification-repairs' in sys.argv
+    interactive_ui='--interactive-ui' in sys.argv
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
+    if interactive_ui and not (full_native or '--crypto-full' in sys.argv):
+        raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
@@ -123,6 +126,9 @@ def main():
             if path.exists():storage.remove_owned_work(path,work,path.name)
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
+    if interactive_ui:
+        shutil.copyfile(HERE/'interactive-run.ps1',stage/'interactive-run.ps1')
+        if not full_native:shutil.copyfile(HERE/'ui-probe.py',stage/'ui-probe.py')
     native='--native-journey' in sys.argv
     native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
     if native:
@@ -134,6 +140,10 @@ def main():
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-'+str(size)+'mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=size)
+    if interactive_ui:
+        expected['interactive_ui']=True
+        expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned hidden desktop in existing visible WinSta0;no existing station ACL change'
+        expected['interactive_worker_review']=json.loads((HERE/'interactive-worker-plan.json').read_bytes())
     diagnostic='--diagnostic' in sys.argv
     startup_diagnostic='--startup-diagnostic' in sys.argv
     loader_diagnostic='--loader-diagnostic' in sys.argv
@@ -212,6 +222,10 @@ def main():
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
     if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if interactive_ui:
+        line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
+        setup=once(setup,line+'\n        $code=$LASTEXITCODE',
+            "        $dispatch=& ([scriptblock]::Create([IO.File]::ReadAllText((Join-Path $root 'interactive-run.ps1'))))\n        $log=@($dispatch.output)\n        $code=[int]$dispatch.exit_code")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     if full_native:
         setup=once(setup,'$acl.AddAccessRule($readRule);Set-Acl -LiteralPath $volumeRoot -AclObject $acl',
@@ -235,6 +249,10 @@ def main():
     host=once(host,"        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},", "        @{host=(Join-Path $PSScriptRoot 'ordinary-worker.py');relative='ordinary-worker.py'},\n        @{host=(Join-Path $PSScriptRoot 'target.py');relative='target.py'},\n        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'crypto-device.py');relative='crypto-device.py'},")
+    if interactive_ui:
+        selected=('interactive-run.ps1',) if full_native else ('interactive-run.ps1','ui-probe.py')
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if native:
         selected=('native-journey.py','native-journey.cpp')+native_files
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
@@ -277,6 +295,7 @@ def main():
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
     if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
+    if interactive_ui:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\interactive-input.xml","$root\interactive-result.json",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
     parser="$e=$null;$t=$null;foreach($f in Get-ChildItem -LiteralPath $args[0] -Filter '*.ps1'){$null=[Management.Automation.Language.Parser]::ParseFile($f.FullName,[ref]$t,[ref]$e);if($e.Count){throw ($e|Out-String)}}"
@@ -303,6 +322,7 @@ def main():
     if namespace:result['experiment_kind']='existing object namespace access checks; no profile admission'
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
+    if interactive_ui:result['interactive_scope']=expected['interactive_scope']
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'

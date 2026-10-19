@@ -40,7 +40,8 @@ def actor():
 def worker(work, private, *, namespace_compat=False):
     return O.Worker(W,work,Path(os.environ['DISKED_WORK_ROOT']),
                     private['DISKED_TEST_ACTOR_NAME'],private['DISKED_TEST_ACTOR_PASS'],
-                    private['DISKED_TEST_ACTOR_SID'],namespace_compat=namespace_compat)
+                    private['DISKED_TEST_ACTOR_SID'],namespace_compat=namespace_compat,
+                    interactive_ui=json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui',False))
 
 def plan(work, data):
     path=work/'launch.json'
@@ -203,7 +204,11 @@ def main():
         result['coordinator_integrity_sid']=instance.coordinator_integrity_sid
         result['actor_integrity_sid']=instance.integrity_sid
         result['private_ui_security']=instance.ui_security
-        assert all('(ML;;NW;;;ME)' in value for value in instance.ui_security.values())
+        if instance.interactive_ui:
+            assert '(ML;;NW;;;ME)' in instance.ui_security['desktop']
+            result['interactive_ui_host']=instance.ui_host
+        else:
+            assert all('(ML;;NW;;;ME)' in value for value in instance.ui_security.values())
         instance.apply_acl(outside,'D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;'+instance.coordinator_sid+')(A;OICI;0x1301bf;;;BU)')
         W.bind(instance.a,'ImpersonateLoggedOnUser',T.BOOL,T.HANDLE)
         W.bind(instance.a,'RevertToSelf',T.BOOL)
@@ -240,6 +245,17 @@ def main():
         assert set(p.name for p in outside.iterdir())=={'sentinel','inheritance-canary.bin'}
         result['normal_job_retirement']=retire_job(job);job=None;child.close();child=None
         W.require(instance.k.CloseHandle(canary));canary=None
+        if instance.interactive_ui:
+            job=S.WindowsJob()
+            child=instance.launch([sys.executable,'-B',str(ROOT/'ui-probe.py'),'--basic'],os.environ,job)
+            assert child.wait(timeout=30)==0
+            result['interactive_ui_observation']=json.loads(instance.log_path.read_bytes())
+            assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
+            assert result['interactive_ui_observation']['libraries'][0]['window_created']
+            console=result['interactive_ui_observation']['console_child']
+            assert console['exit_code']==0 and not console['stderr']
+            assert json.loads(console['stdout'])['console_opened']
+            result['interactive_ui_job_retirement']=retire_job(job);job=None;child.close();child=None
         instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
         controller_log=Path(os.environ['DISKED_WORK_ROOT'])/'controller.log'
