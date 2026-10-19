@@ -123,7 +123,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 unfinished. At9357f819 the six-mask trusted standard-user matrix isolates WINSTA_EXITWINDOWS:0x2016b/0x2037f initialize User32;other four masks fail. All actual token/process sessions3,all jobs0,all exact station descriptors restored,actor/media/task/credential removed. Initial host guard expects an unused crypto receipt;cleanup-only removes small metadata. Candidate minimally adds EXITWINDOWS to actual restricted profile,with original token/filesystem/32MiB controls and explicit Default desktop access denial tests. No exit/logoff call permitted or tested; no worker/product qualification yet. Full current x64/privateWin32/main gates remain open.",
+  "summary": "DE-W105 remains in qualification. Atdccb6a19 original32MiB restricted GUI worker primitive passes: fresh Standard/Medium/non-AppContainer write-restricted user+RC,protected records,outside/source/backing/descendant denials,hardcap error112,owned abrupt interruption/held-file release. User32/GDI/console succeed in owned hidden desktop;clipboard/readscreen/stationsecurity/sharedDefault-desktop access denied. Scoped0x2016b grant includes User32-required EXITWINDOWS access;no exit/logoff action performed. Setup-fault recovery,exact descriptor restoration,crypto/account/task/credential/media/root cleanup pass. Product/full current x64/privateWin32/main qualification still pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -432,6 +432,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-metadata-cleanup.json"
+    },
+    {
+      "command": "Original32MiB confined ordinary GUI/console worker proof atdccb6a19",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-confined-gui-pass.json"
     }
   ],
   "artifacts": [
@@ -745,7 +752,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:f92cad3a60c5ab210c413712b6bcfd209a48081b67b1901e75d4aea86a7f9736"
+      "sha256": "sha256:0ff217065fa0db9799905fd3a5f093e7d583cdd75f6b2193bd9260ad466235f1"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -802,12 +809,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-retirement-scope-error.txt",
       "sha256": "sha256:683638924cd4870cac93eca6b77c0c8461fe03ca6cea3689d0859009dbc3d326"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-confined-gui-pass.json",
+      "sha256": "sha256:e7563c87134009a5e480c74294beaff80354375352ef7d6cb1259117381977ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-cleanup.json",
+      "sha256": "sha256:aca131d91fbe8d75c5420cabc647e21c2a0c2acd7a5a558e4987d5fd900e2aa0"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run original32MiB restricted worker controls in session3 with journaled0x2016b temporary station ACE;require protected records,source/outside/descendant denial,cap/job/interruption recovery,User32/console success,excluded station-right and Default-desktop access denials,exact grant/actor/media/task cleanup. Do not call logoff/shutdown or interact with shared desktop. Then focused six native groups and full current gates before main integration.",
+  "next_safe_step": "Run focused six native repair groups with --focus-qualification-repairs --interactive-ui using proven restricted profile. Preserve original assertions and bounded scratch. On pass run full current x64 then privateWin32/detail/source/tooling review and integrate tested dev into main;continue W106/W107 afterward.",
   "performed_remote_writes": true
 }
