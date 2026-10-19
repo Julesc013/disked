@@ -129,7 +129,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/memory-desktop-driver.py"
   ],
-  "summary": "DE-W105 still unqualified. Pair82 at525de4cb now retains complete evidence:old NULL-security desktop gives User32 error1114;actual explicit factory desktop loads User32 and native256MiB memory guard succeeds. All cleanup passes. Remaining assertion fails because Windows serializes numeric desktop rights as symbolic ACE strings and marks SACL auto-inherited. Reviewed candidate compares exact DACL/label ACE bytes to unchanged fixed user/SYSTEM0xf01ff and Medium/NW expectations and requires protected DACL;raw SDDL/control retained. No SID/mask/ACE/label relaxation. AST/PS5.1 preparation passes;semantic native regression not yet run.",
+  "summary": "DE-W105 full qualification remains open. Paired native83 atc501f425 passes:old inherited desktop reproduces User32 error1114;actual fixed fixture desktop loads User32 and unchanged production256MiB guard is ready. Actual DACL ACE bytes match only exact user/SYSTEM0xf01ff,mandatory Medium/NW label matches,and DACL is protected;raw SDDL/control retained. Exact source/artifact/import identities and both closed desktop/child outcomes retained. All station/namespace/crypto grants,task/credential/actor/media/source/build output removed. Next:replay five GUI-dependent failures plus verification_commands,six-group scope;then full180/currentWin32/review/main gate. No owner/release/full-product claim.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -578,6 +578,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-desktop-format-refusal.json"
+    },
+    {
+      "command": "Paired old/current native desktop startup and exact ACL/label/protection atc501f425;all cleanup",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-owned-desktop-pass.json"
     }
   ],
   "artifacts": [
@@ -891,7 +898,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:0c4dc7ce0dcaf90b969f0d145948e73e9da3ba3189d14959d28a51a3c22a37f2"
+      "sha256": "sha256:e2dd04c7df974563d4132a20f9edca3a19a96055786e960d4eb76e65e8ee39f0"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1068,12 +1075,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/desktop-security-review.json",
       "sha256": "sha256:2e324473312f2ad61baff324be8db46e5a99fa94b8c66c95555054d8a059c128"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-owned-desktop-pass.json",
+      "sha256": "sha256:acbc16c883d4ea615cb675f904f344eca5f05682d04bdff2b992c378a8bcc083"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-cleanup.json",
+      "sha256": "sha256:72252ef7aa7366e3eefaab89f75f3bcf400c202bca74c80542efa7f81008748f"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Rerun tiny native-memory paired case with exact ACL/label byte and protection validation. After pass replay six original native groups then full180/currentWin32/detailed source/tooling/C90 applicability review before main. No owner/release/full-product claim.",
+  "next_safe_step": "Run --focus-qualification-repairs --interactive-ui with actual owned-desktop fixture. If pass,full180 x64/current privateWin32/detailed retained-case/source/tooling/C90 applicability review and tested dev\u2192main integration;continue W106/W107. Preserve genuine new failures.",
   "performed_remote_writes": true
 }
