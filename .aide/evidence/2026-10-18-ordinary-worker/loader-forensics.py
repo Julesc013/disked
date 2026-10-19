@@ -159,7 +159,7 @@ def actor(plan):
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
     ntdll=C.WinDLL('ntdll')
-    selected_functions=('NtMapViewOfSection','NtAlpcConnectPort','NtSecureConnectPort')
+    selected_functions=('CsrClientConnectToServer','RtlSetLastWin32ErrorAndNtStatusFromNtStatus','RtlSetLastWin32Error')
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[])
@@ -251,7 +251,8 @@ def actor(plan):
                             if code==0x80000004 and event.tid==process.tid and watches:
                                 storage,value=context();hit=value.dr[4]&15
                                 if pending is not None and hit==4:
-                                    pending['status']=hex(value.regs[0]&0xffffffff)
+                                    pending['returned_rax_low32']=hex(value.regs[0]&0xffffffff)
+                                    if pending['function']=='CsrClientConnectToServer':pending['status']=hex(value.regs[0]&0xffffffff)
                                     row['native_calls'].append(pending);pending=None
                                     watch(value)
                                 elif pending is None and hit in (1,2,8):
@@ -259,12 +260,7 @@ def actor(plan):
                                     index={1:0,2:1,8:2}[hit]
                                     assert value.rip==watches[index]
                                     pending=dict(function=selected_functions[index],arguments=[hex(value.regs[i]) for i in (1,2,8,9)])
-                                    if index in (1,2):
-                                        name_pointer=value.regs[2];text=b''
-                                        descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
-                                        assert length<=1024 and length%2==0
-                                        if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
-                                        pending.update(name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
+                                    if index in (1,2):pending['error_argument_low32']=hex(value.regs[1]&0xffffffff)
                                     return_address=int.from_bytes(read(value.regs[4],8),'little')
                                     watch(value,return_address)
                                 else:raise ValueError('Unexpected owned hardware breakpoint state')
