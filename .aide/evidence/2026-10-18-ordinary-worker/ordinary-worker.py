@@ -355,10 +355,26 @@ class Worker:
                 raise ValueError('Unrestricted baseline is limited to the owned startup observer')
             selected_token=self.original if diagnostic_original else self.token
             self.last_launch['token_kind']='fresh_standard_baseline' if diagnostic_original else 'write_restricted'
+            token_session=T.DWORD();token_size=T.DWORD()
+            if a.GetTokenInformation(selected_token,12,C.byref(token_session),C.sizeof(token_session),C.byref(token_size)):
+                self.last_launch['input_token_session_id']=token_session.value
             self.require(a.CreateProcessWithTokenW(selected_token, 0, executable,
                 C.create_unicode_buffer(line), flags, block, str(self.work),
                 C.byref(startup), C.byref(process)))
             self.last_launch['api_succeeded']=True
+            # Read the actual suspended child's session before its first
+            # instruction; do not infer it from the coordinator or input token.
+            child_token=T.HANDLE();session=T.DWORD();needed=T.DWORD()
+            self.bind(k,'ProcessIdToSessionId',T.BOOL,T.DWORD,C.POINTER(T.DWORD))
+            if k.ProcessIdToSessionId(process.pid,C.byref(session)):
+                self.last_launch['child_process_session_id']=session.value
+            if a.OpenProcessToken(process.process,8,C.byref(child_token)):
+                try:
+                    if a.GetTokenInformation(child_token,12,C.byref(session),C.sizeof(session),C.byref(needed)):
+                        self.last_launch['child_token_session_id']=session.value
+                    else:self.last_launch['child_token_session_error']=C.get_last_error()
+                finally:k.CloseHandle(child_token)
+            else:self.last_launch['child_token_open_error']=C.get_last_error()
             self.require(job.api.AssignProcessToJobObject(job.handle, process.process))
             if k.ResumeThread(process.thread) == 0xffffffff:
                 raise C.WinError(C.get_last_error())

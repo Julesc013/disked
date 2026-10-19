@@ -219,6 +219,17 @@ def main():
         (outside/'baseline').unlink();result['ordinary_group_write_control']=True
         source_before=hashlib.sha256((ROOT/'ordinary-worker.py').read_bytes()).hexdigest()
         request=plan(normal,data)
+        if instance.interactive_ui:
+            observer=normal/'startup-request.json'
+            observer.write_text(json.dumps(dict(variant='interactive-standard-baseline',user_sid=data['sid'],desktop=instance.desktop_name)))
+            job=S.WindowsJob()
+            child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(observer),'startup'],
+                                  os.environ,job,diagnostic_original=True)
+            code=child.wait(timeout=15)
+            result['standard_startup_diagnostic']=dict(exit_code=code,parameters=instance.last_launch,
+                log=instance.log_path.read_bytes()[-8192:].decode(errors='replace'),
+                scope='Trusted existing startup observer under original fresh standard-user token only;not worker admission')
+            result['standard_startup_job_retirement']=retire_job(job);job=None;child.close();child=None
         W.bind(instance.k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(W.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
         W.bind(instance.k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD)
         sa=W.SecurityAttributes(C.sizeof(W.SecurityAttributes),None,True)
