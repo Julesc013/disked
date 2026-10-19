@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "d62f10c98d60264c3bc3e4217a22de13894a1b8a",
-  "spec_manifest_digest": "sha256:2972e11d333d0060ea84b0d37ca63889e3690dd2d868943edd769945f6884e49",
+  "base_revision": "792d66b0d132e52f445b6c9f3ae575178b073810",
+  "spec_manifest_digest": "sha256:08e213869db629b6c7adf98aba6b4fcce5da83fd86a9beb7326b9f39f1596b95",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -56,10 +56,13 @@
     "source/platform/windows/verification_worker.cpp",
     "source/platform/windows/worker_files.h",
     "spec/architecture/execution-topology.md",
+    "spec/catalog/artifact-checker-prototype.json",
     "spec/catalog/nt-inventory-advance-prototype.json",
     "spec/generated/index.json",
     "spec/manifest.json",
     "spec/work/units.json",
+    "tests/artifacts/test_artifact_check.py",
+    "tests/evidence/test_file_export.py",
     "tests/evidence/test_joined_report_worker.py",
     "tests/evidence/test_report_worker.py",
     "tests/evidence/test_verification_worker.py",
@@ -75,9 +78,11 @@
     "tests/resilience/test_worker_ancestry.py",
     "tests/resilience/test_worker_budget.py",
     "tests/windows/inventory_events.py",
-    "tests/windows/native/inventory_advance_probe.cpp"
+    "tests/windows/native/inventory_advance_probe.cpp",
+    "tools/build-inputs.json",
+    "tools/release/artifact_check.py"
   ],
-  "summary": "DE-W105 remains partial. Original32/512MiB worker controls and actual restricted x64 compiler/store journey pass. f86f72fa all-target x64 build passes with178 registration,68 headers and14 executable observations; first group passes and original FAT review fails. Focused evidence identifies native Low versus Python Medium integrity from Low executable labels. d62f10c9 original FAT review passes after a controlled Low-to-Medium handoff of only owned new executables,with exact bytes/hashes/owner/group/DACL unchanged and native Medium/exact-user/restricting-SID verification. All completed guest jobs,temporary kernel ACEs,actors/profiles,source andimages retired. Full178 test gate remains pending;main stays98b75739. No owner/release/full0.1.0 acceptance.",
+  "summary": "DE-W105 partial. Focused FAT review passes at d62f10c9 after verified Medium artifact handoff. Attempt48 at792d66b0 completes the x64 build but records14 passing/six failing groups, then a further file-export failure has empty JUnit. Capped guest storage fills and raw archive finalization fails; only structured receipts/command tails survive. All owned processes/security grants/actor/image/source retire, including guarded source cleanup recovery. Working-tree repairs enumerate all inventory generations before hashing, add missing schema-export source inputs, stage disposable pinned Python tooling, retire compiler objects after build checks and retire per-group temporary fixtures under their restricted owner.52 artifact checks and253 spec/143 tooling tests pass; actual new cleanup/dependency/native behaviors remain to be evaluated. Strict C90 syntax passes on ten NTFS C units/two headers. Main promotion,owner acceptance,release and full0.1.0 remain open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -129,7 +134,35 @@
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json"
     },
     {
-      "command": "Complete current178-group native test qualification",
+      "command": "Attempt48 full x64 qualification:14 recorded groups pass,six fail,then disk-full/JUnit/archive failure",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-failure.json"
+    },
+    {
+      "command": "Guarded recovery removes exact owned source; final guest cleanup completes",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-cleanup.json"
+    },
+    {
+      "command": "Artifact staging/archive regressions after enumeration repair:52 checks",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-inventory-retest.json"
+    },
+    {
+      "command": "Exact792d66b0 C90 syntax:ten portable NTFS C units,two standalone headers,no product execution",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/c90-result.json"
+    },
+    {
+      "command": "New native repair/profile/dependency campaign and complete178 gate",
       "cwd": "Windows10 guest",
       "status": "not_run",
       "exit_code": null,
@@ -163,7 +196,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:3835ce55b6a13172df087178145fc43fc0f576aa331b9dfb1c66d8f3a51d5817"
+      "sha256": "sha256:69988e1a39e8cccbfdaa9e6771f7d386543d40d606ff4160964c67fe88771903"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -188,11 +221,35 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-cleanup.json",
       "sha256": "sha256:652bb5c76d4a078c53f287c9f929eaee62ade615493cf0441b47d138460d9119"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-inventory-retest.json",
+      "sha256": "sha256:775ddc991c57e4b34fcb2b97adbace6c07df2c4ac69197ea8ca4ab44f937d252"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-inventory-retest.log",
+      "sha256": "sha256:f9501be20d17d5a6291b0dc5012e8a7578332afa0efebe10e8cbdda43c313685"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/c90-result.json",
+      "sha256": "sha256:1cf5f0568a696626734ee72e78ae5063348b204353b3b86988ad7e694bac5dae"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-failure.json",
+      "sha256": "sha256:57358973a4800f5e645ffee325f76eec884121f933b34fc3a5e982cb402b0b54"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-cleanup.json",
+      "sha256": "sha256:8cf70ec75089f709b29e47dfd9d278db3d8ed06730e2d90f4755cd6fffc3f092"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-source-retirement-recovery.json",
+      "sha256": "sha256:3256168a041678175efd62f9b26f3045a699ab19cdd61e2cc7d3e64e2d69c303"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Run full178 using the prepared exact-source two-profile campaign and proven hash-verified artifact handoff. Retain unchanged group expectations,68 headers,14 executable observations,actual token/label/ACL/hash evidence and cleanup. Final W105 review before main promotion;then W106/107.",
+  "next_safe_step": "Prove confined PowerShell startup,diagnose original file-export regression with retained raw data,and validate disposable schema dependencies and owner cleanup. Keep512MiB cap,all assertions and native deadlines. Then full178/current Win32/detail review before tested dev-to-main promotion;W106/107 follow.",
   "performed_remote_writes": true
 }

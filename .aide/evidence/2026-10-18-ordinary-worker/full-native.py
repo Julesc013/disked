@@ -15,6 +15,8 @@ import sys
 import time
 import traceback
 import xml.etree.ElementTree as ET
+import zipfile
+from pathlib import PurePosixPath
 
 ROOT=Path('C:/ProgramData/DiskEd/qualification')
 SOURCE=ROOT/'source'
@@ -150,6 +152,25 @@ def coordinate(g):
                  GIT_CONFIG_COUNT='1',GIT_CONFIG_KEY_0='safe.directory',GIT_CONFIG_VALUE_0=str(SOURCE),
                  MSBUILDDISABLENODEREUSE='1',CMAKE_BUILD_PARALLEL_LEVEL='1',DISKED_TEST_OTHER_VOLUME_ROOT='C:\\',
                  PYTHONOPTIMIZE='0',PYTHONDONTWRITEBYTECODE='1')
+        if not expected.get('null_proof_only'):
+            dependency=json.loads((ROOT/'pydeps.json').read_bytes())
+            assert dependency['requirements_sha256']==retention.sha(SOURCE/'spec/tools/requirements.txt')
+            assert dependency['archive_sha256']==retention.sha(ROOT/'pydeps.zip')
+            assert 0<len(dependency['files'])<=2000 and 0<dependency['bytes']<=16*1024*1024
+            deps=work/'schema-dependencies';deps.mkdir();total=0
+            entries={row['path']:row for row in dependency['files']};assert len(entries)==len(dependency['files'])
+            with zipfile.ZipFile(ROOT/'pydeps.zip') as payload:
+                assert len(payload.infolist())==len(entries) and {p.filename for p in payload.infolist()}==set(entries)
+                for info in payload.infolist():
+                    name=PurePosixPath(info.filename);row=entries[info.filename]
+                    assert not name.is_absolute() and '..' not in name.parts and not any(c in info.filename for c in '\\:*?[]\0')
+                    assert not info.is_dir() and not stat.S_ISLNK(info.external_attr>>16) and info.file_size==row['bytes']<=4*1024*1024
+                    content=payload.read(info);total+=len(content);assert total<=16*1024*1024
+                    assert hashlib.sha256(content).hexdigest()==row['sha256']
+                    path=deps/str(name);path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(content)
+            assert total==dependency['bytes']
+            directory_acl(deps,source_acl);env['PYTHONPATH']=str(deps)
+            result['schema_dependencies']=dependency
         for key in ('CL','_CL_','LINK','_LINK_','CFLAGS','CXXFLAGS','LDFLAGS'):env.pop(key,None)
         cmake=Path('C:/Program Files/CMake/bin/cmake.exe');ctest=cmake.with_name('ctest.exe')
         active_stem=None
@@ -198,6 +219,10 @@ def coordinate(g):
         probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
         _,raw=run('build-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
         result['build_token']=json_record(raw);assert result['build_token']['user_sid']==coordinator_sid
+        if not expected.get('null_proof_only'):
+            schema_probe="import sys,json;sys.path.insert(0,sys.argv[1]);from specctl import Bundle;b=Bundle(sys.argv[2]);print(json.dumps(dict(schemas=len(b.schemas))))"
+            _,raw=run('schema-tools-and-source-closure',[sys.executable,'-B','-c',schema_probe,SOURCE/'spec/tools',SOURCE/'spec'],30)
+            result['schema_source_closure']=json_record(raw);assert result['schema_source_closure']['schemas']==95
         fixture_root=work/'symlink-fixture';fixture_root.mkdir()
         target,link=fixture_root/'source.img',fixture_root/'leaf.img';target.write_bytes(b'');os.symlink(target,link)
         assert link.is_symlink() and link.resolve()==target
@@ -246,10 +271,18 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         assert raw.decode().strip()==manifest['revision']
         _,raw=run('package-git-clean',[git,'-C',SOURCE,'status','--porcelain','--untracked-files=normal'],30);assert not raw
         if expected.get('null_proof_only'):
+            if expected.get('powershell_proof'):
+                shell=Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
+                command="[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);@{sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value;clr=[Environment]::Version.ToString();version=$PSVersionTable.PSVersion.ToString()}|ConvertTo-Json -Compress"
+                _,raw=run('package-powershell-clr-startup',[shell,'-NoLogo','-NoProfile','-NonInteractive','-Command',command],30)
+                observed=json.loads(raw.decode('utf-8-sig'))
+                assert observed['sid']==coordinator_sid and observed['clr'] and observed['version']
+                result['package_powershell']=dict(executable_sha256=retention.sha(shell),observation=observed,
+                    scope='Actual confined AppContainer startup only; ordinary restricted CLR remains unqualified')
             null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
             code,raw=run('package-git-after-null-removal',[git,'--version'],30,allow_failure=True)
             assert code==128 and b'/dev/null' in raw
-            result.update(status='pass',qualification='Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
+            result.update(status='pass',qualification='Confined PowerShell startup plus Null setup/recovery/real-Git/revocation; no product tests' if expected.get('powershell_proof') else 'Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
             return
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
@@ -345,6 +378,9 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             result['parent_read_diagnostic']=json_record(raw)
         selected=expected['focus_groups'] if focused else expected['groups']
         assert set(selected)<=set(expected['groups'])
+        if not focused:
+            build_checks=['build.boundaries','build.boundary_checker']
+            selected=build_checks+[name for name in selected if name not in build_checks]
         for test in selected:
             stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
             active_stem=stem
@@ -365,6 +401,25 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             if not passed:
                 result.setdefault('failed_native_groups',[]).append(test)
                 if focused:raise RuntimeError('Native group failed: '+test)
+            # No group consumes another group's temporary image tree. Retire it
+            # only after its complete process tree exits and its observations are
+            # archived. This also applies to mkdtemp callers without finalizers.
+            _,raw=run('retire-temp-'+test,[sys.executable,'-B',ROOT/'retire-temp.py',instance.native_temp],60)
+            retired=json_record(raw);assert retired['root_recreated_empty']
+            result.setdefault('group_temp_retirements',[]).append(dict(group=test,**retired))
+            if not focused and test=='build.boundary_checker':
+                # The build/header checks have consumed these files. Runtime
+                # tests execute the linked binaries and read retained CMake
+                # metadata; reproducible compiler objects are disposable now.
+                removed_count=removed_bytes=0
+                for path in build.rglob('*.obj'):
+                    for parent in [path.parent,*path.parent.parents]:
+                        g.W.plain_directory(parent)
+                        if parent==build:break
+                    info=path.lstat()
+                    assert path.resolve().is_relative_to(build.resolve()) and stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
+                    retention.retire_file(path);removed_count+=1;removed_bytes+=info.st_size
+                result['compiler_objects_retired_before_runtime_tests']=dict(count=removed_count,logical_bytes=removed_bytes)
         # Assertion failures do not discard unrelated evidence from this exact
         # build. Each group is a separate retired job. Infrastructure, resource
         # or timeout failures still abort immediately in run(). Any failed group
@@ -386,12 +441,22 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
     finally:
         try:
             stop()
+            if ordinary and instance and 'native_work' in locals() and (native_work/'temp').exists():
+                try:
+                    _,raw=run('final-test-temp-cleanup',[sys.executable,'-B',ROOT/'retire-temp.py',instance.native_temp],60)
+                    result['final_group_temp_cleanup']=json_record(raw)
+                except BaseException:
+                    result.update(status='fail',temp_cleanup_error=traceback.format_exc()[-8192:])
             if null_grant:
                 null_grant.retire(quiescent=quiescent);result['null_'+null_grant.role]=null_grant.report;null_grant.close()
             if instance:instance.close()
             if directory_grant:shared_read_access(False)
             if grant:grant.retire(quiescent=quiescent);result['crypto_device']=grant.report;grant.close()
             result.update(all_owned_processes_retired=True,crypto_device_retired=True,null_device_retired=True)
+            if source_prepared:
+                retired=subprocess.run([sys.executable,'-B',str(ROOT/'guest-source.py'),'retire'],capture_output=True,timeout=180)
+                if retired.returncode:raise RuntimeError('Source retirement: '+retired.stderr[-4096:].decode(errors='replace'))
+                result['source_retired']=json.loads((ROOT/'source-retired.json').read_bytes())
             if archive:
                 entries=json.dumps(archive.entries,sort_keys=True,separators=(',',':')).encode()
                 if len(entries)>4*1024*1024 or len(archive.entries)>20000:raise RuntimeError('Evidence entry inventory bound')
@@ -401,10 +466,6 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
                 assert archive.path.stat().st_size<=32*1024*1024
                 shutil.copyfile(archive.path,ROOT/'retained.tar.xz')
                 result.update(archive_sha256=retention.sha(ROOT/'retained.tar.xz'),archive_bytes=(ROOT/'retained.tar.xz').stat().st_size,archive_entries=len(archive.entries))
-            if source_prepared:
-                retired=subprocess.run([sys.executable,'-B',str(ROOT/'guest-source.py'),'retire'],capture_output=True,timeout=180)
-                if retired.returncode:raise RuntimeError('Source retirement: '+retired.stderr[-4096:].decode(errors='replace'))
-                result['source_retired']=json.loads((ROOT/'source-retired.json').read_bytes())
         except BaseException:
             result.update(status='fail',cleanup_error=traceback.format_exc()[-8192:]);raise
         finally:(ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')

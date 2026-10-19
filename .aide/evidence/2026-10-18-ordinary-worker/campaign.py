@@ -75,17 +75,25 @@ def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     cleanup_only='--cleanup-only' in sys.argv
     null_proof='--null-proof' in sys.argv
+    powershell_proof='--powershell-proof' in sys.argv
     focus_fat='--focus-fat-review' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof or focus_fat
+    focus_export='--focus-file-export' in sys.argv
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or focus_fat or focus_export
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    full_files=('full-native.py','null-device.py','build-driver.py','guest-source.py','source-snapshot.py','source.pack','source.json')
+    full_files=('full-native.py','null-device.py','retire-temp.py','build-driver.py','guest-source.py','source-snapshot.py','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
-        for name in full_files[:-2]:
-            origin=HERE/name if name in ('full-native.py','null-device.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+        for name in full_files[:-4]:
+            origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
+        if '--prepare-only' in sys.argv or cleanup_only or null_proof or powershell_proof:
+            (stage/'pydeps.zip').write_bytes(b'non-executable parser fixture');(stage/'pydeps.json').write_text('{}\n')
+        else:
+            ast.parse((HERE/'prepare-dependencies.py').read_bytes())
+            definition=importlib.util.spec_from_file_location('schema_setup',HERE/'prepare-dependencies.py');dependencies=importlib.util.module_from_spec(definition);definition.loader.exec_module(dependencies)
+            dependencies.prepare(ROOT,stage,work)
         if '--prepare-only' in sys.argv or cleanup_only:
             (stage/'source.pack').write_bytes(b'not-an-executable-qualification-pack');(stage/'source.json').write_text('{}\n')
         else:
@@ -121,10 +129,14 @@ def main():
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
-    if null_proof:expected['native_x64']['null_proof_only']=True
+    if null_proof or powershell_proof:expected['native_x64']['null_proof_only']=True
+    if powershell_proof:expected['native_x64']['powershell_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
         expected['native_x64']['focus_targets']=['fat_tree_review_probe','fat_tree_extraction_worker_probe']
+    if focus_export:
+        expected['native_x64']['focus_groups']=['evidence.file_export']
+        expected['native_x64']['focus_targets']=['file_report_export_probe','file_report_export_fault','fat_tree_extraction_worker_probe']
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())

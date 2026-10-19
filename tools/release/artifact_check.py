@@ -129,20 +129,25 @@ def inventory(staging,required):
                 walk(path)
             else:
                 no_link(path)
-                if len(rows)>=MAX_FILES or s.st_size>MAX_FILE:reject('staging_budget')
+                if len(files_seen)>=MAX_FILES or s.st_size>MAX_FILE:reject('staging_budget')
                 total+=s.st_size
                 if total>MAX_TOTAL:reject('staging_budget')
-                with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size)
-                if fingerprint(s)!=fingerprint(no_link(path)):reject('staging_changed')
-                files_seen.append((path,fingerprint(s)))
-                rows.append(dict(path=name,type='regular',bytes=str(s.st_size),sha256=sha))
+                files_seen.append((path,s))
         if fingerprint(before)!=fingerprint(no_link(directory,True)):reject('staging_changed')
     walk(root)
+    # Capture every file's initial generation before hashing any file. Otherwise
+    # a hash of an earlier sibling can race a later file's first enumeration and
+    # silently make that changed file the inventory's starting state.
+    for path,initial in files_seen:
+        if fingerprint(initial)!=fingerprint(no_link(path)):reject('staging_changed')
+        with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size)
+        if fingerprint(initial)!=fingerprint(no_link(path)):reject('staging_changed')
+        rows.append(dict(path=path.relative_to(root).as_posix(),type='regular',bytes=str(initial.st_size),sha256=sha))
     rows.sort(key=lambda x:x['path']);value=dict(schema=SCHEMA,required_entrypoints=sorted(required),files=rows);validate_inventory(value)
     _,parents=closure(x['path'] for x in rows)
     if set(directories)!=parents:reject('empty_staging_directory')
     if any(expected!=fingerprint(no_link(p,True)) for p,expected in directories_seen):reject('staging_changed')
-    if any(expected!=fingerprint(no_link(p)) for p,expected in files_seen):reject('staging_changed')
+    if any(fingerprint(expected)!=fingerprint(no_link(p)) for p,expected in files_seen):reject('staging_changed')
     return value
 
 def load_inventory(path):

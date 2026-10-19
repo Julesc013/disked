@@ -21,6 +21,24 @@ Medium; executable bytes, owner, group and DACL remain unchanged. See
 `forty-seventh-medium-fat-review-pass.json` and its cleanup/archive. This is one
 focused regression; the full 178-group test gate is still required.
 
+Attempt 48 at `792d66b0` completes the all-target build, then records 20 native
+group results: 14 pass and six fail. A further file-export invocation returns
+failure, but its JUnit file is empty. The capped volume fills and compressed
+archive finalization fails; **no complete raw archive survives this run**.
+`forty-eighth-full-x64-cap-failure.json` retains structured results and bounded
+command tails. Its separate source-retirement recovery and final cleanup receipts
+confirm removal of the owned jobs, grants, actor, source and image.
+
+The next recipe retires compiler objects after the build-boundary/header checks
+and retires each group's temporary images under the same restricted fixture
+owner after its job exits. No budget or native deadline increases. Schema-export
+tests also need the declared concepts catalog and pinned modern Python tooling
+inside disposable scratch. PowerShell CLR/profile and file-export failures remain
+open. The staging inventory race is repaired by enumerating all file generations
+before hashing: `artifact-inventory-retest.json` records all 52 checks passing.
+`c90-result.json` separately records syntax-only checks on ten exact-source NTFS C
+units and two headers using installed host GCC; no product code executes there.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git
@@ -30,7 +48,8 @@ real Git calls and post-removal denial. No product-record ACL was relaxed.
 
 This is a guest-only development experiment under the existing owner grant.
 Agents coordinates. Each run creates one nonce/SID-bound **temporary standard
-user**, a new fixed 32 MiB virtual disk inside the guest and private UI objects.
+user**, a new fixed 32 MiB control disk or 512 MiB campaign disk inside the guest,
+and private UI objects.
 No customer/physical media, shared-account resets, extra persistent administrator,
 host UAC change, profile loading or product-record ACL relaxation is involved.
 

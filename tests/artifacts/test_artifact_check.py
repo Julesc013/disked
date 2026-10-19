@@ -204,6 +204,14 @@ class Artifacts(unittest.TestCase):
         def change(file,size):
             result=original(file,size);(self.stage/'docs/readme.txt').write_bytes(b'changed while file open');return result
         with patch.object(check,'hash_file',change),self.assertRaises(check.Rejected):check.inventory(self.stage,['disked.exe'])
+    def test_later_sibling_changes_once_before_its_hash(self):
+        original=check.hash_file;calls=[]
+        def change(file,size):
+            result=original(file,size);calls.append(True)
+            if len(calls)==1:(self.stage/'docs/readme.txt').write_bytes(b'changed before its own hash')
+            return result
+        with patch.object(check,'hash_file',change),self.assertRaises(check.Rejected):check.inventory(self.stage,['disked.exe'])
+        self.assertEqual(len(calls),1)
     def test_inventory_json_duplicate_key(self):
         p=self.work/'expected.json';p.write_bytes(b'{"schema":"x","schema":"y"}')
         with self.assertRaises(check.Rejected):check.load_inventory(p)
