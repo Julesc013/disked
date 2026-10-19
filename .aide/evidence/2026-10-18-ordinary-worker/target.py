@@ -219,7 +219,8 @@ def main():
         return
     result = identity()
     assert result['restricted'] and not any(result[k] for k in ('administrator','elevated','appcontainer'))
-    assert result['user_sid'] == result['restricting_sid'] == plan['user_sid']
+    assert result['user_sid']==plan['user_sid'] and plan['profile']=='fresh-user-restricted-code/v1'
+    assert len(result['restricting_sids'])==2 and set(result['restricting_sids'])=={plan['user_sid'],'S-1-5-12'}
     assert result['integrity_sid']=='S-1-16-8192'
     result['stdio']=[]
     for which in (0xfffffff6,0xfffffff5,0xfffffff4):

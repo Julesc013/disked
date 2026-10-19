@@ -1,0 +1,38 @@
+{
+  "source_revision": "909cc077826d3737a948edbadb74e6164cfbce95",
+  "status": "read_only_diagnostic_collected",
+  "observations": 60,
+  "key_rows": [
+    {
+      "token": "baseline",
+      "path": "\\BaseNamedObjects\\Restricted",
+      "access": "0x7",
+      "status": "0x0"
+    },
+    {
+      "token": "baseline",
+      "path": "\\BaseNamedObjects\\Restricted",
+      "access": "0x20003",
+      "status": "0x0",
+      "security_status": "0x0",
+      "dacl": "D:(A;;CCDCLCSWRC;;;WD)(A;;CCDCLCSWRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-0)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+    },
+    {
+      "token": "restricted",
+      "path": "\\BaseNamedObjects\\Restricted",
+      "access": "0x7",
+      "status": "0xc0000022"
+    },
+    {
+      "token": "restricted",
+      "path": "\\BaseNamedObjects\\Restricted",
+      "access": "0x20003",
+      "status": "0x0",
+      "security_status": "0x0",
+      "dacl": "D:(A;;CCDCLCSWRC;;;WD)(A;;CCDCLCSWRC;;;RC)(A;;CCDCLCSWSDRCWDWO;;;S-1-5-90-0-0)(A;;CCDCLCSWSDRCWDWO;;;SY)"
+    }
+  ],
+  "interpretation": "Write-restricted exact-user token lacks create access to the existing restricted object namespace. Its observed DACL grants that access to RC. The KernelBase failure and this difference justify testing a separately declared RC compatibility candidate; they do not qualify it.",
+  "no_namespace_mutation": true,
+  "full_profile_qualified": false
+}

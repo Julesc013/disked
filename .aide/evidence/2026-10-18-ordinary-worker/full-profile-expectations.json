@@ -1,14 +1,19 @@
 {
   "status": "candidate_not_qualified",
-  "basis": "Retained startup diagnostics: basic forms create processes, then exitC0000142 during DLL initialization.",
-  "startup": "CreateProcessWithTokenW with basic STARTUPINFO,explicit owned capped stdout/stderr and NUL stdin; no extended attribute flag or API fallback.",
-  "private_ui": "Actual user gets full access to its new private window station/desktop. Both new UI objects have explicit medium mandatory labels; no shared UI object or product record ACL changes.",
-  "required_extra_checks": [
-    "Actual UI security descriptors and actor/coordinator integrity observations",
-    "Excluded inheritable canary remains inaccessible in the child",
-    "Actual stdout/stderr volume and file identities equal the coordinator-owned capped sink",
-    "Every u64 identity remains a decimal string through PowerShell JSON retention"
+  "profile": "fresh-user-restricted-code/v1",
+  "basis": "Twelfth loader trace identifies KERNELBASE initialization failure before Python/USER32. Thirteenth namespace probe observes create-access denial for user-only restricting SID and existing RC grants on BaseNamedObjects/Restricted.",
+  "explicit_candidate_change": "Supersedes the initial informative candidate's user-only/no-broad-restricting-SID choice. Use exactly the fresh user SID and the shared Windows Restricted Code SID S-1-5-12. Do not claim the original candidate passed. No Everyone,Users,Administrators,extra privilege,shared namespace/UI ACL or product-record ACL change.",
+  "authority_scope": "Private trusted-development-tool guest profile,not hostile-code or complete IPC isolation. RC is shared and objects granting it can be shared; do not infer per-worker privacy from that SID. This harness adds no RC ACE to any filesystem object. Its only introduced filesystem write ACE remains the fresh user capped workspace.",
+  "startup": "CreateProcessWithTokenW basic startup,owned capped stdio,NUL stdin,private UI and containing job before resume. No fallback.",
+  "required_token": "Actual user is the exact fresh SID; actual restricting SID set is exactly {fresh SID,S-1-5-12},with exactly two entries. Nonelevated,nonadmin,non-AppContainer,medium integrity,no enabled privilege except traversal. Descendants retain the same facts.",
+  "unchanged_full_controls": [
+    "Protected exact-user-only record create,reopen,read/update and independent digest/SDDL verification",
+    "Ordinary-group writable outside control succeeds before restriction,then is denied under the actual worker; source/backing writes denied",
+    "Excluded inheritable canary absent; exact declared stdout/stderr file identities; temp/user state only under cap",
+    "Actual32MiB filesystem exhaustion without spillover or larger budget",
+    "Actual descendant restriction,abrupt controller exit,strong process retirement and held-file release",
+    "Exact actor/profile,image,source and newly owned setup cleanup; preserve unrelated work"
   ],
-  "unchanged_full_controls": "All original token,protected user-only record create/reopen/update,ordinary-group control,outside/backing/source refusal,cap exhaustion,inherited restriction,abrupt controller/descendant exit and owned account/image/source cleanup checks remain required.",
+  "qualification_limits": "Primitive proof alone does not admit the512MiB composition,compiler/store journey,full178-group product,other OS or production broker.",
   "full_product_qualified": false
 }

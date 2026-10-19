@@ -19,7 +19,7 @@ ROOT = Path('C:/ProgramData/DiskEd/qualification')
 
 
 class Worker:
-    def __init__(self, base, work, control, username, password, expected_sid):
+    def __init__(self, base, work, control, username, password, expected_sid, *, namespace_compat=False):
         if (os.name != 'nt' or socket.gethostname().casefold() != 'blackglass-hyperv' or
                 Path(__file__).resolve().parent != ROOT or
                 not re.fullmatch(r'DiskEdTest-[0-9a-f]{8}', username)):
@@ -75,15 +75,24 @@ class Worker:
             self.user_sid = self.identity(self.original)
             if self.user_sid != expected_sid or self.user_sid == self.coordinator_sid:
                 raise ValueError('Actual logon SID differs from owned disposable actor')
-            restricting = P()
+            restricting,compatibility = P(),P()
             self.require(self.a.ConvertStringSidToSidW(self.user_sid, C.byref(restricting)))
             try:
-                entry = base.SidAttributes(restricting, 0)
+                self.restricting_sids=[self.user_sid]
+                if namespace_compat:
+                    self.require(self.a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
+                    self.restricting_sids.append('S-1-5-12')
+                entries=(base.SidAttributes*len(self.restricting_sids))()
+                entries[0]=base.SidAttributes(restricting,0)
+                if namespace_compat:entries[1]=base.SidAttributes(compatibility,0)
                 # Win10: DISABLE_MAX_PRIVILEGE | WRITE_RESTRICTED. No LUA or
-                # SANDBOX_INERT flag and no broad restricting SID.
+                # SANDBOX_INERT flag. Full candidate v2 explicitly adds only
+                # the Windows restricted-code compatibility SID; diagnostics
+                # retain the original user-only candidate by default.
                 self.require(self.a.CreateRestrictedToken(self.original, 9, 0, None,
-                             0, None, 1, C.byref(entry), C.byref(self.token)))
+                             0, None, len(entries), entries, C.byref(self.token)))
             finally:
+                if compatibility:self.k.LocalFree(compatibility)
                 self.k.LocalFree(restricting)
             for kind in (20, 29):  # TokenElevation, TokenIsAppContainer
                 value, size = T.DWORD(), T.DWORD()

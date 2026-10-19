@@ -1894,10 +1894,10 @@
       "owner_accepted": false
     },
     "ordinary_worker_preparation": {
-      "state": "kernelbase_initialization_failure_proven_namespace_probe_prepared",
+      "state": "restricted_code_compatibility_candidate_prepared",
       "recipe": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
       "preflight": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "scope": "Owned per-image loader tracing proves KERNELBASE initialization fails before Python or USER32 loading; privilege-filtered baseline exits0. All job processes observed retired,nonce image/key removed and original runtime preserved. Next read-only six-directory/five-access-mask/two-token namespace probe records60statuses and available DACLs. Namespace cause is a hypothesis,not an admitted profile. No shared object change or broad SID.",
+      "scope": "KernelBase initialization failure and60read-only namespace checks identify user-only create-access denial versus existing RC grants on the restricted Windows object directory. Full prototype v2 explicitly selects exactly freshUser+S-1-5-12,without adding filesystem RC ACEs or changing any product ACL,namespace ACL,privilege or original cap/outside/record/exit criterion. It supersedes the failed informative no-broad-SID candidate; shared RC is not per-worker IPC privacy or hostile-code isolation. Full32MiB primitive evaluation pending.",
       "first_attempt": ".aide/evidence/2026-10-18-ordinary-worker/first-description-refusal.json",
       "first_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/first-description-cleanup.json",
       "second_attempt": ".aide/evidence/2026-10-18-ordinary-worker/second-handle-list-refusal.json",
@@ -1919,7 +1919,10 @@
       "forensic_contract": ".aide/evidence/2026-10-18-ordinary-worker/forensic-expectations.json",
       "loader_trace": ".aide/evidence/2026-10-18-ordinary-worker/twelfth-loader-trace.json",
       "loader_trace_review": ".aide/evidence/2026-10-18-ordinary-worker/twelfth-review.json",
-      "loader_trace_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/twelfth-loader-trace-cleanup.json"
+      "loader_trace_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/twelfth-loader-trace-cleanup.json",
+      "namespace_diagnostic": ".aide/evidence/2026-10-18-ordinary-worker/thirteenth-namespace.json",
+      "namespace_review": ".aide/evidence/2026-10-18-ordinary-worker/thirteenth-review.json",
+      "namespace_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/thirteenth-namespace-cleanup.json"
     },
     "managed_fixture_routes": {
       "state": "source_migrated_coordinator_checks_pass_native_execution_pending",

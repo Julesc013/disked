@@ -37,16 +37,16 @@ def actor():
     assert os.environ['DISKED_TEST_ACTOR_SID']==data['sid']
     return data
 
-def worker(work, private):
+def worker(work, private, *, namespace_compat=False):
     return O.Worker(W,work,Path(os.environ['DISKED_WORK_ROOT']),
                     private['DISKED_TEST_ACTOR_NAME'],private['DISKED_TEST_ACTOR_PASS'],
-                    private['DISKED_TEST_ACTOR_SID'])
+                    private['DISKED_TEST_ACTOR_SID'],namespace_compat=namespace_compat)
 
 def plan(work, data):
     path=work/'launch.json'
     state=json.loads((ROOT/'scratch/state.json').read_bytes())
     path.write_text(json.dumps(dict(user_sid=data['sid'],source=str(ROOT/'ordinary-worker.py'),
-        outside=str(ROOT/'scratch/outside'),backing=state['image'])))
+        outside=str(ROOT/'scratch/outside'),backing=state['image'],profile='fresh-user-restricted-code/v1')))
     return path
 
 def controller():
@@ -54,7 +54,7 @@ def controller():
     work=Path(sys.argv[2]);assert work==Path(json.loads((ROOT/'scratch/state.json').read_bytes())['work'])/'abrupt'
     instance,job,child=None,None,None
     try:
-        instance=worker(work,private); request=plan(work,data);job=S.WindowsJob()
+        instance=worker(work,private,namespace_compat=True); request=plan(work,data);job=S.WindowsJob()
         child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'hold'],os.environ,job)
         (work/'controller.json').write_text(json.dumps(dict(controller_pid=os.getpid(),worker_pid=child.pid)))
         child.wait(timeout=35)
@@ -186,7 +186,7 @@ def main():
         assert shutil.disk_usage(work_root).total<=32*1024*1024
         outside=ROOT/'scratch/outside';outside.mkdir()
         (outside/'sentinel').write_bytes(b'preserve-owned-sentinel')
-        normal=fresh(work_root/'normal'); instance=worker(normal,private)
+        normal=fresh(work_root/'normal'); instance=worker(normal,private,namespace_compat=True)
         result['coordinator_sid']=instance.coordinator_sid
         result['coordinator_integrity_sid']=instance.coordinator_integrity_sid
         result['actor_integrity_sid']=instance.integrity_sid
@@ -245,7 +245,8 @@ def main():
             assert identity['controller_pid']==coordinator.pid and identity['worker_pid']==held['pid']
             assert held['descendant_pid']==descendant['pid']
             for record in (held,descendant):
-                assert record['user_sid']==record['restricting_sid']==data['sid'] and record['restricted']
+                assert record['user_sid']==data['sid'] and record['restricted']
+                assert len(record['restricting_sids'])==2 and set(record['restricting_sids'])=={data['sid'],'S-1-5-12'}
                 assert not any(record[k] for k in ('administrator','elevated','appcontainer'))
             k=C.WinDLL('kernel32',use_last_error=True)
             W.bind(k,'OpenProcess',T.HANDLE,T.DWORD,T.BOOL,T.DWORD)
