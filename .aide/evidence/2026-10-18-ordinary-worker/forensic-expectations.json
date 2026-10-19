@@ -1,6 +1,6 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "twenty-third-detached-comparison.json at f0da6dd8: baseline completes, old restricted fails KernelBase stage600, detached restricted passes KernelBase stage700 then fails bcrypt DLL_PROCESS_ATTACH. No payload entry.",
+  "base": "twenty-third-detached-comparison.json at f0da6dd8: baseline completes, old restricted fails KernelBase stage600, detached restricted passes KernelBase stage700 then fails bcrypt DLL_PROCESS_ATTACH. No payload entry. Read-only byte-string metadata for exact bcrypt hash4aec9000 identifies NtOpenFile,NtOpenKey,NtDeviceIoControlFile names. This narrows probe selection; it is not complete import/usage proof.",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
   "actor": "One exact freshUser+RC detached case under the unchanged fresh standard-user debugger. No fresh baseline claimed: prior three-case comparison is retained separately. Collect only failure diagnosis; no full-profile admission.",
   "bounds": {
@@ -16,7 +16,7 @@
     "Retain actual detached exit/module/payload outcome, even on failure. Do not report a new unrestricted baseline or startup success without observed completion.",
     "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
     "Continue first loader breakpoint and explicitly owned entry/return hardware breakpoints for the three selected ntdll functions; other exceptions remain not-handled",
-    "Capture NtCreateFile,NtOpenKeyEx,NtOpenKey object names,UTF16 bytes,access,root handle,return address and NTSTATUS on the owned initial thread. Bound256 calls. Relative root handles remain unresolved; absent calls are not evidence of process-wide absence.",
+    "Capture NtOpenFile/NtOpenKey object names,UTF16 bytes,access,root handle,return address and NTSTATUS; NtDeviceIoControlFile device handle,control code,return status and non-final IOSB snapshot. Bound256 calls on the owned initial thread. Relative roots remain unresolved; absence is not a process-wide absence claim.",
     "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
     "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"

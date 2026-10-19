@@ -159,7 +159,7 @@ def actor(plan):
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
     ntdll=C.WinDLL('ntdll')
-    selected_functions=('NtCreateFile','NtOpenKeyEx','NtOpenKey')
+    selected_functions=('NtOpenFile','NtOpenKey','NtDeviceIoControlFile')
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[],baseline_scope='No new baseline: retained three-case comparison in twenty-third-detached-comparison.json')
@@ -260,17 +260,24 @@ def actor(plan):
                                 storage,value=context();hit=value.dr[4]&15
                                 if pending is not None and hit==4:
                                     pending['status']=hex(value.regs[0]&0xffffffff)
+                                    if 'io_status_address' in pending:
+                                        snapshot=read(int(pending['io_status_address'],16),16)
+                                        pending['io_status_snapshot']=dict(status=hex(int.from_bytes(snapshot[:4],'little')),information=hex(int.from_bytes(snapshot[8:16],'little')),final_completion_claimed=False)
                                     row['native_calls'].append(pending);pending=None;watch(value)
                                 elif pending is None and hit in (1,2,8):
                                     assert len(row['native_calls'])<256
                                     index={1:0,2:1,8:2}[hit];assert value.rip==watches[index]
-                                    attrs=read(value.regs[8],48);name_pointer=int.from_bytes(attrs[16:24],'little');text=b''
-                                    if name_pointer:
-                                        descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
-                                        assert length<=1024 and length%2==0
-                                        if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
                                     return_address=int.from_bytes(read(value.regs[4],8),'little')
-                                    pending=dict(function=selected_functions[index],access=hex(value.regs[2]&0xffffffff),root_handle=hex(int.from_bytes(attrs[8:16],'little')),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'),return_address=hex(return_address))
+                                    pending=dict(function=selected_functions[index],return_address=hex(return_address))
+                                    if index<2:
+                                        attrs=read(value.regs[8],48);name_pointer=int.from_bytes(attrs[16:24],'little');text=b''
+                                        if name_pointer:
+                                            descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
+                                            assert length<=1024 and length%2==0
+                                            if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
+                                        pending.update(access=hex(value.regs[2]&0xffffffff),root_handle=hex(int.from_bytes(attrs[8:16],'little')),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
+                                    else:
+                                        pending.update(device_handle=hex(value.regs[1]),io_control_code=hex(int.from_bytes(read(value.regs[4]+0x30,8),'little')&0xffffffff),io_status_address=hex(int.from_bytes(read(value.regs[4]+0x28,8),'little')))
                                     watch(value,return_address)
                                 else:raise ValueError('Unexpected owned hardware breakpoint state')
                             else:
