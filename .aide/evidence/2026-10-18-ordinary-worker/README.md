@@ -1,4 +1,12 @@
-# Ordinary worker qualification remains open
+# Ordinary worker and current native qualification
+
+Latest native replay: `7a1a645b` builds the 14 selected targets and passes UI
+preflight, but all six groups refuse memory-budget setup with Windows error 5.
+The original restricted interactive worker controls pass separately at `dccb6a19`.
+All owned cleanup completes; `seventy-third-memory-bootstrap-failure.json` and
+its verified compact archive preserve the native refusal. Named-object startup
+is being isolated before another native build. Full x64/Win32 admission and
+main integration remain open. Earlier results below retain their original scope.
 
 Current result: the original 32 MiB controls, representative restricted x64
 compiler/production-store journey and complete 512 MiB controls pass. See

@@ -5,12 +5,68 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import os
 
 k = C.WinDLL('kernel32', use_last_error=True)
 k.LoadLibraryExW.argtypes = [T.LPCWSTR, T.HANDLE, T.DWORD]
 k.LoadLibraryExW.restype = T.HMODULE
 k.FreeLibrary.argtypes = [T.HMODULE]
 report = dict(scope=__doc__, libraries=[])
+if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
+    # Isolate the application's named-object bootstrap refusal without another
+    # product build or a namespace ACL change. Handles are owned and short lived.
+    import target
+    sid=target.identity()['user_sid']
+    a=C.WinDLL('advapi32',use_last_error=True)
+    a.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[T.LPCWSTR,T.DWORD,C.POINTER(T.LPVOID),T.LPVOID]
+    a.ConvertStringSecurityDescriptorToSecurityDescriptorW.restype=T.BOOL
+    k.LocalFree.argtypes=[T.LPVOID];k.LocalFree.restype=T.LPVOID
+    class Attributes(C.Structure):_fields_=[('length',T.DWORD),('descriptor',T.LPVOID),('inherit',T.BOOL)]
+    descriptor=T.LPVOID()
+    if not a.ConvertStringSecurityDescriptorToSecurityDescriptorW('D:P(A;;GA;;;'+sid+')',1,C.byref(descriptor),None):raise C.WinError(C.get_last_error())
+    attributes=Attributes(C.sizeof(Attributes),descriptor,False)
+    k.CloseHandle.argtypes=[T.HANDLE];k.CloseHandle.restype=T.BOOL
+    k.CreateMutexW.argtypes=[C.POINTER(Attributes),T.BOOL,T.LPCWSTR];k.CreateMutexW.restype=T.HANDLE
+    k.CreateJobObjectW.argtypes=[C.POINTER(Attributes),T.LPCWSTR];k.CreateJobObjectW.restype=T.HANDLE
+    report['owned_kernel_object_startup']=[]
+    try:
+        for kind in ('mutex','job'):
+            for named in (False,True):
+                name=('DiskEd.Owned.Startup.'+sid+'.'+str(os.getpid())+'.'+kind) if named else None
+                C.set_last_error(0)
+                opened=k.CreateMutexW(C.byref(attributes),False,name) if kind=='mutex' else k.CreateJobObjectW(C.byref(attributes),name)
+                error=C.get_last_error()
+                report['owned_kernel_object_startup'].append(dict(kind=kind,named=named,created=bool(opened),error=0 if opened else error))
+                if opened and not k.CloseHandle(opened):raise C.WinError(C.get_last_error())
+    finally:k.LocalFree(descriptor)
+    # Read access checks only: requesting CREATE_OBJECT on an open directory
+    # does not create an object or change its security descriptor.
+    class Unicode(C.Structure):_fields_=[('length',T.USHORT),('maximum',T.USHORT),('text',T.LPWSTR)]
+    class ObjectAttributes(C.Structure):_fields_=[('length',T.ULONG),('root',T.HANDLE),('name',C.POINTER(Unicode)),('flags',T.ULONG),('security',T.LPVOID),('quality',T.LPVOID)]
+    n=C.WinDLL('ntdll',use_last_error=True)
+    n.NtOpenDirectoryObject.argtypes=[C.POINTER(T.HANDLE),T.DWORD,C.POINTER(ObjectAttributes)];n.NtOpenDirectoryObject.restype=T.LONG
+    n.NtQuerySecurityObject.argtypes=[T.HANDLE,T.DWORD,T.LPVOID,T.DWORD,C.POINTER(T.DWORD)];n.NtQuerySecurityObject.restype=T.LONG
+    a.ConvertSecurityDescriptorToStringSecurityDescriptorW.argtypes=[T.LPVOID,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),T.LPVOID]
+    a.ConvertSecurityDescriptorToStringSecurityDescriptorW.restype=T.BOOL
+    report['namespace_access']=[]
+    for name in ('\\BaseNamedObjects','\\BaseNamedObjects\\Restricted','\\Sessions\\3\\BaseNamedObjects','\\Sessions\\3\\BaseNamedObjects\\Restricted'):
+        text=C.create_unicode_buffer(name);value=Unicode(len(name)*2,C.sizeof(text),C.cast(text,T.LPWSTR))
+        attrs=ObjectAttributes(C.sizeof(ObjectAttributes),None,C.pointer(value),0x40,None,None)
+        for mask in (3,7,15,0x20003):
+            handle=T.HANDLE();status=n.NtOpenDirectoryObject(C.byref(handle),mask,C.byref(attrs))
+            row=dict(path=name,access=mask,status=hex(status&0xffffffff));report['namespace_access'].append(row)
+            try:
+                if status==0 and mask&0x20000:
+                    size=T.DWORD();n.NtQuerySecurityObject(handle,4,None,0,C.byref(size))
+                    if not 0<size.value<=32768:raise ValueError('Namespace descriptor bound')
+                    buffer=C.create_string_buffer(size.value);query=n.NtQuerySecurityObject(handle,4,buffer,size,C.byref(size));row['query_status']=hex(query&0xffffffff)
+                    if query==0:
+                        output=T.LPWSTR()
+                        if not a.ConvertSecurityDescriptorToStringSecurityDescriptorW(buffer,1,4,C.byref(output),None):raise C.WinError(C.get_last_error())
+                        try:row['dacl']=output.value
+                        finally:k.LocalFree(C.cast(output,T.LPVOID))
+            finally:
+                if handle and not k.CloseHandle(handle):raise C.WinError(C.get_last_error())
 for name in ('user32.dll', 'gdi32.dll'):
     C.set_last_error(0)
     handle = k.LoadLibraryExW(name, None, 0x800)
