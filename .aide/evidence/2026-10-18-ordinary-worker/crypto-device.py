@@ -214,26 +214,26 @@ def coordinate(g):
         grant.retire(quiescent=True);result['interruption_recovery']=json.loads(json.dumps(grant.report));grant.close();grant=None
         grant=Grant();grant.apply()
         selected=g.fresh(g.W.plain_directory(state['work'])/'crypto');instance=g.worker(selected,private,namespace_compat=True)
-        request=g.plan(selected,data);payload=json.loads(request.read_bytes());payload['variant']='basic-detached';request.write_text(json.dumps(payload))
+        request=g.plan(selected,data);payload=json.loads(request.read_bytes());payload['variant']='basic-stdio';request.write_text(json.dumps(payload))
         job=g.S.WindowsJob();grant.started();quiescent=False
-        child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'launch'],os.environ,job,variant='basic-detached')
+        child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'launch'],os.environ,job,variant='basic-stdio')
         code=child.wait(timeout=15);result['identity_exit_code']=code;result['identity_launch']=instance.last_launch
-        if (selected/'launch-basic-detached.json').exists():result['identity']=json.loads((selected/'launch-basic-detached.json').read_bytes())
+        if (selected/'launch-basic-stdio.json').exists():result['identity']=json.loads((selected/'launch-basic-stdio.json').read_bytes())
         assert code==0
         observed=result['identity'];assert observed['user_sid']==data['sid'] and observed['restricted'] and not any(observed[key] for key in ('elevated','administrator','appcontainer'))
         assert set(observed['restricting_sids'])=={data['sid'],'S-1-5-12'} and len(observed['restricting_sids'])==2 and observed['integrity_sid']=='S-1-16-8192'
         assert observed['stdio'][0]['kind']==2 and all(row['kind']==1 and row['file_identity']==instance.last_launch['stdout_identity'] for row in observed['stdio'][1:])
         child.close();child=None
-        child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),'loader-detached.log'],os.environ,job,variant='basic-detached')
+        child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),'loader-compatible.log'],os.environ,job,variant='basic-stdio')
         code=child.wait(timeout=15);result['imports_exit_code']=code
-        if (selected/'loader-detached.log').exists():result['imports']=(selected/'loader-detached.log').read_text(encoding='utf-8')
+        if (selected/'loader-compatible.log').exists():result['imports']=(selected/'loader-compatible.log').read_text(encoding='utf-8')
         assert code==0 and result['imports'].endswith('complete\n')
         stop_job();grant.retire(quiescent=quiescent);result['applied_and_retired']=json.loads(json.dumps(grant.report))
         # Independent new process, after revocation and retirement of every old
         # worker. It receives only its declared stdio handles, not a crypto one.
         assert not (selected/'loader-restricted.log').exists()
         job=g.S.WindowsJob();quiescent=False
-        child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),'loader-restricted.log'],os.environ,job,variant='basic-detached')
+        child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),'loader-restricted.log'],os.environ,job,variant='basic-stdio')
         code=child.wait(timeout=15);result['after_revocation']=dict(exit_code=code,breadcrumb_exists=(selected/'loader-restricted.log').exists())
         assert code==0xc0000142 and not result['after_revocation']['breadcrumb_exists']
         stop_job();result['status']='pass'

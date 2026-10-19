@@ -4,11 +4,19 @@
   "scope": "Guest setup/startup/revocation proof only; full32MiB worker,compiler/store and product qualification remain separate",
   "authority": "Existing explicit owner grant for administrator setup/testing inside Windows10 guest,Agents coordinator only. This scoped setup grants one disposable subject the same crypto-device data rights already available to an ordinary user,while retaining the filesystem restriction. No host administration,physical/customer storage,product record ACL,owner,label,privilege-policy or broad restricting SID change.",
   "target": "Existing guest KsecDD object, pinned handle; exact disposable account SID/nonce; mask0x100003 only",
-  "bounds": {"virtual_disk_mib":32,"temporary_bytes":1073741824,"entries":20000,"volume_reserve_bytes":21474836480,"journal_bytes":65536,"descriptor_bytes":32768,"acl_entries":64},
+  "bounds": {
+    "virtual_disk_mib": 32,
+    "temporary_bytes": 1073741824,
+    "entries": 20000,
+    "volume_reserve_bytes": 21474836480,
+    "journal_bytes": 65536,
+    "descriptor_bytes": 32768,
+    "acl_entries": 64
+  },
   "required": [
     "Refuse unexpected guest/coordinator,actor,journal,baseline DACL,existing subject ACE or unsupported object/security API. Never take ownership or grant privileges to force support.",
     "Journal before the first permission mutation; deliberate helper exit19 before worker creation leaves the exact owned ACE,then a new instance recovers/removes it. This tests that declared prelaunch interruption point,not every possible host crash.",
-    "Reapply and launch explicitly detached: exact two restricting SIDs,fresh user,medium integrity,nonelevated/nonadmin/non-AppContainer,declared NUL/file handles and job assignment before execution.",
+    "Reapply and launch explicit basic-stdio no-window parameters: exact two restricting SIDs,fresh user,medium integrity,nonelevated/nonadmin/non-AppContainer,declared NUL/file handles and job assignment before execution.",
     "Identity payload and complete Python/USER32/shell32 observer must exit0; API success or collection status alone is insufficient.",
     "Observe owned job active process count0 and strong child exits before removing only the exact subject ACE. Preserve all other ACEs and owner/group; no stale whole-descriptor restoration.",
     "After retirement,a new restricted process must reproduce startup refusal without a payload breadcrumb; no inherited crypto handle is provided.",
@@ -16,7 +24,13 @@
     "All original protected-record,outside-write,capacity,handle,descendant and abrupt-controller criteria remain mandatory before full worker admission."
   ],
   "concurrency": "Normal shared crypto clients remain supported; concurrent security-descriptor maintenance is excluded. Read-before-write detects observed changes but is not an OS compare-and-swap. Cleanup computes a delta from the current DACL and preserves unrelated additions; uncertainty fails closed.",
-  "sources": ["https://learn.microsoft.com/en-us/windows/win32/secauthz/low-level-security-descriptor-functions","https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptordacl","https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwsetsecurityobject"],
-  "full_worker_qualified":false,
-  "product_qualified":false
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/secauthz/low-level-security-descriptor-functions",
+    "https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptordacl",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwsetsecurityobject"
+  ],
+  "full_worker_qualified": false,
+  "product_qualified": false,
+  "launch_revision": "v2: supersedes detached choice refused by WithTokenW in attempt26. Use basic-stdio CREATE_NO_WINDOW/UNICODE/SUSPENDED,private desktop and declared stdio; no silent fallback.",
+  "console_evidence": "Attempt27: ConDrv Server/Reference opens and observed ioctl succeed; relative Connect returnsC00000B0. No console permission change is supported by those observations; keep exception to KsecDD only."
 }
