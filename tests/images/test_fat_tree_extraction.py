@@ -111,7 +111,13 @@ def run(tree=None, request=None, extra=None, existing=None):
         value["ledger"] = str(source)
     if value.get("alias") == "destination":
         value["ledger"] = str(destination).upper()
+    if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
+        import time
+        started=time.monotonic()
+        print('WRITER_PROCESS_START',flush=True)
     completed = subprocess.run([str(PROBE)], input=encoded(value), capture_output=True, timeout=180)
+    if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
+        print('WRITER_PROCESS_SECONDS',round(time.monotonic()-started,6),flush=True)
     assert completed.returncode in (0, 93) and not completed.stderr, (completed.returncode, completed.stderr.decode())
     rows = [json.loads(line) for line in completed.stdout.splitlines()]
     assert rows

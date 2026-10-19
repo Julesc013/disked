@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "images"))
@@ -40,9 +41,12 @@ def rechained(records):
 
 
 def inspect(data, options=(), error=None):
+    started=time.monotonic()
     if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
         print('HISTORY_INPUT',len(data),list(options),'expected_error',error,flush=True)
     result = subprocess.run([str(PROBE), *options], input=data, capture_output=True, timeout=30)
+    if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
+        print('HISTORY_DONE_SECONDS',round(time.monotonic()-started,6),flush=True)
     assert not result.stderr, result.stderr
     value = json.loads(result.stdout)
     if error is None:

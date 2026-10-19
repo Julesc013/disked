@@ -113,6 +113,9 @@ def main():
             selected=snapshot.selected_inputs(ROOT,'DE-W105',revision=revision)
             source=snapshot.export(ROOT,selected,work/'source-export',work,revision=revision)
             for name in full_files[-2:]:shutil.copyfile(work/'source-export'/name,stage/name)
+        definition=importlib.util.spec_from_file_location('coordinator_workspace',ROOT/'tools/workspace.py');storage=importlib.util.module_from_spec(definition);definition.loader.exec_module(storage)
+        for path in (work/'source-export',work/'schema-dependencies'):
+            if path.exists():storage.remove_owned_work(path,work,path.name)
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
     native='--native-journey' in sys.argv
@@ -138,6 +141,14 @@ def main():
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if full_native:expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+    if full_native:
+        # The transferred runtime zip is removed on the host before guest work
+        # starts. Account for all remaining host scratch and current context in
+        # the guest's aggregate watchdog as well as its filesystem capacity.
+        reserved=storage.tree_bytes(work,allocated=True,file_limit=20000,allow_links=False)
+        reserved+=storage.tree_bytes(ROOT/'.aide-local',allocated=True,file_limit=20000,allow_links=False)
+        reserved-=storage.stored_bytes(stage/'pwsh7.zip',(stage/'pwsh7.zip').stat())
+        expected['native_x64']['host_disposable_reserved_bytes']=reserved+1024*1024
     if null_proof or powershell_proof or powershell7_proof or cleanup_proof:expected['native_x64']['null_proof_only']=True
     if powershell_proof or powershell7_proof:expected['native_x64']['powershell_proof']=True
     if powershell7_proof:expected['native_x64']['powershell7_proof']=True
@@ -207,6 +218,17 @@ def main():
     if full_native:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in full_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
+        host=once(host,"    # Send trusted local source as a remoting script; do not alter guest policy.",r'''    $transfer=Join-Path $PSScriptRoot 'pwsh7.zip'
+    $transferFile=Get-Item -LiteralPath $transfer
+    if($transferFile.Attributes-band[IO.FileAttributes]::ReparsePoint){throw 'Linked host transfer file.'}
+    $row=@($files|Where-Object path -eq 'pwsh7.zip')[0]
+    $remoteHash=Invoke-Command -Session $session -ScriptBlock {
+        (Get-FileHash -LiteralPath 'C:\ProgramData\DiskEd\qualification\pwsh7.zip' -Algorithm SHA256).Hash
+    }
+    if($remoteHash-ne$row.sha256){throw 'Guest runtime transfer differs from the prepared bytes.'}
+    Remove-Item -LiteralPath $transfer -Force
+    $result.host_runtime_transfer_removed=@{bytes=$row.bytes;sha256=$row.sha256;removed=$true}
+    # Send trusted local source as a remoting script; do not alter guest policy.''')
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]

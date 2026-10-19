@@ -60,6 +60,22 @@ archive is 2,504 bytes. The cleanup repair clears only READONLY after the existi
 containment, reparse-point and hard-link guards. Its guest regression must pass
 before relying on it in another full campaign.
 
+Attempt 54 at `c15c371f` passes that production-cleanup regression under the
+ordinary restricted owner (attributes 1 and 39). Attempt 55 at the same revision
+passes the large-content and FAT16 history cases, then reaches the unchanged
+300-second group limit during FAT32 fixture generation. The actual restricted
+owner removes 130,313,370 allocated temporary bytes; all outer cleanup passes.
+The 18,712-byte raw archive survives. This establishes where execution stopped,
+not a diagnosis of the accumulated delay. Optional call timings and a tiny
+owned-file flush benchmark are prepared for that diagnosis.
+
+The PowerShell 7 proof copies the existing host runtime and three built-in
+modules into temporary, hash-bound guest scratch. It installs nothing and keeps
+no runtime in evidence. Host transfer copies and dependency preparation trees
+are retired once consumed. The guest aggregate watchdog also reserves remaining
+host scratch/context bytes. This proof is separate from the two original native
+invocation groups; those still require their full, unchanged assertions.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

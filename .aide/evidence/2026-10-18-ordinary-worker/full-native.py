@@ -207,6 +207,7 @@ def coordinate(g):
             result['peak_scratch_allocated_bytes']=max(result.get('peak_scratch_allocated_bytes',0),allocated)
             combined=g.S.tree_bytes(ROOT,allocated=True,file_limit=20000,allow_links=False)
             combined+=g.S.tree_bytes(Path(os.environ['DISKED_WORK_ROOT']),allocated=True,file_limit=20000,allow_links=False)
+            combined+=expected.get('host_disposable_reserved_bytes',0)
             if combined>1073741824:raise RuntimeError('Aggregate disposable limit exceeded')
             if archive.path.stat().st_size>32*1024*1024:raise RuntimeError('Retained observations exceed32MiB')
 

@@ -8,6 +8,7 @@ from pathlib import Path
 import stat
 import sys
 import tempfile
+import time
 
 k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)
 P=C.c_void_p
@@ -58,9 +59,27 @@ owned=Path(tempfile.mkdtemp(prefix='owned-cleanup-regression-',dir=parent))
 for flags in (1,0x27):
     path=owned/(str(flags)+'.bin');path.write_bytes(b'owned disposable output')
     if not setattrs(str(path),flags):raise C.WinError(C.get_last_error())
+write=bind(k,'WriteFile',T.BOOL,T.HANDLE,P,T.DWORD,C.POINTER(T.DWORD),P)
+flush=bind(k,'FlushFileBuffers',T.BOOL,T.HANDLE)
+buffer=C.create_string_buffer(b'x'*512);io=[]
+for per_write_flush in (False,True):
+    path=owned/('flush-'+str(per_write_flush)+'.bin')
+    handle=create(str(path),0xc0000000,0,None,1,0x80,None)
+    if handle==P(-1).value:raise C.WinError(C.get_last_error())
+    started=time.monotonic();cpu=time.process_time()
+    try:
+        for number in range(32):
+            count=T.DWORD()
+            if not write(handle,buffer,512,C.byref(count),None) or count.value!=512:raise C.WinError(C.get_last_error())
+            if per_write_flush and not flush(handle):raise C.WinError(C.get_last_error())
+        if not flush(handle):raise C.WinError(C.get_last_error())
+        io.append(dict(per_write_flush=per_write_flush,writes=32,bytes=16384,
+            seconds=time.monotonic()-started,process_cpu_seconds=time.process_time()-cpu))
+    finally:close(handle)
 definition=importlib.util.spec_from_file_location('owned_workspace',Path(__file__).parent/'source/tools/workspace.py')
 workspace=importlib.util.module_from_spec(definition);definition.loader.exec_module(workspace)
 workspace.remove_owned_work(owned,parent,'owned-cleanup-regression-')
 if owned.exists():raise ValueError('Owned cleanup regression left output')
 print(json.dumps(dict(scope=__doc__,rows=rows,all_removed=all(not r['remains'] for r in rows),
-    production_cleanup_regression=dict(flags=[1,0x27],removed=True,acl_changes=False))))
+    production_cleanup_regression=dict(flags=[1,0x27],removed=True,acl_changes=False),
+    owned_io_diagnostic=io)))
