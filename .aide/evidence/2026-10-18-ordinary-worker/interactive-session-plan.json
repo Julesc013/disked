@@ -1,0 +1,27 @@
+{
+  "status": "agent_reviewed_for_tiny_observation",
+  "source_base": "6e25f431791ad5ca2182d090b309ed4141e5ff04",
+  "authority": "Existing guest administration/testing grant;Agents only;no owner/release acceptance",
+  "expected": {
+    "guest": "BLACKGLASS-HYPE",
+    "account": "Agents",
+    "session_id": 3,
+    "station": "WinSta0",
+    "visible": true
+  },
+  "action": "One uniquely owned InteractiveToken scheduled task running the retained read-only Python payload;highest guest coordinator is not a confined-worker claim",
+  "limits": {
+    "task_seconds": 60,
+    "controller_wait_seconds": 40,
+    "output_bytes": 32768,
+    "guest_files": 3
+  },
+  "boundaries": [
+    "No DiskEd launch",
+    "No window-station ACL modification",
+    "No input,foreground switching or desktop activation",
+    "No credentials in task,Git or result",
+    "No host settings,VM restart or shared checkpoint modification"
+  ],
+  "cleanup": "Retire/unregister exact nonce-named task;verify fixed-root ownership,plain expected entries and quiescence;remove owned files individually and empty root;preserve uncertainty rather than broad deletion"
+}
