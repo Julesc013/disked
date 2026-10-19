@@ -30,14 +30,18 @@ diagnostic collection completeness:
 - `eighth-own-token-diagnostic`: a trusted fresh-user bootstrap derives its own
   restricted token and successfully creates a job-inherited AsUser child; that
   child also exits `0xC0000142`. Changing the launch API did not resolve startup.
+- `ninth-fresh-logon-diagnostic`: adding only the actual fresh logon SID alongside
+  the fresh user SID also fails before Python entry. The ordinary standard-user
+  control still starts, and all owned resources retire.
 
 All completed runs above have separate account/profile/image/source cleanup
 receipts. Volume/file identities in newer receipts use decimal strings to avoid
 PowerShell JSON integer rounding; older rounded observations are not exact IDs.
 
-The next separately declared candidate adds only this fresh token's **actual
-logon SID** alongside its user SID. No broad group is added. Its actual outcome
-must be read from its receipt. Startup alone cannot qualify the profile: all
+The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
+variants. The next investigation must identify the actual restricted-process DLL
+initialization boundary before selecting another recipe. No broad group or
+shared-object permission change is admitted by these observations. All
 original protected-record, outside-write denial, hard-cap exhaustion, descendant
 restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey

@@ -59,6 +59,10 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
 - [x] Update canonical architecture, safety, acquisition, composition, installation, target and delivery contracts.
 - [x] Map proposed acceptance scenarios to work without representing them as executed tests.
 - [x] Fetch AIDE dev at `5be37bd6510977e6cb2e960859c45b33b048dade` and pin source observations.
+- [x] Complete the19October selected-source refresh to `7877e056`, with98 passive
+  queue validations and a verified12KiB source/release archive. No checkout or
+  upstream execution. [Review](.aide/evidence/2026-10-19-aide-weekly/README.md).
+  Next source review26October; live consumer admission remains separate.
 - [x] Run local specification/tooling tests and passive AIDE schema validation; retain actual results and skipped checks in the [validation report](spec/reports/validation.json).
 - [ ] Review and accept the final DE-W000 amendment, including the proposed `source/` ownership map.
 

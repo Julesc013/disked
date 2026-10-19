@@ -1,0 +1,326 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T08:38:28.8001497Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "files": [
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 21779,
+        "sha256": "410DFF6D920900414ABD640286F9FC9FACC39AC025116F3A82CAC8704124D57D"
+      },
+      {
+        "path": "target.py",
+        "bytes": 16663,
+        "sha256": "A09598CE1C2765298C0ABA1FA410857DDCBDD368A05E22E603750EC7C614317F"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 19199,
+        "sha256": "B998FB360191C03E5C6010B8036450C8710A5F84D790212B3F0DB5A6B8EA9DE2"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13480,
+        "sha256": "1FFD8CD535E65D1CB5C888444FBAC71F85DAA4896315AD1E9BB46330321EBE8B"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 7619,
+        "sha256": "47EC1DA753D0C5F5F267AE8714D258C7BB8D0BAF62DF52AE31CCB07120EF8C8A"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "75cecad10de93223c59e0b9d1e01dc3ab6c9a285"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T08:38:29.4955842Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-45bceaaf",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1011",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "10E6536BC7C70240BDB925326A99E7CD",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.f7522922072a47f698ed845db6d5c1c3",
+            "sid": "S-1-15-2-4267430873-3737733250-3756102669-3155212945-1978415732-3731251537-2429868375"
+          },
+          {
+            "name": "org.disked.worker.7e62e6cb0a454230b1ec6ec44c55c50e",
+            "sid": "S-1-15-2-1567661902-2916272413-2832043636-2969288841-3925273377-302908977-856652326"
+          },
+          {
+            "name": "org.disked.worker.01c9308b933b488ab344b1ffd4cc08f2",
+            "sid": "S-1-15-2-4255986644-4247174243-2233513016-1590138793-1713855754-2153515309-300127443"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1011)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "6002248010E6536BC7C725326A99E7CD",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 52, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T08:38:41.4519254Z"
+    },
+    "proof": {
+      "status": "pass",
+      "scope": "Token/console startup diagnostic only",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "variants": [
+        {
+          "name": "standard-no-window",
+          "exit_code": 0,
+          "observation": {
+            "pid": 2228,
+            "restricted": false,
+            "administrator": false,
+            "elevated": 0,
+            "appcontainer": 0,
+            "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1011",
+            "restricting_sids": [],
+            "restricting_sid": null,
+            "integrity_sid": "S-1-16-8192",
+            "privileges": [
+              {
+                "name": "SeShutdownPrivilege",
+                "attributes": 0
+              },
+              {
+                "name": "SeChangeNotifyPrivilege",
+                "attributes": 3
+              },
+              {
+                "name": "SeUndockPrivilege",
+                "attributes": 0
+              },
+              {
+                "name": "SeIncreaseWorkingSetPrivilege",
+                "attributes": 0
+              },
+              {
+                "name": "SeTimeZonePrivilege",
+                "attributes": 0
+              }
+            ],
+            "phase": "user32_initialized",
+            "station": "DiskEdTest-62888224b4084aac8bfbdcdb583470d8",
+            "session": 0
+          },
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "30000000000001000000000000000000"
+            },
+            "token_kind": "fresh_standard_baseline"
+          }
+        },
+        {
+          "name": "restricted-no-window",
+          "exit_code": 3221225794,
+          "observation": null,
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "32000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted"
+          }
+        },
+        {
+          "name": "restricted-detached",
+          "error": "[WinError 87] The parameter is incorrect.",
+          "parameters": {
+            "variant": "basic-detached",
+            "creation_flags": 1036,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": false,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "33000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted"
+          }
+        },
+        {
+          "name": "restricted-user-default-dacl",
+          "exit_code": 3221225794,
+          "observation": null,
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "34000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted"
+          }
+        },
+        {
+          "name": "own-restricted-bootstrap",
+          "exit_code": 0,
+          "observation": null,
+          "bootstrap": {
+            "standard_bootstrap": {
+              "pid": 2616,
+              "restricted": false,
+              "administrator": false,
+              "elevated": 0,
+              "appcontainer": 0,
+              "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1011",
+              "restricting_sids": [],
+              "restricting_sid": null,
+              "integrity_sid": "S-1-16-8192",
+              "privileges": [
+                {
+                  "name": "SeShutdownPrivilege",
+                  "attributes": 0
+                },
+                {
+                  "name": "SeChangeNotifyPrivilege",
+                  "attributes": 3
+                },
+                {
+                  "name": "SeUndockPrivilege",
+                  "attributes": 0
+                },
+                {
+                  "name": "SeIncreaseWorkingSetPrivilege",
+                  "attributes": 0
+                },
+                {
+                  "name": "SeTimeZonePrivilege",
+                  "attributes": 0
+                }
+              ]
+            },
+            "child_job_inherited": true,
+            "api_succeeded": true,
+            "child_pid": 3604,
+            "exit_code": 3221225794
+          },
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "35000000000001000000000000000000"
+            },
+            "token_kind": "fresh_standard_baseline"
+          }
+        },
+        {
+          "name": "restricted-user-logon",
+          "exit_code": 3221225794,
+          "observation": null,
+          "parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": "11739260159321094781",
+              "identity": "38000000000001000000000000000000"
+            },
+            "token_kind": "write_restricted"
+          }
+        }
+      ],
+      "private_ui_security": {
+        "station": "D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0xf037f;;;S-1-5-21-385394198-2603589104-1765785984-1011)S:(ML;;NW;;;ME)",
+        "desktop": "D:P(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1011)S:AI(ML;;NW;;;ME)"
+      },
+      "token_default_dacl_change": {
+        "before": "D:(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1011)(A;;GA;;;SY)(A;;GXGR;;;S-1-5-5-0-165746531)",
+        "after": "D:(A;;GA;;;SY)(A;;GA;;;S-1-5-21-385394198-2603589104-1765785984-1011)"
+      },
+      "fresh_logon_candidate": {
+        "restricting_sids": [
+          "S-1-5-21-385394198-2603589104-1765785984-1011",
+          "S-1-5-5-0-165746531"
+        ],
+        "scope": "Fresh account and its actual logon session only"
+      }
+    },
+    "free_c_bytes": 98109104128
+  },
+  "host_backing_end_bytes": 31896633344,
+  "finished_at": "2026-10-19T08:38:45.9318017Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "47ec1da753d0c5f5f267ae8714d258c7bb8d0baf62df52ae31ccb07120ef8c8a",
+    "guest-proof.ps1": "1ffd8cd535e65d1cb5c888444fbac71f85daa4896315ad1e9bb46330321ebe8b",
+    "guest-proof.py": "b998fb360191c03e5c6010b8036450c8710a5f84d790212b3f0db5a6b8ea9de2",
+    "ordinary-worker.py": "410dff6d920900414abd640286f9fc9facc39ac025116f3a82cac8704124d57d",
+    "run-proof.ps1": "abbe42c829dff731956243b2d322f907d2d42be5599fac160566114693cc9a7d",
+    "target.py": "a09598ce1c2765298c0aba1fa410857ddcbdd368a05e22e603750ec7c614317f"
+  },
+  "host_exit_code": 0,
+  "experiment_kind": "standard/restricted token and console diagnostic; no profile admission",
+  "host_error_tail": ""
+}

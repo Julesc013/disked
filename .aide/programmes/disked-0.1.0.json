@@ -1666,14 +1666,16 @@
     "production_fix": false
   },
   "aide_weekly_review": {
-    "source_revision": "58a888c07832cbf4edfaf64dfbd165fcb00e618e",
-    "aide_revision": "6f2abc4cd69e0d94f86a00495cb8feeebe20398a",
-    "review_date": "2026-10-12",
-    "next_review_date": "2026-10-19",
-    "evidence": ".aide/evidence/2026-10-12-aide-weekly/validation-summary.json",
-    "validated_workunits": 36,
+    "source_revision": "75cecad10de93223c59e0b9d1e01dc3ab6c9a285",
+    "aide_revision": "7877e05655ee33fa99583afe4855fac6a4910292",
+    "aide_tree": "e6352e12de2f04cb8ef2e203e4325ee08fa476f1",
+    "review_date": "2026-10-19",
+    "next_review_date": "2026-10-26",
+    "evidence": ".aide/evidence/2026-10-19-aide-weekly/validation.json",
+    "validated_workunits": 98,
     "selected_stable_consumer_qualified": false,
-    "upstream_code_executed": false
+    "upstream_code_executed": false,
+    "source_state": "Canonical reference update against this base; exact upstream blobs and passive exported hashes are retained in the review receipts. No native product input changed in this weekly reference patch."
   },
   "structure_review_followup": {
     "observed_at": "2026-10-15T13:53:45.490422+00:00",
@@ -1892,10 +1894,10 @@
       "owner_accepted": false
     },
     "ordinary_worker_preparation": {
-      "state": "standard_control_starts_restricted_initialization_unresolved",
+      "state": "fresh_user_and_logon_restriction_still_fails_startup",
       "recipe": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
       "preflight": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "scope": "Fresh standard-user control initializes USER32. Restricted own-user token still failsC0000142 despite private UI/default ACL and own-token AsUser controls. All owned accounts/images/source retire. Next separately declared diagnostic adds only the actual fresh logon SID alongside the fresh user SID; it admits no worker/product and must preserve all original32MiB confinement/interruption criteria.",
+      "scope": "The separately declared fresh-user+actual-logon-SID candidate also exitsC0000142 before Python. All actor/profile/image/source cleanup verified. Standard control starts. Do not admit a worker or retry unchanged launch/ACL variants. Diagnose the actual restricted-process DLL/UI initialization boundary while independent work continues; keep every original cap,protected-record and interruption criterion.",
       "first_attempt": ".aide/evidence/2026-10-18-ordinary-worker/first-description-refusal.json",
       "first_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/first-description-cleanup.json",
       "second_attempt": ".aide/evidence/2026-10-18-ordinary-worker/second-handle-list-refusal.json",
@@ -1906,7 +1908,9 @@
       "private_ui_refusal": ".aide/evidence/2026-10-18-ordinary-worker/fifth-private-ui-refusal.json",
       "private_ui_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/fifth-private-ui-cleanup.json",
       "own_token_diagnostic": ".aide/evidence/2026-10-18-ordinary-worker/eighth-own-token-diagnostic.json",
-      "own_token_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/eighth-own-token-cleanup.json"
+      "own_token_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/eighth-own-token-cleanup.json",
+      "fresh_logon_diagnostic": ".aide/evidence/2026-10-18-ordinary-worker/ninth-fresh-logon-diagnostic.json",
+      "fresh_logon_cleanup": ".aide/evidence/2026-10-18-ordinary-worker/ninth-fresh-logon-cleanup.json"
     },
     "managed_fixture_routes": {
       "state": "source_migrated_coordinator_checks_pass_native_execution_pending",
@@ -2577,5 +2581,17 @@
     ],
     "original_scope_preserved": true,
     "new_execution_authority": false
-  }
+  },
+  "aide_weekly_review_history": [
+    {
+      "source_revision": "58a888c07832cbf4edfaf64dfbd165fcb00e618e",
+      "aide_revision": "6f2abc4cd69e0d94f86a00495cb8feeebe20398a",
+      "review_date": "2026-10-12",
+      "next_review_date": "2026-10-19",
+      "evidence": ".aide/evidence/2026-10-12-aide-weekly/validation-summary.json",
+      "validated_workunits": 36,
+      "selected_stable_consumer_qualified": false,
+      "upstream_code_executed": false
+    }
+  ]
 }

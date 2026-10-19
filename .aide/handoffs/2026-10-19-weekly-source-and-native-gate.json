@@ -1,0 +1,123 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "75cecad10de93223c59e0b9d1e01dc3ab6c9a285",
+  "spec_manifest_digest": "sha256:ff9e12deb44ce88e8a187610749da57da68dab7c82778b7df80820a70df25fc0",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/development/aide-integration.md",
+    "spec/references/aide-lock.json",
+    "spec/references/sources.json",
+    ".aide/programmes/disked-0.1.0.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/README.md",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/integration.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "spec/development/aide-integration.md",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/references/aide-lock.json",
+    "spec/references/sources.json",
+    "spec/schemas/aide-workunit-projection.schema.json"
+  ],
+  "summary": "Weekly selected AIDE source/schema pin updated to7877e056/treee6352e12 after exact Git-blob checks and98 passive non-authorizing exported records.17 affected bundle/export tests,1325structural and generated/manifest checks pass. Lite1.1.0 remains an unqualified DiskEd consumer; no clone,upstream code,installer or native product executed for that review. Fresh-user+actual-logon restricting token also failsC0000142 before Python, with standard baseline succeeding. All owned actor/profile/image/source resources retire. Fixture migration source/coordinator checks were committed75cecad1; actual currentx64/full worker qualification still pending. PR1 is merged into dev. Main stays98b75739 until its native gate passes.",
+  "tests": [
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m pip install --disable-pip-version-check --no-cache-dir --no-deps --only-binary=:all: --target C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-i1hhi1_d\\dependencies PyYAML==6.0.3",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py aide-export --output C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-i1hhi1_d\\exports",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B -m unittest test_specctl.BundleTests test_specctl.TemporaryBundleTests.test_aide_exports_all_planned_non_authorizing test_specctl.TemporaryBundleTests.test_aide_export_refuses_overwrite -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "\"C:\\Program Files\\Python314\\python.exe\" -B spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-19-aide-weekly/validation.json"
+    },
+    {
+      "command": "Restricted fresh-user+logon token startup observer",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 3221225794,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninth-fresh-logon-diagnostic.json"
+    },
+    {
+      "command": "Complete currentx64 product178-group qualification",
+      "cwd": "Windows10 guest",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-19-aide-weekly/source-review.json",
+      "sha256": "sha256:51c488132932441699eb35f8e4dcea3e3e8cf82b645b9ae5575c08e9dc33e74c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-19-aide-weekly/validation.json",
+      "sha256": "sha256:342cc7b4c687197f9b1a8d38ab2d11b3eb7732187c48c2721e7f662e91be0ab4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-19-aide-weekly/selected-source.json.xz",
+      "sha256": "sha256:61216c5a4eba23f9d46a943107babd4e316e5b66ca98c255a2e10147fdf5b050"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninth-fresh-logon-diagnostic.json",
+      "sha256": "sha256:62954e58484a8b3b37cf53028a9b17859959783d37c2bef639f3a7fb04e9ba2b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninth-fresh-logon-cleanup.json",
+      "sha256": "sha256:e27066909932fc3170a650295e234dd7346f03d46c998239100119487385002e"
+    }
+  ],
+  "blockers": [
+    "Ordinary restricted worker fails DLL initialization before Python. Existing private Win32/AppContainer proof does not qualify the ordinary profile.",
+    "Complete currentx64/native fixture execution and consequent main integration remain pending."
+  ],
+  "next_safe_step": "Verify the committed DE-W105 context. Diagnose the actual restricted-process DLL/UI initialization boundary with bounded owned guest observations rather than repeating unchanged launch/ACL/API attempts. Preserve every original protected-record,outside-write,cap/interruption criterion. Then representative build/store journey and complete currentx64/native gate; promptly merge/push the tested agent-reviewed dev checkpoint to main. Continue DE-W106 thenDE-W107 through their existing owners. Full original all-platform/storage0.1.0 remains active; no owner or release acceptance.",
+  "performed_remote_writes": true
+}
