@@ -87,6 +87,9 @@ def main():
     focus_invocations='--focus-invocations' in sys.argv
     focus_repairs='--focus-qualification-repairs' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
+    station_matrix='--station-bootstrap-matrix' in sys.argv
+    if station_matrix and not (interactive_ui and '--crypto-full' in sys.argv):
+        raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or '--crypto-full' in sys.argv):
@@ -146,6 +149,9 @@ def main():
         expected['interactive_ui']=True
         expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2012b station-only subject ACE with setup-fault recovery and exact retirement;no filesystem/token/product-record change'
         expected['interactive_worker_review']=json.loads((HERE/'interactive-worker-plan.json').read_bytes())
+        if station_matrix:
+            expected['station_bootstrap_matrix_only']=True
+            expected['interactive_scope']='Six fixed trusted standard-user startup-only station UI-right observations;exact subject ACE retired after each;no restricted worker/product admission,security-edit rights or actual clipboard/screen/logoff actions'
     diagnostic='--diagnostic' in sys.argv
     startup_diagnostic='--startup-diagnostic' in sys.argv
     loader_diagnostic='--loader-diagnostic' in sys.argv
@@ -325,6 +331,7 @@ def main():
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
     if interactive_ui:result['interactive_scope']=expected['interactive_scope']
+    if station_matrix:result['experiment_kind']='Six fixed trusted standard-user station bootstrap comparisons only;no worker/product admission'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'

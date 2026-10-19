@@ -64,5 +64,28 @@
     "Retain comparison separately;unrestricted observer is not worker qualification",
     "Keep existing0x2012b mask;no permission expansion from a failed hypothesis",
     "Compare trusted standard/restricted startup on an owned private station in the same session3;no shared-station permission expansion"
-  ]
+  ],
+  "startup_permission_experiment": {
+    "basis": "sixty-ninth-private-versus-visible-refusal.json",
+    "masks": [
+      "0x2012b",
+      "0x2032b",
+      "0x2012f",
+      "0x2013b",
+      "0x2016b",
+      "0x2037f"
+    ],
+    "differences": [
+      "base",
+      "read-screen only",
+      "clipboard only",
+      "global-attribute-write only",
+      "exit-windows right only",
+      "all UI object rights plus read-control"
+    ],
+    "subject": "Exact disposable standard-user SID;previously allowed trusted read-only startup observer only",
+    "excluded": "No actual clipboard/screen/exit action;no DACL-edit/owner/delete grant;no DiskEd or untrusted input",
+    "controls": "Same session3/interpreter/user;new owned hidden desktop;every job0 and exact subject ACE removal before next case",
+    "interpretation": "Collect all refusals/successes;diagnostic completeness is not worker/product qualification"
+  }
 }

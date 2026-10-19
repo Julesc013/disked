@@ -13,6 +13,7 @@ import sys
 
 ROOT=Path('C:/ProgramData/DiskEd/qualification')
 MASK=0x2012b  # read-control, enumeration, attributes, atoms, own desktop creation
+DIAGNOSTIC_MASKS=(MASK,MASK|0x200,MASK|4,MASK|0x10,MASK|0x40,0x2037f)
 P=C.c_void_p
 spec=importlib.util.spec_from_file_location('station_crypto_support',Path(__file__).with_name('crypto-device.py'))
 support=importlib.util.module_from_spec(spec);spec.loader.exec_module(support)
@@ -33,24 +34,27 @@ def aces(raw):
     if any(raw[at:]):raise ValueError('Station ACL padding')
     return rows
 
-def owned_ace(sid):
+def owned_ace(sid,mask=MASK):
     if not 12<=len(sid)<=68 or sid[0]!=1 or len(sid)!=8+4*sid[1]:raise ValueError('Owned station SID')
-    return struct.pack('<BBHI',0,0,8+len(sid),MASK)+sid
+    if mask not in DIAGNOSTIC_MASKS:raise ValueError('Undeclared station diagnostic mask')
+    return struct.pack('<BBHI',0,0,8+len(sid),mask)+sid
 
-def add_subject(raw,sid):
+def add_subject(raw,sid,mask=MASK):
     rows=aces(raw)
     if any(row[8:]==sid for row in rows):raise ValueError('Actor already has station ACE')
-    return support.packed_acl(raw,rows+[owned_ace(sid)])
+    return support.packed_acl(raw,rows+[owned_ace(sid,mask)])
 
-def remove_subject(raw,sid):
+def remove_subject(raw,sid,mask=MASK):
     rows=aces(raw);matches=[row for row in rows if row[8:]==sid]
-    if matches and matches!=[owned_ace(sid)]:raise ValueError('Station actor ACE changed')
+    if matches and matches!=[owned_ace(sid,mask)]:raise ValueError('Station actor ACE changed')
     return support.packed_acl(raw,[row for row in rows if row[8:]!=sid]),len(matches)
 
 class Grant:
     read=support.Grant.read
-    def __init__(self):
+    def __init__(self,mask=MASK):
         if os.name!='nt' or Path(__file__).resolve().parent!=ROOT or C.sizeof(P)!=8 or not C.windll.shell32.IsUserAnAdmin():raise ValueError('Fixed guest coordinator required')
+        if mask!=MASK and not json.loads((ROOT/'expected.json').read_bytes()).get('station_bootstrap_matrix_only'):
+            raise ValueError('Additional UI rights limited to trusted startup diagnostic')
         self.k,self.a,self.u=[C.WinDLL(name,use_last_error=True) for name in ('kernel32','advapi32','user32')]
         computer=C.create_unicode_buffer(128);length=T.DWORD(128)
         require(bind(self.k,'GetComputerNameW',T.BOOL,T.LPWSTR,C.POINTER(T.DWORD))(computer,C.byref(length)))
@@ -65,12 +69,13 @@ class Grant:
         if session.value!=3 or name.value!='WinSta0':raise ValueError('Exact existing session3 WinSta0 required')
         self.station=require(bind(self.u,'OpenWindowStationW',T.HANDLE,T.LPCWSTR,T.BOOL,T.DWORD)('WinSta0',False,0x60002))
         self.journal=ROOT/'scratch/ordinary-actor.json';self.data=self.read();self.sid_text=self.data['sid'];self.sid=P()
-        self.report=dict(station='WinSta0',session_id=3,subject=self.sid_text,mask=MASK,retired=False)
+        self.mask=mask
+        self.report=dict(station='WinSta0',session_id=3,subject=self.sid_text,mask=mask,retired=False)
         require(bind(self.a,'ConvertStringSidToSidW',T.BOOL,T.LPCWSTR,C.POINTER(P))(self.sid_text,C.byref(self.sid)))
         length=bind(self.a,'GetLengthSid',T.DWORD,P)(self.sid)
         self.sid_bytes=C.string_at(self.sid,length)
-        self.owned=owned_ace(self.sid_bytes)
-        assert MASK&0xd0254==0  # no delete/DACL/owner, clipboard, exit, screen or global-attribute writes
+        self.owned=owned_ace(self.sid_bytes,mask)
+        assert mask&0xd0000==0  # never delete, change DACL or take ownership
     def record(self,state):
         data=self.read()
         if data['sid']!=self.sid_text or data['nonce']!=self.data['nonce']:raise ValueError('Station journal identity changed')
@@ -106,8 +111,8 @@ class Grant:
         return after
     def apply(self):
         if self.read().get('window_station',{}).get('phase') not in (None,'retired'):raise ValueError('Prior station grant needs retirement')
-        before=self.snapshot();candidate=add_subject(before['raw'],self.sid_bytes)
-        state=dict(phase='prepared',station='WinSta0',session_id=3,subject=self.sid_text,mask=MASK,workers_started=False,
+        before=self.snapshot();candidate=add_subject(before['raw'],self.sid_bytes,self.mask)
+        state=dict(phase='prepared',station='WinSta0',session_id=3,subject=self.sid_text,mask=self.mask,workers_started=False,
                    owned_ace=base64.b64encode(self.owned).decode(),before_sddl=before['sddl'])
         self.record(state);after=self.update(before,candidate)
         state['phase']='applied';self.record(state);self.report.update(before_sddl=before['sddl'],applied_sddl=after['sddl'])
@@ -118,8 +123,8 @@ class Grant:
         if not state:self.report['retired']=True;return
         if not quiescent:raise ValueError('Station workers not quiescent')
         if state.get('phase') not in ('prepared','applied','retired'):raise ValueError('Unknown station grant phase')
-        if (state['station'],state['session_id'],state['subject'],state['mask'],state['owned_ace'])!=('WinSta0',3,self.sid_text,MASK,base64.b64encode(self.owned).decode()):raise ValueError('Station grant ownership changed')
-        before=self.snapshot();candidate,count=remove_subject(before['raw'],self.sid_bytes)
+        if (state['station'],state['session_id'],state['subject'],state['mask'],state['owned_ace'])!=('WinSta0',3,self.sid_text,self.mask,base64.b64encode(self.owned).decode()):raise ValueError('Station grant ownership changed')
+        before=self.snapshot();candidate,count=remove_subject(before['raw'],self.sid_bytes,self.mask)
         after=self.update(before,candidate) if count else before
         if any(row[8:]==self.sid_bytes for row in aces(after['raw'])):raise ValueError('Station actor ACE remains')
         state.update(phase='retired',after_sddl=after['sddl']);self.record(state)
@@ -128,6 +133,30 @@ class Grant:
         if self.sid:bind(self.k,'LocalFree',P,P)(self.sid);self.sid=None
         if self.station:require(bind(self.u,'CloseWindowStation',T.BOOL,T.HANDLE)(self.station));self.station=None
 
+def bootstrap_matrix(g):
+    data=g.actor();private={key:value for key,value in os.environ.items() if key.startswith('DISKED_TEST_ACTOR_')}
+    work=Path(json.loads((ROOT/'scratch/state.json').read_bytes())['work']);rows=[]
+    for mask in DIAGNOSTIC_MASKS:
+        grant=Grant(mask);instance=job=child=None;row=dict(mask=mask)
+        try:
+            grant.apply();grant.started()
+            folder=g.fresh(work/('bootstrap-'+hex(mask)[2:]));instance=g.worker(folder,private,namespace_compat=True)
+            request=folder/'startup-request.json';variant='mask-'+hex(mask)[2:]
+            request.write_text(json.dumps(dict(variant=variant,user_sid=data['sid'],desktop=instance.desktop_name)))
+            job=g.S.WindowsJob()
+            child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'startup'],os.environ,job,diagnostic_original=True)
+            row.update(exit_code=child.wait(timeout=15),parameters=instance.last_launch,
+                       log=instance.log_path.read_bytes()[-8192:].decode(errors='replace'))
+            observation=folder/('startup-'+variant+'.json')
+            row['observation']=json.loads(observation.read_bytes()) if observation.exists() else None
+        finally:
+            if job:row['job_retirement']=g.retire_job(job)
+            if child:child.wait(timeout=10);child.close()
+            if instance:instance.close()
+            grant.retire(quiescent=True);row['station_retirement']=grant.report;grant.close()
+            rows.append(row)
+    return rows
+
 def coordinate(g,body):
     grant=None;body_started=False
     try:
@@ -135,10 +164,19 @@ def coordinate(g,body):
         if interrupted.returncode!=19:raise RuntimeError('Station setup fault did not reach boundary: '+interrupted.stderr[-4096:].decode(errors='replace'))
         grant=Grant();assert grant.read()['window_station']['workers_started'] is False
         grant.retire(quiescent=True);recovery=dict(grant.report);grant.close();grant=None
+        if json.loads((ROOT/'expected.json').read_bytes()).get('station_bootstrap_matrix_only'):
+            rows=bootstrap_matrix(g)
+            proof=dict(status='pass',scope='Six fixed trusted standard-user bootstrap observations only;no restricted worker or product qualification',
+                       all_owned_processes_retired=True,window_station_recovery=recovery,station_bootstrap_matrix=rows)
+            assert len(rows)==len(DIAGNOSTIC_MASKS) and all(row['station_retirement']['retired'] for row in rows)
+            (ROOT/'proof-result.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
+            return
         grant=Grant();grant.apply();grant.started();body_started=True;body()
     except BaseException as error:
         if not body_started:
-            if grant is None:grant=Grant()
+            if grant is None:
+                state=json.loads((ROOT/'scratch/ordinary-actor.json').read_bytes()).get('window_station',{})
+                grant=Grant(state.get('mask',MASK))
             state=grant.read().get('window_station',{})
             if state.get('workers_started') is True:raise ValueError('Prior worker retirement uncertain') from error
             grant.retire(quiescent=True)

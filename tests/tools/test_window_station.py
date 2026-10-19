@@ -42,4 +42,11 @@ class StationDeltaTests(unittest.TestCase):
         for forbidden in (0x10000,0x40000,0x80000,4,0x10,0x40,0x200):
             self.assertEqual(S.MASK&forbidden,0)
 
+    def test_fixed_diagnostic_masks_never_edit_security_or_delete_station(self):
+        self.assertEqual(S.DIAGNOSTIC_MASKS,(0x2012b,0x2032b,0x2012f,0x2013b,0x2016b,0x2037f))
+        for mask in S.DIAGNOSTIC_MASKS:
+            self.assertEqual(mask&0xd0000,0)
+            self.assertEqual(struct.unpack_from('<I',S.owned_ace(sid(8),mask),4)[0],mask)
+        with self.assertRaises(ValueError):S.owned_ace(sid(8),0xf037f)
+
 if __name__=='__main__':unittest.main()
