@@ -1,6 +1,6 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "twentieth-stop-rearmed.json: collection rearmed after a stop requested on another loader thread; baseline reached256-call cap, restricted case not_run",
+  "base": "twenty-first-error-reporting.json: baseline and restricted CsrClientConnectToServer both return0; restricted still fails KernelBase. kernelbase-static.json identifies exact-image entry return/stage offsets.",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
   "actor": "Existing fresh standard-user debugger inside its containing job derives a privilege-filtered baseline and the exact fresh-user+S-1-5-12 restricting set. Verify actual complete token restricting sets before launching each debug-only child. Preserve prior user-only trace separately. No fallback.",
   "bounds": {
@@ -15,12 +15,11 @@
   "required": [
     "Baseline reaches complete and exits0; record actual restricted process outcome separately",
     "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
-    "Continue only the first loader breakpoint and the explicitly owned initial-thread hardware breakpoints; other exceptions remain not-handled",
-    "Record CsrClientConnectToServer arguments and return NTSTATUS, plus RtlSetLastWin32ErrorAndNtStatusFromNtStatus/RtlSetLastWin32Error error arguments on the owned initial thread; bound256 calls per case. Rtl setters return void: their RAX is not a status. An outer watched call masks nested watched calls; absence is not a process-wide claim.",
+    "Continue only first loader breakpoint and at most4 observations at the one hash/byte-verified initialization return point on the owned initial thread; other exceptions remain not-handled",
+    "Bind KernelBase SHA256 c5e318c29e2bb032b21d981d3c130f0645c37b4330f5ef9659456452b2d0f00c and verify instruction bytes at RVA0x49663. Record AL/EAX and read-only WORD at RVA0x2b7da4. Both cases must retain actual return observations; no invented symbol/API or portable-offset claim.",
     "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
-    "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup",
-    "At python314.dll load request observation stop. Apply it at the next owned initial-thread breakpoint without rearming, preserving any pending call as incomplete. Bound post-stop pending breakpoint handling to8, keep256-call/event/time/storage caps and require baseline payload completion."
+    "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"
   ],
   "original_full_profile_controls_unchanged": true,
   "sources": [
@@ -29,7 +28,8 @@
     "https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex",
     "https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-debug_event",
     "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadcontext",
-    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext"
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext",
+    "https://learn.microsoft.com/en-us/windows/win32/debug/debugging-events"
   ],
   "comparison": "Compare the full RC compatibility candidate to the retained user-only KernelBase failure. A different later failure is not equivalent to the same module failure. Both actual traces remain required."
 }

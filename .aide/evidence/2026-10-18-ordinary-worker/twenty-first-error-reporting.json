@@ -1,0 +1,650 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T09:56:53.9194630Z",
+  "status": "pass",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "bceadc15e2c31da603c60bcc1efc6104e103ffb0",
+    "files": [
+      {
+        "path": "loader-forensics.py",
+        "bytes": 30764,
+        "sha256": "394612F9CEA94338213C906DBB4835CE146D75F0A67944AD8B6D6A026DB8C8B3"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1045,
+        "sha256": "61D42483B78EC9430A2BFFF0EC22A2FAFCCA25E7BD897A396A614E87B303B6C0"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23013,
+        "sha256": "BB4CC19AC8E76D0CA818D15145B254D49B7CC7AFCD9293EDE6861CD3C2D01793"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13774,
+        "sha256": "B624A297F552DE4042A9F3DBC131C394BB68E0B5E54445DE67DABCCEF946B4EA"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9790,
+        "sha256": "C6D5D09284BD92A05CD664EC332CF3D89D708E5125682E15E7C7FE3733EA17AD"
+      }
+    ]
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T09:56:58.3797009Z",
+      "status": "pass",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-23c33692",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1023",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "EB00356BE8FD2D458D406636F7E2A8D7",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.4db93cb8f04b4d88b467587a8efab728",
+            "sid": "S-1-15-2-2363652481-1686433053-2886052187-1083662853-2904828370-2849126251-77625191"
+          },
+          {
+            "name": "org.disked.worker.6dbd27d288db45b08c11f8d23ab8ab8f",
+            "sid": "S-1-15-2-3513357744-3829943521-1369235667-4263421499-3575924604-3527567044-4098728387"
+          },
+          {
+            "name": "org.disked.worker.278b539dd2974dbfa471a4c81d5d99e1",
+            "sid": "S-1-15-2-3342933291-3151393155-772759430-2076477306-4291461886-3822521921-1123975737"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1023)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480EB00356BE8FD6636F7E2A8D7",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"pass\", \"peak_work_bytes\": 52, \"workspace_removed\": true, \"exit_code\": 0}",
+      "runner_exit": 0,
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T09:57:13.0187222Z"
+    },
+    "proof": {
+      "status": "pass",
+      "scope": "Per-image loader diagnostic only; no ordinary-worker qualification",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "actor_exit_code": 0,
+      "debug": {
+        "status": "pass",
+        "bootstrap_identity": {
+          "pid": 4016,
+          "restricted": false,
+          "administrator": false,
+          "elevated": 0,
+          "appcontainer": 0,
+          "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1023",
+          "restricting_sids": [],
+          "restricting_sid": null,
+          "integrity_sid": "S-1-16-8192",
+          "privileges": [
+            {
+              "name": "SeShutdownPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeChangeNotifyPrivilege",
+              "attributes": 3
+            },
+            {
+              "name": "SeUndockPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeIncreaseWorkingSetPrivilege",
+              "attributes": 0
+            },
+            {
+              "name": "SeTimeZonePrivilege",
+              "attributes": 0
+            }
+          ]
+        },
+        "variants": [
+          {
+            "name": "baseline",
+            "phase": "collected",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-23c3369226f242d3af97c5265b2a4126.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ucrtbase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\vcruntime140.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python314.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ws2_32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\version.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcrt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\rpcrt4.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcrypt.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\advapi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\sechost.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\bcryptprimitives.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\python3.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_bz2.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_lzma.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_zstd.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\_ctypes.pyd"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ole32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DLLs\\libffi-8.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\combase.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\gdi32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\win32u.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\gdi32full.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\msvcp_win.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\user32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\oleaut32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\shell32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel.appcore.dll"
+              }
+            ],
+            "exceptions": [
+              {
+                "code": "0x80000003",
+                "first_chance": 1
+              }
+            ],
+            "events": 2378,
+            "native_calls": [
+              {
+                "function": "CsrClientConnectToServer",
+                "arguments": [
+                  "0x9795cde7e0",
+                  "0x1",
+                  "0x9795cde7a8",
+                  "0x8"
+                ],
+                "return_address": "0x7ffa8d10b126",
+                "returned_rax_low32": "0x0",
+                "status": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32ErrorAndNtStatusFromNtStatus",
+                "arguments": [
+                  "0xc00700bb",
+                  "0x0",
+                  "0x9795cde488",
+                  "0x9795cde590"
+                ],
+                "error_argument_low32": "0xc00700bb",
+                "return_address": "0x7ffa8d10a0c9",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x9795cde668",
+                  "0x9795cde6e0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d0e72c1",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x2",
+                  "0xc0000034",
+                  "0x58",
+                  "0x5a"
+                ],
+                "error_argument_low32": "0x2",
+                "return_address": "0x7ffa8d0ee0cd",
+                "returned_rax_low32": "0x2"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x9795cde338",
+                  "0x9795cde3c0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x0",
+                  "0x0",
+                  "0x9795cde338",
+                  "0x9795cde3c0"
+                ],
+                "error_argument_low32": "0x0",
+                "return_address": "0x7ffa8d129579",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x0",
+                  "0x9795cde658",
+                  "0x9795cde7f0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0xbb"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x272907b0000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x272907b0000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x272907b0000",
+                  "0xffffffff",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x40",
+                  "0x0",
+                  "0x0"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x272907b4ed0",
+                  "0x4",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0xbb",
+                  "0x272907b3090",
+                  "0x5",
+                  "0x1"
+                ],
+                "error_argument_low32": "0xbb",
+                "return_address": "0x7ffa8d1a9741",
+                "returned_rax_low32": "0x95809000"
+              }
+            ],
+            "native_call_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": false,
+            "restricting_sids": [],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 32,
+            "job_inherited": true,
+            "native_entrypoints": {
+              "CsrClientConnectToServer": "0x7ffa8f818e20",
+              "RtlSetLastWin32ErrorAndNtStatusFromNtStatus": "0x7ffa8f8618b0",
+              "RtlSetLastWin32Error": "0x7ffa8f8618d0"
+            },
+            "native_observation_stop_thread": 2432,
+            "native_observation_stop_requested_at": "python314.dll LOAD_DLL_DEBUG_EVENT",
+            "native_call_pending_at_observation_stop": null,
+            "post_stop_breakpoints": 2,
+            "native_observation_stopped_at": "next owned initial-thread breakpoint after python314.dll load",
+            "exit_code": 0,
+            "native_call_pending_at_exit": null,
+            "trace": {
+              "complete": true,
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 275496,
+              "sha256": "737a800a2bc2e3c5506bc217e586ef927fce1dcfb681c53ae7f8530c8cf8d37c",
+              "xz_sha256": "c018374a1b359907138799a670f846a50fad636f1b52a5f36249fa6e3bede1a3",
+              "xz_base64": "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"
+            },
+            "breadcrumb": "python_entered\nbefore_import json\nafter_import json\nbefore_import pathlib\nafter_import pathlib\nbefore_import subprocess\nafter_import subprocess\nbefore_import tempfile\nafter_import tempfile\nbefore_import ctypes\nafter_import ctypes\nbefore_import ctypes.wintypes\nafter_import ctypes.wintypes\nbefore_load user32\nafter_load user32\nbefore_load shell32\nafter_load shell32\ncomplete\n"
+          },
+          {
+            "name": "restricted_compat",
+            "phase": "collected",
+            "modules": [
+              {
+                "event": 3,
+                "path": "\\\\?\\C:\\ProgramData\\DiskEd\\python314\\DiskEdLoader-23c3369226f242d3af97c5265b2a4126.exe"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\ntdll.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\kernel32.dll"
+              },
+              {
+                "event": 6,
+                "path": "\\\\?\\C:\\Windows\\System32\\KernelBase.dll"
+              }
+            ],
+            "exceptions": [],
+            "events": 152,
+            "native_calls": [
+              {
+                "function": "CsrClientConnectToServer",
+                "arguments": [
+                  "0x1ca82de7d0",
+                  "0x1",
+                  "0x1ca82de798",
+                  "0x8"
+                ],
+                "return_address": "0x7ffa8d10b126",
+                "returned_rax_low32": "0x0",
+                "status": "0x0"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x6",
+                  "0x0",
+                  "0x0",
+                  "0x480"
+                ],
+                "error_argument_low32": "0x6",
+                "return_address": "0x7ffa8f8615e0",
+                "returned_rax_low32": "0x6"
+              },
+              {
+                "function": "RtlSetLastWin32Error",
+                "arguments": [
+                  "0x6",
+                  "0x0",
+                  "0x0",
+                  "0x1"
+                ],
+                "error_argument_low32": "0x6",
+                "return_address": "0x7ffa8f8615e0",
+                "returned_rax_low32": "0xa7eb4000"
+              }
+            ],
+            "native_call_scope": "Three ntdll entrypoints on the owned initial thread only",
+            "token_restricted": true,
+            "restricting_sids": [
+              "S-1-5-21-385394198-2603589104-1765785984-1023",
+              "S-1-5-12"
+            ],
+            "elevated": 0,
+            "appcontainer": 0,
+            "pid": 1152,
+            "job_inherited": true,
+            "native_entrypoints": {
+              "CsrClientConnectToServer": "0x7ffa8f818e20",
+              "RtlSetLastWin32ErrorAndNtStatusFromNtStatus": "0x7ffa8f8618b0",
+              "RtlSetLastWin32Error": "0x7ffa8f8618d0"
+            },
+            "exit_code": 3221225794,
+            "native_call_pending_at_exit": null,
+            "trace": {
+              "complete": true,
+              "encoding": "normalized UTF-8 debugger strings; xz/base64",
+              "dictionary_bytes": 2097152,
+              "bytes": 19823,
+              "sha256": "5338ccba6f0c55fca592772fca7a9daadc32ba5f317585361124b1fc2920f79f",
+              "xz_sha256": "251091a0ee0b541a9633ec25cf5dab52f33d3f54f3bcb9c31687e1014494be83",
+              "xz_base64": "/Td6WFoAAATm1rRGAgAhARIAAAAjuIcs4E1uBVRdABgNA20TGyVMCRNb9bZBS/8LdLJOELwnGchMfvk82jIQUkyek/go0XqC3Yu0dOfXK5vNG8aipSjIzmLHCed1CbulTl32HLPSrD99xT2fCgQsO44cV21yO0mFlf80vonx/VuLR6wh69Dc8qN4qpbv3sGTeQ4QKpIBye2uutsRG0fwLUlSiXaBAv30kV0lLh9euZeszeLXVbbEpZjZ49/qI3MQFBbStFRUZKIXDULfQ9NNk9nZixyu6IZhYHcMhe8cTNyLnRtNThY3eBS2Zw9Z1qB3gnHEQBkCF2wIKheaidKlvssRmE2QPywIzxmUWh0HsaMMxv0P/CtZ7WXUrZq/wP2G5ivKp1yG3zVFAFsZy+2f4HG3cuaMURGReo39ATw7L7I6qW/L1V4/BVPLsgBd59XCSi2X0EvaDTdgOVd43zqHqH4JRjsM0Nmo+IIse+BZ0i3qGbbLPHUUXd09xB7j3H9WrXpEwzS/Lv48ZBJH1h147lr9MhaFDqM478EwF1by9mVxAEKLnWeaQ2yU4rzP8cctTWgQOrx+R3aRh8kzQZTqstvkPtaoqhyIaT5ZU9G6qkc18Xai/tBHk6yfKzzzfZDw8z+7KLWWvaxcNTpbyTabR4bc1dn6Q9uKf8SzlnZgTrEOGMU6wZPmTdTd/NY4FQrZwd2zCsb7t1X/N2GYEmkzI0iT8Stzqt/+OrQqlzsZWFct0HXEtkAHw3k99rUSzldLpFjSfNG7s2YCTda/XoNEJtNZJ4Dv6tvwxnu2pbREJNjV1GkuMqzOed1GY3/jJRXQ4fZzl9DolJoEo0+++bVlGaQwaoOMEOBWBi2wI074u2tRHKIX3KRRPSAsVko92jqBFtT4+sJZxIpMxn00xQz9O9dcoapUFhZNI9G7ubz0mr8NqmhANYZTet9nsRZ3lT626TRw9qJRmzWW+TwrYVtV1OdbfAVzAPZuZvVbVLT52MAArqpt6Mr/mBz+8fweNXVjfEiGFnA3oq/6MNVOEjgoVY83011gJ7EotB8Gk7i+O7kGvqdyZS+Gvyax2Z0JT4Og3Ch607KJ3QQEgiz2Eikw/0ykKvNIfF26It0SfeDVwJHTt5cSwu59mKiiRh9QpmrDGwU7zCPvUzRf+zzl6boq+zY2/VwiVpsLlZEfCB8mSYu6Y3wwcfeZVJakTyxo9DvLZrcX1yMUdO8abhuCBdQWDOgIj4RzdXWMg2GFW36/WibPh9sNcq/8KZo41tSJgdm1k4U2/7qFtr0mD+Cxv3qktJIG14P2vRprppPvAHmDN16k3h+HIpi4nloQN92tnZhWQrgvIDqb6oZDew78yc7QftMSe1XCUaRBWny/AcOamvuJ6be3iXoAOIAXfGF3ATrIZrIWqcoRSUvhjo+mXqgEde617MjoDRNaQbgt3ZLBhBtcAMtrCuxgA5YsXe6ZHdgqTZBStdmWYSEMHW5DQtFwE6gRMs+UyWjwcBz8M+Ot11yNLfSuZ3LRB0cqRHM/ZqBMCippStk4o/rZroK/kaLcIoIx2ToA5nswjzCKaCsHdzZk5IrVv99mihi2FrSxDDCNuoj2CMxJTA4ZTbz7t8dlqd2ehBI1/lmisZumxiq5Fldg6WKnb6zjXsZh/it/XEb1tKo8d+VTpuxuh2Nzky3Red7KYfpk76BJPrOhNvONQn4dp/4ENHdRzRwcMEsn2lyeMyAj64ztMmmpSWIFlZ9gySR0Cwy8dNyx9bY3HcOa32+eUi0mz2zHRC/GhQdCeXlpekDlt93nCu7fXxDsWAy4JIpnCBo2aUJ0MvuEfK4yuIO8Evq+vgKtyr+foPZIHvcOTg6+AC8fpBYmQVPFAAHwCu+aAQBsiPT7scRn+wIAAAAABFla"
+            },
+            "breadcrumb": null
+          }
+        ]
+      },
+      "image_sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "registry_scope": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\DiskEdLoader-23c3369226f242d3af97c5265b2a4126.exe",
+      "job_active_processes_at_retirement": 0,
+      "image_registry_removed": true,
+      "diagnostic_image_removed": true,
+      "original_runtime_preserved": true
+    },
+    "free_c_bytes": 98049949696
+  },
+  "host_backing_end_bytes": 31896633344,
+  "finished_at": "2026-10-19T09:57:13.5031157Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "c6d5d09284bd92a05cd664ec332cf3d89d708e5125682e15e7c7fe3733ea17ad",
+    "guest-proof.ps1": "b624a297f552de4042a9f3dbc131c394bb68e0b5e54445de67dabccef946b4ea",
+    "guest-proof.py": "bb4cc19ac8e76d0ca818d15145b254d49b7cc7afcd9293ede6861cd3c2d01793",
+    "loader-forensics.py": "394612f9cea94338213c906dbb4835ce146d75f0a67944ad8b6d6a026db8c8b3",
+    "loader-observer.py": "61d42483b78ec9430a2bfff0ec22a2fafcca25e7bd897a396a614e87b303b6c0",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "f581fcf3972df35f9d1816079158eac6aae366b74a1a2a66a790f62f01c9213d",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 0,
+  "experiment_kind": "owned per-image loader tracing; no profile admission",
+  "host_error_tail": ""
+}
