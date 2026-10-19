@@ -19,13 +19,14 @@ def once(text, before, after):
 
 CREATE_ACTOR=r'''
     $actorName='DiskEdTest-'+$nonce.Substring(0,8)
-    $actorDescription='DiskEd owned test '+$nonce
+    $actorDescription='DiskEd test '+$nonce
     if(Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue){throw 'Disposable actor already exists; no adoption.'}
     $actorJournal=Join-Path $scratch 'ordinary-actor.json'
     $actorState=@{phase='creating';name=$actorName;nonce=$nonce;description=$actorDescription}
     [IO.File]::WriteAllText($actorJournal,($actorState|ConvertTo-Json))
-    $actorSecret=[guid]::NewGuid().ToString('N')+'!aZ9'
-    $actorSecure=ConvertTo-SecureString $actorSecret -AsPlainText -Force
+    if(-not$ActorPassword-or$ActorPassword.Length-eq0){throw 'Owner-supplied guest test credential required.'}
+    $actorSecure=$ActorPassword
+    $actorSecret=([Management.Automation.PSCredential]::new($actorName,$actorSecure)).GetNetworkCredential().Password
     $newActor=New-LocalUser -Name $actorName -Password $actorSecure -Description $actorDescription -PasswordNeverExpires -AccountNeverExpires
     $actorSid=$newActor.SID.Value
     Add-LocalGroupMember -SID ([Security.Principal.SecurityIdentifier]::new('S-1-5-32-545')) -Member $actorName
@@ -73,6 +74,7 @@ def main():
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
     (stage/'expected.json').write_text(json.dumps(expected,indent=2)+'\n',encoding='utf-8',newline='\n')
     setup=(PRIOR/'guest-proof.ps1').read_text()
+    setup=once(setup,'[int]$SizeMiB=32)','[int]$SizeMiB=32,[Security.SecureString]$ActorPassword)')
     setup=once(setup,"$environmentVerified=$false","$environmentVerified=$false\n$actorName=$null;$actorSid=$null;$actorDescription=$null")
     marker=next(line for line in setup.splitlines() if "[IO.File]::WriteAllText((Join-Path $scratch 'owner.json')" in line)
     setup=once(setup,marker,marker+'\n'+CREATE_ACTOR)
@@ -89,6 +91,9 @@ def main():
     fixed_root="$root='"+str(ROOT).replace("'","''")+"'"
     host=once((PRIOR/'run-proof.ps1').read_text(),root_line,fixed_root)
     host=once(host,'org.disked.guest-capacity-campaign/1','org.disked.ordinary-token-campaign/1')
+    host=once(host,"    $job=Invoke-Command -Session $session -AsJob", "    $credentialPath=Join-Path $env:LOCALAPPDATA 'DiskEd\\credentials\\vm-3ebbe558-91b9-435b-96e4-0c8199bd38ad.xml'\n    $testCredential=Import-Clixml -LiteralPath $credentialPath\n    if($testCredential-isnot[Management.Automation.PSCredential]-or$testCredential.UserName-notmatch'^(?:(?:\\.|BLACKGLASS-HYPE|BLACKGLASS-HYPERV)\\\\)?Agents$'){throw 'Expected protected Agents credential required.'}\n    $job=Invoke-Command -Session $session -AsJob")
+    host=once(host,'-ArgumentList $true,$SizeMiB','-ArgumentList $true,$SizeMiB,$testCredential.Password')
+    host=once(host,'    if($session){Remove-PSSession -Session $session}','    if($session){Remove-PSSession -Session $session}\n    $testCredential=$null')
     host=once(host,"        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},", "        @{host=(Join-Path $PSScriptRoot 'ordinary-worker.py');relative='ordinary-worker.py'},\n        @{host=(Join-Path $PSScriptRoot 'target.py');relative='target.py'},\n        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},")
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)

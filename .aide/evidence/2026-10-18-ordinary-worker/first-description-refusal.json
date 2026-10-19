@@ -1,0 +1,95 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T07:26:11.5321275Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "base_revision": "ec9372c0af63c9ef6068cd03ad48d9c1a9fe2b55",
+    "files": [
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 14318,
+        "sha256": "8EB26B6A37D19BC01DD938C2FFF5A3BE796C21D92450B075824C1331516F9131"
+      },
+      {
+        "path": "target.py",
+        "bytes": 9258,
+        "sha256": "86952468DEFA14F1E1906A8BC8CEAC8EB594C57172DC78FAAACB6FFF2B64FBC0"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 9958,
+        "sha256": "5DF122DC6581648EBDC2D98605D8347ABEE24B18BA8DCE8DBC279C511766CCC1"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13295,
+        "sha256": "FE435D0E0C6856732874396987CE2988595F3ACCB0944F3ED233EC480ADABCE9"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 3807,
+        "sha256": "B28398D155037F819BDE6FA7351496A512B0C95EA9FF0828E17B880FF34A126F"
+      }
+    ],
+    "schema": "org.disked.guest-proof-sources/1"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T07:26:59.4977490Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": false,
+      "error": "Cannot validate argument on parameter 'Description'. The character length of the 50 argument is too long. Shorten the character length of the argument so it is fewer than or equal to \"48\" characters, and then try the command again.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T07:27:07.2353488Z"
+    },
+    "proof": null,
+    "free_c_bytes": 98111254528
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T07:27:12.3784917Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "3bd467743703d3443981749e99b80d934e3a0ac0ae8c3247a7dccf85fb353dc8",
+    "expected.json": "b28398d155037f819bde6fa7351496a512b0c95ea9ff0828e17b880ff34a126f",
+    "guest-proof.ps1": "fe435d0e0c6856732874396987ce2988595f3accb0944f3ed233ec480adabce9",
+    "guest-proof.py": "5df122dc6581648ebdc2d98605d8347abee24b18ba8dce8dbc279c511766ccc1",
+    "ordinary-worker.py": "8eb26b6a37d19bc01dd938c2fff5a3be796c21d92450b075824c1331516f9131",
+    "run-proof.ps1": "e54088f58fc010f64e92740f95a082b8b519a1fe9bb1a905bcc15b1f84dcee49",
+    "target.py": "86952468defa14f1e1906a8bc8ceac8eb594c57172dc78faaacb6fff2b64fbc0"
+  },
+  "host_exit_code": 1,
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-7z4ly8ud\\ordinary-proof\\run-proof.ps1:62\r\nLine |\r\n  62 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}
