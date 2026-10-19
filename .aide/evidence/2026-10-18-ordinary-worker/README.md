@@ -1,12 +1,13 @@
 # Ordinary worker and current native qualification
 
-Latest native replay: `7a1a645b` builds the 14 selected targets and passes UI
-preflight, but all six groups refuse memory-budget setup with Windows error 5.
-The original restricted interactive worker controls pass separately at `dccb6a19`.
-All owned cleanup completes; `seventy-third-memory-bootstrap-failure.json` and
-its verified compact archive preserve the native refusal. Named-object startup
-is being isolated before another native build. Full x64/Win32 admission and
-main integration remain open. Earlier results below retain their original scope.
+Latest component result: `cdbb355b` compiles and executes the unchanged
+production WindowsMemoryBudget with its actual 256 MiB job setup ready. The
+measured guest fixture grants named-object creation only to the disposable SID;
+original 32 MiB controls and exact owned namespace paths pass at `2e74ccbe`.
+All owned resources and temporary grants retire. See `seventy-ninth-native-memory-pass.json`
+and `seventy-eighth-named-object-pass.json`, with separate cleanup receipts.
+The six native groups, full x64/current Win32 qualification and main integration
+remain open. Earlier failures below retain their original applicability.
 
 Current result: the original 32 MiB controls, representative restricted x64
 compiler/production-store journey and complete 512 MiB controls pass. See
