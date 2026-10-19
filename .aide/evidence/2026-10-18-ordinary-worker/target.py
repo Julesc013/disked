@@ -69,12 +69,12 @@ def identity():
         result = dict(pid=os.getpid(), restricted=bool(a.IsTokenRestricted(token)), administrator=bool(C.windll.shell32.IsUserAnAdmin()))
         for kind, key in ((20, 'elevated'), (29, 'appcontainer')):
             v = T.DWORD(); require(a.GetTokenInformation(token, kind, C.byref(v), 4, C.byref(size))); result[key] = v.value
-        for kind, key in ((1, 'user_sid'), (11, 'restricting_sid')):
+        for kind, key in ((1, 'user_sid'), (11, 'restricting_sid'), (25,'integrity_sid')):
             a.GetTokenInformation(token, kind, None, 0, C.byref(size))
             assert 0 < size.value <= 4096
             data = C.create_string_buffer(size.value)
             require(a.GetTokenInformation(token, kind, data, size, C.byref(size)))
-            if kind == 1: sid = C.cast(data, C.POINTER(Sid)).contents.sid
+            if kind in (1,25): sid = C.cast(data, C.POINTER(Sid)).contents.sid
             else:
                 groups = C.cast(data, C.POINTER(Groups)).contents
                 assert groups.count == 1; sid = groups.first.sid
@@ -105,20 +105,22 @@ def main():
     result = identity()
     assert result['restricted'] and not any(result[k] for k in ('administrator','elevated','appcontainer'))
     assert result['user_sid'] == result['restricting_sid'] == plan['user_sid']
-    if mode == 'launch':
-        result['stdio']=[]
-        for which in (0xfffffff6,0xfffffff5,0xfffffff4):
-            handle=k.GetStdHandle(which);C.set_last_error(0)
-            kind=k.GetFileType(handle)
-            row=dict(selector=which,kind=kind,winerror=C.get_last_error())
-            if kind==1:
-                value=FileIdentity()
-                if k.GetFileInformationByHandleEx(handle,18,C.byref(value),C.sizeof(value)):
-                    row['file_identity']=dict(volume=value.volume,identity=bytes(value.identity).hex())
-            result['stdio'].append(row)
+    assert result['integrity_sid']=='S-1-16-8192'
+    result['stdio']=[]
+    for which in (0xfffffff6,0xfffffff5,0xfffffff4):
+        handle=k.GetStdHandle(which);C.set_last_error(0)
+        kind=k.GetFileType(handle)
+        row=dict(selector=which,kind=kind,winerror=C.get_last_error())
+        if kind==1:
+            value=FileIdentity()
+            if k.GetFileInformationByHandleEx(handle,18,C.byref(value),C.sizeof(value)):
+                row['file_identity']=dict(volume=str(value.volume),identity=bytes(value.identity).hex())
+        result['stdio'].append(row)
+    if 'canary_handle' in plan:
         info=FileIdentity()
         ok=k.GetFileInformationByHandleEx(plan['canary_handle'],18,C.byref(info),C.sizeof(info))
-        result['canary_inherited']=bool(ok and info.volume==plan['canary_volume'] and bytes(info.identity).hex()==plan['canary_identity'])
+        result['canary_inherited']=bool(ok and str(info.volume)==plan['canary_volume'] and bytes(info.identity).hex()==plan['canary_identity'])
+    if mode == 'launch':
         result['variant']=plan['variant']
         Path('launch-'+plan['variant']+'.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
         return
@@ -143,6 +145,8 @@ def main():
         finally: require(k.CloseHandle(h))
         return
     assert mode == 'normal'
+    assert result['canary_inherited'] is False
+    assert result['stdio'][0]['kind']==2 and all(r['kind']==1 for r in result['stdio'][1:])
     root = Path.cwd().resolve()
     native = C.create_unicode_buffer(32768); length = k.GetTempPathW(len(native),native)
     assert 0 < length < len(native)

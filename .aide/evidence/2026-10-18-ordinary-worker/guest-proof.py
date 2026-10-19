@@ -14,6 +14,9 @@ import traceback
 
 ROOT = Path(__file__).resolve().parent
 
+class FileIdentity(C.Structure):
+    _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
+
 def load(name, path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
@@ -75,8 +78,6 @@ def diagnose():
         k=instance.k
         W.bind(k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(W.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
         W.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD)
-        class FileIdentity(C.Structure):
-            _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
         sa=W.SecurityAttributes(C.sizeof(W.SecurityAttributes),None,True)
         canary=k.CreateFileW(str(outside/'inheritance-canary.bin'),0xc0000000,3,C.byref(sa),1,0x80,None)
         if canary==C.c_void_p(-1).value:canary=None;raise C.WinError(C.get_last_error())
@@ -84,7 +85,7 @@ def diagnose():
         request=selected/'launch.json'
         for variant in expected['variants']:
             request.write_text(json.dumps(dict(user_sid=data['sid'],variant=variant,canary_handle=canary,
-                canary_volume=identity.volume,canary_identity=bytes(identity.identity).hex())))
+                canary_volume=str(identity.volume),canary_identity=bytes(identity.identity).hex())))
             row=dict(variant=variant)
             try:
                 job=S.WindowsJob()
@@ -129,7 +130,7 @@ def main():
         raise RuntimeError('Fixed guest source and active assertions required')
     result=dict(status='running',scope='Ordinary-token primitive proof only; no DiskEd/compiler qualification',
                 all_owned_processes_retired=False)
-    instance,job,child,coordinator=None,None,None,None
+    instance,job,child,coordinator,canary=None,None,None,None,None
     observed=[]
     try:
         data=actor();result['actor']={k:data[k] for k in ('name','sid','nonce')}
@@ -142,6 +143,10 @@ def main():
         (outside/'sentinel').write_bytes(b'preserve-owned-sentinel')
         normal=fresh(work_root/'normal'); instance=worker(normal,private)
         result['coordinator_sid']=instance.coordinator_sid
+        result['coordinator_integrity_sid']=instance.coordinator_integrity_sid
+        result['actor_integrity_sid']=instance.integrity_sid
+        result['private_ui_security']=instance.ui_security
+        assert all('(ML;;NW;;;ME)' in value for value in instance.ui_security.values())
         instance.apply_acl(outside,'D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;'+instance.coordinator_sid+')(A;OICI;0x1301bf;;;BU)')
         W.bind(instance.a,'ImpersonateLoggedOnUser',T.BOOL,T.HANDLE)
         W.bind(instance.a,'RevertToSelf',T.BOOL)
@@ -151,25 +156,39 @@ def main():
         assert (outside/'baseline').read_bytes()==b'1'
         (outside/'baseline').unlink();result['ordinary_group_write_control']=True
         source_before=hashlib.sha256((ROOT/'ordinary-worker.py').read_bytes()).hexdigest()
-        request=plan(normal,data);job=S.WindowsJob()
+        request=plan(normal,data)
+        W.bind(instance.k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(W.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
+        W.bind(instance.k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD)
+        sa=W.SecurityAttributes(C.sizeof(W.SecurityAttributes),None,True)
+        canary=instance.k.CreateFileW(str(outside/'inheritance-canary.bin'),0xc0000000,3,C.byref(sa),1,0x80,None)
+        if canary==C.c_void_p(-1).value:canary=None;raise C.WinError(C.get_last_error())
+        identity=FileIdentity();W.require(instance.k.GetFileInformationByHandleEx(canary,18,C.byref(identity),C.sizeof(identity)))
+        payload=json.loads(request.read_bytes());payload.update(canary_handle=canary,canary_volume=str(identity.volume),canary_identity=bytes(identity.identity).hex())
+        request.write_text(json.dumps(payload));job=S.WindowsJob()
         child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request)],os.environ,job)
         code=child.wait(timeout=25)
         result['normal_exit_code']=code
-        log=(normal/'worker.log').read_bytes();assert len(log)<=65536
+        result['launch_parameters']=instance.last_launch
+        log=instance.log_path.read_bytes();assert len(log)<=65536
         result['normal_log']=log.decode(errors='replace')
+        if (normal/'payload-result.json').exists():result['payload']=json.loads((normal/'payload-result.json').read_bytes())
         assert code==0
-        result['payload']=json.loads((normal/'payload-result.json').read_bytes())
         assert result['payload']['status']=='pass'
+        assert result['payload']['record_sha256']==hashlib.sha256(b'TWO').hexdigest()
+        assert result['payload']['record_sddl']=='D:P(A;;FA;;;SY)(A;;FA;;;'+data['sid']+')'
+        assert all(row['file_identity']==instance.last_launch['stdout_identity'] for row in result['payload']['stdio'][1:])
         assert 'ordinary-worker-proof-output' in result['normal_log']
         assert hashlib.sha256((ROOT/'ordinary-worker.py').read_bytes()).hexdigest()==source_before
         assert (outside/'sentinel').read_bytes()==b'preserve-owned-sentinel'
-        assert set(p.name for p in outside.iterdir())=={'sentinel'}
-        job.close();job=None;child.close();child=None;instance.close();instance=None
+        assert set(p.name for p in outside.iterdir())=={'sentinel','inheritance-canary.bin'}
+        job.close();job=None;child.close();child=None
+        W.require(instance.k.CloseHandle(canary));canary=None
+        instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
         controller_log=Path(os.environ['DISKED_WORK_ROOT'])/'controller.log'
         with controller_log.open('wb') as output:
             coordinator=subprocess.Popen([sys.executable,'-B',__file__,'--controller',str(abrupt)],
-                env=dict(os.environ,**private),stdout=output,stderr=subprocess.STDOUT)
+                env=dict(os.environ,**private),stdout=output,stderr=subprocess.STDOUT,close_fds=True)
             deadline=time.monotonic()+15
             while not all((abrupt/n).is_file() for n in ('controller.json','hold.json','descendant.json')):
                 if coordinator.poll() is not None:raise RuntimeError('Owned abrupt controller exited before readiness')
@@ -223,6 +242,7 @@ def main():
         if job:job.close()
         if child:
             child.wait(timeout=10);child.close()
+        if canary and instance:W.require(instance.k.CloseHandle(canary))
         if instance:instance.close()
         if observed:
             for handle,record in observed:
@@ -230,8 +250,8 @@ def main():
         result['all_owned_processes_retired']=True
         result['guest_c_free_bytes']=shutil.disk_usage('C:/').free
         result['python_sha256']=hashlib.sha256(Path(sys.executable).read_bytes()).hexdigest()
-        if 'normal' in locals() and (normal/'worker.log').exists():
-            data=(normal/'worker.log').read_bytes();assert len(data)<=65536
+        if 'normal' in locals() and (normal/'worker-basic-stdio.log').exists():
+            data=(normal/'worker-basic-stdio.log').read_bytes();assert len(data)<=65536
             result['normal_log']=data.decode(errors='replace')
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 

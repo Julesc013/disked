@@ -1,0 +1,14 @@
+{
+  "status": "candidate_not_qualified",
+  "basis": "Retained startup diagnostics: basic forms create processes, then exitC0000142 during DLL initialization.",
+  "startup": "CreateProcessWithTokenW with basic STARTUPINFO,explicit owned capped stdout/stderr and NUL stdin; no extended attribute flag or API fallback.",
+  "private_ui": "Actual user gets full access to its new private window station/desktop. Both new UI objects have explicit medium mandatory labels; no shared UI object or product record ACL changes.",
+  "required_extra_checks": [
+    "Actual UI security descriptors and actor/coordinator integrity observations",
+    "Excluded inheritable canary remains inaccessible in the child",
+    "Actual stdout/stderr volume and file identities equal the coordinator-owned capped sink",
+    "Every u64 identity remains a decimal string through PowerShell JSON retention"
+  ],
+  "unchanged_full_controls": "All original token,protected user-only record create/reopen/update,ordinary-group control,outside/backing/source refusal,cap exhaustion,inherited restriction,abrupt controller/descendant exit and owned account/image/source cleanup checks remain required.",
+  "full_product_qualified": false
+}

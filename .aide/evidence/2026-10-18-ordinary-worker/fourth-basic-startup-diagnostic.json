@@ -1,0 +1,222 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T07:56:25.9541869Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "base_revision": "54bc09e4c82ac66bc9a09d16b90e5d9a2f290f75",
+    "files": [
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 15977,
+        "sha256": "76A9A1904FC04534D3CF9B584CD8DFE6A1916DFB2A5C2F43033604A59DDCCC4B"
+      },
+      {
+        "path": "target.py",
+        "bytes": 10540,
+        "sha256": "ECF00E2EB1068F144D64C8E4975FBCA6FA8AC8791794C9BE46D47D341152EB6D"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 14329,
+        "sha256": "AEB02606E5BA7F5DD15F2635D3C6421438253154FF085FCCA2BD1071AB7625FD"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 13472,
+        "sha256": "EA80E70FDBC106BD262AB7354FB7CAC2C6610DA7AA5CA44CE6EE7240C261A957"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 5496,
+        "sha256": "52DB8ED1D59C25A9922D7F852D324E635C30DACA3344AAF8216759C074510AD6"
+      }
+    ]
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T07:56:26.6907205Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-c4704505",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1006",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "B48B4D8501A84445AA6A69D976616D93",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.b86bd5e89d774948947d9251cc22bb9f",
+            "sid": "S-1-15-2-3178539382-4052910548-2716080085-3975011546-1003461970-2796255366-1474012540"
+          },
+          {
+            "name": "org.disked.worker.1bf435f88ddd4dd0baeea0cbb8591f61",
+            "sid": "S-1-15-2-3082977975-529579723-1996816580-1427139036-1418657599-3490963769-2875455626"
+          },
+          {
+            "name": "org.disked.worker.c5d38178d53142709b9ef7839f335935",
+            "sid": "S-1-15-2-951386962-951718651-1836146794-4232911280-1417749929-1023566939-835764689"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1006)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "60022480B48B4D8501A869D976616D93",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 594, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T07:56:41.9468208Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "WithToken startup/handle-attribute diagnostic only",
+      "full_profile_qualified": false,
+      "all_owned_processes_retired": true,
+      "variants": [
+        {
+          "variant": "handles",
+          "api_succeeded": false,
+          "winerror": 87,
+          "launch_parameters": {
+            "variant": "handles",
+            "creation_flags": 134743044,
+            "startup_size": 112,
+            "attribute_count": 1,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": false
+          }
+        },
+        {
+          "variant": "ex-empty",
+          "api_succeeded": false,
+          "winerror": 87,
+          "launch_parameters": {
+            "variant": "ex-empty",
+            "creation_flags": 134743044,
+            "startup_size": 112,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 0,
+            "api_succeeded": false
+          }
+        },
+        {
+          "variant": "basic-empty",
+          "api_succeeded": false,
+          "winerror": 6,
+          "launch_parameters": {
+            "variant": "basic-empty",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 0,
+            "api_succeeded": false
+          }
+        },
+        {
+          "variant": "basic-null",
+          "api_succeeded": true,
+          "pid": 4960,
+          "exit_code": 3221225794,
+          "observation": null,
+          "launch_parameters": {
+            "variant": "basic-null",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 0,
+            "api_succeeded": true
+          }
+        },
+        {
+          "variant": "basic-default",
+          "api_succeeded": true,
+          "pid": 848,
+          "exit_code": 3221225794,
+          "observation": null,
+          "launch_parameters": {
+            "variant": "basic-default",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 0,
+            "api_succeeded": true
+          }
+        },
+        {
+          "variant": "basic-stdio",
+          "api_succeeded": true,
+          "pid": 1580,
+          "exit_code": 3221225794,
+          "observation": null,
+          "launch_parameters": {
+            "variant": "basic-stdio",
+            "creation_flags": 134218756,
+            "startup_size": 104,
+            "attribute_count": 0,
+            "allowed_inherited_handles": 2,
+            "api_succeeded": true,
+            "stdout_identity": {
+              "volume": 1.673378911849784e+19,
+              "identity": "31000000000001000000000000000000"
+            }
+          }
+        }
+      ],
+      "candidate_variants": [],
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\guest-proof.py\", line 115, in diagnose\n    assert [r['variant'] for r in result['variants']]==expected['variants'] and candidates\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "free_c_bytes": 98110648320
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T07:56:47.1431244Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "expected.json": "52db8ed1d59c25a9922d7f852d324e635c30daca3344aaf8216759c074510ad6",
+    "guest-proof.ps1": "ea80e70fdbc106bd262ab7354fb7cac2c6610da7aa5ca44ce6ee7240c261a957",
+    "guest-proof.py": "aeb02606e5ba7f5dd15f2635d3c6421438253154ff085fcca2bd1071ab7625fd",
+    "ordinary-worker.py": "76a9a1904fc04534d3cf9b584cd8dfe6a1916dfb2a5c2f43033604a59ddccc4b",
+    "run-proof.ps1": "abbe42c829dff731956243b2d322f907d2d42be5599fac160566114693cc9a7d",
+    "target.py": "ecf00e2eb1068f144d64c8e4975fbca6fa8ac8791794c9be46d47d341152eb6d"
+  },
+  "host_exit_code": 1,
+  "experiment_kind": "launch-parameter diagnostic",
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-lolfn0o_\\ordinary-proof\\run-proof.ps1:65\r\nLine |\r\n  65 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}

@@ -70,6 +70,7 @@ class Worker:
         try:
             self.require(self.a.OpenProcessToken(self.k.GetCurrentProcess(), 8, C.byref(coordinator)))
             self.coordinator_sid = self.identity(coordinator)
+            self.coordinator_integrity_sid = self.identity(coordinator, kind=25)
             self.require(self.a.LogonUserW(username, '.', password, 2, 0, C.byref(self.original)))
             self.user_sid = self.identity(self.original)
             if self.user_sid != expected_sid or self.user_sid == self.coordinator_sid:
@@ -92,6 +93,9 @@ class Worker:
                     raise PermissionError('Actor must be nonelevated and non-AppContainer')
             if self.identity(self.token) != expected_sid:
                 raise ValueError('Restricted token user identity changed')
+            self.integrity_sid=self.identity(self.token,kind=25)
+            if self.integrity_sid!='S-1-16-8192':
+                raise ValueError('This ordinary worker profile requires medium integrity')
             self.apply_acl(self.work, 'D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;' + self.coordinator_sid +
                            ')(A;OICI;0x1301bf;;;' + self.user_sid + ')')
             for leaf in ('temp', 'profile', 'local', 'roaming', 'common', 'public'):
@@ -105,13 +109,13 @@ class Worker:
             if coordinator:
                 self.k.CloseHandle(coordinator)
 
-    def identity(self, token):
+    def identity(self, token, *, kind=1):
         needed = T.DWORD()
-        self.a.GetTokenInformation(token, 1, None, 0, C.byref(needed))
+        self.a.GetTokenInformation(token, kind, None, 0, C.byref(needed))
         if not 0 < needed.value <= 4096:
             raise ValueError('Invalid token user size')
         info = C.create_string_buffer(needed.value)
-        self.require(self.a.GetTokenInformation(token, 1, info, needed, C.byref(needed)))
+        self.require(self.a.GetTokenInformation(token, kind, info, needed, C.byref(needed)))
         sid = C.cast(info, C.POINTER(self.base.SidAttributes)).contents.sid
         text = T.LPWSTR()
         self.require(self.a.ConvertSidToStringSidW(sid, C.byref(text)))
@@ -141,9 +145,9 @@ class Worker:
 
     def create_desktop(self):
         station_descriptor = self.descriptor('D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;' +
-            self.coordinator_sid + ')(A;;0x2037f;;;' + self.user_sid + ')')
+            self.coordinator_sid + ')(A;;0xf037f;;;' + self.user_sid + ')S:(ML;;NW;;;ME)')
         desktop_descriptor = self.descriptor('D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;' +
-            self.coordinator_sid + ')(A;;0xf01ff;;;' + self.user_sid + ')')
+            self.coordinator_sid + ')(A;;0xf01ff;;;' + self.user_sid + ')S:(ML;;NW;;;ME)')
         station_name, desktop_name = 'DiskEdTest-' + uuid.uuid4().hex, 'Proof-' + uuid.uuid4().hex
         try:
             station_attributes = self.base.SecurityAttributes(C.sizeof(self.base.SecurityAttributes), station_descriptor, False)
@@ -158,11 +162,26 @@ class Worker:
                 finally:
                     self.require(self.u.SetProcessWindowStation(previous))
             self.desktop_name = station_name + '\\' + desktop_name
+            self.ui_security={'station':self.user_object_security(self.station),
+                              'desktop':self.user_object_security(self.desktop)}
         finally:
             self.k.LocalFree(desktop_descriptor)
             self.k.LocalFree(station_descriptor)
 
-    def launch(self, command, env, job, *, variant='handles'):
+    def user_object_security(self, handle):
+        self.bind(self.u,'GetUserObjectSecurity',T.BOOL,T.HANDLE,C.POINTER(T.DWORD),P,T.DWORD,C.POINTER(T.DWORD))
+        self.bind(self.a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,P,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),P)
+        kind,size=T.DWORD(0x14),T.DWORD()
+        self.u.GetUserObjectSecurity(handle,C.byref(kind),None,0,C.byref(size))
+        if not 0<size.value<=16384:raise ValueError('Unexpected private UI security size')
+        data=C.create_string_buffer(size.value)
+        self.require(self.u.GetUserObjectSecurity(handle,C.byref(kind),data,size,C.byref(size)))
+        text=T.LPWSTR()
+        self.require(self.a.ConvertSecurityDescriptorToStringSecurityDescriptorW(data,1,kind,C.byref(text),None))
+        try:return text.value
+        finally:self.k.LocalFree(C.cast(text,P))
+
+    def launch(self, command, env, job, *, variant='basic-stdio'):
         self.last_launch=None
         if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio'):
             raise ValueError('Unknown finite launch experiment variant')
@@ -189,6 +208,7 @@ class Worker:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
             if variant in ('handles','basic-stdio'):
                 log_name='worker.log' if variant=='handles' else 'worker-basic-stdio.log'
+                self.log_path=self.work/log_name
                 log_access=0x40000000 if variant=='handles' else 0x40000080
                 for path, access, disposition in ((str(self.work/log_name), log_access, 1), ('NUL', 0x80000000, 3)):
                     handle = k.CreateFileW(path, access, 3, C.byref(sa), disposition, 0x80, None)
@@ -233,7 +253,7 @@ class Worker:
                 self.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD)
                 identity=FileIdentity()
                 self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
-                self.last_launch['stdout_identity']=dict(volume=identity.volume,identity=bytes(identity.identity).hex())
+                self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
             self.require(a.CreateProcessWithTokenW(self.token, 0, executable,
                 C.create_unicode_buffer(line), flags, block, str(self.work),
                 C.byref(startup), C.byref(process)))
