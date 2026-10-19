@@ -238,6 +238,7 @@ def coordinate(g):
         assert code==0xc0000142 and not result['after_revocation']['breadcrumb_exists']
         stop_job();result['status']='pass'
     except BaseException:
+        if instance:result['last_launch']=getattr(instance,'last_launch',None)
         result.update(status='fail',error=traceback.format_exc()[-8192:]);raise
     finally:
         try:

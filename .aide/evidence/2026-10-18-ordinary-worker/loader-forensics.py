@@ -159,7 +159,7 @@ def actor(plan):
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
     ntdll=C.WinDLL('ntdll')
-    selected_functions=('NtOpenFile','NtOpenKey','NtDeviceIoControlFile')
+    selected_functions=('NtCreateFile','NtOpenFile','NtDeviceIoControlFile')
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[],baseline_scope='No new baseline: retained three-case comparison in twenty-third-detached-comparison.json')
@@ -192,9 +192,9 @@ def actor(plan):
     try:
         require(a.ConvertStringSidToSidW(plan['user_sid'],C.byref(sid)))
         require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
-        for name,restricted_case,detached in (('restricted_detached',True,True),):
+        for name,restricted_case,detached in (('restricted_compat',True,False),):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
-            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],scope='Three native file/registry entrypoints on the owned initial thread; diagnostic only')
+            row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0,native_calls=[],scope='Three native file/device entrypoints on the owned initial thread; diagnostic only')
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
             watches=None;pending=None
             def retain_trace(complete):
@@ -345,7 +345,7 @@ def actor(plan):
                 for h in handles:k.CloseHandle(h)
                 if token:k.CloseHandle(token)
                 result['variants'].append(row)
-        assert len(result['variants'])==1 and result['variants'][0]['name']=='restricted_detached'
+        assert len(result['variants'])==1 and result['variants'][0]['name']=='restricted_compat'
         assert all(r['trace']['bytes']>0 for r in result['variants'])
         result['status']='pass'
     except BaseException:

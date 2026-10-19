@@ -1,8 +1,8 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "twenty-fourth-crypto-access.json at29392ef2: actual NtOpenFile of \\Device\\KsecDD requests0x100003 and returns0xc0000022 during detached bcrypt initialization. No denied registry open observed; no device control reached.",
+  "base": "twenty-sixth-crypto-setup-launch.json: exact-subject KsecDD grant,prelaunch exit19 recovery and retirement succeed. WithTokenW basic-detached rejects creation with87; no payload started. All device/actor/image/source state retired.",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
-  "actor": "One exact freshUser+RC detached case under the unchanged fresh standard-user debugger. No fresh baseline claimed: prior three-case comparison is retained separately. Collect only failure diagnosis; no full-profile admission.",
+  "actor": "One fresh-user+RC no-window case under the existing standard-user debugger/CreateProcessAsUserW path. No crypto/shared-object mutation in this diagnostic; prior control remains retained.",
   "bounds": {
     "initial_mib": 32,
     "executable_copy_bytes": 262144,
@@ -16,7 +16,7 @@
     "Retain actual detached exit/module/payload outcome, even on failure. Do not report a new unrestricted baseline or startup success without observed completion.",
     "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
     "Continue first loader breakpoint and explicitly owned entry/return hardware breakpoints for the three selected ntdll functions; other exceptions remain not-handled",
-    "Capture NtOpenFile/NtOpenKey object names,UTF16 bytes,access,root handle,return address and NTSTATUS; NtDeviceIoControlFile device handle,control code,return status and non-final IOSB snapshot. Bound256 calls on the owned initial thread. Relative roots remain unresolved; absence is not a process-wide absence claim.",
+    "Capture NtCreateFile,NtOpenFile object names,UTF16/access/root and NTSTATUS; NtDeviceIoControlFile device handle/control code/status/non-final IOSB snapshot on the owned initial thread. Bound256 calls. Observe the existing no-window console failure without adopting an unmeasured permission exception.",
     "Use aligned AMD64 SDK CONTEXT and set only debug registers while the created thread is stopped. No code-memory writes,unrelated process handles,global debugger policy or shared object permission changes",
     "Retire all owned job processes and observe active count0 before deleting the exact image/key",
     "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup",
@@ -31,7 +31,8 @@
     "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadcontext",
     "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext",
     "https://learn.microsoft.com/en-us/windows/win32/debug/debugging-events",
-    "https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags"
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"
   ],
   "comparison": "Compare the full RC compatibility candidate to the retained user-only KernelBase failure. A different later failure is not equivalent to the same module failure. Both actual traces remain required."
 }

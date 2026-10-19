@@ -1,0 +1,198 @@
+{
+  "schema": "org.disked.ordinary-token-campaign/1",
+  "started_at": "2026-10-19T10:43:06.1432153Z",
+  "status": "fail",
+  "host_test_media_mounted": false,
+  "native_product_tests_run": false,
+  "sources": {
+    "schema": "org.disked.guest-proof-sources/1",
+    "files": [
+      {
+        "path": "crypto-device.py",
+        "bytes": 18092,
+        "sha256": "2AE68720323673AABB8F961E4CA9800A58A9FDBDAF1BC98920310F8FDEF7D22E"
+      },
+      {
+        "path": "loader-forensics.py",
+        "bytes": 32963,
+        "sha256": "DB841327C2E2C28A88F37C18FE1B4B7A68ED416E5FC175415C84113F3A1B88C3"
+      },
+      {
+        "path": "loader-observer.py",
+        "bytes": 1067,
+        "sha256": "716585F4A1AA49D17468B47AC7D3DC4C80951FAF8990652D61057A9508EF8DFF"
+      },
+      {
+        "path": "tools/workspace.py",
+        "bytes": 14669,
+        "sha256": "5EEAACC7829A4DB5A77F2B79587A4C5DF6730136521FA7A8073328077FFAE0BF"
+      },
+      {
+        "path": "tools/windows-worker.py",
+        "bytes": 30465,
+        "sha256": "5F02A9B17AB2C6A536017CE8674180FB6A512ADF0FD90F8ED43925B2582F0683"
+      },
+      {
+        "path": "tools/qualify-storage.py",
+        "bytes": 17572,
+        "sha256": "B9A0D952985B106FFF2BE7425CFF92309BE6EA4794F20DD5623E393C2369D8EF"
+      },
+      {
+        "path": "ordinary-worker.py",
+        "bytes": 22850,
+        "sha256": "519A0CC8A2D98945078C8E984016D4FE5CE3B91D1120BA4612186CD8A97B7948"
+      },
+      {
+        "path": "target.py",
+        "bytes": 18825,
+        "sha256": "D3953989CE312A362BBA8288901A603A0D1C650B25741599B7BF7AB6921CAE07"
+      },
+      {
+        "path": "guest-proof.py",
+        "bytes": 23153,
+        "sha256": "B2681419CCD9294D56AB17066447CD3B5AA5125BDC07FEC4FBA5EC653AEE5979"
+      },
+      {
+        "path": "guest-proof.ps1",
+        "bytes": 14054,
+        "sha256": "FD7A8CEEE393E0E83D655BB02A543522A01821BDE5F3201EC6DDB35CB63B47AC"
+      },
+      {
+        "path": "attach-image.py",
+        "bytes": 6842,
+        "sha256": "18A7A03D862FC1E16AE1DD5BE6B249561B27CFCC7B7EB5099A7AF7DDDF7E9343"
+      },
+      {
+        "path": "expected.json",
+        "bytes": 9414,
+        "sha256": "14832BEC77DFBED4D92ECB3530AEB4CA6A79701469C9D375DFC71B1BD18A4010"
+      }
+    ],
+    "base_revision": "e9f24abf12fcd496d31ed21fdba26f3e8c79e941"
+  },
+  "host_backing_start_bytes": 31896633344,
+  "remote_job_id": 3,
+  "remote_job_state": "Completed",
+  "remote_output": "",
+  "remote_errors": "",
+  "guest": {
+    "identity": "BLACKGLASS-HYPE\\Agents",
+    "setup": {
+      "schema": "org.disked.guest-capacity-setup/1",
+      "started_at": "2026-10-19T10:43:10.6140021Z",
+      "status": "fail",
+      "image": "C:\\ProgramData\\DiskEd\\qualification\\scratch\\disked-proof.vhd",
+      "size_mib": 32,
+      "image_removed": true,
+      "actor_name": "DiskEdTest-9bb5dc2b",
+      "actor_sid": "S-1-5-21-385394198-2603589104-1765785984-1028",
+      "diskpart_output": "\nMicrosoft DiskPart version 10.0.19041.3636\n\nCopyright (C) Microsoft Corporation.\nOn computer: BLACKGLASS-HYPE\n\n\n    0 percent completed\n  100 percent completed\n\n\nDiskPart successfully created the virtual disk file.\n\nLeaving DiskPart...",
+      "image_uuid": "1547ADB7B2684D40A0835345901BAE9D",
+      "image_identity_guard_verified": true,
+      "attachment": {
+        "status": "pass",
+        "profiles": [
+          {
+            "name": "org.disked.worker.c52457c8fece430abf0e57483364bcaa",
+            "sid": "S-1-15-2-2075218325-1577380126-2935130586-4064020002-91992257-661060093-2557022260"
+          },
+          {
+            "name": "org.disked.worker.da47dae65eac45dbaf99d3ad3599b1ec",
+            "sid": "S-1-15-2-1495006696-3945611778-2778394829-470184459-94572834-2003173176-1733744998"
+          },
+          {
+            "name": "org.disked.worker.779c15cc9a5547f6b13c077fa291fb1d",
+            "sid": "S-1-15-2-1218735579-3083291735-3747759873-1747693987-2227227969-2143794231-1413548454"
+          }
+        ],
+        "device_sddl": "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x1301bf;;;S-1-5-21-385394198-2603589104-1765785984-1028)S:(ML;;NW;;;LW)",
+        "backing_file_acl_modified": false
+      },
+      "backing_acl_unchanged": true,
+      "disk_unique_id": "600224801547ADB7B2685345901BAE9D",
+      "disk_identity_guard_verified": true,
+      "runner_output": "{\"status\": \"fail\", \"peak_work_bytes\": 1339, \"workspace_removed\": true, \"exit_code\": 1}",
+      "runner_exit": 1,
+      "error": "Guest proof or owned cleanup failed.",
+      "actor_removed": true,
+      "actor_profile_absent": true,
+      "finished_at": "2026-10-19T10:43:22.1348009Z"
+    },
+    "proof": {
+      "status": "fail",
+      "scope": "Scoped guest crypto-device exception startup probe; not full worker qualification",
+      "full_worker_qualified": false,
+      "all_owned_processes_retired": true,
+      "crypto_device_retired": true,
+      "interruption": {
+        "exit_code": 19,
+        "output": ""
+      },
+      "interruption_recovery": {
+        "device": "\\Device\\KsecDD",
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1028",
+        "access": "0x100003",
+        "events": [
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          }
+        ],
+        "retired": true,
+        "open_status": "0x0",
+        "removed_owned_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)"
+      },
+      "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\crypto-device.py\", line 219, in coordinate\n    child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request),'launch'],os.environ,job,variant='basic-detached')\n  File \"C:\\ProgramData\\DiskEd\\qualification\\ordinary-worker.py\", line 328, in launch\n    self.require(a.CreateProcessWithTokenW(selected_token, 0, executable,\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        C.create_unicode_buffer(line), flags, block, str(self.work),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        C.byref(startup), C.byref(process)))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\tools\\windows-worker.py\", line 55, in require\n    raise ctypes.WinError(ctypes.get_last_error())\nOSError: [WinError 87] The parameter is incorrect.\n",
+      "job_retirements": [
+        {
+          "active_processes": 0
+        }
+      ],
+      "crypto_cleanup": {
+        "device": "\\Device\\KsecDD",
+        "subject": "S-1-5-21-385394198-2603589104-1765785984-1028",
+        "access": "0x100003",
+        "events": [
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          },
+          {
+            "action": "applied",
+            "before_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)",
+            "after_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)(A;;0x100003;;;S-1-5-21-385394198-2603589104-1765785984-1028)"
+          },
+          {
+            "action": "set_dacl",
+            "status": "0x0"
+          }
+        ],
+        "retired": true,
+        "open_status": "0x0",
+        "removed_owned_aces": 1,
+        "retired_sddl": "O:BAG:SYD:(A;;0x1201bf;;;WD)(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;RC)(A;;0x1201bf;;;AC)(A;;0x1201bf;;;S-1-15-2-2)"
+      }
+    },
+    "free_c_bytes": 98350256128
+  },
+  "host_backing_end_bytes": 31896633344,
+  "error": "Guest capacity/confinement proof did not pass.",
+  "finished_at": "2026-10-19T10:43:22.7165100Z",
+  "generated_sha256": {
+    "attach-image.py": "18a7a03d862fc1e16ae1dd5be6b249561b27cfcc7b7eb5099a7af7dddf7e9343",
+    "clean-proof.ps1": "f28a015a868d19981e84169164afae9f2dfa18cc2ccd8a7a964d57112e495d1c",
+    "crypto-device.py": "2ae68720323673aabb8f961e4ca9800a58a9fdbdaf1bc98920310f8fdef7d22e",
+    "expected.json": "14832bec77dfbed4d92ecb3530aeb4ca6a79701469c9d375dfc71b1bd18a4010",
+    "guest-proof.ps1": "fd7a8ceee393e0e83d655bb02a543522a01821bde5f3201ec6ddb35cb63b47ac",
+    "guest-proof.py": "b2681419ccd9294d56ab17066447cd3b5aa5125bdc07fec4fba5ec653aee5979",
+    "loader-forensics.py": "db841327c2e2c28a88f37c18fe1b4b7a68ed416e5fc175415c84113f3a1b88c3",
+    "loader-observer.py": "716585f4a1aa49d17468b47ac7d3dc4c80951faf8990652d61057a9508ef8dff",
+    "ordinary-worker.py": "519a0cc8a2d98945078c8e984016d4fe5ce3b91d1120ba4612186cd8a97b7948",
+    "run-proof.ps1": "84999b9d4cf0549cf1716bc33f5a87aed25fa4a3e0079d6256a25d73b393a2f9",
+    "target.py": "d3953989ce312a362bba8288901a603a0d1c650b25741599b7bf7ab6921cae07"
+  },
+  "host_exit_code": 1,
+  "experiment_kind": "scoped subject crypto-device setup/startup/revocation only; no full worker admission",
+  "host_error_tail": "Exception: C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-wzbmfiog\\ordinary-proof\\run-proof.ps1:68\r\nLine |\r\n  68 |  \u2026 mage_removed){throw 'Guest capacity/confinement proof did not pass.'}\r\n     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Guest capacity/confinement proof did not pass.\r\n"
+}
