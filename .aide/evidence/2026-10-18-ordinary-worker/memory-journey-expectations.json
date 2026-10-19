@@ -1,7 +1,13 @@
 {
   "status": "candidate_not_qualified",
-  "scope": "Exact unchanged WindowsMemoryBudget production component only;not full native suite or product/platform qualification",
-  "inputs": ["memory-journey.cpp", "source/platform/windows/memory_budget.cpp", "source/platform/windows/memory_budget.h"],
+  "scope": "Unchanged production memory-budget component and paired private GUI-desktop startup regression;not complete GUI/product/platform qualification",
+  "inputs": [
+    "memory-journey.cpp",
+    "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/memory_budget.h",
+    "memory-desktop-driver.py",
+    "tests/frontend/gui_fixture.py"
+  ],
   "host": "Existing Windows10 guest,Agents session3 coordinator,fresh nonelevated Medium user+RC restricted worker,32MiB cap",
   "required": [
     "Verify all exact supplied production/fixture SHA256 before and after execution;source read-only",
@@ -9,8 +15,23 @@
     "Execute exact produced x64 PE;production budget reports ready,platform_error0 and process_limit_bytes268435456 after its actual OS job configuration/query/membership checks",
     "Do not omit/replace production guard or its 256MiB limit;retain any actual refusal",
     "Record complete bounded commands,logs,artifact/compiler/linker hashes and runtime import observation",
-    "All owned job processes0 before station/namespace/crypto permission retirement;remove account/task/credential/media/source/build output;retain compact receipt only"
+    "All owned job processes0 before station/namespace/crypto permission retirement;remove account/task/credential/media/source/build output;retain compact receipt only",
+    "Direct original worker desktop loads User32 successfully",
+    "Paired same-binary/same-user controls:original NULL-security desktop refuses User32;actual corrected factory desktop admits User32 with exact user/SYSTEM-only DACL and Medium label",
+    "Retain both actual outcomes,close child process and desktop handles,restore prior thread desktop;no shared/default desktop interaction"
   ],
-  "bounds": {"virtual_disk_mib":32,"command_seconds":120,"log_bytes_per_command":65536},
-  "not_established": ["Memory pressure/fault paths","Complete product","Full x64/Win32 suite","Other Windows versions","Owner acceptance","Release qualification"]
+  "bounds": {
+    "virtual_disk_mib": 32,
+    "command_seconds": 120,
+    "log_bytes_per_command": 65536
+  },
+  "not_established": [
+    "Memory pressure/fault paths",
+    "Complete product",
+    "Full x64/Win32 suite",
+    "Other Windows versions",
+    "Owner acceptance",
+    "Release qualification",
+    "Actual product GUI rendering and controls"
+  ]
 }

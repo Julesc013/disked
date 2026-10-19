@@ -149,9 +149,9 @@ def main():
             (stage/name).write_bytes(data)
         for path in native_files:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
-    memory_files=('source/platform/windows/memory_budget.cpp','source/platform/windows/memory_budget.h')
+    memory_files=('source/platform/windows/memory_budget.cpp','source/platform/windows/memory_budget.h','tests/frontend/gui_fixture.py')
     if native_memory:
-        for name in ('memory-journey.py','memory-journey.cpp'):shutil.copyfile(HERE/name,stage/name)
+        for name in ('memory-journey.py','memory-journey.cpp','memory-desktop-driver.py'):shutil.copyfile(HERE/name,stage/name)
         ast.parse((stage/'memory-journey.py').read_bytes())
         for path in memory_files:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
@@ -281,7 +281,7 @@ def main():
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
     if native_memory:
-        selected=('memory-journey.py','memory-journey.cpp')+memory_files
+        selected=('memory-journey.py','memory-journey.cpp','memory-desktop-driver.py')+memory_files
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')

@@ -77,6 +77,44 @@ class PROCESS(C.Structure):
 bind(K,'CreateProcessW',W.BOOL,[W.LPCWSTR,W.LPWSTR,PTR,PTR,W.BOOL,W.DWORD,PTR,W.LPCWSTR,C.POINTER(STARTUP),C.POINTER(PROCESS)])
 bind(K,'WaitForSingleObject',W.DWORD,[W.HANDLE,W.DWORD]);bind(K,'GetExitCodeProcess',W.BOOL,[W.HANDLE,C.POINTER(W.DWORD)])
 bind(K,'TerminateProcess',W.BOOL,[W.HANDLE,W.UINT])
+
+def owned_desktop():
+    """New hidden desktop, explicitly owned by this user and SYSTEM.
+
+    NULL security inherits the station's entries, which need not admit this
+    restricted user when a child opens the desktop during User32 startup.
+    """
+    station=C.create_unicode_buffer(1024);needed=W.DWORD()
+    if not U.GetUserObjectInformationW(U.GetProcessWindowStation(),2,station,C.sizeof(station),C.byref(needed)):
+        raise C.WinError(C.get_last_error())
+    if not station.value or '\\' in station.value:raise ValueError('Invalid current window station name')
+    A=C.WinDLL('advapi32',use_last_error=True)
+    bind(K,'GetCurrentProcess',W.HANDLE,[]);bind(K,'LocalFree',PTR,[PTR])
+    bind(A,'OpenProcessToken',W.BOOL,[W.HANDLE,W.DWORD,C.POINTER(W.HANDLE)])
+    bind(A,'GetTokenInformation',W.BOOL,[W.HANDLE,C.c_int,PTR,W.DWORD,C.POINTER(W.DWORD)])
+    bind(A,'ConvertSidToStringSidW',W.BOOL,[PTR,C.POINTER(W.LPWSTR)])
+    bind(A,'ConvertStringSecurityDescriptorToSecurityDescriptorW',W.BOOL,[W.LPCWSTR,W.DWORD,C.POINTER(PTR),PTR])
+    class Attributes(C.Structure):_fields_=[('length',W.DWORD),('descriptor',PTR),('inherit',W.BOOL)]
+    token=W.HANDLE();text=W.LPWSTR();descriptor=PTR()
+    try:
+        if not A.OpenProcessToken(K.GetCurrentProcess(),8,C.byref(token)):raise C.WinError(C.get_last_error())
+        size=W.DWORD();A.GetTokenInformation(token,1,None,0,C.byref(size))
+        if not 0<size.value<=4096:raise ValueError('Test desktop token bound')
+        data=C.create_string_buffer(size.value)
+        if not A.GetTokenInformation(token,1,data,size,C.byref(size)):raise C.WinError(C.get_last_error())
+        sid=C.cast(data,C.POINTER(PTR))[0]
+        if not A.ConvertSidToStringSidW(sid,C.byref(text)):raise C.WinError(C.get_last_error())
+        sddl='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+text.value+')S:(ML;;NW;;;ME)'
+        if not A.ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl,1,C.byref(descriptor),None):raise C.WinError(C.get_last_error())
+        attributes=Attributes(C.sizeof(Attributes),descriptor,False);name='DiskEdTest-'+uuid.uuid4().hex
+        desktop=U.CreateDesktopW(name,None,None,0,0xf01ff,C.byref(attributes))
+        if not desktop:raise C.WinError(C.get_last_error())
+        return desktop,station.value+'\\'+name
+    finally:
+        if descriptor:K.LocalFree(descriptor)
+        if text:K.LocalFree(C.cast(text,PTR))
+        if token:K.CloseHandle(token)
+
 class DesktopProcess:
     """CreateProcess wrapper because subprocess.STARTUPINFO omits lpDesktop."""
     def __init__(self,args,cwd,desktop):
@@ -144,16 +182,10 @@ class Gui:
         if render:
             # The desktop is never switched onto the user's display. Windows
             # can paint real controls there without capturing another app.
-            station=C.create_unicode_buffer(1024);needed=W.DWORD()
-            if not U.GetUserObjectInformationW(U.GetProcessWindowStation(),2,station,C.sizeof(station),C.byref(needed)):
-                raise C.WinError(C.get_last_error())
-            if not station.value or '\\' in station.value:
-                raise ValueError('Invalid current window station name')
-            name='DiskEdTest-'+uuid.uuid4().hex;self.desktop=U.CreateDesktopW(name,None,None,0,0x1FF,None)
-            if not self.desktop:raise OSError(C.get_last_error(),'test desktop')
+            self.desktop,startup.lpDesktop=owned_desktop()
             self.previous_desktop=U.GetThreadDesktop(K.GetCurrentThreadId())
             if not U.SetThreadDesktop(self.desktop):raise OSError(C.get_last_error(),'test thread desktop')
-            startup.lpDesktop=station.value+'\\'+name;startup.wShowWindow=4
+            startup.wShowWindow=4
         argv=[str(exe),*(args or ['gui'])]
         if render:self.process=DesktopProcess(argv,self.temp.name,startup.lpDesktop)
         else:self.process=subprocess.Popen(argv,cwd=self.temp.name,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,startupinfo=startup)

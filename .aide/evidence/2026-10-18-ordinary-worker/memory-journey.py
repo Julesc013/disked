@@ -24,7 +24,7 @@ def coordinate(g):
         state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
         expected=json.loads((ROOT/'expected.json').read_bytes())['native_memory']
         manifest=json.loads((ROOT/'source-manifest.json').read_bytes())
-        inputs={row['path']:row['sha256'].lower() for row in manifest['files'] if row['path'].startswith('source/') or row['path']=='memory-journey.cpp'}
+        inputs={row['path']:row['sha256'].lower() for row in manifest['files'] if row['path'].startswith('source/') or row['path'] in ('memory-journey.cpp','memory-desktop-driver.py','tests/frontend/gui_fixture.py')}
         assert set(inputs)==set(expected['inputs'])
         assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha for name,sha in inputs.items())
         result['source_inputs']=inputs
@@ -58,6 +58,7 @@ def coordinate(g):
         assert observed['ready'] and observed['platform_error']==0 and observed['error']=='' and observed['process_limit_bytes']=='268435456'
         imports=run('dependents',[binary/'dumpbin.exe','/nologo','/dependents',exe])
         assert not any(name in imports.lower() for name in ('vcruntime140.dll','msvcp140.dll','ucrtbase.dll','api-ms-win-crt'))
+        result['fixture_desktop_comparison']=json.loads(run('paired-fixture-desktops',[sys.executable,'-B',ROOT/'memory-desktop-driver.py',exe,data['sid']]))
         assert hashlib.sha256(exe.read_bytes()).hexdigest()==result['artifact']['sha256']
         assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha for name,sha in inputs.items())
         result.update(status='pass',source_unchanged=True,compiler_sha256=hashlib.sha256((binary/'cl.exe').read_bytes()).hexdigest(),linker_sha256=hashlib.sha256((binary/'link.exe').read_bytes()).hexdigest())
