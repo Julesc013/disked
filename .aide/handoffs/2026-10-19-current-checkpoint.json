@@ -132,7 +132,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/finish-backing-cleanup.ps1",
     "tests/tools/test_native_stop_request.py"
   ],
-  "summary": "DE-W105 remains active. All six focused repair groups pass at e59eb622. Full x64 attempt85 at e65c5baf was interrupted during all-target compilation by the shared VM backing-growth guard,not a reported product assertion. No native groups ran. Exact forced-interruption cleanup passes;the VM backing file grew1241513984 bytes and was not compacted. Cooperative stop and two-job build are candidates awaiting fault-injection verification. Full180 x64,same-source privateWin32,current C90 and detailed review remain open. No owner/release/full0.1 acceptance. Run86 controller proof did not reach injection because an unrelated30s schema/source preflight timed out;exact3-entry archive and all owned cleanup verify. Candidate now isolates only token/source-denial,three existing temporary grants and one waiting child. Full-native schema/fixture checks remain required.",
+  "summary": "DE-W105 is active. All six focused repair groups pass at e59eb622. Full x64 attempt85 was interrupted during compilation by the shared VM backing-growth guard and all owned cleanup was recovered. Controller-stop proof87 at ad9186db now passes exact request consumption,owned job retirement,three temporary-grant retirements and complete cleanup,with zero backing growth. Full180 x64,same-source privateWin32,current C90 and detailed review remain required. Original all-platform/storage0.1.0,owner acceptance and release remain incomplete.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -616,6 +616,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Independent bounded controller-stop review of expected campaign exit1,all entry hashes and owned cleanup at ad9186db",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json"
     }
   ],
   "artifacts": [
@@ -1158,12 +1165,24 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
       "sha256": "sha256:9d7e45b8998cbff7008228ad415c468f3e95009aafb55c076eb1146bf0fd2ded"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
+      "sha256": "sha256:af53730457980956a4189a79d3ce67777516a0b6a1d726a9ba8ddd90779495c3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-cleanup.json",
+      "sha256": "sha256:08cc96df262c500e676a413810ec734de307e19ebba52739821d9e0d1ef8f7f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json",
+      "sha256": "sha256:2d8efdd5207500abf260fa52a14527af13d7e07026fdb4082bd48933d565f30e"
     }
   ],
   "blockers": [
-    "Current full x64 qualification incomplete after measured resource-guard interruption;cooperative stop candidate needs actual guest fault-injection verification.",
-    "Full180 x64,same-source privateWin32,current C90/detailed review and main integration remain pending. Owner acceptance/release and original all-platform0.1 remain separate."
+    "Full180 x64,same-source privateWin32,current C90 and detailed review remain unqualified. Controller-stop proof87 passes;no current setup/authority blocker.",
+    "Owner acceptance,production storage/release gates and original all-platform0.1 completion remain separate."
   ],
-  "next_safe_step": "Validate candidate controller/template/tooling;freeze and verify W105 context;run --controller-stop-proof --interactive-ui and review exact stop acknowledgement,job/grant/media/source/account/profile cleanup and archive hashes. Only after that proof retry full180 x64 with declared parallel2 and unchanged limits/deadlines;retain exact source for privateWin32/C90. Integrate tested dev into main after W105 review,then W106/W107.",
+  "next_safe_step": "Freeze closing checkpoint,verify complete W105 context and run --native-x64 --interactive-ui with declared parallel2 and unchanged storage/build/test limits. Keep exact HEAD for same-source privateWin32,C90 --current and detailed retained-case review. Preserve any failure and cleanup before diagnosis;merge tested dev into main after W105 review,then continue W106/W107.",
   "performed_remote_writes": true
 }

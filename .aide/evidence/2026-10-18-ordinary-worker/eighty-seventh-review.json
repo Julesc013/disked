@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "scope": "Exact isolated controller-stop fault injection;not product qualification",
+  "source_revision": "ad9186db82a157a0cff081fbe875a274911b6dd7",
+  "expected_campaign_exit_code": 1,
+  "actual_campaign_exit_code": 1,
+  "stop_request": {
+    "nonce": "232b903e89ff4845afb618e2007ebabe",
+    "reason": "controller_probe",
+    "observed_growth_bytes": 0,
+    "limit_bytes": 1073741824
+  },
+  "native_consumed_exact_request": true,
+  "job_retirements": [
+    {
+      "active_processes": 0,
+      "total_processes": 2,
+      "terminated_processes": 0
+    },
+    {
+      "active_processes": 0,
+      "total_processes": 2,
+      "terminated_processes": 0
+    }
+  ],
+  "all_three_temporary_grants_exactly_retired": true,
+  "source_account_profile_media_task_credential_root_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "early_acknowledgement_polled": false,
+  "acknowledgement_scope": "Clean final guest proof/setup arrived before the30s early-ack deadline. Final retirement/cleanup is retained;the transient acknowledgement file was not separately copied.",
+  "archive_entries": 3,
+  "uncompressed_bytes": 544,
+  "compressed_bytes": 552,
+  "archive_sha256": "f7b441f674743dd02c05f76cbcf62f5ca2008cfc93b002af36e4aa742d0cb64d",
+  "qualification_recipe_sha256": {
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py": "da4c21835b7d9f137737e1b6fc2a93f6a600653a42f09c526f57f32a9c0fe2bc",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py": "906d95ef3874b9547257154139774ccd73460b8ed9cca321e9703aafe30e6962",
+    ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json": "83b18c8e5c309ac72154a74bb13b2f2ae4b901f4edd94ec91cbb0163bfb81639",
+    ".aide/evidence/2026-10-18-ordinary-worker/interactive-run.ps1": "989cd3e41c2e6ef8c32960f9d0fca771a7c677295634da97214129b9e3e9197b"
+  },
+  "full_x64_qualified": false,
+  "owner_accepted": false,
+  "release_qualified": false,
+  "next_action": "Freeze closing checkpoint and run full180 x64 with parallel2 and unchanged storage/time limits. Retain same source for privateWin32/C90/detail review before main."
+}

@@ -4,9 +4,19 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
-DE-W105 remains active. All six focused repair groups pass at e59eb622. Full x64 attempt85 at e65c5baf was interrupted during all-target compilation by the shared VM backing-growth guard,not a reported product assertion. No native groups ran. Exact forced-interruption cleanup passes;the VM backing file grew1241513984 bytes and was not compacted. Cooperative stop and two-job build are candidates awaiting fault-injection verification. Full180 x64,same-source privateWin32,current C90 and detailed review remain open. No owner/release/full0.1 acceptance. See [current evidence](../.aide/evidence/2026-10-18-ordinary-worker/README.md).
+DE-W105 closing qualification is active. All six focused repair groups pass.
+The complete x64 attempt was interrupted during compilation by the shared VM
+backing-growth guard; its owned resources were removed and the incomplete
+result retained. The repaired controller now passes an actual isolated stop
+proof, including job/grant retirement, complete cleanup and zero backing growth.
+[Current evidence](../.aide/evidence/2026-10-18-ordinary-worker/README.md) separates
+these results from the full qualification still required.
 
-Validate candidate controller/template/tooling;freeze and verify W105 context;run --controller-stop-proof --interactive-ui and review exact stop acknowledgement,job/grant/media/source/account/profile cleanup and archive hashes. Only after that proof retry full180 x64 with declared parallel2 and unchanged limits/deadlines;retain exact source for privateWin32/C90. Integrate tested dev into main after W105 review,then W106/W107.
+Run the complete 180-group x64 suite with the existing two-job build setting and
+unchanged limits, then same-source private Win32, current C90 and detailed
+retained-case review. Integrate the tested checkpoint into main after that
+review. No current account/UAC/authentication or confined-worker setup grant is
+missing; earlier setup failures remain historical evidence.
 
 The [Windows reference plan](windows-reference.md) explains Disk Management,
 MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.

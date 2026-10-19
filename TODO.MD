@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. All six focused repair groups pass at e59eb622. Full x64 attempt85 at e65c5baf was interrupted during all-target compilation by the shared VM backing-growth guard,not a reported product assertion. No native groups ran. Exact forced-interruption cleanup passes;the VM backing file grew1241513984 bytes and was not compacted. Cooperative stop and two-job build are candidates awaiting fault-injection verification. Full180 x64,same-source privateWin32,current C90 and detailed review remain open. No owner/release/full0.1 acceptance. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md) and [work definitions](spec/work/units.json).
+Status: DE-W105 remains active. The six focused repair groups and isolated controller-stop proof pass, with exact cleanup verified. Full current x64, same-source private Win32, C90 and detailed review remain open before `dev` integrates into `main`. The original all-platform/storage 0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md), [work definitions](spec/work/units.json) and [development plan](docs/development-plan.md).
 
 ## Storage recovery
 

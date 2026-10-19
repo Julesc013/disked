@@ -1,5 +1,12 @@
 # Ordinary worker and current native qualification
 
+Controller-stop proof87 at `ad9186db` passes: the exact injected request was
+consumed, both owned jobs reached zero active processes, all three temporary
+grants retired and owned source/account/profile/media/task/credential cleanup
+completed. Backing-file growth was zero. The expected interrupted campaign exit
+remains1; `eighty-seventh-review.json` records the separate control pass and
+verified three-entry archive. No native product qualification follows.
+
 Current full attempt: `e65c5baf` was interrupted during all-target compilation by
 the shared VM backing-growth guard. No native groups ran. Exact forced cleanup
 removed owned jobs/grants/source/account/profile aliases/tasks/credential/media.
