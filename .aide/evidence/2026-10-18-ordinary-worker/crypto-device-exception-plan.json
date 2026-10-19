@@ -1,0 +1,28 @@
+{
+  "status": "proposed_not_implemented_or_admitted",
+  "work_id": "DE-W105",
+  "basis": "twenty-fifth-review.json",
+  "objective": "Preserve exact-user filesystem confinement while allowing the ordinary runtime crypto operation actually denied on this guest.",
+  "proposal": "Evaluate one temporary, exact disposable-user SID ACE for access0x100003 on the existing guest KsecDD object, with detached headless launch. Never grant Everyone,Users,Administrators or package SIDs as a write-restriction workaround. No product record/file ACL change.",
+  "authority": "This design is not approval. Review its exact shared guest-object setup scope against the existing owner guest-administration grant and applicable gates before execution. Do not silently widen an authority or storage boundary.",
+  "required_before_execution": [
+    "Prepare a small reviewable implementation and source-bound expectations; agent-review the exception and cleanup path. No shared-object mutation in the existing diagnostic.",
+    "Use the existing32MiB guest cap, unchanged resource ceilings, exact fresh account/nonce,SID/token,private UI,declared handles and containing job.",
+    "Verify supported READ_CONTROL/WRITE_DAC access on a pinned exact crypto-device handle, expected existing DACL and absence of any preexisting actor ACE. Unsupported/refused operations remain explicit failures.",
+    "Journal baseline identity/security/hash and the exact candidate ACE before mutation. Preserve all other ACEs,owner,label and unrelated users. Never overwrite a concurrently changed DACL with a stale whole-descriptor snapshot."
+  ],
+  "required_before_admission": [
+    "Prove actual restricted runtime startup and the exact minimal crypto permission; permission/API success alone is insufficient.",
+    "Pass all original protected user-only record,ordinary-group outside denial,source/backing denial,stdio/canary,capacity,descendant and abrupt-controller checks.",
+    "Retire every owned process before removing only the exact owned ACE; verify original subject authority restored and preserve unrelated ACL changes. Account/journal removal follows verified device retirement.",
+    "Exercise interruption/recovery of the setup journal. Preserve bounded state and refuse a new campaign if retirement is uncertain.",
+    "Only afterward qualify representative compiler/store and full178-group current x64 suite."
+  ],
+  "rejected_shortcuts": [
+    "Broad write-granting restricting SIDs can also widen filesystem writes.",
+    "Low integrity alone does not establish confinement against low-labeled writable outside objects.",
+    "Successful AppContainer private tests do not qualify protected exact-user-only ordinary records."
+  ],
+  "shared_permission_changed": false,
+  "full_worker_qualified": false
+}

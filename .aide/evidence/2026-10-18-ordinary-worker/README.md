@@ -74,10 +74,23 @@ new single-case probe does not claim a new baseline. No shared-object ACL,
 product-record ACL, privilege or storage-budget expansion is authorized by
 these results. All completed native experiments have owned cleanup receipts.
 
+Attempts 24/25 identify a concrete crypto-device denial: `NtOpenFile` requests
+`0x100003` on `\Device\KsecDD` and returns `0xC0000022`. The ordinary bootstrap
+queries the existing DACL with READ_CONTROL only. The RC ACE grants `0x1200a9`,
+which lacks FILE_WRITE_DATA (`0x2`); the fresh user has no device-specific ACE.
+No selected device-control call occurs before the failure. This observation
+explains why the two-SID write restriction is incompatible with this startup
+path. It does not qualify another token or authorize broad write-granting SIDs.
+
+The next execution recipe must retain the hard filesystem boundary and all
+original protected-record, outside-write, descendant and interruption controls.
+Any proposed guest setup exception needs explicit scope, agent review and
+verified retirement before admission. No crypto-device ACL was changed here.
+
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
-variants. The next investigation must identify the actual restricted-process DLL
-initialization boundary before selecting another recipe. No broad group or
-shared-object permission change is admitted by these observations. All
+variants. Use the now-observed console and crypto-device boundaries when
+selecting another recipe. No broad group or shared-object permission change is
+admitted by these observations. All
 original protected-record, outside-write denial, hard-cap exhaustion, descendant
 restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey
