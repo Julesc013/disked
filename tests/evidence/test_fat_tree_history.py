@@ -3,6 +3,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -39,6 +40,8 @@ def rechained(records):
 
 
 def inspect(data, options=(), error=None):
+    if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
+        print('HISTORY_INPUT',len(data),list(options),'expected_error',error,flush=True)
     result = subprocess.run([str(PROBE), *options], input=data, capture_output=True, timeout=30)
     assert not result.stderr, result.stderr
     value = json.loads(result.stdout)

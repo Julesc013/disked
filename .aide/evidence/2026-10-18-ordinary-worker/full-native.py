@@ -172,6 +172,7 @@ def coordinate(g):
             directory_acl(deps,source_acl);env['PYTHONPATH']=str(deps)
             result['schema_dependencies']=dependency
         for key in ('CL','_CL_','LINK','_LINK_','CFLAGS','CXXFLAGS','LDFLAGS'):env.pop(key,None)
+        if expected.get('trace_fat_history'):env['DISKED_TEST_TRACE_FAT_HISTORY']='1'
         cmake=Path('C:/Program Files/CMake/bin/cmake.exe');ctest=cmake.with_name('ctest.exe')
         active_stem=None;active_group=None;active_before=set()
 
@@ -221,7 +222,7 @@ def coordinate(g):
             before={p.name for p in build.iterdir() if p.is_file()}
             active_group=test;active_before=before
             code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
-                '--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
+                '--verbose','--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
             archive.write(work/'test.xml','junit/'+test+'.xml')
             cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
             passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
@@ -250,6 +251,10 @@ def coordinate(g):
             schema_probe="import sys,json;sys.path.insert(0,sys.argv[1]);from specctl import Bundle;b=Bundle(sys.argv[2]);print(json.dumps(dict(schemas=len(b.schemas))))"
             _,raw=run('schema-tools-and-source-closure',[sys.executable,'-B','-c',schema_probe,SOURCE/'spec/tools',SOURCE/'spec'],30)
             result['schema_source_closure']=json_record(raw);assert result['schema_source_closure']['schemas']==95
+            selected=expected.get('focus_groups',expected['groups'])
+            if any(name in selected for name in expected.get('appcontainer_test_groups',[])):
+                shell_probe="import shutil,json;p=shutil.which('pwsh');print(json.dumps(dict(pwsh=p)));assert p,'Required PowerShell7 is absent; qualify a bounded guest tool before compiling'"
+                run('required-shell-tool-preflight',[sys.executable,'-B','-c',shell_probe],30)
         fixture_root=work/'symlink-fixture';fixture_root.mkdir()
         target,link=fixture_root/'source.img',fixture_root/'leaf.img';target.write_bytes(b'');os.symlink(target,link)
         assert link.is_symlink() and link.resolve()==target
@@ -309,7 +314,15 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
             code,raw=run('package-git-after-null-removal',[git,'--version'],30,allow_failure=True)
             assert code==128 and b'/dev/null' in raw
+            if expected.get('cleanup_proof'):
+                instance.close();instance=None;shared_read_access(False)
+                native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
+                (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+                grant=helper.Grant();grant.apply();grant.started()
+                _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
+                result['cleanup_attribute_diagnostic']=json_record(raw)
             result.update(status='pass',qualification='Confined PowerShell startup plus Null setup/recovery/real-Git/revocation; no product tests' if expected.get('powershell_proof') else 'Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
+            if expected.get('cleanup_proof'):result['qualification']='Owned attribute/deletion observations only; no product qualification'
             return
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,

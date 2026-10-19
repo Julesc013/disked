@@ -17,6 +17,9 @@ commands=[['-m','pip','install','--disable-pip-version-check','--no-cache-dir','
     ['-m','unittest','discover','-s','spec/tools/tests','-v'],['-m','unittest','discover','-s','tests/tools','-v'],
     ['tools/check-source-map.py'],['spec/tools/specctl.py','verify-manifest'],
     [str(HERE/'campaign.py'),'--native-x64','--prepare-only']]
+if '--metadata-only' in sys.argv:
+    commands=[command for command in commands if command[:2]!=['-m','unittest']]
+    record['scope']='Metadata/AST/generated/source-map/manifest only; no native or full test-suite rerun'
 try:
     for path in HERE.glob('*.py'):ast.parse(path.read_bytes(),filename=path.name)
     for args in commands:
@@ -34,4 +37,4 @@ try:
     record['status']='pass'
 except BaseException as error:
     record.update(status='fail',error=repr(error));raise
-finally:(HERE/'current-validation.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8',newline='\n')
+finally:(HERE/('metadata-refresh.json' if '--metadata-only' in sys.argv else 'current-validation.json')).write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8',newline='\n')

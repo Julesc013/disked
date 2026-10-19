@@ -4,6 +4,7 @@ import ctypes
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -89,6 +90,8 @@ def ledger_records(path, definition, digest, complete=False):
 
 
 def run(tree=None, request=None, extra=None, existing=None):
+    if os.environ.get('DISKED_TEST_TRACE_FAT_HISTORY')=='1':
+        print('WRITER_INPUT',sorted((extra or {}).keys()),'existing',existing,flush=True)
     folder = Path(tempfile.mkdtemp(prefix="disked-recursive-extraction-"))
     source, destination, ledger = folder/"source.img", folder/"output", folder/"metadata.ndjson"
     if tree is not None:

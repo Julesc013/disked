@@ -7,14 +7,15 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
 import unittest
 import _winapi
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.tempdir import managed_directory
 
 LAUNCHES=[]
 
 def raw_launch(exe,argv,input_kind='absent',output_kind='file',error_kind='file'):
-    with tempfile.TemporaryDirectory(prefix='disked-handles-') as directory:
+    with managed_directory(prefix='disked-handles-') as directory:
         root=Path(directory)
         handles={};files=[];process=None
         try:
@@ -91,7 +92,7 @@ class WindowsInvocation(unittest.TestCase):
                 ('powershell',['powershell.exe','-NoProfile','-NonInteractive','-Command',"& '"+path.replace("'","''")+"' mode explain --json; exit $LASTEXITCODE"]),
                 ('pwsh',['pwsh','-NoProfile','-NonInteractive','-Command',"& '"+path.replace("'","''")+"' mode explain --json; exit $LASTEXITCODE"])]
         for shell,argv in shells:
-            with tempfile.TemporaryDirectory(prefix='disked-shell-') as directory:
+            with managed_directory(prefix='disked-shell-') as directory:
                 result=subprocess.run(argv,cwd=directory,input=b'',capture_output=True,timeout=20)
                 self.assertEqual(0,result.returncode,(shell,result.stderr));self.assertEqual(b'',result.stderr)
                 value=json.loads(result.stdout)['result']
@@ -104,7 +105,7 @@ class WindowsInvocation(unittest.TestCase):
             with self.subTest(flags=flags):self.console_case(flags)
 
     def console_case(self,flags):
-        with tempfile.TemporaryDirectory(prefix='disked-console-') as directory:
+        with managed_directory(prefix='disked-console-') as directory:
             report=Path(directory)/'report.json'
             startup=subprocess.STARTUPINFO();startup.dwFlags=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0
             result=subprocess.run([sys.executable,str(ARGS.root/'tests/invocation/console_fixture.py'),str(ARGS.exe),str(report),*flags],
