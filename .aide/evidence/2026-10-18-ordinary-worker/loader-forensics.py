@@ -144,18 +144,25 @@ def actor(plan):
     bind(a,'CreateProcessAsUserW',T.BOOL,T.HANDLE,T.LPCWSTR,T.LPWSTR,P,P,T.BOOL,T.DWORD,P,T.LPCWSTR,P,C.POINTER(b.ProcessInfo))
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     result=dict(status='running',bootstrap_identity=identity,variants=[])
-    original,sid=T.HANDLE(),P()
+    original,sid,compatibility=T.HANDLE(),P(),P()
     require(a.OpenProcessToken(k.GetCurrentProcess(),0x8b,C.byref(original)))
     try:
         require(a.ConvertStringSidToSidW(plan['user_sid'],C.byref(sid)))
-        for name,restricted_case in (('baseline',False),('restricted',True)):
+        require(a.ConvertStringSidToSidW('S-1-5-12',C.byref(compatibility)))
+        for name,restricted_case in (('baseline',False),('restricted_compat',True)):
             token,process=T.HANDLE(),b.ProcessInfo();handles=[];attributes=None;initialized=False;exited=False
             row=dict(name=name,phase='derive_token',modules=[],exceptions=[],events=0)
             trace_path=Path(name+'-loader.txt');trace=None;initial_breakpoint_seen=False
             try:
-                entry=b.SidAttributes(sid,0)
-                require(a.CreateRestrictedToken(original,9 if restricted_case else 1,0,None,0,None,int(restricted_case),C.byref(entry) if restricted_case else None,C.byref(token)))
+                entries=(b.SidAttributes*2)(b.SidAttributes(sid,0),b.SidAttributes(compatibility,0))
+                require(a.CreateRestrictedToken(original,9 if restricted_case else 1,0,None,0,None,2 if restricted_case else 0,entries if restricted_case else None,C.byref(token)))
                 row['token_restricted']=bool(a.IsTokenRestricted(token));assert row['token_restricted']==restricted_case
+                class Groups(C.Structure):_fields_=[('count',T.DWORD),('first',b.SidAttributes)]
+                needed=T.DWORD();a.GetTokenInformation(token,11,None,0,C.byref(needed));assert 0<needed.value<=4096
+                info=C.create_string_buffer(needed.value);require(a.GetTokenInformation(token,11,info,needed,C.byref(needed)))
+                count=C.cast(info,C.POINTER(Groups)).contents.count;assert count==(2 if restricted_case else 0)
+                row['restricting_sids']=[target.string_sid(b.SidAttributes.from_buffer(info,Groups.first.offset+i*C.sizeof(b.SidAttributes)).sid) for i in range(count)]
+                assert set(row['restricting_sids'])==({plan['user_sid'],'S-1-5-12'} if restricted_case else set())
                 for kind,key in ((20,'elevated'),(29,'appcontainer')):
                     value,size=T.DWORD(),T.DWORD();require(a.GetTokenInformation(token,kind,C.byref(value),4,C.byref(size)));row[key]=value.value;assert not value.value
                 sa=b.SecurityAttributes(C.sizeof(b.SecurityAttributes),None,True)
@@ -244,6 +251,7 @@ def actor(plan):
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:]);raise
     finally:
+        if compatibility:k.LocalFree(compatibility)
         if sid:k.LocalFree(sid)
         if original:k.CloseHandle(original)
         Path('debug-report.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')

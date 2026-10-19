@@ -1,10 +1,30 @@
 {
   "scope": "Win10/x64 owned-process loader trace only, not worker or product qualification",
-  "base": "ca0250b2: standard observer starts, restricted process exitsC0000142 without a first breadcrumb",
+  "base": "fourteenth-compatibility-refusal.json: full candidate still exitsC0000142 before its normal receipt",
   "method": "Use a nonce-named byte-exact copy of the already supplied Python executable in its existing runtime directory, plus only that new image's IFEO GlobalFlag=0x00000002. No global python.exe flag,Debugger value,system-wide flag,extra policy privilege or shared UI change.",
-  "actor": "Existing temporary standard-user bootstrap, already within its owned job, derives privilege-filtered own-token baseline and exact-user write-restricted token. Both child launches are suspended,debug-only-this-process,explicit standard handle list and inherited containing job. No process attachment by PID or third-party target.",
-  "bounds": {"initial_mib":32,"executable_copy_bytes":262144,"trace_bytes_per_case":2097152,"compressed_trace_bytes_per_case":131072,"debug_events_per_case":4096,"seconds_per_case":15,"actor_seconds":40},
-  "required": ["Baseline reaches complete and exits0; record actual restricted process outcome separately","Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability","Only known first breakpoint is continued; other exceptions remain not-handled","Retire all owned job processes and observe active count0 before deleting the exact image/key","Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"],
+  "actor": "Existing fresh standard-user debugger inside its containing job derives a privilege-filtered baseline and the exact fresh-user+S-1-5-12 restricting set. Verify actual complete token restricting sets before launching each debug-only child. Preserve prior user-only trace separately. No fallback.",
+  "bounds": {
+    "initial_mib": 32,
+    "executable_copy_bytes": 262144,
+    "trace_bytes_per_case": 2097152,
+    "compressed_trace_bytes_per_case": 131072,
+    "debug_events_per_case": 4096,
+    "seconds_per_case": 15,
+    "actor_seconds": 40
+  },
+  "required": [
+    "Baseline reaches complete and exits0; record actual restricted process outcome separately",
+    "Both cases retain nonempty loader traces,exact hashes,loaded module paths and exception observations; preserve failure/unavailability",
+    "Only known first breakpoint is continued; other exceptions remain not-handled",
+    "Retire all owned job processes and observe active count0 before deleting the exact image/key",
+    "Verify nonce-only registry values,unchanged image identity/hash and preserved original runtime; preserve journal on unknown cleanup"
+  ],
   "original_full_profile_controls_unchanged": true,
-  "sources": ["https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/show-loader-snaps","https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags-details","https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex","https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-debug_event"]
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/show-loader-snaps",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags-details",
+    "https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex",
+    "https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-debug_event"
+  ],
+  "comparison": "Compare the full RC compatibility candidate to the retained user-only KernelBase failure. A different later failure is not equivalent to the same module failure. Both actual traces remain required."
 }
