@@ -4,6 +4,13 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
+DE-W105 qualification remains open. The current guest build succeeds, but the
+full native attempt identifies source-transport, dense-fixture and private
+UI-harness defects. [Retained results and cleanup](../.aide/evidence/2026-10-18-ordinary-worker/README.md)
+separate passing build/history evidence from the failed complete gate. Prove the
+focused repairs before another full campaign; the existing storage limits and
+original product assertions remain in force.
+
 The [Windows reference plan](windows-reference.md) explains Disk Management,
 MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.
 Finish DE-W105's current native gate, then DE-W106 repairs differential evidence

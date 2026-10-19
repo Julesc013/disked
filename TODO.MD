@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is routine; Codex is an emergency spare. Exact source `c667318e` passes all 18 private Win32 groups, 12 headers and nine executable/import observations, including all 551 directory-file calls, the lease ACL regression and two-generation byte-exact sparse-symlink preparation. Peak scratch allocation was 72,967,178 bytes; all owned guest output retired and recorded host backing length stayed unchanged. The verified archive is 1,131,348 bytes. Full current x64, owner and release qualification remain pending. Merge and push tested, agent-reviewed checkpoints from `dev` to `main` promptly after their applicable gates pass. See [work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md).
+Status: the full all-platform/storage 0.1.0 goal remains incomplete; DE-W105 is current. At `8a290a7c`, all-target x64 build, 68 headers and 14 executable/import checks pass, but the native campaign fails after 33 recorded groups (28 pass). The fixed 512 MiB disk denies further fixture allocation and owned cleanup completes. Source-transport, sparse-fixture and private UI-harness repairs need focused native replay before another full gate. Historical `c667318e` passes the 18-group private Win32 slice, not current-source qualification. Agents is routine; Codex is the emergency spare. Merge tested, agent-reviewed `dev` checkpoints to `main` promptly after applicable gates pass. Owner and release acceptance remain separate. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md), [work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md).
 
 ## Storage recovery
 
@@ -53,6 +53,10 @@ Status: the full all-platform/storage 0.1.0 goal remains incomplete. Agents is r
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.
+- [ ] Replay the six failed/interrupted groups with the complete validator
+  source closure, byte-exact sparse FAT fixtures, actual private window station
+  and display-bounded console viewport. Keep the 240-column buffer and original
+  product assertions; the measured guest viewport maximum is 128 by 46.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
   a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
   the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build

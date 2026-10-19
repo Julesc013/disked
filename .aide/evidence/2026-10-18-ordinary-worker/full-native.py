@@ -445,7 +445,9 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         result['standalone_headers']=[dict(path=p.relative_to(work).as_posix(),sha256=retention.sha(p)) for p in headers]
         identity=json.loads((build/'generated/build-identity.json').read_bytes());result['build_identity']=identity
         dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe');result['executables']={}
-        for name in expected['focus_targets'] if focused else expected['executables']:
+        observed_executables=expected.get('focus_executables',expected['focus_targets']) if focused else expected['executables']
+        assert observed_executables and (not focused or set(observed_executables)<=set(expected['focus_targets']))
+        for name in observed_executables:
             path=build/'Release'/(name+'.exe');image=path.read_bytes();offset=struct.unpack_from('<I',image,60)[0]
             assert image[offset:offset+4]==b'PE\0\0' and struct.unpack_from('<H',image,offset+4)[0]==0x8664
             result['executables'][name]=dict(bytes=len(image),sha256=hashlib.sha256(image).hexdigest(),machine='0x8664')
@@ -471,6 +473,17 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
         directory_acl(compile_work,shared_acl)
         grant=helper.Grant();grant.apply();grant.started()
+        if expected.get('ui_fixture_preflight'):
+            _,raw=run('ordinary-ui-fixture-preflight',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
+            result['private_ui_diagnostic']=json_record(raw)
+            console=result['private_ui_diagnostic']['console_child']
+            assert console['exit_code']==0 and not console['stderr']
+            observed=json.loads(console['stdout'])
+            assert observed['configure_passed'] and all(row['success'] for row in observed['configure_steps'])
+            geometry=observed['configured_geometry'];largest=observed['largest_viewport']
+            assert geometry['buffer']==[240,1000]
+            assert geometry['viewport']==[0,0,min(240,largest[0])-1,min(25,largest[1])-1]
+            assert all(row['loaded'] for row in observed['libraries'])
         code,raw=run('ordinary-git-before-null',[git,'--version'],30,allow_failure=True)
         if code:
             assert code==128 and b'/dev/null' in raw

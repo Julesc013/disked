@@ -73,11 +73,14 @@ if '--console-child' in sys.argv:
                 setattr(fixture.k,name,observe)
             try:
                 fixture.configure(handle,240,25)
-                report['original_configure_passed']=True
+                report['configure_passed']=True
             except OSError as error:
-                report['original_configure_passed']=False
+                report['configure_passed']=False
                 report['configure_error']=error.winerror
             report['configure_steps']=steps
+            value=fixture.info(handle)
+            report['configured_geometry']=dict(buffer=[value.size.X,value.size.Y],
+                viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
         finally:
             k.CloseHandle(handle)
 else:

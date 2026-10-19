@@ -56,7 +56,12 @@ def configure(handle,columns,rows):
     old=info(handle);small=Rect(0,0,min(columns,old.window.Right-old.window.Left+1)-1,min(rows,old.window.Bottom-old.window.Top+1)-1)
     checked(k.SetConsoleWindowInfo(handle,True,c.byref(small)))
     checked(k.SetConsoleScreenBufferSize(handle,Coord(columns,1000)))
-    rect=Rect(0,0,columns-1,rows-1);checked(k.SetConsoleWindowInfo(handle,True,c.byref(rect)))
+    # Preserve the requested buffer width. The visible window also depends on
+    # this owned console's actual display/font limits (128 columns in the guest).
+    maximum=info(handle).maximum
+    if maximum.X<=0 or maximum.Y<=0:raise RuntimeError('Console viewport capacity unavailable')
+    rect=Rect(0,0,min(columns,maximum.X)-1,min(rows,maximum.Y)-1)
+    checked(k.SetConsoleWindowInfo(handle,True,c.byref(rect)))
 def key(vk,char='\0',down=True,up=True,control=0,repeat=1):
     events=[]
     if down:

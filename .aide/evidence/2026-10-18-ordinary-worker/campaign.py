@@ -84,7 +84,8 @@ def main():
     diagnose_history='--diagnose-fat-history' in sys.argv
     focus_history='--focus-fat-history' in sys.argv or diagnose_history
     focus_invocations='--focus-invocations' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations
+    focus_repairs='--focus-qualification-repairs' in sys.argv
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
@@ -178,6 +179,15 @@ def main():
         expected['native_x64']['focus_groups']=['disked.invocation','disked_provider_guard.invocation',
             'disked.shell_invocation','disked_provider_guard.shell_invocation']
         expected['native_x64']['focus_targets']=['disked','disked_provider_guard','fat_tree_extraction_worker_probe']
+    if focus_repairs:
+        expected['native_x64']['focus_groups']=['evidence.logical_extraction','evidence.verification_commands',
+            'frontend.acquisition_forms','frontend.acquisition_interactive','frontend.acquisition_timeout','frontend.fat_extraction']
+        expected['native_x64']['focus_targets']=['disked','gui_model_probe','tui_model_probe',
+            'verification_command_probe','verification_command_fault','shell_model_probe','watch_probe',
+            'disked_image_test','acquisition_command_probe','fat_worker_probe','acquisition_case_probe',
+            'acquired_image_verification_probe','image_verification_collection_probe','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+        expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())

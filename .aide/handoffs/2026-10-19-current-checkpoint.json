@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "43a9f2ae4720204d75ebbe9857be94b528a2f938",
+  "base_revision": "f320ee3977cb804ad3328619ae0e9e1c48e91a2a",
   "spec_manifest_digest": "sha256:f870050dc0ea530057e2abe9879b4f012c07d54c622cc89ae0121cc9cad5e0e5",
   "status": "partial",
   "files_read": [
@@ -68,6 +68,7 @@
     ".aide/programmes/disked-0.1.0.json",
     "CMakeLists.txt",
     "TODO.MD",
+    "docs/development-plan.md",
     "docs/native-bootstrap.md",
     "source/platform/windows/acquisition_worker.cpp",
     "source/platform/windows/memory_budget.cpp",
@@ -89,6 +90,7 @@
     "tests/evidence/test_joined_report_worker.py",
     "tests/evidence/test_report_worker.py",
     "tests/evidence/test_verification_worker.py",
+    "tests/frontend/console_tui_fixture.py",
     "tests/frontend/gui_fixture.py",
     "tests/frontend/test_acquisition_timeout.py",
     "tests/frontend/test_image_commands.py",
@@ -116,7 +118,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 unfinished. Full x64 attempt61 at8a290a7c builds all targets,68headers/14imports;28 of33 recorded groups pass,including all13 FAT history methods in467.651s. Missing verification validator,ordinary GUI/console startup and dense FAT images fail;34th group fills fixed512MiB and leaves empty JUnit. Archive130564 bytes fully hash/entry verified. Owned media/source/account and host workspace cleaned. No full pass/main promotion. Candidate fixes source closure and shares sparse fixture sizing;14 focused host-tooling checks pass. Guest UI diagnostic and focused native replay remain unverified. Full candidate metadata/AST/source-map/manifest checks pass;253 spec tests(two skips) and150 tooling tests(one skip) pass. These checks do not qualify guest GUI or a complete native suite. Diagnostic62 at43a9f2ae proves User32/GDI/private-window and new-console APIs without wider permissions;all cleanup passes. Found GUI harness creates desktop in current private station but launches in hardcoded WinSta0. Candidate queries actual station. Native product GUI replay and exact console geometry diagnosis remain pending.",
+  "summary": "DE-W105 partial. DE-W105 unfinished. Attempt61 at8a290a7c passes build/68headers/14imports and28 of33 recorded groups,including13 FAT history methods in467.651s;missing validator,dense FAT fixtures and UI harness fail. Fixed512MiB fills;all owned cleanup and complete compact archive verified. Candidate adds missing validator and byte-exact shared sparse sizing;253 spec(two skips)/150 tools(one skip) pass. Diagnostic62/63 proves ordinary UI APIs/private window/new console;original viewport240 fails87 against measuredmaximum128x46. GUI fixture wrongly targeted WinSta0 after creating a private-station desktop;candidate queries actual station. Console candidate preserves240x1000 buffer and caps viewport to actual display/font limit. Six-group native replay is pending;full180/current Win32/detail/main/owner/release/all0.1.0 remain open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -341,6 +343,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-observations.json"
+    },
+    {
+      "command": "python tools/workspace.py run -- python .aide/evidence/2026-10-18-ordinary-worker/campaign.py --ui-proof",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-geometry.json"
     }
   ],
   "artifacts": [
@@ -454,7 +463,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:3a69e9e6e902d262a296b9107dbf21163de68a9e213de8681f1b3fe0e57115ca"
+      "sha256": "sha256:9b91c7e85d33a5e153cd384ef61df86a607fbaec6bb7f3087696698397dfcbb7"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -554,7 +563,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:53bd227da44fb15eee0b846e357150f03073cb9503df407c5fd5cb0893de01a0"
+      "sha256": "sha256:a1ced22d8e321a41e069db404ff537176fef2d72f3409626f0bf7f48822cce50"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
@@ -607,12 +616,24 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui.tar.xz",
       "sha256": "sha256:3bf325ec4be9c577f438d1512f656e4480de74bfa0778615fdc11424665bbe40"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-geometry.json",
+      "sha256": "sha256:ec9eb1355c50fc87373ad9d32732e844e64cafd2d74ebff49855c19bd2e7b1a0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-cleanup.json",
+      "sha256": "sha256:8f2e8df65983410d3843df2d8a3862fa0bc76ff822ca0a5cb3b1ec6548c6323d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console.tar.xz",
+      "sha256": "sha256:819d45967cb8d1d868c9f55e776541d67abe27c27c1a01821c3cc16a61f2f6da"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run the small private console API/geometry diagnostic,then focused actual native replay before another full qualification.",
+  "next_safe_step": "Run --focus-qualification-repairs:14 build targets,two declared hardened executable/import observations,six affected groups and actual UI geometry preflight. Preserve original assertions/deadlines and512MiB/1GiB limits. After focused pass,run full180/current Win32/detail review before main;W106/107 and original0.1.0/owner/release gates remain.",
   "performed_remote_writes": true
 }
