@@ -2,7 +2,38 @@
 // Only supplied owned ordinary directories are opened; no storage enumeration.
 #include "platform/windows/worker_files.h"
 #include <aclapi.h>
+#include <winternl.h>
 #include <cstdio>
+#include <cwchar>
+
+static void namespace_diagnostic() {
+    using namespace disked::worker_files;
+    Security security;auto rows=Value::array();
+    const auto unique=wide(security.identity("DiskEd.Qualification."));
+    for(const auto prefix:{L"",L"Local\\",L"Global\\"}) {
+        const std::wstring name=prefix+unique;
+        SetLastError(0);Handle mutex(CreateMutexW(&security.attributes,FALSE,name.c_str()));
+        const auto error=GetLastError();
+        SetLastError(0);Handle job(CreateJobObjectW(&security.attributes,(name+L".Job").c_str()));
+        const auto job_error=GetLastError();
+        rows.items.push_back(Value::object().put("name",Value::string(narrow(name)))
+            .put("created",Value::boolean_value(mutex.valid())).put("error",Value::number(std::to_string(error)))
+            .put("job_created",Value::boolean_value(job.valid())).put("job_error",Value::number(std::to_string(job_error))));
+    }
+    using OpenDirectory=LONG (NTAPI*)(PHANDLE,ACCESS_MASK,POBJECT_ATTRIBUTES);
+    const auto open=symbol<OpenDirectory>(GetModuleHandleW(L"ntdll.dll"),"NtOpenDirectoryObject");
+    auto directories=Value::array();
+    for(const auto path:{L"\\BaseNamedObjects",L"\\BaseNamedObjects\\Restricted",L"\\Sessions\\0\\BaseNamedObjects",L"\\Sessions\\0\\BaseNamedObjects\\Restricted"}) {
+        const auto length=std::wcslen(path)*sizeof(wchar_t);
+        UNICODE_STRING name{static_cast<USHORT>(length),static_cast<USHORT>(length+sizeof(wchar_t)),const_cast<PWSTR>(path)};
+        OBJECT_ATTRIBUTES attrs{};attrs.Length=sizeof(attrs);attrs.ObjectName=&name;attrs.Attributes=0x40;
+        HANDLE raw=nullptr;const auto status=open(&raw,3,&attrs);Handle handle(raw);
+        directories.items.push_back(Value::object().put("path",Value::string(narrow(path))).put("status",Value::number(std::to_string(static_cast<unsigned long>(status)))));
+    }
+    DWORD session=~0u;if(!ProcessIdToSessionId(GetCurrentProcessId(),&session))fail("probe_session");
+    const auto report=Value::object().put("namespace_diagnostic",std::move(rows)).put("directories",std::move(directories)).put("session",Value::number(std::to_string(session)));
+    std::fprintf(stderr,"%s\n",disked::json::dump(report).c_str());
+}
 
 int wmain(int argc,wchar_t** argv) {
     using namespace disked::worker_files;
@@ -69,6 +100,8 @@ int wmain(int argc,wchar_t** argv) {
             .put("lease_reopened",Value::boolean_value(true));
         std::puts(disked::json::dump(result).c_str());return 0;
     } catch(const Failure& error) {
-        std::fprintf(stderr,"%s platform=%lu\n",error.what(),static_cast<unsigned long>(error.platform));return 3;
+        std::fprintf(stderr,"%s platform=%lu\n",error.what(),static_cast<unsigned long>(error.platform));
+        try {namespace_diagnostic();}catch(...) {std::fprintf(stderr,"namespace diagnostic unavailable\n");}
+        return 3;
     } catch(const std::exception& error) {std::fprintf(stderr,"%s\n",error.what());return 3;}
 }

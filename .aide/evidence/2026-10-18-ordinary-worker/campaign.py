@@ -71,7 +71,8 @@ RETIRE_ACTOR=r'''
 
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
-    if (HERE/'result.json').exists():raise ValueError('Review and retain the previous attempt first')
+    cleanup_only='--cleanup-only' in sys.argv
+    if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
@@ -151,7 +152,17 @@ def main():
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
     cleanup=once(cleanup,'$paths=@($Expected',"$extra=@(\"$root\\scratch\\ordinary-actor.json\",\"$root\\scratch\\outside\\baseline\",\"$root\\scratch\\outside\\forbidden\",\"$root\\scratch\\outside\\descendant-forbidden\",\"$root\\scratch\\outside\\inheritance-canary.bin\")\n        $paths=$extra+@($Expected")
-    cleanup=once(cleanup,'$items.Count-gt32','$items.Count-gt40')
+    cleanup=once(cleanup,'$items.Count-gt32','$items.Count-gt($paths.Count+$dirs.Count)')
+    cleanup=once(cleanup,'        $items=@();',r'''        foreach($path in $paths){
+            $parent=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($path))
+            while($parent-ne$root){
+                if(-not$parent.StartsWith($root+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'Cleanup path escaped root.'}
+                if($parent-notin$dirs){$dirs+=,$parent}
+                $parent=[IO.Path]::GetDirectoryName($parent)
+            }
+        }
+        $items=@();''')
+    cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
     parser="$e=$null;$t=$null;foreach($f in Get-ChildItem -LiteralPath $args[0] -Filter '*.ps1'){$null=[Management.Automation.Language.Parser]::ParseFile($f.FullName,[ref]$t,[ref]$e);if($e.Count){throw ($e|Out-String)}}"
@@ -160,6 +171,12 @@ def main():
     hashes={p.relative_to(stage).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in stage.rglob('*') if p.is_file()}
     (HERE/'prepared.json').write_text(json.dumps(dict(status='pass',scope='Source/AST/template/Windows PowerShell5.1 parse only; no guest execution',generated_sha256=hashes),indent=2)+'\n',encoding='utf-8',newline='\n')
     if '--prepare-only' in sys.argv:return 0
+    if cleanup_only:
+        shutil.copyfile(HERE/'result.json',stage/'proof-32.json')
+        cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=60)
+        if cleaned.returncode:raise RuntimeError((cleaned.stdout+cleaned.stderr)[-16384:].decode(errors='replace'))
+        shutil.copyfile(stage/'cleanups.json',HERE/'cleanup.json')
+        return 0
     call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=600)
     raw=(stage/'proof-32.json').read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
