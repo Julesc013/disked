@@ -80,7 +80,8 @@ def main():
     cleanup_proof='--cleanup-proof' in sys.argv
     focus_fat='--focus-fat-review' in sys.argv
     focus_export='--focus-file-export' in sys.argv
-    focus_history='--focus-fat-history' in sys.argv
+    diagnose_history='--diagnose-fat-history' in sys.argv
+    focus_history='--focus-fat-history' in sys.argv or diagnose_history
     focus_invocations='--focus-invocations' in sys.argv
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or focus_fat or focus_export or focus_history or focus_invocations
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
@@ -165,6 +166,10 @@ def main():
         expected['native_x64']['focus_groups']=['evidence.fat_tree_history']
         expected['native_x64']['focus_targets']=['fat_tree_history_probe','fat_tree_extraction_probe','fat_tree_extraction_worker_probe','fat_tree_extraction_worker_fault']
         expected['native_x64']['trace_fat_history']=True
+    if diagnose_history:
+        expected['native_x64']['diagnose_fat_history']=True
+        expected['native_x64']['history_diagnostic_seconds']=600
+        expected['native_x64']['history_timing_review']=json.loads((HERE/'history-timing-review.json').read_bytes())
     if focus_invocations:
         expected['native_x64']['focus_groups']=['disked.invocation','disked_provider_guard.invocation']
         expected['native_x64']['focus_targets']=['disked','disked_provider_guard']
@@ -288,7 +293,7 @@ def main():
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
         proof=result.get('guest',{}).get('proof') or {}
         result['template_native_product_tests_run']=result.get('native_product_tests_run',False)
-        result['native_product_tests_run']=bool(proof.get('tests'))
+        result['native_product_tests_run']=bool(proof.get('tests') or proof.get('diagnostics'))
         result['native_product_build_run']=any(row['label']=='build' for row in proof.get('commands',[]))
         if (stage/'retained.tar.xz').exists():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()

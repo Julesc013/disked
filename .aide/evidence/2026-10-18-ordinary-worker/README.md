@@ -92,6 +92,19 @@ and stage the temporary shell. Every phase has a separate retired job; source an
 temporary grants remain bound to the same nonce. The full recipe is not qualified
 by the focused run. LZMA tool transfer reduces overlap with the capped build output.
 
+Attempt 57 at `bf494856` passes the two-product build/import checks and actual
+PowerShell preflight, then stops before either invocation group: restaging the
+tool tries to retain its unchanged manifest twice. The candidate now checks the
+existing entry's exact size/hash instead of duplicating it. The original failure,
+31,680-byte archive and complete owned cleanup are retained. LZMA reduces the
+tool transfer to 78,642,619 bytes.
+
+`history-timing-review.json` predeclares a separate completion diagnostic for the
+original 13-method body (16 native histories and three owned-worker histories).
+It invokes the exact registered command directly with a 600-second observation
+window; each original child timeout/assertion stays intact. Its results cannot
+enter the CTest/JUnit pass count or qualify the still-failing 300-second gate.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

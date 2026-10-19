@@ -196,7 +196,11 @@ def coordinate(g):
             env['PATH']=str(tool)+os.pathsep+env.get('PATH',os.defpath)
             env['PSModulePath']=str(tool/'Modules')
             result['powershell7_tool']=metadata
-            archive.write(ROOT/'pwsh7.json','recipe/pwsh7.json')
+            member='recipe/pwsh7.json'
+            expected_entry=dict(bytes=(ROOT/'pwsh7.json').stat().st_size,sha256=retention.sha(ROOT/'pwsh7.json'))
+            if member in archive.entries:
+                assert archive.entries[member]==expected_entry
+            else:archive.write(ROOT/'pwsh7.json',member)
             budget()
             return tool/'pwsh.exe'
 
@@ -271,12 +275,25 @@ def coordinate(g):
             active_stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
             before={p.name for p in build.iterdir() if p.is_file()}
             active_group=test;active_before=before
-            code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
-                '--verbose','--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
-            archive.write(work/'test.xml','junit/'+test+'.xml')
-            cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
-            passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
-            result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer'))
+            diagnostic=bool(expected.get('diagnose_fat_history'))
+            if diagnostic:
+                assert focused and test=='evidence.fat_tree_history' and expected['history_diagnostic_seconds']==600
+                command=next(row['command'] for row in registered if row['name']==test)
+                code,_=run('diagnose-fat-history-complete',command,expected['history_diagnostic_seconds'],allow_failure=True)
+                observed=json.loads((build/'fat-tree-history-cases.json').read_bytes())
+                summary=dict(methods=observed['methods'],cases=observed['cases'],
+                    native_histories=len(observed['native_histories']),owned_histories=len(observed['owned_histories']))
+                passed=code==0 and observed['passed'] is True and summary['methods']==13 and summary['native_histories']==16 and summary['owned_histories']==3 and summary['cases']==len(observed['records'])>0
+                result.setdefault('diagnostics',[]).append(dict(name=test,exit_code=code,passed=passed,
+                    deadline_seconds=600,original_ctest_deadline_seconds=300,original_ctest_qualified=False,
+                    observations=summary,scope='Original assertion body outside CTest for elapsed-time diagnosis only; no full/native-group qualification'))
+            else:
+                code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
+                    '--verbose','--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
+                archive.write(work/'test.xml','junit/'+test+'.xml')
+                cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
+                passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
+                result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer'))
             for path in sorted(build.iterdir()):
                 if not path.is_file() or path.name in before:continue
                 info=path.lstat()
@@ -502,6 +519,10 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
                     assert path.resolve().is_relative_to(build.resolve()) and stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
                     retention.retire_file(path);removed_count+=1;removed_bytes+=info.st_size
                 result['compiler_objects_retired_before_runtime_tests']=dict(count=removed_count,logical_bytes=removed_bytes)
+        if expected.get('diagnose_fat_history'):
+            assert focused and not result['tests'] and len(result['diagnostics'])==1 and result['diagnostics'][0]['passed']
+            result.update(status='pass',qualification='Elapsed-time diagnosis only; original300-second group remains unqualified')
+            return
         if not focused and package_tests:
             # Retire the ordinary worker and all its jobs before reusing this
             # campaign's package identity for the two shell/console groups.
