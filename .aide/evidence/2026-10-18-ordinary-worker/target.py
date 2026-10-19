@@ -302,19 +302,20 @@ def main():
         if actual: k.LocalFree(actual)
     result['record_sha256'] = hashlib.sha256(record.read_bytes()).hexdigest()
     result['space_before'] = shutil.disk_usage(root)._asdict()
-    assert result['space_before']['total'] <= 32*1024*1024
+    cap_mib=plan['cap_mib'];assert cap_mib in (32,512)
+    assert result['space_before']['total'] <= cap_mib*1024*1024
     payload = root/'capacity.bin'; allocated, full_error = 0, None
     h = k.CreateFileW(str(payload),0x40000000,3,None,1,0x80000080,None)
     if h == C.c_void_p(-1).value: raise C.WinError(C.get_last_error())
     try:
         block = C.create_string_buffer(b'\xa5'*65536)
-        for _ in range(1024):
+        for _ in range(cap_mib*16+1):
             count = T.DWORD()
             if not k.WriteFile(h,block,65536,C.byref(count),None):
                 full_error=C.get_last_error();result['failed_write_bytes']=count.value;break
             assert count.value == 65536; allocated += count.value
         result.update(bytes_written=allocated,allocation_error=full_error,space_full=shutil.disk_usage(root)._asdict())
-        assert full_error in (39,112) and 0 < allocated < 32*1024*1024
+        assert full_error in (39,112) and 0 < allocated < cap_mib*1024*1024
     finally:
         require(k.CloseHandle(h)); payload.unlink()
     result['space_after_removal'] = shutil.disk_usage(root)._asdict()

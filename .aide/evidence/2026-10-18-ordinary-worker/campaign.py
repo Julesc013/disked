@@ -72,6 +72,8 @@ RETIRE_ACTOR=r'''
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
     cleanup_only='--cleanup-only' in sys.argv
+    size=512 if '--size-mib=512' in sys.argv else 32
+    if size==512 and '--crypto-full' not in sys.argv:raise ValueError('512MiB is restricted to its declared complete primitive proof')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
@@ -86,7 +88,7 @@ def main():
         for path in native_files:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
-    expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
+    expected.update(experiment='ordinary-token-'+str(size)+'mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=size)
     diagnostic='--diagnostic' in sys.argv
     startup_diagnostic='--startup-diagnostic' in sys.argv
     loader_diagnostic='--loader-diagnostic' in sys.argv
@@ -96,6 +98,7 @@ def main():
     crypto='--crypto-device' in sys.argv or crypto_full or native
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
+    if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
@@ -177,8 +180,8 @@ def main():
         if cleaned.returncode:raise RuntimeError((cleaned.stdout+cleaned.stderr)[-16384:].decode(errors='replace'))
         shutil.copyfile(stage/'cleanups.json',HERE/'cleanup.json')
         return 0
-    call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=600)
-    raw=(stage/'proof-32.json').read_bytes();result=json.loads(raw)
+    call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=600)
+    raw=(stage/('proof-'+str(size)+'.json')).read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
     result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
     if startup_diagnostic:result['experiment_kind']='standard/restricted token and console diagnostic; no profile admission'
@@ -186,7 +189,7 @@ def main():
     if forensic:result['experiment_kind']='owned per-image loader tracing; no profile admission'
     if namespace:result['experiment_kind']='existing object namespace access checks; no profile admission'
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
-    if crypto_full:result['experiment_kind']='original32MiB ordinary worker controls with scoped crypto exception; no larger cap/compiler/product qualification'
+    if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
@@ -197,7 +200,7 @@ def main():
         if not all(proof.get(name) for name in ('image_registry_removed','diagnostic_image_removed','original_runtime_preserved')):
             raise RuntimeError('Preserve guest actor journal: loader image/registry cleanup not established')
     if result.get('guest',{}).get('setup',{}).get('image_removed'):
-        cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=60)
+        cleaned=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'clean-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=60)
         if cleaned.returncode:
             (HERE/'cleanup-error.txt').write_bytes((cleaned.stdout+cleaned.stderr)[-16384:]);raise RuntimeError('Owned guest cleanup needs review')
         shutil.copyfile(stage/'cleanups.json',HERE/'cleanup.json')

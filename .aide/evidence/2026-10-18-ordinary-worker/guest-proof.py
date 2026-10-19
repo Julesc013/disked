@@ -46,7 +46,7 @@ def plan(work, data):
     path=work/'launch.json'
     state=json.loads((ROOT/'scratch/state.json').read_bytes())
     path.write_text(json.dumps(dict(user_sid=data['sid'],source=str(ROOT/'ordinary-worker.py'),
-        outside=str(ROOT/'scratch/outside'),backing=state['image'],profile='fresh-user-restricted-code/v1')))
+        outside=str(ROOT/'scratch/outside'),backing=state['image'],cap_mib=state['size_mib'],profile='fresh-user-restricted-code/v1')))
     return path
 
 def retire_job(job):
@@ -192,10 +192,10 @@ def main():
     try:
         data=actor();result['actor']={k:data[k] for k in ('name','sid','nonce')}
         private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
-        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==32
-        result['image_uuid']=state['image_uuid'];result['capped_volume']=state['volume_unique_id']
+        state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib'] in (32,512)
+        result['image_uuid']=state['image_uuid'];result['capped_volume']=state['volume_unique_id'];result['cap_mib']=state['size_mib']
         work_root=W.plain_directory(state['work'])
-        assert shutil.disk_usage(work_root).total<=32*1024*1024
+        assert shutil.disk_usage(work_root).total<=state['size_mib']*1024*1024
         outside=ROOT/'scratch/outside';outside.mkdir()
         (outside/'sentinel').write_bytes(b'preserve-owned-sentinel')
         normal=fresh(work_root/'normal'); instance=worker(normal,private,namespace_compat=True)
@@ -223,7 +223,7 @@ def main():
         payload=json.loads(request.read_bytes());payload.update(canary_handle=canary,canary_volume=str(identity.volume),canary_identity=bytes(identity.identity).hex())
         request.write_text(json.dumps(payload));job=S.WindowsJob()
         child=instance.launch([sys.executable,'-B',str(ROOT/'target.py'),str(request)],os.environ,job)
-        code=child.wait(timeout=25)
+        code=child.wait(timeout=25 if state['size_mib']==32 else 150)
         result['normal_exit_code']=code
         result['launch_parameters']=instance.last_launch
         log=instance.log_path.read_bytes();assert len(log)<=65536

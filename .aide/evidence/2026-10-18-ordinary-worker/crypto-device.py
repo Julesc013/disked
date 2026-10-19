@@ -259,7 +259,7 @@ def coordinate(g):
         finally:(ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def coordinate_full(g):
-    """Original full32MiB proof, under the separately declared crypto recipe."""
+    """All original controls at one declared32/512MiB filesystem capacity."""
     import traceback
     g.actor()  # Verify current credentials/journal before setup; leave its env for main.
     grant=Grant();result=None
@@ -276,7 +276,7 @@ def coordinate_full(g):
             if not result or result.get('all_owned_processes_retired') is not True:
                 raise RuntimeError('Preserve crypto journal: full proof retirement not established')
             grant.retire(quiescent=True)
-            result.update(scope='Original32MiB ordinary-token primitive proof with scoped guest crypto setup; no compiler/product qualification',execution_profile='fresh-user-rc-crypto-guest/v1',crypto_device_retired=True,crypto_device=grant.report,full_product_qualified=False)
+            result.update(scope='Complete ordinary-token primitive proof with scoped guest crypto setup; no full product qualification',execution_profile='fresh-user-rc-crypto-guest/v1',crypto_device_retired=True,crypto_device=grant.report,full_product_qualified=False)
         except BaseException:
             if result is None:result=dict(status='fail',all_owned_processes_retired=False)
             result.update(status='fail',crypto_device_retired=False,crypto_cleanup_error=traceback.format_exc()[-8192:]);raise
