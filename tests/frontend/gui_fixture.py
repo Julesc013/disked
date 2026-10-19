@@ -24,6 +24,8 @@ bind(U,'EnumWindows',W.BOOL,[CALLBACK,LP]);bind(U,'EnumChildWindows',W.BOOL,[W.H
 bind(U,'CreateDesktopW',W.HANDLE,[W.LPCWSTR,W.LPCWSTR,PTR,W.DWORD,W.DWORD,PTR])
 bind(U,'CloseDesktop',W.BOOL,[W.HANDLE]);bind(U,'EnumDesktopWindows',W.BOOL,[W.HANDLE,CALLBACK,LP])
 bind(U,'GetThreadDesktop',W.HANDLE,[W.DWORD]);bind(U,'SetThreadDesktop',W.BOOL,[W.HANDLE])
+bind(U,'GetProcessWindowStation',W.HANDLE,[])
+bind(U,'GetUserObjectInformationW',W.BOOL,[W.HANDLE,W.INT,PTR,W.DWORD,C.POINTER(W.DWORD)])
 bind(K,'GetCurrentThreadId',W.DWORD,[])
 bind(U,'GetWindowThreadProcessId',W.DWORD,[W.HWND,C.POINTER(W.DWORD)])
 bind(U,'GetClassNameW',C.c_int,[W.HWND,W.LPWSTR,C.c_int])
@@ -142,11 +144,16 @@ class Gui:
         if render:
             # The desktop is never switched onto the user's display. Windows
             # can paint real controls there without capturing another app.
+            station=C.create_unicode_buffer(1024);needed=W.DWORD()
+            if not U.GetUserObjectInformationW(U.GetProcessWindowStation(),2,station,C.sizeof(station),C.byref(needed)):
+                raise C.WinError(C.get_last_error())
+            if not station.value or '\\' in station.value:
+                raise ValueError('Invalid current window station name')
             name='DiskEdTest-'+uuid.uuid4().hex;self.desktop=U.CreateDesktopW(name,None,None,0,0x1FF,None)
             if not self.desktop:raise OSError(C.get_last_error(),'test desktop')
             self.previous_desktop=U.GetThreadDesktop(K.GetCurrentThreadId())
             if not U.SetThreadDesktop(self.desktop):raise OSError(C.get_last_error(),'test thread desktop')
-            startup.lpDesktop='WinSta0\\'+name;startup.wShowWindow=4
+            startup.lpDesktop=station.value+'\\'+name;startup.wShowWindow=4
         argv=[str(exe),*(args or ['gui'])]
         if render:self.process=DesktopProcess(argv,self.temp.name,startup.lpDesktop)
         else:self.process=subprocess.Popen(argv,cwd=self.temp.name,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,startupinfo=startup)

@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "8a290a7cdfb33dc3ff9540f885a2995169bae2aa",
+  "base_revision": "43a9f2ae4720204d75ebbe9857be94b528a2f938",
   "spec_manifest_digest": "sha256:f870050dc0ea530057e2abe9879b4f012c07d54c622cc89ae0121cc9cad5e0e5",
   "status": "partial",
   "files_read": [
@@ -34,6 +34,8 @@
     "tests/differential/CONTRACT.md",
     "tests/differential/compare.py",
     "tests/differential/test_adapters.py",
+    "tests/frontend/console_tui_fixture.py",
+    "tests/frontend/gui_fixture.py",
     "tests/frontend/test_fat_extraction_commands.py",
     "tests/images/test_fat_capture.py",
     "tools/build-inputs.json",
@@ -87,6 +89,7 @@
     "tests/evidence/test_joined_report_worker.py",
     "tests/evidence/test_report_worker.py",
     "tests/evidence/test_verification_worker.py",
+    "tests/frontend/gui_fixture.py",
     "tests/frontend/test_acquisition_timeout.py",
     "tests/frontend/test_image_commands.py",
     "tests/frontend/test_product_export.py",
@@ -113,7 +116,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 unfinished. Full x64 attempt61 at8a290a7c builds all targets,68headers/14imports;28 of33 recorded groups pass,including all13 FAT history methods in467.651s. Missing verification validator,ordinary GUI/console startup and dense FAT images fail;34th group fills fixed512MiB and leaves empty JUnit. Archive130564 bytes fully hash/entry verified. Owned media/source/account and host workspace cleaned. No full pass/main promotion. Candidate fixes source closure and shares sparse fixture sizing;14 focused host-tooling checks pass. Guest UI diagnostic and focused native replay remain unverified. Full candidate metadata/AST/source-map/manifest checks pass;253 spec tests(two skips) and150 tooling tests(one skip) pass. These checks do not qualify guest GUI or a complete native suite.",
+  "summary": "DE-W105 unfinished. Full x64 attempt61 at8a290a7c builds all targets,68headers/14imports;28 of33 recorded groups pass,including all13 FAT history methods in467.651s. Missing verification validator,ordinary GUI/console startup and dense FAT images fail;34th group fills fixed512MiB and leaves empty JUnit. Archive130564 bytes fully hash/entry verified. Owned media/source/account and host workspace cleaned. No full pass/main promotion. Candidate fixes source closure and shares sparse fixture sizing;14 focused host-tooling checks pass. Guest UI diagnostic and focused native replay remain unverified. Full candidate metadata/AST/source-map/manifest checks pass;253 spec tests(two skips) and150 tooling tests(one skip) pass. These checks do not qualify guest GUI or a complete native suite. Diagnostic62 at43a9f2ae proves User32/GDI/private-window and new-console APIs without wider permissions;all cleanup passes. Found GUI harness creates desktop in current private station but launches in hardcoded WinSta0. Candidate queries actual station. Native product GUI replay and exact console geometry diagnosis remain pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -331,6 +334,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json"
+    },
+    {
+      "command": "python tools/workspace.py run -- python .aide/evidence/2026-10-18-ordinary-worker/campaign.py --ui-proof",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-observations.json"
     }
   ],
   "artifacts": [
@@ -444,7 +454,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:253428d1397b87dbaababa7f22a24e4f964ecc0329594fe72c0a770ad442744b"
+      "sha256": "sha256:3a69e9e6e902d262a296b9107dbf21163de68a9e213de8681f1b3fe0e57115ca"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -585,12 +595,24 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-and-sparse-checks.json",
       "sha256": "sha256:f909ca475a808905ca9781694f3e00c85b68392721c8401b82ee7209503472ce"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-observations.json",
+      "sha256": "sha256:5e56bba3b44c74b96563120f59b4cb2c5fbd1b5a5c711d21e3186ee5185cf6ca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-cleanup.json",
+      "sha256": "sha256:5d4aea3a0d50c8b84435430a838a42b002562fa3d077aec99f751bf55944d28e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui.tar.xz",
+      "sha256": "sha256:3bf325ec4be9c577f438d1512f656e4480de74bfa0778615fdc11424665bbe40"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run the tiny ordinary-worker private UI/console diagnostic,repair its measured cause,then prove sparse FAT generation and replay the six affected groups before another complete180 x64 campaign. Preserve512MiB/1GiB limits. Complete current Win32/detail/C90 review after full pass,then merge reviewed dev to main;W106/107 remain next. Original0.1.0/owner/release gates unchanged.",
+  "next_safe_step": "Run the small private console API/geometry diagnostic,then focused actual native replay before another full qualification.",
   "performed_remote_writes": true
 }

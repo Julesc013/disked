@@ -56,6 +56,28 @@ if '--console-child' in sys.argv:
             ok = k.GetConsoleMode(handle, C.byref(mode))
             report['console_mode'] = mode.value if ok else None
             report['console_mode_error'] = 0 if ok else C.get_last_error()
+            sys.path.insert(0, str(Path(__file__).parent / 'source/tests/frontend'))
+            import console_tui_fixture as fixture
+            value = fixture.info(handle)
+            report['console_geometry'] = dict(buffer=[value.size.X,value.size.Y],
+                viewport=[value.window.Left,value.window.Top,value.window.Right,value.window.Bottom])
+            largest = fixture.api('GetLargestConsoleWindowSize',[T.HANDLE],fixture.Coord)(handle)
+            report['largest_viewport'] = [largest.X,largest.Y]
+            steps=[]
+            for name in ('SetConsoleWindowInfo','SetConsoleScreenBufferSize'):
+                original=getattr(fixture.k,name)
+                def observe(*args,_name=name,_original=original):
+                    result=_original(*args);error=C.get_last_error()
+                    steps.append(dict(api=_name,success=bool(result),error=0 if result else error))
+                    return result
+                setattr(fixture.k,name,observe)
+            try:
+                fixture.configure(handle,240,25)
+                report['original_configure_passed']=True
+            except OSError as error:
+                report['original_configure_passed']=False
+                report['configure_error']=error.winerror
+            report['configure_steps']=steps
         finally:
             k.CloseHandle(handle)
 else:
