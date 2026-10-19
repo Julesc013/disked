@@ -76,6 +76,22 @@ are retired once consumed. The guest aggregate watchdog also reserves remaining
 host scratch/context bytes. This proof is separate from the two original native
 invocation groups; those still require their full, unchanged assertions.
 
+Attempt 56 at `cf286e90` passes actual confined PowerShell 7.6.7/CLR 10.0.13
+startup and ordinary-owner cleanup. The tool contains 237,290,209 bytes; its
+98,281,099-byte host transfer is removed after guest hash verification. All
+temporary copies and guest resources retire; only an 18,392-byte evidence archive
+remains. The owned I/O diagnostic measures 32 individually flushed 512-byte writes
+at 1.825 seconds versus 0.052 seconds with one final flush. This does not by itself
+attribute the complete FAT-history runtime.
+
+The next candidate runs the two original invocation groups alone. For a future
+full run, the same groups follow the 176 ordinary groups: retire the ordinary
+worker, release reproducible linked/compiler files while retaining the two exact
+executables and CTest metadata, then recreate the already-owned package identity
+and stage the temporary shell. Every phase has a separate retired job; source and
+temporary grants remain bound to the same nonce. The full recipe is not qualified
+by the focused run. LZMA tool transfer reduces overlap with the capped build output.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git

@@ -200,6 +200,31 @@ def coordinate(g):
             budget()
             return tool/'pwsh.exe'
 
+        def retire_shell_tool():
+            tool=work/'powershell7'
+            g.S.remove_owned_work(tool,work,'powershell7')
+            env['PATH']=original_path
+            env.pop('PSModulePath',None)
+            assert not tool.exists()
+
+        def release_build_binaries():
+            assert quiescent
+            keep={'disked.exe','disked_provider_guard.exe'}
+            kept={name:retention.sha(build/'Release'/name) for name in keep}
+            rows=[]
+            for path in build.rglob('*'):
+                if path.suffix.lower() not in ('.exe','.obj','.lib','.pdb','.exp','.ilk','.pch'):continue
+                if path.parent==build/'Release' and path.name in keep:continue
+                for parent in [path.parent,*path.parent.parents]:
+                    g.W.plain_directory(parent)
+                    if parent==build:break
+                info=path.lstat()
+                assert path.resolve().is_relative_to(build.resolve()) and stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
+                retention.retire_file(path);rows.append(dict(path=path.relative_to(build).as_posix(),bytes=info.st_size))
+            assert kept=={name:retention.sha(build/'Release'/name) for name in keep}
+            result['build_binaries_retired_before_invocations']=dict(files=len(rows),logical_bytes=sum(row['bytes'] for row in rows),kept=kept)
+            budget()
+
         def budget():
             if time.monotonic()-campaign_started>7200:raise TimeoutError('Guest campaign overall deadline')
             g.S.check(ROOT)
@@ -276,10 +301,6 @@ def coordinate(g):
             schema_probe="import sys,json;sys.path.insert(0,sys.argv[1]);from specctl import Bundle;b=Bundle(sys.argv[2]);print(json.dumps(dict(schemas=len(b.schemas))))"
             _,raw=run('schema-tools-and-source-closure',[sys.executable,'-B','-c',schema_probe,SOURCE/'spec/tools',SOURCE/'spec'],30)
             result['schema_source_closure']=json_record(raw);assert result['schema_source_closure']['schemas']==95
-            selected=expected.get('focus_groups',expected['groups'])
-            if any(name in selected for name in expected.get('appcontainer_test_groups',[])):
-                shell_probe="import shutil,json;p=shutil.which('pwsh');print(json.dumps(dict(pwsh=p)));assert p,'Required PowerShell7 is absent; qualify a bounded guest tool before compiling'"
-                run('required-shell-tool-preflight',[sys.executable,'-B','-c',shell_probe],30)
         fixture_root=work/'symlink-fixture';fixture_root.mkdir()
         target,link=fixture_root/'source.img',fixture_root/'leaf.img';target.write_bytes(b'');os.symlink(target,link)
         assert link.is_symlink() and link.resolve()==target
@@ -349,6 +370,14 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
             result.update(status='pass',qualification='Confined PowerShell startup plus Null setup/recovery/real-Git/revocation; no product tests' if expected.get('powershell_proof') else 'Null-sink build-package setup/recovery/real-Git/revocation only; no CMake build or product tests')
             if expected.get('cleanup_proof'):result['qualification']='Owned attribute/deletion observations only; no product qualification'
             return
+        selected=expected.get('focus_groups',expected['groups'])
+        if any(name in selected for name in expected.get('appcontainer_test_groups',[])):
+            original_path=env.get('PATH',os.defpath)
+            shell=stage_powershell7()
+            command="[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);@{version=$PSVersionTable.PSVersion.ToString();clr=[Environment]::Version.ToString()}|ConvertTo-Json -Compress"
+            _,raw=run('required-shell-tool-preflight',[shell,'-NoLogo','-NoProfile','-NonInteractive','-Command',command],30)
+            result['powershell7_preflight']=json.loads(raw.decode('utf-8-sig'))
+            retire_shell_tool()
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
@@ -375,8 +404,12 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         selected=expected['focus_groups'] if focused else expected['groups']
         package_tests=expected.get('appcontainer_test_groups',[])
         assert len(set(package_tests))==len(package_tests) and set(package_tests)<=set(expected['groups'])
-        for test in package_tests:
-            if test in selected:test_group(test)
+        if focused and all(test in package_tests for test in selected):
+            release_build_binaries();stage_powershell7()
+            for test in selected:test_group(test)
+            assert len(result['tests'])==len(selected) and all(test['passed'] for test in result['tests'])
+            result.update(status='pass',qualification='Two unchanged focused invocation groups only; full178 remains required')
+            return
         null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
         instance.close();instance=None;shared_read_access(False)
         artifact_handoff(build)
@@ -469,6 +502,29 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
                     assert path.resolve().is_relative_to(build.resolve()) and stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
                     retention.retire_file(path);removed_count+=1;removed_bytes+=info.st_size
                 result['compiler_objects_retired_before_runtime_tests']=dict(count=removed_count,logical_bytes=removed_bytes)
+        if not focused and package_tests:
+            # Retire the ordinary worker and all its jobs before reusing this
+            # campaign's package identity for the two shell/console groups.
+            # Remove reproducible binaries first, so the temporary shell and
+            # linked compiler output never compete for the fixed512MiB volume.
+            stop();release_build_binaries()
+            if null_grant:
+                null_grant.retire(quiescent=True);result['null_user']=null_grant.report;null_grant.close();null_grant=None
+            instance.close();instance=None
+            grant.retire(quiescent=True);result['crypto_device']=grant.report;grant.close();grant=None
+            ordinary=False
+            package_work=g.fresh(work/'invoke-x64')
+            instance=g.W.Worker(package_work,control=Path(os.environ['DISKED_WORK_ROOT']),private_station=True,profile_name=state['profile_names'][0])
+            assert instance.restricting_sid==pkg_sid and instance.user_sid==coordinator_sid
+            (package_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+            shared_read_access(True)
+            result['initial_null_build']=result['null_build']
+            null_grant=null_helper.Grant('build');null_grant.apply();null_grant.started()
+            _,raw=run('invocation-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
+            result['invocation_token']=json_record(raw)
+            if (work/'test.xml').exists():retention.retire_file(work/'test.xml')
+            stage_powershell7()
+            for test in package_tests:test_group(test)
         # Assertion failures do not discard unrelated evidence from this exact
         # build. Each group is a separate retired job. Infrastructure, resource
         # or timeout failures still abort immediately in run(). Any failed group

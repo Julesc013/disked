@@ -13,7 +13,7 @@ def prepare(stage):
         [p for module in modules for p in (source/'Modules'/module).rglob('*') if p.is_file()])
     if not (source/'pwsh.exe').is_file() or len(selected)>1024:raise ValueError('Existing runtime closure required')
     files=[];total=0
-    with zipfile.ZipFile(stage/'pwsh7.zip','x',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
+    with zipfile.ZipFile(stage/'pwsh7.zip','x',compression=zipfile.ZIP_LZMA) as archive:
         for path in selected:
             for parent in (path.parent,*path.parent.parents):
                 if getattr(parent.lstat(),'st_file_attributes',0)&0x400:raise ValueError('Linked runtime ancestor')

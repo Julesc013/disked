@@ -81,7 +81,8 @@ def main():
     focus_fat='--focus-fat-review' in sys.argv
     focus_export='--focus-file-export' in sys.argv
     focus_history='--focus-fat-history' in sys.argv
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or focus_fat or focus_export or focus_history
+    focus_invocations='--focus-invocations' in sys.argv
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or focus_fat or focus_export or focus_history or focus_invocations
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
@@ -92,7 +93,8 @@ def main():
         for name in helper_files:
             origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
-        if powershell7_proof and '--prepare-only' not in sys.argv and not cleanup_only:
+        shell_tool=powershell7_proof or focus_invocations or '--native-x64' in sys.argv
+        if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:
             definition=importlib.util.spec_from_file_location('powershell_setup',HERE/'prepare-powershell.py');tool=importlib.util.module_from_spec(definition);definition.loader.exec_module(tool)
             tool.prepare(stage)
         else:
@@ -163,6 +165,9 @@ def main():
         expected['native_x64']['focus_groups']=['evidence.fat_tree_history']
         expected['native_x64']['focus_targets']=['fat_tree_history_probe','fat_tree_extraction_probe','fat_tree_extraction_worker_probe','fat_tree_extraction_worker_fault']
         expected['native_x64']['trace_fat_history']=True
+    if focus_invocations:
+        expected['native_x64']['focus_groups']=['disked.invocation','disked_provider_guard.invocation']
+        expected['native_x64']['focus_targets']=['disked','disked_provider_guard']
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
