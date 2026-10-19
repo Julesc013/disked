@@ -183,6 +183,7 @@
     "shell.windows"
   ],
   "standalone_headers": 68,
+  "appcontainer_test_groups": ["disked.invocation", "disked_provider_guard.invocation"],
   "executables": [
     "disked",
     "ntfs_upcase_probe",
@@ -224,7 +225,7 @@
   "release_qualified": false,
   "execution_profiles": {
     "build": "Previously demonstrated confined AppContainer,exact current profile SID0 and actual Agents user SID; no ordinary MSBuild compatibility claim.",
-    "test": "Independently demonstrated fresh-user+RC ordinary restricted token,not elevated/not AppContainer. Actual user-only product records remain unchanged.",
+    "test": "Two complete PowerShell/console invocation groups run under the already confined AppContainer after its actual49th PowerShell startup proof. All remaining176 groups use the fresh-user+RC ordinary restricted Medium token. Every group keeps its original assertions and CTest timeout. Per-group profile is retained; ordinary restricted CLR remains unqualified. Actual user-only product records remain unchanged.",
     "shared": "Single owned512MiB guest filesystem and exact compiled artifact hashes. Same pinned compiler/SDK/CRT/flags/source/test expectations; profiles are quiescent sequential phases."
   }
 }

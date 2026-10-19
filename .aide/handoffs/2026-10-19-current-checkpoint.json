@@ -82,7 +82,7 @@
     "tools/build-inputs.json",
     "tools/release/artifact_check.py"
   ],
-  "summary": "DE-W105 partial. Focused FAT review passes at d62f10c9 after verified Medium artifact handoff. Attempt48 at792d66b0 completes the x64 build but records14 passing/six failing groups, then a further file-export failure has empty JUnit. Capped guest storage fills and raw archive finalization fails; only structured receipts/command tails survive. All owned processes/security grants/actor/image/source retire, including guarded source cleanup recovery. Working-tree repairs enumerate all inventory generations before hashing, add missing schema-export source inputs, stage disposable pinned Python tooling, retire compiler objects after build checks and retire per-group temporary fixtures under their restricted owner.52 artifact checks and253 spec/143 tooling tests pass; actual new cleanup/dependency/native behaviors remain to be evaluated. Strict C90 syntax passes on ten NTFS C units/two headers. Main promotion,owner acceptance,release and full0.1.0 remain open.",
+  "summary": "DE-W105 partial. Focused FAT review passes at d62f10c9 after verified Medium artifact handoff. Attempt48 at792d66b0 completes the x64 build but records14 passing/six failing groups, then a further file-export failure has empty JUnit. Capped guest storage fills and raw archive finalization fails; only structured receipts/command tails survive. All owned processes/security grants/actor/image/source retire, including guarded source cleanup recovery. Working-tree repairs enumerate all inventory generations before hashing, add missing schema-export source inputs, stage disposable pinned Python tooling, retire compiler objects after build checks and retire per-group temporary fixtures under their restricted owner.52 artifact checks and253 spec/143 tooling tests pass; actual new cleanup/dependency/native behaviors remain to be evaluated. Strict C90 syntax passes on ten NTFS C units/two headers. Main promotion,owner acceptance,release and full0.1.0 remain open. Attempt49 actual AppContainer PowerShell startup passes. Attempt50 refuses incomplete75-schema source before compiling. Attempt51 at97f2b168 passes unchanged native file-export semantics,95-schema loading and actual restricted-owner cleanup. Prepared next full matrix retains two complete invocation groups in AppContainer and remaining176 in ordinary Medium,with per-group profiles and unchanged assertions/timeouts. Full178/current Win32/detail gates still open.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -167,6 +167,20 @@
       "status": "not_run",
       "exit_code": null,
       "evidence_path": null
+    },
+    {
+      "command": "Actual confined PowerShell5.1/CLR startup and owned cleanup",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/forty-ninth-powershell-profile-pass.json"
+    },
+    {
+      "command": "Native file-export regression,95-schema closure and restricted-owner cleanup at97f2b168",
+      "cwd": "Windows10 guest",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-pass.json"
     }
   ],
   "artifacts": [
@@ -192,7 +206,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
-      "sha256": "sha256:96880c3d7ce9f6a88336fb0a87f1cb898e3d2533b777f4f740ce07cf015ff45e"
+      "sha256": "sha256:01d44d4b10056dbc1962bf3eab72126edc5bcb236e2020c539cf6bbd5f125729"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
@@ -245,11 +259,31 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-source-retirement-recovery.json",
       "sha256": "sha256:b934217a41f7fd1499841a61a07353535f6b1bbfacdca8e56b4a0d93caa1d80c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-ninth-powershell-profile-pass.json",
+      "sha256": "sha256:f9e2552c0d71fc679aa613f5bc4079df03d8cadefd1dda5711e72fdef247da27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fiftieth-schema-closure-refusal.json",
+      "sha256": "sha256:e6f042497502298d0892ac6b8d492bcc5ed2fb6778f1c6ca0716912af5fb74c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-pass.json",
+      "sha256": "sha256:6f5ee7872cbb64b366c1c7c5a526cdaf4253031e59fb5f5391744bca8ae47818"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-cleanup.json",
+      "sha256": "sha256:40fa01c59e73122aba346f1929d235d35f3fd2351fe79d24a437f538836ea83d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
+      "sha256": "sha256:7cbd6b7fc5006a24fb7efb9490838285626e5a460909d3efcf8b40e1bf705d17"
     }
   ],
   "blockers": [
     "Full current178-group x64 qualification, detailed W105 feature expectations and final portability/tooling review remain pending before main integration."
   ],
-  "next_safe_step": "Prove confined PowerShell startup,diagnose original file-export regression with retained raw data,and validate disposable schema dependencies and owner cleanup. Keep512MiB cap,all assertions and native deadlines. Then full178/current Win32/detail review before tested dev-to-main promotion;W106/107 follow.",
+  "next_safe_step": "Run the prepared exact-source full178 matrix inside the fixed512MiB guest cap. Review exact case/raw/header/import/code/token/cleanup evidence and qualify current private Win32 before tested dev-to-main promotion. Keep ordinary restricted CLR,other targets,owner/release/storage qualification distinct;W106/107 follow. Original full0.1.0 scope unchanged.",
   "performed_remote_writes": true
 }

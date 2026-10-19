@@ -40,6 +40,14 @@ product tests use the ordinary restricted profile. Their source and artifact
 identities are recorded separately. The current full native test gate remains
 open; these build results do not authorize main integration or release.
 
+Subsequent focused FAT-review and file-export runs pass. A later complete-run
+attempt fills the bounded scratch volume before finishing its tests; its raw
+archive cannot be finalized. The next prepared run retires compiler objects
+after their checks and temporary images after each group. Its declared profile
+matrix uses AppContainer for the two PowerShell invocation groups and the
+ordinary restricted user for the remaining 176. The programme and worker receipts
+retain these limits and failures; the current full native gate is still open.
+
 ## Implemented development surface and historical recipes
 
 The Windows image/fake prototype executable supports human and JSON/NDJSON build information,

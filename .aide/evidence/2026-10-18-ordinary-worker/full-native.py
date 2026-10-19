@@ -173,7 +173,7 @@ def coordinate(g):
             result['schema_dependencies']=dependency
         for key in ('CL','_CL_','LINK','_LINK_','CFLAGS','CXXFLAGS','LDFLAGS'):env.pop(key,None)
         cmake=Path('C:/Program Files/CMake/bin/cmake.exe');ctest=cmake.with_name('ctest.exe')
-        active_stem=None
+        active_stem=None;active_group=None;active_before=set()
 
         def budget():
             if time.monotonic()-campaign_started>7200:raise TimeoutError('Guest campaign overall deadline')
@@ -205,7 +205,7 @@ def coordinate(g):
                 code=child.wait();stop();drain(final=True)
                 raw=log_path.read_bytes();assert len(raw)<=524288
                 archive.writestr('commands/'+label+'.log',raw);saved=True
-                result['commands'].append(dict(label=label,pid=process_id,execution_profile='ordinary' if ordinary else 'appcontainer-build',arguments=list(map(str,command)),exit_code=code,
+                result['commands'].append(dict(label=label,pid=process_id,execution_profile='ordinary' if ordinary else 'appcontainer',arguments=list(map(str,command)),exit_code=code,
                     seconds=time.monotonic()-started,sha256=hashlib.sha256(raw).hexdigest(),tail=raw[-4096:].decode(errors='replace')))
                 if code and not allow_failure:raise RuntimeError(label+' failed: '+raw[-2048:].decode(errors='replace'))
                 return code,raw
@@ -214,6 +214,33 @@ def coordinate(g):
                 if 'log_path' in locals() and log_path.exists():
                     if not saved:archive.writestr('commands/'+label+'-incomplete.log',log_path.read_bytes()[:524288])
                     retention.retire_file(log_path)
+
+        def test_group(test):
+            nonlocal active_stem,active_group,active_before
+            active_stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
+            before={p.name for p in build.iterdir() if p.is_file()}
+            active_group=test;active_before=before
+            code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
+                '--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
+            archive.write(work/'test.xml','junit/'+test+'.xml')
+            cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
+            passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
+            result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer'))
+            for path in sorted(build.iterdir()):
+                if not path.is_file() or path.name in before:continue
+                info=path.lstat()
+                if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400 or info.st_nlink!=1:
+                    raise RuntimeError('Linked/non-file native observation; preserved')
+                archive.write(path,'groups/'+test+'/'+path.name)
+                if not path.name.endswith('-cases.json'):retention.retire_file(path)
+            if not passed:
+                result.setdefault('failed_native_groups',[]).append(test)
+                if focused:raise RuntimeError('Native group failed: '+test)
+            if ordinary:
+                _,raw=run('retire-temp-'+test,[sys.executable,'-B',ROOT/'retire-temp.py',instance.native_temp],60)
+                retired=json_record(raw);assert retired['root_recreated_empty']
+                result.setdefault('group_temp_retirements',[]).append(dict(group=test,**retired))
+            active_group=None;active_before=set()
 
         probe=work/'worker-identity-preflight.py'
         probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
@@ -307,6 +334,11 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 if mode=='headers':assert all(text in raw for text in (b'Dynamic base',b'NX compatible',b'Control Flow Guard'))
                 if mode=='dependents':assert not re.search(rb'(?:MSVCP|VCRUNTIME|UCRTBASE|API-MS-WIN-CRT)[^\s]*\.DLL',raw.upper())
         result['native_build_passed']=True
+        selected=expected['focus_groups'] if focused else expected['groups']
+        package_tests=expected.get('appcontainer_test_groups',[])
+        assert len(set(package_tests))==len(package_tests) and set(package_tests)<=set(expected['groups'])
+        for test in package_tests:
+            if test in selected:test_group(test)
         null_grant.retire(quiescent=True);result['null_build']=null_grant.report;null_grant.close();null_grant=None
         instance.close();instance=None;shared_read_access(False)
         artifact_handoff(build)
@@ -376,37 +408,16 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             archive.write(parent_probe,'recipe/parent-read-diagnostic.py')
             _,raw=run('ordinary-parent-read-diagnostic',[sys.executable,'-B',parent_probe],30)
             result['parent_read_diagnostic']=json_record(raw)
-        selected=expected['focus_groups'] if focused else expected['groups']
+        selected=[name for name in selected if name not in package_tests]
         assert set(selected)<=set(expected['groups'])
         if not focused:
             build_checks=['build.boundaries','build.boundary_checker']
             selected=build_checks+[name for name in selected if name not in build_checks]
         for test in selected:
-            stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
-            active_stem=stem
-            before={p.name for p in build.iterdir() if p.is_file()}
-            code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
-                '--output-on-failure','--output-junit',work/'test.xml'],300,allow_failure=True)
-            archive.write(work/'test.xml','junit/'+test+'.xml')
-            cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
-            passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
-            result['tests'].append(dict(name=test,exit_code=code,passed=passed))
-            for path in sorted(build.iterdir()):
-                if not path.is_file() or path.name in before:continue
-                info=path.lstat()
-                if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400 or info.st_nlink!=1:
-                    raise RuntimeError('Linked/non-file native observation; preserved')
-                archive.write(path,'groups/'+test+'/'+path.name)
-                if not path.name.endswith('-cases.json'):retention.retire_file(path)
-            if not passed:
-                result.setdefault('failed_native_groups',[]).append(test)
-                if focused:raise RuntimeError('Native group failed: '+test)
             # No group consumes another group's temporary image tree. Retire it
             # only after its complete process tree exits and its observations are
             # archived. This also applies to mkdtemp callers without finalizers.
-            _,raw=run('retire-temp-'+test,[sys.executable,'-B',ROOT/'retire-temp.py',instance.native_temp],60)
-            retired=json_record(raw);assert retired['root_recreated_empty']
-            result.setdefault('group_temp_retirements',[]).append(dict(group=test,**retired))
+            test_group(test)
             if not focused and test=='build.boundary_checker':
                 # The build/header checks have consumed these files. Runtime
                 # tests execute the linked binaries and read retained CMake
@@ -425,6 +436,7 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
         # or timeout failures still abort immediately in run(). Any failed group
         # keeps the whole qualification failed; no skipped/reclassified pass.
         result['attempted_native_groups']=len(result['tests'])
+        assert sorted(t['name'] for t in result['tests'])==sorted(expected['focus_groups'] if focused else expected['groups'])
         result['full_x64_product_suite_run']=not focused and len(result['tests'])==178 and all(t['passed'] for t in result['tests'])
         if result.get('failed_native_groups'):raise RuntimeError('Native groups failed: '+','.join(result['failed_native_groups']))
         assert focused or result['full_x64_product_suite_run']
@@ -432,6 +444,18 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:])
         if archive and 'build' in locals() and build.exists():
+            if 'active_group' in locals() and active_group:
+                try:
+                    # run() has retired the whole job before raising. Keep
+                    # closed raw requests/replies even when no JUnit exists.
+                    for path in sorted(build.iterdir()):
+                        if not path.is_file() or path.name in active_before:continue
+                        info=path.lstat();member='groups/'+active_group+'/'+path.name
+                        if member in archive.entries:continue
+                        if stat.S_ISREG(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400 and info.st_nlink==1 and info.st_size<=16*1024*1024:
+                            archive.write(path,member)
+                except BaseException:
+                    result['failed_group_retention_error']=traceback.format_exc()[-4096:]
             for path in build.rglob('*'):
                 if path.name not in ('CMakeConfigureLog.yaml','CMakeError.log','CMakeOutput.log','VCTargetsPath.vcxproj'):continue
                 info=path.lstat()

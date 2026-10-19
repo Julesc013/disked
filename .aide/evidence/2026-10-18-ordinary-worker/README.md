@@ -39,6 +39,19 @@ before hashing: `artifact-inventory-retest.json` records all 52 checks passing.
 `c90-result.json` separately records syntax-only checks on ten exact-source NTFS C
 units and two headers using installed host GCC; no product code executes there.
 
+Attempt 49 proves actual Windows PowerShell 5.1/CLR startup in the confined
+AppContainer. Attempt 50 rejects an incomplete 75-schema source closure before
+compilation. Attempt 51 at `97f2b168` passes the unchanged native file-export
+suite, all 95 schema imports and actual restricted-owner cleanup. It peaks at
+32,855,550 allocated scratch bytes and retains a 14,320-byte verified archive;
+all owned resources retire. That focused result does not establish a definitive
+cause for the earlier full-volume export failure.
+
+`profile-matrix-review.json` predeclares the next complete run: the two full
+PowerShell invocation groups in AppContainer, all other 176 groups in the
+ordinary restricted profile, with unchanged assertions/timeouts and per-group
+profile receipts. This is not qualification of ordinary restricted CLR.
+
 The two-profile campaign compiles in the previously demonstrated AppContainer,
 then retires its jobs before testing the exact artifacts under the ordinary
 restricted profile. `two-profile-review.json` records the boundary. Real Git
