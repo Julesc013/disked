@@ -35,6 +35,7 @@ static bool exited(const V &v) {
     return text(field(v, "worker"), "observation") == "exited";
 }
 int wmain(int argc, wchar_t **argv) {
+    std::wstring observed_source;
     if (argc > 1 && std::wcscmp(argv[1], L"__disked_fat_tree_extraction_worker") == 0)
         return n::fat_tree_extraction_worker_role(argc, argv);
     try {
@@ -52,6 +53,7 @@ int wmain(int argc, wchar_t **argv) {
         request.ledger = text(input, "ledger");
         request.metadata.oem_code_page = 437;
         const auto path = f::path_for(request.tree.path);
+        observed_source = path;
         auto parents = f::pin_parents(path);
         f::Handle source(
             CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
@@ -185,6 +187,26 @@ int wmain(int argc, wchar_t **argv) {
                  .put("value", retirement)
                  .put("retained",
                       V::string(std::to_string(n::FatTreeExtractionWorker::reap_retained()))));
+        return 0;
+    } catch (const f::Error &error) {
+        auto parents = V::array();
+        if (!observed_source.empty()) {
+            std::size_t end = 2;
+            for (;;) {
+                const auto path = end == 2 ? observed_source.substr(0,3) : observed_source.substr(0,end);
+                SetLastError(0);
+                f::Handle handle(CreateFileW(path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
+                    FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
+                const auto status = handle.value == INVALID_HANDLE_VALUE ? GetLastError() : ERROR_SUCCESS;
+                parents.items.push_back(V::object().put("path",V::string(f::utf8(path)))
+                    .put("opened",V::boolean_value(handle.value != INVALID_HANDLE_VALUE))
+                    .put("platform_code",V::string(std::to_string(status))));
+                end = observed_source.find(L'\\',end+1);if(end == observed_source.npos)break;
+            }
+        }
+        emit(V::object().put("kind",V::string("error")).put("code",V::string(error.what()))
+            .put("platform_code",V::string(std::to_string(error.platform_code)))
+            .put("parents_after_failure",std::move(parents)));
         return 0;
     } catch (const std::exception &error) {
         emit(V::object().put("kind", V::string("error")).put("code", V::string(error.what())));
