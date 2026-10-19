@@ -223,7 +223,8 @@ def coordinate(g):
         observed=result['identity'];assert observed['user_sid']==data['sid'] and observed['restricted'] and not any(observed[key] for key in ('elevated','administrator','appcontainer'))
         assert set(observed['restricting_sids'])=={data['sid'],'S-1-5-12'} and len(observed['restricting_sids'])==2 and observed['integrity_sid']=='S-1-16-8192'
         assert observed['stdio'][0]['kind']==2 and all(row['kind']==1 and row['file_identity']==instance.last_launch['stdout_identity'] for row in observed['stdio'][1:])
-        child.close();child=None
+        stop_job()
+        job=g.S.WindowsJob();quiescent=False
         child=instance.launch([sys.executable,'-B',str(ROOT/'loader-observer.py'),'loader-compatible.log'],os.environ,job,variant='basic-stdio')
         code=child.wait(timeout=15);result['imports_exit_code']=code
         if (selected/'loader-compatible.log').exists():result['imports']=(selected/'loader-compatible.log').read_text(encoding='utf-8')
