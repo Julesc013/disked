@@ -323,6 +323,7 @@ def main():
     call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB',str(size)],cwd=ROOT,capture_output=True,timeout=9000 if full_native else 600)
     raw=(stage/('proof-'+str(size)+'.json')).read_bytes();result=json.loads(raw)
     result['generated_sha256']=hashes;result['host_exit_code']=call.returncode
+    proof=result.get('guest',{}).get('proof') or {}
     result['experiment_kind']='launch-parameter diagnostic' if diagnostic else 'full ordinary-worker primitive proof'
     if startup_diagnostic:result['experiment_kind']='standard/restricted token and console diagnostic; no profile admission'
     if loader_diagnostic:result['experiment_kind']='minimal Python entry and native-import diagnostic; no profile admission'
@@ -346,15 +347,14 @@ def main():
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if station_matrix:
-        proof=result.get('guest',{}).get('proof',{})
         rows=proof.get('station_bootstrap_matrix',[])
         if len(rows)!=6 or not proof.get('all_owned_processes_retired') or not all(
                 row.get('station_retirement',{}).get('retired') and
                 row.get('job_retirement',{}).get('active_processes')==0 for row in rows):
             raise RuntimeError('Preserve matrix journal: station/process retirement not established')
-    if crypto and not station_matrix and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
+    if crypto and not station_matrix and not proof.get('crypto_device_retired'):
         raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
-    if full_native and not result.get('guest',{}).get('proof',{}).get('null_device_retired'):
+    if full_native and not proof.get('null_device_retired'):
         raise RuntimeError('Preserve guest actor journal: null-sink exception retirement not established')
     if forensic:
         proof=result.get('guest',{}).get('proof',{})

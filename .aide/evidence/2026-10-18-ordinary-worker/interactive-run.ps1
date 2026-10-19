@@ -18,7 +18,9 @@ if($Child){
         $env:DISKED_TEST_ACTOR_NAME=$actor.name
         $env:DISKED_TEST_ACTOR_SID=$actor.sid
         $env:DISKED_TEST_ACTOR_PASS=$runInput.credential.GetNetworkCredential().Password
-        if($runInput.source_mode){$workspace=Join-Path $root 'source\tools\workspace.py'}else{$workspace=Join-Path $root 'tools\workspace.py'}
+        # The source tree is unpacked inside the managed coordinator. Bootstrap
+        # every mode with the already hash-verified transferred tools runner.
+        $workspace=Join-Path $root 'tools\workspace.py'
         $arguments=@('-B',$workspace,'run','--',$python,'-B',(Join-Path $root 'guest-proof.py'),$runInput.mode)
         $oldPreference=$ErrorActionPreference
         try{$ErrorActionPreference='Continue';$lines=@(& $python @arguments 2>&1);$code=$LASTEXITCODE}finally{$ErrorActionPreference=$oldPreference}
@@ -39,7 +41,7 @@ if($env:DISKED_TEST_ACTOR_NAME-ne$actor.name-or$env:DISKED_TEST_ACTOR_SID-ne$act
 $mode=if($expected.native_x64){'--native-x64'}elseif($expected.crypto_full){'--crypto-full'}else{throw 'Undeclared interactive mode.'}
 $limit=if($expected.native_x64){7200}else{300}
 $secure=ConvertTo-SecureString $env:DISKED_TEST_ACTOR_PASS -AsPlainText -Force
-$runInput=@{nonce=$state.nonce;user_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value;actor_sid=$actor.sid;mode=$mode;source_mode=[bool]$expected.native_x64;credential=[Management.Automation.PSCredential]::new($actor.name,$secure)}
+$runInput=@{nonce=$state.nonce;user_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value;actor_sid=$actor.sid;mode=$mode;credential=[Management.Automation.PSCredential]::new($actor.name,$secure)}
 $runInput|Export-Clixml -LiteralPath $inputPath
 $acl=[Security.AccessControl.FileSecurity]::new()
 $acl.SetAccessRuleProtection($true,$false)
