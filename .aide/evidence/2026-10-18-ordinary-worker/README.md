@@ -1,13 +1,14 @@
 # Ordinary worker and current native qualification
 
-Latest component result: `cdbb355b` compiles and executes the unchanged
-production WindowsMemoryBudget with its actual 256 MiB job setup ready. The
-measured guest fixture grants named-object creation only to the disposable SID;
-original 32 MiB controls and exact owned namespace paths pass at `2e74ccbe`.
-All owned resources and temporary grants retire. See `seventy-ninth-native-memory-pass.json`
-and `seventy-eighth-named-object-pass.json`, with separate cleanup receipts.
-The six native groups, full x64/current Win32 qualification and main integration
-remain open. Earlier failures below retain their original applicability.
+Latest focused result: `e59eb622` passes all six original repair groups,
+including real GUI/TUI/shell/extraction paths. The 48-entry archive's membership,
+sizes and hashes verify; it retains 665,024 raw bytes in 43,656 compressed bytes.
+All owned resources and temporary grants retire. See `eighty-fourth-focused-pass.json`
+and its cleanup/archive. New `final-validation.json` records 253 specification
+tests (two skips), 159 tooling tests (one skip), 1,327 structural checks and
+source-map/manifest verification. Full 180-group x64, same-source private Win32,
+current C90 and detailed implementing-agent review remain required before main.
+Earlier failures below retain their original applicability.
 
 Current result: the original 32 MiB controls, representative restricted x64
 compiler/production-store journey and complete 512 MiB controls pass. See

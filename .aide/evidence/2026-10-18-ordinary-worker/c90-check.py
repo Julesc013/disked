@@ -71,4 +71,4 @@ except BaseException as error:
     record.update(status='fail', error=repr(error))
     raise
 finally:
-    (HERE / 'c90-result.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
+    (HERE / ('current-c90-result.json' if '--current' in sys.argv else 'c90-result.json')).write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')

@@ -40,4 +40,4 @@ try:
     record['status']='pass'
 except BaseException as error:
     record.update(status='fail',error=repr(error));raise
-finally:(HERE/('tooling-refresh.json' if '--tools-only' in sys.argv else 'metadata-refresh.json' if '--metadata-only' in sys.argv else 'current-validation.json')).write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8',newline='\n')
+finally:(HERE/('final-validation.json' if '--full-qualification' in sys.argv else 'tooling-refresh.json' if '--tools-only' in sys.argv else 'metadata-refresh.json' if '--metadata-only' in sys.argv else 'current-validation.json')).write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8',newline='\n')
