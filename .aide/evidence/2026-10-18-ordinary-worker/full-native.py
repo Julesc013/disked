@@ -39,6 +39,13 @@ def coordinate(g):
         if child:child.wait(timeout=10);child.close();child=None
         quiescent=True
 
+    def json_record(raw):
+        lines=raw.decode('utf-8').splitlines()
+        warning='Failed to find real location of '+sys.executable
+        if lines and lines[0]==warning:
+            result.setdefault('python_runtime_diagnostics',[]).append(lines.pop(0))
+        return json.loads('\n'.join(lines))
+
     def shared_read_access(add):
         nonlocal directory_grant
         sid=state['profile_sids'][0]
@@ -139,7 +146,7 @@ def coordinate(g):
         probe=work/'worker-identity-preflight.py'
         probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
         _,raw=run('build-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
-        result['build_token']=json.loads(raw);assert result['build_token']['user_sid']==coordinator_sid
+        result['build_token']=json_record(raw);assert result['build_token']['user_sid']==coordinator_sid
         fixture_root=work/'symlink-fixture';fixture_root.mkdir()
         target,link=fixture_root/'source.img',fixture_root/'leaf.img';target.write_bytes(b'');os.symlink(target,link)
         assert link.is_symlink() and link.resolve()==target
@@ -174,7 +181,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
 ''')
         archive.write(fixture_probe,'recipe/fixture-preflight.py')
         _,raw=run('sparse-and-two-generation-symlink-preflight',[sys.executable,'-B',fixture_probe,SOURCE/'tests',SOURCE/'tests/images'],60)
-        result['fixture_preflight']=json.loads(raw);assert result['fixture_preflight']['status']=='pass'
+        result['fixture_preflight']=json_record(raw);assert result['fixture_preflight']['status']=='pass'
         run('msbuild-version',['C:/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe','-nologo','-version'],60)
         run('configure',[cmake,'--preset','windows-bootstrap','-S',SOURCE,'-B',build,
             '-DCMAKE_GENERATOR_INSTANCE=C:/BuildTools,version=17.14.37516.0','-DPython3_EXECUTABLE='+sys.executable],300)
@@ -202,7 +209,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         directory_acl(compile_work,shared_acl)
         grant=helper.Grant();grant.apply();grant.started()
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
-        result['actual_token']=json.loads(raw);assert result['actual_token']['user_sid']==data['sid']
+        result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
         for test in expected['groups']:
             stem='ntfs-'+test.removeprefix('image.ntfs_').replace('_','-')+'-cases'
             active_stem=stem
