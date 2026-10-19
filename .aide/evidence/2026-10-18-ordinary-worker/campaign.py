@@ -75,6 +75,15 @@ def main():
     stage=work/'ordinary-proof';stage.mkdir()
     for name in ('ordinary-worker.py','target.py','guest-proof.py','loader-observer.py','loader-forensics.py','crypto-device.py'):
         data=(HERE/name).read_bytes();ast.parse(data);(stage/name).write_bytes(data)
+    native='--native-journey' in sys.argv
+    native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
+    if native:
+        for name in ('native-journey.py','native-journey.cpp'):
+            data=(HERE/name).read_bytes()
+            if name.endswith('.py'):ast.parse(data)
+            (stage/name).write_bytes(data)
+        for path in native_files:
+            target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     expected=json.loads((HERE.parent/'2026-10-18-guest-build/ordinary-token-expectations.json').read_bytes())
     expected.update(experiment='ordinary-token-32mib',source_base=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),initial_only_mib=32)
     diagnostic='--diagnostic' in sys.argv
@@ -83,9 +92,10 @@ def main():
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
     crypto_full='--crypto-full' in sys.argv
-    crypto='--crypto-device' in sys.argv or crypto_full
+    crypto='--crypto-device' in sys.argv or crypto_full or native
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
+    if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())
     if loader_diagnostic:expected['loader_diagnostic']=json.loads((HERE/'loader-expectations.json').read_bytes())
@@ -108,7 +118,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     setup=once(setup,"[Security.Principal.SecurityIdentifier]::new('S-1-15-2-1')","[Security.Principal.SecurityIdentifier]::new($actorSid)")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
@@ -127,6 +137,11 @@ def main():
     host=once(host,"        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},", "        @{host=(Join-Path $PSScriptRoot 'ordinary-worker.py');relative='ordinary-worker.py'},\n        @{host=(Join-Path $PSScriptRoot 'target.py');relative='target.py'},\n        @{host=(Join-Path $PSScriptRoot 'guest-proof.py');relative='guest-proof.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'loader-forensics.py');relative='loader-forensics.py'},\n        @{host=(Join-Path $PSScriptRoot 'loader-observer.py');relative='loader-observer.py'},")
     host=once(host,'    $selected=@(',"    $selected=@(\n        @{host=(Join-Path $PSScriptRoot 'crypto-device.py');relative='crypto-device.py'},")
+    if native:
+        selected=('native-journey.py','native-journey.cpp')+native_files
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
+        host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
     start=host.index("        $python='C:\\ProgramData\\DiskEd\\python314'")
     end=host.index('        New-Item -ItemType Directory',start)
     host=host[:start]+host[end:]
@@ -142,7 +157,7 @@ def main():
     parser="$e=$null;$t=$null;foreach($f in Get-ChildItem -LiteralPath $args[0] -Filter '*.ps1'){$null=[Management.Automation.Language.Parser]::ParseFile($f.FullName,[ref]$t,[ref]$e);if($e.Count){throw ($e|Out-String)}}"
     check=subprocess.run([str(Path(os.environ['WINDIR'])/'System32/WindowsPowerShell/v1.0/powershell.exe'),'-NoProfile','-Command','& {'+parser+'} '+"'"+str(stage).replace("'","''")+"'"],capture_output=True,timeout=30)
     if check.returncode:raise RuntimeError(check.stderr.decode(errors='replace'))
-    hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in stage.iterdir()}
+    hashes={p.relative_to(stage).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in stage.rglob('*') if p.is_file()}
     (HERE/'prepared.json').write_text(json.dumps(dict(status='pass',scope='Source/AST/template/Windows PowerShell5.1 parse only; no guest execution',generated_sha256=hashes),indent=2)+'\n',encoding='utf-8',newline='\n')
     if '--prepare-only' in sys.argv:return 0
     call=subprocess.run(['pwsh','-NoProfile','-File',str(stage/'run-proof.ps1'),'-SizeMiB','32'],cwd=ROOT,capture_output=True,timeout=600)
@@ -155,6 +170,7 @@ def main():
     if namespace:result['experiment_kind']='existing object namespace access checks; no profile admission'
     if crypto:result['experiment_kind']='scoped subject crypto-device setup/startup/revocation only; no full worker admission'
     if crypto_full:result['experiment_kind']='original32MiB ordinary worker controls with scoped crypto exception; no larger cap/compiler/product qualification'
+    if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if crypto and not result.get('guest',{}).get('proof',{}).get('crypto_device_retired'):
