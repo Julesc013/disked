@@ -130,6 +130,7 @@ def coordinate_namespace(g):
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def actor(plan):
+    object_calls=plan.get('object_startup_only',False)
     b=load('debug_base',ROOT/'tools/windows-worker.py')
     target=load('debug_identity',ROOT/'target.py')
     k,a=target.k,target.a;bind,require=target.bind,target.require
@@ -159,7 +160,7 @@ def actor(plan):
     bind(a,'IsTokenRestricted',T.BOOL,T.HANDLE)
     assert C.sizeof(Context64)==1232 and Context64.dr.offset==72 and Context64.regs.offset==120 and Context64.rip.offset==248
     ntdll=C.WinDLL('ntdll')
-    selected_functions=('NtCreateFile','NtOpenFile','NtDeviceIoControlFile')
+    selected_functions=('NtOpenDirectoryObject','NtCreateMutant','NtCreateJobObject') if object_calls else ('NtCreateFile','NtOpenFile','NtDeviceIoControlFile')
     offsets={name:C.cast(getattr(ntdll,name),P).value-ntdll._handle for name in selected_functions}
     assert all(0<offset<0x400000 for offset in offsets.values())
     result=dict(status='running',bootstrap_identity=identity,variants=[],baseline_scope='No new baseline: retained three-case comparison in twenty-third-detached-comparison.json')
@@ -207,6 +208,21 @@ def actor(plan):
                 data=C.create_string_buffer(length);got=C.c_size_t()
                 require(k.ReadProcessMemory(process.process,address,data,length,C.byref(got)));assert got.value==length
                 return data.raw
+            def root_name(handle):
+                # Query only a directory handle from this exact owned child.
+                duplicate=T.HANDLE()
+                if not bind(k,'DuplicateHandle',T.BOOL,T.HANDLE,T.HANDLE,T.HANDLE,C.POINTER(T.HANDLE),T.DWORD,T.BOOL,T.DWORD)(process.process,handle,k.GetCurrentProcess(),C.byref(duplicate),0,False,2):
+                    return dict(duplicate_error=C.get_last_error())
+                try:
+                    query=bind(ntdll,'NtQueryObject',T.LONG,T.HANDLE,C.c_int,P,T.DWORD,C.POINTER(T.DWORD))
+                    size=T.DWORD();query(duplicate,1,None,0,C.byref(size))
+                    if not 0<size.value<=4096:raise ValueError('Owned root name bound')
+                    data=C.create_string_buffer(size.value);status=query(duplicate,1,data,size,C.byref(size))
+                    if status!=0:return dict(query_status=hex(status&0xffffffff))
+                    length=int.from_bytes(data.raw[:2],'little');address=int.from_bytes(data.raw[8:16],'little')
+                    if length%2 or not address or not C.addressof(data)<=address<=address+length<=C.addressof(data)+size.value:raise ValueError('Owned root name range')
+                    return dict(path=C.wstring_at(address,length//2))
+                finally:require(k.CloseHandle(duplicate))
             def context():
                 storage,value=aligned_context();value.flags=0x100013
                 require(k.GetThreadContext(process.thread,C.byref(value)))
@@ -241,7 +257,7 @@ def actor(plan):
                 startup=b.StartupInfoEx();startup.startup.cb=C.sizeof(startup);startup.startup.desktop=plan['desktop'];startup.startup.flags=0x100
                 startup.startup.stdin=handles[1];startup.startup.stdout=startup.startup.stderr=handles[0];startup.attributes=C.addressof(attributes)
                 filename={'baseline':'loader-standard.log','restricted_compat':'loader-restricted.log','restricted_detached':'loader-detached.log'}[name]
-                line=subprocess.list2cmdline([plan['image'],'-B',str(ROOT/'loader-observer.py'),filename])
+                line=subprocess.list2cmdline([plan['image'],'-B',str(ROOT/'ui-probe.py'),'--station-limits','--object-child'] if object_calls else [plan['image'],'-B',str(ROOT/'loader-observer.py'),filename])
                 row['phase']='CreateProcessAsUserW_DEBUG_ONLY_THIS_PROCESS'
                 flags=0x0008040e if detached else 0x08080406
                 row['creation_flags']=hex(flags)
@@ -293,13 +309,14 @@ def actor(plan):
                                     index={1:0,2:1,8:2}[hit];assert value.rip==watches[index]
                                     return_address=int.from_bytes(read(value.regs[4],8),'little')
                                     pending=dict(function=selected_functions[index],return_address=hex(return_address))
-                                    if index<2:
-                                        attrs=read(value.regs[8],48);name_pointer=int.from_bytes(attrs[16:24],'little');text=b''
+                                    if object_calls or index<2:
+                                        attrs=read(value.regs[8],48) if value.regs[8] else bytes(48);name_pointer=int.from_bytes(attrs[16:24],'little');text=b''
                                         if name_pointer:
                                             descriptor=read(name_pointer,16);length=int.from_bytes(descriptor[:2],'little')
                                             assert length<=1024 and length%2==0
                                             if length:text=read(int.from_bytes(descriptor[8:16],'little'),length)
                                         pending.update(access=hex(value.regs[2]&0xffffffff),root_handle=hex(int.from_bytes(attrs[8:16],'little')),name_utf16le=text.hex(),name=text.decode('utf-16le',errors='backslashreplace'))
+                                        if object_calls and int(pending['root_handle'],16):pending['root_object']=root_name(int(pending['root_handle'],16))
                                     else:
                                         pending.update(device_handle=hex(value.regs[1]),io_control_code=hex(int.from_bytes(read(value.regs[4]+0x30,8),'little')&0xffffffff),io_status_address=hex(int.from_bytes(read(value.regs[4]+0x28,8),'little')))
                                     watch(value,return_address)
@@ -318,6 +335,9 @@ def actor(plan):
                 assert k.WaitForSingleObject(process.process,5000)==0
                 retain_trace(True)
                 observation=Path(filename);row['breadcrumb']=observation.read_text(encoding='utf-8') if observation.exists() else None
+                if object_calls:
+                    output=Path(name+'-stdio.log').read_bytes();assert len(output)<=65536
+                    row['owned_observer_output']=output.decode(errors='replace')
                 row['phase']='collected'
             except BaseException:
                 row['error']=traceback.format_exc()[-8192:];raise
@@ -346,7 +366,8 @@ def actor(plan):
                 if token:k.CloseHandle(token)
                 result['variants'].append(row)
         assert len(result['variants'])==1 and result['variants'][0]['name']=='restricted_compat'
-        assert all(r['trace']['bytes']>0 for r in result['variants'])
+        if not object_calls:assert all(r['trace']['bytes']>0 for r in result['variants'])
+        else:result['scope']='Three native object API entry/return observations on one owned restricted child;no namespace/registry/image mutation or worker admission'
         result['status']='pass'
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:]);raise
@@ -437,5 +458,6 @@ def coordinate(context):
             (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 if __name__=='__main__':
-    if Path(__file__).resolve().parent!=ROOT or len(sys.argv)!=3 or sys.argv[1] not in ('--actor','--namespace'):raise ValueError('Fixed guest actor invocation only')
-    (namespace_actor if sys.argv[1]=='--namespace' else actor)(json.loads(Path(sys.argv[2]).read_bytes()))
+    if Path(__file__).resolve().parent!=ROOT or len(sys.argv)!=3 or sys.argv[1] not in ('--actor','--namespace','--object-actor'):raise ValueError('Fixed guest actor invocation only')
+    plan=json.loads(Path(sys.argv[2]).read_bytes());plan['object_startup_only']=sys.argv[1]=='--object-actor'
+    (namespace_actor if sys.argv[1]=='--namespace' else actor)(plan)

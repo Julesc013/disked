@@ -125,7 +125,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
     "tests/tools/test_object_namespace.py"
   ],
-  "summary": "DE-W105 native gate remains open. At8a1ce9df probe75 applies/retires exact subject DIRECTORY_CREATE_OBJECT in session3 Restricted directory with successful setup-fault recovery and all owned cleanup,but default Win32 named mutex/job still denied5;unchanged assertion fails. Candidate replaces that grant with same4-only right in session3 normal BaseNamedObjects,leaving Restricted creation denied;actual created kernel paths must be reported and match target. Namespace codec now preserves preexisting inheritance flags without changing strict device parsing/defaults.159 tooling tests pass(one skip);live replacement not yet run. Product memory guard/limits/source remain unchanged.",
+  "summary": "DE-W105 still unqualified. At d2740b42 run76 normal-session4-only namespace grant applies/recovers/retires,but named mutex/job creation still denied5;all owned cleanup passes. Both single-directory candidates failed and remain failed. Candidate now stops namespace grants and reuses existing bounded own-child debugger:three native object APIs,names/requested access/root names/return status,one fixed restricted child,no registry/image/system-binary change. Original32MiB confinement/UI controls remain;diagnostic skips only unqualified named-creation success assertions.159 tooling tests(one skip),AST/PS5.1 preparation pass. No repaired memory-budget/product/worker claim.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -497,6 +497,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Exact normal-session name-creation grant/recovery/retirement atd2740b42;Win32 named creation still denied",
+      "cwd": "Windows10 guest",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-session-directory-refusal.json"
+    },
+    {
+      "command": "159 tooling tests plus structural/AST/source-map/manifest;one documented skip;object-only native-trace template preparation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
@@ -710,7 +724,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:b2928d9668ec8eb5a09abc9c16e59e86a212743e9ff71583fc79b53a6043c128"
+      "sha256": "sha256:83d3de672a2d25b34d87044c72472633352a6e17d7935dd93fe491bdcd85bfb8"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
@@ -806,11 +820,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
-      "sha256": "sha256:54b8471b00b5915738f7a9cafbc4951ff86eada4a5bdbbd9e4c87374f740706c"
+      "sha256": "sha256:c2e6da5fd21f8712790685155ce1ea93d893fdd996ad051e2310e60c8cfc673c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:aa35663b72972414d25a381ca21182e957ff175bf6c1e0d7fe12b23d5cdc1865"
+      "sha256": "sha256:a7a80484a919cc0146b8ff86e6c25b8c2a26cc0fa138427c68a4681b47ce8e40"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -919,12 +933,20 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-cleanup.json",
       "sha256": "sha256:66e67578046407a0eac98e3af6070a40fca5d48d03951e80f3c360d8f422c6b0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-session-directory-refusal.json",
+      "sha256": "sha256:3133e202af476ddd85c4eaa2cca22074bd5f278bcf5224c83f7d1e61fa6e329f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-cleanup.json",
+      "sha256": "sha256:9f98d60fe83a9104beb0fecdc7d90c017cf3bc0de4977b1bcfb045b00b203ff0"
     }
   ],
   "blockers": [
     "Full current native gate failed; source-closure and dense-fixture repairs need guest replay. Ordinary GUI/console startup is not qualified.",
     "Detailed W105/current private Win32/C90 applicability/tooling review and main integration remain pending."
   ],
-  "next_safe_step": "Run bounded original32MiB interactive proof with replacement exact-subject normal-session directory right;require actual own object names under that directory,Restricted/subdirectory/security access denials,all original confinement and all exact grant/task/actor/media cleanup. On success prove unchanged native memory-budget component in small compile before six native groups/full x64/Win32/main integration.",
+  "next_safe_step": "Run --crypto-full --interactive-ui --object-startup-trace in32MiB;no namespace grant. Inspect exact NtOpenDirectoryObject/NtCreateMutant/NtCreateJobObject names/access/root/status for owned child. Retain refusal and cleanup honestly;choose next fix only from this evidence. Prove exact native memory-budget component before six-group/full x64/Win32/main gates.",
   "performed_remote_writes": true
 }

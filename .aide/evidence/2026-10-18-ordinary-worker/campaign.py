@@ -89,6 +89,9 @@ def main():
     focus_repairs='--focus-qualification-repairs' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv
+    object_trace='--object-startup-trace' in sys.argv
+    if object_trace and not (interactive_ui and '--crypto-full' in sys.argv):
+        raise ValueError('Owned object trace requires declared interactive primitive setup')
     if station_matrix and not (interactive_ui and '--crypto-full' in sys.argv):
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
@@ -151,6 +154,7 @@ def main():
         expected['interactive_ui']=True
         expected['interactive_scope']='Agents session3 coordinator;fresh restricted actor on owned Medium hidden desktop;temporary journaled0x2016b station-only subject ACE with setup-fault recovery and exact retirement;EXITWINDOWS right required for User32 startup but no exit/logoff invocation;no filesystem/token/product-record change'
         expected['interactive_worker_review']=json.loads((HERE/'interactive-worker-plan.json').read_bytes())
+        if object_trace:expected['object_startup_trace_only']=True
         if station_matrix:
             expected['station_bootstrap_matrix_only']=True
             expected['interactive_scope']='Six fixed trusted standard-user startup-only station UI-right observations;exact subject ACE retired after each;no restricted worker/product admission,security-edit rights or actual clipboard/screen/logoff actions'
@@ -335,6 +339,7 @@ def main():
     if crypto_full:result['experiment_kind']=str(size)+'MiB ordinary worker controls with scoped crypto exception; no full product qualification'
     if interactive_ui:result['interactive_scope']=expected['interactive_scope']
     if station_matrix:result['experiment_kind']='Six fixed trusted standard-user station bootstrap comparisons only;no worker/product admission'
+    if object_trace:result['experiment_kind']='Bounded owned-child object API trace with original primitive controls;no namespace grant or worker/product admission'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
@@ -356,7 +361,7 @@ def main():
             raise RuntimeError('Preserve matrix journal: station/process retirement not established')
     if crypto and not station_matrix and not proof.get('crypto_device_retired'):
         raise RuntimeError('Preserve guest actor journal: crypto-device exception retirement not established')
-    if interactive_ui and not station_matrix and not proof.get('object_namespace_retired'):
+    if interactive_ui and not station_matrix and not object_trace and not proof.get('object_namespace_retired'):
         raise RuntimeError('Preserve guest actor journal: object namespace retirement not established')
     if full_native and not proof.get('null_device_retired'):
         raise RuntimeError('Preserve guest actor journal: null-sink exception retirement not established')

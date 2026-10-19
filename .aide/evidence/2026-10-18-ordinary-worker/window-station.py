@@ -176,16 +176,19 @@ def coordinate(g,body):
             assert len(rows)==len(DIAGNOSTIC_MASKS) and all(row['station_retirement']['retired'] for row in rows)
             (ROOT/'proof-result.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8',newline='\n')
             return
-        namespace=g.load('interactive_object_namespace',ROOT/'object-namespace.py')
-        interrupted=subprocess.run([sys.executable,'-B',str(ROOT/'object-namespace.py'),'--apply-and-exit'],capture_output=True,timeout=15,creationflags=0x08000000)
-        if interrupted.returncode!=19:raise RuntimeError('Namespace setup fault did not reach boundary: '+interrupted.stderr[-4096:].decode(errors='replace'))
-        entry=namespace.Grant(recovery=True);instances['object_namespace']=entry
-        assert entry.read()['crypto_device']['workers_started'] is False
-        entry.retire(quiescent=True);recoveries['object_namespace_recovery']=dict(entry.report)
-        entry.close();instances.pop('object_namespace')
+        trace_only=json.loads((ROOT/'expected.json').read_bytes()).get('object_startup_trace_only',False)
+        if not trace_only:
+            namespace=g.load('interactive_object_namespace',ROOT/'object-namespace.py')
+            interrupted=subprocess.run([sys.executable,'-B',str(ROOT/'object-namespace.py'),'--apply-and-exit'],capture_output=True,timeout=15,creationflags=0x08000000)
+            if interrupted.returncode!=19:raise RuntimeError('Namespace setup fault did not reach boundary: '+interrupted.stderr[-4096:].decode(errors='replace'))
+            entry=namespace.Grant(recovery=True);instances['object_namespace']=entry
+            assert entry.read()['crypto_device']['workers_started'] is False
+            entry.retire(quiescent=True);recoveries['object_namespace_recovery']=dict(entry.report)
+            entry.close();instances.pop('object_namespace')
         station=Grant();instances['window_station']=station;station.apply()
-        entry=namespace.Grant();instances['object_namespace']=entry;entry.apply()
-        station.started();entry.started();body_started=True;body()
+        if not trace_only:
+            entry=namespace.Grant();instances['object_namespace']=entry;entry.apply();entry.started()
+        station.started();body_started=True;body()
     except BaseException as error:
         if not body_started:
             journal=json.loads((ROOT/'scratch/ordinary-actor.json').read_bytes())

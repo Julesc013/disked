@@ -79,6 +79,8 @@ if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
                         finally:k.LocalFree(C.cast(output,T.LPVOID))
             finally:
                 if handle and not k.CloseHandle(handle):raise C.WinError(C.get_last_error())
+if '--object-child' in sys.argv:
+    print(json.dumps(report));sys.exit(0)
 for name in ('user32.dll', 'gdi32.dll'):
     C.set_last_error(0)
     handle = k.LoadLibraryExW(name, None, 0x800)

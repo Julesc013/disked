@@ -113,7 +113,27 @@
       "https://learn.microsoft.com/en-us/windows/win32/devnotes/ntopendirectoryobject",
       "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-ntsetsecurityobject"
     ],
-    "status": "replacement-candidate-not-yet-executed",
-    "prior_refusal": "seventy-fifth-restricted-directory-refusal.json:Restricted-directory grant/recovery/retirement succeed but default Win32 named mutex/job creation still denied;all cleanup passes"
+    "status": "both single-directory candidates failed;no namespace grant used in next trace",
+    "prior_refusal": "seventy-fifth-restricted-directory-refusal.json:Restricted-directory grant/recovery/retirement succeed but default Win32 named mutex/job creation still denied;all cleanup passes",
+    "second_refusal": "seventy-sixth-session-directory-refusal.json:normal-directory4-only delta/recovery/retirement succeed;Win32 named creation still denied;all cleanup passes"
+  },
+  "object_startup_trace": {
+    "scope": "One owned restricted child;no namespace/registry/image mutation or worker/product admission",
+    "basis": [
+      "seventy-fifth-restricted-directory-refusal.json",
+      "seventy-sixth-session-directory-refusal.json"
+    ],
+    "method": "Reuse existing owned standard-user debugger and derived user+RC child,initial-thread hardware entry/return observations for NtOpenDirectoryObject,NtCreateMutant,NtCreateJobObject;observe names,requested access,root handle names and NTSTATUS",
+    "inputs": "Original pinned guest Python,repository ui-probe.py object-only mode;no executable copy,IFEO/GlobalFlag or policy privilege change",
+    "bounds": {
+      "seconds": 10,
+      "events": 4096,
+      "native_calls": 256,
+      "debugger_seconds": 40,
+      "raw_debug_bytes": 2097152,
+      "compressed_debug_bytes": 131072
+    },
+    "retirement": "Existing owned job active0 and all original primitive controls;station/crypto exceptions retired;actor/task/media/root removed;no other process opened or terminated",
+    "expectation": "Diagnostic completeness includes access-denied outcomes;never interpret it as repaired memory budget"
   }
 }

@@ -282,12 +282,14 @@ def main():
             child=instance.launch([sys.executable,'-B',str(ROOT/'ui-probe.py'),'--basic','--station-limits'],os.environ,job)
             assert child.wait(timeout=30)==0
             result['interactive_ui_observation']=json.loads(instance.log_path.read_bytes())
-            assert all(row['created'] and row['error']==0 for row in result['interactive_ui_observation']['owned_kernel_object_startup'])
-            assert all(row.get('object_path','').startswith('\\Sessions\\3\\BaseNamedObjects\\DiskEd.Owned.Startup.') for row in result['interactive_ui_observation']['owned_kernel_object_startup'] if row['named'])
-            namespace={(row['path'],row['access']):row['status'] for row in result['interactive_ui_observation']['namespace_access']}
-            assert namespace[('\\Sessions\\3\\BaseNamedObjects',7)]=='0x0'
-            for path,access in [('\\Sessions\\3\\BaseNamedObjects',15),('\\Sessions\\3\\BaseNamedObjects',0x20003),('\\Sessions\\3\\BaseNamedObjects\\Restricted',7),('\\Sessions\\3\\BaseNamedObjects\\Restricted',15)]:
-                assert namespace[(path,access)]=='0xc0000022'
+            trace_only=json.loads((ROOT/'expected.json').read_bytes()).get('object_startup_trace_only',False)
+            if not trace_only:
+                assert all(row['created'] and row['error']==0 for row in result['interactive_ui_observation']['owned_kernel_object_startup'])
+                assert all(row.get('object_path','').startswith('\\Sessions\\3\\BaseNamedObjects\\DiskEd.Owned.Startup.') for row in result['interactive_ui_observation']['owned_kernel_object_startup'] if row['named'])
+                namespace={(row['path'],row['access']):row['status'] for row in result['interactive_ui_observation']['namespace_access']}
+                assert namespace[('\\Sessions\\3\\BaseNamedObjects',7)]=='0x0'
+                for path,access in [('\\Sessions\\3\\BaseNamedObjects',15),('\\Sessions\\3\\BaseNamedObjects',0x20003),('\\Sessions\\3\\BaseNamedObjects\\Restricted',7),('\\Sessions\\3\\BaseNamedObjects\\Restricted',15)]:
+                    assert namespace[(path,access)]=='0xc0000022'
             assert all(row['loaded'] for row in result['interactive_ui_observation']['libraries'])
             assert result['interactive_ui_observation']['libraries'][0]['window_created']
             for row in result['interactive_ui_observation']['libraries'][0]['station_access']:
@@ -302,6 +304,17 @@ def main():
             for observation in (result['interactive_ui_observation'],console_ui):
                 assert all(not row['opened'] and row['error']==5 for row in observation['libraries'][0]['default_desktop_access'])
             result['interactive_ui_job_retirement']=retire_job(job);job=None;child.close();child=None
+            if trace_only:
+                request=normal/'debug-plan.json'
+                request.write_text(json.dumps(dict(work=str(normal),user_sid=data['sid'],desktop=instance.desktop_name,
+                    image=sys.executable,image_sha256=hashlib.sha256(Path(sys.executable).read_bytes()).hexdigest())))
+                job=S.WindowsJob()
+                child=instance.launch([sys.executable,'-B',str(ROOT/'loader-forensics.py'),'--object-actor',str(request)],os.environ,job,diagnostic_original=True)
+                code=child.wait(timeout=40)
+                result['object_startup_trace']=json.loads((normal/'debug-report.json').read_bytes())
+                result['object_startup_trace_exit_code']=code
+                result['object_startup_trace_job_retirement']=retire_job(job);job=None;child.close();child=None
+                assert code==0 and result['object_startup_trace']['status']=='pass'
         instance.close();instance=None
         abrupt=fresh(work_root/'abrupt')
         controller_log=Path(os.environ['DISKED_WORK_ROOT'])/'controller.log'
