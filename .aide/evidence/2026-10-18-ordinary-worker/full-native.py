@@ -329,35 +329,11 @@ def coordinate(g):
                 g.W.require(k.QueryFullProcessImageNameW(process,0,image,C.byref(size)))
                 if not member.value or Path(image.value).resolve()!=Path(sys.executable).resolve():
                     raise ValueError('Only the active job owned Python control may be printed')
-                u=instance.u
-                g.W.bind(u,'GetUserObjectInformationW',T.BOOL,T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD))
-                g.W.bind(u,'OpenInputDesktop',T.HANDLE,T.DWORD,T.BOOL,T.DWORD)
-                g.W.bind(u,'SwitchDesktop',T.BOOL,T.HANDLE)
-                class LastInput(C.Structure):_fields_=[('size',T.UINT),('tick',T.DWORD)]
-                g.W.bind(u,'GetLastInputInfo',T.BOOL,C.POINTER(LastInput))
-                g.W.bind(k,'GetTickCount',T.DWORD)
-                original=g.W.require(u.OpenInputDesktop(0,False,0x101))
-                switched=False;restored=False
-                try:
-                    name=C.create_unicode_buffer(256);needed=T.DWORD()
-                    g.W.require(u.GetUserObjectInformationW(original,2,name,C.sizeof(name),C.byref(needed)))
-                    last=LastInput(C.sizeof(LastInput),0);g.W.require(u.GetLastInputInfo(C.byref(last)))
-                    idle=(k.GetTickCount()-last.tick)&0xffffffff
-                    # Existing guest-console grant; never switch a busy,locked
-                    # or unrelated desktop. Parent restores even on helper timeout.
-                    if name.value=='Default' and idle>=60000:
-                        g.W.require(u.SwitchDesktop(instance.desktop));switched=True
-                        time.sleep(.25)
-                    observed=subprocess.run([sys.executable,'-B',str(ROOT/'owned-window.py'),str(value['window']),str(value['pid']),value['desktop']],
-                        capture_output=True,timeout=10)
-                finally:
-                    if switched:g.W.require(u.SwitchDesktop(original));restored=True
-                    g.W.require(u.CloseDesktop(original))
+                observed=subprocess.run([sys.executable,'-B',str(ROOT/'owned-window.py'),str(value['window']),str(value['pid']),value['desktop']],
+                    capture_output=True,timeout=10)
                 if observed.returncode or len(observed.stdout)+len(observed.stderr)>4096:
                     raise RuntimeError('Owned capture control: '+observed.stderr[-2048:].decode(errors='replace'))
                 observation=json.loads(observed.stdout)
-                observation.update(original_input_desktop=name.value,last_input_age_ms=idle,
-                                   owned_desktop_activated=switched,original_input_desktop_restored=restored)
                 with response.open('x',encoding='utf-8') as stream:json.dump(observation,stream)
                 Path(endpoint+'-response.ready').touch(exist_ok=False)
             finally:k.CloseHandle(process)

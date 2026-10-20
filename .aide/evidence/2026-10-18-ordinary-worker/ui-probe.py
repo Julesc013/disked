@@ -32,6 +32,28 @@ if '--gdi-window-child' in sys.argv:
     if not window:raise C.WinError(C.get_last_error())
     button=u.CreateWindowExW(0,'BUTTON','Owned caption',0x50000000,10,30,160,35,window,None,None,None)
     if not button:raise C.WinError(C.get_last_error())
+    # Trace the actual print-message boundary in this controlled window only.
+    # Its diagnostic sentinel cannot satisfy a product screenshot assertion.
+    g=C.WinDLL('gdi32',use_last_error=True)
+    g.GetObjectType.argtypes=[T.HANDLE];g.GetObjectType.restype=T.DWORD
+    g.GetClipBox.argtypes=[T.HDC,C.POINTER(T.RECT)];g.GetClipBox.restype=C.c_int
+    g.SetPixelV.argtypes=[T.HDC,C.c_int,C.c_int,T.DWORD];g.SetPixelV.restype=T.BOOL
+    g.GdiFlush.restype=T.BOOL
+    callback=C.WINFUNCTYPE(C.c_ssize_t,T.HWND,T.UINT,T.WPARAM,T.LPARAM)
+    u.SetWindowLongPtrW.argtypes=[T.HWND,C.c_int,C.c_void_p];u.SetWindowLongPtrW.restype=C.c_void_p
+    u.CallWindowProcW.argtypes=[C.c_void_p,T.HWND,T.UINT,T.WPARAM,T.LPARAM];u.CallWindowProcW.restype=C.c_ssize_t
+    trace=Path(os.environ['TEMP'])/('gdi-print-'+str(os.getpid())+'.json');events=[]
+    @callback
+    def observe(hwnd,kind,wparam,lparam):
+        result=u.CallWindowProcW(original,hwnd,kind,wparam,lparam)
+        if kind in (0x317,0x318):
+            bounds=T.RECT();clip=g.GetClipBox(wparam,C.byref(bounds))
+            events.append(dict(message=kind,flags=int(lparam),dc_type=g.GetObjectType(wparam),clip_type=clip,
+                clip=[bounds.left,bounds.top,bounds.right,bounds.bottom],sentinel=bool(g.SetPixelV(wparam,1,1,0x00332211)),flushed=bool(g.GdiFlush())))
+            trace.write_text(json.dumps(events[-8:]),encoding='utf-8')
+        return result
+    original=u.SetWindowLongPtrW(window,-4,C.cast(observe,C.c_void_p))
+    if not original:raise C.WinError(C.get_last_error())
     print(json.dumps(dict(window=window,pid=os.getpid(),desktop=desktop_name())),flush=True)
     message=T.MSG()
     while u.GetMessageW(C.byref(message),None,0,0)>0:
@@ -238,6 +260,8 @@ for name in ('user32.dll', 'gdi32.dll'):
                             time.sleep(.05)
                         if response.stat().st_size>4096:raise ValueError('Print control response bound')
                         row['coordinator_printing']=json.loads(response.read_bytes())
+                    trace=Path(os.environ['TEMP'])/('gdi-print-'+str(child.pid)+'.json')
+                    row['owned_print_messages']=json.loads(trace.read_bytes()) if trace.exists() else []
                 finally:
                     if child.poll() is None:child.terminate()
                     child.wait(timeout=5);child.stdout.close();child.stderr.close()
