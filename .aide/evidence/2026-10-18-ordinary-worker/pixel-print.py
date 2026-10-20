@@ -11,7 +11,7 @@ import struct
 import sys
 import time
 
-METHOD='owned-ui-thread-queued-control/1'
+METHOD='owned-ui-thread-queued-medium-code-control/1'
 
 
 def capture(window,pid,desktop):

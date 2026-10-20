@@ -141,7 +141,7 @@ def coordinate(g):
             if error:raise C.WinError(error)
         finally:free(descriptor)
 
-    def artifact_handoff(build):
+    def artifact_handoff(build,*,pixel_fixture=False):
         # Compile jobs are already quiescent. Only this campaign's new executable
         # files enter the ordinary Medium test profile; never relabel inputs,
         # directories, shared tools, product records or other guest objects.
@@ -162,7 +162,11 @@ def coordinate(g):
             finally:
                 if text:free(C.cast(text,C.c_void_p))
                 free(sd)
-        paths=sorted((build/'Release').glob('*.exe'));assert 1<=len(paths)<=256
+        if pixel_fixture:
+            assert expected.get('pixel_origin_proof')
+            paths=[build/'pixel-render.dll']
+        else:paths=sorted((build/'Release').glob('*.exe'))
+        assert 1<=len(paths)<=256
         result['artifact_handoff']=[]
         for path in paths:
             info=path.lstat()
@@ -182,7 +186,7 @@ def coordinate(g):
                 after_label=security(handle,0x10)
                 assert after_label in ('S:(ML;;NW;;;ME)','S:AI(ML;;NW;;;ME)')
                 assert security(handle,7)==before and retention.sha(path)==digest
-                if path.stem in result['executables']:assert digest==result['executables'][path.stem]['sha256']
+                if path.stem in result.get('executables',{}):assert digest==result['executables'][path.stem]['sha256']
                 result['artifact_handoff'].append(dict(path=path.relative_to(build).as_posix(),sha256=digest,
                     before_label=before_label,after_label=after_label,bytes_unchanged=True,dacl_owner_group_unchanged=True))
             finally:
@@ -519,6 +523,9 @@ def coordinate(g):
             directory_acl(render_dll,fixture_sddl,fixture_file=True)
             assert retention.sha(render_dll)==result['pixel_render_fixture']['dll_sha256']
             result['pixel_render_fixture']['handoff']=dict(dacl=fixture_sddl,actor_access='read/execute only',bytes_unchanged=True,product_permissions_changed=False)
+            artifact_handoff(build,pixel_fixture=True)
+            assert retention.sha(render_dll)==result['pixel_render_fixture']['dll_sha256']
+            result['pixel_render_fixture']['integrity_handoff']=result['artifact_handoff']
             null_grant.retire(quiescent=True);null_grant.close();null_grant=None
             stop();instance.close();instance=None;shared_read_access(False)
             native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
