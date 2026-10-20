@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import os
+import struct
 
 k = C.WinDLL('kernel32', use_last_error=True)
 k.LoadLibraryExW.argtypes = [T.LPCWSTR, T.HANDLE, T.DWORD]
@@ -124,6 +125,44 @@ for name in ('user32.dll', 'gdi32.dll'):
                     C.set_last_error(0);opened=u.OpenDesktopW('Default',0,False,mask);error=C.get_last_error()
                     row['default_desktop_access'].append(dict(right=label,mask=mask,opened=bool(opened),error=0 if opened else error))
                     if opened and not u.CloseDesktop(opened):raise C.WinError(C.get_last_error())
+        if handle and name=='gdi32.dll' and '--console-child' not in sys.argv:
+            g=C.WinDLL(name,handle=handle,use_last_error=True);u=C.WinDLL('user32',use_last_error=True)
+            g.CreateCompatibleDC.argtypes=[T.HDC];g.CreateCompatibleDC.restype=T.HDC
+            g.CreateDIBSection.argtypes=[T.HDC,T.LPVOID,T.UINT,C.POINTER(T.LPVOID),T.HANDLE,T.DWORD];g.CreateDIBSection.restype=T.LPVOID
+            g.SelectObject.argtypes=[T.HDC,T.LPVOID];g.SelectObject.restype=T.LPVOID
+            g.DeleteObject.argtypes=[T.LPVOID];g.DeleteDC.argtypes=[T.HDC]
+            g.SetPixelV.argtypes=[T.HDC,C.c_int,C.c_int,T.DWORD];g.GdiFlush.restype=T.BOOL
+            u.CreateWindowExW.argtypes=[T.DWORD,T.LPCWSTR,T.LPCWSTR,T.DWORD,C.c_int,C.c_int,C.c_int,C.c_int,T.HWND,T.HMENU,T.HINSTANCE,T.LPVOID];u.CreateWindowExW.restype=T.HWND
+            u.GetDC.argtypes=[T.HWND];u.GetDC.restype=T.HDC
+            u.ReleaseDC.argtypes=[T.HWND,T.HDC];u.DestroyWindow.argtypes=[T.HWND]
+            window=u.CreateWindowExW(0,'STATIC','Owned GDI format probe',0,0,0,8,8,None,None,None,None)
+            reference=u.GetDC(window) if window else None;row['memory_drawing']=[]
+            try:
+                for label,source in [('default',None),('owned_window',reference)]:
+                    if label=='owned_window' and not reference:
+                        row['memory_drawing'].append(dict(reference=label,reference_available=False));continue
+                    C.set_last_error(0);dc=g.CreateCompatibleDC(source);dc_error=C.get_last_error();bitmap=None;old=None;bits=T.LPVOID()
+                    observed=dict(reference=label,dc_created=bool(dc),dc_error=0 if dc else dc_error)
+                    try:
+                        if dc:
+                            info=C.create_string_buffer(struct.pack('<IiiHHIIiiII',40,4,-4,1,32,0,64,0,0,0,0))
+                            C.set_last_error(0);bitmap=g.CreateDIBSection(dc,info,0,C.byref(bits),None,0)
+                            observed.update(bitmap_created=bool(bitmap),bits_available=bool(bits),bitmap_error=0 if bitmap else C.get_last_error())
+                            if bitmap and bits:
+                                C.set_last_error(0);old=g.SelectObject(dc,bitmap)
+                                selected=old not in (None,C.c_void_p(-1).value)
+                                observed.update(selected=selected,selection_error=0 if selected else C.get_last_error())
+                                if selected:
+                                    C.memset(bits,0,64);observed['set_pixel']=bool(g.SetPixelV(dc,0,0,0x00332211));observed['flushed']=bool(g.GdiFlush())
+                                    observed['bgr']=C.string_at(bits,3).hex();observed['expected_bgr']='332211'
+                    finally:
+                        if old not in (None,C.c_void_p(-1).value):g.SelectObject(dc,old)
+                        if bitmap:g.DeleteObject(bitmap)
+                        if dc:g.DeleteDC(dc)
+                    row['memory_drawing'].append(observed)
+            finally:
+                if reference:u.ReleaseDC(window,reference)
+                if window:u.DestroyWindow(window)
     finally:
         if handle:
             k.FreeLibrary(handle)

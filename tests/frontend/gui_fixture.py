@@ -273,9 +273,12 @@ class Gui:
         assert U.EnumChildWindows(self.window,button,0)
         header=struct.pack('<IiiHHIIiiII',40,w,-h,1,32,0,w*h*4,0,0,0,0)
         info=C.create_string_buffer(header);bits=PTR();dc=G.CreateCompatibleDC(None)
-        bitmap=G.CreateDIBSection(dc,info,0,C.byref(bits),None,0);old=G.SelectObject(dc,bitmap)
+        assert dc,('CreateCompatibleDC',C.get_last_error())
+        bitmap=G.CreateDIBSection(dc,info,0,C.byref(bits),None,0);old=None
         try:
-            assert bitmap
+            assert bitmap and bits,('CreateDIBSection',C.get_last_error())
+            old=G.SelectObject(dc,bitmap)
+            assert old not in (None,C.c_void_p(-1).value),('SelectObject',C.get_last_error())
             paint_status={}
             def painted():
                 # Invalidate/erase/frame/all children, then process owned paint.
@@ -286,7 +289,7 @@ class Gui:
                 client_ok=capture_client_content(value,w,h,box)
                 caption_ok=[capture_client_content(value,w,h,b) for b in captions]
                 paint_status.update(capture=Path(path).name,print_flags=0,width=w,height=h,client_box=box,client_painted=client_ok,
-                    caption_boxes=captions,caption_painted=caption_ok)
+                    caption_boxes=captions,caption_painted=caption_ok,whole_window_varied=capture_client_content(value,w,h,(0,0,w,h)),first_bgr=value[:3].hex())
                 return value if client_ok and all(caption_ok) else None
             try:payload=wait(painted,3)
             except TimeoutError as error:
@@ -312,7 +315,10 @@ class Gui:
                 Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
             else:Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
             return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions])
-        finally:G.SelectObject(dc,old);G.DeleteObject(bitmap);G.DeleteDC(dc)
+        finally:
+            if old not in (None,C.c_void_p(-1).value):G.SelectObject(dc,old)
+            if bitmap:G.DeleteObject(bitmap)
+            G.DeleteDC(dc)
     def close(self):
         if self.window and self.process.poll() is None:U.PostMessageW(self.window,0x10,0,0)
         try:
