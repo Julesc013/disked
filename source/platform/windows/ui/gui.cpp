@@ -22,7 +22,7 @@ struct Failure : std::runtime_error {
     X(SendMessageW) X(SetWindowTextW) X(GetWindowTextW) X(GetWindowTextLengthW) \
     X(GetClientRect) X(MoveWindow) X(SetFocus) X(GetFocus) X(EnableWindow) \
     X(LoadCursorW) X(LoadIconW) X(SystemParametersInfoW) X(GetSysColorBrush) \
-    X(GetSysColor) X(InvalidateRect) X(GetDlgCtrlID) X(IsWindow) X(GetWindowRect) X(GetNextDlgTabItem) X(GetKeyState) X(GetDC) X(ReleaseDC)
+    X(GetSysColor) X(InvalidateRect) X(GetDlgCtrlID) X(IsWindow) X(GetWindowRect) X(GetNextDlgTabItem) X(GetKeyState) X(GetDC) X(ReleaseDC) X(RemovePropW)
 #define GDI_APIS(X) X(CreateFontIndirectW) X(DeleteObject) X(SetTextColor) X(SetBkColor) X(SelectObject) X(GetTextExtentPoint32W)
 class Api final {
     HMODULE user_=nullptr,gdi_=nullptr;
@@ -290,7 +290,9 @@ public:
                 return reinterpret_cast<LRESULT>(self.api.GetSysColorBrush(back));
             }
             case WM_CLOSE:self.api.DestroyWindow(hwnd);return 0;
-            case WM_DESTROY:self.api.KillTimer(hwnd,1);self.api.PostQuitMessage(0);return 0;
+            case WM_DESTROY:
+                if(self.capture_enabled){self.api.RemovePropW(hwnd,L"DiskEd.Capture.NonceLow");self.api.RemovePropW(hwnd,L"DiskEd.Capture.NonceHigh");}
+                self.api.KillTimer(hwnd,1);self.api.PostQuitMessage(0);return 0;
             }
             return self.api.DefWindowProcW(hwnd,message,wp,lp);
         } catch(...) {self.failed=true;if(message!=WM_DESTROY)self.api.DestroyWindow(hwnd);return 0;}

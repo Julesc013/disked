@@ -5,6 +5,7 @@
 - [constraints-tested.txt](constraints-tested.txt)
 - [environment-lock.json](environment-lock.json)
 - [export_contracts.py](export_contracts.py)
+- [input_graph.py](input_graph.py)
 - [joined_report_contracts.py](joined_report_contracts.py)
 - [requirements.txt](requirements.txt)
 - [specctl.py](specctl.py)

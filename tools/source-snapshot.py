@@ -1,5 +1,6 @@
 """Exact shallow/sparse Git snapshot: selected blobs and current trees, no history."""
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -57,7 +58,16 @@ def selected_inputs(root, work_id, *, revision=None):
     names = set(read('tools/build-inputs.json')['files'])
     rows = read('spec/work/units.json')
     rows = rows if isinstance(rows, list) else rows.get('work_units', rows.get('units', []))
-    names.update(next(row for row in rows if row['id'] == work_id)['required_inputs'])
+    registry=read('spec/catalog/input-dependencies.json')
+    definition=importlib.util.spec_from_file_location('snapshot_input_graph',Path(__file__).resolve().parents[1]/'spec/tools/input_graph.py')
+    graph=importlib.util.module_from_spec(definition);definition.loader.exec_module(graph)
+    paths=(git(root,'ls-tree','-r','--name-only',revision).decode().splitlines() if revision else
+           git(root,'ls-files','--cached','--others','--exclude-standard').decode().splitlines())
+    view=dict(meta=read('spec/bundle.json'),concepts={i['id']:i for i in read('spec/catalog/concepts.json')['concepts']},
+              work={i['id']:i for i in rows},decisions={i['id']:i for i in read('spec/catalog/decisions.json')['decisions']},
+              inputs={i['id']:i for i in registry['inputs']},always=registry['always'],
+              instructions=[p for p in paths if PurePosixPath(p).name in ('AGENTS.md','CLAUDE.md') and not p.startswith('.aide-local/')])
+    names.update(graph.resolve_inputs(work_id,view,relative)['files'])
     names.update(['AGENTS.md', 'spec/START-HERE.md', 'spec/index.md', 'spec/work/units.json',
                   'spec/bundle.json', '.aide/programmes/disked-0.1.0.json', '.gitattributes', '.gitignore'])
     return sorted(relative(name) for name in names)

@@ -67,7 +67,10 @@ def main():
                     check(name+'-actual-client-'+str(index),(w,h)==(geometry['width'],geometry['height']) and capture_client_content(body,w,h,geometry['client_box']))
                     if name!='inventory':
                         frame=W.RECT();button=W.RECT();assert U.GetWindowRect(ui.window,C.byref(frame)) and U.GetWindowRect(ui.child(110),C.byref(button))
-                        box=(button.left-frame.left+6,button.top-frame.top+6,button.right-frame.left-6,button.bottom-frame.top-6)
+                        origin=W.POINT(frame.left,frame.top)
+                        if geometry.get('capture_method')=='owned-ui-thread-cooperative-client-tree-transport/1':
+                            origin=W.POINT();assert U.ClientToScreen(ui.window,C.byref(origin))
+                        box=(button.left-origin.x+6,button.top-origin.y+6,button.right-origin.x-6,button.bottom-origin.y-6)
                         check(name+'-actual-caption-pixels-'+str(index),capture_client_content(body,w,h,box))
                     check(name+'-capture-not-submission-'+str(index),ui.details()==before)
                     record=dict(name=name+'-'+str(index),geometry=geometry,sha256=sha(path.read_bytes()))
@@ -75,6 +78,11 @@ def main():
                         args.evidence.parent.mkdir(parents=True,exist_ok=True);selected=args.evidence.parent/path.name;shutil.copyfile(path,selected);record['path']=str(selected)
                     captures.append(record)
             finally:ui.close();assert ui.code==0 and not ui.error and not ui.output
+    if __import__('os').environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
+        check('six-distinct-request-receipts',len(captures)==6 and len({r['geometry']['capture_receipt']['id'] for r in captures})==6)
+        for item in captures:
+            receipt=item['geometry']['capture_receipt']
+            check(item['name']+'-bound-transport',receipt['capture_id']==receipt['id'] and receipt['sha256']==item['geometry']['pixels_sha256'] and not receipt['supervisor_handle_exposed'])
     result=dict(passed=True,checks=len(checks),observations=checks,captures=captures,
         source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
         source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root)),executable_sha256=sha(exe.read_bytes()),

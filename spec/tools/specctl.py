@@ -51,6 +51,15 @@ for _version in ('1','2'):
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
 
+_INPUT_GRAPH=None
+def task_input_graph():
+    global _INPUT_GRAPH
+    if _INPUT_GRAPH is None:
+        import importlib.util
+        definition=importlib.util.spec_from_file_location('disked_task_input_graph',Path(__file__).with_name('input_graph.py'))
+        _INPUT_GRAPH=importlib.util.module_from_spec(definition);definition.loader.exec_module(_INPUT_GRAPH)
+    return _INPUT_GRAPH
+
 def digest_bytes(data: bytes) -> str:
     return 'sha256:' + hashlib.sha256(data).hexdigest()
 
@@ -1239,17 +1248,7 @@ class Bundle:
         return rows
 
     def context_ids(self, seeds, concepts=None):
-        concepts=self.concepts if concepts is None else concepts
-        ordered, active, seen = [], set(), set()
-        def visit(id):
-            if id in active: raise SpecError('Context dependency cycle: '+id)
-            if id in seen: return
-            if id not in concepts: raise SpecError('Unknown context concept: '+id)
-            active.add(id)
-            for dep in concepts[id]['depends_on']: visit(dep)
-            active.remove(id); seen.add(id); ordered.append(id)
-        for id in seeds: visit(id)
-        return ordered
+        return task_input_graph().context_ids(seeds,self.concepts if concepts is None else concepts,SpecError)
 
     def input_path(self,path):
         # Canonical names use spec/ even for a relocated --root spec-only bundle.
@@ -1278,36 +1277,7 @@ class Bundle:
                 'decisions':unique_ids(decisions['decisions'],'decision'),'inputs':inputs,'always':registry['always'],'instructions':sorted(instructions)}
 
     def resolve_inputs(self,subject,view=None):
-        view=self.input_view() if view is None else view
-        work=view['work'].get(subject)
-        if work is None and subject not in view['decisions']:raise SpecError('Unknown context subject '+subject)
-        seeds=work['context'] if work else [view['decisions'][subject]['spec_id']]
-        ids=self.context_ids(view['meta']['mandatory_context']+seeds,view['concepts'])
-        inputs=view['inputs'];selected=set();files={}
-        def visit(id):
-            if id in selected:return
-            if id not in inputs:raise SpecError('Unknown required input: '+id)
-            for dep in inputs[id]['depends_on']:visit(dep)
-            selected.add(id);item=inputs[id]
-            files[item['path']]={key:item[key] for key in ('path','kind','delivery')}
-        for id in view['always']+(work.get('required_inputs',[]) if work else []):visit(id)
-        for id,item in inputs.items():
-            if set(item['spec_ids'])&set(ids):visit(id)
-        for id in ids:
-            path='spec/'+view['concepts'][id]['path']
-            files[path]={'path':path,'kind':'specification','delivery':'content'}
-        scopes=[]
-        for pattern in work['allowed_paths'] if work else ['spec/**']:
-            prefix=re.split(r'[*?\[]',pattern,maxsplit=1)[0].rstrip('/')
-            if prefix:self.input_path(prefix)
-            scopes.append((prefix,any(c in pattern for c in '*?[')))
-        for path in view['instructions']:
-            parent=str(PurePosixPath(path).parent);parent='' if parent=='.' else parent+'/'
-            applies=not parent or any(p.startswith(parent) for p in files)
-            applies|=any(prefix.startswith(parent) or (glob and (parent.rstrip('/')==prefix or parent.startswith(prefix+'/'))) for prefix,glob in scopes)
-            if applies:
-                self.input_path(path);files[path]={'path':path,'kind':'instructions','delivery':'content'}
-        return {'concepts':ids,'files':files}
+        return task_input_graph().resolve_inputs(subject,self.input_view() if view is None else view,self.input_path,SpecError)
 
     def review_inputs(self,subject,view=None):
         # The receipt cannot hash the ledger that contains itself. Subject

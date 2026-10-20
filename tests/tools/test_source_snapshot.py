@@ -16,6 +16,20 @@ definition.loader.exec_module(S)
 
 
 class SnapshotTests(unittest.TestCase):
+    def test_stable_input_ids_and_prerequisites_resolve_at_exact_revision(self):
+        def put(name,value):
+            path=self.source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value)+'\n')
+        (self.source/'code/helper.h').write_text('// owned helper\n')
+        put('tools/build-inputs.json',dict(files=['code/main.cpp']))
+        put('spec/bundle.json',dict(mandatory_context=[]));put('spec/catalog/concepts.json',dict(concepts=[]));put('spec/catalog/decisions.json',dict(decisions=[]))
+        put('spec/work/units.json',dict(units=[dict(id='DE-TEST',context=[],required_inputs=['stable:old-module-name'],allowed_paths=['code/**'])]))
+        registry=dict(always=[],inputs=[dict(id='stable:old-module-name',path='code/main.cpp',kind='build',delivery='artifact',depends_on=['stable:helper'],spec_ids=[]),dict(id='stable:helper',path='code/helper.h',kind='build',delivery='artifact',depends_on=[],spec_ids=[])])
+        put('spec/catalog/input-dependencies.json',registry);self.commit();revision=self.git('rev-parse','HEAD')
+        selected=S.selected_inputs(self.source,'DE-TEST',revision=revision)
+        self.assertIn('code/main.cpp',selected);self.assertIn('code/helper.h',selected);self.assertNotIn('stable:old-module-name',selected)
+        registry['inputs'][0]['path']='unselected/bulk.bin';put('spec/catalog/input-dependencies.json',registry)
+        self.assertEqual(S.selected_inputs(self.source,'DE-TEST',revision=revision),selected)
+        self.assertIn('unselected/bulk.bin',S.selected_inputs(self.source,'DE-TEST'))
     def test_registered_native_python_inputs_are_transported(self):
         cmake=(ROOT/'CMakeLists.txt').read_text(encoding='utf-8')
         scripts=set(re.findall(r'\$\{CMAKE_CURRENT_SOURCE_DIR\}/((?:tests|tools)/[A-Za-z0-9_./-]+\.py)',cmake))
@@ -115,8 +129,12 @@ class SnapshotTests(unittest.TestCase):
         (self.source / 'spec/work').mkdir(parents=True)
         catalog = self.source / 'tools/build-inputs.json'
         catalog.write_text(json.dumps({'files': ['code/main.cpp']}))
+        (self.source / 'spec/catalog').mkdir()
+        for name,value in [('bundle.json',dict(mandatory_context=[])),('catalog/concepts.json',dict(concepts=[])),('catalog/decisions.json',dict(decisions=[])),
+                           ('catalog/input-dependencies.json',dict(always=[],inputs=[dict(id='.gitignore',path='.gitignore',kind='build',delivery='artifact',depends_on=[],spec_ids=[])]))]:
+            (self.source/'spec'/name).write_text(json.dumps(value))
         (self.source / 'spec/work/units.json').write_text(json.dumps([
-            {'id': 'DE-WTEST', 'required_inputs': ['.gitignore']}]))
+            {'id': 'DE-WTEST', 'required_inputs': ['.gitignore'],'context':[],'allowed_paths':['code/**']}]))
         self.commit()
         revision = self.git('rev-parse', 'HEAD')
         catalog.write_text(json.dumps({'files': ['unreviewed.cpp']}))

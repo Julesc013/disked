@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import struct
 import subprocess
+import sys
 import tempfile
 import time
 import uuid
@@ -180,6 +181,20 @@ def wait(predicate,seconds=8):
         time.sleep(.02)
     raise TimeoutError('native window observation')
 
+def write_capture(path,payload,width,height):
+    if len(payload)!=width*height*4:raise ValueError('Capture output length')
+    if Path(path).suffix.lower()=='.png':
+        def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
+        rows=bytearray()
+        for y in range(height):
+            rows.append(0);row=payload[y*width*4:(y+1)*width*4];rgb=bytearray(width*3)
+            rgb[0::3]=row[2::4];rgb[1::3]=row[1::4];rgb[2::3]=row[0::4];rows.extend(rgb)
+        Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',width,height,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
+    else:
+        header=struct.pack('<IiiHHIIiiII',40,width,-height,1,32,0,width*height*4,0,0,0,0)
+        Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
+
+
 class Gui:
     def __init__(self,exe,args=None,render=False):
         self.temp=tempfile.TemporaryDirectory(prefix='disked-gui-');self.window=None;self.desktop=None;self.previous_desktop=None
@@ -264,6 +279,9 @@ class Gui:
         client=W.RECT();origin=W.POINT();assert U.GetClientRect(self.window,C.byref(client)) and U.ClientToScreen(self.window,C.byref(origin))
         left=origin.x-rect.left;top=origin.y-rect.top
         box=(left,top,left+client.right-client.left,top+client.bottom-client.top)
+        cooperative=bool(os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'))
+        base_x,base_y=rect.left,rect.top
+        if cooperative:w,h=client.right,client.bottom;box=(0,0,w,h);base_x,base_y=origin.x,origin.y
         captions=[]
         @CALLBACK
         def button(hwnd,_):
@@ -271,11 +289,24 @@ class Gui:
                 bounds=W.RECT();assert U.GetWindowRect(hwnd,C.byref(bounds))
                 # Exclude button borders/focus rings: they can be painted even
                 # when a declared caption is absent from PrintWindow output.
-                region=(max(box[0],bounds.left-rect.left+6),max(box[1],bounds.top-rect.top+6),
-                    min(box[2],bounds.right-rect.left-6),min(box[3],bounds.bottom-rect.top-6))
+                region=(max(box[0],bounds.left-base_x+6),max(box[1],bounds.top-base_y+6),
+                    min(box[2],bounds.right-base_x-6),min(box[3],bounds.bottom-base_y-6))
                 if region[0]<region[2] and region[1]<region[3]:captions.append(region)
             return True
         assert U.EnumChildWindows(self.window,button,0)
+        if cooperative:
+            sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+            from support.window_capture import capture,METHOD
+            name=C.create_unicode_buffer(256);needed=W.DWORD();thread=U.GetWindowThreadProcessId(self.window,C.byref(pid))
+            assert U.GetUserObjectInformationW(U.GetThreadDesktop(thread),2,name,C.sizeof(name),C.byref(needed))
+            assert U.RedrawWindow(self.window,None,None,0x585)
+            payload,receipt=capture(self.window,pid.value,name.value,w,h,metadata=True)
+            assert receipt['client_box']==list(box) and receipt['frame_bounds']==[rect.left,rect.top,rect.right,rect.bottom]
+            assert capture_client_content(payload,w,h,box) and all(capture_client_content(payload,w,h,b) for b in captions),'Cooperative client/caption pixels incomplete'
+            write_capture(path,payload,w,h)
+            import hashlib
+            return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions],frame_bounds=receipt['frame_bounds'],
+                capture_method=METHOD,pixels_sha256=hashlib.sha256(payload).hexdigest(),capture_receipt=receipt)
         header=struct.pack('<IiiHHIIiiII',40,w,-h,1,32,0,w*h*4,0,0,0,0)
         info=C.create_string_buffer(header);bits=PTR();dc=G.CreateCompatibleDC(None)
         assert dc,('CreateCompatibleDC',C.get_last_error())
@@ -289,21 +320,12 @@ class Gui:
                 # Invalidate/erase/frame/all children, then process owned paint.
                 # A successful PrintWindow can otherwise contain only a frame.
                 assert U.RedrawWindow(self.window,None,None,0x585)
-                if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
-                    import sys
-                    sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-                    from support.window_capture import capture
-                    name=C.create_unicode_buffer(256);needed=W.DWORD()
-                    thread=U.GetWindowThreadProcessId(self.window,C.byref(pid))
-                    assert U.GetUserObjectInformationW(U.GetThreadDesktop(thread),2,name,C.sizeof(name),C.byref(needed))
-                    value=capture(self.window,pid.value,name.value,w,h)
-                else:
-                    assert U.PrintWindow(self.window,dc,0);G.GdiFlush()
-                    value=C.string_at(bits,w*h*4)
+                assert U.PrintWindow(self.window,dc,0);G.GdiFlush()
+                value=C.string_at(bits,w*h*4)
                 client_ok=capture_client_content(value,w,h,box)
                 caption_ok=[capture_client_content(value,w,h,b) for b in captions]
-                paint_status.update(capture=Path(path).name,print_flags=None if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT') else 0,
-                    capture_method='owned-window-dc' if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT') else 'PrintWindow',width=w,height=h,client_box=box,client_painted=client_ok,
+                paint_status.update(capture=Path(path).name,print_flags=0,
+                    capture_method='PrintWindow',width=w,height=h,client_box=box,client_painted=client_ok,
                     caption_boxes=captions,caption_painted=caption_ok,whole_window_varied=capture_client_content(value,w,h,(0,0,w,h)),first_bgr=value[:3].hex())
                 return value if client_ok and all(caption_ok) else None
             try:payload=wait(painted,3)
@@ -321,14 +343,7 @@ class Gui:
                         caption_painted=[capture_client_content(value,w,h,b) for b in captions]))
                 paint_status['diagnostic_only_profiles']=alternatives
                 raise AssertionError('Owned window capture content incomplete: '+json.dumps(paint_status)) from error
-            if Path(path).suffix.lower()=='.png':
-                def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
-                rows=bytearray()
-                for y in range(h):
-                    rows.append(0);row=payload[y*w*4:(y+1)*w*4];rgb=bytearray(w*3)
-                    rgb[0::3]=row[2::4];rgb[1::3]=row[1::4];rgb[2::3]=row[0::4];rows.extend(rgb)
-                Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
-            else:Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
+            write_capture(path,payload,w,h)
             import hashlib
             return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions],
                 capture_method=paint_status['capture_method'],pixels_sha256=hashlib.sha256(payload).hexdigest())

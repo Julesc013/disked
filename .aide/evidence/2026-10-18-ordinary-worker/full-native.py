@@ -83,6 +83,7 @@ def coordinate(g):
     fixture_setup=g.load('full_fixture_dacl',ROOT/'fixture-dacl.py')
     capture_setup=g.load('full_owned_window',ROOT/'owned-window.py')
     expected=json.loads((ROOT/'expected.json').read_bytes())['native_x64']
+    cooperative_setup=g.load('full_cooperative_window',ROOT/'cooperative-window.py') if expected.get('cooperative_product_capture') else None
     pixel_setup=g.load('full_pixel_origin',ROOT/'pixel-origin.py') if expected.get('pixel_origin_proof') else None
     manifest=json.loads((ROOT/'source.json').read_bytes())
     result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
@@ -354,11 +355,15 @@ def coordinate(g):
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
             window_broker=None
             try:
-                for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID'):env.pop(key,None)
+                for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST'):env.pop(key,None)
                 if ordinary and fixture_broker:fixture_broker.start_job(env)
                 else:
                     env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
-                if ordinary and (label=='test-frontend.gui_capture' or label=='ordinary-private-ui-diagnostic'):
+                if ordinary and label=='test-frontend.gui_capture' and cooperative_setup:
+                    window_broker=cooperative_setup.Coordinator(instance,fixture_broker,build/'Release/disked.exe',env,
+                        expected_sha256=result['executables']['disked']['sha256'],source_root=SOURCE,
+                        new_job=lambda:g.S.WindowsJob(memory_bytes=268435456,process_limit=8),retire_job=g.retire_job)
+                elif ordinary and (label=='test-frontend.gui_capture' or label=='ordinary-private-ui-diagnostic'):
                     window_broker=capture_setup.Broker(instance,fixture_broker,
                         build/'Release/disked.exe' if label=='test-frontend.gui_capture' else sys.executable,env,
                         expected_sha256=result['executables']['disked']['sha256'] if label=='test-frontend.gui_capture' else retention.sha(Path(sys.executable)))
@@ -397,7 +402,7 @@ def coordinate(g):
                     if label=='pixel-origin-control':result['pixel_origin_preflight']=window_broker.report()
                     records=window_broker.finish(quiescent=quiescent)
                     result.setdefault('owned_window_captures',[]).extend(records)
-                    for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID'):env.pop(key,None)
+                    for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST'):env.pop(key,None)
                 if ordinary and fixture_broker:
                     retired=fixture_broker.finish_job(quiescent=quiescent)
                     if retired['requests']:result.setdefault('fixture_dacl_jobs',[]).append(dict(command=label,**retired))
@@ -667,7 +672,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         registered=json.loads(raw)['tests'];assert sorted(t['name'] for t in registered)==expected['groups']
         result['registered_native_groups']=len(registered)
         headers=sorted(p for folder in build.glob('*_headers.dir') for p in (folder/'Release').glob('*.obj'))
-        if not focused:assert len(headers)==expected['standalone_headers']==68
+        if not focused:assert len(headers)==expected['standalone_headers']==69
         result['standalone_headers']=[dict(path=p.relative_to(work).as_posix(),sha256=retention.sha(p)) for p in headers]
         identity=json.loads((build/'generated/build-identity.json').read_bytes());result['build_identity']=identity
         dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe');result['executables']={}

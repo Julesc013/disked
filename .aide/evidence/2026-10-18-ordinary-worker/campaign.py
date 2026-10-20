@@ -96,6 +96,10 @@ def main():
     focus_current='--focus-current-fixtures' in sys.argv
     focus_gui_watch='--focus-gui-watch' in sys.argv
     focus_gui_waiting='--focus-gui-waiting' in sys.argv
+    focus_product='--focus-product-captures' in sys.argv
+    if focus_product and any(option not in ('--focus-product-captures','--interactive-ui','--prepare-only','--cleanup-only') for option in sys.argv[1:]):
+        raise ValueError('Product captures require their bounded interactive512MiB composition')
+    if focus_product and '--interactive-ui' not in sys.argv:raise ValueError('Product captures require the existing authorized interactive guest session')
     pixel_proof='--pixel-origin-proof' in sys.argv
     if pixel_proof and not cleanup_only and '--prepare-only' not in sys.argv:
         plan=json.loads((HERE/'pixel-origin-preflight-plan.json').read_bytes())
@@ -117,7 +121,7 @@ def main():
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
-    full_native=full_native or controller_stop_proof or pixel_proof
+    full_native=full_native or controller_stop_proof or pixel_proof or focus_product
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
@@ -131,11 +135,12 @@ def main():
         if not all(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()==row['sha256'].removeprefix('sha256:') for row in context['files']):
             raise ValueError('Native port context inputs changed')
     stage=work/'ordinary-proof';stage.mkdir()
-    helper_files=('full-native.py','fixture-dacl.py','owned-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
+    helper_files=('full-native.py','fixture-dacl.py','owned-window.py','cooperative-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
     full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
         for name in helper_files:
             origin=HERE/name if name in ('full-native.py','fixture-dacl.py','owned-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+            if name=='cooperative-window.py':origin=HERE.parent/'2026-10-21-product-capture/cooperative.py'
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
         shell_tool=powershell7_proof or focus_invocations or focus_current or '--native-x64' in sys.argv
         if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:
@@ -240,6 +245,7 @@ def main():
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
+        expected['native_x64']['cooperative_product_capture']=json.loads((HERE.parent/'2026-10-21-product-capture/expected.json').read_bytes())
     if full_native:
         # The transferred runtime zip is removed on the host before guest work
         # starts. Account for all remaining host scratch and current context in
@@ -312,6 +318,10 @@ def main():
     if focus_gui_waiting:
         expected['native_x64']['focus_groups']=['resilience.gui_waiting']
         expected['native_x64']['focus_targets']=['disked','disked_worker_delayed','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+    if focus_product:
+        expected['native_x64']['focus_groups']=['disked.acceptance','frontend.gui_capture']
+        expected['native_x64']['focus_targets']=['disked','fat_tree_extraction_worker_probe']
         expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
         expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())

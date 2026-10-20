@@ -7,7 +7,11 @@ import time
 import uuid
 
 
-def capture(window,pid,desktop,width,height):
+METHOD='owned-ui-thread-cooperative-client-tree-transport/1'
+
+
+def capture(window,pid,desktop,width,height,*,metadata=False):
+    if os.environ.get('DISKED_WINDOW_CAPTURE_METHOD')!=METHOD:raise ValueError('Explicit qualified cooperative method required;legacy capture remains disabled')
     root=Path(os.environ['DISKED_WINDOW_CAPTURE_ROOT'])
     if root.resolve()!=Path(os.environ['TEMP']).resolve():raise ValueError('Owned capture temp required')
     nonce=os.environ['DISKED_WINDOW_CAPTURE_NONCE'];ident=uuid.uuid4().hex
@@ -24,9 +28,9 @@ def capture(window,pid,desktop,width,height):
     if response.stat().st_size>4096 or raw.stat().st_size>16777216:raise ValueError('Capture response bound')
     value=json.loads(response.read_bytes());body=raw.read_bytes()
     if (value['nonce']!=nonce or value['id']!=ident or value['window']!=window or value['pid']!=pid or
-            value['desktop']!=desktop or value['method']!='owned-window-dc' or
+            value['desktop']!=desktop or value['method']!=METHOD or
             (value['width'],value['height'])!=(width,height) or len(body)!=width*height*4 or
             value['bytes']!=len(body) or value['sha256']!=hashlib.sha256(body).hexdigest()):
         raise ValueError('Capture response identity or pixels differ')
     for path in (raw,response,ready):path.unlink()
-    return body
+    return (body,value) if metadata else body
