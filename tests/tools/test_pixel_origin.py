@@ -62,6 +62,7 @@ class PixelOriginTests(unittest.TestCase):
         first=module.expected_rgb(self.seed,0);body=bytearray(92160)
         body[0::4]=first[2::3];body[1::4]=first[1::3];body[2::4]=first[0::3];body=bytes(body)
         header=dict(method=module.METHOD,sha256=hashlib.sha256(body).hexdigest(),api_succeeded=True,
+                    renderer_pid=456,renderer_thread=777,fixture_hook_scope='exact-owned-ui-thread',fixture_dll_sha256='fixture-hash',
                     producer_identity=dict(pid=999,user_sid='actor',integrity_sid='S-1-16-8192',
                         restricted=True,administrator=False,elevated=0,appcontainer=0))
         response=SimpleNamespace(returncode=0,stdout=json.dumps(header).encode()+b'\n'+body,stderr=b'')
@@ -69,6 +70,7 @@ class PixelOriginTests(unittest.TestCase):
         broker=module.Broker.__new__(module.Broker);broker.expected=[first,module.expected_rgb(self.seed,1)]
         broker.observations=[];broker.archive=archive;broker.last_producer_pid=999
         broker.worker=SimpleNamespace(user_sid='actor')
+        broker.render_sha256='fixture-hash'
         with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as directory:
             broker.temp=Path(directory)
             request=dict(window=123,pid=456,desktop='DiskEdTest-'+'a'*32)
@@ -91,12 +93,14 @@ class PixelOriginTests(unittest.TestCase):
     def test_unknown_surface_is_rejected_without_retaining_pixels_or_binary_log(self):
         body=bytes([1,2,3,255])*23040
         header=dict(method=module.METHOD,sha256=hashlib.sha256(body).hexdigest(),api_succeeded=True,
+                    renderer_pid=456,renderer_thread=777,fixture_hook_scope='exact-owned-ui-thread',fixture_dll_sha256='fixture-hash',
                     producer_identity=dict(pid=999,user_sid='actor',integrity_sid='S-1-16-8192',
                         restricted=True,administrator=False,elevated=0,appcontainer=0))
         raw=json.dumps(header).encode()+b'\n'+body;records={}
         broker=module.Broker.__new__(module.Broker);broker.expected=[module.expected_rgb(self.seed,p) for p in (0,1)]
         broker.observations=[];broker.archive=SimpleNamespace(writestr=lambda name,value:records.update({name:value}))
         broker.worker=SimpleNamespace(user_sid='actor');broker.last_producer_pid=999;broker.last_producer_log=raw
+        broker.render_sha256='fixture-hash'
         with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as directory:
             broker.temp=Path(directory)
             with patch.object(broker,'_producer',return_value=raw):
@@ -104,6 +108,16 @@ class PixelOriginTests(unittest.TestCase):
                     broker._read_pixels(dict(window=123,pid=456,desktop='DiskEdTest-'+'a'*32))
         self.assertEqual(set(records),{'pixel-origin/phase-0.json'})
         self.assertFalse(broker.observations[0]['pixels_retained'])
+
+    def test_expected_pixels_cannot_authorize_a_different_renderer(self):
+        broker=module.Broker.__new__(module.Broker);broker.observations=[];broker.render_sha256='fixture-hash'
+        for changed in ({'renderer_pid':457},{'renderer_thread':0},{'fixture_dll_sha256':'other'},
+                        {'fixture_hook_scope':'global'}):
+            header=dict(renderer_pid=456,renderer_thread=777,fixture_dll_sha256='fixture-hash',
+                        fixture_hook_scope='exact-owned-ui-thread');header.update(changed)
+            with self.subTest(changed=changed),patch.object(broker,'_producer',return_value=json.dumps(header).encode()+b'\n'+bytes(92160)):
+                with self.assertRaisesRegex(ValueError,'renderer identity'):
+                    broker._read_pixels(dict(pid=456))
 
 
 if __name__=='__main__':unittest.main()

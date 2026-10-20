@@ -122,7 +122,7 @@ def main():
                 if response.stat().st_size>4096 or response.with_suffix('.bgra').stat().st_size!=92160:raise ValueError('Reply size')
                 value=json.loads(response.read_bytes());body=response.with_suffix('.bgra').read_bytes()
                 if (value['nonce']!=nonce or value['id']!=ident or value['window']!=hwnd or value['pid']!=os.getpid() or
-                        value['desktop']!=full_name.split('\\')[-1] or value['method']!='owned-wm-print-control/1' or
+                        value['desktop']!=full_name.split('\\')[-1] or value['method']!='owned-ui-thread-control/1' or
                         (value['width'],value['height'])!=(240,96) or value['bytes']!=92160 or
                         value['sha256']!=hashlib.sha256(body).hexdigest()):raise ValueError('Reply identity or bytes')
                 report['phases'].append(dict(phase=requested,bytes=len(body),sha256=value['sha256']))

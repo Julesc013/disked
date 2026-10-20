@@ -1,0 +1,113 @@
+{
+  "status": "direct_wm_print_invalid_dc_rejected",
+  "source_revision": "0abcdda70b7a06f1ccfcec77605af4074b68d999",
+  "finding": "The bounded direct WM_PRINT reaches the owned control,but its supplied DC is invalid in the receiver:dc_type0,all16 fills fail with ERROR_INVALID_HANDLE6,and phaseA is black. The verifier rejects it. Same-user/Medium/job ownership does not make this cross-process DC valid.",
+  "paint_receipt": {
+    "phase": 0,
+    "message": 791,
+    "entered": true,
+    "draw_completed": true,
+    "dc_type": 0,
+    "filled_tiles": 0,
+    "errors": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ]
+  },
+  "pixel_preflight": {
+    "method": "owned-wm-print-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "0f4ea3947131ac62d21164638f5c72e6",
+    "phases": [
+      {
+        "phase": 0,
+        "expected_rgb_sha256": "edffebdac9d8fe73ee1235e266e2169543583790a8646d2e095a7c3daa9edb3c",
+        "actual_rgb_sha256": "a8fd2e78a831e046e548454d1f0863dd7c3f29bc8e5db3cfe1b1d3536a292462",
+        "exact_all_pixels": false,
+        "observation": {
+          "window": 23855870,
+          "pid": 7992,
+          "desktop": "DiskEdTest-84bd4756c625484a9d20f29bbab332b8",
+          "width": 240,
+          "height": 96,
+          "method": "owned-wm-print-control/1",
+          "bytes": 92160,
+          "sha256": "ba61c36dd3703f9a8cce36675bb7391e9a6b1ab917ea00c4a3ebf2d7c50c4fcb",
+          "api_succeeded": true,
+          "api_error": 0,
+          "api_name": "SendMessageTimeoutW/WM_PRINT",
+          "display_dc_read": false,
+          "desktop_switched": false,
+          "producer_identity": {
+            "pid": 9632,
+            "restricted": true,
+            "administrator": false,
+            "elevated": 0,
+            "appcontainer": 0,
+            "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1123",
+            "restricting_sids": [
+              "S-1-5-21-385394198-2603589104-1765785984-1123",
+              "S-1-5-12"
+            ],
+            "restricting_sid": null,
+            "integrity_sid": "S-1-16-8192",
+            "privileges": [
+              {
+                "name": "SeChangeNotifyPrivilege",
+                "attributes": 3
+              }
+            ]
+          }
+        },
+        "producer_in_owned_job": true,
+        "execution_succeeded": true,
+        "stale_other_phase_rejected": true,
+        "zero_surface_rejected": true,
+        "pixels_retained": true
+      }
+    ],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 9,
+  "uncompressed_bytes": 188199,
+  "compressed_bytes": 1844,
+  "archive_sha256": "252d9a82966af6f91f096ca535371d2d19fe8d098762634141b28ecb4fec8686",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
+    "uncompressed_sha256": "b6c5ca796daae23d58abe9bc699b9ae2167ea2a78cd334726f9dda8f4c2fb218",
+    "compressed_sha256": "aa67e630961fd6dd3b0e35b6449ee6b00ba35a905a0705259ca8c99fbff7088f"
+  },
+  "startup_observation": "The wrapper remained live during an observed startup delay,then completed without restart or policy changes;no missing authority or persistent startup failure is established.",
+  "next_action": "Define the small owned UI-thread in-process rendering fixture so its memory DC is created and used in the same process. Keep the independently specified RGB verifier and all isolation/retention requirements;do not substitute expected images or admit a product capture.",
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

@@ -3,12 +3,14 @@ import ctypes as C
 from ctypes import wintypes as T
 import hashlib
 import json
+import os
+from pathlib import Path
 import re
 import socket
 import struct
 import sys
 
-METHOD='owned-wm-print-control/1'
+METHOD='owned-ui-thread-control/1'
 
 
 def capture(window,pid,desktop):
@@ -17,7 +19,7 @@ def capture(window,pid,desktop):
             type(pid) is not int or not 0<pid<2**32 or
             not re.fullmatch(r'DiskEdTest-[0-9a-f]{32}',desktop)):
         raise ValueError('Owned guest control identity required')
-    u=C.WinDLL('user32',use_last_error=True);g=C.WinDLL('gdi32',use_last_error=True)
+    u=C.WinDLL('user32',use_last_error=True)
     k=C.WinDLL('kernel32',use_last_error=True)
     def bind(dll,name,result,*args):
         f=getattr(dll,name);f.restype=result;f.argtypes=list(args);return f
@@ -36,15 +38,16 @@ def capture(window,pid,desktop):
     bind(u,'GetClientRect',T.BOOL,T.HWND,C.POINTER(T.RECT))
     bind(u,'SendMessageTimeoutW',C.c_ssize_t,T.HWND,T.UINT,C.c_size_t,C.c_ssize_t,
          T.UINT,T.UINT,C.POINTER(C.c_size_t))
-    bind(g,'CreateCompatibleDC',T.HDC,T.HDC)
-    bind(g,'CreateDIBSection',T.HANDLE,T.HDC,T.LPVOID,T.UINT,C.POINTER(T.LPVOID),T.HANDLE,T.DWORD)
-    bind(g,'SelectObject',T.HANDLE,T.HDC,T.HANDLE)
-    bind(g,'DeleteObject',T.BOOL,T.HANDLE);bind(g,'DeleteDC',T.BOOL,T.HDC)
-    bind(g,'GdiFlush',T.BOOL)
+    bind(k,'CreateFileMappingW',T.HANDLE,T.HANDLE,T.LPVOID,T.DWORD,T.DWORD,T.DWORD,T.LPCWSTR)
+    bind(k,'MapViewOfFile',T.LPVOID,T.HANDLE,T.DWORD,T.DWORD,T.DWORD,C.c_size_t)
+    bind(k,'UnmapViewOfFile',T.BOOL,T.LPVOID);bind(k,'CloseHandle',T.BOOL,T.HANDLE)
+    bind(u,'RegisterWindowMessageW',T.UINT,T.LPCWSTR)
+    bind(u,'SetWindowsHookExW',T.HANDLE,C.c_int,T.LPVOID,T.HANDLE,T.DWORD)
+    bind(u,'UnhookWindowsHookEx',T.BOOL,T.HANDLE)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId())
     dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     target=checked(u.OpenDesktopW(desktop,0,False,0xf01ff))
-    dc=bitmap=old=None
+    section=view=hook=None;module=None
     try:
         checked(u.SetThreadDesktop(target))
         owner=T.DWORD();thread=checked(u.GetWindowThreadProcessId(window,C.byref(owner)))
@@ -58,16 +61,36 @@ def capture(window,pid,desktop):
         if ((before.right-before.left,before.bottom-before.top)!=(240,96) or
                 (client.left,client.top,client.right,client.bottom)!=(0,0,240,96)):
             raise ValueError('Predeclared control geometry differs')
-        dc=checked(g.CreateCompatibleDC(None));bits=T.LPVOID()
-        info=C.create_string_buffer(struct.pack('<IiiHHIIiiII',40,240,-96,1,32,0,92160,0,0,0,0))
-        bitmap=checked(g.CreateDIBSection(dc,info,0,C.byref(bits),None,0))
-        checked(bits);old=checked(g.SelectObject(dc,bitmap))
-        if old==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
-        C.memset(bits,0,92160)
+        dll=Path(os.environ['DISKED_PIXEL_RENDER_DLL'])
+        if not dll.is_absolute() or dll.name!='pixel-render.dll':raise ValueError('Exact fixture DLL required')
+        digest=hashlib.sha256(dll.read_bytes()).hexdigest()
+        if digest!=os.environ['DISKED_PIXEL_RENDER_SHA256']:raise ValueError('Fixture DLL identity differs')
+        # The coordinator pins this code read-only until target job retirement.
+        module=C.WinDLL(str(dll),winmode=0x1100,use_last_error=True)
+        first,second=struct.unpack('<QQ',os.urandom(16))
+        name='Local\\DiskEdPixel-'+format(first,'016x')+format(second,'016x')
+        C.set_last_error(0)
+        section=checked(k.CreateFileMappingW(T.HANDLE(-1),None,4,0,96+92160,name))
+        if C.get_last_error()==183:raise ValueError('Fixture mapping already exists')
+        view=checked(k.MapViewOfFile(section,6,0,0,96+92160))
+        C.memset(view,0,96+92160)
+        frame=struct.Struct('<IIQIIIIQQIIII32x')
+        prefix=frame.pack(0x50454444,1,window,pid,240,96,92160,first,second,0,0,0,0)
+        C.memmove(view,prefix,96)
+        request=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture/1'))
+        # Nonzero,previously validated exact owned UI thread. Never global.
+        hook=checked(u.SetWindowsHookExW(4,C.cast(module.OwnedPixelHook,T.LPVOID),module._handle,thread))
         answer=C.c_size_t();C.set_last_error(0)
-        printed=bool(u.SendMessageTimeoutW(window,0x317,dc,0x1e,2,3000,C.byref(answer)))
+        printed=bool(u.SendMessageTimeoutW(window,request,first,C.c_ssize_t(second).value,2,3000,C.byref(answer)))
         error=0 if printed else C.get_last_error()
-        checked(g.GdiFlush());body=C.string_at(bits,92160)
+        # Even a timeout goes through finally and owned job retirement. Never
+        # infer callback quiescence merely from UnhookWindowsHookEx success.
+        observed=frame.unpack(C.string_at(view,96))
+        if observed[:9]!=frame.unpack(prefix)[:9]:raise ValueError('Render header identity changed')
+        status,render_error,renderer_pid,renderer_thread=observed[9:]
+        if not printed or status!=2 or render_error or (renderer_pid,renderer_thread)!=(pid,thread):
+            raise RuntimeError('Owned UI-thread render failed: '+repr((printed,error,status,render_error,renderer_pid,renderer_thread)))
+        body=C.string_at(view+96,92160)
         after=T.RECT();after_pid=T.DWORD()
         checked(u.GetWindowRect(window,C.byref(after)));checked(u.GetWindowThreadProcessId(window,C.byref(after_pid)))
         rect=lambda value:tuple(getattr(value,key) for key in ('left','top','right','bottom'))
@@ -76,13 +99,15 @@ def capture(window,pid,desktop):
         producer=identity()
         return dict(window=window,pid=pid,desktop=desktop,width=240,height=96,method=METHOD,
                     bytes=len(body),sha256=hashlib.sha256(body).hexdigest(),api_succeeded=printed,
-                    api_error=error,api_name='SendMessageTimeoutW/WM_PRINT',
+                    api_error=error,api_name='Owned UI-thread memory-DIB/WM_PRINT',
+                    renderer_pid=renderer_pid,renderer_thread=renderer_thread,
+                    fixture_dll_sha256=digest,fixture_hook_scope='exact-owned-ui-thread',
                     display_dc_read=False,desktop_switched=False,
                     producer_identity=producer),body
     finally:
-        if old not in (None,C.c_void_p(-1).value) and dc:g.SelectObject(dc,old)
-        if bitmap:g.DeleteObject(bitmap)
-        if dc:g.DeleteDC(dc)
+        if hook:checked(u.UnhookWindowsHookEx(hook))
+        if view:checked(k.UnmapViewOfFile(view))
+        if section:checked(k.CloseHandle(section))
         checked(u.SetThreadDesktop(previous));checked(u.CloseDesktop(target))
         checked(u.SetThreadDpiAwarenessContext(dpi))
 

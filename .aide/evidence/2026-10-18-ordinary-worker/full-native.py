@@ -484,6 +484,31 @@ def coordinate(g):
         _,raw=run('build-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
         result['build_token']=json_record(raw);assert result['build_token']['user_sid']==coordinator_sid
         if expected.get('pixel_origin_proof'):
+            # A small test fixture only: no product/CMake build or native suite.
+            null_grant=null_helper.Grant('build');null_grant.apply();null_grant.started()
+            vc=Path('C:/BuildTools/VC/Tools/MSVC/14.44.35207')
+            sdk=Path('C:/Program Files (x86)/Windows Kits/10');binary=vc/'bin/Hostx64/x64'
+            env.update(PATH=str(binary)+os.pathsep+env.get('PATH',os.defpath),
+                INCLUDE=os.pathsep.join(str(p) for p in [vc/'include',*[sdk/'Include/10.0.19041.0'/name for name in ('ucrt','shared','um')]]),
+                LIB=os.pathsep.join(str(p) for p in [vc/'lib/x64',*[sdk/'Lib/10.0.19041.0'/name/'x64' for name in ('ucrt','um')]]))
+            build.mkdir();render_source=SOURCE/'.aide/evidence/2026-10-18-ordinary-worker/pixel-render.c'
+            render_dll=build/'pixel-render.dll'
+            arguments=['/Bv','/nologo','/LD','/MT','/O2','/W4','/WX','/GS','/sdl','/guard:cf',
+                '/DUNICODE','/D_UNICODE','/Fo'+str(build/'pixel-render.obj'),'/Fe'+str(render_dll),
+                str(render_source),'user32.lib','gdi32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf',
+                '/IMPLIB:'+str(build/'pixel-render.lib')]
+            response=build/'pixel-render.rsp';response.write_text(subprocess.list2cmdline(arguments),encoding='utf-8')
+            archive.write(response,'recipe/pixel-render.rsp')
+            _,raw=run('pixel-fixture-compile',[binary/'cl.exe','@'+str(response)],120)
+            assert b'19.44.35228' in raw and 0<render_dll.stat().st_size<=524288
+            _,raw=run('pixel-fixture-imports',[binary/'dumpbin.exe','/headers','/imports',render_dll],30)
+            result['pixel_render_fixture']=dict(source_sha256=retention.sha(render_source),
+                compiler_sha256=retention.sha(binary/'cl.exe'),linker_sha256=retention.sha(binary/'link.exe'),
+                dll_sha256=retention.sha(render_dll),dll_bytes=render_dll.stat().st_size,
+                imports_observation_sha256=hashlib.sha256(raw).hexdigest(),
+                scope='Test-only x64 UI-thread renderer;not a product component or capture admission')
+            env.update(DISKED_PIXEL_RENDER_DLL=str(render_dll),DISKED_PIXEL_RENDER_SHA256=retention.sha(render_dll))
+            null_grant.retire(quiescent=True);null_grant.close();null_grant=None
             stop();instance.close();instance=None;shared_read_access(False)
             native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
             (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))

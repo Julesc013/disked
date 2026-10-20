@@ -20,7 +20,7 @@
     "Do not enlarge storage budgets,alter worker/product-record ACLs,reboot the guest or run a product/full rebuild before this preflight passes."
   ],
   "completion": "Actual independently expected owned-window pixels and wrong-surface refusal,verified cleanup,and an explicit method admission review. A successful control alone does not qualify product images.",
-  "capture_method_selected": "Control-only explicit SendMessageTimeoutW(WM_PRINT),3-second timeout,PRF_NONCLIENT|CLIENT|ERASEBKGND|CHILDREN,into a memory DIB;no display read or desktop switch.",
+  "capture_method_selected": "Control-only thread-specific WH_CALLWNDPROC fixture DLL. Only the validated owned control UI thread may load it. The callback creates and uses its memory DC in that process,then publishes actual DIB bytes through one bounded same-actor mapping. No screen read,desktop switch,global hook,product build or public fixture interface.",
   "authority": "Existing bounded guest-development grant;this plan creates no new privilege.",
   "pixel_recipe": {
     "version": "org.disked.pixel-origin-control/1",
@@ -41,7 +41,10 @@
   "official_references": [
     "https://learn.microsoft.com/en-us/windows/win32/gdi/wm-print",
     "https://learn.microsoft.com/en-us/windows/win32/gdi/wm-printclient",
-    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setthreaddpiawarenesscontext"
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setthreaddpiawarenesscontext",
+    "https://learn.microsoft.com/en-us/windows/win32/sysinfo/gdi-objects",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexw",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unhookwindowshookex"
   ],
   "known_vectors_seed_000102030405060708090a0b0c0d0e0f": {
     "phase0_tile0": "99d67a",
@@ -53,6 +56,13 @@
   },
   "product_admission": false,
   "producer_execution_context": "Same ordinary restricted actor as the control,separate explicitly owned producer job within the same bounded campaign;assert actual user SID,Medium integrity,restriction,non-elevation and non-AppContainer identity. Retire every producer job before reading its completed log.",
-  "context_question": "With same-actor launch and retirement proven in run121,but PrintWindow returning black,does an explicit bounded WM_PRINT invoke the control procedure and produce the unchanged expected pixels?",
-  "failure_pixel_retention": "Keep raw pixels/images/log only for a predeclared challenge pattern or uniform-black diagnostic. Any other surface is rejected and retained as hashes/metadata only."
+  "context_question": "Run122 delivered WM_PRINT but the foreign-process HDC was invalid(ERROR_INVALID_HANDLE6). Does same-process UI-thread rendering satisfy the unchanged independently specified full-RGB phases?",
+  "failure_pixel_retention": "Keep raw pixels/images/log only for a predeclared challenge pattern or uniform-black diagnostic. Any other surface is rejected and retained as hashes/metadata only.",
+  "instrumentation_contract": {
+    "scope": "Only DiskEdPixelOriginControl,240x96,on its marked owned desktop and already validated owned process/job. Nonzero exact UI thread ID only;never a global/input hook.",
+    "build": "One x64 DLL compiled from the exact exported fixture source under the existing confined build worker and512MiB cap. Record compiler/linker/source/binary/import identities. No production code changes.",
+    "transport": "One96-byte fixed header plus92160 BGRA bytes,in a fresh128-bit-name local shared mapping accessible to the same restricted actor. Header binds HWND/PID/dimensions/nonces. Callback opens/closes its own mapping handle;no foreign GDI or kernel handles are sent.",
+    "lifetime": "Bounded message deadline;unhook in finally. Existing target/producer jobs must retire before any code or mapping cleanup is treated as complete. No fallback if the hook or rendering fails.",
+    "claims": "Instrumented control evidence only. Preserve the separate actual-product GUI capture requirement and explicitly identify any later product instrumentation."
+  }
 }

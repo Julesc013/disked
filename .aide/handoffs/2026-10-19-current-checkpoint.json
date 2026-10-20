@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "f313ec6c16211dac47ea4b2b368bcda3a0136cc0",
+  "base_revision": "0abcdda70b7a06f1ccfcec77605af4074b68d999",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -53,9 +53,13 @@
   ],
   "files_changed": [
     ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
+    ".aide/evidence/2026-10-18-guest-build/context.json",
     ".aide/evidence/2026-10-18-ordinary-worker/README.md",
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/candidate-qualification-applicability.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/capture-provenance-red-green.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json",
     ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
     ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
     ".aide/evidence/2026-10-18-ordinary-worker/finish-backing-cleanup.ps1",
@@ -78,7 +82,44 @@
     ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/null-device.py",
     ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-operator-cancel-proof.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-operator-cancel-proof.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.tar.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-render.c",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
     ".aide/evidence/2026-10-18-ordinary-worker/prepare-powershell.py",
     ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
     ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
@@ -110,6 +151,7 @@
     "spec/catalog/nt-inventory-advance-prototype.json",
     "spec/development/testing-and-ci.md",
     "spec/generated/index.json",
+    "spec/interaction/tui-and-gui.md",
     "spec/manifest.json",
     "spec/work/units.json",
     "tests/artifacts/test_artifact_check.py",
@@ -148,6 +190,7 @@
     "tests/operation/test_worker_directory.py",
     "tests/resilience/console_wait_fixture.py",
     "tests/resilience/memory_fixture.py",
+    "tests/resilience/test_gui_waiting.py",
     "tests/resilience/test_output_waiting.py",
     "tests/resilience/test_worker_ancestry.py",
     "tests/resilience/test_worker_budget.py",
@@ -157,57 +200,20 @@
     "tests/tools/test_native_junit.py",
     "tests/tools/test_native_stop_request.py",
     "tests/tools/test_object_namespace.py",
+    "tests/tools/test_pixel_origin.py",
     "tests/tools/test_source_snapshot.py",
     "tests/tools/test_sparse_fixture.py",
+    "tests/tools/test_window_capture_control.py",
+    "tests/tools/test_window_capture_review.py",
     "tests/tools/test_window_station.py",
     "tests/tools/test_workspace.py",
     "tests/windows/inventory_events.py",
     "tests/windows/native/inventory_advance_probe.cpp",
     "tools/build-inputs.json",
     "tools/release/artifact_check.py",
-    "tools/workspace.py",
-    "spec/interaction/tui-and-gui.md",
-    "tests/tools/test_window_capture_review.py",
-    "tests/resilience/test_gui_waiting.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-review.json",
-    "tests/tools/test_window_capture_control.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-review.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/candidate-qualification-applicability.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/capture-provenance-red-green.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-operator-cancel-proof.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-operator-cancel-proof.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-review.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-    "tests/tools/test_pixel_origin.py",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-cleanup.json",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json"
+    "tools/workspace.py"
   ],
-  "summary": "DE-W105 active. Run121 proves the ordinary producer identity/job retirement but rejects black PrintWindow pixels;all8 entry hashes/owned cleanup verify,zero backing growth. A direct bounded WM_PRINT candidate now records delivery entry before drawing and retains the same full RGB expectations. All209 tooling tests pass(1 skip). Pixel origin and actual product images remain unqualified;legacy capture stays disabled and main is unchanged.",
+  "summary": "DE-W105 active. Run122 at0abcdda7 delivers WM_PRINT but its foreign-process DC is invalid(receiver type0,16 ERROR_INVALID_HANDLE6 fills);the strict RGB verifier rejects black output. All9 archive entries and owned cleanup verify,zero backing growth. A test-only exact owned UI-thread renderer candidate now creates and uses its memory DC in that process. Pixel-origin preflight,actual product GUI and full native qualification remain pending. Legacy capture stays disabled;main is unchanged. The current candidate passes210 tooling tests(1 expected skip),structural/source-map/manifest/template checks;its native run remains pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -789,60 +795,30 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/validate-current.py --tools-only",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirtieth-full32-pass.json",
-      "sha256": "sha256:b22c2637e884aaf96f1f29a3b372eade7034e7eb69f125830c67a1a87013cb08"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-pass.json",
-      "sha256": "sha256:deaf6559cb0093be371fa67685424a3c9befacc79c4ce2cdcb84214783974fdf"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-cleanup.json",
-      "sha256": "sha256:e12054c93e8204910afb684f7ea1f620e2dd82c0b57c33eef43dfc5d72dc82d3"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-pass.json",
-      "sha256": "sha256:511f43d5337c7f673f7d150b7e4f02e98ae470931c932f6e7abcc52bfdc6c8c8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-cleanup.json",
-      "sha256": "sha256:284cddfc97f3f1bb4f74fd33f9dd1abe0412933077bf07222d3d6f8c0a900ad6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
-      "sha256": "sha256:f4bccd6abdd80078a791ac2fcfd753ec0f39fe01e2d1a53daef8a8f08f2be6bb"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
-      "sha256": "sha256:fa67d5b2cf252e8d6799d21c670f315baff07043fe71815827d0f34fa4e68cee"
+      "path": ".aide/evidence/2026-10-18-guest-build/twenty-first-current-review.json",
+      "sha256": "sha256:18f7d64d1d9ca061609127f6e344c24e45f09ff9ebf453e71567b36ff1dd507f"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
       "sha256": "sha256:148f4de6291b9c6b8cb59e935d4386a755d845f51861c5b34b73b29b42cfa58b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/full-build-review.json",
-      "sha256": "sha256:7beb5bf6d74d6a783f0a76fdd1f9d204290fedc7fa8531c1501d0f80fc098fe7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json",
-      "sha256": "sha256:5e3ec6496ea68d678d84baca284882f51dca99870f97936b969ad5db31f7866b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-sixth-native-low-integrity.json",
-      "sha256": "sha256:bc549d3956912fd570f6a11acaf32df2a1049270d2ab32c5d912cb975d83ad69"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json",
-      "sha256": "sha256:23bca1a0cea8f82c8b18c9f677f354d7e4be0507512d3ed1db33b710c54d29ed"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-cleanup.json",
-      "sha256": "sha256:652bb5c76d4a078c53f287c9f929eaee62ade615493cf0441b47d138460d9119"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/artifact-inventory-retest.json",
@@ -857,872 +833,8 @@
       "sha256": "sha256:1cf5f0568a696626734ee72e78ae5063348b204353b3b86988ad7e694bac5dae"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-failure.json",
-      "sha256": "sha256:57358973a4800f5e645ffee325f76eec884121f933b34fc3a5e982cb402b0b54"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-cleanup.json",
-      "sha256": "sha256:8cf70ec75089f709b29e47dfd9d278db3d8ed06730e2d90f4755cd6fffc3f092"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-source-retirement-recovery.json",
-      "sha256": "sha256:b934217a41f7fd1499841a61a07353535f6b1bbfacdca8e56b4a0d93caa1d80c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-ninth-powershell-profile-pass.json",
-      "sha256": "sha256:f9e2552c0d71fc679aa613f5bc4079df03d8cadefd1dda5711e72fdef247da27"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fiftieth-schema-closure-refusal.json",
-      "sha256": "sha256:e6f042497502298d0892ac6b8d492bcc5ed2fb6778f1c6ca0716912af5fb74c1"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-pass.json",
-      "sha256": "sha256:6f5ee7872cbb64b366c1c7c5a526cdaf4253031e59fb5f5391744bca8ae47818"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-cleanup.json",
-      "sha256": "sha256:40fa01c59e73122aba346f1929d235d35f3fd2351fe79d24a437f538836ea83d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
-      "sha256": "sha256:d4c50cc4f819191c67d871b32ab0ee9f753b05e29e977ee29a0199dcb13c804c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-timeout.json",
-      "sha256": "sha256:ff72e7df313b3c9fe96867f8e0fc13f77b51123c59f6d98dcf7433d8aa49dcfd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-cleanup.json",
-      "sha256": "sha256:38b91cfe7922955864605658c0ec625eb5d24e636ae800f2094486ef7d2f07c6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat.tar.xz",
-      "sha256": "sha256:7f0dc51da61a3a448600d4ebe8d5fe3dc2ae41fefe2cd1811eadedee0a1f68cd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
-      "sha256": "sha256:a8c2893bc62421e10476c8975534238b8b3b2c8fafcd4d47164c031519bc8472"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-cleanup.json",
-      "sha256": "sha256:becb6d986ce039700bd36f810d28b2ffb0f880ccfd68f587ce3b660299063643"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute.tar.xz",
-      "sha256": "sha256:527eb221ef99dff41be0a32300da3d14d472c8add9afe9077b2c96ad998cec5a"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression-pass.json",
-      "sha256": "sha256:78b2e2c0cd7973b355ec3702e6c74769e438ff442b24736357464316a940a097"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression-cleanup.json",
-      "sha256": "sha256:dbc766868e5341adb3c1d76fe6d12dbc6a94e5122bee7814b1ca2e746cd7444f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression.tar.xz",
-      "sha256": "sha256:97cac5bb1446dfa63370996c7aabf77f4d49ebe67345f7f401c7dd1ed66e6de7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history-timeout.json",
-      "sha256": "sha256:62c563cf54e17f75b96d3ef752eda8467fbf9506b406c6c54cae03f9bf421eea"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history-cleanup.json",
-      "sha256": "sha256:e5f8e77edf6c7316636d1e5299ef97f0faeaa942a1caf00e018f6c7c25e2711c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history.tar.xz",
-      "sha256": "sha256:29c1c3b09b16029f0c15923cb8b03ec3d562ba3081f9406c81131c3cbf66529f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io-pass.json",
-      "sha256": "sha256:8c4ad43c0be75f4ed06bb81e62f1ade744838c810bc43f1b44bffeb4f0cece31"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io-cleanup.json",
-      "sha256": "sha256:62139e779b6e5e294419501a29d82f5f456164bcc809e9ecebc3264971310454"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io.tar.xz",
-      "sha256": "sha256:8d5cefbc9241c43a7f39edde0108b94a921fc54ddac7a4b8ddbce3f2b7cad670"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive-defect.json",
-      "sha256": "sha256:1a0149e1400feb7badd628eeb326c68a3697f69fdaf0f7d0e3ec1129d98d0d5b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive-cleanup.json",
-      "sha256": "sha256:54d353d82f24afdba06f3ad200107834f9778fe76004cbdae12aff99dbda5760"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive.tar.xz",
-      "sha256": "sha256:9cc2be71bd35e94147adde24859a1f516d1380bab28c4130b98ad092338a01c9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/history-timing-review.json",
-      "sha256": "sha256:56ecb41f850e5e3f49b5295606a3d5b02865e4305f56554e44f814e5ff7ade7d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-failure.json",
-      "sha256": "sha256:3d07f2946e9c600f53c2d052dd95c13784b070da2e177a95054d8acfa3ae3014"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-cleanup.json",
-      "sha256": "sha256:835e3013342d025a7fe7ac18c121c8a02e4a27b2c0d0b164c010cba186ab8aa2"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle.tar.xz",
-      "sha256": "sha256:ad959346a6e8f1946fa589526f345361b1e3bf4ca0410fea2884f8fbd99ba174"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json",
-      "sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-cleanup.json",
-      "sha256": "sha256:ac29b5e5bc67e93bcc049bdcac6c7813a8c0360b8d2b35e7e833cff4f910ce09"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic.tar.xz",
-      "sha256": "sha256:ff2dddc6484d4893d70433641c4f5c54d782413c457cdbc34ea01bf7d807fb43"
-    },
-    {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/calibration-contract-registration-failure.json",
       "sha256": "sha256:f7c62fc2b05503758aa56a7dda664d9ac72ec79a353cd169e188985ec503624b"
-    },
-    {
-      "path": "spec/catalog/native-fixture-timeouts.json",
-      "sha256": "sha256:f9c521099508a3d4131494db14b49313fe5e1fe1bd651894bb722fc35b3b7b16"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
-      "sha256": "sha256:f5563e2d8119f96a8af69d68fb6c5c08c8db1dad26ebf89d327cddcab1de7e3c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-cleanup.json",
-      "sha256": "sha256:29e5d4e7128e7e2b889f4c234832bf6328fd5881a127c1e77691c9e9314a7c7a"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions.tar.xz",
-      "sha256": "sha256:f5effa765c6258bdd883c45bc661375aa7952ba412df5096b846a9acb2fd48c5"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/invocation-partition-review.json",
-      "sha256": "sha256:338d78951341259782d5d12a53d4bb67e5235c75fbf77829a393fa8579c7f0eb"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-failure.json",
-      "sha256": "sha256:9c1c8949ca88e02df2f8826875b9ded0d213e0002a5cdf78d80092e2ac476982"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-failure-review.json",
-      "sha256": "sha256:0e29161693a967d90f31a79ab37490d2e17b5bce0bc6a844d21dcdc6beb95632"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-cleanup.json",
-      "sha256": "sha256:50941fec12937460fca890d46819a0841abc43e50f568e62797ee7159d2ac975"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64.tar.xz",
-      "sha256": "sha256:56df3cb0bc32f57cb39e15a5fce622029a1719680eba72d9afc9d0d891f09d31"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-regression-before.json",
-      "sha256": "sha256:6283063838f87ae662a56b76396bc64fbbdd46656aeb04b9098a0ec901957a8c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-and-sparse-checks.json",
-      "sha256": "sha256:f909ca475a808905ca9781694f3e00c85b68392721c8401b82ee7209503472ce"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-observations.json",
-      "sha256": "sha256:5e56bba3b44c74b96563120f59b4cb2c5fbd1b5a5c711d21e3186ee5185cf6ca"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-cleanup.json",
-      "sha256": "sha256:5d4aea3a0d50c8b84435430a838a42b002562fa3d077aec99f751bf55944d28e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui.tar.xz",
-      "sha256": "sha256:3bf325ec4be9c577f438d1512f656e4480de74bfa0778615fdc11424665bbe40"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-geometry.json",
-      "sha256": "sha256:ec9eb1355c50fc87373ad9d32732e844e64cafd2d74ebff49855c19bd2e7b1a0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-cleanup.json",
-      "sha256": "sha256:8f2e8df65983410d3843df2d8a3862fa0bc76ff822ca0a5cb3b1ec6548c6323d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console.tar.xz",
-      "sha256": "sha256:819d45967cb8d1d868c9f55e776541d67abe27c27c1a01821c3cc16a61f2f6da"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-review.json",
-      "sha256": "sha256:204ce72bf389c466c913cbb1ff9296a78503d456ca8e9a4f9e9dd6642a18c897"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused-ui-environment-failure.json",
-      "sha256": "sha256:a83b8c50cb17b412e8c48b8cc51701d0b6ba39352208da780d8fd795d8512979"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused-cleanup.json",
-      "sha256": "sha256:e98b97ed1b4cc581320c05fd78dbb24273619dc5ed1e568f5eee61cc65a0d68c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused.tar.xz",
-      "sha256": "sha256:2299d24de43980d1450c98d8f9a2bcb1e91a5868d6f38ac7f3b85f365a53659b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-plan.json",
-      "sha256": "sha256:f04b02fa1b5eecca764abe87e58f909238340688e6050c237bd601c5014c0727"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-check.json",
-      "sha256": "sha256:8d8a13a1b0d9608b8228caf4165e6a70b0cf9bb8f90f3e2faee74ff8984ff165"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-review.json",
-      "sha256": "sha256:2ebd51b8ba97a93e80fa117a26ddc8372a81f9c2056ab1bf917ba0aa8c56f7a3"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
-      "sha256": "sha256:b6eff7ba78f5d285903f4f2a96bff7ed76b229718fbed483d1ee75e0efc298d9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
-      "sha256": "sha256:e94b79402f0838f9036dbf49b12e99fe182876237878e209e62f52ebaf585a68"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-derived-cleanup-input.json",
-      "sha256": "sha256:02f37c34a040149459862519d7e230161f33b841ee32ca790f2ad9468b50cc8d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-recovery.json",
-      "sha256": "sha256:3b8f831825cc8f3f5c4698935d2436b8d71a4c166e5b59453feea78e9443c00d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-parser-error.txt",
-      "sha256": "sha256:466843b6da845bec67530d51762943560d1341c9aef141b090767d1eb2f55fc2"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/station-delta-checks.json",
-      "sha256": "sha256:454cc685a801eb1aa98e03860e7cf1476e28999b31c730c7d498fbb48b96ecec"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-seventh-station-access-refusal.json",
-      "sha256": "sha256:655dcc1b734a430d92283d73c714fbbe99727f0efad97a6408f61d704d10c89e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-seventh-cleanup.json",
-      "sha256": "sha256:0ca7927508cb1a92584d7d2fc4abe2013520df5bb6631778c619dbabc2ba4a94"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-eighth-session-comparison-refusal.json",
-      "sha256": "sha256:cc8227c896ef4ad9bb9a8d94af3a8afb3a8d8061fa452a4fa6c025adb0e93c40"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-eighth-cleanup.json",
-      "sha256": "sha256:6448ea483f7078055eea6f75217c077fb36552fec202d0a0401623646d93b613"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-ninth-private-versus-visible-refusal.json",
-      "sha256": "sha256:236d60cd686abea9b9edc9623592ea3eba1ae1e9c5d810f401374878d7825ee7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-ninth-cleanup.json",
-      "sha256": "sha256:b9b8273ce96d98cc992d448e5e8af9cad3ffa15ea222730aebf3a90fb59f0d46"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-station-startup-matrix.json",
-      "sha256": "sha256:2742214fbeb0333a5191e53cf424e4ed3e14fe58cd90543f95bdc09b5ad58781"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-metadata-cleanup.json",
-      "sha256": "sha256:24ba1520cc7e92fb9e56b4500218dd38692b3e5036aa91d322f4348128cbb855"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-retirement-scope-error.txt",
-      "sha256": "sha256:683638924cd4870cac93eca6b77c0c8461fe03ca6cea3689d0859009dbc3d326"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-confined-gui-pass.json",
-      "sha256": "sha256:e7563c87134009a5e480c74294beaff80354375352ef7d6cb1259117381977ab"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-cleanup.json",
-      "sha256": "sha256:aca131d91fbe8d75c5420cabc647e21c2a0c2acd7a5a558e4987d5fd900e2aa0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-dispatch-start-failure.json",
-      "sha256": "sha256:f1e75402ecb5fedab6ef9646d4aa0846175e2607ac3eeb7a0cc900e2cd948f87"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-recovery.json",
-      "sha256": "sha256:3f9e08d0f28b97d3e820afab2f47fd38848556dcf83a2aba47a67e9ebfe71c48"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-null-proof-guard-error.txt",
-      "sha256": "sha256:28cb6c43ed4f426f386af698581ad72ff0ea7493275e864a1ecdac6352677d99"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-memory-bootstrap-failure.json",
-      "sha256": "sha256:8e73d03b951e05a6f9ab7ede8852fd15a589afb17ff30dddd3ab8ba6cddbfeb9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-cleanup.json",
-      "sha256": "sha256:d19c929689a0424b4d120d23d3cfe06dafe13517801be682e1be5186d5a5f40e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-focused.tar.xz",
-      "sha256": "sha256:de52910808f75f7f09acfd7c32b43f367d2792707e900027ae363ef7902005df"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fourth-object-startup-observations.json",
-      "sha256": "sha256:0a2494b9e614f8036be909f95bdc6425e364b21369262f9af5c29ec0879a0ac2"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fourth-cleanup.json",
-      "sha256": "sha256:db380a921a51cec99bc826e4d4d24bdc1cfaf7604ebda14bc1b4b959cc14f15f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/namespace-coordinator-read.json",
-      "sha256": "sha256:7fddfbb37c9835133081097d3940059d9c00b840463be561b36e675dcb957130"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-restricted-directory-refusal.json",
-      "sha256": "sha256:9bbc087263b44818a08f1588ef68d7ff61b568b32fbc7ba81f09095824ff6d50"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-cleanup.json",
-      "sha256": "sha256:66e67578046407a0eac98e3af6070a40fca5d48d03951e80f3c360d8f422c6b0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-session-directory-refusal.json",
-      "sha256": "sha256:3133e202af476ddd85c4eaa2cca22074bd5f278bcf5224c83f7d1e61fa6e329f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-cleanup.json",
-      "sha256": "sha256:9f98d60fe83a9104beb0fecdc7d90c017cf3bc0de4977b1bcfb045b00b203ff0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-seventh-owned-object-trace.json",
-      "sha256": "sha256:127e795cf58bfa0a8bceec761a34bff741ea18f31c67070ffe89e18c495ec610"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-seventh-cleanup.json",
-      "sha256": "sha256:ab48d3bcbca66151e8952c3b1050e432b8c723836def38953e24dbeb89872fca"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-named-object-pass.json",
-      "sha256": "sha256:9cdf3df4bf1b6aa42a9eacd5c0b08dfa681ad38eaeda04cf4a93f6644adce619"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-cleanup.json",
-      "sha256": "sha256:50f8ff8fa75541f5f3b8b17730d380afcc173bd8eb48bf415168c28e34eef188"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
-      "sha256": "sha256:f73ac5b2acfb15424febcf1e0466424157b5e34428e05a928eb9d00a889b00cb"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-ninth-native-memory-pass.json",
-      "sha256": "sha256:ba717a8053722b193089d98765a68a26fbf353dd22135712058759120382bb8d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-ninth-cleanup.json",
-      "sha256": "sha256:d43a395e788874efe2470a49ec48e5eced314bb0a6f23f115df39dbaef6da60b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-focused-gui-startup-failure.json",
-      "sha256": "sha256:148769e4c6d5719dad6a5c3286191e1ca25645a42a9be75c2cc3c4c45cd8743d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-cleanup.json",
-      "sha256": "sha256:4de58fd61eb88cbdd52db8ece1bb359f224c7f0025c1e358ecda1f09c790b537"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-focused.tar.xz",
-      "sha256": "sha256:be34b07818eedf791b1f6e843fddd5866e26a2f805ef9b4bdcae38ca057acee9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-descriptor-readback-failure.json",
-      "sha256": "sha256:1c92f1afe5de302f9c6bbdd38c006ad822a1e951f43fa7636ad9ca09ba85f10a"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-cleanup.json",
-      "sha256": "sha256:973087c8aee2bb39d57fb272d283c99f1fdebafa87d92ab5ba3cd25fb131f89b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-desktop-format-refusal.json",
-      "sha256": "sha256:eb3a6f61b107fad426c0bd2bcf80c0fc304d398596077dd4cb12187cdc198c6d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-cleanup.json",
-      "sha256": "sha256:54a9ae8eb69fa8d955340dcf44d8859cfc48c251c34ed07861fb594936cfedc8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/desktop-security-review.json",
-      "sha256": "sha256:2e324473312f2ad61baff324be8db46e5a99fa94b8c66c95555054d8a059c128"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-owned-desktop-pass.json",
-      "sha256": "sha256:acbc16c883d4ea615cb675f904f344eca5f05682d04bdff2b992c378a8bcc083"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-cleanup.json",
-      "sha256": "sha256:72252ef7aa7366e3eefaab89f75f3bcf400c202bca74c80542efa7f81008748f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-focused-pass.json",
-      "sha256": "sha256:4f7cf2a12f8fe7a850a49ac3a5f0ae1deae264bbd421d0d44e2bfe59a32a980b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-cleanup.json",
-      "sha256": "sha256:e78a1e804f21a12effb8311410ee775a685dd45207ddaab92f7d52e89e350c61"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-focused.tar.xz",
-      "sha256": "sha256:7f50f8df3121458c36d94d3cde192238fb3028144e00c46521ccd0942168a49d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
-      "sha256": "sha256:6da7921ef39e354b32c91c7c4a9cc93da5fab8bc02a8e3c384d925800f02f800"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-backing-growth-stop.json",
-      "sha256": "sha256:78ea07ac97dcbce8730da80b313f656e84ebdde65d63f209825aee2c988cda1d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-delta-retirement.json",
-      "sha256": "sha256:dc2e0cdfcdf4e4c8e6502951fbd9e037e169e4c3d304bf693a53b35aec7f6768"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-cleanup-recovery.json",
-      "sha256": "sha256:208b8a9b2cc21dfb1c2323e100760524a92373cf09d430c296ada4a36ffe61c4"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-review.json",
-      "sha256": "sha256:1874b3e9f1d457bc5a5a865b07e705220d6a562d5dee4405c0f44c894a1f5ce9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-preflight-timeout.json",
-      "sha256": "sha256:7ef5f8c09bb0c9dc04d6a0614df19989660aae12ffc1e560d6c6bee041898d9b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-cleanup.json",
-      "sha256": "sha256:7739440ca01b1b0203ff009b7271359ef0f060dc9a1d238c8741da5067cccfe8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-review.json",
-      "sha256": "sha256:e5bc56a2b7d213830fc8aaf673e08622a1492d57fc928ccf5fc550f02c365f99"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
-      "sha256": "sha256:af53730457980956a4189a79d3ce67777516a0b6a1d726a9ba8ddd90779495c3"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-cleanup.json",
-      "sha256": "sha256:08cc96df262c500e676a413810ec734de307e19ebba52739821d9e0d1ef8f7f6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json",
-      "sha256": "sha256:2d8efdd5207500abf260fa52a14527af13d7e07026fdb4082bd48933d565f30e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-parallel-stall.json",
-      "sha256": "sha256:e0f2e129f77ad1d8e310eba0252cd6e7f70eb4034779378e2ce289ba80b132d7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-stall-observation.json",
-      "sha256": "sha256:a3f40a813bacd6e3e3a34e042f5b01fad6c3690ee2ce9ac1b4906bbbddcc4c66"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-cleanup.json",
-      "sha256": "sha256:93173de9219113ef11c285a1eb37371d9b6fad550156a24e31caa5a319345248"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-review.json",
-      "sha256": "sha256:e2538701ec5a0ebe51f643456b3fafa29d48891fd509b926b1489925da6f3790"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-x64-failure.json",
-      "sha256": "sha256:c07b3c1613a930e40e800efc5b431dc6b0b9b75b73057861452e56fc73ccdee7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-cleanup.json",
-      "sha256": "sha256:caee7fc8476143fb698764d61108beb9dd55fbd99e3bcd8316ca94c58bc2e0f9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-failure-review.json",
-      "sha256": "sha256:7080e5d2ba181b77ca3df13057aed9337435786cb17620f49e70e31cab6496cd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/current-c90-result.json",
-      "sha256": "sha256:36a25c281ea0abb8d4a2185df1cd58b5ec587c2ce0ae84105de59a4a3f71b7e3"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-guest-build/twenty-first-current-review.json",
-      "sha256": "sha256:18f7d64d1d9ca061609127f6e344c24e45f09ff9ebf453e71567b36ff1dd507f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:aea23837ade6345278090bcfb7ead9cef6a3976e0057be6b7875127932d8b185"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
-      "sha256": "sha256:b2c84b4201ee35a53c1d92523775bb64455ec38b1c8c4cd3b2fc37e458e39d7f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-review.json",
-      "sha256": "sha256:f063a407330034623dab3dc202f82afac145cfc0c26564786119ee4e89af02ff"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-dacl-create-failure.json",
-      "sha256": "sha256:7f645c4324add9610ab3d3a7929eddedf7636938a113dcf8b907721e705456bf"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-cleanup.json",
-      "sha256": "sha256:742294bb4318e3cab74f469f6bf56c3069246c49632b91c8b5fda93e70dd788c"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-dacl-create-failure.tar.xz",
-      "sha256": "sha256:6c816e503f0e051ad8f8b0e740f8a9c87bf86d69f1e75255028e1c9eaeaf97b6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-review.json",
-      "sha256": "sha256:cd69800ad96e6197b5585cbf7a0375434791387f4901fa4fc8bf1270d2f85179"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-dacl-reopen-failure.json",
-      "sha256": "sha256:815b6459cc0b89cadd79e8ca7d0bde2a4a78b0b5c21e32f98af427399dfc2c53"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-cleanup.json",
-      "sha256": "sha256:8f7b5195b25dd3d2b9c944081c79939aafc91bd571bdc3ace598cc51b90ff514"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-dacl-reopen-failure.tar.xz",
-      "sha256": "sha256:6b544730904343eca83a70354471b4fe7525632bf89cb5903493ed120b8d2c0d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-review.json",
-      "sha256": "sha256:cd39a219738af360051dc77b948ef2bbf1b1aff91eea39bbec57fe52a5d79854"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.json",
-      "sha256": "sha256:c2503bf0fe178f9374e195e5ab2534f63ec416af81cf18c680230d215350eab8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-cleanup.json",
-      "sha256": "sha256:69e0bc87255d2a1193b7ae8eae6f0ed08097f2ec5e0c20a3cd1753f9eb22e9e0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.tar.xz",
-      "sha256": "sha256:5da53265947211fcd511cb57bebacda31e4d755b03d2301815901f4b125e1520"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-dacl.py",
-      "sha256": "sha256:e0f0ebb0562fc56743f4d8643bf66ff3104b48357d7aa613266c6adc5ca57688"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-review.json",
-      "sha256": "sha256:e03e22aaae271070faf45c51e695dc8b55ba10e2359d1abc3b77a5cf69e4ce78"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-fixture-ipc-failure.json",
-      "sha256": "sha256:0b1e16ee9ccbec21aa0df0a6e80f3aadef45b012c3116a56318ebd8a3e0527f2"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-cleanup.json",
-      "sha256": "sha256:1a37ba98f715079bdea067ff73a3c3d9becbc7d0bb01a8c736e55ecd37427e78"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-fixture-ipc-failure.tar.xz",
-      "sha256": "sha256:ac219675796f9880c7e8e5ed3388b26741126339f7252b53273f885b4921f725"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-review.json",
-      "sha256": "sha256:4e50711a65bad7db188ffa37ee25010966d6b930c868e1ab4b999833a480b551"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-source-denial-proof.json",
-      "sha256": "sha256:dfc66af490e773456ee54ec3b105f5d4cb63230f57ea2d3fb77a0451097c901a"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-cleanup.json",
-      "sha256": "sha256:e552977fb05698f6ae8619aa975ac1f198cbb437f709d139452cbcc3c3f6965b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-source-denial-proof.tar.xz",
-      "sha256": "sha256:8ae269a5462eec6e304fddac796856d63c78ea8a0a49dbbdabd17b064dab8a97"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-review.json",
-      "sha256": "sha256:dde4534f5169208292391f6d9cd824c2271b5db5bb926273224f5951971b95f3"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-fixture-proof.json",
-      "sha256": "sha256:a22c8fa7de3e293dd3f11871b5b32d0d3d8097b83461c895b3ecdd7fbe54bb7b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-cleanup.json",
-      "sha256": "sha256:64e8e78997734b7e82988e425ec43d7c72c5df675f16960eb4bced48b9cd65fc"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-fixture-proof.tar.xz",
-      "sha256": "sha256:15b17b67514f49535b6fe2335414976e845b39a5cd653e7d0ddf4958ce29edbc"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-review.json",
-      "sha256": "sha256:6480c2a81658f177085502b26df08f46768ccec891bb48c252bf2b0370b41961"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.json",
-      "sha256": "sha256:1db8c738009389c77e46b2c5101206c595f63328c3a61f39c1d82f8a2ca50018"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-cleanup.json",
-      "sha256": "sha256:3fb3407faa964e09ff343758416045a01dbcaea64a912b40acda89ccd2b64577"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.tar.xz",
-      "sha256": "sha256:1795b39499bcb9754ca269db1620497007e393b1c18f953897b5f315279b48d8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-review.json",
-      "sha256": "sha256:ce8fc1587f31296972e8dd17767558906092c0a0612adf27c5592887ae72af68"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-publication-proof.json",
-      "sha256": "sha256:4307147ccd1f513b01817ea176327144c16166f1b30b8cf4ee3139c9cccbdded"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-cleanup.json",
-      "sha256": "sha256:07df8c33878fb5c1af81fd24e671b3d8fa6fde3653c28a8f29fdfc81364a1817"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-publication-proof.tar.xz",
-      "sha256": "sha256:92ac5945f8a7310e73938a51e973c66caef2c4a9502872ba78746a92a3cd3ac5"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-review.json",
-      "sha256": "sha256:6ff53402008e2393e369f09f335cbbb989e5fdf8a45bf3e8c84c35c5760096fd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-focused-replay.json",
-      "sha256": "sha256:fa3bcc54e40a991163480d8297b301fd889ccf9e9c92dfe594385cd0807ef2e6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-cleanup.json",
-      "sha256": "sha256:ef6a9b3eb6dfc5aaade18b8a4e2d3d553b01458340863cb108a720ea5584acb7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-focused-replay.tar.xz",
-      "sha256": "sha256:8540e902604481773501de26249880847e3b9c7d17bf899e42f6139761c2d39b"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-review.json",
-      "sha256": "sha256:4012060cbf9cc18825f968bb08d86a66dadc587e8d2622859f59077e3990dccf"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-gui-watch-replay.json",
-      "sha256": "sha256:5d123de88d15c74dadd08ac598b479842bb81d176334923e78736d5df261c8f6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-cleanup.json",
-      "sha256": "sha256:1496b962df561499509b848b3b8ac3dd3aa75ca60c092eee1df9ebc7aeba1fd4"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-gui-watch-replay.tar.xz",
-      "sha256": "sha256:c2afed60c7abea151d64dea1388973cd235513df8870e7bfb07c709bb40b4700"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-review.json",
-      "sha256": "sha256:9412916be6753f7de1d4dc5a89f0c8d92864f6a267fbee33799da0f5e83b67a7"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-gdi-memory-proof.json",
-      "sha256": "sha256:b86fac362c5440195b4c3ba59d91581ed31e8ca858a1f2b33112104e558d9273"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-cleanup.json",
-      "sha256": "sha256:44d85d746b3295dbbfa215e12e5704e915da5440688cff96a357433d6f5d67c1"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-gdi-memory-proof.tar.xz",
-      "sha256": "sha256:dc9598d4f2a3d3d68fe026c4e1e98d87d7648802a47697a8a3379b1935cc371f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-gdi-print-proof.json",
-      "sha256": "sha256:5d51602f54d3f827d9f3b76fd8dfa085d20865c15e12adc14a4e6f1b1a717317"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-cleanup.json",
-      "sha256": "sha256:39c3208d64b15fa70f1d025c83259989307ff03dd143d5c7b4210072cfdd92f6"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-gdi-print-proof.tar.xz",
-      "sha256": "sha256:771e101c28e397a9473303920934416e0602ed75e9b974d8cf841ec25b5e3b4f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-review.json",
-      "sha256": "sha256:5bcb885f3f8de9ebb58e1d7e0955b236633a0d077f22290dc6dd54d6ed914c2f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-review.json",
-      "sha256": "sha256:ad28ff09bc91990b0c9188408613409bae9572356a899cc508fdd00cd9e6e6e0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-window-dc-proof.json",
-      "sha256": "sha256:1c308ef698d3f8510e2d70bd5ab3da0628d68b208f6b0f036f1534d2a97b9549"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-cleanup.json",
-      "sha256": "sha256:4084e407f4e6f4ae8c4de153e581ab4502585dc9a9f043bf946295f135b29427"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-window-dc-proof.tar.xz",
-      "sha256": "sha256:eec0a09cba5de61e6f18243a4ac32c9760f2c0f07d5cf5ccd11132ed824243ff"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-review.json",
-      "sha256": "sha256:647e615a12f768ae99293e31da33be623e6b50cbe134901d09e6f2acbd16e17e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.json",
-      "sha256": "sha256:480093e8242958990c3b057a8a4df9802717b7f87d695a062404637457944a47"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-cleanup.json",
-      "sha256": "sha256:a9aca42c2a059839423b0c55bfa4193da7c6a548cde6e16062fff9cba60c76cd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.tar.xz",
-      "sha256": "sha256:9144478285c152cc23582b07a95f9ef48953e1139d01b0d527c0c52dfc48ddfa"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json",
-      "sha256": "sha256:de076dd26408ad4bb6f23208d5c7554d3ab64dfb7b70f98b5e3cf2c73f51c3c8"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.json",
-      "sha256": "sha256:cbee66023c8e2670f644763335ce87eac7dd4d3f5e7b90a98e40149970b61f29"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-cleanup.json",
-      "sha256": "sha256:9208346deae85dc4224f0df74264b535fb8e8167a9e8c2187b565282f22264f0"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.tar.xz",
-      "sha256": "sha256:75288e5bc6b78162e0d04600f87b55d323d1d3e9fab70c608a29028d996667cf"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-red.json",
-      "sha256": "sha256:321d92afedabc02d933bcb9919be437dc09e1807fb9f5cc57b5d47db53efc31e"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-green.json",
-      "sha256": "sha256:3d57089d886946e0d17d95a2e95cde9c7db5383a39cff71136a9272d7de8a565"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:ef69f4860079d91604223b293e65e14680e5818722afcd61c73405b5a348e611"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-review.json",
-      "sha256": "sha256:9fb363fe53e88d73f80b8b3dea20fc38202c67d5e7447a36af706049c6885465"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-pin-preflight.json",
-      "sha256": "sha256:12126288300c1bd740e626e46af1c3540a32eac8199aa32c86c9150789a81177"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-cleanup.json",
-      "sha256": "sha256:30030735b5e4def45551fdad9f74698f84507a71698ec62f7dc6c7510df6c0d2"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-pin-preflight.tar.xz",
-      "sha256": "sha256:d8b5a83fdacc4b898b34a3af893087197d17f8172c86df2b2b462f6546a37a31"
-    },
-    {
-      "path": "tests/resilience/test_gui_waiting.py",
-      "sha256": "sha256:fcb5481ad5a8980d48802fccf66428d911e0b3778757b2b3b5c3273b607ebd0f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
-      "sha256": "sha256:5654a5a72bc708af3431fcec2c22dbbc39dac7a7fd02c7245154629aa4e967ff"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
-      "sha256": "sha256:069f45b083e97d585e0d08419a9b66e7abdc48d5b05bceb60410713de1582557"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
-      "sha256": "sha256:b2e293ada18aab1edc6516149575d23a11ebcbb477c7462c553273ed005dff87"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
-      "sha256": "sha256:b54feef0f0dc00b54681c15ba1ac84fc9d48bc28b52681bbe9e2223b4b3c950f"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-cleanup.json",
-      "sha256": "sha256:1c4f74fae27617999fc33be991a00a4a9dd540bea827a7b03f9a7b6c194831dd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.json.xz",
-      "sha256": "sha256:6d7dc5401a90ad57feabfd983142980a770199f352429bafb2da72cb4b29963d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.tar.xz",
-      "sha256": "sha256:874ac908e150884372818396591f04dbf0f08e55721707e2a73346cc02562c3d"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-review.json",
-      "sha256": "sha256:3f3effe7c9d5ce1649080035e74ff4e34e6d65ffce2ab8774210ac2b33b899f3"
-    },
-    {
-      "path": "spec/interaction/tui-and-gui.md",
-      "sha256": "sha256:0aeda60dd53ab0474889e56a7ce4207657639d9fdfdd0c5a94fa484d63592cf0"
-    },
-    {
-      "path": "docs/native-bootstrap.md",
-      "sha256": "sha256:0a6f95dfeb031f625db18f65f7f39a03fe76f245c9cf543c1cda672194397416"
-    },
-    {
-      "path": "tests/tools/test_window_capture_review.py",
-      "sha256": "sha256:4a8c06e68e127a8e45d2f960bc89954aa9415e1d38d66e0ada57ec45280577d4"
-    },
-    {
-      "path": "tests/tools/test_window_capture_control.py",
-      "sha256": "sha256:422bd52f197bcb50d64a9005ac0ff307cf0ed845ffd78d689604221f39042c16"
-    },
-    {
-      "path": "tests/tools/test_native_stop_request.py",
-      "sha256": "sha256:29e7c2259cbbd1b9c62dd6649dd6be173153891cfaf86127a194b4e810d3ea1a"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-cleanup.json",
-      "sha256": "sha256:9946c8b86c14a55c10c8c25425fc347940cf11ec5dc00e6638cba4287c524393"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.json.xz",
-      "sha256": "sha256:7c5a95017dbca0508f99dcea316547070001f9b8d43ac65c22aec7d74c367a43"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.tar.xz",
-      "sha256": "sha256:c752326763fecaa07619c28dd0fbf152973558d9510f477723cd810bc226a299"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-review.json",
-      "sha256": "sha256:8933bb276bb1179944442c9f780af5e3906d06c5d6ac9315a52dbf3db0345a58"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json",
-      "sha256": "sha256:e3a513b3837c5801ba0c96e04153c8ec9ed88b6cb06249aa44831b81a5d14042"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/candidate-qualification-applicability.json",
@@ -1733,8 +845,508 @@
       "sha256": "sha256:8cea0d94e14a5c43722f259911859fc3d66074759a84409c52de6a1920f49269"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:55b6ed72097eccdc89109f9ac01f6885aa7501f3e9169c0f69001f138b26d5e2"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json",
+      "sha256": "sha256:e3a513b3837c5801ba0c96e04153c8ec9ed88b6cb06249aa44831b81a5d14042"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-green.json",
+      "sha256": "sha256:3d57089d886946e0d17d95a2e95cde9c7db5383a39cff71136a9272d7de8a565"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-red.json",
+      "sha256": "sha256:321d92afedabc02d933bcb9919be437dc09e1807fb9f5cc57b5d47db53efc31e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-and-sparse-checks.json",
+      "sha256": "sha256:f909ca475a808905ca9781694f3e00c85b68392721c8401b82ee7209503472ce"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/closure-regression-before.json",
+      "sha256": "sha256:6283063838f87ae662a56b76396bc64fbbdd46656aeb04b9098a0ec901957a8c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/current-c90-result.json",
+      "sha256": "sha256:36a25c281ea0abb8d4a2185df1cd58b5ec587c2ce0ae84105de59a4a3f71b7e3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
+      "sha256": "sha256:fa67d5b2cf252e8d6799d21c670f315baff07043fe71815827d0f34fa4e68cee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/desktop-security-review.json",
+      "sha256": "sha256:2e324473312f2ad61baff324be8db46e5a99fa94b8c66c95555054d8a059c128"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-cleanup.json",
+      "sha256": "sha256:4de58fd61eb88cbdd52db8ece1bb359f224c7f0025c1e358ecda1f09c790b537"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-focused-gui-startup-failure.json",
+      "sha256": "sha256:148769e4c6d5719dad6a5c3286191e1ca25645a42a9be75c2cc3c4c45cd8743d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eightieth-focused.tar.xz",
+      "sha256": "sha256:be34b07818eedf791b1f6e843fddd5866e26a2f805ef9b4bdcae38ca057acee9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-cleanup.json",
+      "sha256": "sha256:93173de9219113ef11c285a1eb37371d9b6fad550156a24e31caa5a319345248"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-parallel-stall.json",
+      "sha256": "sha256:e0f2e129f77ad1d8e310eba0252cd6e7f70eb4034779378e2ce289ba80b132d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-review.json",
+      "sha256": "sha256:e2538701ec5a0ebe51f643456b3fafa29d48891fd509b926b1489925da6f3790"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-eighth-stall-observation.json",
+      "sha256": "sha256:a3f40a813bacd6e3e3a34e042f5b01fad6c3690ee2ce9ac1b4906bbbddcc4c66"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-backing-growth-stop.json",
+      "sha256": "sha256:78ea07ac97dcbce8730da80b313f656e84ebdde65d63f209825aee2c988cda1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-cleanup-recovery.json",
+      "sha256": "sha256:208b8a9b2cc21dfb1c2323e100760524a92373cf09d430c296ada4a36ffe61c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-delta-retirement.json",
+      "sha256": "sha256:dc2e0cdfcdf4e4c8e6502951fbd9e037e169e4c3d304bf693a53b35aec7f6768"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-review.json",
+      "sha256": "sha256:1874b3e9f1d457bc5a5a865b07e705220d6a562d5dee4405c0f44c894a1f5ce9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-cleanup.json",
+      "sha256": "sha256:973087c8aee2bb39d57fb272d283c99f1fdebafa87d92ab5ba3cd25fb131f89b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-first-descriptor-readback-failure.json",
+      "sha256": "sha256:1c92f1afe5de302f9c6bbdd38c006ad822a1e951f43fa7636ad9ca09ba85f10a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-cleanup.json",
+      "sha256": "sha256:e78a1e804f21a12effb8311410ee775a685dd45207ddaab92f7d52e89e350c61"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-focused-pass.json",
+      "sha256": "sha256:4f7cf2a12f8fe7a850a49ac3a5f0ae1deae264bbd421d0d44e2bfe59a32a980b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fourth-focused.tar.xz",
+      "sha256": "sha256:7f50f8df3121458c36d94d3cde192238fb3028144e00c46521ccd0942168a49d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-cleanup.json",
+      "sha256": "sha256:caee7fc8476143fb698764d61108beb9dd55fbd99e3bcd8316ca94c58bc2e0f9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-failure-review.json",
+      "sha256": "sha256:7080e5d2ba181b77ca3df13057aed9337435786cb17620f49e70e31cab6496cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-x64-failure.json",
+      "sha256": "sha256:c07b3c1613a930e40e800efc5b431dc6b0b9b75b73057861452e56fc73ccdee7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-cleanup.json",
+      "sha256": "sha256:54a9ae8eb69fa8d955340dcf44d8859cfc48c251c34ed07861fb594936cfedc8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-second-desktop-format-refusal.json",
+      "sha256": "sha256:eb3a6f61b107fad426c0bd2bcf80c0fc304d398596077dd4cb12187cdc198c6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-cleanup.json",
+      "sha256": "sha256:08cc96df262c500e676a413810ec734de307e19ebba52739821d9e0d1ef8f7f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json",
+      "sha256": "sha256:2d8efdd5207500abf260fa52a14527af13d7e07026fdb4082bd48933d565f30e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
+      "sha256": "sha256:af53730457980956a4189a79d3ce67777516a0b6a1d726a9ba8ddd90779495c3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-cleanup.json",
+      "sha256": "sha256:7739440ca01b1b0203ff009b7271359ef0f060dc9a1d238c8741da5067cccfe8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-preflight-timeout.json",
+      "sha256": "sha256:7ef5f8c09bb0c9dc04d6a0614df19989660aae12ffc1e560d6c6bee041898d9b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-review.json",
+      "sha256": "sha256:e5bc56a2b7d213830fc8aaf673e08622a1492d57fc928ccf5fc550f02c365f99"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-cleanup.json",
+      "sha256": "sha256:72252ef7aa7366e3eefaab89f75f3bcf400c202bca74c80542efa7f81008748f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-third-owned-desktop-pass.json",
+      "sha256": "sha256:acbc16c883d4ea615cb675f904f344eca5f05682d04bdff2b992c378a8bcc083"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fiftieth-schema-closure-refusal.json",
+      "sha256": "sha256:e6f042497502298d0892ac6b8d492bcc5ed2fb6778f1c6ca0716912af5fb74c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-cleanup.json",
+      "sha256": "sha256:835e3013342d025a7fe7ac18c121c8a02e4a27b2c0d0b164c010cba186ab8aa2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle-failure.json",
+      "sha256": "sha256:3d07f2946e9c600f53c2d052dd95c13784b070da2e177a95054d8acfa3ae3014"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-eighth-appcontainer-handle.tar.xz",
+      "sha256": "sha256:ad959346a6e8f1946fa589526f345361b1e3bf4ca0410fea2884f8fbd99ba174"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history-cleanup.json",
+      "sha256": "sha256:e5f8e77edf6c7316636d1e5299ef97f0faeaa942a1caf00e018f6c7c25e2711c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history-timeout.json",
+      "sha256": "sha256:62c563cf54e17f75b96d3ef752eda8467fbf9506b406c6c54cae03f9bf421eea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fifth-focused-history.tar.xz",
+      "sha256": "sha256:29c1c3b09b16029f0c15923cb8b03ec3d562ba3081f9406c81131c3cbf66529f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-cleanup.json",
+      "sha256": "sha256:40fa01c59e73122aba346f1929d235d35f3fd2351fe79d24a437f538836ea83d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-first-file-export-pass.json",
+      "sha256": "sha256:6f5ee7872cbb64b366c1c7c5a526cdaf4253031e59fb5f5391744bca8ae47818"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression-cleanup.json",
+      "sha256": "sha256:dbc766868e5341adb3c1d76fe6d12dbc6a94e5122bee7814b1ca2e746cd7444f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression-pass.json",
+      "sha256": "sha256:78b2e2c0cd7973b355ec3702e6c74769e438ff442b24736357464316a940a097"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-fourth-cleanup-regression.tar.xz",
+      "sha256": "sha256:97cac5bb1446dfa63370996c7aabf77f4d49ebe67345f7f401c7dd1ed66e6de7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-cleanup.json",
+      "sha256": "sha256:ac29b5e5bc67e93bcc049bdcac6c7813a8c0360b8d2b35e7e833cff4f910ce09"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json",
+      "sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic.tar.xz",
+      "sha256": "sha256:ff2dddc6484d4893d70433641c4f5c54d782413c457cdbc34ea01bf7d807fb43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-cleanup.json",
+      "sha256": "sha256:38b91cfe7922955864605658c0ec625eb5d24e636ae800f2094486ef7d2f07c6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat-timeout.json",
+      "sha256": "sha256:ff72e7df313b3c9fe96867f8e0fc13f77b51123c59f6d98dcf7433d8aa49dcfd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat.tar.xz",
+      "sha256": "sha256:7f0dc51da61a3a448600d4ebe8d5fe3dc2ae41fefe2cd1811eadedee0a1f68cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive-cleanup.json",
+      "sha256": "sha256:54d353d82f24afdba06f3ad200107834f9778fe76004cbdae12aff99dbda5760"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive-defect.json",
+      "sha256": "sha256:1a0149e1400feb7badd628eeb326c68a3697f69fdaf0f7d0e3ec1129d98d0d5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-seventh-invocation-archive.tar.xz",
+      "sha256": "sha256:9cc2be71bd35e94147adde24859a1f516d1380bab28c4130b98ad092338a01c9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io-cleanup.json",
+      "sha256": "sha256:62139e779b6e5e294419501a29d82f5f456164bcc809e9ecebc3264971310454"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io-pass.json",
+      "sha256": "sha256:8c4ad43c0be75f4ed06bb81e62f1ade744838c810bc43f1b44bffeb4f0cece31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-sixth-powershell7-and-io.tar.xz",
+      "sha256": "sha256:8d5cefbc9241c43a7f39edde0108b94a921fc54ddac7a4b8ddbce3f2b7cad670"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-cleanup.json",
+      "sha256": "sha256:becb6d986ce039700bd36f810d28b2ffb0f880ccfd68f587ce3b660299063643"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
+      "sha256": "sha256:a8c2893bc62421e10476c8975534238b8b3b2c8fafcd4d47164c031519bc8472"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute.tar.xz",
+      "sha256": "sha256:527eb221ef99dff41be0a32300da3d14d472c8add9afe9077b2c96ad998cec5a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
+      "sha256": "sha256:6da7921ef39e354b32c91c7c4a9cc93da5fab8bc02a8e3c384d925800f02f800"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-dacl.py",
+      "sha256": "sha256:e0f0ebb0562fc56743f4d8643bf66ff3104b48357d7aa613266c6adc5ca57688"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
+      "sha256": "sha256:b2c84b4201ee35a53c1d92523775bb64455ec38b1c8c4cd3b2fc37e458e39d7f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
+      "sha256": "sha256:aea23837ade6345278090bcfb7ead9cef6a3976e0057be6b7875127932d8b185"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-cleanup.json",
+      "sha256": "sha256:8cf70ec75089f709b29e47dfd9d278db3d8ed06730e2d90f4755cd6fffc3f092"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-full-x64-cap-failure.json",
+      "sha256": "sha256:57358973a4800f5e645ffee325f76eec884121f933b34fc3a5e982cb402b0b54"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-eighth-source-retirement-recovery.json",
+      "sha256": "sha256:b934217a41f7fd1499841a61a07353535f6b1bbfacdca8e56b4a0d93caa1d80c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-ninth-powershell-profile-pass.json",
+      "sha256": "sha256:f9e2552c0d71fc679aa613f5bc4079df03d8cadefd1dda5711e72fdef247da27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-second-full-build-first-native-failure.json",
+      "sha256": "sha256:5e3ec6496ea68d678d84baca284882f51dca99870f97936b969ad5db31f7866b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-cleanup.json",
+      "sha256": "sha256:652bb5c76d4a078c53f287c9f929eaee62ade615493cf0441b47d138460d9119"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-seventh-medium-fat-review-pass.json",
+      "sha256": "sha256:23bca1a0cea8f82c8b18c9f677f354d7e4be0507512d3ed1db33b710c54d29ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/forty-sixth-native-low-integrity.json",
+      "sha256": "sha256:bc549d3956912fd570f6a11acaf32df2a1049270d2ab32c5d912cb975d83ad69"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/full-build-review.json",
+      "sha256": "sha256:7beb5bf6d74d6a783f0a76fdd1f9d204290fedc7fa8531c1501d0f80fc098fe7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/history-timing-review.json",
+      "sha256": "sha256:56ecb41f850e5e3f49b5295606a3d5b02865e4305f56554e44f814e5ff7ade7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-check.json",
+      "sha256": "sha256:8d8a13a1b0d9608b8228caf4165e6a70b0cf9bb8f90f3e2faee74ff8984ff165"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-plan.json",
+      "sha256": "sha256:f04b02fa1b5eecca764abe87e58f909238340688e6050c237bd601c5014c0727"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-session-review.json",
+      "sha256": "sha256:2ebd51b8ba97a93e80fa117a26ddc8372a81f9c2056ab1bf917ba0aa8c56f7a3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
+      "sha256": "sha256:b6eff7ba78f5d285903f4f2a96bff7ed76b229718fbed483d1ee75e0efc298d9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/invocation-partition-review.json",
+      "sha256": "sha256:338d78951341259782d5d12a53d4bb67e5235c75fbf77829a393fa8579c7f0eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/memory-journey-expectations.json",
+      "sha256": "sha256:f73ac5b2acfb15424febcf1e0466424157b5e34428e05a928eb9d00a889b00cb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/namespace-coordinator-read.json",
+      "sha256": "sha256:7fddfbb37c9835133081097d3940059d9c00b840463be561b36e675dcb957130"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
+      "sha256": "sha256:f4bccd6abdd80078a791ac2fcfd753ec0f39fe01e2d1a53daef8a8f08f2be6bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-cleanup.json",
+      "sha256": "sha256:742294bb4318e3cab74f469f6bf56c3069246c49632b91c8b5fda93e70dd788c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-dacl-create-failure.json",
+      "sha256": "sha256:7f645c4324add9610ab3d3a7929eddedf7636938a113dcf8b907721e705456bf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-dacl-create-failure.tar.xz",
+      "sha256": "sha256:6c816e503f0e051ad8f8b0e740f8a9c87bf86d69f1e75255028e1c9eaeaf97b6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninetieth-review.json",
+      "sha256": "sha256:f063a407330034623dab3dc202f82afac145cfc0c26564786119ee4e89af02ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-cleanup.json",
+      "sha256": "sha256:ef6a9b3eb6dfc5aaade18b8a4e2d3d553b01458340863cb108a720ea5584acb7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-focused-replay.json",
+      "sha256": "sha256:fa3bcc54e40a991163480d8297b301fd889ccf9e9c92dfe594385cd0807ef2e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-focused-replay.tar.xz",
+      "sha256": "sha256:8540e902604481773501de26249880847e3b9c7d17bf899e42f6139761c2d39b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-eighth-review.json",
+      "sha256": "sha256:6ff53402008e2393e369f09f335cbbb989e5fdf8a45bf3e8c84c35c5760096fd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-cleanup.json",
+      "sha256": "sha256:64e8e78997734b7e82988e425ec43d7c72c5df675f16960eb4bced48b9cd65fc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-fixture-proof.json",
+      "sha256": "sha256:a22c8fa7de3e293dd3f11871b5b32d0d3d8097b83461c895b3ecdd7fbe54bb7b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-fixture-proof.tar.xz",
+      "sha256": "sha256:15b17b67514f49535b6fe2335414976e845b39a5cd653e7d0ddf4958ce29edbc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-review.json",
+      "sha256": "sha256:dde4534f5169208292391f6d9cd824c2271b5db5bb926273224f5951971b95f3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-cleanup.json",
+      "sha256": "sha256:8f7b5195b25dd3d2b9c944081c79939aafc91bd571bdc3ace598cc51b90ff514"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-dacl-reopen-failure.json",
+      "sha256": "sha256:815b6459cc0b89cadd79e8ca7d0bde2a4a78b0b5c21e32f98af427399dfc2c53"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-dacl-reopen-failure.tar.xz",
+      "sha256": "sha256:6b544730904343eca83a70354471b4fe7525632bf89cb5903493ed120b8d2c0d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-review.json",
+      "sha256": "sha256:cd69800ad96e6197b5585cbf7a0375434791387f4901fa4fc8bf1270d2f85179"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-cleanup.json",
+      "sha256": "sha256:e552977fb05698f6ae8619aa975ac1f198cbb437f709d139452cbcc3c3f6965b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-review.json",
+      "sha256": "sha256:4e50711a65bad7db188ffa37ee25010966d6b930c868e1ab4b999833a480b551"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-source-denial-proof.json",
+      "sha256": "sha256:dfc66af490e773456ee54ec3b105f5d4cb63230f57ea2d3fb77a0451097c901a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fourth-source-denial-proof.tar.xz",
+      "sha256": "sha256:8ae269a5462eec6e304fddac796856d63c78ea8a0a49dbbdabd17b064dab8a97"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-cleanup.json",
+      "sha256": "sha256:1496b962df561499509b848b3b8ac3dd3aa75ca60c092eee1df9ebc7aeba1fd4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-gui-watch-replay.json",
+      "sha256": "sha256:5d123de88d15c74dadd08ac598b479842bb81d176334923e78736d5df261c8f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-gui-watch-replay.tar.xz",
+      "sha256": "sha256:c2afed60c7abea151d64dea1388973cd235513df8870e7bfb07c709bb40b4700"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-ninth-review.json",
+      "sha256": "sha256:4012060cbf9cc18825f968bb08d86a66dadc587e8d2622859f59077e3990dccf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-cleanup.json",
+      "sha256": "sha256:69e0bc87255d2a1193b7ae8eae6f0ed08097f2ec5e0c20a3cd1753f9eb22e9e0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.json",
+      "sha256": "sha256:c2503bf0fe178f9374e195e5ab2534f63ec416af81cf18c680230d215350eab8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.tar.xz",
+      "sha256": "sha256:5da53265947211fcd511cb57bebacda31e4d755b03d2301815901f4b125e1520"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-review.json",
+      "sha256": "sha256:cd39a219738af360051dc77b948ef2bbf1b1aff91eea39bbec57fe52a5d79854"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-cleanup.json",
+      "sha256": "sha256:07df8c33878fb5c1af81fd24e671b3d8fa6fde3653c28a8f29fdfc81364a1817"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-publication-proof.json",
+      "sha256": "sha256:4307147ccd1f513b01817ea176327144c16166f1b30b8cf4ee3139c9cccbdded"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-publication-proof.tar.xz",
+      "sha256": "sha256:92ac5945f8a7310e73938a51e973c66caef2c4a9502872ba78746a92a3cd3ac5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-seventh-review.json",
+      "sha256": "sha256:ce8fc1587f31296972e8dd17767558906092c0a0612adf27c5592887ae72af68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-cleanup.json",
+      "sha256": "sha256:3fb3407faa964e09ff343758416045a01dbcaea64a912b40acda89ccd2b64577"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.json",
+      "sha256": "sha256:1db8c738009389c77e46b2c5101206c595f63328c3a61f39c1d82f8a2ca50018"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.tar.xz",
+      "sha256": "sha256:1795b39499bcb9754ca269db1620497007e393b1c18f953897b5f315279b48d8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-review.json",
+      "sha256": "sha256:6480c2a81658f177085502b26df08f46768ccec891bb48c252bf2b0370b41961"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-cleanup.json",
+      "sha256": "sha256:1a37ba98f715079bdea067ff73a3c3d9becbc7d0bb01a8c736e55ecd37427e78"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-fixture-ipc-failure.json",
+      "sha256": "sha256:0b1e16ee9ccbec21aa0df0a6e80f3aadef45b012c3116a56318ebd8a3e0527f2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-fixture-ipc-failure.tar.xz",
+      "sha256": "sha256:ac219675796f9880c7e8e5ed3388b26741126339f7252b53273f885b4921f725"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-third-review.json",
+      "sha256": "sha256:e03e22aaae271070faf45c51e695dc8b55ba10e2359d1abc3b77a5cf69e4ce78"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-cleanup.json",
@@ -1753,24 +1365,68 @@
       "sha256": "sha256:db9095af0eeb04bd6e4acb746ac4ab8e6d0decd585b7b4c2c2cf978c2bca3e0e"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
-      "sha256": "sha256:c444b01996a41c870ca8d25887521d6d5e60df631414fa69130415bfd5319d5c"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-cleanup.json",
+      "sha256": "sha256:4084e407f4e6f4ae8c4de153e581ab4502585dc9a9f043bf946295f135b29427"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-      "sha256": "sha256:02890a14e0b7baa1dfd73900c08fad6d4b5a1f6e383a8c239e4c2760873ea2a2"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-review.json",
+      "sha256": "sha256:ad28ff09bc91990b0c9188408613409bae9572356a899cc508fdd00cd9e6e6e0"
     },
     {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-      "sha256": "sha256:01f63ed10956eb8f404fad26b88af2e9a7d97c9ec5e5581902eba0342d2370f6"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-window-dc-proof.json",
+      "sha256": "sha256:1c308ef698d3f8510e2d70bd5ab3da0628d68b208f6b0f036f1534d2a97b9549"
     },
     {
-      "path": "tests/tools/test_pixel_origin.py",
-      "sha256": "sha256:3f35e9c2b4cc05f95b94d6db8fd979b945ce225a22fe284a6e6a0e0707f68f19"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-window-dc-proof.tar.xz",
+      "sha256": "sha256:eec0a09cba5de61e6f18243a4ac32c9760f2c0f07d5cf5ccd11132ed824243ff"
     },
     {
-      "path": "tools/build-inputs.json",
-      "sha256": "sha256:8e35cd13dfe5b4d83798619d37245c1ee779dcc231af3a3741390e550d69d426"
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
+      "sha256": "sha256:5654a5a72bc708af3431fcec2c22dbbc39dac7a7fd02c7245154629aa4e967ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
+      "sha256": "sha256:069f45b083e97d585e0d08419a9b66e7abdc48d5b05bceb60410713de1582557"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
+      "sha256": "sha256:b2e293ada18aab1edc6516149575d23a11ebcbb477c7462c553273ed005dff87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
+      "sha256": "sha256:b54feef0f0dc00b54681c15ba1ac84fc9d48bc28b52681bbe9e2223b4b3c950f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-cleanup.json",
+      "sha256": "sha256:39c3208d64b15fa70f1d025c83259989307ff03dd143d5c7b4210072cfdd92f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-gdi-print-proof.json",
+      "sha256": "sha256:5d51602f54d3f827d9f3b76fd8dfa085d20865c15e12adc14a4e6f1b1a717317"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-gdi-print-proof.tar.xz",
+      "sha256": "sha256:771e101c28e397a9473303920934416e0602ed75e9b974d8cf841ec25b5e3b4f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-review.json",
+      "sha256": "sha256:5bcb885f3f8de9ebb58e1d7e0955b236633a0d077f22290dc6dd54d6ed914c2f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-cleanup.json",
+      "sha256": "sha256:30030735b5e4def45551fdad9f74698f84507a71698ec62f7dc6c7510df6c0d2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-pin-preflight.json",
+      "sha256": "sha256:12126288300c1bd740e626e46af1c3540a32eac8199aa32c86c9150789a81177"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-pin-preflight.tar.xz",
+      "sha256": "sha256:d8b5a83fdacc4b898b34a3af893087197d17f8172c86df2b2b462f6546a37a31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-review.json",
+      "sha256": "sha256:9fb363fe53e88d73f80b8b3dea20fc38202c67d5e7447a36af706049c6885465"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-cleanup.json",
@@ -1787,6 +1443,70 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json",
       "sha256": "sha256:91d55597480934bf064e79814ed302cb6ab293401bf59b3ed80633a17cc09173"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-cleanup.json",
+      "sha256": "sha256:9946c8b86c14a55c10c8c25425fc347940cf11ec5dc00e6638cba4287c524393"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.json.xz",
+      "sha256": "sha256:7c5a95017dbca0508f99dcea316547070001f9b8d43ac65c22aec7d74c367a43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-operator-stop.tar.xz",
+      "sha256": "sha256:c752326763fecaa07619c28dd0fbf152973558d9510f477723cd810bc226a299"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-seventeenth-review.json",
+      "sha256": "sha256:8933bb276bb1179944442c9f780af5e3906d06c5d6ac9315a52dbf3db0345a58"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-cleanup.json",
+      "sha256": "sha256:1c4f74fae27617999fc33be991a00a4a9dd540bea827a7b03f9a7b6c194831dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.json.xz",
+      "sha256": "sha256:6d7dc5401a90ad57feabfd983142980a770199f352429bafb2da72cb4b29963d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-gui-waiting-pass.tar.xz",
+      "sha256": "sha256:874ac908e150884372818396591f04dbf0f08e55721707e2a73346cc02562c3d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-sixteenth-review.json",
+      "sha256": "sha256:3f3effe7c9d5ce1649080035e74ff4e34e6d65ffce2ab8774210ac2b33b899f3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-cleanup.json",
+      "sha256": "sha256:9208346deae85dc4224f0df74264b535fb8e8167a9e8c2187b565282f22264f0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.json",
+      "sha256": "sha256:cbee66023c8e2670f644763335ce87eac7dd4d3f5e7b90a98e40149970b61f29"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.tar.xz",
+      "sha256": "sha256:75288e5bc6b78162e0d04600f87b55d323d1d3e9fab70c608a29028d996667cf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json",
+      "sha256": "sha256:de076dd26408ad4bb6f23208d5c7554d3ab64dfb7b70f98b5e3cf2c73f51c3c8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.json",
+      "sha256": "sha256:480093e8242958990c3b057a8a4df9802717b7f87d695a062404637457944a47"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.tar.xz",
+      "sha256": "sha256:9144478285c152cc23582b07a95f9ef48953e1139d01b0d527c0c52dfc48ddfa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-cleanup.json",
+      "sha256": "sha256:a9aca42c2a059839423b0c55bfa4193da7c6a548cde6e16062fff9cba60c76cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-review.json",
+      "sha256": "sha256:647e615a12f768ae99293e31da33be623e6b50cbe134901d09e6f2acbd16e17e"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
@@ -1819,12 +1539,332 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json",
       "sha256": "sha256:0da3ae0a3f3dbdda19dd35d95eabc91959bef67d4a6d8b6d4048ba7bfd7c2cfe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-cleanup.json",
+      "sha256": "sha256:a66ad06ff4f8f1a0bf065ffd527bf1a4ff8f48e975d4eb385b3573062050280e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
+      "sha256": "sha256:61bdd173aa901d67e1164f52551278acf6d5045130280f3f473d7720dbdabe51"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
+      "sha256": "sha256:aa67e630961fd6dd3b0e35b6449ee6b00ba35a905a0705259ca8c99fbff7088f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.tar.xz",
+      "sha256": "sha256:252d9a82966af6f91f096ca535371d2d19fe8d098762634141b28ecb4fec8686"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-cleanup.json",
+      "sha256": "sha256:44d85d746b3295dbbfa215e12e5704e915da5440688cff96a357433d6f5d67c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-gdi-memory-proof.json",
+      "sha256": "sha256:b86fac362c5440195b4c3ba59d91581ed31e8ca858a1f2b33112104e558d9273"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-gdi-memory-proof.tar.xz",
+      "sha256": "sha256:dc9598d4f2a3d3d68fe026c4e1e98d87d7648802a47697a8a3379b1935cc371f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-review.json",
+      "sha256": "sha256:9412916be6753f7de1d4dc5a89f0c8d92864f6a267fbee33799da0f5e83b67a7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
+      "sha256": "sha256:a240f69d4adfee175db6315636da97b18af1fa29dc61ac00bac48131203432a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
+      "sha256": "sha256:8508ccc84abe9611ad2b81cd87de1f174d6dec569e4308f9a4ad697e9805f44e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
+      "sha256": "sha256:259d670d94c56f2e101a40cf293e4f10e9bc63ac98dc58d9027049badcf74f9c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-render.c",
+      "sha256": "sha256:c758718f51546942b1aa1f274561e6c414e7f9e78e0bb198a9dd0e2142d79860"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
+      "sha256": "sha256:5d5d9b8a70eac70d835130ae7c2d59d7ca25153236061ca9b7ef4b1c7a55f5fa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
+      "sha256": "sha256:d4c50cc4f819191c67d871b32ab0ee9f753b05e29e977ee29a0199dcb13c804c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-metadata-cleanup.json",
+      "sha256": "sha256:24ba1520cc7e92fb9e56b4500218dd38692b3e5036aa91d322f4348128cbb855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-retirement-scope-error.txt",
+      "sha256": "sha256:683638924cd4870cac93eca6b77c0c8461fe03ca6cea3689d0859009dbc3d326"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventieth-station-startup-matrix.json",
+      "sha256": "sha256:2742214fbeb0333a5191e53cf424e4ed3e14fe58cd90543f95bdc09b5ad58781"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-cleanup.json",
+      "sha256": "sha256:50f8ff8fa75541f5f3b8b17730d380afcc173bd8eb48bf415168c28e34eef188"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-named-object-pass.json",
+      "sha256": "sha256:9cdf3df4bf1b6aa42a9eacd5c0b08dfa681ad38eaeda04cf4a93f6644adce619"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-cleanup.json",
+      "sha256": "sha256:66e67578046407a0eac98e3af6070a40fca5d48d03951e80f3c360d8f422c6b0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fifth-restricted-directory-refusal.json",
+      "sha256": "sha256:9bbc087263b44818a08f1588ef68d7ff61b568b32fbc7ba81f09095824ff6d50"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-cleanup.json",
+      "sha256": "sha256:aca131d91fbe8d75c5420cabc647e21c2a0c2acd7a5a558e4987d5fd900e2aa0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-first-confined-gui-pass.json",
+      "sha256": "sha256:e7563c87134009a5e480c74294beaff80354375352ef7d6cb1259117381977ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fourth-cleanup.json",
+      "sha256": "sha256:db380a921a51cec99bc826e4d4d24bdc1cfaf7604ebda14bc1b4b959cc14f15f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-fourth-object-startup-observations.json",
+      "sha256": "sha256:0a2494b9e614f8036be909f95bdc6425e364b21369262f9af5c29ec0879a0ac2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-ninth-cleanup.json",
+      "sha256": "sha256:d43a395e788874efe2470a49ec48e5eced314bb0a6f23f115df39dbaef6da60b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-ninth-native-memory-pass.json",
+      "sha256": "sha256:ba717a8053722b193089d98765a68a26fbf353dd22135712058759120382bb8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-dispatch-start-failure.json",
+      "sha256": "sha256:f1e75402ecb5fedab6ef9646d4aa0846175e2607ac3eeb7a0cc900e2cd948f87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-null-proof-guard-error.txt",
+      "sha256": "sha256:28cb6c43ed4f426f386af698581ad72ff0ea7493275e864a1ecdac6352677d99"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-recovery.json",
+      "sha256": "sha256:3f9e08d0f28b97d3e820afab2f47fd38848556dcf83a2aba47a67e9ebfe71c48"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-seventh-cleanup.json",
+      "sha256": "sha256:ab48d3bcbca66151e8952c3b1050e432b8c723836def38953e24dbeb89872fca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-seventh-owned-object-trace.json",
+      "sha256": "sha256:127e795cf58bfa0a8bceec761a34bff741ea18f31c67070ffe89e18c495ec610"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-cleanup.json",
+      "sha256": "sha256:9f98d60fe83a9104beb0fecdc7d90c017cf3bc0de4977b1bcfb045b00b203ff0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-sixth-session-directory-refusal.json",
+      "sha256": "sha256:3133e202af476ddd85c4eaa2cca22074bd5f278bcf5224c83f7d1e61fa6e329f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-cleanup.json",
+      "sha256": "sha256:d19c929689a0424b4d120d23d3cfe06dafe13517801be682e1be5186d5a5f40e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-focused.tar.xz",
+      "sha256": "sha256:de52910808f75f7f09acfd7c32b43f367d2792707e900027ae363ef7902005df"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-third-memory-bootstrap-failure.json",
+      "sha256": "sha256:8e73d03b951e05a6f9ab7ede8852fd15a589afb17ff30dddd3ab8ba6cddbfeb9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-cleanup.json",
+      "sha256": "sha256:29e5d4e7128e7e2b889f4c234832bf6328fd5881a127c1e77691c9e9314a7c7a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions-pass.json",
+      "sha256": "sha256:f5563e2d8119f96a8af69d68fb6c5c08c8db1dad26ebf89d327cddcab1de7e3c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixtieth-invocation-partitions.tar.xz",
+      "sha256": "sha256:f5effa765c6258bdd883c45bc661375aa7952ba412df5096b846a9acb2fd48c5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-eighth-cleanup.json",
+      "sha256": "sha256:6448ea483f7078055eea6f75217c077fb36552fec202d0a0401623646d93b613"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-eighth-session-comparison-refusal.json",
+      "sha256": "sha256:cc8227c896ef4ad9bb9a8d94af3a8afb3a8d8061fa452a4fa6c025adb0e93c40"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-failure-review.json",
+      "sha256": "sha256:0e29161693a967d90f31a79ab37490d2e17b5bce0bc6a844d21dcdc6beb95632"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-cleanup.json",
+      "sha256": "sha256:50941fec12937460fca890d46819a0841abc43e50f568e62797ee7159d2ac975"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64-failure.json",
+      "sha256": "sha256:9c1c8949ca88e02df2f8826875b9ded0d213e0002a5cdf78d80092e2ac476982"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-first-x64.tar.xz",
+      "sha256": "sha256:56df3cb0bc32f57cb39e15a5fce622029a1719680eba72d9afc9d0d891f09d31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused-cleanup.json",
+      "sha256": "sha256:e98b97ed1b4cc581320c05fd78dbb24273619dc5ed1e568f5eee61cc65a0d68c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused-ui-environment-failure.json",
+      "sha256": "sha256:a83b8c50cb17b412e8c48b8cc51701d0b6ba39352208da780d8fd795d8512979"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-focused.tar.xz",
+      "sha256": "sha256:2299d24de43980d1450c98d8f9a2bcb1e91a5868d6f38ac7f3b85f365a53659b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-fourth-review.json",
+      "sha256": "sha256:204ce72bf389c466c913cbb1ff9296a78503d456ca8e9a4f9e9dd6642a18c897"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-ninth-cleanup.json",
+      "sha256": "sha256:b9b8273ce96d98cc992d448e5e8af9cad3ffa15ea222730aebf3a90fb59f0d46"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-ninth-private-versus-visible-refusal.json",
+      "sha256": "sha256:236d60cd686abea9b9edc9623592ea3eba1ae1e9c5d810f401374878d7825ee7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-cleanup.json",
+      "sha256": "sha256:5d4aea3a0d50c8b84435430a838a42b002562fa3d077aec99f751bf55944d28e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui-observations.json",
+      "sha256": "sha256:5e56bba3b44c74b96563120f59b4cb2c5fbd1b5a5c711d21e3186ee5185cf6ca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-second-ui.tar.xz",
+      "sha256": "sha256:3bf325ec4be9c577f438d1512f656e4480de74bfa0778615fdc11424665bbe40"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-seventh-cleanup.json",
+      "sha256": "sha256:0ca7927508cb1a92584d7d2fc4abe2013520df5bb6631778c619dbabc2ba4a94"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-seventh-station-access-refusal.json",
+      "sha256": "sha256:655dcc1b734a430d92283d73c714fbbe99727f0efad97a6408f61d704d10c89e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-parser-error.txt",
+      "sha256": "sha256:466843b6da845bec67530d51762943560d1341c9aef141b090767d1eb2f55fc2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-cleanup-recovery.json",
+      "sha256": "sha256:3b8f831825cc8f3f5c4698935d2436b8d71a4c166e5b59453feea78e9443c00d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-derived-cleanup-input.json",
+      "sha256": "sha256:02f37c34a040149459862519d7e230161f33b841ee32ca790f2ad9468b50cc8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
+      "sha256": "sha256:e94b79402f0838f9036dbf49b12e99fe182876237878e209e62f52ebaf585a68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-cleanup.json",
+      "sha256": "sha256:8f2e8df65983410d3843df2d8a3862fa0bc76ff822ca0a5cb3b1ec6548c6323d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console-geometry.json",
+      "sha256": "sha256:ec9eb1355c50fc87373ad9d32732e844e64cafd2d74ebff49855c19bd2e7b1a0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-third-console.tar.xz",
+      "sha256": "sha256:819d45967cb8d1d868c9f55e776541d67abe27c27c1a01821c3cc16a61f2f6da"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/station-delta-checks.json",
+      "sha256": "sha256:454cc685a801eb1aa98e03860e7cf1476e28999b31c730c7d498fbb48b96ecec"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirtieth-full32-pass.json",
+      "sha256": "sha256:b22c2637e884aaf96f1f29a3b372eade7034e7eb69f125830c67a1a87013cb08"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-cleanup.json",
+      "sha256": "sha256:284cddfc97f3f1bb4f74fd33f9dd1abe0412933077bf07222d3d6f8c0a900ad6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-fourth-full512-pass.json",
+      "sha256": "sha256:511f43d5337c7f673f7d150b7e4f02e98ae470931c932f6e7abcc52bfdc6c8c8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-cleanup.json",
+      "sha256": "sha256:e12054c93e8204910afb684f7ea1f620e2dd82c0b57c33eef43dfc5d72dc82d3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/thirty-third-native-store-pass.json",
+      "sha256": "sha256:deaf6559cb0093be371fa67685424a3c9befacc79c4ce2cdcb84214783974fdf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
+      "sha256": "sha256:527fe0f8b597e893cebc43960611456f13af09c8c7683f654c966b93e803c845"
+    },
+    {
+      "path": "docs/native-bootstrap.md",
+      "sha256": "sha256:0a6f95dfeb031f625db18f65f7f39a03fe76f245c9cf543c1cda672194397416"
+    },
+    {
+      "path": "spec/catalog/native-fixture-timeouts.json",
+      "sha256": "sha256:f9c521099508a3d4131494db14b49313fe5e1fe1bd651894bb722fc35b3b7b16"
+    },
+    {
+      "path": "spec/interaction/tui-and-gui.md",
+      "sha256": "sha256:0aeda60dd53ab0474889e56a7ce4207657639d9fdfdd0c5a94fa484d63592cf0"
+    },
+    {
+      "path": "tests/resilience/test_gui_waiting.py",
+      "sha256": "sha256:fcb5481ad5a8980d48802fccf66428d911e0b3778757b2b3b5c3273b607ebd0f"
+    },
+    {
+      "path": "tests/tools/test_native_stop_request.py",
+      "sha256": "sha256:29e7c2259cbbd1b9c62dd6649dd6be173153891cfaf86127a194b4e810d3ea1a"
+    },
+    {
+      "path": "tests/tools/test_pixel_origin.py",
+      "sha256": "sha256:1f9cb500fcd1d3495ca3e4c3d13d740437cf1ac088ca75e4f4151d5d07dd2361"
+    },
+    {
+      "path": "tests/tools/test_window_capture_control.py",
+      "sha256": "sha256:422bd52f197bcb50d64a9005ac0ff307cf0ed845ffd78d689604221f39042c16"
+    },
+    {
+      "path": "tests/tools/test_window_capture_review.py",
+      "sha256": "sha256:4a8c06e68e127a8e45d2f960bc89954aa9415e1d38d66e0ada57ec45280577d4"
+    },
+    {
+      "path": "tools/build-inputs.json",
+      "sha256": "sha256:50a80833a04ea7da690894553f47ae657d6e07d52a68506efe78b2243a926640"
     }
   ],
   "blockers": [
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Run the direct bounded WM_PRINT control candidate with a fresh exact W105 context through --pixel-origin-proof --interactive-ui. Run121 atf313ec6c proves the restricted producer token and fresh-job retirement,but PrintWindow still returns black phaseA pixels;all8 archive entry hashes/cleanup verify,zero backing growth. The new explicit WM_PRINT request records callback entry before drawing and keeps the same independent phaseA/B recipe. Require all pixels,token/job retirement,wrong-surface refusal,actual image review and cleanup. Legacy capture stays disabled;no product/full build or admission yet.",
+  "next_safe_step": "Validate and run the small exact-source owned UI-thread pixel preflight through --pixel-origin-proof --interactive-ui. Preserve all independently fixed RGB expectations,negative controls,actual image review,restricted producer/renderer identities,code pinning,job retirement and cleanup. No product/full rebuild before preflight passes;no product capture admission from a control-only result.",
   "performed_remote_writes": true
 }

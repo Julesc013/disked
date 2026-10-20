@@ -12,7 +12,7 @@ import zlib
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('owned_pixel_boundary',HERE/'owned-window.py')
 boundary=importlib.util.module_from_spec(spec);spec.loader.exec_module(boundary)
-METHOD='owned-wm-print-control/1'
+METHOD='owned-ui-thread-control/1'
 
 
 def producer_environment(env):
@@ -51,6 +51,23 @@ class Broker(boundary.Broker):
         env['DISKED_PIXEL_CHALLENGE']=self.challenge.hex()
         super().__init__(worker,fixtures,image,env,expected_sha256=expected_sha256)
         self.producer_env=producer_environment(env)
+        self.render_sha256=env['DISKED_PIXEL_RENDER_SHA256']
+        self.render_pins=[]
+        try:
+            dll=Path(env['DISKED_PIXEL_RENDER_DLL']).resolve(strict=True)
+            if dll.name!='pixel-render.dll' or not dll.is_relative_to(fixtures.temp.parent.parent):
+                raise ValueError('Fixture DLL outside owned work')
+            self.render_pins.append(fixtures._open(dll,0x80000080,share=1))
+            form,tag=fixtures._form(self.render_pins[0])
+            if (form.directory or form.links!=1 or tag.attributes&0x400 or
+                    fixtures._final(self.render_pins[0])!=dll or not 0<form.size<=524288 or
+                    hashlib.sha256(dll.read_bytes()).hexdigest()!=env['DISKED_PIXEL_RENDER_SHA256']):
+                raise ValueError('Fixture DLL object/hash differs')
+            for parent in dll.parents:
+                if parent==fixtures.temp.parent.parent:break
+                self.render_pins.append(fixtures._open(parent,0x81,share=1))
+        except BaseException:
+            self.finish(quiescent=True);raise
 
     def _read_owned(self,path,limit):
         handle=self.fixtures._open(path,0x80000080,share=1)
@@ -101,8 +118,13 @@ class Broker(boundary.Broker):
             self.producer_job=None
 
     def finish(self,*,quiescent):
-        self._retire_producer()
-        return super().finish(quiescent=quiescent)
+        if not quiescent:raise ValueError('Target job must retire before fixture code unpin')
+        try:
+            self._retire_producer()
+            return super().finish(quiescent=quiescent)
+        finally:
+            for handle in reversed(self.render_pins):self.worker.k.CloseHandle(handle)
+            self.render_pins=[]
 
     def _read_pixels(self,value,job=None):
         phase=len(self.observations)
@@ -112,6 +134,11 @@ class Broker(boundary.Broker):
         header,separator,body=raw.partition(b'\n')
         if not separator or len(header)>4096:raise ValueError('Control envelope')
         observed=json.loads(header)
+        if (observed.get('renderer_pid')!=value['pid'] or
+                type(observed.get('renderer_thread')) is not int or not 0<observed['renderer_thread']<2**32 or
+                observed.get('fixture_hook_scope')!='exact-owned-ui-thread' or
+                observed.get('fixture_dll_sha256')!=self.render_sha256):
+            raise ValueError('Owned renderer identity differs')
         token=observed['producer_identity']
         if (token['pid']!=self.last_producer_pid or token['user_sid']!=self.worker.user_sid or
                 token['integrity_sid']!='S-1-16-8192' or not token['restricted'] or token['administrator'] or
