@@ -92,7 +92,12 @@ class ExtractionTests(unittest.TestCase):
             path,v,data,sel=self.make(16,unit=4096,per=16);q=self.request(path,sel,chunk=4096)
             env=os.environ.copy();env['DISKED_ACQ_TEST_STOP_AFTER']='4096';setup=invoke(FAULT,q,env)
             self.assertEqual(setup['outcome']['status'],'paused',setup)
-            target=Path(q[change]);before=target.read_bytes();target.write_bytes(bytes([before[0]^1])+before[1:])
+            target=Path(q[change])
+            # Preserve the fixture's holes: this case changes exactly one byte,
+            # not the allocation of its entire potentially large source image.
+            with target.open('r+b') as stream:
+                original=stream.read(1);self.assertEqual(len(original),1)
+                stream.seek(0);stream.write(bytes([original[0]^1]))
             protected={k:Path(q[k]).read_bytes() for k in ('destination','map')}
             q['mode']='resume';out=invoke(FAULT,q)
             self.assertTrue('refusal' in out or out['outcome']['status']!='completed',out)

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.file_dacl import DaclFixture
 from support.tempdir import fixture_parent as managed_parent, managed_directory
 
 def sha(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
@@ -48,14 +49,9 @@ def main():
                 if child.poll() is None:child.kill();child.wait(timeout=10)
                 child.stdout.close();child.stderr.close()
         if not a.baseline:
-            advapi=C.WinDLL('advapi32',use_last_error=True);kernel=C.WinDLL('kernel32',use_last_error=True)
-            advapi.GetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p,W.DWORD,C.POINTER(W.DWORD)];advapi.GetFileSecurityW.restype=W.BOOL
-            advapi.SetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p];advapi.SetFileSecurityW.restype=W.BOOL
-            advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[W.LPCWSTR,W.DWORD,C.POINTER(C.c_void_p),C.POINTER(W.DWORD)];advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW.restype=W.BOOL
-            advapi.GetSecurityDescriptorControl.argtypes=[C.c_void_p,C.POINTER(W.WORD),C.POINTER(W.DWORD)];advapi.GetSecurityDescriptorControl.restype=W.BOOL
+            kernel=C.WinDLL('kernel32',use_last_error=True)
             kernel.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,C.c_void_p,W.DWORD,W.DWORD,W.HANDLE];kernel.CreateFileW.restype=W.HANDLE
             kernel.CloseHandle.argtypes=[W.HANDLE];kernel.CloseHandle.restype=W.BOOL
-            kernel.LocalFree.argtypes=[C.c_void_p];kernel.LocalFree.restype=C.c_void_p
             kernel.GetFileTime.argtypes=[W.HANDLE,C.POINTER(W.FILETIME),C.POINTER(W.FILETIME),C.POINTER(W.FILETIME)];kernel.GetFileTime.restype=W.BOOL
             kernel.SetFileTime.argtypes=[W.HANDLE,C.POINTER(W.FILETIME),C.POINTER(W.FILETIME),C.POINTER(W.FILETIME)];kernel.SetFileTime.restype=W.BOOL
             for role in ('directory','ancestor'):
@@ -84,19 +80,13 @@ def main():
                     if handle not in (None,C.c_void_p(-1).value):
                         assert kernel.SetFileTime(handle,C.byref(created),None,None);assert kernel.CloseHandle(handle)
                     child.stdout.close();child.stderr.close()
-            directory=owned/'metadata-only';directory.mkdir();needed=W.DWORD()
-            advapi.GetFileSecurityW(str(directory),4,None,0,C.byref(needed));assert needed.value
-            old=C.create_string_buffer(needed.value);assert advapi.GetFileSecurityW(str(directory),4,old,len(old),C.byref(needed))
-            control=W.WORD();revision=W.DWORD();assert advapi.GetSecurityDescriptorControl(old,C.byref(control),C.byref(revision))
-            sd=C.c_void_p();assert advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW('D:P(A;;0x1200a0;;;WD)',1,C.byref(sd),None)
-            try:
-                assert advapi.SetFileSecurityW(str(directory),4|0x80000000,sd)
+            directory=owned/'metadata-only'
+            with DaclFixture(directory,directory=True) as security:
+                security.restrict('0x1200a0')
                 h=kernel.CreateFileW(str(directory),0x80,1,None,3,0x02200000,None);assert h not in (None,C.c_void_p(-1).value);assert kernel.CloseHandle(h)
                 result=subprocess.run([str(probe),str(directory)],input=b'x',capture_output=True,cwd=root,timeout=20)
                 response=json.loads(result.stdout);assert result.returncode==3 and not result.stderr and response['code']=='operation_directory_unavailable' and response['platform_code']=='5',response
                 records.append(dict(name='no-metadata-only-fallback',metadata_only_access=True,exit_code=result.returncode,response=response))
-            finally:
-                assert advapi.SetFileSecurityW(str(directory),4|(0x80000000 if control.value&0x1000 else 0x20000000),old);assert kernel.LocalFree(sd) is None
             assert not (directory/'fixture.records').exists()
     result=dict(passed=True,mode='baseline-helper-defect' if a.baseline else 'fixed-helper-contract',cases=len(records),probe_sha256=sha(probe.read_bytes()),records=records,
         base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),physical_io=False,power_loss_qualified=False,whole_worker_redirection_qualified=False)

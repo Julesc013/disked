@@ -2,6 +2,8 @@
 import argparse,copy,hashlib,json,os,queue,subprocess,sys,tempfile,threading,time
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.sparse import size_empty_file
 from test_ntfs_capture import Volume
 from ntfs_closure_fixture import ClosureVolume
 from test_ntfs_file import canonical,file_digest
@@ -11,7 +13,7 @@ from test_image_commands import Gate
 def digest(value):return 'sha256:'+hashlib.sha256(canonical(value)).hexdigest()
 def write(volume,path):
     with path.open('xb') as stream:
-        stream.truncate(int(volume.input['source_bytes']))
+        size_empty_file(stream,int(volume.input['source_bytes']))
         for row in volume.input['regions']:
             stream.seek(int(row['offset']));stream.write(bytes.fromhex(row['hex']))
 

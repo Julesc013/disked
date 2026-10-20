@@ -26,11 +26,12 @@ class Watch(unittest.TestCase):
   return p.returncode,v
  def start(self,fixture='fake:complete'):
   _,v=self.invoke('plan','simulate',fixture,'--state-dir',self.directory);self.ident=v['operation_id'];self.assertIsNotNone(self.ident);return v
- def final(self):
+ def final(self,directory=None,ident=None):
+  directory=self.directory if directory is None else directory;ident=self.ident if ident is None else ident
   deadline=time.monotonic()+5
   while True:
-   _,v=self.invoke('operation','inspect',self.ident,'--state-dir',self.directory)
-   if v['result'].get('state',{}).get('phase')=='finished' or v['result'].get('worker_observation')=='exited':return v
+   _,v=self.invoke('operation','inspect',ident,'--state-dir',directory)
+   if v['result'].get('worker_observation') in ('exited','reused_identity'):return v
    self.assertLess(time.monotonic(),deadline);time.sleep(.025)
  def parameters(self,**extra):return dict(operation_id=self.ident,state_directory=str(self.directory),**extra)
  def test_live_cli_events_precede_completion_and_reconnect_without_replay(self):
@@ -76,7 +77,7 @@ class Watch(unittest.TestCase):
   for fixture,outcome,code in [('fake:verification-failure','verification_failed',0),('fake:unknown',None,6)]:
    with self.subTest(fixture=fixture),tempfile.TemporaryDirectory(prefix='disked-watch-outcome-') as d:
     _,start=self.invoke('plan','simulate',fixture,'--state-dir',d);ident=start['operation_id'];_,v=self.invoke('operation','watch',ident,'--state-dir',d,'--follow-ms','2000',code=code)
-    self.assertEqual(outcome,v['result']['state']['outcome']);self.assertEqual('unknown' if code else 'completed',v['status']);OBS.append(dict(test=fixture,response=v))
+    self.assertEqual(outcome,v['result']['state']['outcome']);self.assertEqual('unknown' if code else 'completed',v['status']);OBS.append(dict(test=fixture,response=v,retired=self.final(Path(d),ident)))
  def test_client_disconnect_and_slow_output_do_not_cancel_or_restart(self):
   self.start('fake:cancel-checkpoint');p=subprocess.Popen([str(ARGS.exe),'operation','watch',self.ident,'--state-dir',str(self.directory),'--follow-ms','2000','--format=ndjson'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
   try:

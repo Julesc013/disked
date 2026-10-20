@@ -57,7 +57,7 @@ def run(exe,frontend,report):
         while True:
             result=subprocess.run([exe,'operation','inspect',header['operation_id'],'--state-dir',str(state),'--json'],capture_output=True,text=True,timeout=8)
             value=json.loads(result.stdout)
-            if value['result'].get('state',{}).get('phase')=='finished':break
+            if value['result'].get('worker_observation') in ('exited','reused_identity'):break
             if time.monotonic()>deadline:raise AssertionError('Delayed worker did not finish')
             time.sleep(.04)
         report['later_operation']=value

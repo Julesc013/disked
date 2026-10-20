@@ -48,7 +48,8 @@ def main():
             if terminal and history.get('state') in (
                     'recorded_complete', 'recorded_partial', 'recorded_exit_unresolved'):
                 return value
-            if not terminal and value.get('writer', {}).get('observation') == 'running':
+            if (not terminal and value.get('writer', {}).get('observation') == 'running'
+                    and Path(params['destination']).is_dir()):
                 return value
             assert time.monotonic() < deadline, value
             time.sleep(.04)

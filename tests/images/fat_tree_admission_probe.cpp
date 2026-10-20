@@ -114,6 +114,7 @@ int wmain(int argc, wchar_t **argv) {
         }
         owner->launch();
         const auto start = GetTickCount64(), end = start + number(input, "wait_ms", 30000);
+        ULONGLONG root_deadline = 0;
         bool announced = false, sent = false, cancelled = false;
         bool publication_announced = false;
         V last;
@@ -166,7 +167,15 @@ int wmain(int argc, wchar_t **argv) {
                 owner->cancel();
                 cancelled = true;
             }
-            if (GetTickCount64() >= end) {
+            // A fault at root_created is not reached merely because dispatch
+            // began. Start its short retirement observation after that owned
+            // fixture exists; retain the original absolute backstop.
+            if (!root_deadline && number(input, "retire_after_root_ms") &&
+                GetFileAttributesW(disked::local_file::path_for(destination).c_str()) !=
+                    INVALID_FILE_ATTRIBUTES)
+                root_deadline = GetTickCount64() + number(input, "retire_after_root_ms");
+            if (GetTickCount64() >= end ||
+                (root_deadline && GetTickCount64() >= root_deadline)) {
                 emit(V::object()
                          .put("kind", V::string("before_retirement"))
                          .put("observation", last));

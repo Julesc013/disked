@@ -276,14 +276,21 @@ class Gui:
         bitmap=G.CreateDIBSection(dc,info,0,C.byref(bits),None,0);old=G.SelectObject(dc,bitmap)
         try:
             assert bitmap
+            paint_status={}
             def painted():
                 # Invalidate/erase/frame/all children, then process owned paint.
                 # A successful PrintWindow can otherwise contain only a frame.
                 assert U.RedrawWindow(self.window,None,None,0x585)
                 assert U.PrintWindow(self.window,dc,2);G.GdiFlush()
                 value=C.string_at(bits,w*h*4)
-                return value if capture_client_content(value,w,h,box) and all(capture_client_content(value,w,h,b) for b in captions) else None
-            payload=wait(painted,3)
+                client_ok=capture_client_content(value,w,h,box)
+                caption_ok=[capture_client_content(value,w,h,b) for b in captions]
+                paint_status.update(capture=Path(path).name,width=w,height=h,client_box=box,client_painted=client_ok,
+                    caption_boxes=captions,caption_painted=caption_ok)
+                return value if client_ok and all(caption_ok) else None
+            try:payload=wait(painted,3)
+            except TimeoutError as error:
+                raise AssertionError('Owned PrintWindow content incomplete: '+json.dumps(paint_status)) from error
             if Path(path).suffix.lower()=='.png':
                 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
                 rows=bytearray()

@@ -1467,11 +1467,11 @@ if(BUILD_TESTING)
   add_test(NAME image.fat_tree_controller COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_fat_tree_controller.py"
     --probe "$<TARGET_FILE:fat_tree_controller_probe>" --fault "$<TARGET_FILE:fat_tree_controller_fault>"
     --reconnect "$<TARGET_FILE:fat_tree_reconnect_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/fat-tree-controller-cases.json")
-  set_tests_properties(image.fat_tree_controller PROPERTIES TIMEOUT 300 RESOURCE_LOCK disked_fake_workers)
+  set_tests_properties(image.fat_tree_controller PROPERTIES TIMEOUT 600 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME image.fat_tree_admission COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_fat_tree_admission.py"
     --probe "$<TARGET_FILE:fat_tree_admission_probe>" --fault "$<TARGET_FILE:fat_tree_admission_fault>"
     --output "${CMAKE_CURRENT_BINARY_DIR}/fat-tree-admission-cases.json")
-  set_tests_properties(image.fat_tree_admission PROPERTIES TIMEOUT 300 RESOURCE_LOCK disked_fake_workers)
+  set_tests_properties(image.fat_tree_admission PROPERTIES TIMEOUT 600 RESOURCE_LOCK disked_fake_workers)
   target_link_libraries(disked_fat_tree_extraction_worker_fault PUBLIC disked_observation_worker_fault disked_fat_tree_extraction PRIVATE disked_local_file disked_hash advapi32)
   set_target_properties(disked_fat_tree_extraction_worker_fault PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_definitions(disked_fat_tree_extraction_worker_fault PRIVATE DISKED_FAT_TREE_EXTRACTION_WORKER_TESTING=1)

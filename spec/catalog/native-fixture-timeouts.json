@@ -37,7 +37,23 @@
       "large_completion_outer_child_seconds": 240,
       "fault_and_other_cases": "Unchanged inputs and100-second outer limits"
     },
-    "controller": "Use the exact registered CTest TIMEOUT,validated against these explicit overrides or the300-second default maximum,plus30 seconds for termination/JUnit collection. The old hardcoded300-second outer limit incorrectly undercut the existing600-second backend test. Reporting grace does not extend CTest's test deadline."
+    "controller": "Use the exact registered CTest TIMEOUT,validated against these explicit overrides or the300-second default maximum,plus30 seconds for termination/JUnit collection. The old hardcoded300-second outer limit incorrectly undercut the existing600-second backend test. Reporting grace does not extend CTest's test deadline.",
+    "image.fat_tree_admission": {
+      "ctest_seconds_before": 300,
+      "ctest_seconds": 600,
+      "large_completion_probe_observation_before": "Default30000ms for150 files;60000ms for fragmented content",
+      "large_completion_probe_observation_ms": 180000,
+      "large_completion_outer_child_before": 100,
+      "large_completion_outer_child_seconds": 240,
+      "fault_cases": "Existing prepare400ms unchanged; execute_hang short400ms retirement starts only after its declared root_created boundary is observable, with a30000ms absolute backstop."
+    },
+    "image.fat_tree_controller": {
+      "ctest_seconds_before": 300,
+      "ctest_seconds": 600,
+      "three150_file_completions_before": 90,
+      "three150_file_completions_seconds": 180,
+      "other_cases": "Unchanged observation/retirement deadlines."
+    }
   },
   "rationale": "The three300-file completions double the measured150-file workload;360 seconds is a declared allowance,not an observed completion claim. Owned150-file and fragmented completions need an observation window longer than the measured100-110/93.7 seconds,with bounded collection time. Actual backend/owned/native results must still pass before qualification.",
   "invariants": [
@@ -48,5 +64,7 @@
     "No new driver,software installation,VM configuration,host storage operation or owner/release acceptance."
   ],
   "evidence_repository_path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-ninth-complete-history-diagnostic-pass.json",
-  "evidence_sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666"
+  "evidence_sha256": "sha256:60bb7ec535c4077e13943b2e36f96de898b733386930f0ca89a14a306927c666",
+  "additional_failure_evidence": ".aide/evidence/2026-10-18-ordinary-worker/eighty-ninth-failure-review.json",
+  "additional_rationale": "The complete current run observed no outcome at admission30/60-second deadlines and an active controller at90 seconds. These are the same150-file/fragmented durable fixtures previously measured at100-110/93.7 seconds. Apply the existing named completion allowance, retain all bytes/counts/assertions and replay before claiming qualification."
 }

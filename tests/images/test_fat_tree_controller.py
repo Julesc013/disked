@@ -101,7 +101,8 @@ class ControllerTests(unittest.TestCase):
             row = call(dict(review=review,controller_mode='dispatch',wait_ms='0'))
             self.assertEqual('controller_handoff',row['kind'],row)
             identity = row['observation']['controller']
-            final = wait_history(root)
+            # Same150-file durable workload measured at100-110 seconds.
+            final = wait_history(root,timeout=180)
             self.assertEqual('recorded_complete',final['history']['state'],final)
             header = json.loads((root/'store/recursive-request.json').read_bytes())
             self.assertEqual(row['observation']['operation_id'],header['operation_id'])

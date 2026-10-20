@@ -3,6 +3,7 @@ import ast
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -15,6 +16,13 @@ definition.loader.exec_module(S)
 
 
 class SnapshotTests(unittest.TestCase):
+    def test_registered_native_python_inputs_are_transported(self):
+        cmake=(ROOT/'CMakeLists.txt').read_text(encoding='utf-8')
+        scripts=set(re.findall(r'\$\{CMAKE_CURRENT_SOURCE_DIR\}/((?:tests|tools)/[A-Za-z0-9_./-]+\.py)',cmake))
+        self.assertTrue(scripts)
+        selected=set(S.selected_inputs(ROOT,'DE-W105'))
+        self.assertFalse(scripts-selected,'Native source transport omitted registered Python inputs')
+
     def test_semantic_validator_siblings_are_transported(self):
         selected = set(S.selected_inputs(ROOT, 'DE-W105'))
         directory = ROOT / 'spec/tools'

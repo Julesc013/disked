@@ -7,6 +7,7 @@ import argparse,ctypes as C,hashlib,json,os,queue,subprocess,sys,tempfile,thread
 from ctypes import wintypes as W
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.file_dacl import DaclFixture
 from support.tempdir import fixture_parent,managed_directory
 def encode(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
 def sha(b):return 'sha256:'+hashlib.sha256(b).hexdigest()
@@ -53,24 +54,15 @@ def main():
                 child.stdout.close();child.stderr.close()
         if not a.baseline:
             assert a.capture_probe is not None,'Fixed qualification includes the read-only consumer'
-            parent=owned/'metadata-only-parent';parent.mkdir();source=parent/'source.img';source.write_bytes(b'\0'*4096)
-            # Preserve exact owner-controlled DACL, then allow metadata/traverse
-            # but no list/data read. The metadata handle must succeed; consumers
-            # requiring strong pins must refuse, rather than fall back to it.
-            advapi=C.WinDLL('advapi32',use_last_error=True);kernel=C.WinDLL('kernel32',use_last_error=True)
-            advapi.GetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p,W.DWORD,C.POINTER(W.DWORD)];advapi.GetFileSecurityW.restype=W.BOOL
-            advapi.SetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p];advapi.SetFileSecurityW.restype=W.BOOL
-            advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[W.LPCWSTR,W.DWORD,C.POINTER(C.c_void_p),C.POINTER(W.DWORD)];advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW.restype=W.BOOL
-            advapi.GetSecurityDescriptorControl.argtypes=[C.c_void_p,C.POINTER(W.WORD),C.POINTER(W.DWORD)];advapi.GetSecurityDescriptorControl.restype=W.BOOL
-            kernel.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,C.c_void_p,W.DWORD,W.DWORD,W.HANDLE];kernel.CreateFileW.restype=W.HANDLE
-            kernel.CloseHandle.argtypes=[W.HANDLE];kernel.CloseHandle.restype=W.BOOL
-            kernel.LocalFree.argtypes=[C.c_void_p];kernel.LocalFree.restype=C.c_void_p
-            needed=W.DWORD();advapi.GetFileSecurityW(str(parent),4,None,0,C.byref(needed));assert needed.value
-            old=C.create_string_buffer(needed.value);assert advapi.GetFileSecurityW(str(parent),4,old,len(old),C.byref(needed))
-            control=W.WORD();revision=W.DWORD();assert advapi.GetSecurityDescriptorControl(old,C.byref(control),C.byref(revision))
-            sd=C.c_void_p();assert advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW('D:P(A;;0x1200a0;;;WD)',1,C.byref(sd),None)
-            try:
-                assert advapi.SetFileSecurityW(str(parent),4|0x80000000,sd)
+            parent=owned/'metadata-only-parent'
+            with DaclFixture(parent,directory=True) as security:
+                source=parent/'source.img'
+                with DaclFixture(source):source.write_bytes(b'\0'*4096)
+                # Metadata/traverse succeeds; strong list/data pins must refuse.
+                kernel=C.WinDLL('kernel32',use_last_error=True)
+                kernel.CreateFileW.argtypes=[W.LPCWSTR,W.DWORD,W.DWORD,C.c_void_p,W.DWORD,W.DWORD,W.HANDLE];kernel.CreateFileW.restype=W.HANDLE
+                kernel.CloseHandle.argtypes=[W.HANDLE];kernel.CloseHandle.restype=W.BOOL
+                security.restrict('0x1200a0')
                 handle=kernel.CreateFileW(str(parent),0x80,1,None,3,0x02200000,None);assert handle not in (None,C.c_void_p(-1).value)
                 assert kernel.CloseHandle(handle)
                 request=dict(mode='start',source=str(source),destination=str(owned/'denied-copy.img'),map=str(owned/'denied-copy.map'))
@@ -79,9 +71,6 @@ def main():
                     v=json.loads(result.stdout);assert v['refusal']=='image_parent_open' and v['platform_code']=='5',v
                     assert not Path(request['destination']).exists() and not Path(request['map']).exists()
                     records.append(dict(name=name,returncode=result.returncode,metadata_only_handle_opened=True,strong_pin_refusal=v,output_sha256=sha(result.stdout)))
-            finally:
-                assert advapi.SetFileSecurityW(str(parent),4|(0x80000000 if control.value&0x1000 else 0x20000000),old)
-                assert kernel.LocalFree(sd) is None
             assert source.read_bytes()==b'\0'*4096
     evidence=dict(passed=True,mode='baseline-defect-observation' if a.baseline else 'strong-parent-contract',cases=len(records),
         base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),probe=dict(path=str(probe),sha256=sha(probe.read_bytes())),

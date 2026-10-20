@@ -74,7 +74,7 @@ class Output(unittest.TestCase):
             while True:
                 result=subprocess.run([str(ARGS.exe),'operation','inspect',first['operation_id'],'--state-dir',str(state),'--json'],capture_output=True,timeout=5)
                 final=json.loads(result.stdout)
-                if final['result'].get('state',{}).get('phase')=='finished':break
+                if final['result'].get('worker_observation') in ('exited','reused_identity'):break
                 self.assertLess(time.monotonic(),deadline);time.sleep(.04)
             self.assertEqual('succeeded',final['result']['state']['outcome']);self.assertEqual('1',final['result']['state']['synthetic_effect_count'])
             self.assertEqual(first['operation_id'],final['operation_id'])

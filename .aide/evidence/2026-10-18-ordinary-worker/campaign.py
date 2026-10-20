@@ -87,6 +87,7 @@ def main():
     focus_history='--focus-fat-history' in sys.argv or diagnose_history
     focus_invocations='--focus-invocations' in sys.argv
     focus_repairs='--focus-qualification-repairs' in sys.argv
+    focus_current='--focus-current-fixtures' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv
@@ -95,7 +96,7 @@ def main():
         raise ValueError('Owned object trace requires declared interactive primitive setup')
     if station_matrix and not (interactive_ui and '--crypto-full' in sys.argv):
         raise ValueError('Station matrix requires declared interactive primitive setup')
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current
     controller_stop_proof='--controller-stop-proof' in sys.argv
     full_native=full_native or controller_stop_proof
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
@@ -110,7 +111,7 @@ def main():
         for name in helper_files:
             origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
-        shell_tool=powershell7_proof or focus_invocations or '--native-x64' in sys.argv
+        shell_tool=powershell7_proof or focus_invocations or focus_current or '--native-x64' in sys.argv
         if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:
             definition=importlib.util.spec_from_file_location('powershell_setup',HERE/'prepare-powershell.py');tool=importlib.util.module_from_spec(definition);definition.loader.exec_module(tool)
             tool.prepare(stage)
@@ -223,6 +224,26 @@ def main():
             'verification_command_probe','verification_command_fault','shell_model_probe','watch_probe',
             'disked_image_test','acquisition_command_probe','fat_worker_probe','acquisition_case_probe',
             'acquired_image_verification_probe','image_verification_collection_probe','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+        expected['native_x64']['ui_fixture_preflight']=True
+    if focus_current:
+        expected['native_x64']['focus_groups']=[
+            'frontend.fat_recursive_failures','frontend.gui_capture','image.fat_commands',
+            'image.fat_extraction','image.fat_tree_admission','image.fat_tree_controller',
+            'image.file_acquisition','image.file_capture','image.ntfs_commands',
+            'image.ntfs_directory_commands','image.ntfs_membership_commands','image.parent_pins',
+            'operation.directory_pins','operation.watch','operation.worker',
+            'resilience.console_waiting','resilience.output_waiting','shell.windows']
+        expected['native_x64']['focus_targets']=[
+            'acquisition_worker_fault','acquisition_worker_probe','disked','disked_fat_test',
+            'disked_file_wait','disked_ntfs_test','disked_provider_guard','disked_recursive_disabled',
+            'disked_recursive_fault','disked_tui_fault','disked_worker_delayed',
+            'fat_tree_admission_fault','fat_tree_admission_probe','fat_tree_controller_fault',
+            'fat_tree_controller_probe','fat_tree_reconnect_probe','fat_worker_probe',
+            'file_acquisition_fault','file_acquisition_probe','image_file_capture_fault',
+            'image_file_capture_probe','image_observation_probe','ntfs_inspection_probe',
+            'ntfs_worker_probe','worker_directory_probe','fat_tree_extraction_worker_probe',
+            'fat_tree_extraction_worker_fault']
         expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
         expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())

@@ -17,6 +17,7 @@ import threading
 
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.file_dacl import DaclFixture
 from support.tempdir import fixture_parent as managed_parent, managed_directory
 
 
@@ -174,23 +175,14 @@ def main():
             assert h not in (None,C.c_void_p(-1).value),C.get_last_error()
             try:v=run('sharing-'+label,req,refusal='image_source_open');assert v['platform_code']=='32'
             finally:assert kernel.CloseHandle(h)
-        # Empty DACL on our generated source, restoring the exact descriptor.
-        advapi=C.WinDLL('advapi32',use_last_error=True)
-        advapi.GetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p,W.DWORD,C.POINTER(W.DWORD)];advapi.GetFileSecurityW.restype=W.BOOL
-        advapi.SetFileSecurityW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p];advapi.SetFileSecurityW.restype=W.BOOL
-        advapi.InitializeSecurityDescriptor.argtypes=[C.c_void_p,W.DWORD];advapi.InitializeSecurityDescriptor.restype=W.BOOL
-        advapi.InitializeAcl.argtypes=[C.c_void_p,W.DWORD,W.DWORD];advapi.InitializeAcl.restype=W.BOOL
-        advapi.SetSecurityDescriptorDacl.argtypes=[C.c_void_p,W.BOOL,C.c_void_p,W.BOOL];advapi.SetSecurityDescriptorDacl.restype=W.BOOL
-        req=fixture('DACL');needed=W.DWORD()
-        advapi.GetFileSecurityW(req['source'],4,None,0,C.byref(needed));assert needed.value
-        old=C.create_string_buffer(needed.value);assert advapi.GetFileSecurityW(req['source'],4,old,len(old),C.byref(needed))
-        sd=C.create_string_buffer(64);acl=C.create_string_buffer(8)
-        assert advapi.InitializeSecurityDescriptor(sd,1) and advapi.InitializeAcl(acl,8,2) and advapi.SetSecurityDescriptorDacl(sd,True,acl,False)
-        assert advapi.SetFileSecurityW(req['source'],4,sd)
-        try:
-            v=run('actual-source-access-denied',req,refusal='image_source_open');assert v['platform_code']=='5' and snapshot(req)==[None,None]
-        finally:assert advapi.SetFileSecurityW(req['source'],4,old)
-        assert Path(req['source']).read_bytes()==source_bytes(9000)
+        # Only this freshly generated source receives fixture-control rights.
+        req=fixture('DACL');source=Path(req['source']);source.unlink()
+        with DaclFixture(source) as security:
+            source.write_bytes(source_bytes(9000))
+            security.restrict()
+            v=run('actual-source-access-denied',req,refusal='image_source_open')
+            assert v['platform_code']=='5' and snapshot(req)==[None,None]
+        assert source.read_bytes()==source_bytes(9000)
         req=fixture('junction');junction=owned/'reparse'
         made=subprocess.run([os.environ['COMSPEC'],'/d','/c','mklink','/J',str(junction),str(Path(req['source']).parent)],capture_output=True,timeout=10)
         assert made.returncode==0,(made.stdout,made.stderr)

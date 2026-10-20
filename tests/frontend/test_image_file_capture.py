@@ -18,6 +18,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'corpus'))
 import partition_images as corpus
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.file_dacl import DaclFixture
 from support.tempdir import fixture_parent as managed_parent, managed_directory
 
 K=C.WinDLL('kernel32',use_last_error=True)
@@ -150,15 +151,14 @@ def main():
         finally:alias.unlink()
         run('directory',root,refusal='image_file_type')
         run('missing-file',root/'missing.img',refusal='image_source_open')
-        # Actual owner-controlled DACL refusal; restore the exact old descriptor.
-        needed=W.DWORD();A.GetFileSecurityW(str(literal),4,None,0,C.byref(needed));assert needed.value
-        old=C.create_string_buffer(needed.value);assert A.GetFileSecurityW(str(literal),4,old,len(old),C.byref(needed))
-        sd=C.create_string_buffer(64);acl=C.create_string_buffer(8)
-        assert A.InitializeSecurityDescriptor(sd,1) and A.InitializeAcl(acl,8,2) and A.SetSecurityDescriptorDacl(sd,True,acl,False)
-        assert A.SetFileSecurityW(str(literal),4,sd)
-        try:value=run('access-denied',literal,refusal='image_source_open');assert value['platform_code']=='5'
-        finally:assert A.SetFileSecurityW(str(literal),4,old)
-        assert literal.read_bytes()==data
+        # A new owned fixture carries explicit restoration access at creation.
+        denied=root/'controlled-denial.img'
+        with DaclFixture(denied) as security:
+            denied.write_bytes(data)
+            security.restrict()
+            value=run('access-denied',denied,refusal='image_source_open')
+            assert value['platform_code']=='5'
+        assert denied.read_bytes()==data and literal.read_bytes()==data
         # Junction construction is a local test fixture. It does not mount an
         # image and does not require symlink privilege or administrator execution.
         junction=root/'junction';cmd=os.environ['COMSPEC']

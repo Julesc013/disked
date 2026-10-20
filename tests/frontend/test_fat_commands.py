@@ -67,7 +67,7 @@ def main():
         assert expected['status']==actual['status'] and expected['diagnostics']==actual['diagnostics'],(expected,actual)
         assert stable(expected)==stable(actual),(stable(expected),stable(actual))
     scratch=managed_parent();scratch.mkdir(exist_ok=True)
-    assert scratch.resolve().is_relative_to(args.root)
+    assert scratch.resolve().is_relative_to(Path(os.environ['DISKED_WORK_ROOT']).resolve())
     try:
         with managed_directory(prefix='fat-command-') as folder:
             folder=Path(folder);assert folder.resolve().is_relative_to(scratch.resolve())

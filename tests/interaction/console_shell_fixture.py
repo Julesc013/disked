@@ -104,7 +104,7 @@ def run(exe,case,report):
                     result=subprocess.run([exe,'operation','inspect',ids[-1],'--state-dir',str(state),'--json'],capture_output=True,text=True,timeout=8)
                     value=json.loads(result.stdout)
                     report.setdefault('reconnect',[]).append(dict(exit=result.returncode,response=value))
-                    if value['result'].get('state',{}).get('phase')=='finished':break
+                    if value['result'].get('worker_observation') in ('exited','reused_identity'):break
                     if time.monotonic()>=deadline:raise AssertionError('Disconnected worker did not finish')
                     time.sleep(.04)
                 if value['status']!='completed':raise AssertionError('Shell close cancelled worker')

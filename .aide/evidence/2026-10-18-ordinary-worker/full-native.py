@@ -345,6 +345,7 @@ def coordinate(g):
                 # the very failure evidence the runner is required to retain.
                 grace=expected['bounds']['ctest_reporting_grace_seconds'];assert grace==30
                 command_seconds=int(ctest_seconds)+grace
+                if (work/'test.xml').exists():retention.retire_file(work/'test.xml')
                 code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
                     '--timeout',str(expected['bounds']['group_seconds']),
                     '--verbose','--output-on-failure','--output-junit',work/'test.xml'],command_seconds,allow_failure=True)
@@ -454,6 +455,8 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 if expected.get('ui_proof'):
                     _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
                     result['private_ui_diagnostic']=json_record(raw)
+                    _,raw=run('ordinary-owned-dacl-fixture-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-proof'],30)
+                    result['owned_dacl_fixture_proof']=json_record(raw);assert result['owned_dacl_fixture_proof']['passed']
                 else:
                     _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
                     result['cleanup_attribute_diagnostic']=json_record(raw)
@@ -532,6 +535,8 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         _,raw=run('test-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','ordinary'],30)
         result['actual_token']=json_record(raw);assert result['actual_token']['user_sid']==data['sid']
         assert result['actual_token']['integrity_sid']=='S-1-16-8192'
+        _,raw=run('ordinary-owned-dacl-fixture-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-proof'],30)
+        result['owned_dacl_fixture_proof']=json_record(raw);assert result['owned_dacl_fixture_proof']['passed']
         _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
         result['native_token_identity']=json_record(raw)
         assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'

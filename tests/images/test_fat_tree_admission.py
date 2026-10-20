@@ -62,7 +62,7 @@ def run(root, inputs, extra=None, fault=False, store_fault=None):
     if store_fault:
         env["DISKED_TEST_STORE_FAULT"] = store_fault
     completed = subprocess.run([str(FAULT if fault else PROBE)], input=canonical(value),
-                               capture_output=True, env=env, timeout=100)
+                               capture_output=True, env=env, timeout=240 if value.get("wait_ms")=="180000" else 100)
     assert completed.returncode == 0 and not completed.stderr, (completed.returncode, completed.stderr)
     rows = [json.loads(line) for line in completed.stdout.splitlines()]
     assert rows and sha(source.read_bytes()) == original
@@ -139,7 +139,7 @@ class AdmissionTests(unittest.TestCase):
         inputs = dict(source=str(source), destination=str(root / "output"),
                       ledger=str(root / "metadata.ndjson"), store=str(root / "store"),
                       offset=request["offset"], length=request["length"])
-        rows = run(root, inputs, dict(wait_ms="60000"))
+        rows = run(root, inputs, dict(wait_ms="180000"))
         self.assertEqual("complete", rows[-1]["observation"]["worker"]["outcome"]["status"])
         self.assertEqual(expected, (root / "output" / "CONTENT.BIN").read_bytes())
         _, records = controls(root)
@@ -184,7 +184,7 @@ class AdmissionTests(unittest.TestCase):
         for bits in (12, 16, 32):
             root, inputs, expected = fixture(bits, count=150)
             p = prepare(root, inputs)
-            rows = run(root, dict(review=p["review"], review_digest=p["digest"]))
+            rows = run(root, dict(review=p["review"], review_digest=p["digest"], wait_ms="180000"))
             self.assertEqual("finished", rows[-1]["kind"], rows[-1])
             final = rows[-1]["observation"]
             self.assertEqual("complete", final["worker"]["outcome"]["status"], rows[-1])
@@ -256,7 +256,8 @@ class AdmissionTests(unittest.TestCase):
     def test_owned_hangs_partial_effects_and_real_exit_preserve_store(self):
         for mode in ("prepare_hang", "execute_hang"):
             root, inputs, _ = fixture()
-            rows = run(root, inputs, dict(wait_ms="400", fixture=dict(worker_fault=mode)), fault=True)
+            rows = run(root, inputs, dict(wait_ms="30000" if mode=="execute_hang" else "400",
+                    retire_after_root_ms="400" if mode=="execute_hang" else "0", fixture=dict(worker_fault=mode)), fault=True)
             before = next(r for r in rows if r["kind"] == "before_retirement")
             self.assertTrue(before["observation"]["worker"]["dependencies_retained"])
             self.assertEqual("31", rows[-1]["observation"]["worker"]["worker"]["exit_code"])

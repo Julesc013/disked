@@ -11,6 +11,8 @@ import tempfile
 import time
 import unittest
 import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from support.file_dacl import user_only_dacls
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument('--exe', required=True)
@@ -65,7 +67,9 @@ def await_outcome(directory, ident, timeout=6):
     while time.monotonic() < deadline:
         code, result = inspect(directory, ident)
         state = result['result'].get('state', {})
-        if state.get('phase') == 'finished' or result['result'].get('worker_observation') in ('exited', 'reused_identity'):
+        # Published outcome precedes actual exit. Mutating or removing its files
+        # must wait for the owning process to release the journal handles.
+        if result['result'].get('worker_observation') in ('exited', 'reused_identity'):
             return code, result
         time.sleep(.025)
     raise AssertionError('worker did not reach finite fixture outcome')
@@ -316,20 +320,7 @@ class Worker(unittest.TestCase):
 
     def test_evidence_files_have_explicit_current_user_dacls(self):
         self.start('fake:cancel-checkpoint')
-        script = """$sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-$files=@('request.json','operation.records','cancel.request') | ForEach-Object {
- $acl=Get-Acl -LiteralPath (Join-Path $env:DISKED_TEST_STATE $_)
- [PSCustomObject]@{name=$_;protected=$acl.AreAccessRulesProtected;aces=@($acl.Access | ForEach-Object {
-  [PSCustomObject]@{sid=$_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value;type=$_.AccessControlType.ToString();rights=[int64]$_.FileSystemRights;inherited=$_.IsInherited}
- })}
-}
-[PSCustomObject]@{current_sid=$sid;files=@($files)} | ConvertTo-Json -Depth 5 -Compress
-"""
-        environment = dict(os.environ, DISKED_TEST_STATE=str(self.directory))
-        result = subprocess.run(['pwsh', '-NoProfile', '-NonInteractive', '-Command', script], env=environment,
-                                capture_output=True, text=True, timeout=5)
-        self.assertEqual(0, result.returncode, result.stderr)
-        acl = json.loads(result.stdout)
+        acl = user_only_dacls(self.directory/name for name in ('request.json','operation.records','cancel.request'))
         for file in acl['files']:
             self.assertTrue(file['protected'])
             self.assertEqual([dict(sid=acl['current_sid'], type='Allow', rights=0x1f01ff, inherited=False)], file['aces'])
