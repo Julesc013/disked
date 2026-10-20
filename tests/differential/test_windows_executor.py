@@ -76,13 +76,15 @@ class ExecutorTests(unittest.TestCase):
         path=Path(__file__).resolve().parents[2]/'.aide/evidence/2026-10-18-ordinary-worker/campaign.py'
         spec=importlib.util.spec_from_file_location('raw_port_campaign_controls',path)
         campaign=importlib.util.module_from_spec(spec);spec.loader.exec_module(campaign)
-        for option in ('--native-journey','--native-x64','--crypto-full','--interactive-ui','--size-mib=512','--unknown-mode'):
-            with self.subTest(option=option),mock.patch.dict(os.environ,DISKED_WORK_ROOT=str(self.root)), \
-                    mock.patch.object(campaign.sys,'argv',[str(path),'--native-port-proof','--prepare-only',option]), \
-                    mock.patch.object(campaign.subprocess,'run',side_effect=AssertionError('No process may start')):
-                with self.assertRaisesRegex(ValueError,'Native port proof accepts only'):
-                    campaign.main()
-                self.assertEqual(list(self.root.iterdir()),[])
+        for mode in ('--native-port-proof','--native-probe-proof'):
+            for option in ('--native-journey','--native-x64','--crypto-full','--interactive-ui','--size-mib=512','--unknown-mode',
+                           '--native-probe-proof' if mode=='--native-port-proof' else '--native-port-proof'):
+                with self.subTest(mode=mode,option=option),mock.patch.dict(os.environ,DISKED_WORK_ROOT=str(self.root)), \
+                        mock.patch.object(campaign.sys,'argv',[str(path),mode,'--prepare-only',option]), \
+                        mock.patch.object(campaign.subprocess,'run',side_effect=AssertionError('No process may start')):
+                    with self.assertRaisesRegex(ValueError,'Native (port|probe) proof accepts only'):
+                        campaign.main()
+                    self.assertEqual(list(self.root.iterdir()),[])
 
 
 if __name__=='__main__':unittest.main()

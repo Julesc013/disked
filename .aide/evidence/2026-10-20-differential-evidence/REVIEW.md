@@ -1,4 +1,40 @@
-# DE-W106 preparation: confined Windows byte-I/O port
+# DE-W106 preparation: actual native parser diagnostics
+
+The current restricted Windows 10 guest profile now builds the actual private
+MBR/EBR/GPT probes and exercises all 35 authored corpus recipes with 64 fixed checks.
+Both protected-memory guards, all eight byte-I/O controls and the current original
+32 MiB capacity/confinement/interruption proof pass. All 49 native execution-port
+calls retire their owned jobs before stdio cleanup. Parser source and authored
+expectations are unchanged. Both conflicting GPT candidates are retained.
+
+The retained 153-entry archive contains fixture bytes, requests, raw streams and
+results: 11,794,370 bytes compress to 19,652 bytes. The complete 321,292-byte guest
+receipt compresses to 19,432 bytes. Replaying checks every entry, fixed fixture
+expectation, raw projection, paired fixture/probe identity and terminal execution
+binding. Altered raw bytes, a missing entry and a coherently rehashed false
+projection are rejected. Build objects and executables are not retained.
+
+The full unchanged-input pass ran 253 specification tests (two skips), 213 tooling
+tests (one skip), 82 differential tests (five Linux-only skips), replay, 1,327
+structural checks, source-map coverage of 327 files once and manifest verification.
+Its 55,101,554-byte host workspace was removed. The guest account/profile/image
+and source tree were removed. Backing logical length is unchanged; allocated
+backing-space change was not measured. Exact source/tool/artifact hashes and
+commands are in the [native diagnostics review](native-probes-review.json).
+This is dirty-working-tree evidence at base `5f53e0df`, not a full product pass.
+
+No reference was invented. Read-only inventory found no reference tool on guest
+PATH or the four named alternative paths, no WSL distribution registered to
+Agents and neither listed Linux service. This is a bounded inventory, not an
+exhaustive machine search. Shared collector artifact/result helpers are exercised;
+the diagnostic is not a finalized comparison packet. Actual reference/collector/
+coordinator and sanitizer qualification remain open. DE-W105, main, owner and
+release gates remain open. Return to DE-W105 with a new source-bound cooperative
+capture-control proposal before any product capture; closed hook variants remain
+closed. The original objective covering all specified platforms and operations
+for 0.1.0 is unchanged.
+
+## Earlier execution-port checkpoint
 
 The existing Windows 10 guest, coordinated through Agents, now exercises the
 raw-byte collection port under a fresh restricted non-elevated test identity.

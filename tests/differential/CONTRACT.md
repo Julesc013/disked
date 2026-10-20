@@ -253,6 +253,14 @@ bounds, not claims that this port, the product or other environments have passed
 Record actual tool/input/artifact/limit measurements and owned cleanup before
 admission. Guest administrator setup remains separate from the restricted child.
 
+A native-only diagnostic may exercise the existing private MBR/GPT probes through
+this port and shared collector artifact/result helpers before a reference worker
+is available. Freeze the authored corpus facts first and retain exact source,
+request, raw streams, findings, preservation and process observations. Such a run
+does not emit a finalized comparison packet, substitute a synthetic reference,
+or qualify differential completeness. Its compact archive must be verified before
+owned scratch cleanup. External and sanitizer qualification remain required.
+
 `coordinator.prepare` writes an exclusive new packet beneath the managed work
 root. It invokes no workers. The default selection contains all 35 current corpus
 recipes. A named subset is explicit; empty, duplicate and unknown selections

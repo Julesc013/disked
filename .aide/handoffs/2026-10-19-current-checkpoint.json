@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "69352b60874171c59f2242f70303dc50a885b26c",
-  "spec_manifest_digest": "sha256:c80c946adb24a6bff9afd6922b1a62304cd3771a4e24cc6213e178040df04400",
+  "base_revision": "5f53e0df4c660626e22f1d36ee5805bc3e13f03c",
+  "spec_manifest_digest": "sha256:d8463237ccec163d723689c73857f0baf8f216987547a5ac1dbff800585ae142",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
@@ -24,6 +24,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/native-journey.py",
     ".aide/evidence/2026-10-18-ordinary-worker/native-x64-expectations.json",
     ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
     ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
     ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
     ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
@@ -34,6 +35,7 @@
     "CMakeLists.txt",
     "TODO.MD",
     "docs/native-bootstrap.md",
+    "source/platform/windows/entry.cpp",
     "source/platform/windows/memory_budget.cpp",
     "source/platform/windows/ui/gui.cpp",
     "source/platform/windows/worker_files.h",
@@ -41,10 +43,13 @@
     "spec/tools/specctl.py",
     "spec/tools/verification_contracts.py",
     "spec/work/units.json",
+    "tests/corpus/partition_images.py",
     "tests/differential/CONTRACT.md",
     "tests/differential/collector.py",
     "tests/differential/compare.py",
+    "tests/differential/evidence.py",
     "tests/differential/observe_native.py",
+    "tests/differential/projections.py",
     "tests/differential/test_adapters.py",
     "tests/frontend/console_tui_fixture.py",
     "tests/frontend/gui_fixture.py",
@@ -52,6 +57,8 @@
     "tests/images/test_fat_capture.py",
     "tests/tools/test_pixel_origin.py",
     "tests/tools/test_window_capture_review.py",
+    "tests/unit/gpt_probe.cpp",
+    "tests/unit/mbr_probe.cpp",
     "tools/build-inputs.json",
     "tools/connect-vm.ps1",
     "tools/source-snapshot.py",
@@ -387,6 +394,24 @@
     ".aide/evidence/2026-10-20-differential-evidence/native-port-validation.json.xz",
     ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
     ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-cleanup.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-final-context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-handoff-validation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-observations.tar.xz",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-preflight.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-preparation-defect.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-prepared.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.ps1",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.py",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-review.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes-validation.json.xz",
+    ".aide/evidence/2026-10-20-differential-evidence/native-probes.py",
+    ".aide/evidence/2026-10-20-differential-evidence/probe-context.json",
     ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
     ".aide/handoffs/2026-10-19-current-checkpoint.json",
     ".aide/handoffs/2026-10-20-differential-preparation.json",
@@ -474,7 +499,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 remains active and unqualified. The owned-window-DC capture claims remain invalidated, and the closed run129 hook candidate must not be retried. Full current native qualification and main promotion remain open. Independent DE-W106 preparation now proves current32MiB original confinement/capacity/interruption plus eight native raw-byte execution controls in the Windows10/Agents guest; owned account/image/source cleanup is verified. The full host pass covers253 specification,213 tooling and81 differential tests with eight skips; after a host mode-guard repair82 differential tests and valid staging pass. This is no product-probe/reference/sanitizer/full campaign admission and no owner/release acceptance.",
+  "summary": "DE-W105 remains active and unqualified. Invalidated owned-window-DC claims and closed run129 hooks remain closed. A cooperative same-thread capture control is proposed and untested; it must satisfy the unchanged independent pixel requirements before product use. Independent DE-W106 preparation now passes actual private native parser diagnostics for all 35 authored cases/64 fixed checks, two memory guards, eight byte-I/O controls and current 32 MiB primitive proof. Replay and the full 253/213/82 host test pass have8 skips. This is not a product/reference/sanitizer/full campaign qualification and main remains gated. Owned guest and host scratch cleanup is verified.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -1175,6 +1200,48 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-final-context.json"
+    },
+    {
+      "command": "Initial expanded input metadata check;unsupported registry kind rejected before guest execution",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-preparation-defect.json"
+    },
+    {
+      "command": "Managed mode-guard tests and native-probe source/template preparation;see exact commands",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-preflight.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --native-probe-proof",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-20-differential-evidence/native-probes-replay.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-20-differential-evidence/validate-bindings.py --native-probes",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-validation.json.xz"
+    },
+    {
+      "command": "Final DE-W106 complete source-bound context generation/verification;see exact commands",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-final-context.json"
     }
   ],
   "artifacts": [
@@ -1204,7 +1271,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
-      "sha256": "sha256:f7fccfd00762c3f9c95a3d463e92c221517b48d4a080649cb5c32a500ee1dd0b"
+      "sha256": "sha256:f0a41cd2eb522e41600d7920e825f6cbe79b384cc699ef22f7c9b243dcd0f4a1"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/candidate-qualification-applicability.json",
@@ -1524,7 +1591,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
-      "sha256": "sha256:1784675643565bee1ac921b7b399e30214ac3dbe3acb306f10ba8020b2902bb6"
+      "sha256": "sha256:3232c3e445171555787f6e886e5b5b2b35f43bbc736a8f9812bf44dd43d175be"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/history-timing-review.json",
@@ -2088,7 +2155,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:bd502c20f21bf6595c04c350277e8811c3971bf2fb727b43e3190ada5a80e979"
+      "sha256": "sha256:544acba302dfb2d3f778df1bddb487df77577ad56ab42c1fe01346c90c49e9c4"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
@@ -2324,7 +2391,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
-      "sha256": "sha256:edd01462b670dfb3904b3dba49f8ca85a6b1a539ee5aa4c876775cc0b16b2f26"
+      "sha256": "sha256:d125e9fff29188eff382265daff1c7398731834a3e41392bc8b38434281274d0"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-review.json",
@@ -2400,19 +2467,87 @@
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
-      "sha256": "sha256:5f26e1b44f24f8dab01685d6bf2d3cb4c49c3bcc3493e7671aa29cbfdeb48cf0"
+      "sha256": "sha256:9a8b5a4725f3ebd6e39bc9787b313a3b86238d68678eb6b73edd6d0fc4acc49f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-cleanup.json",
+      "sha256": "sha256:2df268715b8aeece8fdb388642d72f416585a8a14d33696036d7eb7604af1dd6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-context.json",
+      "sha256": "sha256:b19d2c6483d8f1d974530038fff6acf081f07dd50a6ad4deb46017a36afd64a7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+      "sha256": "sha256:830b2226370234e12a62842131e65d1f781968b94d56ddd69942b4691749fe5c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-final-context.json",
+      "sha256": "sha256:174bde12d7df723a46045c1a6afdfec728cec2870adc1420ba347218f71b7e9b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-observations.tar.xz",
+      "sha256": "sha256:d847f178a3b8cdaad7bddda323c3f927ae4cffc20f4b4ec787eaea2c99bc5c47"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-preflight.json",
+      "sha256": "sha256:b8c19818429c75904a9916a551773e69bf03bd70f9ee302f1b41a4dd538cdec8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-preparation-defect.json",
+      "sha256": "sha256:3fc6364043aa06cbe5c2bce3c21cf1387b51c72c980390c20ea9cb699e7a1e2e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-prepared.json",
+      "sha256": "sha256:544acba302dfb2d3f778df1bddb487df77577ad56ab42c1fe01346c90c49e9c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.json",
+      "sha256": "sha256:9eef8f5d72de66041321adade296957560f9186714abcca8b014f522ca6adcb6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.ps1",
+      "sha256": "sha256:9137441a0d46af5be4c1d0174a2ba818346c1be719b3ff643918a18b33714183"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.json",
+      "sha256": "sha256:94b6924ee8a2e77621ffaad2802e0c174fc99fd7a2b119e33e635937d6dd03c3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.py",
+      "sha256": "sha256:a66f86c4f1638e2b1236e738195f3a9dbadcb2d66c0f693ba8f6bfe86531c98c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz",
+      "sha256": "sha256:cca9a0a51248575d82b76b27bb90b5d584309db87a6078679104f44545f107ac"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-review.json",
+      "sha256": "sha256:067aff03db0d7fa9fc80ea659ee40998546d158aa27ef5bd8dff07b103df032f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-validation.json.xz",
+      "sha256": "sha256:155bd5d3b4eed2af74cd84868fb4757ef7d1662c520bb74a4ac702929731314c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes.py",
+      "sha256": "sha256:3c13bfcf09cdf1a7e47091b3b59501ddbe74c14f2c1524b5090f97b30fc0e3ec"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/probe-context.json",
+      "sha256": "sha256:7d781d3ff3a3423a95d0ad71eab6c7c5c60ae4fafb757077ad061cec9497931b"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
-      "sha256": "sha256:1ad34aac2c4254a5ce8c3713790307a6684c34fd00cd4e001c102ede96623fdd"
+      "sha256": "sha256:647cbafda1395736a62396e11b44009b47bc7a12c7dd0445489f9111a28be818"
     },
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:195861cc82a1f8e1e5dbee6fc858965d639313327c949a9aec24718ffe16ee4e"
+      "sha256": "sha256:70b6a82b868d7d863d7f18e1cf9d3a1f3a87ea264fb8e1c69fb7c14fd20047fe"
     },
     {
       "path": "TODO.MD",
-      "sha256": "sha256:78fa2e06637c4bf702960dd59304af2132ee65b9449346e3ced7d861258a9144"
+      "sha256": "sha256:1102883352e3345fc0e650cd504a71fa5f88a741211dbdade6e6bd78f1bb8fc6"
     },
     {
       "path": "docs/native-bootstrap.md",
@@ -2420,7 +2555,7 @@
     },
     {
       "path": "spec/catalog/input-dependencies.json",
-      "sha256": "sha256:002d72269b1ad9945f192e036ac2aebc60a0bcd9b435fd284cfc3c6c26bf443a"
+      "sha256": "sha256:309ca32d01d3af73d17e24285a38a945dfd53bf5a6fc3009d72decf4e256bc69"
     },
     {
       "path": "spec/catalog/native-fixture-timeouts.json",
@@ -2432,19 +2567,19 @@
     },
     {
       "path": "spec/manifest.json",
-      "sha256": "sha256:c80c946adb24a6bff9afd6922b1a62304cd3771a4e24cc6213e178040df04400"
+      "sha256": "sha256:d8463237ccec163d723689c73857f0baf8f216987547a5ac1dbff800585ae142"
     },
     {
       "path": "spec/work/units.json",
-      "sha256": "sha256:3b5e2372fc8217deb018c1808c639b757dfd3c4e847ddf1d61472c10de80699e"
+      "sha256": "sha256:6d80d4cfc94874eb87b676b242b1f91a5cd8daff4e0a7d09c71ca65580afd0de"
     },
     {
       "path": "tests/differential/CONTRACT.md",
-      "sha256": "sha256:050ca9dafd6f2d34338c8f75036e5ba20236cc2ea79d4402d7e495dfb56b2bff"
+      "sha256": "sha256:a928d70930cf40d174ad370a5ddac0af1e949b65498db07a9d0ad9c10ba34398"
     },
     {
       "path": "tests/differential/test_windows_executor.py",
-      "sha256": "sha256:11e1c5ccf3e5efaad1be97ad2bae511a332efffcb8e652f52e6d0a7621325a0a"
+      "sha256": "sha256:8b1596a8da70323c8f643712bac558b30b9d3055a324758341d421b82a578aeb"
     },
     {
       "path": "tests/differential/windows_executor.py",
@@ -2487,6 +2622,6 @@
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Connect the proven Windows10/Agents restricted raw-byte executor to the actual private MBR/GPT probe collectors. Build exact native probe inputs in capped guest scratch, freeze measured tool/source/profile identities, then collect and replay a bounded owned positive case without UI. Inventory reference tools accurately before external collection; none was found on guest PATH. Eight native I/O controls and current32MiB baseline passed; this does not admit a full worker/comparison/sanitizer campaign. DE-W105 remains current; independent pixel-origin proof and full native qualification still gate main. Do not repeat closed capture variants.",
+  "next_safe_step": "Return to DE-W105 with a new source-bound cooperative capture control: render on the owning UI thread without external hooks, retain the unchanged independent RGB and wrong-surface requirements, and prove the control plus owned cleanup in capped guest scratch before any product use. Do not repeat closed foreign-DC/sent/queued-hook variants or admit the proposed route before evidence. Independent DE-W106 native diagnostics now pass all 35 authored cases / 64 checks, two protected-memory guards and eight raw-I/O controls; replay and full 253/213/82 host tests pass with eight skips. Actual reference/collector/coordinator/sanitizer qualification remains open: Agents has no registered WSL profiles and no reference tool was found in the bounded inventory. DE-W105 full native qualification still gates main; original 0.1.0/owner/release gates remain unchanged.",
   "performed_remote_writes": true
 }

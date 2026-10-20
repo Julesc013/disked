@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 WORK = Path(os.environ['DISKED_WORK_ROOT'])
 DEPS = WORK / 'dependencies'
 ENV = dict(os.environ, PYTHONPATH=str(DEPS), PYTHONDONTWRITEBYTECODE='1')
-PREFIX = ('native-port' if '--native-port' in sys.argv else 'coordinator' if '--coordinator' in sys.argv
+PREFIX = ('native-probes' if '--native-probes' in sys.argv else 'native-port' if '--native-port' in sys.argv else 'coordinator' if '--coordinator' in sys.argv
           else 'collector' if '--collectors' in sys.argv else 'bindings')
 record = dict(status='running', scope=__doc__, suite=PREFIX, commands=[], base_revision=None)
 commands = [
@@ -29,6 +29,8 @@ commands = [
     ['-m', 'unittest', 'discover', '-s', 'tests/differential', '-v'],
     ['spec/tools/specctl.py', 'verify-manifest'],
 ]
+if PREFIX == 'native-probes':
+    commands.insert(5, [str(HERE / 'native-probes-replay.py')])
 
 
 def retain():
@@ -52,6 +54,13 @@ def input_hashes():
                   HERE / (PREFIX + '-expected.json'), Path(__file__).resolve()))
     if PREFIX == 'native-port':
         paths.update(HERE / name for name in ('native-port.py', 'native-port.cpp', 'native-port-inventory.ps1'))
+    if PREFIX == 'native-probes':
+        paths.update(HERE / name for name in ('native-port.py', 'native-port.cpp', 'native-probes.py',
+            'native-probes-replay.py', 'native-probes-result.json.xz', 'native-probes-observations.tar.xz'))
+        for directory in ('source/portable/primitives', 'source/portable/mbr', 'source/portable/ebr', 'source/portable/gpt'):
+            paths.update(p for p in (ROOT / directory).iterdir() if p.suffix in ('.c', '.h'))
+        paths.update(ROOT / name for name in ('source/runtime/command/json.cpp', 'source/runtime/command/json.h',
+            'tests/unit/mbr_probe.cpp', 'tests/unit/gpt_probe.cpp'))
     return {p.relative_to(ROOT).as_posix(): 'sha256:' + hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(paths) if p.is_file()}
 

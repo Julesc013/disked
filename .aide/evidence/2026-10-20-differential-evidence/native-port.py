@@ -15,7 +15,7 @@ import traceback
 ROOT=Path('C:/ProgramData/DiskEd/qualification')
 
 
-def coordinate(g):
+def coordinate(g, *, extension=None):
     if Path(__file__).resolve().parent!=ROOT:raise ValueError('Fixed guest source required')
     data=g.actor();private={k:v for k,v in os.environ.items() if k.startswith('DISKED_TEST_ACTOR_')}
     state=json.loads((ROOT/'scratch/state.json').read_bytes())
@@ -98,6 +98,7 @@ def coordinate(g):
         value=run('job-memory','memory');memory=json.loads(value['stdout']);result['memory_control']=memory
         assert value['outcome']=='exited' and value['exit_code']==0 and memory['denied'] and memory['error']!=0 and memory['available_commit_before']>=512*1024*1024
         assert len(result['controls'])==8
+        if extension is not None:extension(work,env,executor,result)
         assert not list(work.glob('raw-input-*')) and not list(work.glob('raw-*.stdout')) and not list(work.glob('raw-*.stderr'))
         assert hashlib.sha256(executable.read_bytes()).hexdigest()==result['artifact']['sha256']
         assert all(hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==value for path,value in inputs.items())

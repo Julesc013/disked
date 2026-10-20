@@ -18422,6 +18422,119 @@
       "spec_ids": [
         "DE-074"
       ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes.py",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.c",
+        "source/portable/primitives/extent.h",
+        "source/portable/mbr/mbr.c",
+        "source/portable/mbr/mbr.h",
+        "source/portable/ebr/ebr.c",
+        "source/portable/ebr/ebr.h",
+        "source/portable/gpt/encoding.c",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/gpt.h",
+        "source/runtime/command/json.cpp",
+        "source/runtime/command/json.h",
+        "tests/unit/mbr_probe.cpp",
+        "tests/unit/gpt_probe.cpp",
+        "tests/differential/collector.py",
+        "tests/differential/evidence.py",
+        "tests/differential/projections.py",
+        "tests/corpus/partition_images.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+        "tests/differential/windows_executor.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.py",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-replay.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes-expected.json",
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz",
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes-observations.tar.xz",
+        ".aide/evidence/2026-10-20-differential-evidence/native-probes-cleanup.json",
+        "tests/differential/projections.py",
+        "tests/corpus/partition_images.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-result.json.xz",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-observations.tar.xz",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-observations.tar.xz",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-cleanup.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-cleanup.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.ps1",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-probes-reference-inventory.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
     }
   ]
 }

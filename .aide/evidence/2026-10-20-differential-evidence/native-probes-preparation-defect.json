@@ -1,0 +1,16 @@
+{
+  "status": "metadata_check_failed_before_guest_execution",
+  "native_run": false,
+  "failed_command": {
+    "arguments": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "exit_code": 1,
+    "stdout": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"FAIL\",\r\n  \"checks\": 1327,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 98,\r\n  \"schemas\": 95,\r\n  \"errors\": [\r\n    \"required input closure: $.inputs[1302].kind: 'code' is not one of ['catalog', 'schema', 'fixture', 'generator', 'build', 'instructions', 'evidence', 'metadata']\"\r\n  ],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n",
+    "stderr": ""
+  },
+  "correction": "Use the existing build input kind for the guest compilation driver;code is not a supported registry kind."
+}
