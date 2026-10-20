@@ -63,7 +63,13 @@ class Broker:
         # Keep the verified code object immutable before the actor starts. A
         # pathname plus an earlier hash cannot bind a replaceable executable.
         self.image_pin=fixtures._open(self.image,0x80000080,share=1)
+        self.image_path_pins=[]
         try:
+            floor=self.temp.parent.parent
+            if self.image.is_relative_to(floor):
+                for parent in self.image.parents:
+                    if parent==floor:break # fixture coordinator already pins it
+                    self.image_path_pins.append(fixtures._open(parent,0x81,share=1))
             standard,tag=fixtures._form(self.image_pin)
             if standard.directory or standard.links!=1 or tag.attributes&0x400 or fixtures._final(self.image_pin)!=self.image:
                 raise ValueError('Capture image object form')
@@ -80,6 +86,7 @@ class Broker:
                 self.pin_controls[name]=True
             self.pin=fixtures._open(self.temp,0x81,share=1)
         except BaseException:
+            for pinned in reversed(self.image_path_pins):worker.k.CloseHandle(pinned)
             worker.k.CloseHandle(self.image_pin);raise
         env.update(DISKED_WINDOW_CAPTURE_ROOT=str(self.temp),DISKED_WINDOW_CAPTURE_NONCE=self.nonce,
                    DISKED_WINDOW_CAPTURE_COORDINATOR_SID=worker.coordinator_sid)
@@ -178,6 +185,7 @@ class Broker:
             return self.records
         finally:
             self.worker.k.CloseHandle(self.pin)
+            for pinned in reversed(self.image_path_pins):self.worker.k.CloseHandle(pinned)
             self.worker.k.CloseHandle(self.image_pin)
 
 
