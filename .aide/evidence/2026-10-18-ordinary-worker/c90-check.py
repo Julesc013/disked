@@ -1,9 +1,12 @@
 """Required C90 syntax check using installed host GCC; no product code executes."""
+import argparse
 import ctypes
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -11,6 +14,11 @@ import time
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--evidence-dir',type=Path,default=HERE)
+parser.add_argument('--current',action='store_true')
+args=parser.parse_args()
+DATA=args.evidence_dir.resolve()
 work = Path(os.environ['DISKED_WORK_ROOT'])
 record = dict(status='running', scope=__doc__, product_code_executed=False, commands=[], inputs=[])
 
@@ -30,8 +38,11 @@ def run(command, *, cwd):
 try:
     if os.name != 'nt' or ctypes.windll.shell32.IsUserAnAdmin():
         raise PermissionError('This selected host metadata check requires a non-elevated Windows user')
-    proof = json.loads((HERE / 'result.json').read_bytes())['guest']['proof']
+    definition=importlib.util.spec_from_file_location('syntax_receipt_reader',HERE/'review-native.py')
+    reviewer=importlib.util.module_from_spec(definition);definition.loader.exec_module(reviewer)
+    proof=reviewer.load_receipt(DATA,'receipt' if (DATA/'receipt.json.xz').exists() else 'result')['guest']['proof']
     revision = proof['source_revision']
+    if not isinstance(revision,str) or not re.fullmatch('[0-9a-f]{40}',revision):raise ValueError('Canonical source revision required')
     record['source_revision'] = revision
     compiler = shutil.which('gcc')
     if not compiler:
@@ -71,4 +82,4 @@ except BaseException as error:
     record.update(status='fail', error=repr(error))
     raise
 finally:
-    (HERE / ('current-c90-result.json' if '--current' in sys.argv else 'c90-result.json')).write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
+    (DATA / ('current-c90-result.json' if args.current else 'c90-result.json')).write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')

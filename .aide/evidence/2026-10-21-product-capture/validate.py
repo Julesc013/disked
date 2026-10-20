@@ -14,6 +14,7 @@ HERE=Path(__file__).resolve().parent
 work=Path(os.environ['DISKED_WORK_ROOT'])
 full='--full' in sys.argv
 finalize='--finalize' in sys.argv
+bundle='--bundle' in sys.argv
 review_only='--review-only' in sys.argv
 record=dict(status='running',base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
 record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
@@ -40,6 +41,9 @@ if full or finalize:
               ['-m','unittest','discover','-s','tests/tools','-v'],['-m','unittest','discover','-s','tests/differential','-v'],
               ['spec/tools/specctl.py','verify-manifest']]
     if finalize:commands=[c for c in commands if not ('spec/tools/tests' in c or 'tests/differential' in c)]
+    if bundle:
+        if not finalize:raise ValueError('Bundle regression selection accompanies finalization')
+        commands.insert(-1,['-m','unittest','discover','-s','spec/tools/tests','-p','test_specctl.py','-k','BundleTests','-v'])
 for path in [HERE/'cooperative.py',ROOT/'spec/tools/input_graph.py',ROOT/'tools/source-snapshot.py',ROOT/'tests/frontend/gui_fixture.py',ROOT/'tests/frontend/test_gui_capture.py',ROOT/'tests/support/window_capture.py',ROOT/'.aide/evidence/2026-10-18-ordinary-worker/campaign.py',ROOT/'.aide/evidence/2026-10-18-ordinary-worker/full-native.py']:
     ast.parse(path.read_bytes())
 record['syntax_checks']=8

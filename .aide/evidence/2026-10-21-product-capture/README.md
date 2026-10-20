@@ -171,3 +171,19 @@ hashes. `replay.json` independently checks archive membership, request/receipt
 identities and decoded PNG background edges. The archive is64088 bytes; owned
 guest actor/profile/media, source and host workspace cleanup is verified.
 No full-suite, other-platform, accessibility or owner/release claim follows.
+
+Complete host validation retains253 specification,238 tooling and84 differential
+tests with eight expected skips. Final routing changes receive all238 tooling
+tests,1328 structural checks, source-map and manifest verification again, with
+unchanged tested input hashes. The typed DE-W105 closure now binds the actual
+x64/Win32 staging helpers, review reader and C90 checker. Stable IDs are resolved
+to paths rather than assumed to be filenames. Both native profiles pass
+preparation; those checks do not claim native execution.
+
+`launch.py --win32-suite` uses the existing18-group/12-header/nine-executable
+private Win32 contract and512MiB cap, retaining compact receipts in
+`private-win32/`. It refuses leftover raw campaign output. A fresh run is required
+because shared memory-budget code and the workspace runner have changed since
+the historical Win32 result. `c90-check.py --evidence-dir PATH` reads the exact
+selected compact receipt; its syntax-only host check runs no product code.
+The focused build's ten NTFS C units and two standalone C headers pass.

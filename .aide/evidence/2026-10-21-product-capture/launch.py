@@ -10,16 +10,22 @@ import sys
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 OLD=HERE.parent/'2026-10-18-ordinary-worker'
+BUILD=HERE.parent/'2026-10-18-guest-build'
 work=Path(os.environ['DISKED_WORK_ROOT'])
 prepare='--prepare-only' in sys.argv
 background='--background-proof' in sys.argv
 transport=background or '--transport-proof' in sys.argv
 full='--full-suite' in sys.argv
+win32='--win32-suite' in sys.argv
 if background and '--transport-proof' in sys.argv:raise ValueError('Select one control profile')
-if full and transport:raise ValueError('Select the full product suite or private controls')
-if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
-if transport or full:HERE=HERE/('full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
+if sum((full,transport,win32))>1:raise ValueError('Select one native suite or private control profile')
+if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite','--win32-suite') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
+if transport or full or win32:HERE=HERE/('private-win32' if win32 else 'full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
+CAMPAIGN=BUILD if win32 else OLD
 if not prepare and (HERE/'receipt.json.xz').exists():raise ValueError('Review/retain previous product attempt before another run')
+if not prepare:
+    outputs=('result.json','cleanup.json','runner-error.txt','observations.tar.xz' if win32 else 'retained.tar.xz')
+    if any((CAMPAIGN/name).exists() for name in outputs):raise ValueError('Retain previous raw campaign outputs before another run')
 record=dict(status='running',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
 def call(args,*,env=None,timeout=180):
     result=subprocess.run(list(map(str,args)),cwd=ROOT,env=env,capture_output=True,timeout=timeout)
@@ -38,8 +44,8 @@ try:
         call([sys.executable,'-B','tools/workspace.py','check','--planned-bytes','29360128'])
         call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W105','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','25165824'],env=env)
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
-    definition=importlib.util.spec_from_file_location('product_campaign',OLD/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
-    sys.argv=[str(OLD/'campaign.py'),*(['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
+    definition=importlib.util.spec_from_file_location('product_campaign',CAMPAIGN/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
+    sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
     code=campaign.main();record.update(status='pass' if code==0 else 'fail',exit_code=code)
     if code:raise RuntimeError('Product campaign did not pass; inspect retained exact outcome')
 except BaseException:
@@ -48,9 +54,9 @@ finally:
     try:
         if not prepare:
             for source,target in [('result.json','receipt.json.xz'),('cleanup.json','cleanup.json.xz'),('runner-error.txt','runner-error.txt.xz')]:
-                path=OLD/source
+                path=CAMPAIGN/source
                 if path.exists():packed(target,path.read_bytes());path.unlink()
-            path=OLD/'retained.tar.xz'
+            path=CAMPAIGN/('observations.tar.xz' if win32 else 'retained.tar.xz')
             if path.exists():
                 target=HERE/'retained.tar.xz'
                 if target.exists():raise ValueError('Refuse replacing retained evidence')

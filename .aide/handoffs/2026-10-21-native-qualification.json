@@ -1,0 +1,79 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "66be7944761e0929c28f23a1b29ccb2d0f4949a6",
+  "spec_manifest_digest": "sha256:49289e1eecf6e07a2fc7cc17270c3df7f1a84c7efc62a16e5e94789ca03f274d",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/catalog/input-dependencies.json",
+    ".aide\\evidence\\2026-10-21-product-capture\\launch.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/c90-check.py",
+    ".aide/evidence/2026-10-18-guest-build/campaign.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-build/preparation.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/c90-check.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/c90-result.json",
+    ".aide/evidence/2026-10-21-product-capture/finalization.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/preparation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/launch.py",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/preparation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/validate.py",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json"
+  ],
+  "summary": "Bound the actual native staging/review/C90 helpers in the work context and source export. Full575-test host baseline passes with eight expected skips;affected final routing receives238 tooling tests(one skip),1328 structural checks and manifest/source-map verification. Both native profiles pass preparation. Focused ten-unit/two-header C90 passes at3bbf92f2. Current full x64 and fresh private Win32 remain unrun;main unchanged.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\validate.py --finalize",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\finalization.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\launch.py --full-suite --prepare-only",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\full-native\\preparation.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\launch.py --win32-suite --prepare-only",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\private-win32\\preparation.json.xz"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/finalization.json.xz",
+      "sha256": "sha256:07c8c7c687b39dd2499b716e557214ea4873c4a3ec5fa09679868819aed5ac73"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/c90-result.json",
+      "sha256": "sha256:6f1bde057046fe5e5513d1f0f34c9c698c4afdb0f663b9c8fa471c19e379aee2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/preparation.json.xz",
+      "sha256": "sha256:d6288d5aca0e595ab7b0baffc8a1cef521a6d42308469c28720bd50639401341"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/preparation.json.xz",
+      "sha256": "sha256:d6288d5aca0e595ab7b0baffc8a1cef521a6d42308469c28720bd50639401341"
+    }
+  ],
+  "blockers": [
+    "Current full180-group x64 and fresh18-group private Win32 qualification remain required before main."
+  ],
+  "next_safe_step": "Commit and push the frozen candidate on dev;run the full x64 campaign in the existing capped guest,then inspect exact reports and saved PNGs. Qualify private Win32 and current C90 before reviewed main integration.",
+  "performed_remote_writes": true
+}
