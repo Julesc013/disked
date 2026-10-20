@@ -41,13 +41,16 @@ def capture(window,pid,desktop):
     bind(k,'CreateFileMappingW',T.HANDLE,T.HANDLE,T.LPVOID,T.DWORD,T.DWORD,T.DWORD,T.LPCWSTR)
     bind(k,'MapViewOfFile',T.LPVOID,T.HANDLE,T.DWORD,T.DWORD,T.DWORD,C.c_size_t)
     bind(k,'UnmapViewOfFile',T.BOOL,T.LPVOID);bind(k,'CloseHandle',T.BOOL,T.HANDLE)
+    bind(k,'GetCurrentProcess',T.HANDLE)
+    bind(k,'OpenProcess',T.HANDLE,T.DWORD,T.BOOL,T.DWORD)
+    bind(k,'DuplicateHandle',T.BOOL,T.HANDLE,T.HANDLE,T.HANDLE,C.POINTER(T.HANDLE),T.DWORD,T.BOOL,T.DWORD)
     bind(u,'RegisterWindowMessageW',T.UINT,T.LPCWSTR)
     bind(u,'SetWindowsHookExW',T.HANDLE,C.c_int,T.LPVOID,T.HANDLE,T.DWORD)
     bind(u,'UnhookWindowsHookEx',T.BOOL,T.HANDLE)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId())
     dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     target=checked(u.OpenDesktopW(desktop,0,False,0xf01ff))
-    section=view=hook=None;module=None
+    section=view=hook=process=None;module=None
     try:
         checked(u.SetThreadDesktop(target))
         owner=T.DWORD();thread=checked(u.GetWindowThreadProcessId(window,C.byref(owner)))
@@ -67,21 +70,22 @@ def capture(window,pid,desktop):
         if digest!=os.environ['DISKED_PIXEL_RENDER_SHA256']:raise ValueError('Fixture DLL identity differs')
         # The coordinator pins this code read-only until target job retirement.
         module=C.WinDLL(str(dll),winmode=0x1100,use_last_error=True)
-        first,second=struct.unpack('<QQ',os.urandom(16))
-        name='Local\\DiskEdPixel-'+format(first,'016x')+format(second,'016x')
+        first=int.from_bytes(os.urandom(8),'little');second=0
         C.set_last_error(0)
-        section=checked(k.CreateFileMappingW(T.HANDLE(-1),None,4,0,96+92160,name))
-        if C.get_last_error()==183:raise ValueError('Fixture mapping already exists')
+        section=checked(k.CreateFileMappingW(T.HANDLE(-1),None,4,0,96+92160,None))
         view=checked(k.MapViewOfFile(section,6,0,0,96+92160))
         C.memset(view,0,96+92160)
         frame=struct.Struct('<IIQIIIIQQIIII32x')
         prefix=frame.pack(0x50454444,1,window,pid,240,96,92160,first,second,0,0,0,0)
         C.memmove(view,prefix,96)
+        process=checked(k.OpenProcess(0x40,False,pid)) # only this validated owned target
+        remote=T.HANDLE()
+        checked(k.DuplicateHandle(k.GetCurrentProcess(),section,process,C.byref(remote),6,False,0))
         request=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture/1'))
         # Nonzero,previously validated exact owned UI thread. Never global.
         hook=checked(u.SetWindowsHookExW(4,C.cast(module.OwnedPixelHook,T.LPVOID),module._handle,thread))
         answer=C.c_size_t();C.set_last_error(0)
-        printed=bool(u.SendMessageTimeoutW(window,request,first,C.c_ssize_t(second).value,2,3000,C.byref(answer)))
+        printed=bool(u.SendMessageTimeoutW(window,request,remote.value,C.c_ssize_t(first).value,2,3000,C.byref(answer)))
         error=0 if printed else C.get_last_error()
         # Even a timeout goes through finally and owned job retirement. Never
         # infer callback quiescence merely from UnhookWindowsHookEx success.
@@ -108,6 +112,7 @@ def capture(window,pid,desktop):
         if hook:checked(u.UnhookWindowsHookEx(hook))
         if view:checked(k.UnmapViewOfFile(view))
         if section:checked(k.CloseHandle(section))
+        if process:checked(k.CloseHandle(process))
         checked(u.SetThreadDesktop(previous));checked(u.CloseDesktop(target))
         checked(u.SetThreadDpiAwarenessContext(dpi))
 

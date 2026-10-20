@@ -1,0 +1,53 @@
+{
+  "status": "named_section_path_not_found_before_hook",
+  "source_revision": "29ab1c7f7189255730bafe4eb9c18144e61df6ac",
+  "finding": "Single-file read/execute handoff succeeds:the producer hashes and loads the DLL. Its Local-prefixed CreateFileMappingW fails with ERROR_PATH_NOT_FOUND3 before hook installation or pixels. Preserve this failure;use an unnamed section transferred only to the exact owned process without shared namespace changes.",
+  "fixture": {
+    "source_sha256": "c758718f51546942b1aa1f274561e6c414e7f9e78e0bb198a9dd0e2142d79860",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "08433f26385bf5317878e241dc13896691ee3770a598c9d55c0dfbc6a9b48d7b",
+    "dll_bytes": 120832,
+    "imports_observation_sha256": "dc7e39f86c101903c0560b248cf87c7f2c5fe2340864982097b091202d17c936",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1125)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    }
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "32f286701990834848445f5165277d00",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 13187,
+  "compressed_bytes": 3824,
+  "archive_sha256": "6dd214f9e6bcb4995451861f055d8f7a35765a88c7d8bc5b1ea7da334713935f",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-named-section-failure.json.xz",
+    "uncompressed_sha256": "1cb64b78de4e76a21a4445f949819c97e0eb2ee6908abcc6f9d7ce469bfbbd69",
+    "compressed_sha256": "93660fe67639fe7c470494a4afb73d9a981eeca89bc8265a40043e41b083aea9"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

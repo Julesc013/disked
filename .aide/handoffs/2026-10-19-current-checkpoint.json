@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "306e5f800be098e5f4be6e735fc612c733592c1c",
+  "base_revision": "29ab1c7f7189255730bafe4eb9c18144e61df6ac",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -110,6 +110,10 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.tar.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-named-section-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-named-section-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
@@ -217,7 +221,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 active. Run123 at306e5f80 compiles/import-inspects the small x64 test renderer,but the restricted producer is denied reading its DLL before capture. All8 archive entry hashes and owned cleanup verify,zero backing growth. Candidate explicitly publishes only the exact fresh fixture DLL read/execute to its actor and preserves its hash;product permissions are unchanged. Metadata/template/source-map/manifest checks pass. Full pixel and product GUI qualification remain pending.",
+  "summary": "DE-W105 active. Run124 at29ab1c7f proves the test DLL read/execute handoff and module load,but Local-prefixed CreateFileMappingW fails with ERROR_PATH_NOT_FOUND3 before hook installation. All8 archive entry hashes and owned cleanup verify,zero backing growth. Candidate uses an unnamed memory section with an explicit handle duplicated only into the validated owned control process;no shared namespace or product ACL changes. Pixel origin,actual product GUI and full native qualification remain pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -820,6 +824,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-review.json"
     }
   ],
   "artifacts": [
@@ -1552,6 +1563,22 @@
       "sha256": "sha256:0da3ae0a3f3dbdda19dd35d95eabc91959bef67d4a6d8b6d4048ba7bfd7c2cfe"
     },
     {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-cleanup.json",
+      "sha256": "sha256:4bbbd2da8e1e6a89cf53fd202657a4933cb9748da4d516255c07963465fd2c6e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-named-section-failure.json.xz",
+      "sha256": "sha256:93660fe67639fe7c470494a4afb73d9a981eeca89bc8265a40043e41b083aea9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-named-section-failure.tar.xz",
+      "sha256": "sha256:6dd214f9e6bcb4995451861f055d8f7a35765a88c7d8bc5b1ea7da334713935f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fourth-review.json",
+      "sha256": "sha256:16a5b241ff715292e4bf3645d3b06cddd3da8c5b008804032b930e9e917546c5"
+    },
+    {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-cleanup.json",
       "sha256": "sha256:a66ad06ff4f8f1a0bf065ffd527bf1a4ff8f48e975d4eb385b3573062050280e"
     },
@@ -1601,7 +1628,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:a240f69d4adfee175db6315636da97b18af1fa29dc61ac00bac48131203432a4"
+      "sha256": "sha256:af0b1403e99dc5af4e86e95aea7d7ff23aeaf44347ca91c115090592bc0a3ee5"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
@@ -1609,11 +1636,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-      "sha256": "sha256:259d670d94c56f2e101a40cf293e4f10e9bc63ac98dc58d9027049badcf74f9c"
+      "sha256": "sha256:dc518103842ebb78195c9ac5a9c719f17d17738e59378f055b8e2103bf395917"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-render.c",
-      "sha256": "sha256:c758718f51546942b1aa1f274561e6c414e7f9e78e0bb198a9dd0e2142d79860"
+      "sha256": "sha256:54ad059b8c8747cd38c451c76196dbc8776890745b44f3fcfacb3493b829a92d"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
@@ -1849,7 +1876,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:527fe0f8b597e893cebc43960611456f13af09c8c7683f654c966b93e803c845"
+      "sha256": "sha256:96dc632dc35e687bdc864503aa08d43cb3d75657b4e9adb6a2c34960e32137fa"
     },
     {
       "path": "docs/native-bootstrap.md",
@@ -1892,6 +1919,6 @@
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Run the exact-source UI-thread known-pixel preflight after the single-DLL read/execute handoff. Require unchanged full RGB A/B expectations,wrong-surface controls,actual visual review,restricted identities,pinned fixture code,job retirement and cleanup. No product/full rebuild or main integration until required qualification.",
+  "next_safe_step": "Validate and run the exact-source owned UI-thread known-pixel preflight using unnamed-section transport. Require the fixed complete RGB A/B expectations,wrong-surface controls,actual image review,restricted identities,pinned code,retirement of target/producer jobs and cleanup. No product/full rebuild or main integration before required qualification.",
   "performed_remote_writes": true
 }

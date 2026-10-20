@@ -5,7 +5,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <wchar.h>
 
 typedef struct {
@@ -21,7 +20,7 @@ typedef char frame_is_96_bytes[(sizeof(Frame) == 96) ? 1 : -1];
 
 static void render(const CWPSTRUCT *message)
 {
-    wchar_t name[96], class_name[64];
+    wchar_t class_name[64];
     DWORD pid = 0, error = 0;
     RECT rect, client;
     HANDLE section = NULL;
@@ -31,8 +30,8 @@ static void render(const CWPSTRUCT *message)
     HGDIOBJ previous = NULL;
     void *bits = NULL;
     BITMAPINFO info = {0};
-    uint64_t first = (uint64_t)message->wParam;
-    uint64_t second = (uint64_t)message->lParam;
+    uint64_t first = (uint64_t)message->lParam;
+    BOOL owned_section = FALSE;
     /* This control-only candidate cannot operate on arbitrary applications. */
     if (GetWindowThreadProcessId(message->hwnd, &pid) != GetCurrentThreadId() ||
         pid != GetCurrentProcessId() ||
@@ -43,18 +42,17 @@ static void render(const CWPSTRUCT *message)
         rect.right - rect.left != 240 || rect.bottom - rect.top != 96 ||
         client.left != 0 || client.top != 0 || client.right != 240 || client.bottom != 96)
         return;
-    if (swprintf_s(name, 96, L"Local\\DiskEdPixel-%016llx%016llx", first, second) < 0)
-        return;
-    section = OpenFileMappingW(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, name);
+    section = (HANDLE)message->wParam;
     if (!section) return;
     frame = (Frame *)MapViewOfFile(section, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 96 + 92160);
     if (!frame) goto done;
     if (frame->magic != 0x50454444 || frame->version != 1 ||
         frame->window != (uint64_t)(UINT_PTR)message->hwnd || frame->pid != pid ||
         frame->width != 240 || frame->height != 96 || frame->bytes != 92160 ||
-        frame->first != first || frame->second != second ||
+        frame->first != first || frame->second != 0 ||
         InterlockedCompareExchange(&frame->status, 1, 0) != 0)
         goto done;
+    owned_section = TRUE;
     frame->renderer_pid = GetCurrentProcessId();
     frame->renderer_thread = GetCurrentThreadId();
     dc = CreateCompatibleDC(NULL);
@@ -83,7 +81,9 @@ complete:
     InterlockedExchange(&frame->status, error ? 3 : 2);
 done:
     if (frame) UnmapViewOfFile(frame);
-    CloseHandle(section);
+    /* Invalid/uncertain foreign values are never closed speculatively. The
+     * owning target job retires after every failed request,closing leftovers. */
+    if (owned_section) CloseHandle(section);
 }
 
 __declspec(dllexport) LRESULT CALLBACK OwnedPixelHook(int code, WPARAM wp, LPARAM lp)
