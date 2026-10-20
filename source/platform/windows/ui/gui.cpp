@@ -5,6 +5,7 @@
 #include "window_capture.h"
 #include <algorithm>
 #include <array>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <io.h>
@@ -22,7 +23,7 @@ struct Failure : std::runtime_error {
     X(SendMessageW) X(SetWindowTextW) X(GetWindowTextW) X(GetWindowTextLengthW) \
     X(GetClientRect) X(MoveWindow) X(SetFocus) X(GetFocus) X(EnableWindow) \
     X(LoadCursorW) X(LoadIconW) X(SystemParametersInfoW) X(GetSysColorBrush) \
-    X(GetSysColor) X(InvalidateRect) X(GetDlgCtrlID) X(IsWindow) X(GetWindowRect) X(GetNextDlgTabItem) X(GetKeyState) X(GetDC) X(ReleaseDC) X(RemovePropW)
+    X(GetSysColor) X(InvalidateRect) X(GetDlgCtrlID) X(IsWindow) X(GetWindowRect) X(GetNextDlgTabItem) X(GetKeyState) X(GetDC) X(ReleaseDC) X(SetPropW) X(RemovePropW)
 #define GDI_APIS(X) X(CreateFontIndirectW) X(DeleteObject) X(SetTextColor) X(SetBkColor) X(SelectObject) X(GetTextExtentPoint32W)
 class Api final {
     HMODULE user_=nullptr,gdi_=nullptr;
@@ -84,6 +85,7 @@ public:
     bool registered=false,updating=false,failed=false;
     ui::WindowCaptureReceiver capture_receiver;
     bool capture_enabled=false;
+    std::uint64_t capture_nonce=0;
     bool contrast_known=false,high_contrast=false;
     UINT dpi=96;std::vector<std::string> ids,fields;
     std::size_t field_page=0;
@@ -91,6 +93,18 @@ public:
     Window(Api& a,const std::function<void()>& advance):api(a),advance_observations(advance) {
         wchar_t mode[64]{};const auto n=GetEnvironmentVariableW(L"DISKED_GUI_CAPTURE_TEST",mode,64);
         capture_enabled=n>0 && n<64 && std::wstring(mode)==L"owned-client-tree/1";
+        if(capture_enabled) {
+            wchar_t nonce[17]{};
+            if(GetEnvironmentVariableW(L"DISKED_GUI_CAPTURE_NONCE",nonce,17)!=16)throw Failure("gui_capture_configuration_invalid",3);
+            for(unsigned i=0;i<16;++i) {
+                unsigned digit=0;
+                if(nonce[i]>=L'0' && nonce[i]<=L'9')digit=static_cast<unsigned>(nonce[i]-L'0');
+                else if(nonce[i]>=L'a' && nonce[i]<=L'f')digit=static_cast<unsigned>(nonce[i]-L'a'+10);
+                else throw Failure("gui_capture_configuration_invalid",3);
+                capture_nonce=(capture_nonce<<4)|digit;
+            }
+            if(!static_cast<std::uint32_t>(capture_nonce) || !static_cast<std::uint32_t>(capture_nonce>>32))throw Failure("gui_capture_configuration_invalid",3);
+        }
     }
     ~Window() {
         if(window && api.IsWindow(window))api.DestroyWindow(window);
@@ -268,7 +282,12 @@ public:
             switch(message) {
             case WM_COPYDATA:
                 return lp && ui::receive_owned_window_capture(hwnd,*reinterpret_cast<const COPYDATASTRUCT*>(lp),self.capture_receiver,self.capture_enabled)?TRUE:FALSE;
-            case WM_CREATE:self.dpi=self.api.GetDpiForWindow?self.api.GetDpiForWindow(hwnd):96;if(!self.dpi)self.dpi=96;self.create_controls();return 0;
+            case WM_CREATE:
+                if(self.capture_enabled &&
+                   (!self.api.SetPropW(hwnd,L"DiskEd.Capture.NonceLow",reinterpret_cast<HANDLE>(static_cast<ULONG_PTR>(self.capture_nonce&0xffffffff))) ||
+                    !self.api.SetPropW(hwnd,L"DiskEd.Capture.NonceHigh",reinterpret_cast<HANDLE>(static_cast<ULONG_PTR>(self.capture_nonce>>32)))))
+                    throw Failure("gui_capture_initialization_failed",3);
+                self.dpi=self.api.GetDpiForWindow?self.api.GetDpiForWindow(hwnd):96;if(!self.dpi)self.dpi=96;self.create_controls();return 0;
             case WM_SIZE:if(wp!=SIZE_MINIMIZED)self.layout();return 0;
             case WM_GETMINMAXINFO: {
                 auto* limits=reinterpret_cast<MINMAXINFO*>(lp);limits->ptMinTrackSize={self.scale(800),self.scale(570)};return 0;

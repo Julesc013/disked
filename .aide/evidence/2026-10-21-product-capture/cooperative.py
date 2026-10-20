@@ -26,7 +26,7 @@ class Coordinator:
                 super().__init__(worker,fixtures,image,env,expected_sha256=expected_sha256)
                 self.capture_nonce=int(self.nonce[:16],16)
                 while not self.capture_nonce&0xffffffff or not self.capture_nonce>>32:self.capture_nonce=int.from_bytes(os.urandom(8),'little')
-                env.update(DISKED_GUI_CAPTURE_TEST='owned-client-tree/1',DISKED_WINDOW_CAPTURE_METHOD=METHOD)
+                env.update(DISKED_GUI_CAPTURE_TEST='owned-client-tree/1',DISKED_GUI_CAPTURE_NONCE=f'{self.capture_nonce:016x}',DISKED_WINDOW_CAPTURE_METHOD=METHOD)
             def poll(self,job):
                 if len(self.seen)>=6 and list(self.temp.glob('window-capture-request-*.ready')):raise ValueError('Six-case capture request bound')
                 super().poll(job)
@@ -76,8 +76,6 @@ class Coordinator:
                     view=bind(k,'MapViewOfFile',C.c_void_p,T.HANDLE,T.DWORD,T.DWORD,T.DWORD,C.c_size_t)(section,2,0,0,total)
                     if not view:k.CloseHandle(section);raise C.WinError(C.get_last_error())
                     self.sections.append((section,view));target=T.HANDLE();b.require(duplicate(current,section,entry['process'],C.byref(target),2,False,0))
-                    setprop=bind(u,'SetPropW',T.BOOL,T.HWND,T.LPCWSTR,T.HANDLE)
-                    b.require(setprop(window,'DiskEd.Capture.NonceLow',self.capture_nonce&0xffffffff));b.require(setprop(window,'DiskEd.Capture.NonceHigh',self.capture_nonce>>32))
                     packet=protocol.encode_request(nonce=self.capture_nonce,sequence=entry['sequence'],width=width,height=height,window=window,process=pid,thread=thread,
                         job_handle=entry['query'],section_handle=target.value,volume=int(self.image_identity[0]),file_id=bytes.fromhex(self.image_identity[1]),case_id=bytes.fromhex(value['id']),
                         window_rect=bounds,desktop=w.desktop_name.split('\\')[0]+'\\'+value['desktop'])
@@ -89,10 +87,10 @@ class Coordinator:
                     after=T.RECT();b.require(get_frame(window,C.byref(after)))
                     if [after.left,after.top,after.right,after.bottom]!=bounds:raise ValueError('Capture frame changed after reply')
                     observed.update(window=window,pid=pid,desktop=value['desktop'],method=METHOD,client_box=[0,0,width,height],frame_bounds=bounds,
+                        coordinator_integrity_sid=w.coordinator_integrity_sid,
                         request_sha256=hashlib.sha256(packet).hexdigest(),request_hex=packet.hex(),reply_header_hex=body[:124].hex(),membership_job_query_access=4,
                         output_section_access=2,supervisor_handle_exposed=False,receiver_sequence=entry['sequence'],capture_id=value['id'])
                     self.remote_transfers.append(dict(pid=pid,sequence=entry['sequence'],query_access=4,section_access=2,supervisor_exposed=False))
-                    remove=bind(u,'RemovePropW',T.HANDLE,T.HWND,T.LPCWSTR);remove(window,'DiskEd.Capture.NonceLow');remove(window,'DiskEd.Capture.NonceHigh')
                     header=json.dumps(observed,separators=(',',':')).encode()
                     if len(header)>4096:raise ValueError('Capture envelope bound')
                     return header+b'\n'+pixels

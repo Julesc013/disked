@@ -30,7 +30,25 @@ python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-
 python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py
 ```
 
-Native results are pending. Preparation, source checks and private controls do
-not establish product capture success. Current full native qualification is
-still required before main promotion. Owner acceptance, release, reference and
-all original platform/storage gates remain separate.
+The first actual product run at `caa473b6` built and linked DiskEd in 296 seconds,
+passed its import/security observations and the existing CLI/protocol acceptance
+group. Capture failed before producing pixels: the coordinator's `SetPropW`
+call returned Windows error 5. The failure, 20,432-byte archive and cleanup
+receipts are retained in `attempt-001/`. Peak allocated scratch was 86,936,259
+bytes; filesystem usage peaked at 110,043,136 bytes. The owned source, media,
+actor and temporary output were removed, and local metadata was consumed.
+
+The repair makes the GUI initialize its own nonce properties on its UI thread
+from a bounded private test configuration. It no longer asks another process to
+modify those properties. Invalid configuration fails explicitly. Desktop ACLs,
+ordinary-token checks, image pins, query-only membership capability and all
+caption/client/inert-review assertions stay in place. The receiver protocol and
+earlier independent transport controls are unchanged. A repaired native run is
+pending; no product pixels have been qualified.
+
+Host validation passed 253 specification, 222 tooling and 84 differential tests
+(559 run, eight skipped), with 1,328 structural checks, source-map and manifest
+verification. The final helper registrations received the 222 tooling tests and
+structural/projection checks again. Current full native qualification is still
+required before main promotion. Owner acceptance, release, reference and all
+original platform/storage gates remain separate.

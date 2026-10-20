@@ -355,7 +355,7 @@ def coordinate(g):
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
             window_broker=None
             try:
-                for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST'):env.pop(key,None)
+                for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST','DISKED_GUI_CAPTURE_NONCE'):env.pop(key,None)
                 if ordinary and fixture_broker:fixture_broker.start_job(env)
                 else:
                     env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
@@ -402,7 +402,7 @@ def coordinate(g):
                     if label=='pixel-origin-control':result['pixel_origin_preflight']=window_broker.report()
                     records=window_broker.finish(quiescent=quiescent)
                     result.setdefault('owned_window_captures',[]).extend(records)
-                    for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST'):env.pop(key,None)
+                    for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID','DISKED_WINDOW_CAPTURE_METHOD','DISKED_GUI_CAPTURE_TEST','DISKED_GUI_CAPTURE_NONCE'):env.pop(key,None)
                 if ordinary and fixture_broker:
                     retired=fixture_broker.finish_job(quiescent=quiescent)
                     if retired['requests']:result.setdefault('fixture_dacl_jobs',[]).append(dict(command=label,**retired))
