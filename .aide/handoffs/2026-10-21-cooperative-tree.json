@@ -52,15 +52,19 @@
     ".aide/evidence/2026-10-21-cooperative-capture/validate.py",
     ".aide/evidence/2026-10-21-cooperative-tree/REVIEW.md",
     ".aide/evidence/2026-10-21-cooperative-tree/backward-replay.json",
+    ".aide/evidence/2026-10-21-cooperative-tree/checkpoint.json",
     ".aide/evidence/2026-10-21-cooperative-tree/cleanup.json",
+    ".aide/evidence/2026-10-21-cooperative-tree/context-cleanup.json",
     ".aide/evidence/2026-10-21-cooperative-tree/expected.json",
     ".aide/evidence/2026-10-21-cooperative-tree/final-context.json",
+    ".aide/evidence/2026-10-21-cooperative-tree/handoff-validation.json",
     ".aide/evidence/2026-10-21-cooperative-tree/observations.tar.xz",
     ".aide/evidence/2026-10-21-cooperative-tree/preflight.json",
     ".aide/evidence/2026-10-21-cooperative-tree/prepared.json",
     ".aide/evidence/2026-10-21-cooperative-tree/replay.json",
     ".aide/evidence/2026-10-21-cooperative-tree/result.json.xz",
     ".aide/evidence/2026-10-21-cooperative-tree/source-bindings.json",
+    ".aide/evidence/2026-10-21-cooperative-tree/storage-check.json",
     ".aide/evidence/2026-10-21-cooperative-tree/validation-cleanup.json",
     ".aide/evidence/2026-10-21-cooperative-tree/validation.json.xz",
     ".aide/handoffs/2026-10-21-cooperative-tree.json",
@@ -79,7 +83,7 @@
     "tests/support/cooperative_capture.py",
     "tests/tools/test_cooperative_capture.py"
   ],
-  "summary": "The owning-thread client-tree primitive passes exact A/B pixels painted only by two children,four new descendant-scope/transition refusals and all eleven original refusals. All five original modes,eight byte-I/O controls,32MiB primitive proof and supervisor-handle-loss retirement pass. A separate native capture-only consumer compiles/links/runs without USER32/GDI32 static imports and without GUI-module change on invalid input. All20 native calls retire,all32 raw entries replay and actual tree PNGs were visually inspected. Full host suites run555 tests with eight skips,1327 structural checks and329-source inventory pass;backward replay preserves original raw evidence. Owned guest and host output is removed;allocated backing growth not measured. The primitive remains unlinked;product receiver/native controls,six PNGs,full native/main and original all-platform/storage0.1.0/owner/release gates remain open.",
+  "summary": "The owning-thread client-tree primitive passes exact A/B pixels painted only by two children,four new descendant-scope/transition refusals and all eleven original refusals. All five original modes,eight byte-I/O controls,32MiB primitive proof and supervisor-handle-loss retirement pass. A separate native capture-only consumer compiles/links/runs without USER32/GDI32 static imports and without GUI-module change on invalid input. All20 native calls retire,all32 raw entries replay and actual tree PNGs were visually inspected. Full host suites run555 tests with eight skips,1327 structural checks and329-source inventory pass;backward replay preserves original raw evidence. Owned guest and host output is removed;allocated backing growth not measured. The primitive remains unlinked;product receiver/native controls,six PNGs,full native/main and original all-platform/storage0.1.0/owner/release gates remain open. Tested source checkpoint 373f46e08bceb330ee0ab322618a3401f94a9c76 was pushed to origin/dev and24 native source blobs verified;main is unchanged.",
   "tests": [
     {
       "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --cooperative-tree-proof",
@@ -140,8 +144,16 @@
       "sha256": "sha256:cfa65c2a50739d7e9b754ed44f41bb93ab7311d58c5ef43d9a1f84c8b344ba3d"
     },
     {
+      "path": ".aide/evidence/2026-10-21-cooperative-tree/checkpoint.json",
+      "sha256": "sha256:485f1ee41cf156358521a0f0b561835c37414f52945f65e637fb62c884b1ddf6"
+    },
+    {
       "path": ".aide/evidence/2026-10-21-cooperative-tree/cleanup.json",
       "sha256": "sha256:d91d9a64845155e945ae0f8fdf12546339588910a456400e56199d831865ecce"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-cooperative-tree/context-cleanup.json",
+      "sha256": "sha256:6ae09f450ffc329c36bc2007492c6415b1d300e2e59685c8b1572b8065a92d7c"
     },
     {
       "path": ".aide/evidence/2026-10-21-cooperative-tree/expected.json",
@@ -176,6 +188,10 @@
       "sha256": "sha256:44c52f9916b0c28aef13b2888f65499a8dc748319f1f2500d400e96dcd1a71c6"
     },
     {
+      "path": ".aide/evidence/2026-10-21-cooperative-tree/storage-check.json",
+      "sha256": "sha256:b82e27e21155a70ecf6a319b29db1cd457cf6295e7971254754be0bf19153337"
+    },
+    {
       "path": ".aide/evidence/2026-10-21-cooperative-tree/validation-cleanup.json",
       "sha256": "sha256:e96ccc5f284977694461f76d616152d12732128f961d52f8f8b65f814eff6167"
     },
@@ -185,7 +201,7 @@
     },
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:8ba3240d89c479905cdf835d1984aa759ef979ff63588fa82d026100be06c8cb"
+      "sha256": "sha256:62206f825241a95030636e9264641da03a5f0a6ce6293b223e24022d14bbe010"
     },
     {
       "path": "CMakeLists.txt",
@@ -246,5 +262,5 @@
     "Original all-platform/storage0.1.0,owner/release/reference/sanitizer/historical-platform gates remain separate and incomplete."
   ],
   "next_safe_step": "Continue DE-W105 with one private product-side cooperative request/reply path using explicit owned capabilities and per-case identities. The owning-thread client-tree primitive now passes all original controls plus exact child-painted A/B pixels,four descendant-scope/transition refusals and a native no-USER32/GDI32-import startup probe. It remains unlinked from the product. Preserve the existing lazy GUI loader and bound HWND/PID/thread/job/image/private-desktop/nonce/geometry before any real product capture;borrow only explicitly transferred query/output handles and never close arbitrary request-supplied handles. Qualify native product controls,the six distinct product PNGs and the current full native suite before main. Old DC/hook candidates stay closed;original all-platform/storage0.1.0 and owner/release/reference/sanitizer gates remain open.",
-  "performed_remote_writes": false
+  "performed_remote_writes": true
 }
