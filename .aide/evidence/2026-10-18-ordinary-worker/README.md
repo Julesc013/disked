@@ -1,5 +1,7 @@
 # Ordinary worker and current native qualification
 
+Current private fixture controls: [run95 review](ninety-fifth-review.json) passes at `ac4996c8`,including normal and abandoned restoration,verified archive and complete cleanup. The18 affected native groups are being replayed against that source;full W105 qualification and main promotion remain pending.
+
 Full run89 at `4572aef4`: **162/180 groups pass; 18 fail**. The all-target build,
 68 headers and 14 executable/import observations pass. All 4,224 archive entry
 hashes verify; 889,493,058 raw bytes occupy 2,442,352 compressed bytes. Cleanup
