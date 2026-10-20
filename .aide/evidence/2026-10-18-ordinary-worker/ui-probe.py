@@ -13,6 +13,29 @@ k.LoadLibraryExW.argtypes = [T.LPCWSTR, T.HANDLE, T.DWORD]
 k.LoadLibraryExW.restype = T.HMODULE
 k.FreeLibrary.argtypes = [T.HMODULE]
 report = dict(scope=__doc__, libraries=[])
+def desktop_name():
+    u=C.WinDLL('user32',use_last_error=True)
+    k.GetCurrentThreadId.restype=T.DWORD
+    u.GetThreadDesktop.argtypes=[T.DWORD];u.GetThreadDesktop.restype=T.HANDLE
+    u.GetUserObjectInformationW.argtypes=[T.HANDLE,C.c_int,T.LPVOID,T.DWORD,C.POINTER(T.DWORD)]
+    text=C.create_unicode_buffer(1024);needed=T.DWORD()
+    if not u.GetUserObjectInformationW(u.GetThreadDesktop(k.GetCurrentThreadId()),2,text,C.sizeof(text),C.byref(needed)):
+        raise C.WinError(C.get_last_error())
+    return text.value
+if '--gdi-window-child' in sys.argv:
+    u=C.WinDLL('user32',use_last_error=True)
+    u.CreateWindowExW.argtypes=[T.DWORD,T.LPCWSTR,T.LPCWSTR,T.DWORD,C.c_int,C.c_int,C.c_int,C.c_int,T.HWND,T.HMENU,T.HINSTANCE,T.LPVOID];u.CreateWindowExW.restype=T.HWND
+    u.GetMessageW.argtypes=[C.POINTER(T.MSG),T.HWND,T.UINT,T.UINT]
+    u.TranslateMessage.argtypes=[C.POINTER(T.MSG)];u.DispatchMessageW.argtypes=[C.POINTER(T.MSG)];u.DispatchMessageW.restype=C.c_ssize_t
+    window=u.CreateWindowExW(0,'STATIC','Owned print probe',0x90000000,0,0,240,96,None,None,None,None)
+    if not window:raise C.WinError(C.get_last_error())
+    button=u.CreateWindowExW(0,'BUTTON','Owned caption',0x50000000,10,30,160,35,window,None,None,None)
+    if not button:raise C.WinError(C.get_last_error())
+    print(json.dumps(dict(window=window,pid=os.getpid(),desktop=desktop_name())),flush=True)
+    message=T.MSG()
+    while u.GetMessageW(C.byref(message),None,0,0)>0:
+        u.TranslateMessage(C.byref(message));u.DispatchMessageW(C.byref(message))
+    sys.exit(0)
 if '--station-limits' in sys.argv and '--console-child' not in sys.argv:
     # Isolate the application's named-object bootstrap refusal without another
     # product build or a namespace ACL change. Handles are owned and short lived.
@@ -160,6 +183,51 @@ for name in ('user32.dll', 'gdi32.dll'):
                         if bitmap:g.DeleteObject(bitmap)
                         if dc:g.DeleteDC(dc)
                     row['memory_drawing'].append(observed)
+                u.PrintWindow.argtypes=[T.HWND,T.HDC,T.UINT];u.PrintWindow.restype=T.BOOL
+                u.SendMessageTimeoutW.argtypes=[T.HWND,T.UINT,C.c_size_t,C.c_ssize_t,T.UINT,T.UINT,C.POINTER(C.c_size_t)];u.SendMessageTimeoutW.restype=C.c_ssize_t
+                u.RedrawWindow.argtypes=[T.HWND,T.LPVOID,T.HANDLE,T.UINT]
+                def printing(hwnd,owner):
+                    dc=g.CreateCompatibleDC(None);bits=T.LPVOID();bitmap=None;old=None
+                    if not dc:raise C.WinError(C.get_last_error())
+                    try:
+                        info=C.create_string_buffer(struct.pack('<IiiHHIIiiII',40,240,-96,1,32,0,240*96*4,0,0,0,0))
+                        bitmap=g.CreateDIBSection(dc,info,0,C.byref(bits),None,0)
+                        if not bitmap or not bits:raise C.WinError(C.get_last_error())
+                        old=g.SelectObject(dc,bitmap)
+                        if old in (None,C.c_void_p(-1).value):raise C.WinError(C.get_last_error())
+                        rows=[]
+                        for method in ('PrintWindow0','PrintWindow2','WM_PRINT'):
+                            C.memset(bits,0,240*96*4);u.RedrawWindow(hwnd,None,None,0x585);C.set_last_error(0)
+                            if method=='WM_PRINT':
+                                answer=C.c_size_t();ok=u.SendMessageTimeoutW(hwnd,0x317,dc,0x1e,2,1000,C.byref(answer))
+                            else:ok=u.PrintWindow(hwnd,dc,0 if method=='PrintWindow0' else 2)
+                            code=0 if ok else C.get_last_error();g.GdiFlush();body=C.string_at(bits,240*96*4)
+                            colors=set(struct.iter_unpack('<I',body));rgb={p[0]&0xffffff for p in colors}
+                            rows.append(dict(owner=owner,method=method,call_succeeded=bool(ok),error=code,
+                                rgb_colors=len(rgb),varied=len(rgb)>1,first_bgr=body[:3].hex()))
+                        return rows
+                    finally:
+                        if old not in (None,C.c_void_p(-1).value):g.SelectObject(dc,old)
+                        if bitmap:g.DeleteObject(bitmap)
+                        g.DeleteDC(dc)
+                own=u.CreateWindowExW(0,'STATIC','Owned print probe',0x90000000,0,0,240,96,None,None,None,None)
+                if not own:raise C.WinError(C.get_last_error())
+                try:
+                    button=u.CreateWindowExW(0,'BUTTON','Owned caption',0x50000000,10,30,160,35,own,None,None,None)
+                    if not button:raise C.WinError(C.get_last_error())
+                    row['printing']=printing(own,'same_process')
+                finally:u.DestroyWindow(own)
+                child=subprocess.Popen([sys.executable,'-B',__file__,'--gdi-window-child'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+                try:
+                    line=child.stdout.readline(4097)
+                    warning=('Failed to find real location of '+sys.executable).encode()
+                    if line.strip()==warning:line=child.stdout.readline(4097)
+                    owned=json.loads(line);assert owned['pid']==child.pid and child.poll() is None
+                    assert owned['desktop']==desktop_name();row['printing_desktop']=owned['desktop']
+                    row['printing']+=printing(owned['window'],'owned_child')
+                finally:
+                    if child.poll() is None:child.terminate()
+                    child.wait(timeout=5);child.stdout.close();child.stderr.close()
             finally:
                 if reference:u.ReleaseDC(window,reference)
                 if window:u.DestroyWindow(window)

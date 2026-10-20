@@ -1,0 +1,47 @@
+{
+  "status": "memory_drawing_pass_diagnostic_only",
+  "source_revision": "49af87845b3d7f0dd1e1f7980e3da3b665cfa78d",
+  "gdi": {
+    "name": "gdi32.dll",
+    "loaded": true,
+    "error": 0,
+    "memory_drawing": [
+      {
+        "reference": "default",
+        "dc_created": true,
+        "dc_error": 0,
+        "bitmap_created": true,
+        "bits_available": true,
+        "bitmap_error": 0,
+        "selected": true,
+        "selection_error": 0,
+        "set_pixel": true,
+        "flushed": true,
+        "bgr": "332211",
+        "expected_bgr": "332211"
+      },
+      {
+        "reference": "owned_window",
+        "dc_created": true,
+        "dc_error": 0,
+        "bitmap_created": true,
+        "bits_available": true,
+        "bitmap_error": 0,
+        "selected": true,
+        "selection_error": 0,
+        "set_pixel": true,
+        "flushed": true,
+        "bgr": "332211",
+        "expected_bgr": "332211"
+      }
+    ]
+  },
+  "finding": "Default and owned-window reference memory DCs both create/select a32-bit DIB and draw the exact332211 BGR bytes. Basic GDI capability failure is excluded. Next compare real standard-control printing in same process and owned child;no product rebuild or screenshot claim yet.",
+  "owned_cleanup_verified": true,
+  "archive_entries": 16,
+  "uncompressed_bytes": 8069,
+  "compressed_bytes": 3492,
+  "archive_sha256": "dc9598d4f2a3d3d68fe026c4e1e98d87d7648802a47697a8a3379b1935cc371f",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0
+}
