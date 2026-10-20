@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--native-port-proof':
+        load('native_port',ROOT/'native-port.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--native-memory':
         load('memory_journey',ROOT/'memory-journey.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--controller':controller()

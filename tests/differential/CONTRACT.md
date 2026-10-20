@@ -230,6 +230,29 @@ success/cleanup path are exercised. Legacy direct CLIs refuse before effects.
 
 ### Packet preparation and comparison coordinator (private)
 
+The provisional Windows port in `windows_executor.py` consumes the existing
+confined guest worker and a separately configured bounded job factory. A finite
+launcher variant supplies three distinct ordinary stdin/stdout/stderr files
+inside owned capped work and assigns the suspended child to its job before
+resuming it. Existing launcher variants retain their previous behavior. The
+executor preserves binary bytes and EOF, observes file identities, and retires
+the complete owned job even when the leader has already exited.
+
+Deadline/output monitoring does not itself impose a filesystem quota. Capture
+files can grow past the returned-byte limit before monitoring stops the job;
+the independently enforced scratch capacity bounds that allocation. The port
+records actual produced sizes, returns only the declared byte budget, and labels
+truncation/output exhaustion as failure even with a zero exit. Separate raw
+files are removed only after verified retirement and identity checks. Uncertain
+retirement preserves files, poisons the executor and prohibits another call.
+
+The current proof contract selects32MiB guest scratch,256MiB aggregate job
+commit and eight processes, with original capacity/confinement/interruption
+controls and a small static native fixture. These are proposed test-profile
+bounds, not claims that this port, the product or other environments have passed.
+Record actual tool/input/artifact/limit measurements and owned cleanup before
+admission. Guest administrator setup remains separate from the restricted child.
+
 `coordinator.prepare` writes an exclusive new packet beneath the managed work
 root. It invokes no workers. The default selection contains all 35 current corpus
 recipes. A named subset is explicit; empty, duplicate and unknown selections

@@ -18150,6 +18150,278 @@
       "spec_ids": [
         "DE-074"
       ]
+    },
+    {
+      "id": "tools/connect-vm.ps1",
+      "path": "tools/connect-vm.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/windows-worker.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/target.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/target.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/workspace.py",
+        "tools/windows-worker.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/target.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/loader-observer.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+        "tools/connect-vm.ps1",
+        ".aide/evidence/2026-10-18-guest-capacity/run-proof.ps1",
+        ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
+        ".aide/evidence/2026-10-18-guest-capacity/clean-proof.ps1",
+        ".aide/evidence/2026-10-18-guest-capacity/attach-image.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+        "tests/differential/windows_executor.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json",
+        ".aide/evidence/2026-10-18-ordinary-worker/loader-observer.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/crypto-device-expectations.json",
+        ".aide/evidence/2026-10-18-guest-build/ordinary-token-expectations.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/differential/windows_executor.py",
+      "path": "tests/differential/windows_executor.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+        "tools/workspace.py",
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/differential/test_windows_executor.py",
+      "path": "tests/differential/test_windows_executor.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/windows_executor.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_job_limits.py",
+      "path": "tests/tools/test_job_limits.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/workspace.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+        ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py",
+        "tests/differential/windows_executor.py",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+        ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.ps1",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/connect-vm.ps1"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-guest-capacity/run-proof.ps1",
+      "path": ".aide/evidence/2026-10-18-guest-capacity/run-proof.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/connect-vm.ps1"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
+      "path": ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/connect-vm.ps1"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-guest-capacity/clean-proof.ps1",
+      "path": ".aide/evidence/2026-10-18-guest-capacity/clean-proof.ps1",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/connect-vm.ps1"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-guest-capacity/attach-image.py",
+      "path": ".aide/evidence/2026-10-18-guest-capacity/attach-image.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/workspace.py",
+        "tools/windows-worker.py",
+        "tools/qualify-storage.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/loader-observer.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/loader-observer.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/loader-forensics.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-ordinary-worker/crypto-device-expectations.json",
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/crypto-device-expectations.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/crypto-device.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-18-guest-build/ordinary-token-expectations.json",
+      "path": ".aide/evidence/2026-10-18-guest-build/ordinary-token-expectations.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+        "tools/workspace.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
     }
   ]
 }

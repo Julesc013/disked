@@ -14,7 +14,8 @@ HERE = Path(__file__).resolve().parent
 WORK = Path(os.environ['DISKED_WORK_ROOT'])
 DEPS = WORK / 'dependencies'
 ENV = dict(os.environ, PYTHONPATH=str(DEPS), PYTHONDONTWRITEBYTECODE='1')
-PREFIX = 'coordinator' if '--coordinator' in sys.argv else 'collector' if '--collectors' in sys.argv else 'bindings'
+PREFIX = ('native-port' if '--native-port' in sys.argv else 'coordinator' if '--coordinator' in sys.argv
+          else 'collector' if '--collectors' in sys.argv else 'bindings')
 record = dict(status='running', scope=__doc__, suite=PREFIX, commands=[], base_revision=None)
 commands = [
     ['-m', 'pip', 'install', '--disable-pip-version-check', '--no-cache-dir', '--no-deps',
@@ -49,6 +50,8 @@ def input_hashes():
                  if p.is_file() and p.suffix in ('.py', '.ps1', '.cpp', '.h'))
     paths.update((ROOT / 'CMakeLists.txt', ROOT / 'docs/source-map.json', ROOT / 'docs/code-structure.md',
                   HERE / (PREFIX + '-expected.json'), Path(__file__).resolve()))
+    if PREFIX == 'native-port':
+        paths.update(HERE / name for name in ('native-port.py', 'native-port.cpp', 'native-port-inventory.ps1'))
     return {p.relative_to(ROOT).as_posix(): 'sha256:' + hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(paths) if p.is_file()}
 

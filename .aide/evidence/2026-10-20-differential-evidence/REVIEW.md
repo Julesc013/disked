@@ -1,4 +1,42 @@
-# DE-W106 preparation: managed packet coordinator
+# DE-W106 preparation: confined Windows byte-I/O port
+
+The existing Windows 10 guest, coordinated through Agents, now exercises the
+raw-byte collection port under a fresh restricted non-elevated test identity.
+The current original 32 MiB capacity, write-confinement, canary and abrupt-controller
+controls pass, followed by eight native controls: token/job/file identities,
+binary echo, empty-input EOF, nonzero refusal, timeout, descendant retirement,
+output limiting and job-memory denial. These are execution-port controls, not
+DiskEd product or reference-tool tests. DE-W105 remains current and unqualified.
+
+The job reports a 256 MiB aggregate commit limit and eight-process limit. A
+300 MiB commit attempt is denied while guest commit availability is sufficient.
+The process limit is configured and queried, not separately stress-tested.
+The output control returns 4,096 bytes after the child produced 9,670,656 bytes;
+monitoring is not a file quota. The separate 32 MiB filesystem cap bounds writes.
+Every call reaches verified job quiescence before exact-identity stdio cleanup.
+The owned image, temporary account/profile and guest source tree are removed.
+VM backing logical length is unchanged; allocated-space change was not measured.
+
+The static x64 control executable is 146,432 bytes, SHA-256
+`23e49264e53f82a7084711cb2e30c0a24edc309dcfcdd7905b8b20aaa9089780`.
+Exact dirty-working-tree inputs at base `69352b60`, toolchain observations,
+commands and cleanup are retained in the [native port review](native-port-review.json).
+The verified raw result compresses from 50,134 to 6,752 bytes. No build tree or
+executable is retained. The host validation ran 253 specification, 213 tooling
+and 81 differential tests with eight skips, structural/source-map/manifest checks,
+and removed its 54,827,345-byte workspace. Subsequent review added a guard against
+mixed proof modes: its regression first failed, then all 82 differential tests
+and prepare-only staging passed. Only the host guard and regression changed after
+the broad pass; exercised native worker/executor/control sources are unchanged.
+
+Actual private MBR/GPT probes must next traverse this port and the collectors with
+fresh source/tool/profile identities. No `sfdisk`, `sgdisk`, `gdisk` or `fdisk`
+executable was found on the guest PATH; that does not establish global absence.
+Reference availability, sanitizer campaigns, full worker/product admission,
+DE-W105 capture/native qualification, main promotion and release remain open.
+This is implementing-agent review, not independent or owner acceptance.
+
+## Earlier coordinator checkpoint
 
 This is a partial development checkpoint. DE-W105 remains current and its native
 capture/full qualification gates remain open. No dependency, worker, campaign,

@@ -1,10 +1,12 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W106",
-  "base_revision": "9f8a9fba8f17c378517cbcc3865ecadbffd315b3",
-  "spec_manifest_digest": "sha256:10977cacad0f19c06eec0c0efd42782657eaf4ba68a623e8ef3154b179114936",
+  "base_revision": "69352b60874171c59f2242f70303dc50a885b26c",
+  "spec_manifest_digest": "sha256:c80c946adb24a6bff9afd6922b1a62304cd3771a4e24cc6213e178040df04400",
   "status": "partial",
   "files_read": [
+    ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1",
+    ".aide/evidence/2026-10-18-guest-capacity/run-proof.ps1",
     ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
     ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
     ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
@@ -41,9 +43,15 @@
     "tests/differential/test_completeness.py",
     "tests/differential/test_coordinator.py",
     "tests/differential/test_evidence_bindings.py",
-    "tests/fuzz/run_campaign.py"
+    "tests/fuzz/run_campaign.py",
+    "tools/connect-vm.ps1",
+    "tools/workspace.py"
   ],
   "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
     ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
     ".aide/evidence/2026-10-20-differential-evidence/bindings-expected.json",
     ".aide/evidence/2026-10-20-differential-evidence/bindings-first-test-failure.json",
@@ -75,6 +83,22 @@
     ".aide/evidence/2026-10-20-differential-evidence/coordinator-tests.json",
     ".aide/evidence/2026-10-20-differential-evidence/coordinator-validation.json.xz",
     ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-cleanup.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-final-context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-handoff-validation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.ps1",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-green.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-red.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-preflight.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-prepared.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-result.json.xz",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-review.json",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port-validation.json.xz",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
     ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
     ".aide/evidence/2026-10-20-differential-evidence/set-tests.json",
     ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
@@ -101,9 +125,13 @@
     "tests/differential/test_collectors.py",
     "tests/differential/test_completeness.py",
     "tests/differential/test_coordinator.py",
-    "tests/differential/test_evidence_bindings.py"
+    "tests/differential/test_evidence_bindings.py",
+    "tests/differential/test_windows_executor.py",
+    "tests/differential/windows_executor.py",
+    "tests/tools/test_job_limits.py",
+    "tools/workspace.py"
   ],
-  "summary": "Independent DE-W106 preparation while DE-W105 remains current. Managed preparation,collector APIs and finalized comparison now form a coordinated data path with all35 corpus recipes by default,caller-frozen identities/commands/tool inputs/recipe facts,bounded receipts and raw evidence,positive-control gating and interrupted participant checkpoints. The unchanged-input pass ran253 specification tests(2 skips),211 tooling tests(1 skip),77 differential tests(5 Linux-only skips),structural/source-map/manifest checks. Full35-case synthetic accounting retains197 unavailable observations and correctly fails execution/success. No real native/reference tools,guest access,worker or campaign admission,dependency/owner/release acceptance or main integration is claimed.",
+  "summary": "Independent DE-W106 preparation continues while DE-W105 remains current. The managed packet/collector/comparator path is now supplied a Windows raw-byte execution port. Actual Windows10/Agents guest proof passes current original32MiB capacity/confinement/interruption controls and eight static x64 native I/O controls under a restricted non-elevated child and256MiB/eight-process job. Exact file/stream identities, EOF/binary bytes, refusal, timeout, descendant retirement, output monitoring and job-commit denial are observed. Owned account/image/source cleanup is verified; backing logical length unchanged, allocated delta not measured. The full source-bound host validation passes253 specification/213 tooling/81 differential tests with eight skips. Only the host mode guard and its regression then changed;82 differential tests and prepare-only staging pass. Executed native sources remain unchanged. Product private probes/collector/reference/sanitizer/full qualification, DE-W105, owner/release and main remain open.",
   "tests": [
     {
       "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -p test_completeness.py -v",
@@ -223,12 +251,63 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/coordinator-context.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --native-port-proof",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-result.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-20-differential-evidence/validate-bindings.py --native-port",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-validation.json.xz"
+    },
+    {
+      "command": "Initial differential executor/mixed-mode regression before the guard",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-red.json"
+    },
+    {
+      "command": "Managed final82 differential tests and native-port prepare-only staging;see exact commands in receipt",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-green.json"
+    },
+    {
+      "command": "Final DE-W106 complete context generation and verification;see exact commands in receipt",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/native-port-final-context.json"
     }
   ],
   "artifacts": [
     {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+      "sha256": "sha256:f7fccfd00762c3f9c95a3d463e92c221517b48d4a080649cb5c32a500ee1dd0b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+      "sha256": "sha256:1784675643565bee1ac921b7b399e30214ac3dbe3acb306f10ba8020b2902bb6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+      "sha256": "sha256:cae908f670034721ee0cf20dd4504a980ce235ce9d4c1332077bef7cb227a0f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+      "sha256": "sha256:bd502c20f21bf6595c04c350277e8811c3971bf2fb727b43e3190ada5a80e979"
+    },
+    {
       "path": ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
-      "sha256": "sha256:7df36354d604e742b34cb61d6c259f2da654047264419c3b900a94f5eeb6b49c"
+      "sha256": "sha256:edd01462b670dfb3904b3dba49f8ca85a6b1a539ee5aa4c876775cc0b16b2f26"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-checkpoint.json",
@@ -327,6 +406,10 @@
       "sha256": "sha256:a8687ce6e4ca0a135913d3f1dfe3800e9df95be29db3862400cb8defb2b70ef9"
     },
     {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/coordinator-checkpoint.json",
+      "sha256": "sha256:365ce9c48641efffbb39cae0e7c3afed8e21810f51b6861f89b9a98edfbd0f86"
+    },
+    {
       "path": ".aide/evidence/2026-10-20-differential-evidence/coordinator-context.json",
       "sha256": "sha256:a1222f7b48c57a6525b8720993cda085f8b00ccf38f57e4eef25e7e7a59c386a"
     },
@@ -355,6 +438,66 @@
       "sha256": "sha256:fec51903eaf31e7ce300e8914f123c3ac690170375f846586c130bfa3ae5ae0a"
     },
     {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-cleanup.json",
+      "sha256": "sha256:0e0675fde91b27c0ae605cf9f2245a5d7c2bf328ee6d93748d39cba9487bf9e3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-context.json",
+      "sha256": "sha256:950d4af77e4a998383340ffbdb3282fac6ed9e2e56b431ca082e5bd6f91a966b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-expected.json",
+      "sha256": "sha256:dc265cf283855c99f1d48742cdfcab5bc4ab0d2da85f974b353ba7d80d8192be"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-final-context.json",
+      "sha256": "sha256:66ee5e7e844135853f3f5256ff394a13ddcda0bcd31d05b8f6dcebf173c66516"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.json",
+      "sha256": "sha256:367e658a965114542956dca9c5ed381891e133b2e3a147defd6964ee7213f9c7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-inventory.ps1",
+      "sha256": "sha256:4cb8889bb28183b1529762a023c21e344ba229752c46c304eb272a213d329122"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-green.json",
+      "sha256": "sha256:d12cb1abfede74639d87ed59fba079611114e1f440b56af7bcc1fd885b962b4e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-mode-red.json",
+      "sha256": "sha256:df19b7cc0df98a77cf9c5f46e0f375a14c1fab2d489f9dcab44dae0f43a3f858"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-preflight.json",
+      "sha256": "sha256:8742b16827f390e3b933b17fe3508306661e06a7a3b6f3e10fbb86a72c3b6b8b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-prepared.json",
+      "sha256": "sha256:bd502c20f21bf6595c04c350277e8811c3971bf2fb727b43e3190ada5a80e979"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-result.json.xz",
+      "sha256": "sha256:4891481c593191eb60b72400baba126d8f5c7e9d11efe6be68b808bb9c6f142f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-review.json",
+      "sha256": "sha256:ec5292cb49656cb459f3258f050884ce1d00d0d4d19c7cfe1c415190c53cf183"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port-validation.json.xz",
+      "sha256": "sha256:7869b838924a84e0f3a8b41327a31fdbec970677035f872cb4889bdfdef68c45"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port.cpp",
+      "sha256": "sha256:fb38091c1883535b401f61fcb45b5f4cdf3e3bbc59168c1cf5bb8e8560805848"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+      "sha256": "sha256:5f26e1b44f24f8dab01685d6bf2d3cb4c49c3bcc3493e7671aa29cbfdeb48cf0"
+    },
+    {
       "path": ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
       "sha256": "sha256:f47e31eb7a5b986c948f9c4f7ceee1ccd4dcb5dbbe11ed4ba56baf47090cea2e"
     },
@@ -364,7 +507,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
-      "sha256": "sha256:edf84e83c970a844aba3d15f2b32cea798707245a6a6bbf4b37d69b29853f2c2"
+      "sha256": "sha256:1ad34aac2c4254a5ce8c3713790307a6684c34fd00cd4e001c102ede96623fdd"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
@@ -376,27 +519,27 @@
     },
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:1065901efff2712c82539e14d4ecc4e4b4b5b9338aaf8ff80c341c4aedde3643"
+      "sha256": "sha256:ccad7a8bb3f41fdf8dd82b3b4b695a09fe6a5b863d3f98f2b01945e9bc20f32e"
     },
     {
       "path": "TODO.MD",
-      "sha256": "sha256:dc566050b0e5aeb64cd6b1302ebcb1f8729f43cecd079716d9939e120bb96b6e"
+      "sha256": "sha256:78fa2e06637c4bf702960dd59304af2132ee65b9449346e3ced7d861258a9144"
     },
     {
       "path": "spec/catalog/input-dependencies.json",
-      "sha256": "sha256:400695e2765025b24230d9ad2939266ed5112b6dd9a89ec52a0f50b5c61b332c"
+      "sha256": "sha256:002d72269b1ad9945f192e036ac2aebc60a0bcd9b435fd284cfc3c6c26bf443a"
     },
     {
       "path": "spec/manifest.json",
-      "sha256": "sha256:10977cacad0f19c06eec0c0efd42782657eaf4ba68a623e8ef3154b179114936"
+      "sha256": "sha256:c80c946adb24a6bff9afd6922b1a62304cd3771a4e24cc6213e178040df04400"
     },
     {
       "path": "spec/work/units.json",
-      "sha256": "sha256:5d9a7570346ddffa2ccad96226159beb4ab38fdbdc5ba7c1854f2feaee8f34a8"
+      "sha256": "sha256:3b5e2372fc8217deb018c1808c639b757dfd3c4e847ddf1d61472c10de80699e"
     },
     {
       "path": "tests/differential/CONTRACT.md",
-      "sha256": "sha256:24b3188d3381b313a868205a77ddb57f3c0a125c3abb40198b66b7238692e77b"
+      "sha256": "sha256:050ca9dafd6f2d34338c8f75036e5ba20236cc2ea79d4402d7e495dfb56b2bff"
     },
     {
       "path": "tests/differential/README.md",
@@ -447,17 +590,27 @@
       "sha256": "sha256:96747db39455535ec0ea67f727c363bd0462da17a5539bdb252de7d525d41ee4"
     },
     {
-      "path": ".aide/evidence/2026-10-20-differential-evidence/coordinator-checkpoint.json",
-      "sha256": "sha256:365ce9c48641efffbb39cae0e7c3afed8e21810f51b6861f89b9a98edfbd0f86"
+      "path": "tests/differential/test_windows_executor.py",
+      "sha256": "sha256:11e1c5ccf3e5efaad1be97ad2bae511a332efffcb8e652f52e6d0a7621325a0a"
+    },
+    {
+      "path": "tests/differential/windows_executor.py",
+      "sha256": "sha256:d38b85851f84e268ee4f92694ada435d7ad06d2545a88fee8588ec5417c41c2b"
+    },
+    {
+      "path": "tests/tools/test_job_limits.py",
+      "sha256": "sha256:acc50901dda7477da5083b3305529a03ef1b0d17e2a7c055724876ebc9264265"
+    },
+    {
+      "path": "tools/workspace.py",
+      "sha256": "sha256:46b467afe4ff12d5e5b373662fbd6f1476f5584235543200ae9b91a076b2dfce"
     }
   ],
   "blockers": [
-    "Actual confined worker and transport integration with measured stdin/raw stream/terminal identity",
-    "OS-enforced cap and owned success/failure/interruption cleanup through the actual worker port",
-    "Real native/reference positive controls and sanitizer qualification",
-    "DE-W105 capture/full native qualification dependency and main integration",
-    "Owner acceptance and original0.1.0/release scope"
+    "Actual product private-probe/collector integration under the measured profile",
+    "Fresh packet worker/profile/source identities and real reference-tool availability",
+    "Full campaign,sanitizer,DE-W105/native capture,owner and release gates"
   ],
-  "next_safe_step": "Connect the existing confined Windows10/Agents guest runner to the typed comparison collection port. Inspect actual tool availability and measure exact worker/tool/profile identity;preserve stdin and separate raw streams,prove terminal process-tree ownership and capped cleanup,then run an owned bounded representative case without UI. The coordinator data path passes77 synthetic/offline tests(5 Linux-only skips),plus253 specification/211 tooling tests. No real worker or full campaign is admitted. DE-W105 remains current;closed capture variants must not be repeated and independent pixel proof/full native qualification still gate main.",
+  "next_safe_step": "Connect the proven Windows10/Agents restricted raw-byte executor to the actual private MBR/GPT probe collectors. Build exact native probe inputs in capped guest scratch, freeze measured tool/source/profile identities, then collect and replay a bounded owned positive case without UI. Inventory reference tools accurately before external collection; none was found on guest PATH. Eight native I/O controls and current32MiB baseline passed; this does not admit a full worker/comparison/sanitizer campaign. DE-W105 remains current; independent pixel-origin proof and full native qualification still gate main. Do not repeat closed capture variants.",
   "performed_remote_writes": true
 }

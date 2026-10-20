@@ -272,10 +272,21 @@ class Worker:
         finally:self.k.LocalFree(user)
         return dict(restricting_sids=[self.user_sid,logon_sid],scope='Fresh account and its actual logon session only')
 
-    def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False):
+    def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False, raw_input=None, cwd=None):
         self.last_launch=None
-        if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached'):
+        if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached','basic-raw-stdio'):
             raise ValueError('Unknown finite launch experiment variant')
+        working=self.work if cwd is None else self.base.plain_directory(cwd)
+        if not working.is_relative_to(self.work):raise ValueError('Launch cwd must remain in owned work')
+        if variant=='basic-raw-stdio':
+            if diagnostic_original:raise ValueError('Raw stdio requires the restricted token')
+            raw_input=Path(raw_input)
+            if not raw_input.is_relative_to(self.work):raise ValueError('Raw input must remain in owned work')
+            self.base.plain_directory(raw_input.parent)
+            info=raw_input.lstat()
+            if (not raw_input.is_file() or info.st_nlink!=1 or info.st_file_attributes&0x400 or info.st_size>2097152):
+                raise ValueError('Raw stdin must be a bounded ordinary single-link file')
+        elif raw_input is not None:raise ValueError('Raw input requires the finite raw-stdio variant')
         executable = shutil.which(command[0])
         if not executable:
             raise FileNotFoundError(command[0])
@@ -297,6 +308,15 @@ class Worker:
         handles, process, initialized = [], b.ProcessInfo(), False
         try:
             sa = b.SecurityAttributes(C.sizeof(b.SecurityAttributes), None, True)
+            if variant=='basic-raw-stdio':
+                self.launch_index=getattr(self,'launch_index',0)+1
+                self.raw_paths=dict(stdin=raw_input,stdout=self.work/('raw-'+str(self.launch_index)+'.stdout'),
+                                   stderr=self.work/('raw-'+str(self.launch_index)+'.stderr'))
+                for stream in ('stdin','stdout','stderr'):
+                    handle=k.CreateFileW(str(self.raw_paths[stream]),0x80000080 if stream=='stdin' else 0x40000080,
+                                         3,C.byref(sa),3 if stream=='stdin' else 1,0x80,None)
+                    if handle==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+                    handles.append(handle)
             if variant in ('handles','basic-stdio','basic-detached'):
                 log_name='worker.log' if variant=='handles' else 'worker-basic-stdio.log'
                 self.launch_index=getattr(self,'launch_index',0)+1
@@ -326,6 +346,7 @@ class Worker:
             empty=None if variant in ('basic-null','basic-default') else C.c_void_p(-1).value
             info.stdin=handles[1] if handles else empty
             info.stdout=info.stderr=handles[0] if handles else empty
+            if variant=='basic-raw-stdio':info.stdin,info.stdout,info.stderr=handles
             env = {key: str(value) for key, value in env.items() if not key.startswith('DISKED_TEST_ACTOR_')}
             env.update(TEMP=str(self.native_temp), TMP=str(self.native_temp), TMPDIR=str(self.native_temp),
                        USERPROFILE=str(self.work/'profile'), HOME=str(self.work/'profile'),
@@ -340,13 +361,19 @@ class Worker:
             flags=(0x0000040c if variant=='basic-detached' else 0x08000404) | (0x80000 if not basic else 0)
             self.last_launch=dict(variant=variant,creation_flags=flags,startup_size=C.sizeof(startup),
                                   attribute_count=int(initialized),allowed_inherited_handles=len(handles),api_succeeded=False)
-            if variant in ('basic-stdio','basic-detached'):
+            if variant in ('basic-stdio','basic-detached','basic-raw-stdio'):
                 class FileIdentity(C.Structure):
                     _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
                 self.bind(k,'GetFileInformationByHandleEx',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD)
                 identity=FileIdentity()
-                self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
-                self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
+                if variant=='basic-raw-stdio':
+                    self.last_launch['stdio_identities']={}
+                    for stream,handle in zip(('stdin','stdout','stderr'),handles):
+                        self.require(k.GetFileInformationByHandleEx(handle,18,C.byref(identity),C.sizeof(identity)))
+                        self.last_launch['stdio_identities'][stream]=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
+                else:
+                    self.require(k.GetFileInformationByHandleEx(handles[0],18,C.byref(identity),C.sizeof(identity)))
+                    self.last_launch['stdout_identity']=dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
             observer_control=(len(command)==4 and Path(command[2])==ROOT/'loader-observer.py' and command[-1]=='loader-standard.log')
             startup_control=(len(command)==5 and command[-1] in ('startup','bootstrap') and Path(command[2])==ROOT/'target.py')
             forensic_control=(len(command)==5 and Path(command[2])==ROOT/'loader-forensics.py' and command[3] in ('--actor','--namespace','--object-actor') and Path(command[4])==self.work/'debug-plan.json')
@@ -359,7 +386,7 @@ class Worker:
             if a.GetTokenInformation(selected_token,12,C.byref(token_session),C.sizeof(token_session),C.byref(token_size)):
                 self.last_launch['input_token_session_id']=token_session.value
             self.require(a.CreateProcessWithTokenW(selected_token, 0, executable,
-                C.create_unicode_buffer(line), flags, block, str(self.work),
+                C.create_unicode_buffer(line), flags, block, str(working),
                 C.byref(startup), C.byref(process)))
             self.last_launch['api_succeeded']=True
             # Read the actual suspended child's session before its first
@@ -392,6 +419,22 @@ class Worker:
                 k.DeleteProcThreadAttributeList(attributes)
             for handle in handles:
                 k.CloseHandle(handle)
+
+    def file_identity(self, path):
+        path=Path(path)
+        if not path.is_relative_to(self.work):raise ValueError('File identity outside owned work')
+        self.base.plain_directory(path.parent)
+        info=path.lstat()
+        if not path.is_file() or info.st_nlink!=1 or info.st_file_attributes&0x400:raise ValueError('Nonordinary stdio file')
+        class FileIdentity(C.Structure):
+            _fields_=[('volume',C.c_ulonglong),('identity',C.c_ubyte*16)]
+        handle=self.k.CreateFileW(str(path),0x80,7,None,3,0x80,None)
+        if handle==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+        try:
+            identity=FileIdentity()
+            self.require(self.k.GetFileInformationByHandleEx(handle,18,C.byref(identity),C.sizeof(identity)))
+            return dict(volume=str(identity.volume),identity=bytes(identity.identity).hex())
+        finally:self.k.CloseHandle(handle)
 
     def close(self):
         # Caller must retire the containing job before releasing token/UI state.

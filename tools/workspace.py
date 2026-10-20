@@ -144,7 +144,11 @@ def exclusive_run(path):
 
 class WindowsJob:
     """Keep trusted build descendants owned until the workspace is cleaned."""
-    def __init__(self):
+    def __init__(self, *, memory_bytes=None, process_limit=None):
+        if memory_bytes is not None and (type(memory_bytes) is not int or not 1024*1024 <= memory_bytes <= 1024*1024*1024):
+            raise ValueError('Explicit job commit limit must be1MiB..1GiB')
+        if process_limit is not None and (type(process_limit) is not int or not 1 <= process_limit <= 64):
+            raise ValueError('Explicit job process limit must be1..64')
         class Basic(ctypes.Structure):
             _fields_ = [('process_time', ctypes.c_int64), ('job_time', ctypes.c_int64),
                         ('flags', wintypes.DWORD), ('minimum', ctypes.c_size_t),
@@ -169,6 +173,13 @@ class WindowsJob:
             raise ctypes.WinError(ctypes.get_last_error())
         limits = Extended()
         limits.basic.flags = 0x2000  # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+        if memory_bytes is not None:
+            limits.basic.flags |= 0x200  # JOB_OBJECT_LIMIT_JOB_MEMORY
+            limits.job_memory = memory_bytes
+        if process_limit is not None:
+            limits.basic.flags |= 8  # JOB_OBJECT_LIMIT_ACTIVE_PROCESS
+            limits.basic.active = process_limit
+        self.limit_info_type = Extended
         if not self.api.SetInformationJobObject(self.handle, 9, ctypes.byref(limits), ctypes.sizeof(limits)):
             error = ctypes.WinError(ctypes.get_last_error())
             self.close()

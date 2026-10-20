@@ -97,6 +97,9 @@ def main():
             raise ValueError('No current pixel-origin candidate; previous profile remains unqualified')
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
+    native_port='--native-port-proof' in sys.argv
+    if native_port and any(option not in ('--native-port-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+        raise ValueError('Native port proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
     station_matrix='--station-bootstrap-matrix' in sys.argv
     object_trace='--object-startup-trace' in sys.argv
     if object_trace and not (interactive_ui and '--crypto-full' in sys.argv):
@@ -111,6 +114,12 @@ def main():
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
+    if native_port and '--prepare-only' not in sys.argv and not cleanup_only:
+        context=json.loads((ROOT/'.aide-local/context/current/manifest.json').read_bytes())
+        revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+        if context['work_id']!='DE-W106' or context['git_head']!=revision:raise ValueError('Exact DE-W106 context required for native port proof')
+        if not all(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()==row['sha256'].removeprefix('sha256:') for row in context['files']):
+            raise ValueError('Native port context inputs changed')
     stage=work/'ordinary-proof';stage.mkdir()
     helper_files=('full-native.py','fixture-dacl.py','owned-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
     full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
@@ -151,6 +160,14 @@ def main():
         data=(HERE/'object-namespace.py').read_bytes();ast.parse(data);(stage/'object-namespace.py').write_bytes(data)
         if not full_native:shutil.copyfile(HERE/'ui-probe.py',stage/'ui-probe.py')
     native='--native-journey' in sys.argv
+    port_files=('native-port.py','native-port.cpp','windows_executor.py')
+    if native_port:
+        origin=HERE.parent/'2026-10-20-differential-evidence'
+        for name in port_files:
+            source=ROOT/'tests/differential/windows_executor.py' if name=='windows_executor.py' else origin/name
+            data=source.read_bytes()
+            if name.endswith('.py'):ast.parse(data)
+            (stage/name).write_bytes(data)
     native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
     if native:
         for name in ('native-journey.py','native-journey.cpp'):
@@ -181,12 +198,13 @@ def main():
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
     crypto_full='--crypto-full' in sys.argv
-    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native or native_memory
+    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native or native_memory or native_port
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if native_memory:expected['native_memory']=json.loads((HERE/'memory-journey-expectations.json').read_bytes())
+    if native_port:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
@@ -287,7 +305,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -329,6 +347,9 @@ def main():
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
+    if native_port:
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'}," for name in port_files)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if full_native:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in full_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
@@ -449,6 +470,7 @@ def main():
     if object_trace:result['experiment_kind']='Bounded owned-child object API trace with original primitive controls;no namespace grant or worker/product admission'
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if native_memory:result['experiment_kind']='Exact production x64 memory-budget component compile/launch in32MiB;not product qualification'
+    if native_port:result['experiment_kind']='Current32MiB baseline and native raw-byte execution-port controls;not product/reference/full-campaign admission'
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
         proof=result.get('guest',{}).get('proof') or {}
