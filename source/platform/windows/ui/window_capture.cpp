@@ -110,6 +110,9 @@ WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& requ
         dib.prior=api.SelectObject(dib.dc,dib.bitmap);if(!dib.prior || dib.prior==HGDI_ERROR)return result;
         const auto size=static_cast<std::size_t>(request.width)*request.height*4;std::memset(dib.bits,0,size);
         if(request.child_tree) {
+            // Background erasure expects a client-origin DC. WM_PRINT expects
+            // a window origin, so erase before applying that translation.
+            api.SendMessageW(request.window,WM_ERASEBKGND,reinterpret_cast<WPARAM>(dib.dc),0);
             RECT frame{};POINT origin{};
             if(!api.GetWindowRect(request.window,&frame) || !api.ClientToScreen(request.window,&origin))return result;
             const auto x=static_cast<std::int64_t>(frame.left)-origin.x,y=static_cast<std::int64_t>(frame.top)-origin.y;
@@ -118,7 +121,7 @@ WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& requ
             if(!api.SetViewportOrgEx(dib.dc,static_cast<int>(x),static_cast<int>(y),nullptr))return result;
         }
         api.SendMessageW(request.window,request.child_tree?WM_PRINT:WM_PRINTCLIENT,reinterpret_cast<WPARAM>(dib.dc),
-                         PRF_CLIENT|PRF_ERASEBKGND|(request.child_tree?PRF_CHILDREN:0));
+                         PRF_CLIENT|(request.child_tree?PRF_CHILDREN:PRF_ERASEBKGND));
         RECT after{};if(!api.GdiFlush())return result;
         if(!owner_matches(api,request)){result.status=WindowCaptureStatus::identity_mismatch;return result;}
         if(!api.GetClientRect(request.window,&after) || std::memcmp(&before,&after,sizeof(before))!=0){result.status=WindowCaptureStatus::geometry_changed;return result;}

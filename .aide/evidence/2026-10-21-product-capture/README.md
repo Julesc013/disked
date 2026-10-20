@@ -131,3 +131,9 @@ The fixture now paints the complete root and self-checks all23040 RGB pixels
 in both phases through WM_ERASEBKGND on a separate client-origin memory DC
 before exercising the capture primitive. The next diagnostic checkpoint uses
 the exact viewport-only `aab8adcc` renderer to re-establish a valid baseline.
+
+The corrected fixture at `91bd79e1` passes its direct two-phase full-canvas
+WM_ERASE self-check and exits successfully, then the viewport-only capture
+fails the independent RGB oracle after22 calls. This valid baseline is retained
+in `background-controls/corrected-baseline/`. The client-origin background
+repair is restored unchanged from `bccd405c` for the paired repaired run.
