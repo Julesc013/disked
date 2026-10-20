@@ -1,5 +1,9 @@
 # DE-W105 product capture qualification
 
+Current: the viewport fix passes23 control calls and all six real GUI runtime
+cases at `aab8adcc`. Visual review rejects residual background gaps. The new
+background-only regression is fixed before evaluation; main admission stays open.
+
 The expectation in [expected.json](expected.json) was fixed before implementing
 the product coordinator or evaluating product pixels. This is the next bounded
 step after the verified private [transport control](../2026-10-21-capture-transport/REVIEW.md).
@@ -84,3 +88,17 @@ and parsed frame remain in `framed-controls/before-fix/`; unknown control pixels
 were not retained. The candidate repair translates the owned memory DC by the
 measured window-to-client offset before WM_PRINT. No display DC is used, and
 the direct WM_PRINTCLIENT path and original guards are unchanged.
+
+At `aab8adcc`, all23 native controls pass, including exact framed A/B pixels;
+`framed-controls/audit.json` binds19 reported inputs to that revision and rejects
+three corrupted replays. The real product then passes build/import/CLI and all
+six GUI runtime cases. Direct inspection of all six PNGs rejects remaining
+unpainted bottom/right background (`attempt-004/visual-review.json`). Receipt consistency
+is now explicitly separate from actual image review, and main review requires
+a passing visual receipt bound to the exact source, product and six PNG hashes.
+
+`background-expected.json` fixes the next full-buffer test before implementation:
+the framed root paints only through WM_ERASEBKGND, leaving hidden children.
+The same two240x96 RGB recipes must match completely. This adds a ninth mode
+to a separate32MiB profile while retaining every original mode and guard.
+The first run uses the viewport-only renderer to establish the regression.

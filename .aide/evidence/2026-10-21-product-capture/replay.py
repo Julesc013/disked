@@ -1,5 +1,6 @@
 """Verify the focused product archive in memory; never extract build/test trees."""
 import hashlib
+import importlib.util
 import json
 import lzma
 from pathlib import Path,PurePosixPath
@@ -52,5 +53,8 @@ for case in captures:
     check(row['client_box']==geometry['client_box']==[0,0,row['width'],row['height']] and row['frame_bounds']==geometry['frame_bounds'] and row['sha256']==geometry['pixels_sha256'],'client coordinates/hash')
     body=files['groups/frontend.gui_capture/'+case['name']+'.png'];check(sha(body)==case['sha256'].removeprefix('sha256:') and body[:8]==b'\x89PNG\r\n\x1a\n','PNG bytes')
     check(struct.unpack('>II',body[16:24])==(row['width'],row['height']),'PNG geometry')
-report=dict(status='pass',source_revision=proof['source_revision'],native_groups=2,registered_native_groups=180,full_native_suite=False,product_sha256=product,captures=6,archive_bytes=archive.stat().st_size,archive_entries=len(files),archive_content_bytes=total,pngs={r['name']:r['sha256'] for r in captures},visual_review='separate actual image inspection required',owner_accepted=False,release_qualified=False)
+spec=importlib.util.spec_from_file_location('current_native_capture_review',HERE.parent/'2026-10-18-ordinary-worker/review-native.py');admission=importlib.util.module_from_spec(spec);spec.loader.exec_module(admission)
+visual=json.loads((HERE/'visual-review.json').read_bytes()) if (HERE/'visual-review.json').exists() else None
+review=admission.review_window_captures(proof,summary,manifest,visual_review=visual if visual and visual['status']=='pass' else None)
+report=dict(status='pass',verification_scope='Artifact identity and receipt consistency;capture admission also requires actual image review',source_revision=proof['source_revision'],native_groups=2,registered_native_groups=180,full_native_suite=False,product_sha256=product,captures=6,current_admission_review=review,capture_qualified=review['actual_images_reviewed'],archive_bytes=archive.stat().st_size,archive_entries=len(files),archive_content_bytes=total,pngs={r['name']:r['sha256'] for r in captures},visual_review_status=visual['status'] if visual else 'pending',owner_accepted=False,release_qualified=False)
 (HERE/'replay.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n');print(json.dumps(report))

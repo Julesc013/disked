@@ -118,14 +118,14 @@ def audit(files,receipt,expected,verifier):
               call['launch']['pre_resume_hook_completed'] and call['launch']['allowed_inherited_handles']==3,'capability_handoff')
         check(item['owned_job_handles_closed'] is True and call['timeout']==3 and call['output_limit']==262144,'mode_bounds')
         stderr=files[item['stderr']['path']];check(sha(stderr)==call['stream_sha256']['stderr'],'stderr_binding')
-        if mode in ('normal','blank_oracle_rejection','tree'):
+        if mode in ('normal','blank_oracle_rejection','tree','background'):
             raw=files[item['stdout']['path']];check(sha(raw)==call['stream_sha256']['stdout'] and len(raw)==call['produced_bytes']['stdout'],'stdout_binding')
-            frame,pixels=verifier.parse_frame(raw,process_id=call['process_id'],nonce=int(report['nonce']),actor_sid=primitive['actor']['sid'],tree=mode=='tree')
+            frame,pixels=verifier.parse_frame(raw,process_id=call['process_id'],nonce=int(report['nonce']),actor_sid=primitive['actor']['sid'],tree=mode in ('tree','background'))
             check(frame==item['frame'] and not stderr and item['pixels_retained'],'frame_binding')
-            if mode in ('normal','tree'):
+            if mode in ('normal','tree','background'):
                 observed=verifier.verify_pixels(pixels,wanted)
                 check([sha(v) for v in observed]==item['rgb_sha256'] and item['stale_phase_rejected'],'pixel_binding')
-                for phase in (0,1):check(png_rgb(files[('tree-' if mode=='tree' else '')+'phase-'+str(phase)+'.png'])==observed[phase],'png_raw_binding')
+                for phase in (0,1):check(png_rgb(files[(mode+'-' if mode in ('tree','background') else '')+'phase-'+str(phase)+'.png'])==observed[phase],'png_raw_binding')
                 try:verifier.verify_pixels([pixels[0],pixels[0]],wanted)
                 except ValueError as error:check(str(error)=='pixel_origin','stale_rejection_reason')
                 else:raise ValueError('stale_accepted')

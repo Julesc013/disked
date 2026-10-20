@@ -27,7 +27,7 @@ struct State{
     std::array<std::array<std::array<unsigned char,3>,16>,2> colors{};
     std::uint64_t nonce=0;
     unsigned phase=0,prints=0,paints=0,transition=0;
-    bool blank=false,hang=false,error=false,tree=false;
+    bool blank=false,hang=false,error=false,tree=false,background=false;
     int outer_width=240,outer_height=96;
     HWND first_child=nullptr;
     bool receiving=false;
@@ -58,11 +58,11 @@ static LRESULT CALLBACK procedure(HWND window,UINT message,WPARAM wp,LPARAM lp){
             const bool accepted=disked::ui::receive_owned_window_capture(window,*reinterpret_cast<const COPYDATASTRUCT*>(lp),state->receiver,true);
             if(accepted && ++state->phase==2)PostQuitMessage(0);return accepted?TRUE:FALSE;
         }
-        if(message==WM_PAINT){PAINTSTRUCT paint{};const auto dc=BeginPaint(window,&paint);if(dc){++state->paints;draw(*state,dc,binding->offset);EndPaint(window,&paint);}else state->error=true;return 0;}
+        if(message==WM_PAINT){PAINTSTRUCT paint{};const auto dc=BeginPaint(window,&paint);if(dc){++state->paints;if(!state->background||binding->offset>=0)draw(*state,dc,binding->offset);EndPaint(window,&paint);}else state->error=true;return 0;}
         if(message==WM_PRINTCLIENT){++state->prints;if(state->hang){
                 const auto ready=disked::json::dump(V::object().put("schema",V::string("org.disked.cooperative-capture-ready/1")).put("pid",number(GetCurrentProcessId())).put("nonce",number(state->nonce)).put("holding_job_query",V::boolean_value(true)))+"\n";
                 write(ready.data(),ready.size());Sleep(INFINITE);
-            }draw(*state,reinterpret_cast<HDC>(wp),binding->offset);
+            }if(!state->background||binding->offset>=0)draw(*state,reinterpret_cast<HDC>(wp),binding->offset);
             if(binding->offset<0){
                 if(state->transition==1){try{mark(window,state->nonce+1);}catch(...){state->error=true;}}
                 if(state->transition==2&&!SetWindowPos(window,nullptr,0,0,state->outer_width+1,state->outer_height,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE))state->error=true;
@@ -71,7 +71,7 @@ static LRESULT CALLBACK procedure(HWND window,UINT message,WPARAM wp,LPARAM lp){
             }
             return 0;
         }
-        if(message==WM_ERASEBKGND)return 1;
+        if(message==WM_ERASEBKGND){if(state->background&&binding->offset<0)draw(*state,reinterpret_cast<HDC>(wp),0);return 1;}
     }
     return DefWindowProcW(window,message,wp,lp);
 }
@@ -142,12 +142,12 @@ int main(int argc,char** argv){
     try{
         const std::string mode=argc==1?"normal":argc==2?argv[1]:"invalid";
         const bool receiving=mode=="--receiver"||mode=="--receiver-hang";
-        if(mode!="normal"&&mode!="--blank"&&mode!="--hang"&&mode!="--tree"&&!receiving){std::fputs("invalid_control_mode\n",stderr);return 2;}
+        if(mode!="normal"&&mode!="--blank"&&mode!="--hang"&&mode!="--tree"&&mode!="--background"&&!receiving){std::fputs("invalid_control_mode\n",stderr);return 2;}
         std::string line;require(static_cast<bool>(std::getline(std::cin,line))&&line.size()<=4096);
         disked::json::Limits limits;limits.bytes=4096;limits.values=128;limits.string_bytes=255;const auto input=disked::json::parse(line,limits);require(input.fields.size()==7);
         const auto seed=unhex(text(input,"challenge"));require(seed.size()==16);
         State state;state.nonce=integer(text(input,"nonce"));require(static_cast<std::uint32_t>(state.nonce)&&static_cast<std::uint32_t>(state.nonce>>32));
-        state.blank=mode=="--blank";state.hang=mode=="--hang";state.tree=mode=="--tree"||receiving;
+        state.blank=mode=="--blank";state.hang=mode=="--hang";state.background=mode=="--background";state.tree=mode=="--tree"||state.background||receiving;
         Binding root_binding{&state,-1},left_binding{&state,0},right_binding{&state,120};
         for(unsigned p=0;p<2;++p)for(unsigned i=0;i<16;++i){std::string bytes("DiskEd pixel-origin/1");bytes.push_back('\0');bytes.append(seed.begin(),seed.end());bytes.push_back(static_cast<char>(p));bytes.push_back(static_cast<char>(i));
             std::array<unsigned char,32> sum{};disked::sha256(reinterpret_cast<const unsigned char*>(bytes.data()),bytes.size(),sum.data());std::copy_n(sum.begin(),3,state.colors[p][i].begin());}
@@ -158,7 +158,7 @@ int main(int argc,char** argv){
         WNDCLASSEXW definition{};definition.cbSize=sizeof(definition);definition.lpfnWndProc=procedure;definition.hInstance=windows.instance;definition.lpszClassName=L"DiskEdCooperativeCaptureControl";
         stage="register_class";require(RegisterClassExW(&definition)!=0);windows.registered=true;
         stage="window_create";
-        const bool framed=mode=="--tree";
+        const bool framed=mode=="--tree"||state.background;
         const DWORD style=framed?(WS_OVERLAPPEDWINDOW|WS_VISIBLE):(WS_POPUP|WS_VISIBLE);
         if(framed){RECT extent{0,0,240,96};require(AdjustWindowRectEx(&extent,style,FALSE,0)!=FALSE);state.outer_width=extent.right-extent.left;state.outer_height=extent.bottom-extent.top;}
         windows.first=CreateWindowExW(0,definition.lpszClassName,L"Owned capture control",style,0,0,state.outer_width,state.outer_height,nullptr,nullptr,windows.instance,&root_binding);require(windows.first!=nullptr);mark(windows.first,state.nonce);
@@ -207,6 +207,7 @@ int main(int argc,char** argv){
             const auto done=disked::json::dump(V::object().put("schema",V::string("org.disked.capture-receiver-done/1")).put("pid",number(request.process)).put("sequence",number(2)).put("attempts",number(2)))+"\n";
             write(done.data(),done.size());return 0;
         }
+        if(state.background)for(auto child=GetWindow(windows.first,GW_CHILD);child;child=GetWindow(child,GW_HWNDNEXT))ShowWindow(child,SW_HIDE);
         stage="positive_capture";V phases=V::array();std::vector<unsigned char> pixels;
         for(unsigned p=0;p<2;++p){state.phase=p;require(RedrawWindow(windows.first,nullptr,nullptr,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE)!=FALSE);auto captured=disked::ui::capture_owned_window_client(request);
             if(state.error||captured.status!=Status::captured||captured.bgra.size()!=92160||captured.gdi_before!=captured.gdi_after||captured.descendants!=(state.tree?2u:0u))

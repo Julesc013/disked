@@ -13,6 +13,7 @@ HERE=Path(__file__).resolve().parent
 work=Path(os.environ['DISKED_WORK_ROOT'])
 full='--full' in sys.argv
 finalize='--finalize' in sys.argv
+review_only='--review-only' in sys.argv
 record=dict(status='running',base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
 record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
 def inputs():
@@ -21,9 +22,11 @@ def inputs():
         paths.update(p for p in (ROOT/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h','.json','.md','.yaml','.yml'))
     for directory in (HERE,HERE.parent/'2026-10-18-ordinary-worker',HERE.parent/'2026-10-21-cooperative-capture'):
         paths.update(p for p in directory.iterdir() if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h'))
-    paths.update([ROOT/'CMakeLists.txt',HERE/'expected.json',HERE/'framed-expected.json',HERE.parent/'2026-10-18-ordinary-worker/native-x64-expectations.json'])
+    paths.update(HERE.rglob('*.py'))
+    paths.update([ROOT/'CMakeLists.txt',HERE/'expected.json',HERE/'framed-expected.json',HERE/'background-expected.json',HERE.parent/'2026-10-18-ordinary-worker/native-x64-expectations.json'])
     return {p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 commands=[['-m','unittest','discover','-s','tests/tools','-p','test_source_snapshot.py','-v']]
+if review_only:commands=[['-m','unittest','discover','-s','tests/tools','-p','test_window_capture_review.py','-v'],[str(HERE/'replay.py')]]
 env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1')
 if full or finalize:
     env['PYTHONPATH']=str(work/'dependencies')
@@ -40,8 +43,9 @@ def retain():
     body=(json.dumps(record,indent=2)+'\n').encode();assert len(body)<4194304
     encoded=lzma.compress(body,format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])
     assert lzma.decompress(encoded)==body
-    (HERE/('finalization.json.xz' if finalize else 'validation.json.xz' if full else 'focused-validation.json.xz')).write_bytes(encoded)
+    (HERE/('review-validation.json.xz' if review_only else 'finalization.json.xz' if finalize else 'validation.json.xz' if full else 'focused-validation.json.xz')).write_bytes(encoded)
 try:
+    if not (full or finalize):record['tested_inputs']=inputs()
     for arguments in commands:
         if arguments==['spec/tools/specctl.py','check']:record['tested_inputs']=inputs()
         call=subprocess.run([sys.executable,'-B',*arguments],cwd=ROOT,env=env,capture_output=True,timeout=900)

@@ -75,10 +75,11 @@ RETIRE_ACTOR=r'''
 
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
-    capture_transport='--capture-transport-proof' in sys.argv
+    background_proof='--capture-background-proof' in sys.argv
+    capture_transport=background_proof or '--capture-transport-proof' in sys.argv
     cooperative_tree=capture_transport or '--cooperative-tree-proof' in sys.argv
     cooperative=cooperative_tree or '--cooperative-capture-proof' in sys.argv
-    cooperative_mode='--capture-transport-proof' if capture_transport else '--cooperative-tree-proof' if cooperative_tree else '--cooperative-capture-proof'
+    cooperative_mode='--capture-background-proof' if background_proof else '--capture-transport-proof' if capture_transport else '--cooperative-tree-proof' if cooperative_tree else '--cooperative-capture-proof'
     if cooperative and any(option not in (cooperative_mode,'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Cooperative capture accepts only its32MiB noninteractive preparation/cleanup controls')
     cleanup_only='--cleanup-only' in sys.argv
@@ -241,6 +242,9 @@ def main():
     if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/('2026-10-21-cooperative-tree' if cooperative_tree else '2026-10-21-cooperative-capture')/'expected.json').read_bytes())
     if capture_transport:
         expected['capture_transport']=json.loads((HERE.parent/'2026-10-21-capture-transport/expected.json').read_bytes())
+        if background_proof:
+            expected['capture_transport']['background_control']=json.loads((HERE.parent/'2026-10-21-product-capture/background-expected.json').read_bytes())
+            expected['cooperative_capture']['control_modes']+=['background']
         expected['cooperative_capture']['control_modes']+=['receiver','receiver_hang']
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())

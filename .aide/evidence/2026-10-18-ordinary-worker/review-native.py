@@ -2,6 +2,7 @@
 import hashlib
 import json
 import re
+import struct
 from pathlib import Path, PureWindowsPath
 import subprocess
 import tarfile
@@ -20,7 +21,10 @@ def digest(data):
     return 'sha256:' + hashlib.sha256(data).hexdigest()
 
 
-def validate_window_capture_receipts(proof, summary, inventory):
+COOPERATIVE='owned-ui-thread-cooperative-client-tree-transport/1'
+
+
+def validate_window_capture_receipts(proof, summary, inventory, *, method='owned-window-dc'):
     """Check receipt consistency; this establishes no pixel-origin qualification."""
     require(summary['passed'] is True and not summary['source_dirty'], 'GUI capture summary failed/dirty')
     require(summary['source_revision']==proof['source_revision'], 'GUI capture source revision')
@@ -31,7 +35,7 @@ def validate_window_capture_receipts(proof, summary, inventory):
     rows=proof['owned_window_captures'];require(6<=len(rows)<=32, 'GUI coordinator capture count')
     identities=set();nonces=set()
     for row in rows:
-        require(row['method']=='owned-window-dc' and row['desktop_acl_validated'] is True, 'GUI coordinator method/ACL')
+        require(row['method']==method and row['desktop_acl_validated'] is True, 'GUI coordinator method/ACL')
         require(row['image_sha256']==product, 'GUI coordinator executable differs')
         require(row['image_pin_held'] is True and re.fullmatch(r'[0-9a-f]{32}',row['image_file_id']) and
                 re.fullmatch(r'[0-9]{1,20}',row['image_file_volume']), 'GUI coordinator executable not pinned')
@@ -50,11 +54,17 @@ def validate_window_capture_receipts(proof, summary, inventory):
     require(len(captures)==6 and {row['name'] for row in captures}==wanted, 'GUI capture case inventory')
     unused=list(rows)
     for capture in captures:
-        geometry=capture['geometry'];require(geometry['capture_method']=='owned-window-dc', 'GUI capture producer method')
-        matching=next((i for i,row in enumerate(unused) if row['sha256']==geometry['pixels_sha256'] and
-                       (row['width'],row['height'])==(geometry['width'],geometry['height'])),None)
+        geometry=capture['geometry'];require(geometry['capture_method']==method, 'GUI capture producer method')
+        if method==COOPERATIVE:
+            supplied=geometry.get('capture_receipt');require(isinstance(supplied,dict) and 'id' in supplied,'GUI case receipt missing')
+            matching=next((i for i,row in enumerate(unused) if row['id']==supplied['id']),None)
+        else:
+            matching=next((i for i,row in enumerate(unused) if row['sha256']==geometry['pixels_sha256'] and
+                           (row['width'],row['height'])==(geometry['width'],geometry['height'])),None)
         require(matching is not None, 'GUI PNG metadata lacks a distinct coordinator receipt')
-        unused.pop(matching)
+        row=unused.pop(matching)
+        require(row['sha256']==geometry['pixels_sha256'] and (row['width'],row['height'])==(geometry['width'],geometry['height']),'GUI case pixel metadata')
+        if method==COOPERATIVE:require(all(k in row and row[k]==v for k,v in supplied.items()),'GUI case/coordinator receipt differs')
         filename=PureWindowsPath(capture['path']).name
         require(filename==capture['name']+'.png', 'GUI PNG filename differs from its case')
         name='groups/frontend.gui_capture/'+filename
@@ -63,9 +73,60 @@ def validate_window_capture_receipts(proof, summary, inventory):
                 png_hashes_verified=True,pixel_metadata_bound_to_distinct_coordinator_receipts=True)
 
 
-def review_window_captures(proof, summary, inventory):
-    validate_window_capture_receipts(proof, summary, inventory)
-    raise ValueError('owned-window-dc pixel origin invalidated by visual review; consistent receipts do not qualify the capture')
+def review_window_captures(proof, summary, inventory, *, visual_review=None):
+    methods={item['geometry']['capture_method'] for item in summary['captures']}
+    if methods!={COOPERATIVE}:
+        validate_window_capture_receipts(proof, summary, inventory)
+        raise ValueError('owned-window-dc pixel origin invalidated by visual review; consistent receipts do not qualify the capture')
+    result=validate_window_capture_receipts(proof,summary,inventory,method=COOPERATIVE)
+    rows=proof['owned_window_captures'];require(len(rows)==6,'Cooperative capture count')
+    nonces=set();packets={}
+    try:
+        for row in rows:
+            require(row['capture_id']==row['id'] and row['membership_job_query_access']==4 and row['output_section_access']==2 and
+                    row['supervisor_handle_exposed'] is False and row['membership_jobs_retired'] is True and row['output_sections_retired'] is True,'Cooperative capability/retirement')
+            packet=bytes.fromhex(row['request_hex']);reply=bytes.fromhex(row['reply_header_hex'])
+            require(len(packet)==640 and len(reply)==124 and packet[:8]==b'DECAPR1\0' and reply[:8]==b'DECAPS1\0' and
+                    hashlib.sha256(packet).hexdigest()==row['request_sha256'],'Cooperative packet identity')
+            nonce,=struct.unpack_from('<Q',packet,8);sequence,width,height,units=struct.unpack_from('<IIII',packet,16)
+            require(all(type(row[k]) is int for k in ('thread','sequence','receiver_sequence','descendants','gdi_before','gdi_after')) and
+                    0<row['thread']<2**32,'Cooperative integer domains')
+            require(nonce&0xffffffff and nonce>>32 and 1<=sequence<=8 and sequence==row['sequence']==row['receiver_sequence'] and
+                    (width,height)==(row['width'],row['height']) and 0<units<=255,'Cooperative sequence/geometry')
+            require(packet[120:120+2*units].decode('utf-16le')=='WinSta0\\'+row['desktop'] and not any(packet[120+2*units:]),'Cooperative desktop')
+            require(struct.unpack_from('<QII',packet,32)==(row['window'],row['pid'],row['thread']) and
+                    struct.unpack_from('<Q',packet,64)[0]==int(row['image_file_volume']) and packet[72:88].hex()==row['image_file_id'] and
+                    packet[88:104].hex()==row['id']==row['case_id'],'Cooperative process/image/case')
+            frame=list(struct.unpack_from('<iiii',packet,104))
+            require(all(type(v) is int for v in row['frame_bounds']) and frame==row['frame_bounds']==row['window_rect'] and
+                    frame[2]>frame[0] and frame[3]>frame[1] and row['client_box']==[0,0,width,height],'Cooperative client/frame coordinates')
+            for out,source,length in ((8,8,20),(32,32,16),(48,64,8),(56,72,32),(104,104,16)):
+                require(reply[out:out+length]==packet[source:source+length],'Cooperative reply binding')
+            descendants,before,after,format_=struct.unpack_from('<IIII',reply,88)
+            require(struct.unpack_from('<I',reply,28)[0]==width*height*4==row['bytes'] and struct.unpack_from('<I',reply,120)[0]==4096+row['bytes'] and
+                    descendants==row['descendants']<=64 and before==after==row['gdi_before']==row['gdi_after'] and format_==1,'Cooperative reply publication/GDI')
+            job,section=struct.unpack_from('<QQ',packet,48);require(job and section,'Cooperative transferred handles')
+            nonces.add(nonce);packets[row['id']]=(row,job,section)
+        roots=set()
+        for mode in ('inventory','review','minimum'):
+            pair=[]
+            for index in range(2):
+                case=next(c for c in summary['captures'] if c['name']==mode+'-'+str(index));geometry=case['geometry']
+                row,job,section=packets[geometry['capture_receipt']['id']]
+                require(geometry['client_box']==row['client_box'] and geometry['frame_bounds']==row['frame_bounds'] and row['sequence']==index+1,'Cooperative case coordinates/sequence')
+                pair.append((row['pid'],row['window'],row['desktop'],job,section))
+            require(pair[0][:4]==pair[1][:4] and pair[0][4]!=pair[1][4],'Cooperative repeated-case lifetime')
+            roots.add(pair[0][:3])
+        require(len(nonces)==1 and len(roots)==3,'Cooperative run/instance identities')
+    except (KeyError,TypeError,UnicodeError,struct.error) as error:
+        raise ValueError('Malformed cooperative capture receipt') from error
+    result.update(method=COOPERATIVE,client_coordinates_verified=True,private_cooperative_receipts_validated=True,actual_images_reviewed=False,text_recognition_qualified=False,accessibility_qualified=False)
+    if visual_review is not None:
+        require(visual_review['status']=='pass' and visual_review['source_revision']==proof['source_revision'] and
+                visual_review['product_sha256'].removeprefix('sha256:')==proof['executables']['disked']['sha256'].removeprefix('sha256:') and
+                visual_review['pngs']=={c['name']:c['sha256'] for c in summary['captures']},'Actual image review differs from this build/capture set')
+        result['actual_images_reviewed']=True
+    return result
 
 
 def main():
@@ -95,7 +156,7 @@ def main():
         row=next(t for t in proof['tests'] if t['name']==name);observed=row['invocation_methods']
         require(observed['methods']==wanted['methods'] and observed['tests_run']==len(wanted['methods']) and observed['skipped']==0 and observed['passed'], 'Invocation method coverage')
         require(row['execution_profile']==('appcontainer' if wanted['partition']=='shells' else 'ordinary'), 'Invocation execution profile')
-    require(len(proof['standalone_headers']) == 68 and len(proof['executables']) == 14, 'Build inventory')
+    require(len(proof['standalone_headers']) == current['standalone_headers'] == 69 and len(proof['executables']) == 14, 'Build inventory')
     require(all(proof[key] for key in ('all_owned_processes_retired', 'crypto_device_retired', 'null_device_retired')), 'Retirement')
     require(proof['native_token_identity']['integrity_sid'] == 'S-1-16-8192', 'Native integrity')
     handoff = {Path(row['path']).stem: row for row in proof['artifact_handoff']}
@@ -143,7 +204,9 @@ def main():
                 if selected:
                     summaries[member.name] = json.loads(value)
     require(manifest == inventory, 'Exact archive membership/hashes')
-    record['gui_capture']=review_window_captures(proof,summaries['groups/frontend.gui_capture/gui-capture-cases.json'],inventory)
+    visual=json.loads((HERE/'visual-review.json').read_bytes()) if (HERE/'visual-review.json').exists() else None
+    record['gui_capture']=review_window_captures(proof,summaries['groups/frontend.gui_capture/gui-capture-cases.json'],inventory,visual_review=visual)
+    require(record['gui_capture']['actual_images_reviewed'],'Actual retained GUI images still require review')
     for name,wanted in current['invocation_method_coverage'].items():
         observed=next(t['invocation_methods'] for t in proof['tests'] if t['name']==name)
         require(summaries['groups/'+name+'/'+wanted['summary']]==observed, 'Raw invocation summary differs from campaign receipt')

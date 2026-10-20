@@ -142,6 +142,7 @@ def exercise(g,work,environment,executor,result):
         report.update(challenge=challenge.hex(),nonce=str(nonce),expected_rgb_sha256=[hashlib.sha256(v).hexdigest() for v in rgb_expected])
         modes=[('normal',None),('blank_oracle_rejection','--blank'),('hung_paint_timeout','--hang'),('controller_handle_loss','--hang'),('invalid_mode','--invalid')]
         if 'tree_requirements' in expected:modes.append(('tree','--tree'))
+        if transport and transport.get('background_control'):modes.append(('background','--background'))
         if transport:modes.extend([('receiver','--receiver'),('receiver_hang','--receiver-hang')])
         for label,mode in modes:
             correct,correct_row=query_job(g,executor.worker,report)
@@ -196,16 +197,16 @@ def exercise(g,work,environment,executor,result):
                 report['modes'].append(row)
                 assert value['terminal'] and executor.observations[-1]['temporary_files_removed']
                 assert transferred['process_id']==executor.observations[-1]['process_id'] and executor.observations[-1]['launch']['pre_resume_hook_completed']
-                if label in ('normal','blank_oracle_rejection','tree'):
+                if label in ('normal','blank_oracle_rejection','tree','background'):
                     assert value['outcome']=='exited' and value['exit_code']==0 and not value['stderr']
-                    frame,pixels=verifier.parse_frame(value['stdout'],process_id=executor.observations[-1]['process_id'],nonce=nonce,actor_sid=executor.worker.user_sid,tree=label=='tree')
+                    frame,pixels=verifier.parse_frame(value['stdout'],process_id=executor.observations[-1]['process_id'],nonce=nonce,actor_sid=executor.worker.user_sid,tree=label in ('tree','background'))
                     row['frame']=frame
                     known=all(oracle.rgb_pixels(v) in (*rgb_expected,bytes(69120)) for v in pixels)
                     if known:row['stdout']=save(label+'.stdout',value['stdout']);row['pixels_retained']=True
-                    if label in ('normal','tree'):
+                    if label in ('normal','tree','background'):
                         observed=verifier.verify_pixels(pixels,rgb_expected)
                         row['rgb_sha256']=[hashlib.sha256(v).hexdigest() for v in observed]
-                        for i,rgb in enumerate(observed):save(('tree-' if label=='tree' else '')+'phase-'+str(i)+'.png',oracle.png(rgb))
+                        for i,rgb in enumerate(observed):save((label+'-' if label in ('tree','background') else '')+'phase-'+str(i)+'.png',oracle.png(rgb))
                         try:verifier.verify_pixels([pixels[0],pixels[0]],rgb_expected)
                         except ValueError as error:assert str(error)=='pixel_origin';row['stale_phase_rejected']=True
                         else:raise ValueError('Stale pixels accepted')
