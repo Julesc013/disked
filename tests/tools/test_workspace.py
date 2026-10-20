@@ -113,8 +113,17 @@ class WorkspaceTests(unittest.TestCase):
         self.assertFalse(Path((self.root / 'observed-work.txt').read_text()).exists())
 
     def test_interruption_uses_the_same_cleanup(self):
-        with mock.patch.object(W.time, 'sleep', side_effect=KeyboardInterrupt):
+        original_check=W.check;calls=0
+        def interrupt_running_campaign(*args,**kwargs):
+            nonlocal calls
+            calls+=1
+            if calls==2:raise KeyboardInterrupt
+            return original_check(*args,**kwargs)
+        # Interrupt after launch; keep real cleanup/backoff available. A mock
+        # that raises at every sleep also interrupts transient handle cleanup.
+        with mock.patch.object(W,'check',side_effect=interrupt_running_campaign):
             result = self.run_child('import time;time.sleep(30)')
+        self.assertEqual(calls,2)
         self.assertEqual((result['status'], result['exit_code']), ('blocked', 78))
         self.assertTrue(result['workspace_removed'])
 

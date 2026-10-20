@@ -7,7 +7,7 @@ import argparse,ctypes as C,hashlib,json,shutil,struct,subprocess,sys,tempfile,z
 from contextlib import contextmanager
 from ctypes import wintypes as W
 from pathlib import Path
-from gui_fixture import Gui,U,capture_client_content
+from gui_fixture import Gui,U,capture_client_content,capture_background_matches
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from support.tempdir import fixture_parent as managed_parent, managed_directory
@@ -67,6 +67,8 @@ def main():
                     destination.mkdir(parents=True,exist_ok=True)
                     path=destination/(name+'-'+str(index)+'.png');geometry=ui.screenshot(path);w,h,body=png(path)
                     check(name+'-actual-client-'+str(index),(w,h)==(geometry['width'],geometry['height']) and capture_client_content(body,w,h,geometry['client_box']))
+                    if geometry.get('capture_method')=='owned-ui-thread-cooperative-client-tree-transport/1':
+                        check(name+'-actual-background-'+str(index),geometry['background_matches'] and capture_background_matches(body,w,h,geometry['background_color']))
                     if name!='inventory':
                         frame=W.RECT();button=W.RECT();assert U.GetWindowRect(ui.window,C.byref(frame)) and U.GetWindowRect(ui.child(110),C.byref(button))
                         origin=W.POINT(frame.left,frame.top)

@@ -1,6 +1,7 @@
 """Bounded source-export/contract checks with retained command outcomes."""
 import ast
 import hashlib
+import importlib.util
 import json
 import lzma
 import os
@@ -18,6 +19,9 @@ record=dict(status='running',base_revision=subprocess.check_output(['git','rev-p
 record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
 def inputs():
     paths=set()
+    definition=importlib.util.spec_from_file_location('validation_task_inputs',ROOT/'tools/source-snapshot.py')
+    snapshot=importlib.util.module_from_spec(definition);definition.loader.exec_module(snapshot)
+    paths.update(ROOT/name for name in snapshot.selected_inputs(ROOT,'DE-W105'))
     for directory in ('source','spec','tools','tests'):
         paths.update(p for p in (ROOT/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h','.json','.md','.yaml','.yml'))
     for directory in (HERE,HERE.parent/'2026-10-18-ordinary-worker',HERE.parent/'2026-10-21-cooperative-capture'):

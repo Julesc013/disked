@@ -1,10 +1,15 @@
 """Synthetic receipt mismatches must not qualify retained GUI evidence."""
+import ast
 import copy
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import struct
+import tarfile
+from types import SimpleNamespace
 import unittest
+import zlib
 
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('native_review',ROOT/'.aide/evidence/2026-10-18-ordinary-worker/review-native.py')
@@ -134,6 +139,43 @@ class CaptureReview(unittest.TestCase):
             capture.update(path='shared.png',sha256='sha256:'+shared)
         self.inventory={'groups/frontend.gui_capture/shared.png':dict(sha256=shared)}
         with self.assertRaises(ValueError):self.verify()
+
+
+class BackgroundPixels(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        scope=dict(struct=struct,zlib=zlib)
+        for path,names in [(ROOT/'tests/frontend/gui_fixture.py',('capture_client_content','capture_background_matches')),
+                           (ROOT/'tests/frontend/test_gui_capture.py',('png',))]:
+            tree=ast.parse(path.read_bytes());nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names]
+            assert len(nodes)==len(names);exec(compile(ast.Module(body=nodes,type_ignores=[]),str(path),'exec'),scope)
+        cls.matches=staticmethod(scope['capture_background_matches']);cls.client=staticmethod(scope['capture_client_content']);cls.png=staticmethod(scope['png'])
+
+    def test_solid_edges_allow_real_interior_and_ignore_alpha(self):
+        body=bytearray(bytes([0x11,0x22,0x33,0])*20);body[24:28]=b'\x99\x88\x77\x00'
+        self.assertTrue(self.matches(body,5,4,0x112233));body[3::4]=bytes(range(20));self.assertTrue(self.matches(body,5,4,0x112233))
+
+    def test_every_edge_pixel_is_required(self):
+        for y in range(4):
+            for x in range(5):
+                if x not in (0,4) and y not in (0,3):continue
+                body=bytearray(bytes([0x11,0x22,0x33,0])*20);body[(y*5+x)*4]^=1
+                with self.subTest(x=x,y=y):self.assertFalse(self.matches(body,5,4,0x112233))
+
+    def test_retained_runtime_passing_png_rejects_missing_background(self):
+        folder=ROOT/'.aide/evidence/2026-10-21-product-capture/attempt-004'
+        with tarfile.open(folder/'retained.tar.xz','r:xz') as stream:
+            member=stream.getmember('groups/frontend.gui_capture/inventory-0.png');self.assertLess(member.size,1048576);body=stream.extractfile(member).read()
+        retained=json.loads((folder/'replay.json').read_bytes())
+        self.assertEqual(hashlib.sha256(body).hexdigest(),retained['pngs']['inventory-0'].removeprefix('sha256:'));self.assertFalse(retained['capture_qualified'])
+        width,height,pixels=self.png(SimpleNamespace(read_bytes=lambda:body))
+        self.assertTrue(self.client(pixels,width,height,(0,0,width,height)))
+        color=pixels[2]|pixels[1]<<8|pixels[0]<<16
+        self.assertFalse(self.matches(pixels,width,height,color))
+
+    def test_malformed_background_domains_are_rejected(self):
+        for width,height,color in [(0,1,0),(True,1,0),(1,-1,0),(1,1,True),(1,1,0x1000000)]:
+            with self.subTest(width=width,height=height,color=color),self.assertRaises(ValueError):self.matches(bytes(4),width,height,color)
 
 
 if __name__=='__main__':unittest.main()

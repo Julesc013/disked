@@ -62,6 +62,16 @@ def capture_client_content(payload,width,height,box):
             elif color!=first:return True
     return False
 
+def capture_background_matches(payload,width,height,color):
+    """The native GUI's unused client perimeter has its solid class background."""
+    if (type(width) is not int or type(height) is not int or not 0<width<=4096 or not 0<height<=4096 or
+            len(payload)!=width*height*4 or type(color) is not int or not 0<=color<=0xffffff):raise ValueError('capture_background_geometry')
+    expected=bytes([(color>>16)&255,(color>>8)&255,color&255])
+    edges=set(range(width))|set(range((height-1)*width,height*width))
+    edges.update(y*width for y in range(height));edges.update(y*width+width-1 for y in range(height))
+    return all(payload[index*4:index*4+3]==expected for index in edges)
+
+
 class GUIINFO(C.Structure):
     _fields_=[('cbSize',W.DWORD),('flags',W.DWORD),('active',W.HWND),('focus',W.HWND),('capture',W.HWND),('menu',W.HWND),('move',W.HWND),('caret',W.HWND),('caretRect',W.RECT)]
 bind(U,'GetGUIThreadInfo',W.BOOL,[W.DWORD,C.POINTER(GUIINFO)])
@@ -306,15 +316,16 @@ class Gui:
             # archives the build output even when a caption assertion fails.
             write_capture(path,payload,w,h)
             client_painted=capture_client_content(payload,w,h,box)
+            background_color=U.GetSysColor(15);background_matches=capture_background_matches(payload,w,h,background_color)
             regions=[dict(row,painted=capture_client_content(payload,w,h,b)) for row,b in zip(caption_details,captions)]
             Path(path).with_suffix('.capture.json').write_text(json.dumps(dict(width=w,height=h,client_box=list(box),
-                client_painted=client_painted,caption_regions=regions,frame_bounds=[rect.left,rect.top,rect.right,rect.bottom],
+                client_painted=client_painted,background_color=background_color,background_matches=background_matches,caption_regions=regions,frame_bounds=[rect.left,rect.top,rect.right,rect.bottom],
                 capture_receipt=receipt),indent=2)+'\n',encoding='utf-8',newline='\n')
             assert receipt['client_box']==list(box) and receipt['frame_bounds']==[rect.left,rect.top,rect.right,rect.bottom]
-            assert client_painted and all(row['painted'] for row in regions),'Cooperative client/caption pixels incomplete'
+            assert client_painted and background_matches and all(row['painted'] for row in regions),'Cooperative client/caption/background pixels incomplete'
             import hashlib
             return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions],frame_bounds=receipt['frame_bounds'],
-                capture_method=METHOD,pixels_sha256=hashlib.sha256(payload).hexdigest(),capture_receipt=receipt)
+                background_color=background_color,background_matches=background_matches,capture_method=METHOD,pixels_sha256=hashlib.sha256(payload).hexdigest(),capture_receipt=receipt)
         header=struct.pack('<IiiHHIIiiII',40,w,-h,1,32,0,w*h*4,0,0,0,0)
         info=C.create_string_buffer(header);bits=PTR();dc=G.CreateCompatibleDC(None)
         assert dc,('CreateCompatibleDC',C.get_last_error())

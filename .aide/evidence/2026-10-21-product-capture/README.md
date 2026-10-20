@@ -102,3 +102,24 @@ the framed root paints only through WM_ERASEBKGND, leaving hidden children.
 The same two240x96 RGB recipes must match completely. This adds a ninth mode
 to a separate32MiB profile while retaining every original mode and guard.
 The first run uses the viewport-only renderer to establish the regression.
+
+The background-only baseline at `5b5b17fd` fails the independent RGB oracle
+after22 calls, with no receiver modes reached. Its failure and cleanup are
+retained under `background-controls/before-fix/`. The candidate repair paints
+root background at client origin before window-tree printing and omits the
+second, shifted root erasure. The unchanged full RGB oracle must pass before
+another product/visual admission attempt.
+
+The product background oracle is frozen separately in
+`product-background-expected.json`: unused outer client-edge RGB must equal
+COLOR_BTNFACE observed by the fixture. A host regression reads the actual
+runtime-passing `attempt-004` PNG, verifies its retained hash, and rejects its
+missing background. Actual product checks now verify raw and encoded PNG
+edges while retaining all previous assertions and visual review.
+
+A retained host validation failure (`background-controls/host-interruption-failure.json.xz`)
+exposes a test-injection defect: mocking every sleep to interrupt also aborts
+cleanup backoff when Windows briefly holds a log handle. The outer workspace
+was removed. The test now interrupts the post-launch resource check exactly
+once, keeping child retirement and workspace-removal assertions unchanged.
+Production runner limits, retries and cleanup code are unchanged.
