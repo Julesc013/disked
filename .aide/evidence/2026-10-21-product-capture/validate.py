@@ -14,6 +14,15 @@ work=Path(os.environ['DISKED_WORK_ROOT'])
 full='--full' in sys.argv
 finalize='--finalize' in sys.argv
 record=dict(status='running',base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
+record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
+def inputs():
+    paths=set()
+    for directory in ('source','spec','tools','tests'):
+        paths.update(p for p in (ROOT/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h','.json','.md','.yaml','.yml'))
+    for directory in (HERE,HERE.parent/'2026-10-18-ordinary-worker',HERE.parent/'2026-10-21-cooperative-capture'):
+        paths.update(p for p in directory.iterdir() if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h'))
+    paths.update([ROOT/'CMakeLists.txt',HERE/'expected.json',HERE/'framed-expected.json',HERE.parent/'2026-10-18-ordinary-worker/native-x64-expectations.json'])
+    return {p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 commands=[['-m','unittest','discover','-s','tests/tools','-p','test_source_snapshot.py','-v']]
 env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1')
 if full or finalize:
@@ -34,10 +43,13 @@ def retain():
     (HERE/('finalization.json.xz' if finalize else 'validation.json.xz' if full else 'focused-validation.json.xz')).write_bytes(encoded)
 try:
     for arguments in commands:
+        if arguments==['spec/tools/specctl.py','check']:record['tested_inputs']=inputs()
         call=subprocess.run([sys.executable,'-B',*arguments],cwd=ROOT,env=env,capture_output=True,timeout=900)
         assert len(call.stdout)+len(call.stderr)<=262144
         record['commands'].append(dict(arguments=call.args,exit_code=call.returncode,stdout=call.stdout.decode(errors='replace'),stderr=call.stderr.decode(errors='replace')));retain()
         if call.returncode:raise RuntimeError('Validation command failed: '+str(arguments))
+    if 'tested_inputs' in record:
+        assert inputs()==record['tested_inputs'];record['tested_inputs_unchanged']=True
     record['status']='pass';retain()
 except BaseException:
     record['status']='fail';retain();raise

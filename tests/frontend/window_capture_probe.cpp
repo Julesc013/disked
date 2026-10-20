@@ -28,6 +28,7 @@ struct State{
     std::uint64_t nonce=0;
     unsigned phase=0,prints=0,paints=0,transition=0;
     bool blank=false,hang=false,error=false,tree=false;
+    int outer_width=240,outer_height=96;
     HWND first_child=nullptr;
     bool receiving=false;
     disked::ui::WindowCaptureReceiver receiver;
@@ -64,7 +65,7 @@ static LRESULT CALLBACK procedure(HWND window,UINT message,WPARAM wp,LPARAM lp){
             }draw(*state,reinterpret_cast<HDC>(wp),binding->offset);
             if(binding->offset<0){
                 if(state->transition==1){try{mark(window,state->nonce+1);}catch(...){state->error=true;}}
-                if(state->transition==2&&!SetWindowPos(window,nullptr,0,0,241,96,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE))state->error=true;
+                if(state->transition==2&&!SetWindowPos(window,nullptr,0,0,state->outer_width+1,state->outer_height,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE))state->error=true;
                 if(state->transition==3&&!SetWindowPos(state->first_child,nullptr,0,0,119,96,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE))state->error=true;
                 if(state->transition==4)ShowWindow(state->first_child,SW_HIDE);
             }
@@ -157,7 +158,11 @@ int main(int argc,char** argv){
         WNDCLASSEXW definition{};definition.cbSize=sizeof(definition);definition.lpfnWndProc=procedure;definition.hInstance=windows.instance;definition.lpszClassName=L"DiskEdCooperativeCaptureControl";
         stage="register_class";require(RegisterClassExW(&definition)!=0);windows.registered=true;
         stage="window_create";
-        windows.first=CreateWindowExW(0,definition.lpszClassName,L"Owned capture control",WS_POPUP|WS_VISIBLE,0,0,240,96,nullptr,nullptr,windows.instance,&root_binding);require(windows.first!=nullptr);mark(windows.first,state.nonce);
+        const bool framed=mode=="--tree";
+        const DWORD style=framed?(WS_OVERLAPPEDWINDOW|WS_VISIBLE):(WS_POPUP|WS_VISIBLE);
+        if(framed){RECT extent{0,0,240,96};require(AdjustWindowRectEx(&extent,style,FALSE,0)!=FALSE);state.outer_width=extent.right-extent.left;state.outer_height=extent.bottom-extent.top;}
+        windows.first=CreateWindowExW(0,definition.lpszClassName,L"Owned capture control",style,0,0,state.outer_width,state.outer_height,nullptr,nullptr,windows.instance,&root_binding);require(windows.first!=nullptr);mark(windows.first,state.nonce);
+        if(framed){RECT client{},frame{};POINT origin{};require(GetClientRect(windows.first,&client)&&GetWindowRect(windows.first,&frame)&&ClientToScreen(windows.first,&origin));require(client.right==240&&client.bottom==96&&origin.x>frame.left&&origin.y>frame.top&&(GetWindowLongW(windows.first,GWL_STYLE)&WS_CAPTION)==WS_CAPTION);}
         windows.other=CreateWindowExW(0,definition.lpszClassName,L"Wrong owned control",WS_POPUP,0,0,240,96,nullptr,nullptr,windows.instance,&root_binding);require(windows.other!=nullptr);
         if(state.tree){state.first_child=CreateWindowExW(0,definition.lpszClassName,L"Left tiles",WS_CHILD|WS_VISIBLE,0,0,120,96,windows.first,nullptr,windows.instance,&left_binding);
             require(state.first_child&&CreateWindowExW(0,definition.lpszClassName,L"Right tiles",WS_CHILD|WS_VISIBLE,120,0,120,96,windows.first,nullptr,windows.instance,&right_binding));}
@@ -175,7 +180,7 @@ int main(int argc,char** argv){
         bad=request;bad.window=windows.other;refused("wrong_window",bad,Status::identity_mismatch);
         stage="foreign_thread";ThreadCall threaded{&request};Handle thread;thread.value=CreateThread(nullptr,0,foreign_thread,&threaded,0,nullptr);require(thread.value&&WaitForSingleObject(thread.value,2000)==WAIT_OBJECT_0&&threaded.status==Status::identity_mismatch&&threaded.empty);
         negative.items.push_back(V::object().put("name",V::string("foreign_thread")).put("refused",V::boolean_value(true)).put("render_called",V::boolean_value(false)));
-        for(unsigned change=1;change<=2;++change){stage=change==1?"epoch_transition":"geometry_transition";state.transition=change;auto failed=disked::ui::capture_owned_window_client(request);if(!failed.bgra.empty()||failed.status!=(change==1?Status::identity_mismatch:Status::geometry_changed))throw std::runtime_error("transition capture_status="+std::to_string(static_cast<int>(failed.status)));state.transition=0;mark(windows.first,state.nonce);require(SetWindowPos(windows.first,nullptr,0,0,240,96,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE)!=FALSE);
+        for(unsigned change=1;change<=2;++change){stage=change==1?"epoch_transition":"geometry_transition";state.transition=change;auto failed=disked::ui::capture_owned_window_client(request);if(!failed.bgra.empty()||failed.status!=(change==1?Status::identity_mismatch:Status::geometry_changed))throw std::runtime_error("transition capture_status="+std::to_string(static_cast<int>(failed.status)));state.transition=0;mark(windows.first,state.nonce);require(SetWindowPos(windows.first,nullptr,0,0,state.outer_width,state.outer_height,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE)!=FALSE);
             negative.items.push_back(V::object().put("name",V::string(change==1?"epoch_during_capture":"geometry_during_capture")).put("refused",V::boolean_value(true)).put("render_called",V::boolean_value(true)));}
         V tree_controls=V::array();
         if(state.tree){

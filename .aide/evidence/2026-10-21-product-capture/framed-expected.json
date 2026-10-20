@@ -1,0 +1,17 @@
+{
+  "work_id": "DE-W105",
+  "base_revision": "5ad35f0034ae822656506a36664b92b3156a4c82",
+  "status_at_creation": "fixed_before_framed_fixture_and_renderer_repair",
+  "scope": "Original32MiB transport/control campaign,with direct tree capture using a framed top-level window;not product/full-native admission",
+  "case": "tree",
+  "window_style": "WS_OVERLAPPEDWINDOW|WS_VISIBLE",
+  "client_width": 240,
+  "client_height": 96,
+  "expected": "Both independently generated A/B RGB buffers match all23040 pixels exactly,including every edge;normal/popup receiver/blank/hang and all11 identity,4 tree,20 packet and8 I/O controls remain",
+  "requirements": [
+    "Create a framed root with AdjustWindowRectEx and prove its actual client extent and nonzero frame-to-client offset before capture.",
+    "First run the new fixture against the unmodified renderer and preserve the observed failure;then repair origin handling without changing the independent pixel recipe or guards.",
+    "Keep memory-DC-only rendering,identity/job/image/desktop and before/after tree checks,500ms sender bound,independent supervisor retirement and original cleanup/resource controls.",
+    "After the private control passes,run all six actual product captures and inspect them before the full current native suite."
+  ]
+}

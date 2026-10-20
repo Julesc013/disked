@@ -59,3 +59,21 @@ stable11 GDI objects. The unchanged client/caption assertion rejects it. No PNG
 was saved because the assertion preceded writing; the candidate harness now
 saves PNG and per-region diagnostics in the archived build directory first.
 This is a diagnostic-retention repair, not a relaxed assertion or capture pass.
+
+At `5ad35f00`, `attempt-003/` retains the actual984x681 inventory PNG and
+caption-region diagnostics. The image places the first button at18,41 while
+its client-relative outer position is10,10: the measured8x31 frame offset.
+The whole client contains data, but seven of eight measured caption interiors
+fail. This is a rendering-coordinate defect, not a missing account grant.
+
+`framed-expected.json` fixes an independent240x96 framed-root A/B test before
+its fixture and renderer repair. The existing tree mode now requires a real
+captioned frame; normal and receiver modes retain their popup roots. The RGB
+recipe, all modes and original guards are unchanged. Its first run intentionally
+uses the unmodified renderer; an expected regression failure is not a pass.
+
+Microsoft documents [WM_PRINT](https://learn.microsoft.com/en-us/windows/win32/gdi/wm-print)
+client/child dispatch and the application-owned handling of
+[WM_PRINTCLIENT](https://learn.microsoft.com/en-us/windows/win32/gdi/wm-printclient).
+Those contracts informed the experiment; actual retained pixels established
+the observed displacement.
