@@ -21,5 +21,21 @@
   ],
   "completion": "Actual independently expected owned-window pixels and wrong-surface refusal,verified cleanup,and an explicit method admission review. A successful control alone does not qualify product images.",
   "capture_method_selected": false,
-  "authority": "Existing bounded guest-development grant;this plan creates no new privilege."
+  "authority": "Existing bounded guest-development grant;this plan creates no new privilege.",
+  "pixel_recipe": {
+    "version": "org.disked.pixel-origin-control/1",
+    "client_width": 240,
+    "client_height": 96,
+    "grid_columns": 4,
+    "grid_rows": 4,
+    "tile_width": 60,
+    "tile_height": 24,
+    "window": "Owned borderless popup with no child controls;client/window bounds must both match240x96.",
+    "challenge": "Coordinator chooses16 random bytes before drawing;the capture helper does not receive the color recipe/challenge.",
+    "rgb": "For tile i=0..15 and phase p=0 or1,use the first3 bytes of SHA256(ASCII DiskEd pixel-origin/1 followed by NUL,the16 challenge bytes,the one-byte phase,the one-byte tile index),in R,G,B order.",
+    "tile_coordinates": "x=i%4*60,y=i//4*24;fill the complete60x24 rectangle.",
+    "comparison": "Verify all23040 RGB pixels exactly for each phase;ignore only unused DIB alpha. Transform/cropping cannot be inferred from observed colors. Require distinct phase payload hashes.",
+    "wrong_surface": "A correctly framed/digested stale phase-A payload cannot pass phase B;an all-zero or synthetic unrelated surface cannot pass either phase.",
+    "no_adaptive_expectations": "Fix dimensions,recipe,challenge,expected full RGB buffers and target phase before capture;never change them in response to observed output."
+  }
 }

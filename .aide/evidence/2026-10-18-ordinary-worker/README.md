@@ -13,7 +13,10 @@ The [operator-stopped run117](one-hundred-seventeenth-review.json) ran **zero na
 groups** and retired owned processes/source/media/account. All16 retained entry
 hashes verify;24,080 compressed archive bytes,zero VM backing growth. No campaign
 is active. The controller now admits explicit nonce-bound operator cancellation
-without fabricating a storage-budget breach;native proof is pending.
+without fabricating a storage-budget breach. The [run118 proof](one-hundred-eighteenth-review.json)
+passes at `42efb92b`:both owned jobs reach zero active processes,source/account/
+media/grants retire,and all3 archive entry hashes verify. Its expected interrupted
+exit is1;the separate control result passes. Archive552 bytes,zero backing growth.
 The separate run116 GUI-waiting cleanup repair remains a real focused pass.
 Main is unpromoted and the full0.1.0/owner/release gates remain open.
 
@@ -91,7 +94,7 @@ The all-target x64 build at `f86f72fa` passed, with 178 groups registered,
 `full-build-review.json` and the complete compressed
 `forty-second-full-build-first-native.tar.xz`. The first native group passed;
 `acquisition.fat_tree_review` failed with `image_parent_open`.
-Attempts 43ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ45 narrow this to Windows access-denied on every native parent open,
+Attempts 43ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“45 narrow this to Windows access-denied on every native parent open,
 while a Python control under the same ordinary worker opens those directories.
 Attempt 46 identifies the differing integrity levels: native Low versus Python
 Medium, with the same user/restricting SIDs and Low labels on new native files.
@@ -329,7 +332,7 @@ The next execution recipe must retain the hard filesystem boundary and all
 original protected-record, outside-write, descendant and interruption controls.
 Any proposed guest setup exception needs explicit scope, agent review and
 verified retirement before admission. No crypto-device ACL was changed in
-attempts 1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ25.
+attempts 1ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“25.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. Use the now-observed console and crypto-device boundaries when
@@ -340,7 +343,7 @@ restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey
 remain pending regardless of any primitive or diagnostic result here.
 
-Attempts 26ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ29 prove the narrowly scoped guest setup: a journaled ACE gives only
+Attempts 26ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“29 prove the narrowly scoped guest setup: a journaled ACE gives only
 the fresh actor SID the observed `0x100003` KsecDD access. Actual helper interruption
 and recovery, exact removal, and failure of a new restricted process after removal
 are recorded. The ordinary worker retains exactly fresh-user and Restricted Code
@@ -348,7 +351,7 @@ restricting SIDs, medium integrity and no administrator/AppContainer identity.
 No filesystem/product-record ACL or host setting is relaxed. A fresh containing
 job is required for each command; every owned member retires before removal.
 
-Attempt 30 passes all original 32 MiB controls. Attempts 31ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ32 compile real
+Attempt 30 passes all original 32 MiB controls. Attempts 31ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“32 compile real
 production helpers but expose prefixed kernel-object path failures; the first
 cleanup refuses nested source entries, then exact-source-parent cleanup succeeds.
 Attempt 33 uses the default namespace, verifies the ordinary session-zero alias
