@@ -435,7 +435,8 @@ def main():
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
         proof=result.get('guest',{}).get('proof') or {}
         result['template_native_product_tests_run']=result.get('native_product_tests_run',False)
-        result['native_product_tests_run']=bool(proof.get('tests') or proof.get('diagnostics'))
+        result['native_product_tests_run']=bool(proof.get('tests') or proof.get('diagnostics') or
+            any(row.get('label','').startswith('test-') for row in proof.get('commands',[])))
         result['native_product_build_run']=any(row['label']=='build' for row in proof.get('commands',[]))
         if (stage/'retained.tar.xz').exists():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()

@@ -47,6 +47,34 @@ def require_uninterrupted(root, nonce, *, allow_probe=False):
     raise CampaignStop(request)
 
 
+def junit_result(path,name,exit_code):
+    """A completed command is not a substitute for its exact JUnit receipt."""
+    result=dict(passed=False,reason='missing',retain=False)
+    try:info=Path(path).lstat()
+    except FileNotFoundError:return result
+    if (not stat.S_ISREG(info.st_mode) or info.st_nlink!=1
+            or getattr(info,'st_file_attributes',0)&0x400 or not 0<=info.st_size<=1048576):
+        return dict(result,reason='invalid_receipt_form')
+    with Path(path).open('rb') as stream:body=stream.read(1048577)
+    if len(body)>1048576:return dict(result,reason='receipt_byte_bound')
+    result.update(retain=True,sha256=hashlib.sha256(body).hexdigest(),bytes=len(body))
+    if b'<!DOCTYPE' in body.upper() or b'<!ENTITY' in body.upper():return dict(result,reason='dtd_or_entity_refused')
+    try:root=ET.fromstring(body)
+    except ET.ParseError:return dict(result,reason='malformed_xml')
+    if root.tag not in ('testsuite','testsuites'):return dict(result,reason='invalid_root')
+    cases=list(root.iter('testcase'));result['case_count']=len(cases)
+    if len(cases)!=1 or cases[0].get('name')!=name:return dict(result,reason='case_identity')
+    case=cases[0]
+    if (case.get('status') not in (None,'run','pass','passed')
+            or any(node.tag in ('failure','error','skipped') for node in root.iter())):
+        return dict(result,reason='case_failed_or_skipped')
+    for suite in (node for node in root.iter() if node.tag in ('testsuite','testsuites')):
+        if any(suite.get(key) not in (None,'0') for key in ('failures','errors','skipped','disabled')):
+            return dict(result,reason='suite_failure_counter')
+        if suite.get('tests') not in (None,'1'):return dict(result,reason='suite_case_counter')
+    return dict(result,passed=exit_code==0,reason='passed' if exit_code==0 else 'command_failed')
+
+
 def coordinate(g):
     helper=g.load('full_crypto',ROOT/'crypto-device.py')
     null_helper=g.load('full_null',ROOT/'null-device.py')
@@ -353,20 +381,22 @@ def coordinate(g):
                 # the very failure evidence the runner is required to retain.
                 grace=expected['bounds']['ctest_reporting_grace_seconds'];assert grace==30
                 command_seconds=int(ctest_seconds)+grace
-                if (work/'test.xml').exists():retention.retire_file(work/'test.xml')
+                receipt=build/'qualification-junit'/(test+'.xml')
+                if receipt.exists():retention.retire_file(receipt)
                 code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',
                     '--timeout',str(expected['bounds']['group_seconds']),
-                    '--verbose','--output-on-failure','--output-junit',work/'test.xml'],command_seconds,allow_failure=True)
-                archive.write(work/'test.xml','junit/'+test+'.xml')
-                cases=list(ET.parse(work/'test.xml').getroot().iter('testcase'))
-                passed=code==0 and len(cases)==1 and cases[0].get('name')==test and not any(c.tag in ('failure','error','skipped') for c in cases[0])
+                    '--verbose','--output-on-failure','--output-junit',receipt],command_seconds,allow_failure=True)
+                observed=junit_result(receipt,test,code)
+                if observed['retain']:
+                    archive.write(receipt,'junit/'+test+'.xml');retention.retire_file(receipt)
+                passed=observed['passed']
                 methods=None
                 if test in expected.get('invocation_method_coverage',{}):
                     wanted=expected['invocation_method_coverage'][test]
                     methods=json.loads((build/wanted['summary']).read_bytes())
                     passed=passed and methods['passed'] is True and methods['partition']==wanted['partition'] and methods['methods']==wanted['methods'] and methods['tests_run']==len(wanted['methods']) and methods['skipped']==0
                 result['tests'].append(dict(name=test,exit_code=code,passed=passed,execution_profile='ordinary' if ordinary else 'appcontainer',
-                    ctest_timeout_seconds=ctest_seconds,controller_timeout_seconds=command_seconds,invocation_methods=methods))
+                    ctest_timeout_seconds=ctest_seconds,controller_timeout_seconds=command_seconds,invocation_methods=methods,junit_receipt=observed))
             for path in sorted(build.iterdir()):
                 if not path.is_file() or path.name in before:continue
                 info=path.lstat()
@@ -382,6 +412,18 @@ def coordinate(g):
                 retired=json_record(raw);assert retired['root_recreated_empty']
                 result.setdefault('group_temp_retirements',[]).append(dict(group=test,**retired))
             active_group=None;active_before=set()
+
+        def receipt_control():
+            folder=g.fresh(instance.work/'receipt-control')
+            definition=folder/'CTestTestfile.cmake';receipt=folder/'receipt.xml'
+            definition.write_text('add_test(qualification.receipt "'+Path(sys.executable).as_posix()+'" "-c" "raise SystemExit(0)")\n',encoding='utf-8',newline='\n')
+            archive.write(definition,'recipe/junit-receipt-control.cmake')
+            code,_=run('junit-receipt-control',[ctest,'--test-dir',folder,'-C','Release','-R','^qualification[.]receipt$',
+                '--timeout','10','--output-junit',receipt],30,allow_failure=True)
+            observed=junit_result(receipt,'qualification.receipt',code)
+            if observed['retain']:archive.write(receipt,'controls/junit-receipt.xml')
+            result['junit_publication_control']=dict(observed,scope='One private Python exit0 case,not a native product group')
+            if not observed['passed']:raise RuntimeError('JUnit publication control failed: '+observed['reason'])
 
         probe=work/'worker-identity-preflight.py'
         probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
@@ -473,6 +515,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                     assert restored['command']=='ordinary-dacl-interruption-proof' and restored['all_held_fixtures_restored']
                     assert sum(row.get('abandoned',False) for row in restored['audit'])==1
                     result['owned_dacl_interruption_recovered']=True
+                    receipt_control()
                 else:
                     _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
                     result['cleanup_attribute_diagnostic']=json_record(raw)
@@ -496,6 +539,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         parallel=expected['bounds'].get('build_parallelism',1)
         assert type(parallel) is int and 1<=parallel<=2
         run('build',[cmake,'--build',build,'--config','Release','--parallel',str(parallel),*targets],1800)
+        (build/'qualification-junit').mkdir()
         _,raw=run('registered',[ctest,'--test-dir',build,'-C','Release','--show-only=json-v1'])
         registered=json.loads(raw)['tests'];assert sorted(t['name'] for t in registered)==expected['groups']
         result['registered_native_groups']=len(registered)
@@ -561,6 +605,7 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         assert restored['command']=='ordinary-dacl-interruption-proof' and restored['all_held_fixtures_restored']
         assert sum(row.get('abandoned',False) for row in restored['audit'])==1
         result['owned_dacl_interruption_recovered']=True
+        receipt_control()
         _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
         result['native_token_identity']=json_record(raw)
         assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'
@@ -662,7 +707,6 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
             null_grant=null_helper.Grant('build');null_grant.apply();null_grant.started()
             _,raw=run('invocation-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
             result['invocation_token']=json_record(raw)
-            if (work/'test.xml').exists():retention.retire_file(work/'test.xml')
             stage_powershell7()
             for test in package_selection:test_group(test)
         # Assertion failures do not discard unrelated evidence from this exact

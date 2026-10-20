@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "ac4996c843f81d3ccf6deff5dc62d3411f2c5e2e",
+  "base_revision": "f199119fafb3da8af0f33dcb721bd00bad34045d",
   "spec_manifest_digest": "sha256:23fe7df3624981ea677ca4a5af6a06bfa070c260311d9d5d059352065baef908",
   "status": "partial",
   "files_read": [
@@ -144,6 +144,7 @@
     "tests/support/file_dacl.py",
     "tests/support/sparse.py",
     "tests/tools/test_fixture_dacl_control.py",
+    "tests/tools/test_native_junit.py",
     "tests/tools/test_native_stop_request.py",
     "tests/tools/test_object_namespace.py",
     "tests/tools/test_source_snapshot.py",
@@ -656,11 +657,18 @@
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-review.json"
     },
     {
-      "command": "171 tooling tests(one skip),structural/source-map/manifest/template checks",
+      "command": "180 tooling tests(one skip),structural/source-map/manifest/template checks;publication probe pending",
       "cwd": "D:\\Projects\\DiskEd\\disked",
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "Focused native build passed;recursive frontend command passed15 assertions but JUnit receipt missing;no qualified groups",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-review.json"
     }
   ],
   "artifacts": [
@@ -970,7 +978,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:2a752a94c69ac57c6be2c7e67fa36f798743c8d07c41a38775e80f22a7313ab1"
+      "sha256": "sha256:eaddbe8103c1bc00be0026418b0144895014525c06ec1f1f6b55db56c36deae3"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1202,7 +1210,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:8f18445d0654ab2600f1b8961c40ab230ee74fa6f74974b02d4dc366ac14af6b"
+      "sha256": "sha256:48b1bff9848915b6979dc1180476b737af2c462683a541dc0c32e83c82a727c7"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
@@ -1254,7 +1262,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:84727456c2f738942238e9ae1723732bf942771021e8d50e6431757f14f9e30f"
+      "sha256": "sha256:505d560575b92b67abcc6ff4766ae48bb47eb30082ef306b979778688dd78418"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1359,12 +1367,28 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-fixture-proof.tar.xz",
       "sha256": "sha256:15b17b67514f49535b6fe2335414976e845b39a5cd653e7d0ddf4958ce29edbc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-review.json",
+      "sha256": "sha256:6480c2a81658f177085502b26df08f46768ccec891bb48c252bf2b0370b41961"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.json",
+      "sha256": "sha256:1db8c738009389c77e46b2c5101206c595f63328c3a61f39c1d82f8a2ca50018"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-cleanup.json",
+      "sha256": "sha256:3fb3407faa964e09ff343758416045a01dbcaea64a912b40acda89ccd2b64577"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-sixth-junit-publication-failure.tar.xz",
+      "sha256": "sha256:1795b39499bcb9754ca269db1620497007e393b1c18f953897b5f315279b48d8"
     }
   ],
   "blockers": [
     "Full x64 qualification fails18 groups;retained diagnostics require targeted repairs and replay. No current missing account,UAC,authentication or confined-worker grant.",
     "Owner acceptance,production storage/release gates and original all-platform0.1 remain separate."
   ],
-  "next_safe_step": "Finish the in-flight18-group --focus-current-fixtures --interactive-ui replay of ac4996c8. Private fixture scope/denial/metadata-only/exact restoration/abandoned recovery now pass with complete cleanup and verified2792-byte archive. Inspect fresh group diagnostics,repair remaining GUI/native defects,then full180 qualification and reviewed main integration;then W106/W107.",
+  "next_safe_step": "Run --ui-proof --interactive-ui with the new private CTest receipt-publication control before rebuilding. Run96 compiled the selected source and the recursive frontend command passed15 assertions,but no requested global JUnit receipt appeared;0 groups qualified and17 not run. Use nested per-group receipts,explicit missing/stale/malformed/contradictory failure results and actual-command execution accounting. Once publication controls pass,replay18 groups,resolve GUI diagnostics,then full180 qualification/main integration and W106/W107.",
   "performed_remote_writes": true
 }
