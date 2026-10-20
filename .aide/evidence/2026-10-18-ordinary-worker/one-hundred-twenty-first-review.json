@@ -1,0 +1,84 @@
+{
+  "status": "ordinary_print_window_pixels_rejected",
+  "source_revision": "f313ec6c16211dac47ea4b2b368bcda3a0136cc0",
+  "finding": "Producer now runs under the required restricted Medium actor in a separately owned job and retires correctly,but PrintWindow still returns success with black phaseA pixels. No WM_PRINT paint receipt is observed. Execution-context parity alone did not resolve rendering.",
+  "pixel_preflight": {
+    "method": "owned-print-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "cb9f7acaa9fa5333fb88fb64210da883",
+    "phases": [
+      {
+        "phase": 0,
+        "expected_rgb_sha256": "94dbadf9bea12f1a1e66db769c93eb31d91dc29f9f75a57892f481a1cb5011ca",
+        "actual_rgb_sha256": "a8fd2e78a831e046e548454d1f0863dd7c3f29bc8e5db3cfe1b1d3536a292462",
+        "exact_all_pixels": false,
+        "observation": {
+          "window": 35324756,
+          "pid": 11152,
+          "desktop": "DiskEdTest-63d5bd6d25654ac881f2354d6d4095de",
+          "width": 240,
+          "height": 96,
+          "method": "owned-print-control/1",
+          "bytes": 92160,
+          "sha256": "ba61c36dd3703f9a8cce36675bb7391e9a6b1ab917ea00c4a3ebf2d7c50c4fcb",
+          "api_succeeded": true,
+          "api_error": 0,
+          "display_dc_read": false,
+          "desktop_switched": false,
+          "producer_identity": {
+            "pid": 7784,
+            "restricted": true,
+            "administrator": false,
+            "elevated": 0,
+            "appcontainer": 0,
+            "user_sid": "S-1-5-21-385394198-2603589104-1765785984-1122",
+            "restricting_sids": [
+              "S-1-5-21-385394198-2603589104-1765785984-1122",
+              "S-1-5-12"
+            ],
+            "restricting_sid": null,
+            "integrity_sid": "S-1-16-8192",
+            "privileges": [
+              {
+                "name": "SeChangeNotifyPrivilege",
+                "attributes": 3
+              }
+            ]
+          }
+        },
+        "producer_in_owned_job": true,
+        "execution_succeeded": true,
+        "stale_other_phase_rejected": true,
+        "zero_surface_rejected": true,
+        "pixels_retained": true
+      }
+    ],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 187824,
+  "compressed_bytes": 1692,
+  "archive_sha256": "5a38665dfa3920e06ed090ab107e18a6e015ec681a559bbeef02e60d30d3cd56",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
+    "uncompressed_sha256": "e44fd6c3313e71ad997b4aa3a9c0c96a0a315bc2165ed98de3d5b09faf2c87df",
+    "compressed_sha256": "7a571f4a3613a944a2de606e9a8009c30b230b69693b0696b2adc5ee358484f9"
+  },
+  "next_question": "Does an explicit bounded WM_PRINT message invoke the owned control paint procedure and reproduce the same predeclared pixels? Record receipt entry before drawing to distinguish delivery from draw failure.",
+  "capture_qualified": false
+}

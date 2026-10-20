@@ -12,7 +12,7 @@ import zlib
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('owned_pixel_boundary',HERE/'owned-window.py')
 boundary=importlib.util.module_from_spec(spec);spec.loader.exec_module(boundary)
-METHOD='owned-print-control/1'
+METHOD='owned-wm-print-control/1'
 
 
 def producer_environment(env):

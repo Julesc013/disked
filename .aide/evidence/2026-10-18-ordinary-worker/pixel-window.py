@@ -61,6 +61,11 @@ def main():
 
     def draw(dc,message):
         success=0;errors=[]
+        printing=message in (0x317,0x318)
+        path=Path(os.environ['TEMP'])/('pixel-paint-'+str(phase)+'.json')
+        if printing:
+            path.write_text(json.dumps(dict(phase=phase,message=message,entered=True,
+                dc_type=g.GetObjectType(dc),draw_completed=False))+'\n',encoding='utf-8',newline='\n')
         for i,rgb in enumerate(colors[phase]):
             brush=checked(g.CreateSolidBrush(rgb[0]|rgb[1]<<8|rgb[2]<<16))
             try:
@@ -68,11 +73,11 @@ def main():
                 if u.FillRect(dc,C.byref(rect),brush):success+=1
                 else:errors.append(C.get_last_error())
             finally:g.DeleteObject(brush)
-        if message in (0x317,0x318):
-            row=dict(phase=phase,message=message,dc_type=g.GetObjectType(dc),filled_tiles=success,errors=errors)
+        if printing:
+            row=dict(phase=phase,message=message,entered=True,draw_completed=True,
+                     dc_type=g.GetObjectType(dc),filled_tiles=success,errors=errors)
             report['paint_calls'].append(row)
             if len(report['paint_calls'])>8:raise ValueError('Print message count bound')
-            path=Path(os.environ['TEMP'])/('pixel-paint-'+str(phase)+'.json')
             path.write_text(json.dumps(row)+'\n',encoding='utf-8',newline='\n')
         return success==16
 
@@ -117,7 +122,7 @@ def main():
                 if response.stat().st_size>4096 or response.with_suffix('.bgra').stat().st_size!=92160:raise ValueError('Reply size')
                 value=json.loads(response.read_bytes());body=response.with_suffix('.bgra').read_bytes()
                 if (value['nonce']!=nonce or value['id']!=ident or value['window']!=hwnd or value['pid']!=os.getpid() or
-                        value['desktop']!=full_name.split('\\')[-1] or value['method']!='owned-print-control/1' or
+                        value['desktop']!=full_name.split('\\')[-1] or value['method']!='owned-wm-print-control/1' or
                         (value['width'],value['height'])!=(240,96) or value['bytes']!=92160 or
                         value['sha256']!=hashlib.sha256(body).hexdigest()):raise ValueError('Reply identity or bytes')
                 report['phases'].append(dict(phase=requested,bytes=len(body),sha256=value['sha256']))

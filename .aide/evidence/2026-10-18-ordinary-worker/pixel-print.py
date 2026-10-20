@@ -8,7 +8,7 @@ import socket
 import struct
 import sys
 
-METHOD='owned-print-control/1'
+METHOD='owned-wm-print-control/1'
 
 
 def capture(window,pid,desktop):
@@ -34,7 +34,8 @@ def capture(window,pid,desktop):
     bind(u,'GetClassNameW',C.c_int,T.HWND,T.LPWSTR,C.c_int)
     bind(u,'GetWindowRect',T.BOOL,T.HWND,C.POINTER(T.RECT))
     bind(u,'GetClientRect',T.BOOL,T.HWND,C.POINTER(T.RECT))
-    bind(u,'PrintWindow',T.BOOL,T.HWND,T.HDC,T.UINT)
+    bind(u,'SendMessageTimeoutW',C.c_ssize_t,T.HWND,T.UINT,C.c_size_t,C.c_ssize_t,
+         T.UINT,T.UINT,C.POINTER(C.c_size_t))
     bind(g,'CreateCompatibleDC',T.HDC,T.HDC)
     bind(g,'CreateDIBSection',T.HANDLE,T.HDC,T.LPVOID,T.UINT,C.POINTER(T.LPVOID),T.HANDLE,T.DWORD)
     bind(g,'SelectObject',T.HANDLE,T.HDC,T.HANDLE)
@@ -63,7 +64,9 @@ def capture(window,pid,desktop):
         checked(bits);old=checked(g.SelectObject(dc,bitmap))
         if old==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
         C.memset(bits,0,92160)
-        C.set_last_error(0);printed=bool(u.PrintWindow(window,dc,0));error=0 if printed else C.get_last_error()
+        answer=C.c_size_t();C.set_last_error(0)
+        printed=bool(u.SendMessageTimeoutW(window,0x317,dc,0x1e,2,3000,C.byref(answer)))
+        error=0 if printed else C.get_last_error()
         checked(g.GdiFlush());body=C.string_at(bits,92160)
         after=T.RECT();after_pid=T.DWORD()
         checked(u.GetWindowRect(window,C.byref(after)));checked(u.GetWindowThreadProcessId(window,C.byref(after_pid)))
@@ -73,7 +76,8 @@ def capture(window,pid,desktop):
         producer=identity()
         return dict(window=window,pid=pid,desktop=desktop,width=240,height=96,method=METHOD,
                     bytes=len(body),sha256=hashlib.sha256(body).hexdigest(),api_succeeded=printed,
-                    api_error=error,display_dc_read=False,desktop_switched=False,
+                    api_error=error,api_name='SendMessageTimeoutW/WM_PRINT',
+                    display_dc_read=False,desktop_switched=False,
                     producer_identity=producer),body
     finally:
         if old not in (None,C.c_void_p(-1).value) and dc:g.SelectObject(dc,old)

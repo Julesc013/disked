@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "8de952f7d1db5565232a7e10cb268b45cac8c1fc",
+  "base_revision": "f313ec6c16211dac47ea4b2b368bcda3a0136cc0",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -201,9 +201,13 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json"
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json"
   ],
-  "summary": "DE-W105 active. Strict control run119 rejects all-black PrintWindow output;run120 then refuses sibling job assignment before rendering. Both retain verified compact evidence and owned cleanup,zero backing growth. The candidate reuses a fresh explicitly owned producer job under the same restricted actor;all209 tooling tests pass(1 skip). Independent phaseA/B pixels and producer retirement still need native proof. Legacy capture remains disabled;no product/full rebuild,main promotion or visual admission is claimed.",
+  "summary": "DE-W105 active. Run121 proves the ordinary producer identity/job retirement but rejects black PrintWindow pixels;all8 entry hashes/owned cleanup verify,zero backing growth. A direct bounded WM_PRINT candidate now records delivery entry before drawing and retains the same full RGB expectations. All209 tooling tests pass(1 skip). Pixel origin and actual product images remain unqualified;legacy capture stays disabled and main is unchanged.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -778,6 +782,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json"
     }
   ],
   "artifacts": [
@@ -1359,7 +1370,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:803ebc5c8fda5b58769912f02dddc7292fda6cb4811ddb7871e479d19c7d089b"
+      "sha256": "sha256:aea23837ade6345278090bcfb7ead9cef6a3976e0057be6b7875127932d8b185"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1619,7 +1630,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:ea74b494675f1e584ea84c1010dac0e756295ccc61ce7ceaab601dc87fc5066c"
+      "sha256": "sha256:ef69f4860079d91604223b293e65e14680e5818722afcd61c73405b5a348e611"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-review.json",
@@ -1723,7 +1734,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:68b705783bc1b78146a99d6d133fc307b6c1901a005e586ed664e0bc362a1a9e"
+      "sha256": "sha256:55b6ed72097eccdc89109f9ac01f6885aa7501f3e9169c0f69001f138b26d5e2"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-cleanup.json",
@@ -1743,15 +1754,15 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
-      "sha256": "sha256:f60c794b1794ab0ab41675ea6fdb1e22ae52de4f1fbd9372ad91b3d7e98f9ac5"
+      "sha256": "sha256:c444b01996a41c870ca8d25887521d6d5e60df631414fa69130415bfd5319d5c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-      "sha256": "sha256:1452f2bdaf00592c5f23fe05c1a25851f372abeb2889058775e18dcdc70d88a9"
+      "sha256": "sha256:02890a14e0b7baa1dfd73900c08fad6d4b5a1f6e383a8c239e4c2760873ea2a2"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-      "sha256": "sha256:9eec4fc185409d57236d1ae9f18cc16503b0bad79bad943a8f9f9971445a7792"
+      "sha256": "sha256:01f63ed10956eb8f404fad26b88af2e9a7d97c9ec5e5581902eba0342d2370f6"
     },
     {
       "path": "tests/tools/test_pixel_origin.py",
@@ -1792,12 +1803,28 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json",
       "sha256": "sha256:d9e191e87fb734dadc82653e8375916ada761986a1bc60be11fdd473d65cf74a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-cleanup.json",
+      "sha256": "sha256:1af60bd5dbd44d39f088c97dae6578eb9b10adc86950019539404682ec2fe30b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.json.xz",
+      "sha256": "sha256:7a571f4a3613a944a2de606e9a8009c30b230b69693b0696b2adc5ee358484f9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-ordinary-print-failure.tar.xz",
+      "sha256": "sha256:5a38665dfa3920e06ed090ab107e18a6e015ec681a559bbeef02e60d30d3cd56"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-first-review.json",
+      "sha256": "sha256:0da3ae0a3f3dbdda19dd35d95eabc91959bef67d4a6d8b6d4048ba7bfd7c2cfe"
     }
   ],
   "blockers": [
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Commit and run the fresh-owned-producer-job pixel-origin candidate with a fresh exact W105 context. Run120 at8de952f7 was refused when adding a sibling to the active control job;zero pixel phases ran,all4 entry hashes/owned cleanup verify,zero backing growth,and a post-cleanup guest query finds0 owned control processes. The producer now uses the existing fresh-job/retirement path under the same restricted actor within one bounded campaign;no limits or permissions are raised. Require exact phaseA/B RGB,actual token/retirement receipts,wrong-surface refusal,image review and cleanup. Legacy capture remains disabled;no product/full build or admission yet.",
+  "next_safe_step": "Run the direct bounded WM_PRINT control candidate with a fresh exact W105 context through --pixel-origin-proof --interactive-ui. Run121 atf313ec6c proves the restricted producer token and fresh-job retirement,but PrintWindow still returns black phaseA pixels;all8 archive entry hashes/cleanup verify,zero backing growth. The new explicit WM_PRINT request records callback entry before drawing and keeps the same independent phaseA/B recipe. Require all pixels,token/job retirement,wrong-surface refusal,actual image review and cleanup. Legacy capture stays disabled;no product/full build or admission yet.",
   "performed_remote_writes": true
 }
