@@ -1,0 +1,124 @@
+{
+  "status": "diagnostic_complete_capture_unqualified",
+  "source_revision": "659fb24149df4319913171fdfbea54fe1b708015",
+  "owned_station_printing": {
+    "security": {
+      "station": "D:P(A;;0xf037f;;;SY)(A;;0xf037f;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0xf037f;;;S-1-5-21-385394198-2603589104-1765785984-1103)S:(ML;;NW;;;ME)",
+      "desktop": "D:P(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1103)S:AI(ML;;NW;;;ME)"
+    },
+    "observation": {
+      "scope": "Observe owned private-desktop and console startup; no product qualification.",
+      "libraries": [
+        {
+          "name": "user32.dll",
+          "loaded": true,
+          "error": 0,
+          "station": "DiskEdTest-ffc07a9d54e4436f8049b3dbdb3563cd",
+          "station_error": 0,
+          "window_created": true,
+          "window_error": 0
+        },
+        {
+          "name": "gdi32.dll",
+          "loaded": true,
+          "error": 0,
+          "memory_drawing": [
+            {
+              "reference": "default",
+              "dc_created": true,
+              "dc_error": 0,
+              "bitmap_created": true,
+              "bits_available": true,
+              "bitmap_error": 0,
+              "selected": true,
+              "selection_error": 0,
+              "set_pixel": true,
+              "flushed": true,
+              "bgr": "332211",
+              "expected_bgr": "332211"
+            },
+            {
+              "reference": "owned_window",
+              "dc_created": true,
+              "dc_error": 0,
+              "bitmap_created": true,
+              "bits_available": true,
+              "bitmap_error": 0,
+              "selected": true,
+              "selection_error": 0,
+              "set_pixel": true,
+              "flushed": true,
+              "bgr": "332211",
+              "expected_bgr": "332211"
+            }
+          ],
+          "printing": [
+            {
+              "owner": "same_process",
+              "method": "PrintWindow0",
+              "call_succeeded": false,
+              "error": 0,
+              "rgb_colors": 1,
+              "varied": false,
+              "first_bgr": "000000"
+            },
+            {
+              "owner": "same_process",
+              "method": "PrintWindow2",
+              "call_succeeded": false,
+              "error": 0,
+              "rgb_colors": 1,
+              "varied": false,
+              "first_bgr": "000000"
+            },
+            {
+              "owner": "same_process",
+              "method": "WM_PRINT",
+              "call_succeeded": true,
+              "error": 0,
+              "rgb_colors": 6,
+              "varied": true,
+              "first_bgr": "ffffff"
+            },
+            {
+              "owner": "owned_child",
+              "method": "PrintWindow0",
+              "call_succeeded": false,
+              "error": 0,
+              "rgb_colors": 1,
+              "varied": false,
+              "first_bgr": "000000"
+            },
+            {
+              "owner": "owned_child",
+              "method": "PrintWindow2",
+              "call_succeeded": false,
+              "error": 0,
+              "rgb_colors": 1,
+              "varied": false,
+              "first_bgr": "000000"
+            },
+            {
+              "owner": "owned_child",
+              "method": "WM_PRINT",
+              "call_succeeded": true,
+              "error": 0,
+              "rgb_colors": 1,
+              "varied": false,
+              "first_bgr": "000000"
+            }
+          ],
+          "printing_desktop": "Proof-4e5308dada85438394ec11ed21611f69"
+        }
+      ]
+    }
+  },
+  "finding": "Private-station PrintWindow returns false and cross-process WM_PRINT is uniform. Same-process WM_PRINT still paints. No product rebuild or station-right increase. Next trusted coordinator captures only a verified active-job control HWND on its exact hidden desktop.",
+  "owned_cleanup_verified": true,
+  "archive_entries": 17,
+  "uncompressed_bytes": 8849,
+  "compressed_bytes": 3776,
+  "archive_sha256": "86d7442825962c91fffbbfb2365cc1069dcff653ae9e599a3c0a60bf818dbf81",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0
+}

@@ -304,6 +304,40 @@ def coordinate(g):
             if active_stem in ('ntfs-name-order-file-cases','ntfs-name-order-worker-cases'):
                 retention.drain_completed_outputs(archive,build,active_stem,final=final)
 
+        def print_control():
+            endpoint=env.get('DISKED_OWNED_PRINT_PROBE')
+            if not endpoint:return
+            request=Path(endpoint+'.json');response=Path(endpoint+'-response.json')
+            if not Path(endpoint+'.ready').exists() or response.exists():return
+            info=request.lstat()
+            if (request.parent!=instance.native_temp or not stat.S_ISREG(info.st_mode) or
+                    info.st_nlink!=1 or getattr(info,'st_file_attributes',0)&0x400 or not 0<info.st_size<=4096):
+                raise ValueError('Print control request confinement')
+            value=json.loads(request.read_bytes())
+            if (set(value)!={'window','pid','desktop'} or type(value['pid']) is not int or
+                    not 0<value['pid']<2**32 or type(value['window']) is not int or not 0<value['window']<2**64 or
+                    value['desktop']!=instance.desktop_name.split('\\')[-1]):
+                raise ValueError('Print control request identity')
+            k=instance.k
+            g.W.bind(k,'OpenProcess',T.HANDLE,T.DWORD,T.BOOL,T.DWORD)
+            g.W.bind(k,'IsProcessInJob',T.BOOL,T.HANDLE,T.HANDLE,C.POINTER(T.BOOL))
+            g.W.bind(k,'QueryFullProcessImageNameW',T.BOOL,T.HANDLE,T.DWORD,T.LPWSTR,C.POINTER(T.DWORD))
+            process=g.W.require(k.OpenProcess(0x1000,False,value['pid']))
+            try:
+                member=T.BOOL();g.W.require(k.IsProcessInJob(process,job.handle,C.byref(member)))
+                image=C.create_unicode_buffer(1024);size=T.DWORD(len(image))
+                g.W.require(k.QueryFullProcessImageNameW(process,0,image,C.byref(size)))
+                if not member.value or Path(image.value).resolve()!=Path(sys.executable).resolve():
+                    raise ValueError('Only the active job owned Python control may be printed')
+                observed=subprocess.run([sys.executable,'-B',str(ROOT/'owned-window.py'),str(value['window']),str(value['pid']),value['desktop']],
+                    capture_output=True,timeout=10)
+                if observed.returncode or len(observed.stdout)+len(observed.stderr)>4096:
+                    raise RuntimeError('Owned capture control: '+observed.stderr[-2048:].decode(errors='replace'))
+                observation=json.loads(observed.stdout)
+                with response.open('x',encoding='utf-8') as stream:json.dump(observation,stream)
+                Path(endpoint+'-response.ready').touch(exist_ok=False)
+            finally:k.CloseHandle(process)
+
         def run(label,command,timeout=300,allow_failure=False):
             nonlocal job,child,quiescent
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
@@ -318,6 +352,7 @@ def coordinate(g):
                 while child.poll() is None:
                     require_uninterrupted(ROOT,state['nonce'],allow_probe=expected.get('controller_stop_proof') is True)
                     if ordinary and fixture_broker:fixture_broker.poll()
+                    print_control()
                     drain();budget()
                     if log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
                     if time.monotonic()>until:raise TimeoutError(label+' deadline')
@@ -505,8 +540,10 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 result['fixture_dacl_scope_controls']=fixture_broker.prove_refusals(SOURCE/'AGENTS.md')
                 grant=helper.Grant();grant.apply();grant.started()
                 if expected.get('ui_proof'):
+                    env['DISKED_OWNED_PRINT_PROBE']=str(instance.native_temp/'owned-print-probe')
                     _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
                     result['private_ui_diagnostic']=json_record(raw)
+                    env.pop('DISKED_OWNED_PRINT_PROBE')
                     # Compare only owned control windows on an owned station.
                     # This does not grant READSCREEN on the shared WinSta0.
                     previous=instance

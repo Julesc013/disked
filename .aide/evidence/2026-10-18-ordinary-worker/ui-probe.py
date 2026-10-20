@@ -7,6 +7,7 @@ import subprocess
 import sys
 import os
 import struct
+import time
 
 k = C.WinDLL('kernel32', use_last_error=True)
 k.LoadLibraryExW.argtypes = [T.LPCWSTR, T.HANDLE, T.DWORD]
@@ -225,6 +226,18 @@ for name in ('user32.dll', 'gdi32.dll'):
                     owned=json.loads(line);assert owned['pid']==child.pid and child.poll() is None
                     assert owned['desktop']==desktop_name();row['printing_desktop']=owned['desktop']
                     row['printing']+=printing(owned['window'],'owned_child')
+                    endpoint=os.environ.get('DISKED_OWNED_PRINT_PROBE')
+                    if endpoint:
+                        request=Path(endpoint+'.json');response=Path(endpoint+'-response.json')
+                        if request.parent.resolve()!=Path(os.environ['TEMP']).resolve():raise ValueError('Owned temp endpoint required')
+                        with request.open('x',encoding='utf-8') as stream:json.dump(owned,stream)
+                        Path(endpoint+'.ready').touch(exist_ok=False)
+                        until=time.monotonic()+12
+                        while not Path(endpoint+'-response.ready').exists():
+                            if time.monotonic()>until:raise TimeoutError('Owned coordinator print control')
+                            time.sleep(.05)
+                        if response.stat().st_size>4096:raise ValueError('Print control response bound')
+                        row['coordinator_printing']=json.loads(response.read_bytes())
                 finally:
                     if child.poll() is None:child.terminate()
                     child.wait(timeout=5);child.stdout.close();child.stderr.close()
