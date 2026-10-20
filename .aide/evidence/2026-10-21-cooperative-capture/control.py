@@ -202,7 +202,12 @@ def exercise(g,work,environment,executor,result):
                     frame,pixels=verifier.parse_frame(value['stdout'],process_id=executor.observations[-1]['process_id'],nonce=nonce,actor_sid=executor.worker.user_sid,tree=label in ('tree','background'))
                     row['frame']=frame
                     known=all(oracle.rgb_pixels(v) in (*rgb_expected,bytes(69120)) for v in pixels)
-                    if known:row['stdout']=save(label+'.stdout',value['stdout']);row['pixels_retained']=True
+                    if known:
+                        if label=='blank_oracle_rejection':
+                            packed=lzma.compress(value['stdout'],format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])
+                            assert lzma.decompress(packed)==value['stdout'];row['stdout']=save(label+'.stdout.xz',packed);row['stdout_encoding']='xz'
+                        else:row['stdout']=save(label+'.stdout',value['stdout'])
+                        row['pixels_retained']=True
                     if label in ('normal','tree','background'):
                         observed=verifier.verify_pixels(pixels,rgb_expected)
                         row['rgb_sha256']=[hashlib.sha256(v).hexdigest() for v in observed]

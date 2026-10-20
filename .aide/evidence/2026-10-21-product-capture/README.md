@@ -137,3 +137,11 @@ WM_ERASE self-check and exits successfully, then the viewport-only capture
 fails the independent RGB oracle after22 calls. This valid baseline is retained
 in `background-controls/corrected-baseline/`. The client-origin background
 repair is restored unchanged from `bccd405c` for the paired repaired run.
+
+At `acd7724a` all24 native calls complete, including exact RGB in normal,
+framed-tree and background modes and receiver/hang controls. Final evidence
+saving exceeds the existing1MiB aggregate uncompressed record budget, so the
+campaign remains failed (`background-controls/archive-budget-failure/`).
+The candidate retention repair stores the zero-surface stdout once as bounded
+XZ and validates its decompressed length/hash; no native expectation or budget
+is changed. Old raw records remain readable.

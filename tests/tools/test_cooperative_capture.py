@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 import json
+import lzma
 from pathlib import Path
 import struct
 import unittest
@@ -9,9 +10,22 @@ import unittest
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('cooperative_control_frames',ROOT/'tests/support/cooperative_capture.py')
 S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
+spec=importlib.util.spec_from_file_location('cooperative_evidence_codec',ROOT/'.aide/evidence/2026-10-21-cooperative-capture/replay.py')
+E=importlib.util.module_from_spec(spec);spec.loader.exec_module(E)
 
 
 class CooperativeCaptureTests(unittest.TestCase):
+    def test_zero_observation_compression_preserves_exact_bytes(self):
+        body=b'bounded frame header\n'+bytes(184320);packed=lzma.compress(body,format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])
+        item=dict(stdout=dict(path='zero.xz'),stdout_encoding='xz')
+        self.assertLess(len(packed),1024);self.assertEqual(E.stored_stdout(item,{'zero.xz':packed}),body)
+        self.assertEqual(E.stored_stdout(dict(stdout=dict(path='raw')),{'raw':body}),body)
+
+    def test_compressed_observation_rejects_truncation_trailing_and_expansion(self):
+        packed=lzma.compress(bytes(184320),format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])
+        for body in (packed[:-1],packed+b'extra',lzma.compress(bytes(262145),format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])):
+            with self.assertRaises((ValueError,lzma.LZMAError)):E.stored_stdout(dict(stdout=dict(path='raw'),stdout_encoding='xz'),{'raw':body})
+        with self.assertRaises(ValueError):E.stored_stdout(dict(stdout=dict(path='raw'),stdout_encoding='unknown'),{'raw':b''})
     def setUp(self):
         self.expected=[b'\x19\x29\x39'*23040,b'\x49\x59\x69'*23040]
         self.payloads=[]

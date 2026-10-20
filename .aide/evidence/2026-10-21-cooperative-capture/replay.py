@@ -26,6 +26,17 @@ def check(value,reason):
 def sha(body):return hashlib.sha256(body).hexdigest()
 
 
+def stored_stdout(item,files):
+    body=files[item['stdout']['path']];encoding=item.get('stdout_encoding','raw')
+    check(encoding in ('raw','xz'),'stdout_encoding')
+    if encoding=='xz':
+        check(len(body)<=262144,'stdout_compressed_bound')
+        decoder=lzma.LZMADecompressor(format=lzma.FORMAT_XZ,memlimit=8388608)
+        body=decoder.decompress(body,max_length=262145)
+        check(decoder.eof and not decoder.unused_data and len(body)<=262144,'stdout_decoded_bound')
+    return body
+
+
 def decode(path,limit):
     packed=path.read_bytes();check(len(packed)<=1048576,'compressed_bound')
     decoder=lzma.LZMADecompressor(format=lzma.FORMAT_XZ,memlimit=8*1024*1024)
@@ -119,7 +130,7 @@ def audit(files,receipt,expected,verifier):
         check(item['owned_job_handles_closed'] is True and call['timeout']==3 and call['output_limit']==262144,'mode_bounds')
         stderr=files[item['stderr']['path']];check(sha(stderr)==call['stream_sha256']['stderr'],'stderr_binding')
         if mode in ('normal','blank_oracle_rejection','tree','background'):
-            raw=files[item['stdout']['path']];check(sha(raw)==call['stream_sha256']['stdout'] and len(raw)==call['produced_bytes']['stdout'],'stdout_binding')
+            raw=stored_stdout(item,files);check(sha(raw)==call['stream_sha256']['stdout'] and len(raw)==call['produced_bytes']['stdout'],'stdout_binding')
             frame,pixels=verifier.parse_frame(raw,process_id=call['process_id'],nonce=int(report['nonce']),actor_sid=primitive['actor']['sid'],tree=mode in ('tree','background'))
             check(frame==item['frame'] and not stderr and item['pixels_retained'],'frame_binding')
             if mode in ('normal','tree','background'):
