@@ -88,6 +88,7 @@ def main():
     focus_invocations='--focus-invocations' in sys.argv
     focus_repairs='--focus-qualification-repairs' in sys.argv
     focus_current='--focus-current-fixtures' in sys.argv
+    focus_gui_watch='--focus-gui-watch' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv
@@ -96,7 +97,7 @@ def main():
         raise ValueError('Owned object trace requires declared interactive primitive setup')
     if station_matrix and not (interactive_ui and '--crypto-full' in sys.argv):
         raise ValueError('Station matrix requires declared interactive primitive setup')
-    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current
+    full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch
     controller_stop_proof='--controller-stop-proof' in sys.argv
     full_native=full_native or controller_stop_proof
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
@@ -244,6 +245,11 @@ def main():
             'image_file_capture_probe','image_observation_probe','ntfs_inspection_probe',
             'ntfs_worker_probe','worker_directory_probe','fat_tree_extraction_worker_probe',
             'fat_tree_extraction_worker_fault']
+        expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+        expected['native_x64']['ui_fixture_preflight']=True
+    if focus_gui_watch:
+        expected['native_x64']['focus_groups']=['frontend.gui_capture','operation.watch']
+        expected['native_x64']['focus_targets']=['disked','disked_file_wait','fat_tree_extraction_worker_probe']
         expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
         expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())

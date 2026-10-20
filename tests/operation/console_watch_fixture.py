@@ -33,8 +33,8 @@ def run(exe,frontend,report):
   deadline=time.monotonic()+5
   while True:
    result=subprocess.run([exe,'operation','inspect',ident,'--state-dir',str(state),'--json'],capture_output=True,timeout=8);value=json.loads(result.stdout)
-   if value['result'].get('state',{}).get('phase')=='finished':break
-   if time.monotonic()>deadline:raise AssertionError('worker not finished')
+   if value['result'].get('worker_observation') in ('exited','reused_identity'):break
+   if time.monotonic()>deadline:raise AssertionError('worker did not retire')
    time.sleep(.025)
   report['final']=value;assert value['result']['state']['outcome']=='succeeded';assert value['result']['state']['cancellation']=='not_requested'
  finally:

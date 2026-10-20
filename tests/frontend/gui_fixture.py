@@ -281,15 +281,27 @@ class Gui:
                 # Invalidate/erase/frame/all children, then process owned paint.
                 # A successful PrintWindow can otherwise contain only a frame.
                 assert U.RedrawWindow(self.window,None,None,0x585)
-                assert U.PrintWindow(self.window,dc,2);G.GdiFlush()
+                assert U.PrintWindow(self.window,dc,0);G.GdiFlush()
                 value=C.string_at(bits,w*h*4)
                 client_ok=capture_client_content(value,w,h,box)
                 caption_ok=[capture_client_content(value,w,h,b) for b in captions]
-                paint_status.update(capture=Path(path).name,width=w,height=h,client_box=box,client_painted=client_ok,
+                paint_status.update(capture=Path(path).name,print_flags=0,width=w,height=h,client_box=box,client_painted=client_ok,
                     caption_boxes=captions,caption_painted=caption_ok)
                 return value if client_ok and all(caption_ok) else None
             try:payload=wait(painted,3)
             except TimeoutError as error:
+                # Diagnostic-only alternatives never replace a failed capture.
+                # All requests address this fixture's own window and memory DC.
+                alternatives=[]
+                for method in ('PrintWindow0','PrintWindow2','WM_PRINT'):
+                    C.memset(bits,0,w*h*4)
+                    assert U.RedrawWindow(self.window,None,None,0x585)
+                    if method=='WM_PRINT':send(self.window,0x317,dc,0x1e)
+                    else:assert U.PrintWindow(self.window,dc,0 if method=='PrintWindow0' else 2)
+                    G.GdiFlush();value=C.string_at(bits,w*h*4)
+                    alternatives.append(dict(method=method,client_painted=capture_client_content(value,w,h,box),
+                        caption_painted=[capture_client_content(value,w,h,b) for b in captions]))
+                paint_status['diagnostic_only_profiles']=alternatives
                 raise AssertionError('Owned PrintWindow content incomplete: '+json.dumps(paint_status)) from error
             if Path(path).suffix.lower()=='.png':
                 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
