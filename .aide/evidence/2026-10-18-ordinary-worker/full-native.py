@@ -81,6 +81,7 @@ def coordinate(g):
     retention=g.load('full_retention',ROOT/'build-driver.py')
     source_setup=g.load('full_source',ROOT/'guest-source.py')
     fixture_setup=g.load('full_fixture_dacl',ROOT/'fixture-dacl.py')
+    capture_setup=g.load('full_owned_window',ROOT/'owned-window.py')
     expected=json.loads((ROOT/'expected.json').read_bytes())['native_x64']
     manifest=json.loads((ROOT/'source.json').read_bytes())
     result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
@@ -341,17 +342,23 @@ def coordinate(g):
         def run(label,command,timeout=300,allow_failure=False):
             nonlocal job,child,quiescent
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
+            window_broker=None
             try:
+                for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID'):env.pop(key,None)
                 if ordinary and fixture_broker:fixture_broker.start_job(env)
                 else:
                     env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
+                if ordinary and label=='test-frontend.gui_capture':
+                    window_broker=capture_setup.Broker(instance,fixture_broker,build/'Release/disked.exe',env)
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
+                if window_broker:result['owned_window_scope_controls']=window_broker.prove_refusals(job,child.pid)
                 process_id=child.pid
                 log_path=instance.log_path if ordinary else instance.work/'worker.log'
                 until=started+timeout
                 while child.poll() is None:
                     require_uninterrupted(ROOT,state['nonce'],allow_probe=expected.get('controller_stop_proof') is True)
                     if ordinary and fixture_broker:fixture_broker.poll()
+                    if window_broker:window_broker.poll(job)
                     print_control()
                     drain();budget()
                     if log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
@@ -370,6 +377,10 @@ def coordinate(g):
                 raise
             finally:
                 stop()
+                if window_broker:
+                    records=window_broker.finish(quiescent=quiescent)
+                    result.setdefault('owned_window_captures',[]).extend(records)
+                    for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID'):env.pop(key,None)
                 if ordinary and fixture_broker:
                     retired=fixture_broker.finish_job(quiescent=quiescent)
                     if retired['requests']:result.setdefault('fixture_dacl_jobs',[]).append(dict(command=label,**retired))

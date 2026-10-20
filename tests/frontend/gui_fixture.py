@@ -105,6 +105,11 @@ def owned_desktop():
         sid=C.cast(data,C.POINTER(PTR))[0]
         if not A.ConvertSidToStringSidW(sid,C.byref(text)):raise C.WinError(C.get_last_error())
         sddl='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+text.value+')S:(ML;;NW;;;ME)'
+        coordinator=os.environ.get('DISKED_WINDOW_CAPTURE_COORDINATOR_SID')
+        if coordinator:
+            import re
+            if not re.fullmatch(r'S-1-5-21-(?:[0-9]+-){3}[0-9]+',coordinator):raise ValueError('Capture coordinator SID')
+            sddl=sddl.replace('S:(ML;', '(A;;0xf01ff;;;'+coordinator+')S:(ML;')
         if not A.ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl,1,C.byref(descriptor),None):raise C.WinError(C.get_last_error())
         attributes=Attributes(C.sizeof(Attributes),descriptor,False);name='DiskEdTest-'+uuid.uuid4().hex
         desktop=U.CreateDesktopW(name,None,None,0,0xf01ff,C.byref(attributes))
@@ -284,11 +289,21 @@ class Gui:
                 # Invalidate/erase/frame/all children, then process owned paint.
                 # A successful PrintWindow can otherwise contain only a frame.
                 assert U.RedrawWindow(self.window,None,None,0x585)
-                assert U.PrintWindow(self.window,dc,0);G.GdiFlush()
-                value=C.string_at(bits,w*h*4)
+                if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
+                    import sys
+                    sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+                    from support.window_capture import capture
+                    name=C.create_unicode_buffer(256);needed=W.DWORD()
+                    thread=U.GetWindowThreadProcessId(self.window,C.byref(pid))
+                    assert U.GetUserObjectInformationW(U.GetThreadDesktop(thread),2,name,C.sizeof(name),C.byref(needed))
+                    value=capture(self.window,pid.value,name.value,w,h)
+                else:
+                    assert U.PrintWindow(self.window,dc,0);G.GdiFlush()
+                    value=C.string_at(bits,w*h*4)
                 client_ok=capture_client_content(value,w,h,box)
                 caption_ok=[capture_client_content(value,w,h,b) for b in captions]
-                paint_status.update(capture=Path(path).name,print_flags=0,width=w,height=h,client_box=box,client_painted=client_ok,
+                paint_status.update(capture=Path(path).name,print_flags=None if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT') else 0,
+                    capture_method='owned-window-dc' if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT') else 'PrintWindow',width=w,height=h,client_box=box,client_painted=client_ok,
                     caption_boxes=captions,caption_painted=caption_ok,whole_window_varied=capture_client_content(value,w,h,(0,0,w,h)),first_bgr=value[:3].hex())
                 return value if client_ok and all(caption_ok) else None
             try:payload=wait(painted,3)
@@ -305,7 +320,7 @@ class Gui:
                     alternatives.append(dict(method=method,client_painted=capture_client_content(value,w,h,box),
                         caption_painted=[capture_client_content(value,w,h,b) for b in captions]))
                 paint_status['diagnostic_only_profiles']=alternatives
-                raise AssertionError('Owned PrintWindow content incomplete: '+json.dumps(paint_status)) from error
+                raise AssertionError('Owned window capture content incomplete: '+json.dumps(paint_status)) from error
             if Path(path).suffix.lower()=='.png':
                 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
                 rows=bytearray()
@@ -314,7 +329,9 @@ class Gui:
                     rgb[0::3]=row[2::4];rgb[1::3]=row[1::4];rgb[2::3]=row[0::4];rows.extend(rgb)
                 Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
             else:Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
-            return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions])
+            import hashlib
+            return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions],
+                capture_method=paint_status['capture_method'],pixels_sha256=hashlib.sha256(payload).hexdigest())
         finally:
             if old not in (None,C.c_void_p(-1).value):G.SelectObject(dc,old)
             if bitmap:G.DeleteObject(bitmap)
