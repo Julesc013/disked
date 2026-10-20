@@ -98,6 +98,26 @@ The watchdog does not supply a filesystem quota or qualify WSL isolation. Select
 an available qualified guest/external worker; no silent host fallback, dependency
 installation, budget increase or repeated historical unbounded campaign.
 
+### Initial DE-W106 set-validation slice (unqualified)
+
+The private manifest field `expected_observations` declares unique
+`{name, participant, kind}` tuples before collection. `native` identifies the
+native participant and its observation kind. External receipt keys identify
+their reference participant. Every declared case requires native and reference
+tuples. Diagnostic-only calls remain required tuples even with null projections.
+Records must match the corpus SHA-256, byte length, logical unit and block count.
+Truncated fixtures may contain fewer bytes than the declared block geometry.
+
+This first slice reports `set_status` separately from `evidence_status` and
+`complete_success`. Invalid sets retain their original inputs rather than
+selecting one duplicate. Historical receipts without a declaration remain
+unverified; their candidate comparisons may still be inspected as diagnostics.
+No current receipt can report complete success until the remaining participant,
+raw-artifact, preservation and execution checks above are implemented. The CLI
+requires complete success and therefore remains unavailable for a successful
+campaign during this preparation. This neither qualifies DE-W106 nor closes
+its DE-W105 dependency.
+
 ## Windows reference pilot (DE-W107, planned)
 
 Fix four generated cases before execution: valid MBR, valid GPT, damaged primary

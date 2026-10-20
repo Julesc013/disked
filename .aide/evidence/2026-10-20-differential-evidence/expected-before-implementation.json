@@ -1,0 +1,23 @@
+{
+  "work_id": "DE-W106",
+  "status": "preparatory_contract_not_admission",
+  "base_revision": "f016dd1fe9a688362e964d3b7392cc26129e8341",
+  "authority": "Existing all-project local development grant. DE-W105 remains current and unqualified; this preparation neither completes that dependency nor authorizes an external campaign.",
+  "slice": "Explicit expected observation set and fail-closed comparator routing, followed by identity, artifact and managed-runner work",
+  "expected_set": "The corpus manifest declares expected_observations as unique {name,participant,kind} tuples before collection. Native records use participant native and explicit kind native; external receipt keys name their participants. A nonempty exact set must include native and reference observations. Diagnostic-only records remain in the set even when projection is null.",
+  "regressions": [
+    "No external participants, empty observations, duplicate observations, unknown cases/participants/kinds and empty or duplicated expected tuples cannot pass adapter controls.",
+    "Every record binds the corpus hash, byte length, logical unit and block count; mismatches are invalid independently of any matching table projection.",
+    "A complete declared set can pass the set check while still lacking executable/source/raw-artifact qualification. Set completeness alone must never yield complete_success.",
+    "Retain valid GPT disagreement and both candidates; diagnostic-only observations do not invent projections.",
+    "The CLI must require complete_success, rather than the historical adapter_controls_passed flag alone."
+  ],
+  "remaining_gates": [
+    "Complete participant code/build/profile and raw-artifact identity validation",
+    "Separate completed/refused/timed-out/crashed/unavailable execution from comparison agreement",
+    "Upgrade collectors and frozen campaign manifest production",
+    "Managed output, process ownership and success/failure/interruption cleanup under a qualified worker",
+    "DE-W105 dependency, work review and actual external/native qualification"
+  ],
+  "forbidden": "No obsolete WSL recipe, physical media, new installation, guest policy change, larger budgets, capture qualification, owner acceptance or main integration."
+}

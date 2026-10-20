@@ -1,0 +1,142 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W106",
+  "base_revision": "f016dd1fe9a688362e964d3b7392cc26129e8341",
+  "spec_manifest_digest": "sha256:c575ba1d5f9c9440f16ce5e97ee5df55d1f7e885be7f93665dd30d297b1bb8ca",
+  "status": "partial",
+  "files_read": [
+    ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/development/context-and-handoffs.md",
+    "spec/development/testing-and-ci.md",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/safety/verification-and-performance.md",
+    "spec/storage/partition-tables.md",
+    "spec/work/units.json",
+    "tests/corpus/partition_images.py",
+    "tests/differential/CONTRACT.md",
+    "tests/differential/README.md",
+    "tests/differential/compare.py",
+    "tests/differential/observe_external.py",
+    "tests/differential/observe_native.py",
+    "tests/differential/run_wsl_campaign.py",
+    "tests/differential/test_completeness.py",
+    "tests/fuzz/run_campaign.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
+    ".aide/evidence/2026-10-20-differential-evidence/context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/set-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
+    ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/differential/CONTRACT.md",
+    "tests/differential/README.md",
+    "tests/differential/compare.py",
+    "tests/differential/test_completeness.py"
+  ],
+  "summary": "Independent DE-W106 preparation while DE-W105 remains current and unqualified. Predeclared observation sets now reject omissions, duplicates, unknown records and fixture hash/geometry mismatch. Invalid inputs remain retained. Complete sets remain unverified; complete_success is deliberately unavailable until remaining evidence checks exist. No native/external campaign, dependency admission, owner acceptance or main integration is claimed.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -p test_completeness.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/red-tests.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/set-tests.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/validate-current.py --full-qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
+      "sha256": "sha256:17e82aeba8ecb49efcbdaf463b7b3b1b5b5c9c6ba86cb81b09073ba092d5fb63"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/context.json",
+      "sha256": "sha256:875385b273a8252f278c704cd5f69a5f0e148692407cce5598ad4fc30dce260d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
+      "sha256": "sha256:0d97320a465eb646db1f9733a8d295500aee05e42e01220b61018d22048f62dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
+      "sha256": "sha256:f47e31eb7a5b986c948f9c4f7ceee1ccd4dcb5dbbe11ed4ba56baf47090cea2e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/set-tests.json",
+      "sha256": "sha256:678a9faee670c96af7f2c25818e72ed583573df2944097260a40de26889c80ae"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
+      "sha256": "sha256:15d29e93f637888d8bd3e556a4e30e7f7abb73b339f6e7f809e2722c70b5cae8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz",
+      "sha256": "sha256:5b33e9668a2d9a4bf4d96d991e4048771eae2a45f21e925e5da8943834c81c4a"
+    },
+    {
+      "path": ".aide/programmes/disked-0.1.0.json",
+      "sha256": "sha256:bfb2f6f45a925aefbac47d764fc622d167e3996eb8ff65ee1523f8fa592f945e"
+    },
+    {
+      "path": "spec/catalog/input-dependencies.json",
+      "sha256": "sha256:704740c49fcd5dc41d141db5526915c3d508732c19bbb682e7c60f669e31a7f5"
+    },
+    {
+      "path": "spec/manifest.json",
+      "sha256": "sha256:c575ba1d5f9c9440f16ce5e97ee5df55d1f7e885be7f93665dd30d297b1bb8ca"
+    },
+    {
+      "path": "spec/work/units.json",
+      "sha256": "sha256:1332880af2e0505fa3384842b19bb4feea286e0016ca01c0f9af081180568daa"
+    },
+    {
+      "path": "tests/differential/CONTRACT.md",
+      "sha256": "sha256:3756a0c8606bc71a7f8d5cf977cf00b6f5573581d158d3418df386d3fc869d59"
+    },
+    {
+      "path": "tests/differential/README.md",
+      "sha256": "sha256:98602916cfc9a75cc3fb6c867c594ca5a0c147dfeecc8fc6cbeda6cb89cf6107"
+    },
+    {
+      "path": "tests/differential/compare.py",
+      "sha256": "sha256:a1156921e8d96913283e6028ca0bf5a912321a498893323d6bbf56550049c0f1"
+    },
+    {
+      "path": "tests/differential/test_completeness.py",
+      "sha256": "sha256:8a0a9d33b6019470d3472325009388035e25e16af447b4bb97494be0d9be3283"
+    }
+  ],
+  "blockers": [
+    "Typed participant/source/build/environment identities",
+    "Raw artifact and before/after preservation verification",
+    "Separate execution outcomes and comparison policy",
+    "Collector/coordinator migration and qualified managed campaign",
+    "DE-W105 qualification and dependency gate"
+  ],
+  "next_safe_step": "Continue independent DE-W106 preparation: implement and test participant/code/profile binding, raw-artifact and input-preservation verification, typed execution/comparison policy, then migrate collectors and managed output. Its explicit-set slice passes pure tests and spec/tooling checks, but complete_success stays unavailable. DE-W105 remains current: capture and exact native qualification are open; do not repeat failed sent/queued hook variants or merge main without evidence.",
+  "performed_remote_writes": false
+}

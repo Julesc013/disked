@@ -12,6 +12,15 @@ current comparator also lacks final evidence-set completeness checks; its
 `adapter_controls_passed` flag alone cannot qualify a complete campaign.
 See [the planned correction](CONTRACT.md#planned-evidence-boundary-correction-de-w106).
 
+The initial DE-W106 preparation now checks an explicitly declared observation
+set and rejects omissions, duplicates, unexpected records and fixture mismatches.
+Set completeness still leaves evidence unverified until participant identities,
+raw artifacts, preservation and execution outcomes are checked. The comparator
+CLI requires `complete_success`; it cannot currently qualify a campaign.
+The Windows-host regression suite exercises pure comparison code only, with
+Linux execution checks explicitly skipped. DE-W105 and external campaign gates
+remain open.
+
 The coordinator checks every native build input before reusing its probes. It
 requires the already installed `Ubuntu-24.04` and `Debian` WSL profiles, invokes
 Python explicitly as UID 65534 (`nobody`), and records failures if tools are absent.

@@ -1,0 +1,92 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-cache-dir",
+        "--no-deps",
+        "--only-binary=:all:",
+        "--target",
+        "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-x1c9vvud\\dependencies",
+        "PyYAML==6.0.3"
+      ],
+      "exit_code": 0,
+      "stdout": "Collecting PyYAML==6.0.3\r\n  Downloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl.metadata (2.4 kB)\r\nDownloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl (156 kB)\r\nInstalling collected packages: PyYAML\r\nSuccessfully installed PyYAML-6.0.3\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"PASS\",\r\n  \"checks\": 1327,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 98,\r\n  \"schemas\": 95,\r\n  \"errors\": [],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"verify\",\r\n  \"files\": 421,\r\n  \"bytes\": 3927760\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "tools/workspace.py",
+        "check",
+        "--planned-bytes",
+        "29360128"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\": \"pass\", \"local_bytes\": 0, \"local_limit_bytes\": 33554432, \"planned_bytes\": 29360128, \"work_limit_bytes\": 1073741824, \"work_file_limit\": 20000, \"minimum_free_bytes\": 21474836480}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W106",
+        "--output",
+        ".aide-local/context/current",
+        "--byte-budget",
+        "2097152",
+        "--artifact-byte-budget",
+        "25165824"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"output\": \".aide-local\\\\context\\\\current\",\r\n  \"bytes\": 512598,\r\n  \"concepts\": [\r\n    \"DE-001\",\r\n    \"DE-002\",\r\n    \"DE-005\",\r\n    \"DE-010\",\r\n    \"DE-030\",\r\n    \"DE-020\",\r\n    \"DE-021\",\r\n    \"DE-022\",\r\n    \"DE-033\",\r\n    \"DE-040\",\r\n    \"DE-003\",\r\n    \"DE-004\",\r\n    \"DE-070\",\r\n    \"DE-041\",\r\n    \"DE-042\",\r\n    \"DE-043\",\r\n    \"DE-044\",\r\n    \"DE-074\",\r\n    \"DE-075\",\r\n    \"DE-031\",\r\n    \"DE-032\",\r\n    \"DE-071\"\r\n  ],\r\n  \"execution_authorized\": false\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/current"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"work_id\": \"DE-W106\",\r\n  \"scope\": \"Declared task-input closure and included artifact freshness, not execution approval.\"\r\n}\r\n",
+      "stderr": ""
+    }
+  ],
+  "context_manifest_sha256": "b9751729f50be31ef4798d452a9439a9de499d7db59edc0d92e1bd4a50c9e924",
+  "complete_pack_bytes": 16541276
+}
