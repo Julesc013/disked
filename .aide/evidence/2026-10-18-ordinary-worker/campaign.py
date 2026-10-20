@@ -356,7 +356,7 @@ def main():
         }
         if($growth-gt1GB-or$proofReady-or$result.resource_stop_requested){
             if(-not$result.resource_stop_requested){
-                $reason=if($proofReady-and$growth-le1GB){'controller_probe'}else{'shared_backing_growth'}
+                $reason=if($proofReady-and$growth-le1GB){'operator_cancel'}else{'shared_backing_growth'}
                 $signal=Invoke-Command -Session $controlSession -ArgumentList ([long]$growth),$reason -ScriptBlock {
                     param($Growth,$Reason)
                     $r='C:\ProgramData\DiskEd\qualification'

@@ -20,8 +20,8 @@ def digest(data):
     return 'sha256:' + hashlib.sha256(data).hexdigest()
 
 
-def review_window_captures(proof, summary, inventory):
-    """Bind the six qualified PNGs to independently held coordinator receipts."""
+def validate_window_capture_receipts(proof, summary, inventory):
+    """Check receipt consistency; this establishes no pixel-origin qualification."""
     require(summary['passed'] is True and not summary['source_dirty'], 'GUI capture summary failed/dirty')
     require(summary['source_revision']==proof['source_revision'], 'GUI capture source revision')
     product=proof['executables']['disked']['sha256'].removeprefix('sha256:')
@@ -59,8 +59,13 @@ def review_window_captures(proof, summary, inventory):
         require(filename==capture['name']+'.png', 'GUI PNG filename differs from its case')
         name='groups/frontend.gui_capture/'+filename
         require(name in inventory and inventory[name]['sha256']==capture['sha256'].removeprefix('sha256:'), 'GUI PNG missing/changed')
-    return dict(qualified_captures=6,coordinator_attempts=len(rows),nonqualifying_attempts=len(unused),
+    return dict(captures_with_consistent_receipts=6,coordinator_attempts=len(rows),nonqualifying_attempts=len(unused),
                 png_hashes_verified=True,pixel_metadata_bound_to_distinct_coordinator_receipts=True)
+
+
+def review_window_captures(proof, summary, inventory):
+    validate_window_capture_receipts(proof, summary, inventory)
+    raise ValueError('owned-window-dc pixel origin invalidated by visual review; consistent receipts do not qualify the capture')
 
 
 def main():

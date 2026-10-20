@@ -26,12 +26,17 @@ class CaptureReview(unittest.TestCase):
                 geometry=dict(width=1000,height=720,pixels_sha256=pixel,capture_method='owned-window-dc')))
             self.inventory['groups/frontend.gui_capture/'+name+'.png']=dict(sha256=png)
 
-    def verify(self):return module.review_window_captures(self.proof,self.summary,self.inventory)
+    def verify(self):return module.validate_window_capture_receipts(self.proof,self.summary,self.inventory)
 
     def test_complete_bound_receipts(self):
-        self.assertEqual(self.verify()['qualified_captures'],6)
+        self.assertEqual(self.verify()['captures_with_consistent_receipts'],6)
         for capture in self.summary['captures']:capture['path']='R:\\work\\build\\'+capture['name']+'.png'
-        self.assertEqual(self.verify()['qualified_captures'],6)
+        self.assertEqual(self.verify()['captures_with_consistent_receipts'],6)
+
+    def test_consistent_receipts_do_not_admit_invalidated_pixel_origin(self):
+        self.verify()
+        with self.assertRaisesRegex(ValueError,'pixel origin invalidated'):
+            module.review_window_captures(self.proof,self.summary,self.inventory)
 
     def test_missing_or_duplicate_cases(self):
         self.summary['captures'][1]=copy.deepcopy(self.summary['captures'][0])

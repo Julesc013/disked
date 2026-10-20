@@ -10,6 +10,13 @@ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 
 
 class CaptureRequests(unittest.TestCase):
+    def test_invalidated_capture_is_refused_before_any_windows_api(self):
+        from unittest.mock import patch
+        with patch.object(module.C,'WinDLL',create=True) as api:
+            with self.assertRaisesRegex(RuntimeError,'capture invalidated'):
+                module.capture(4096,123,'DiskEdTest-'+'c'*32,pixels=True)
+            api.assert_not_called()
+
     def setUp(self):
         self.nonce='a'*32
         self.value=dict(nonce=self.nonce,id='b'*32,window=4096,pid=123,desktop='DiskEdTest-'+'c'*32)

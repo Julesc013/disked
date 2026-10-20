@@ -20,7 +20,7 @@ their applicable checks. A passing compiler probe or private Win32 slice does
 not qualify the full current x64 product.
 
 DE-W105 remains current. Its private Win32 evidence passes all 18 groups at
-`c667318e`; the full current x64 gate is still open. The programme owns the latest
+`4572aef4`; the full current x64 gate is still open. The programme owns the latest
 work state and exact next action. Continue there rather than repeating DE-W010.
 
 The ordinary restricted guest profile now has actual 32/512 MiB hard-cap,
@@ -728,15 +728,18 @@ the selected executable and harness separately. This is not complete visual,
 accessibility, DPI or other-platform qualification.
 
 On the exercised confined Windows 10 guest profile, PrintWindow returned uniform
-pixels even for controlled standard windows. The opt-in test coordinator instead
-copies only a verified job-owned DiskEd window DC on its marked private desktop;
-the worker token, shared station and protected product-record ACLs are unchanged.
-The focused `c1888e4f` GUI/watch replay passed, including six actual captures and
-outside-job/different-image refusals. The full current native gate remains open.
-Full qualification now requests six retained PNGs and checks their case names,
-byte hashes and distinct coordinator pixel receipts. The focused replay retained
-the coordinator receipts, not those PNG artifacts; its scope is recorded in
-[the review](../.aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json).
+pixels even for controlled standard windows. The attempted `owned-window-dc`
+replacement is now **invalidated and disabled**: direct review of run115's PNGs
+showed guest desktop/console pixels rather than DiskEd. The earlier reported
+GUI capture pass at `c1888e4f` is retracted; watch and unrelated test outcomes keep
+their own scope. Hashes, process/window identities and varied client pixels did
+not prove pixel origin. See the
+[superseding review](../.aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json).
+The subsequent full campaign was stopped during compilation, before any native
+test ran; owned process/source/media/account cleanup completed. No main promotion
+follows. A replacement needs a small independently specified pixel-origin preflight
+before another product/full campaign. Six named PNGs and consistent receipts
+remain necessary but are insufficient by themselves.
 
 The private acquired-image verifier adds a read-only current-byte observation
 under DE-W034. It independently checks the explicit original plan, canonical map

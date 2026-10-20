@@ -1,7 +1,8 @@
-"""Guest coordinator control: print one verified job-owned hidden-desktop window.
+"""Rejected guest capture candidate; retained for evidence and boundary review.
 
 The caller pins the process and verifies membership in its live job. This helper
-rechecks the window/process/desktop binding. No screen DC or foreground input.
+rechecks the window/process/desktop binding. Those checks did not establish pixel
+origin: visual inspection found shared-desktop pixels. Capture is disabled.
 """
 import ctypes as C
 from ctypes import wintypes as T
@@ -190,6 +191,8 @@ class Broker:
 
 
 def capture(window, pid, desktop, *, pixels=False):
+    raise RuntimeError('owned-window-dc capture invalidated: pixels were not confined to the owned window')
+    # Historical implementation below is unreachable; preserve it for diagnosis.
     if (socket.gethostname().casefold() != 'blackglass-hyperv' or
             not re.fullmatch(r'(?:Proof|DiskEdTest)-[0-9a-f]{32}', desktop) or
             type(window) is not int or not 0 < window < 2**64 or

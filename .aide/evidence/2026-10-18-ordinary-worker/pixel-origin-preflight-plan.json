@@ -1,0 +1,25 @@
+{
+  "status": "expected_before_replacement",
+  "work_id": "DE-W105",
+  "scope": "One bounded controlled-window pixel-origin preflight;no product/full build,no physical media or shared-desktop capture",
+  "owner_contract": "spec/interaction/tui-and-gui.md#native-capture-evidence",
+  "environment": "Existing Windows10 guest,Agents coordinator,owned restricted child,existing512MiB cap and one managed campaign",
+  "positive_controls": [
+    "Independently specify exact RGB tile locations/colors from a per-run challenge before drawing;the capture helper receives only the owned window identity.",
+    "Capture pattern A,then pattern B through the same HWND/PID/desktop and dimensions;both actual payloads must match their independently expected RGB samples and differ as specified.",
+    "Retain bounded source/producer/fixture identities,actual pixel hashes and direct visual review of the produced image."
+  ],
+  "negative_controls": [
+    "Wrong-surface or stale-A pixels with otherwise consistent B receipts must fail.",
+    "Keep wrong job/image/desktop/nonce/dimensions and mutating-open refusals.",
+    "A capture API success or nonuniform/color count alone cannot pass."
+  ],
+  "boundaries": [
+    "The invalidated GetWindowDC route remains disabled.",
+    "Any visible desktop use requires owned-surface exclusivity,explicit observation of guest input inactivity,and restoration in finally;do not sample the shared desktop or interfere with concurrent users.",
+    "Do not enlarge storage budgets,alter worker/product-record ACLs,reboot the guest or run a product/full rebuild before this preflight passes."
+  ],
+  "completion": "Actual independently expected owned-window pixels and wrong-surface refusal,verified cleanup,and an explicit method admission review. A successful control alone does not qualify product images.",
+  "capture_method_selected": false,
+  "authority": "Existing bounded guest-development grant;this plan creates no new privilege."
+}

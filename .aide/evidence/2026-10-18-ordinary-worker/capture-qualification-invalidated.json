@@ -1,0 +1,47 @@
+{
+  "status": "invalidated",
+  "method": "owned-window-dc",
+  "profile": "Existing Windows10 Hyper-V guest",
+  "observed_at": "2026-10-20T08:20:25.341256+00:00",
+  "inspected_source_revision": "e50f57f1ecc749eeaf4a5cca712bf1119ca36864",
+  "archive": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
+  "archive_sha256": "b54feef0f0dc00b54681c15ba1ac84fc9d48bc28b52681bbe9e2223b4b3c950f",
+  "inspected_images": [
+    {
+      "case": "inventory-0",
+      "archive_member": "groups/frontend.gui_capture/inventory-0.png",
+      "bytes": 33559,
+      "sha256": "d8849b3133be4f19009c307af7d036b35c2049126603e7998a42244263163dd9",
+      "visual_finding": "Guest desktop/console and black rectangles are visible;DiskEd controls and layout are absent."
+    },
+    {
+      "case": "minimum-0",
+      "archive_member": "groups/frontend.gui_capture/minimum-0.png",
+      "bytes": 12166,
+      "sha256": "fd2f2d6511616c2c3a351b11182121fcc98b9a69dbceebd45a4a5be7b63fed14",
+      "visual_finding": "Guest desktop/console and black rectangles are visible;DiskEd controls and layout are absent."
+    },
+    {
+      "case": "review-0",
+      "archive_member": "groups/frontend.gui_capture/review-0.png",
+      "bytes": 31705,
+      "sha256": "c98e9e45ffebc49b34f77ca132a83938c8142a99da0894c878c5f41470f88e5d",
+      "visual_finding": "Guest desktop/console and black rectangles are visible;DiskEd controls and layout are absent."
+    }
+  ],
+  "supersedes": [
+    "one-hundred-thirteenth-review.json#/status",
+    "one-hundred-fifteenth-review.json#/gui_capture"
+  ],
+  "scope": "Retract pixel-origin/capture qualification for this route. Earlier raw records and their hashes remain intact;unrelated native outcomes and cleanup are unaffected.",
+  "finding": "Process,HWND,desktop,ACL,code pin and transport hashes prove identity/consistency,but the inspected pixels are not the requested DiskEd window. Nonuniform-client/caption guards accepted a wrong surface.",
+  "os_cause": "The exact OS/compositor mechanism remains unproven;the observed wrong-surface result is sufficient to reject the route.",
+  "candidate_action": "Refuse capture before any Windows API;separate receipt consistency from capture admission;require independent known-pixel/negative controls and actual PNG review before replacement admission.",
+  "stopped_campaign_review": "one-hundred-seventeenth-review.json",
+  "main_promoted": false,
+  "owner_accepted": false,
+  "official_references": [
+    "https://learn.microsoft.com/en-us/windows/win32/gdi/window-display-device-contexts",
+    "https://learn.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-printwindow"
+  ]
+}

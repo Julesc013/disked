@@ -55,5 +55,12 @@ class StopRequestTests(unittest.TestCase):
             native.require_uninterrupted(self.root,'a'*32,allow_probe=True)
         self.assertEqual(caught.exception.args[0],request)
 
+    def test_actual_operator_cancellation_needs_no_fake_budget_exhaustion(self):
+        request=dict(self.request,reason='operator_cancel',observed_growth_bytes=0)
+        self.write(request)
+        with self.assertRaises(native.CampaignStop) as caught:
+            native.require_uninterrupted(self.root,'a'*32)
+        self.assertEqual(caught.exception.args[0],request)
+
 
 if __name__=='__main__':unittest.main()

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.18-proposed.1
+  version: 0.1.19-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-20T05:23:57.294285+00:00'
-  scope: DE-W105 qualified owned-window capture route and retained case identities; broader visual/platform and owner qualification remain separate
+  at: '2026-10-20T08:21:33.179607+00:00'
+  scope: Retract the invalidated owned-window-DC route; require independently established pixel origin before capture admission
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -182,14 +182,19 @@ separate work. The implementation does not imply those checks have passed.
 The shared Windows test helper redraws only its live owned window and measures
 that window's client rectangle. The capture route is recorded and independently
 qualified: a successful PrintWindow call alone does not establish painted output.
-The confined guest lane may use a trusted coordinator to copy the verified owned
-window DC without changing the worker token or shared window-station permissions.
-The coordinator admits only the exact product image in the current owned job,
+The proposed `owned-window-dc` route is rejected on the exercised guest profile:
+visual inspection of retained PNGs showed guest desktop/console pixels rather
+than DiskEd. Consistent receipts, nonuniform pixels and a verified HWND establish
+neither pixel origin nor a qualified capture. Keep its earlier observations as
+invalidated evidence; do not repeat that route or claim its reported pass.
+A replacement must first demonstrate exact independently specified owned-window
+pixel content and rejection of wrong-surface results in a small preflight.
+Only then may a trusted coordinator admit the exact product image in its owned job,
 under the expected user, on a newly marked private desktop with the exact protected
 DACL and mandatory-label ACL. Equivalent SDDL spelling or auto-inheritance history
 does not change those ACLs. Bind the HWND/PID/desktop and unchanged window bounds;
 bound the dimensions, request count, temporary output and helper lifetime. This
-route grants no authority to capture unrelated windows or a shared desktop.
+boundary grants no authority to capture unrelated windows or a shared desktop.
 
 Retained captures must
 contain nonuniform client RGB content; title-bar/frame colors and unused DIB

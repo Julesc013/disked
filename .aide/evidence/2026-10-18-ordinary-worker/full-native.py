@@ -35,14 +35,14 @@ def require_uninterrupted(root, nonce, *, allow_probe=False):
     request=json.loads(path.read_bytes())
     if (type(request) is not dict or set(request)!={'schema','nonce','reason','observed_growth_bytes','limit_bytes'} or
             request['schema']!='org.disked.guest-stop/1' or request['nonce']!=nonce or
-            request['reason'] not in ('shared_backing_growth','controller_probe') or
+            request['reason'] not in ('shared_backing_growth','controller_probe','operator_cancel') or
             type(request['limit_bytes']) is not int or request['limit_bytes']!=1073741824 or
             type(request['observed_growth_bytes']) is not int or
             not 0<=request['observed_growth_bytes']<2**64):
         raise ValueError('Stop request identity or bounds differ')
     if request['reason']=='controller_probe':
         if not allow_probe:raise ValueError('Stop proof is not enabled for this campaign')
-    elif request['observed_growth_bytes']<=request['limit_bytes']:
+    elif request['reason']=='shared_backing_growth' and request['observed_growth_bytes']<=request['limit_bytes']:
         raise ValueError('Backing-growth request does not exceed its declared limit')
     raise CampaignStop(request)
 
