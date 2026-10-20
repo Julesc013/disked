@@ -3,6 +3,7 @@ import ctypes as C
 from ctypes import wintypes as T
 from pathlib import Path
 import struct
+import json
 
 
 def user_only_dacls(paths):
@@ -75,6 +76,7 @@ class DaclFixture:
         self.k.CreateFileW.argtypes=[T.LPCWSTR,T.DWORD,T.DWORD,C.c_void_p,T.DWORD,T.DWORD,T.HANDLE]
         self.k.CreateFileW.restype=T.HANDLE
         self.k.CreateDirectoryW.argtypes=[T.LPCWSTR,C.c_void_p]
+        self.k.GetFileInformationByHandleEx.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD]
         self.k.CloseHandle.argtypes=[T.HANDLE]
         self.k.LocalFree.argtypes=[C.c_void_p];self.k.LocalFree.restype=C.c_void_p
         self.a.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[T.LPCWSTR,T.DWORD,C.POINTER(C.c_void_p),C.POINTER(T.DWORD)]
@@ -100,16 +102,38 @@ class DaclFixture:
         class Attributes(C.Structure):
             _fields_=[('length',T.DWORD),('descriptor',C.c_void_p),('inherit',T.BOOL)]
         attributes=Attributes(C.sizeof(Attributes),self.original,False)
+        phase='create_directory' if self.directory else 'create_data'
         try:
+            identity=None
             if self.directory:self._require(self.k.CreateDirectoryW(str(self.path),C.byref(attributes)))
-            self.handle=self.k.CreateFileW(str(self.path),0x60000,7,
-                None if self.directory else C.byref(attributes),3 if self.directory else 1,
-                0x02200000 if self.directory else 0x80,None)
+            else:
+                # Create data first, then request security access against the
+                # installed descriptor. Bind the two handles to the same file.
+                created=self.k.CreateFileW(str(self.path),0x40000000,7,C.byref(attributes),1,0x80,None)
+                self._require(created not in (None,C.c_void_p(-1).value))
+                try:identity=self._identity(created)
+                finally:self.k.CloseHandle(created)
+            phase='reopen_security'
+            self.handle=self.k.CreateFileW(str(self.path),0x60000,7,None,3,0x02200000,None)
             self._require(self.handle not in (None,C.c_void_p(-1).value))
+            if identity is not None and self._identity(self.handle)!=identity:
+                raise ValueError('DACL fixture file identity changed')
             return self
-        except BaseException:
+        except BaseException as error:
+            if self.handle not in (None,C.c_void_p(-1).value):self.k.CloseHandle(self.handle)
+            self.handle=None
             self.k.LocalFree(self.original);self.original=None
-            raise
+            diagnostic=dict(phase=phase,sid=self.sid,path_exists=self.path.exists())
+            try:diagnostic['actual_dacl']=user_only_dacls([self.path if self.path.exists() else self.path.parent])
+            except OSError as observation_error:diagnostic['observation_error']=str(observation_error)
+            raise RuntimeError('Owned DACL fixture setup: '+json.dumps(diagnostic)) from error
+
+    def _identity(self,handle):
+        class Identity(C.Structure):
+            _fields_=[('volume',C.c_ulonglong),('file',C.c_ubyte*16)]
+        value=Identity()
+        self._require(self.k.GetFileInformationByHandleEx(handle,18,C.byref(value),C.sizeof(value)))
+        return value.volume,bytes(value.file)
 
     def restrict(self,rights=None):
         if self.handle in (None,C.c_void_p(-1).value):raise ValueError('Fixture is not open')
