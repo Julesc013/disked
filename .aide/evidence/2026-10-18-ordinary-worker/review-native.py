@@ -108,7 +108,9 @@ def main():
     names, summaries, inventory = set(), {}, {}
     manifest = None
     raw_bytes = 0
-    with tarfile.open(archive, 'r|xz') as stream:
+    # LZMAFile bounds decompressor output; tarfile's streaming decompressor can
+    # repeatedly copy a huge zero-filled buffer for these compact evidence files.
+    with tarfile.open(archive, 'r:xz') as stream:
         for member in stream:
             require(member.isfile() and member.name not in names, 'Non-file/duplicate archive member')
             require(not member.name.startswith('/') and '..' not in Path(member.name).parts, 'Archive path')

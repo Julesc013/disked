@@ -1,12 +1,16 @@
 # Ordinary worker and current native qualification
 
-Latest focused result: [run113 review](one-hundred-thirteenth-review.json) passes
-GUI capture and operation.watch at `c1888e4f`, including six actual capture
-receipts and both live coordinator scope refusals. Its38-entry/17972-byte archive
-and owned cleanup verify with zero VM backing growth. The earlier18-group replay
-passed16 groups at `02263da2`; these separate revisions do not constitute a full
-current pass. Full W105 qualification and main promotion remain pending. The next
-full run retains six named PNGs and verifies their case/receipt/hash relationships.
+Latest full result: [run115 review](one-hundred-fifteenth-review.json) records
+**179/180 groups passing** at `e50f57f1`. Only `resilience.gui_waiting` fails:
+its temporary directory is deleted before the delayed worker closes
+`cancel.request`. All4,371 retained entry hashes,six named PNG/coordinator
+receipts,68 headers,14 executable/import observations and owned cleanup verify;
+VM backing growth is zero. Raw evidence is2,594,240 compressed bytes;the complete
+campaign receipt is also compressed and independently hash-bound in the review.
+A scoped fixture repair waits for exact worker retirement before cleanup,keeping
+all finished/completed,GUI and45-second deadline assertions. Focused replay and
+full current qualification are required before main. The earlier GUI/watch
+focused result remains source-bound to `c1888e4f` and is retained as history.
 
 Private fixture controls: [run95 review](ninety-fifth-review.json) passes at
 `ac4996c8`, including normal and abandoned restoration, verified archive and cleanup.
@@ -61,7 +65,7 @@ The all-target x64 build at `f86f72fa` passed, with 178 groups registered,
 `full-build-review.json` and the complete compressed
 `forty-second-full-build-first-native.tar.xz`. The first native group passed;
 `acquisition.fat_tree_review` failed with `image_parent_open`.
-Attempts 43â€“45 narrow this to Windows access-denied on every native parent open,
+Attempts 43Ã¢â‚¬â€œ45 narrow this to Windows access-denied on every native parent open,
 while a Python control under the same ordinary worker opens those directories.
 Attempt 46 identifies the differing integrity levels: native Low versus Python
 Medium, with the same user/restricting SIDs and Low labels on new native files.
@@ -299,7 +303,7 @@ The next execution recipe must retain the hard filesystem boundary and all
 original protected-record, outside-write, descendant and interruption controls.
 Any proposed guest setup exception needs explicit scope, agent review and
 verified retirement before admission. No crypto-device ACL was changed in
-attempts 1â€“25.
+attempts 1Ã¢â‚¬â€œ25.
 
 The fresh-logon alternative is unqualified. Do not repeat unchanged token/ACL/API
 variants. Use the now-observed console and crypto-device boundaries when
@@ -310,7 +314,7 @@ restriction, abrupt-controller exit and owned cleanup criteria still apply.
 The full current x64 product suite and representative compiler/store journey
 remain pending regardless of any primitive or diagnostic result here.
 
-Attempts 26â€“29 prove the narrowly scoped guest setup: a journaled ACE gives only
+Attempts 26Ã¢â‚¬â€œ29 prove the narrowly scoped guest setup: a journaled ACE gives only
 the fresh actor SID the observed `0x100003` KsecDD access. Actual helper interruption
 and recovery, exact removal, and failure of a new restricted process after removal
 are recorded. The ordinary worker retains exactly fresh-user and Restricted Code
@@ -318,7 +322,7 @@ restricting SIDs, medium integrity and no administrator/AppContainer identity.
 No filesystem/product-record ACL or host setting is relaxed. A fresh containing
 job is required for each command; every owned member retires before removal.
 
-Attempt 30 passes all original 32 MiB controls. Attempts 31â€“32 compile real
+Attempt 30 passes all original 32 MiB controls. Attempts 31Ã¢â‚¬â€œ32 compile real
 production helpers but expose prefixed kernel-object path failures; the first
 cleanup refuses nested source entries, then exact-source-parent cleanup succeeds.
 Attempt 33 uses the default namespace, verifies the ordinary session-zero alias

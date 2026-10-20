@@ -1,0 +1,35 @@
+{
+  "status": "partial_native_qualification_cleanup_race",
+  "source_revision": "e50f57f1ecc749eeaf4a5cca712bf1119ca36864",
+  "groups_run": 180,
+  "passed": 179,
+  "failed": [
+    "resilience.gui_waiting"
+  ],
+  "standalone_headers": 68,
+  "executable_import_observations": 14,
+  "gui_capture": {
+    "qualified_captures": 6,
+    "coordinator_attempts": 6,
+    "nonqualifying_attempts": 0,
+    "png_hashes_verified": true,
+    "pixel_metadata_bound_to_distinct_coordinator_receipts": true
+  },
+  "archive_entries": 4371,
+  "uncompressed_bytes": 911920899,
+  "compressed_bytes": 2594240,
+  "archive_sha256": "b54feef0f0dc00b54681c15ba1ac84fc9d48bc28b52681bbe9e2223b4b3c950f",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "finding": "GUI test reaches temporary-directory cleanup before the delayed worker closes cancel.request. Wait for exact worker_observation exited/reused_identity as other fixtures already do; preserve finished/completed assertions and 45-second group limit.",
+  "owner_accepted": false,
+  "full_native_qualified": false,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
+    "uncompressed_bytes": 1555956,
+    "uncompressed_sha256": "88e63fe97b3474e8f9b0aa5429089a6e9e0a8f086b2129d2130039873dc7f514",
+    "compressed_bytes": 165376,
+    "compressed_sha256": "b2e293ada18aab1edc6516149575d23a11ebcbb477c7462c553273ed005dff87"
+  }
+}

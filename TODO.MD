@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. Historical full x64 run89 completed all180 groups with162 passes and18 failures. Focused repair evidence records16 passing groups at `02263da2`, then GUI capture/watch both passing at `c1888e4f`; these are separate revision-bound results, not a full current pass. The current full180 qualification and `dev` integration into `main` remain pending. Preserve the earlier private Win32/C90 source identities. The original all-platform/storage0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
+Status: DE-W105 remains active. Full x64 run115 at `e50f57f1` attempts all180 groups:179 pass; only `resilience.gui_waiting` fails during temporary-store cleanup before worker retirement. All4,371 archive entry hashes,six PNG/coordinator receipts,68 headers,14 import observations and owned cleanup verify;VM backing growth is zero. Repair that fixture, replay it, then complete full current qualification and reviewed `dev` integration into `main`. Preserve earlier private Win32/C90 source identities and the original all-platform/storage0.1.0 scope;owner/release gates remain separate. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
 
 ## Storage recovery
 

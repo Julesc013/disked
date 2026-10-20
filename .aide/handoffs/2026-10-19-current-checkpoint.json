@@ -163,9 +163,14 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py",
     "spec/interaction/tui-and-gui.md",
-    "tests/tools/test_window_capture_review.py"
+    "tests/tools/test_window_capture_review.py",
+    "tests/resilience/test_gui_waiting.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz"
   ],
-  "summary": "DE-W105 partial. Source-bound focused repairs pass16 groups at02263da2;actual GUI capture/watch passes2/2 atc1888e4f with six coordinator pixel receipts and live outside-job/different-image refusals. Final host validation passes253 specification tests(2 skips),198 tooling tests(1 skip),structural/source-map/manifest checks. DE-024 now describes the qualified owned-window-DC route;full qualification requests six PNG artifacts and strict case/receipt/hash review. Full current180 native qualification and main integration remain pending. Earlier failures/evidence remain retained;owner acceptance,release and original all-platform/storage0.1 remain separate. The final candidate additionally pins the verified executable object through the owned job;post-change tooling tests pass198 with1 skip. Native pin/protocol preflight and full180 remain pending. Native pin/protocol preflight114 passes at e50f57f1. Full180 x64 campaign is live as exec session38860 against that frozen source;no full native result or main promotion is yet claimed.",
+  "summary": "DE-W105 active. Full run115 at e50f57f1 completes180 groups with179 pass;resilience.gui_waiting fails only while deleting its temporary cancel.request before worker retirement. All4371 entry hashes,six PNG receipts,headers/imports and cleanup verify. A scoped fixture repair is pending native replay and full qualification;main and owner/release/original0.1 remain open. The scoped GUI fixture repair and LZMA-backed archive-reader change pass all198 host tooling tests(1 skip),structural/source-map/manifest checks and template preparation;focused native replay is pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -705,6 +710,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --native-x64 --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json"
     }
   ],
   "artifacts": [
@@ -1286,7 +1298,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:a8578c453746df6e9e6945779dc624773dc97c4774e521a8acca8dc1dad8aef5"
+      "sha256": "sha256:60f97372641de59ac5efb00433da0c9810d2182d4c5d56f38735486cc3b9b174"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1546,7 +1558,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:400a626c5f22cf6ee779acc116080cb4ca055c20c78d8a7b8c6877b54a0b2048"
+      "sha256": "sha256:6195816b00d19b91a7e8a3856a31652f311b7933071243d1e171c0f8217253d1"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-review.json",
@@ -1563,12 +1575,32 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-pin-preflight.tar.xz",
       "sha256": "sha256:d8b5a83fdacc4b898b34a3af893087197d17f8172c86df2b2b462f6546a37a31"
+    },
+    {
+      "path": "tests/resilience/test_gui_waiting.py",
+      "sha256": "sha256:fcb5481ad5a8980d48802fccf66428d911e0b3778757b2b3b5c3273b607ebd0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-cleanup.json",
+      "sha256": "sha256:5654a5a72bc708af3431fcec2c22dbbc39dac7a7fd02c7245154629aa4e967ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-review.json",
+      "sha256": "sha256:069f45b083e97d585e0d08419a9b66e7abdc48d5b05bceb60410713de1582557"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.json.xz",
+      "sha256": "sha256:b2e293ada18aab1edc6516149575d23a11ebcbb477c7462c553273ed005dff87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fifteenth-x64-partial.tar.xz",
+      "sha256": "sha256:b54feef0f0dc00b54681c15ba1ac84fc9d48bc28b52681bbe9e2223b4b3c950f"
     }
   ],
   "blockers": [
-    "Run89 full x64 failed18 groups. Targeted run98 repairs16;run99 also passes watch. GUI/watch now passes atc1888e4f;the full current suite and retained PNG/receipt review remain pending. No current missing account,UAC,authentication or confined-worker grant.",
+    "Full current180 native qualification is still required after the GUI fixture retirement repair;there is no missing credential,UAC or environment grant.",
     "Owner acceptance,production storage/release gates and original all-platform0.1 remain separate."
   ],
-  "next_safe_step": "Poll running full native x64 campaign exec session38860;do not start another campaign. Guest source-prepared.json verifies frozen source e50f57f1ecc749eeaf4a5cca712bf1119ca36864. Pin/protocol preflight114 passes. Require all180 groups,68 headers,14 import observations,six PNG/case/coordinator receipts and owned cleanup;then run review-native.py on the retained full result before main and W106/W107. Metadata checkpoint commits do not change frozen code. Regenerate host context only after this campaign ends.",
+  "next_safe_step": "Run the focused resilience.gui_waiting replay after the exact-worker retirement fixture repair, then qualify the current full180 x64 candidate and review all native/PNG/archive/cleanup evidence before main. Run115 at e50f57f1 attempted180 groups:179 pass,only GUI temporary-directory cleanup fails with WinError32 on cancel.request. All4371 archive entry hashes,six PNG/coordinator receipts,68 headers,14 imports and owned cleanup verify;zero VM backing growth. No active campaign remains.",
   "performed_remote_writes": true
 }

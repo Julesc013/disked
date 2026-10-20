@@ -41,8 +41,11 @@ class Waiting(unittest.TestCase):
             while True:
                 p=subprocess.run([str(ARGS.exe),'operation','inspect',operation,'--state-dir',str(state),'--json'],capture_output=True,text=True,timeout=8)
                 outcome=json.loads(p.stdout)
-                if outcome['result'].get('state',{}).get('phase')=='finished':break
+                # A published result can precede the worker closing its store
+                # handles. Observe this exact worker's retirement before cleanup.
+                if outcome['result'].get('worker_observation') in ('exited','reused_identity'):break
                 self.assertLess(time.monotonic(),deadline);time.sleep(.04)
+            self.assertEqual('finished',outcome['result']['state']['phase'])
             self.assertEqual(operation,outcome['operation_id']);self.assertEqual('completed',outcome['status'])
             OBSERVATIONS[-1]['later_operation']=outcome
 if __name__=='__main__':
