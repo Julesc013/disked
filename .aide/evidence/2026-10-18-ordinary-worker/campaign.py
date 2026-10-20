@@ -90,6 +90,7 @@ def main():
     focus_current='--focus-current-fixtures' in sys.argv
     focus_gui_watch='--focus-gui-watch' in sys.argv
     focus_gui_waiting='--focus-gui-waiting' in sys.argv
+    pixel_proof='--pixel-origin-proof' in sys.argv
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv
@@ -100,18 +101,18 @@ def main():
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
-    full_native=full_native or controller_stop_proof
+    full_native=full_native or controller_stop_proof or pixel_proof
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    helper_files=('full-native.py','fixture-dacl.py','owned-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
+    helper_files=('full-native.py','fixture-dacl.py','owned-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
     full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
         for name in helper_files:
-            origin=HERE/name if name in ('full-native.py','fixture-dacl.py','owned-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+            origin=HERE/name if name in ('full-native.py','fixture-dacl.py','owned-window.py','pixel-origin.py','pixel-print.py','pixel-window.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
         shell_tool=powershell7_proof or focus_invocations or focus_current or '--native-x64' in sys.argv
         if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:
@@ -201,6 +202,7 @@ def main():
         expected['native_x64']['controller_stop_proof']=True
         expected['native_x64']['null_proof_only']=True
     if ui_proof:expected['native_x64']['ui_proof']=True
+    if pixel_proof:expected['native_x64']['pixel_origin_proof']=True
     if focus_fat:
         expected['native_x64']['focus_groups']=['acquisition.fat_tree_review']
         expected['native_x64']['focus_targets']=['fat_tree_review_probe','fat_tree_extraction_worker_probe']
@@ -454,6 +456,7 @@ def main():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
             if digest!=result.get('guest',{}).get('proof',{}).get('archive_sha256'):raise ValueError('Transferred archive hash mismatch')
             shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
+    if pixel_proof:result['experiment_kind']='Exact-pixel owned control preflight;no product build,test or capture admission'
     result['host_error_tail']=call.stderr[-16384:].decode(errors='replace')
     (HERE/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     if station_matrix:

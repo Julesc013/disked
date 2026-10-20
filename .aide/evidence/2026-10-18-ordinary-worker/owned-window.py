@@ -58,6 +58,7 @@ def desktop_acls(value):
 
 class Broker:
     """Only the exact product in the current job, on a marked private desktop."""
+    method='owned-window-dc'
     def __init__(self,worker,fixtures,image,env,*,expected_sha256):
         self.worker,self.fixtures,self.temp=worker,fixtures,worker.native_temp
         self.image=Path(image).resolve(strict=True);self.records=[];self.seen=set();self.nonce=uuid.uuid4().hex
@@ -157,15 +158,12 @@ class Broker:
             actual=w.user_object_security(desktop)
             if desktop_acls(actual)!=desktop_acls(expected):
                 raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))
-            command=[sys.executable,'-B',str(Path(__file__).resolve()),str(value['window']),str(value['pid']),value['desktop'],'--pixels']
-            result=subprocess.run(command,capture_output=True,timeout=10)
-            if result.returncode or len(result.stderr)>4096 or len(result.stdout)>16777216+4096:
-                raise RuntimeError('Owned capture helper failed: '+result.stderr[-2048:].decode(errors='replace'))
-            header,separator,pixels=result.stdout.partition(b'\n')
+            body=self._read_pixels(value)
+            header,separator,pixels=body.partition(b'\n')
             if not separator or len(header)>4096:raise ValueError('Capture helper envelope')
             observed=json.loads(header)
             if (observed['window']!=value['window'] or observed['pid']!=value['pid'] or observed['desktop']!=value['desktop'] or
-                    observed['method']!='owned-window-dc' or observed['bytes']!=len(pixels) or
+                    observed['method']!=self.method or observed['bytes']!=len(pixels) or
                     len(pixels)!=observed['width']*observed['height']*4 or
                     observed['sha256']!=hashlib.sha256(pixels).hexdigest()):raise ValueError('Capture helper pixels differ')
             observed.update(desktop_security_sddl=actual,desktop_acl_validated=True)
@@ -174,6 +172,13 @@ class Broker:
             if desktop:u.CloseDesktop(desktop)
             if token:k.CloseHandle(token)
             k.CloseHandle(process)
+
+    def _read_pixels(self,value):
+        command=[sys.executable,'-B',str(Path(__file__).resolve()),str(value['window']),str(value['pid']),value['desktop'],'--pixels']
+        result=subprocess.run(command,capture_output=True,timeout=10)
+        if result.returncode or len(result.stderr)>4096 or len(result.stdout)>16777216+4096:
+            raise RuntimeError('Owned capture helper failed: '+result.stderr[-2048:].decode(errors='replace'))
+        return result.stdout
 
     def finish(self,*,quiescent):
         if not quiescent:raise ValueError('Capture retirement requires job quiescence')

@@ -83,6 +83,7 @@ def coordinate(g):
     fixture_setup=g.load('full_fixture_dacl',ROOT/'fixture-dacl.py')
     capture_setup=g.load('full_owned_window',ROOT/'owned-window.py')
     expected=json.loads((ROOT/'expected.json').read_bytes())['native_x64']
+    pixel_setup=g.load('full_pixel_origin',ROOT/'pixel-origin.py') if expected.get('pixel_origin_proof') else None
     manifest=json.loads((ROOT/'source.json').read_bytes())
     result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
                 all_owned_processes_retired=False,crypto_device_retired=False,commands=[],tests=[],owner_accepted=False)
@@ -352,6 +353,9 @@ def coordinate(g):
                     window_broker=capture_setup.Broker(instance,fixture_broker,
                         build/'Release/disked.exe' if label=='test-frontend.gui_capture' else sys.executable,env,
                         expected_sha256=result['executables']['disked']['sha256'] if label=='test-frontend.gui_capture' else retention.sha(Path(sys.executable)))
+                if ordinary and label=='pixel-origin-control':
+                    window_broker=pixel_setup.Broker(instance,fixture_broker,sys.executable,env,archive,
+                        expected_sha256=retention.sha(Path(sys.executable)))
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
                 if window_broker:result['owned_window_scope_controls']=window_broker.prove_refusals(job,child.pid,different_image=label=='test-frontend.gui_capture')
                 process_id=child.pid
@@ -380,6 +384,7 @@ def coordinate(g):
             finally:
                 stop()
                 if window_broker:
+                    if label=='pixel-origin-control':result['pixel_origin_preflight']=window_broker.report()
                     records=window_broker.finish(quiescent=quiescent)
                     result.setdefault('owned_window_captures',[]).extend(records)
                     for key in ('DISKED_WINDOW_CAPTURE_ROOT','DISKED_WINDOW_CAPTURE_NONCE','DISKED_WINDOW_CAPTURE_COORDINATOR_SID'):env.pop(key,None)
@@ -477,6 +482,17 @@ def coordinate(g):
         probe.write_text("import sys,json,pathlib,ctypes as C\nfrom ctypes import wintypes as T\nif sys.argv[3]=='appcontainer':\n    k=C.WinDLL('kernel32',use_last_error=True);a=C.WinDLL('advapi32',use_last_error=True)\n    k.GetCurrentProcess.restype=T.HANDLE\n    a.OpenProcessToken.argtypes=[T.HANDLE,T.DWORD,C.POINTER(T.HANDLE)]\n    a.GetTokenInformation.argtypes=[T.HANDLE,C.c_int,C.c_void_p,T.DWORD,C.POINTER(T.DWORD)]\n    a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]\n    k.CloseHandle.argtypes=[T.HANDLE];k.LocalFree.argtypes=[C.c_void_p]\n    t=T.HANDLE();assert a.OpenProcessToken(k.GetCurrentProcess(),8,C.byref(t))\n    try:\n        size=T.DWORD();e=T.DWORD();c=T.DWORD()\n        assert a.GetTokenInformation(t,20,C.byref(e),4,C.byref(size))\n        assert a.GetTokenInformation(t,29,C.byref(c),4,C.byref(size))\n        a.GetTokenInformation(t,1,None,0,C.byref(size));assert 0<size.value<65536\n        data=C.create_string_buffer(size.value);assert a.GetTokenInformation(t,1,data,size,C.byref(size))\n        text=T.LPWSTR();assert a.ConvertSidToStringSidW(C.cast(data,C.POINTER(C.c_void_p))[0],C.byref(text))\n        try:r=dict(user_sid=text.value,elevated=e.value,appcontainer=c.value,administrator=bool(C.windll.shell32.IsUserAnAdmin()))\n        finally:k.LocalFree(C.cast(text,C.c_void_p))\n        assert r['appcontainer']==1\n    finally:k.CloseHandle(t)\nelse:\n    sys.path.insert(0,sys.argv[1]);import target;r=target.identity()\n    assert r['restricted'] and not r['appcontainer']\n    assert set(r['restricting_sids'])=={r['user_sid'],'S-1-5-12'}\nassert not r['elevated'] and not r['administrator']\ntry:pathlib.Path(sys.argv[2]).write_bytes(b'unexpected')\nexcept PermissionError:pass\nelse:raise AssertionError('source writable')\nprint(json.dumps(r))\n")
         _,raw=run('build-token-and-source-denial',[sys.executable,'-B',probe,ROOT,SOURCE/'forbidden-write','appcontainer'],30)
         result['build_token']=json_record(raw);assert result['build_token']['user_sid']==coordinator_sid
+        if expected.get('pixel_origin_proof'):
+            stop();instance.close();instance=None;shared_read_access(False)
+            native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
+            (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+            fixture_broker=fixture_setup.Broker(native_work,instance.native_temp,instance.user_sid)
+            grant=helper.Grant();grant.apply();grant.started()
+            _,raw=run('pixel-origin-control',[sys.executable,'-B',ROOT/'pixel-window.py'],35)
+            result['pixel_origin_control']=json_record(raw)
+            assert result['pixel_origin_control']['passed'] and result['pixel_origin_preflight']['passed']
+            result.update(status='pass',qualification='Known-pixel control only;actual product GUI and full suite remain unqualified')
+            return
         if expected.get('controller_stop_proof'):
             null_grant=null_helper.Grant('build');null_grant.apply();null_grant.started()
             (ROOT/'stop-ready.json').write_text(json.dumps(dict(nonce=state['nonce']))+'\n',encoding='utf-8',newline='\n')
