@@ -4,19 +4,16 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
-DE-W105 closing qualification is active. All six focused repair groups pass.
-The complete x64 attempt was interrupted during compilation by the shared VM
-backing-growth guard; its owned resources were removed and the incomplete
-result retained. The repaired controller now passes an actual isolated stop
-proof, including job/grant retirement, complete cleanup and zero backing growth.
-[Current evidence](../.aide/evidence/2026-10-18-ordinary-worker/README.md) separates
-these results from the full qualification still required.
+DE-W105 closing qualification remains active. The complete x64 run at `4572aef4`
+ran all 180 groups: 162 passed and 18 failed. Build, header/import checks and
+owned cleanup passed. Same-source private Win32 and strict C90 checks pass.
+[Retained diagnostics](../.aide/evidence/2026-10-18-ordinary-worker/README.md)
+identify fixture/export, retirement, GUI and FAT-worker issues for bounded repair.
 
-Run the complete 180-group x64 suite with the previously measured serial build setting and
-unchanged limits, then same-source private Win32, current C90 and detailed
-retained-case review. Integrate the tested checkpoint into main after that
-review. No current account/UAC/authentication or confined-worker setup grant is
-missing; earlier setup failures remain historical evidence.
+Repair and replay the affected cases before another full qualification. Keep the
+existing storage limits, data/output expectations and protected product records.
+Integrate the tested checkpoint into main after review; no current account/UAC/
+authentication or confined-worker grant is missing.
 
 The [Windows reference plan](windows-reference.md) explains Disk Management,
 MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.

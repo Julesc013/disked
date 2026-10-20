@@ -1,5 +1,14 @@
 # Ordinary worker and current native qualification
 
+Full run89 at `4572aef4`: **162/180 groups pass; 18 fail**. The all-target build,
+68 headers and 14 executable/import observations pass. All 4,224 archive entry
+hashes verify; 889,493,058 raw bytes occupy 2,442,352 compressed bytes. Cleanup
+passes and VM backing growth is zero. See `eighty-ninth-failure-review.json`
+for actual command diagnostics, including stale/truncated JUnit observations.
+Same-source private Win32 passes 18 groups/12 headers/nine executables, with
+2,956 entry hashes verified; strict C90 passes ten units/two headers. These
+results remain partial: targeted failures must be repaired before main.
+
 Run88 at `8aa0a422` passed schema/source preflight but parallel2 MSBuild stalled
 at Checking Build System. The exact owned root was stopped after PID/creation/
 parent/owner checks; all owned cleanup and the 16-entry archive verify. Backing

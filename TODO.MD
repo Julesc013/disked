@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The six focused repair groups and isolated controller-stop proof pass, with exact cleanup verified. Full current x64, same-source private Win32, C90 and detailed review remain open before `dev` integrates into `main`. The original all-platform/storage 0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md), [work definitions](spec/work/units.json) and [development plan](docs/development-plan.md).
+Status: DE-W105 remains active. Full x64 run89 completed all 180 groups: 162 pass and 18 fail; build/header/import phases and owned cleanup pass. Same-source private Win32 and strict C90 pass. Targeted fixture/export/retirement/GUI/FAT-worker repairs are required before full qualification and `dev` integration into `main`. The original all-platform/storage 0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
 
 ## Storage recovery
 
