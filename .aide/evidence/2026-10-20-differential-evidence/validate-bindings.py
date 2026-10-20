@@ -50,7 +50,7 @@ def input_hashes():
         paths.update(p for p in (ROOT / directory).rglob('*') if p.is_file() and p.suffix in ('.py', '.json', '.md', '.yaml', '.yml'))
     paths.update(p for p in (ROOT / '.aide/evidence/2026-10-18-ordinary-worker').iterdir()
                  if p.is_file() and p.suffix in ('.py', '.ps1', '.cpp', '.h'))
-    paths.update((ROOT / 'CMakeLists.txt', ROOT / 'docs/source-map.json', ROOT / 'docs/code-structure.md',
+    paths.update((ROOT / 'CMakeLists.txt', ROOT / 'docs/source-map.md', ROOT / 'docs/code-structure.md',
                   HERE / (PREFIX + '-expected.json'), Path(__file__).resolve()))
     if PREFIX == 'native-port':
         paths.update(HERE / name for name in ('native-port.py', 'native-port.cpp', 'native-port-inventory.ps1'))

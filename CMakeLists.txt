@@ -464,6 +464,14 @@ target_link_libraries(disked_gui PUBLIC disked_presentation)
 set_target_properties(disked_gui PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_gui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+add_library(disked_window_capture STATIC source/platform/windows/ui/window_capture.cpp)
+target_compile_definitions(disked_window_capture PRIVATE _WIN32_WINNT=0x0A00)
+target_link_libraries(disked_window_capture PRIVATE user32 gdi32 kernel32)
+set_target_properties(disked_window_capture PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_window_capture PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+# This private primitive is exercised by the bounded guest control. It is not
+# linked into a product frontend until its separate capture admission review.
+
 add_library(disked_shell STATIC source/apps/disked/shell/shell_model.cpp)
 target_link_libraries(disked_shell PUBLIC disked_presentation)
 set_target_properties(disked_shell PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -558,6 +566,7 @@ if(BUILD_TESTING)
     set_target_properties(${target}_headers PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
     target_compile_options(${target}_headers PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
   endfunction()
+  private_header_check(disked_window_capture platform/windows/ui/window_capture.h)
   private_header_check(disked_ntfs_inspection runtime/capture/ntfs_inspection.h)
   private_header_check(disked_ntfs_reader platform/windows/storage/ntfs_reader.h)
   bootstrap_executable(disked_ntfs_test)

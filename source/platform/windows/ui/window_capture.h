@@ -1,0 +1,35 @@
+#pragma once
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <array>
+#include <cstdint>
+#include <string>
+#include <vector>
+
+namespace disked { namespace ui {
+// Private Windows 10 prototype. The coordinator owns the queried job and pins
+// the exact image file against writes/deletion. No public capture API is admitted.
+struct WindowCaptureRequest {
+    HWND window = nullptr;
+    DWORD process = 0, thread = 0;
+    HANDLE job = nullptr; // Borrowed JOB_OBJECT_QUERY handle.
+    std::wstring desktop; // Exact window-station\desktop name.
+    std::uint64_t nonce = 0, image_volume = 0;
+    std::array<unsigned char,16> image_file_id{};
+    int width = 0, height = 0;
+};
+enum class WindowCaptureStatus { captured, invalid_request, identity_mismatch, geometry_changed, capture_failed };
+struct WindowCaptureResult {
+    WindowCaptureStatus status = WindowCaptureStatus::invalid_request;
+    DWORD gdi_before = 0, gdi_after = 0;
+    std::vector<unsigned char> bgra;
+};
+// Must run on the window's owning UI thread. GDI objects remain in this process;
+// only pixels leave it. Delivery/paint success is not independent pixel evidence.
+WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& request);
+}}

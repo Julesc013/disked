@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The old window-DC GUI capture claims are retracted. Independent controls reject black pixels and invalid drawing handles. Sent and queued UI-thread hook candidates also remain unqualified, although direct loading in the control succeeds. Run 129 retains nine verified archive entries and owned cleanup with zero backing-file growth. A replacement capture method needs an independently verified pixel-origin proof before another product campaign. DE-W106 comparator preparation may proceed independently; its W105 prerequisite, admission and main integration remain open. The original 0.1.0 scope and owner/release gates are unchanged. See the [latest control review](.aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-ninth-review.json).
+Status: DE-W105 remains active. The new cooperative owning-thread client control passes exact two-phase RGB, eleven scope/transition refusals, blank/stale rejection, hung-paint timeout and supervisor-handle-loss retirement in the capped guest. The primitive is not linked into DiskEd; product transport/child rendering, six product PNGs, full current qualification and main integration remain open. Old window-DC evidence stays retracted and hook candidates stay closed. DE-W106 preparation and the original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [control review](.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md).
 
 ## Storage recovery
 
@@ -49,6 +49,11 @@ Status: DE-W105 remains active. The old window-DC GUI capture claims are retract
   68 standalone headers and 14 executable/import observations. Retain the
   [first native failure](.aide/evidence/2026-10-18-ordinary-worker/full-build-review.json)
   separately from the passing build.
+- [x] Prove the separate cooperative owning-thread client control: exact A/B RGB,
+  eleven identity/transition refusals, blank/stale rejection and bounded hung/
+  controller-handle-loss retirement. All 16 native calls and owned cleanup pass;
+  the verified raw archive is 8 KiB. [Evidence](.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md).
+  Product linkage, child rendering, six product cases and full qualification remain open.
 - [ ] Complete the current x64 product/180-group native test gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test

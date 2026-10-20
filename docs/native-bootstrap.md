@@ -718,7 +718,7 @@ contracts remain proposed/planned while discovery reports this prototype's
 implemented subset. Full case custody/before-after coverage, physical storage,
 other platforms, owner acceptance and full DE-W034 remain separate.
 
-The shared GUI capture helper now uses owned-window redraw and measured client
+The legacy GUI capture helper implements owned-window redraw and measured client
 RGB content to reject a frame-only false positive. Visible button-caption
 interior checks reject partial caption paint as well. Exact retained images and
 actual inventory/review/minimum-window checks are part of
@@ -752,6 +752,15 @@ test ran; owned process/source/media/account cleanup completed. No main promotio
 follows. A replacement needs a small independently specified pixel-origin preflight
 before another product/full campaign. Six named PNGs and consistent receipts
 remain necessary but are insufficient by themselves.
+
+The replacement [cooperative control](../.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md)
+now passes on that guest: exact two-phase client RGB, eleven identity/geometry
+refusals, blank/stale-frame rejection, a three-second hung-paint deadline and
+supervisor-handle-loss retirement. It uses a memory DC inside the owning UI
+thread, with query-only job handles transferred before launch. Both retained
+PNGs were inspected. The primitive is not linked into DiskEd; child-control
+rendering, product transport, the six product cases and full qualification remain
+open. This control pass does not reinstate the invalidated desktop-DC evidence.
 
 The private acquired-image verifier adds a read-only current-byte observation
 under DE-W034. It independently checks the explicit original plan, canonical map

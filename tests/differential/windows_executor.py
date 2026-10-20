@@ -19,13 +19,16 @@ def ordinary(path):
 
 
 class WindowsFileExecutor:
-    def __init__(self, worker, environment, new_job, retire_job):
+    def __init__(self, worker, environment, new_job, retire_job, *, payload_builder=None):
         self.worker, self.environment = worker, dict(environment)
         self.new_job, self.retire_job = new_job, retire_job
         self.observations = []
         self.active_job = self.child = None
         self.poisoned = False
         self.calls = 0
+        # Trusted coordinator code only, never selected by input/collector data.
+        # It may transfer a bounded capability to the assigned, suspended child.
+        self.payload_builder = payload_builder
 
     def __call__(self, *, argv, cwd, payload, timeout, output_limit):
         if self.poisoned or self.active_job is not None:
@@ -50,7 +53,24 @@ class WindowsFileExecutor:
         paths = dict(stdin=request)
         try:
             self.active_job = self.new_job()
-            self.child = self.worker.launch(argv, self.environment, self.active_job, variant='basic-raw-stdio', raw_input=request, cwd=cwd)
+            options = {}
+            if self.payload_builder is not None:
+                if not callable(self.payload_builder):raise ValueError('Invalid trusted payload builder')
+                def prepare(process):
+                    nonlocal body
+                    identity = self.worker.file_identity(request)
+                    prepared = self.payload_builder(process, self.active_job)
+                    if type(prepared) is not bytes or len(prepared) > 2097152:
+                        raise ValueError('Suspended-child payload must be bounded bytes')
+                    ordinary(request)
+                    if self.worker.file_identity(request) != identity:raise ValueError('Pre-resume stdin identity changed')
+                    with request.open('r+b') as stream:stream.write(prepared);stream.truncate()
+                    if self.worker.file_identity(request) != identity:raise ValueError('Pre-resume stdin replaced')
+                    body = prepared
+                    row.update(stdin_bytes=len(body), stdin_sha256=hashlib.sha256(body).hexdigest())
+                options['before_resume'] = prepare
+            self.child = self.worker.launch(argv, self.environment, self.active_job, variant='basic-raw-stdio', raw_input=request, cwd=cwd, **options)
+            row['process_id'] = self.child.pid
             paths = dict(self.worker.raw_paths)
             row['launch'] = self.worker.last_launch
             while True:

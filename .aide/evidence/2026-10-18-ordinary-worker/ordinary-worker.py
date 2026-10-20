@@ -272,8 +272,10 @@ class Worker:
         finally:self.k.LocalFree(user)
         return dict(restricting_sids=[self.user_sid,logon_sid],scope='Fresh account and its actual logon session only')
 
-    def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False, raw_input=None, cwd=None):
+    def launch(self, command, env, job, *, variant='basic-stdio', diagnostic_original=False, raw_input=None, cwd=None, before_resume=None):
         self.last_launch=None
+        if before_resume is not None and (variant!='basic-raw-stdio' or not callable(before_resume)):
+            raise ValueError('Suspended-child setup requires a trusted callable and raw stdio')
         if variant not in ('handles','ex-empty','basic-empty','basic-null','basic-default','basic-stdio','basic-detached','basic-raw-stdio'):
             raise ValueError('Unknown finite launch experiment variant')
         working=self.work if cwd is None else self.base.plain_directory(cwd)
@@ -403,6 +405,9 @@ class Worker:
                 finally:k.CloseHandle(child_token)
             else:self.last_launch['child_token_open_error']=C.get_last_error()
             self.require(job.api.AssignProcessToJobObject(job.handle, process.process))
+            if before_resume is not None:
+                before_resume(process)
+                self.last_launch['pre_resume_hook_completed']=True
             if k.ResumeThread(process.thread) == 0xffffffff:
                 raise C.WinError(C.get_last_error())
             child = b.Child(k, process.process, process.pid)

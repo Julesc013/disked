@@ -75,6 +75,9 @@ RETIRE_ACTOR=r'''
 
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
+    cooperative='--cooperative-capture-proof' in sys.argv
+    if cooperative and any(option not in ('--cooperative-capture-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+        raise ValueError('Cooperative capture accepts only its32MiB noninteractive preparation/cleanup controls')
     cleanup_only='--cleanup-only' in sys.argv
     null_proof='--null-proof' in sys.argv
     powershell_proof='--powershell-proof' in sys.argv
@@ -117,10 +120,11 @@ def main():
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
-    if (native_port or native_probe) and '--prepare-only' not in sys.argv and not cleanup_only:
+    if (native_port or native_probe or cooperative) and '--prepare-only' not in sys.argv and not cleanup_only:
         context=json.loads((ROOT/'.aide-local/context/current/manifest.json').read_bytes())
         revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-        if context['work_id']!='DE-W106' or context['git_head']!=revision:raise ValueError('Exact DE-W106 context required for native port proof')
+        required='DE-W105' if cooperative else 'DE-W106'
+        if context['work_id']!=required or context['git_head']!=revision:raise ValueError('Exact '+required+' context required for native proof')
         if not all(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()==row['sha256'].removeprefix('sha256:') for row in context['files']):
             raise ValueError('Native port context inputs changed')
     stage=work/'ordinary-proof';stage.mkdir()
@@ -164,7 +168,7 @@ def main():
         if not full_native:shutil.copyfile(HERE/'ui-probe.py',stage/'ui-probe.py')
     native='--native-journey' in sys.argv
     port_files=('native-port.py','native-port.cpp','windows_executor.py')
-    if native_port or native_probe:
+    if native_port or native_probe or cooperative:
         origin=HERE.parent/'2026-10-20-differential-evidence'
         for name in port_files:
             source=ROOT/'tests/differential/windows_executor.py' if name=='windows_executor.py' else origin/name
@@ -178,6 +182,15 @@ def main():
         definition=importlib.util.spec_from_file_location('probe_sources',source);probes=importlib.util.module_from_spec(definition);definition.loader.exec_module(probes)
         probe_files=('native-probes.py',)+probes.PROBE_FILES
         for path in probes.PROBE_FILES:
+            target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
+    capture_files=()
+    if cooperative:
+        source=HERE.parent/'2026-10-21-cooperative-capture/control.py'
+        data=source.read_bytes();ast.parse(data);(stage/'cooperative-control.py').write_bytes(data)
+        definition=importlib.util.spec_from_file_location('cooperative_sources',source);capture=importlib.util.module_from_spec(definition);definition.loader.exec_module(capture)
+        capture_files=('cooperative-control.py','pixel-origin.py','owned-window.py')+capture.FILES
+        for name in ('pixel-origin.py','owned-window.py'):(stage/name).write_bytes((HERE/name).read_bytes())
+        for path in capture.FILES:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     native_files=('source/platform/windows/worker_files.h','source/runtime/command/json.h','source/runtime/command/json.cpp','source/portable/hash/sha256.h','source/portable/hash/sha256.cpp','source/providers/image/local_file.h','source/providers/image/local_file.cpp')
     if native:
@@ -209,14 +222,15 @@ def main():
     forensic='--loader-forensics' in sys.argv
     namespace='--namespace-diagnostic' in sys.argv
     crypto_full='--crypto-full' in sys.argv
-    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native or native_memory or native_port or native_probe
+    crypto='--crypto-device' in sys.argv or crypto_full or native or full_native or native_memory or native_port or native_probe or cooperative
     if crypto:expected['crypto_device']=json.loads((HERE/'crypto-device-expectations.json').read_bytes())
     if crypto_full:expected['crypto_full']=json.loads((HERE/'crypto-full-expectations.json').read_bytes())
     if size==512:expected['composition_proof']=json.loads((HERE/'composition512-expectations.json').read_bytes())
     if native:expected['native_journey']=json.loads((HERE/'native-journey-expectations.json').read_bytes())
     if native_memory:expected['native_memory']=json.loads((HERE/'memory-journey-expectations.json').read_bytes())
-    if native_port or native_probe:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
+    if native_port or native_probe or cooperative:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
+    if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/'2026-10-21-cooperative-capture/expected.json').read_bytes())
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
@@ -317,7 +331,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -359,11 +373,15 @@ def main():
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in selected)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
-    if native_port or native_probe:
+    if native_port or native_probe or cooperative:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'}," for name in port_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
     if native_probe:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in probe_files)
+        host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
+        host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
+    if cooperative:
+        rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in capture_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
     if full_native:
@@ -435,8 +453,8 @@ def main():
     else:
         host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
-    if full_native or native_probe:
-        archive_limit='1MB' if native_probe else '32MB'
+    if full_native or native_probe or cooperative:
+        archive_limit='1MB' if native_probe or cooperative else '32MB'
         host=once(host,"    $result.host_backing_end_bytes=", "    $retained=Invoke-Command -Session $session -ScriptBlock { $p='C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz';if(Test-Path -LiteralPath $p){$f=Get-Item -LiteralPath $p;if($f.Length-gt"+archive_limit+"-or($f.Attributes-band[IO.FileAttributes]::ReparsePoint)){throw 'Invalid retained archive.'};$true}else{$false}}\n    if($retained){Copy-Item -FromSession $session -LiteralPath 'C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz' -Destination (Join-Path $PSScriptRoot 'retained.tar.xz')}\n    $result.host_backing_end_bytes=")
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
@@ -453,7 +471,7 @@ def main():
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
     if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\stop-ready.json","$root\stop-request.json","$root\stop-acknowledged.json","$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
-    if native_probe:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
+    if native_probe or cooperative:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
     if interactive_ui:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\interactive-input.xml","$root\interactive-result.json",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
@@ -494,6 +512,12 @@ def main():
         if (stage/'retained.tar.xz').exists():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
             if digest!=proof.get('archive_sha256'):raise ValueError('Native probe archive transfer hash mismatch')
+            shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
+    if cooperative:
+        result['experiment_kind']='Current32MiB baseline/raw-port controls plus cooperative owned-client repaint preflight;not product capture or method admission'
+        if (stage/'retained.tar.xz').exists():
+            digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
+            if digest!=proof.get('archive_sha256'):raise ValueError('Cooperative archive transfer hash mismatch')
             shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
     if full_native:
         result['experiment_kind']='Current exact-source x64 native campaign in proven512MiB ordinary guest; final W105 review remains separate'
