@@ -55,12 +55,15 @@ def main():
     bind(u,'KillTimer',T.BOOL,T.HWND,C.c_size_t)
     bind(u,'RegisterWindowMessageW',T.UINT,T.LPCWSTR)
     bind(u,'SetPropW',T.BOOL,T.HWND,T.LPCWSTR,T.HANDLE)
+    bind(u,'RemovePropW',T.HANDLE,T.HWND,T.LPCWSTR)
     bind(u,'SetThreadDpiAwarenessContext',T.HANDLE,T.HANDLE)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId());dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     desktop,full_name=fixture.owned_desktop();checked(u.SetThreadDesktop(desktop))
     phase=0;ready=threading.Event();report=dict(phases=[],paint_calls=[],display_dc_read=False,desktop_switched=False)
     hwnd=None;runner=None;atom=None;instance=k.GetModuleHandleW(None)
     fixture_message=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture/1'))
+    load_message=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture.LoadDiagnostic/1'))
+    diagnostic_modules=[]
 
     def draw(dc,message):
         success=0;errors=[]
@@ -88,6 +91,18 @@ def main():
     def procedure(window,message,wp,lp):
         nonlocal phase
         try:
+            if message==load_message:
+                # Failure diagnosis only: do not render,retry,or grant a pass.
+                path=Path(os.environ['DISKED_PIXEL_RENDER_DLL']);row=dict(pid=os.getpid(),thread=k.GetCurrentThreadId())
+                try:
+                    if hashlib.sha256(path.read_bytes()).hexdigest()!=os.environ['DISKED_PIXEL_RENDER_SHA256']:
+                        raise ValueError('Diagnostic fixture hash differs')
+                    diagnostic_modules.append(C.WinDLL(str(path),winmode=0x1100,use_last_error=True))
+                    row.update(loaded=True,error=0)
+                except OSError as error:row.update(loaded=False,error=error.winerror)
+                (Path(os.environ['TEMP'])/'pixel-load.json').write_text(json.dumps(row)+'\n',encoding='utf-8',newline='\n')
+                checked(u.SetPropW(window,'DiskEd.PixelFixture.DirectLoad',T.HANDLE(1 if row['loaded'] else row['error']+65536)))
+                return 0
             if message==fixture_message:
                 checked(u.SetPropW(window,'DiskEd.PixelFixture.ModuleLoaded',
                     T.HANDLE(1 if k.GetModuleHandleW('pixel-render.dll') else 2)))
@@ -104,7 +119,10 @@ def main():
             if message==0x113:
                 report['error']='Control deadline';u.DestroyWindow(window);return 0
             if message==0x10:u.DestroyWindow(window);return 0
-            if message==2:u.PostQuitMessage(0);return 0
+            if message==2:
+                for key in ('HookMessage','Request','Stage','MapError','ModuleLoaded','DirectLoad'):
+                    u.RemovePropW(window,'DiskEd.PixelFixture.'+key)
+                u.PostQuitMessage(0);return 0
             return u.DefWindowProcW(window,message,wp,lp)
         except BaseException as error:
             report['error']=repr(error);u.PostQuitMessage(1);ready.set();return 0

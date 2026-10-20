@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "4c0435ebffe3c2d2a7a20a5c8a50cc1293bb1458",
+  "base_revision": "bbdc958fd41dfb0b85a02cdfc5c6e59cdab832be",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -122,6 +122,10 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.tar.xz",
@@ -225,7 +229,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 active. Run125 at4c0435eb creates the unnamed section,transfers its handle,installs the exact-thread hook and delivers its request,but renderer completion is unobserved(status/PID/thread0). All8 archive entries and owned cleanup verify,zero backing growth. Control-only diagnostics now identify module presence,hook entry and mapping stage/error;RGB and isolation requirements remain unchanged. Pixel origin,actual product GUI and full native qualification remain pending.",
+  "summary": "DE-W105 active. Run126 atbbdc958f confirms the hook DLL is absent in the control when its request arrives;no renderer callback or pixels are established. All8 archive entry hashes and owned cleanup verify,zero backing growth. The next failure-only diagnostic directly hashes/loads the fixture in that control UI thread and records its actual loader outcome;it cannot render,retry or grant a pass. Affected pixel tests and metadata checks pass;native qualification remains pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -842,6 +846,19 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fifth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/tools -p test_pixel_origin.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0
     }
   ],
   "artifacts": [
@@ -1622,6 +1639,22 @@
       "sha256": "sha256:252d9a82966af6f91f096ca535371d2d19fe8d098762634141b28ecb4fec8686"
     },
     {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-cleanup.json",
+      "sha256": "sha256:844e7824800f1573f93371499248152452fc65f4a764549120fe192004d98a59"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.json.xz",
+      "sha256": "sha256:25593bd45d94bc9db6b688a15922f6173dee829adde65eb93c81cf77186589bc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.tar.xz",
+      "sha256": "sha256:c2d6575cfea32e7db32e147a069aab97428ba5032f31c348cf3d168d284e3200"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-review.json",
+      "sha256": "sha256:f934e4f2418ac1ace488f5c8dfc581b163aabf3310ef7afe27fdabf651d7c477"
+    },
+    {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-cleanup.json",
       "sha256": "sha256:9b882b0d5846373b9fb206f696df9d6b9cc16c71c0e5a625bdd608ecbf0db758"
     },
@@ -1655,15 +1688,15 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:26d9912b0e36d070a0a80ab530bbd3b216041c30346f05ce7c87633559f46b18"
+      "sha256": "sha256:a896c78036d5a8c20f50881e7cba4e4943ecacc7cc6b1c03fe7fd44b058b878f"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-      "sha256": "sha256:8508ccc84abe9611ad2b81cd87de1f174d6dec569e4308f9a4ad697e9805f44e"
+      "sha256": "sha256:25dcc3a07663a7e55ab7bce1dbb1e9cf41074b0c468f64cdbe9bd89ba96577df"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-      "sha256": "sha256:fe1160221548bc5134afec1e14d24c0fd8bcd85479f7eab20cd868d2fd773c60"
+      "sha256": "sha256:3e8a29fc8fe6c577ee16c834c5ed00508b3d8074ad6db69ce96d2c2e3da5186c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-render.c",
@@ -1671,7 +1704,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
-      "sha256": "sha256:c118b38f3e240484b20a8e185166c38e6467e5e9ad81fb6726f9f33bd4b6db64"
+      "sha256": "sha256:7d919e341704bb7a30b768163b19173fc1121dc2020dbda339cbc00608e05b43"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
@@ -1946,6 +1979,6 @@
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Run the exact-source small pixel preflight with owned control callback/module diagnostics. Use the observed failure boundary to repair the fixture;do not infer successful rendering from hook/message API returns. Require unchanged full RGB A/B checks,actual image review,wrong-surface rejection and owned cleanup before product capture admission.",
+  "next_safe_step": "Run the small exact-source preflight to collect the failure-only control UI-thread loader result. Repair the observed loader boundary without changing product permissions or pixel expectations. Retain full RGB A/B,wrong-surface rejection,actual visual review,pinned identities and owned cleanup as admission gates;main stays unchanged.",
   "performed_remote_writes": true
 }

@@ -107,6 +107,9 @@ class Broker(boundary.Broker):
             line,separator,body=body.partition(b'\n')
             if not separator or line.rstrip(b'\r')!=warning:raise ValueError('Unexpected Python startup prefix')
         if code:
+            diagnostic=self.temp/'pixel-load.json'
+            if diagnostic.exists():
+                self.archive.writestr('pixel-origin/direct-load.json',self._read_owned(diagnostic,4096))
             if body.startswith(b'Traceback') and len(body)<=4096:
                 self.archive.writestr('pixel-origin/producer-'+str(len(self.observations))+'-stderr.log',body)
             raise RuntimeError('Ordinary print helper exited '+str(code))

@@ -94,10 +94,13 @@ def capture(window,pid,desktop):
         if observed[:9]!=frame.unpack(prefix)[:9]:raise ValueError('Render header identity changed')
         status,render_error,renderer_pid,renderer_thread=observed[9:]
         if not printed or status!=2 or render_error or (renderer_pid,renderer_thread)!=(pid,thread):
+            load_message=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture.LoadDiagnostic/1'))
+            direct=bool(u.SendMessageTimeoutW(window,load_message,0,0,2,3000,C.byref(answer)))
             diagnostic={key:u.GetPropW(window,'DiskEd.PixelFixture.'+key) for key in
-                        ('HookMessage','Request','Stage','MapError','ModuleLoaded')}
+                        ('HookMessage','Request','Stage','MapError','ModuleLoaded','DirectLoad')}
             diagnostic.update(request=request,printed=printed,error=error,status=status,
-                              render_error=render_error,renderer_pid=renderer_pid,renderer_thread=renderer_thread)
+                              render_error=render_error,renderer_pid=renderer_pid,renderer_thread=renderer_thread,
+                              direct_diagnostic_delivered=direct)
             raise RuntimeError('Owned UI-thread render failed: '+repr(diagnostic))
         body=C.string_at(view+96,92160)
         after=T.RECT();after_pid=T.DWORD()

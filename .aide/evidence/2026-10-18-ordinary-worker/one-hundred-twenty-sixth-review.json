@@ -1,0 +1,53 @@
+{
+  "status": "hook_module_absent_in_control",
+  "source_revision": "bbdc958fd41dfb0b85a02cdfc5c6e59cdab832be",
+  "finding": "The control receives the request and reports ModuleLoaded2(absent). HookMessage/Request/Stage/MapError are absent;renderer status/PID/thread remain0. Automatic hook DLL loading is not established. The exact reason remains unresolved;next bounded diagnostic directly hashes/loads the same fixture inside the control UI thread and records its actual loader outcome,without rendering or converting this failure to a pass.",
+  "fixture": {
+    "source_sha256": "e2b56fc667e08942bbf5808fe46f33800b2ec53e44ac185c5cd250bc940299a6",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "abf1079255ca4d012e4c858194cac921b01a2b59d5494511813b908107f2d1f6",
+    "dll_bytes": 95744,
+    "imports_observation_sha256": "8ceaab45e445a45440d6aa08b737fd82f98874b81a872749c11441975adf28fd",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1127)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    }
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "84a5551c16c3b30b0824403f8bd0e073",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 13166,
+  "compressed_bytes": 3812,
+  "archive_sha256": "c2d6575cfea32e7db32e147a069aab97428ba5032f31c348cf3d168d284e3200",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.json.xz",
+    "uncompressed_sha256": "ea2292a321c77915451845cbe0c1a476eb71c04197b8bb12448275082f9dbc4d",
+    "compressed_sha256": "25593bd45d94bc9db6b688a15922f6173dee829adde65eb93c81cf77186589bc"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}
