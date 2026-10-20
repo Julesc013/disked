@@ -44,8 +44,13 @@ static void render(const CWPSTRUCT *message)
         return;
     section = (HANDLE)message->wParam;
     if (!section) return;
+    SetPropW(message->hwnd, L"DiskEd.PixelFixture.Stage", (HANDLE)1);
     frame = (Frame *)MapViewOfFile(section, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 96 + 92160);
-    if (!frame) goto done;
+    if (!frame) {
+        SetPropW(message->hwnd, L"DiskEd.PixelFixture.MapError", (HANDLE)(UINT_PTR)GetLastError());
+        goto done;
+    }
+    SetPropW(message->hwnd, L"DiskEd.PixelFixture.Stage", (HANDLE)2);
     if (frame->magic != 0x50454444 || frame->version != 1 ||
         frame->window != (uint64_t)(UINT_PTR)message->hwnd || frame->pid != pid ||
         frame->width != 240 || frame->height != 96 || frame->bytes != 92160 ||
@@ -53,6 +58,7 @@ static void render(const CWPSTRUCT *message)
         InterlockedCompareExchange(&frame->status, 1, 0) != 0)
         goto done;
     owned_section = TRUE;
+    SetPropW(message->hwnd, L"DiskEd.PixelFixture.Stage", (HANDLE)3);
     frame->renderer_pid = GetCurrentProcessId();
     frame->renderer_thread = GetCurrentThreadId();
     dc = CreateCompatibleDC(NULL);
@@ -91,7 +97,15 @@ __declspec(dllexport) LRESULT CALLBACK OwnedPixelHook(int code, WPARAM wp, LPARA
     /* No User32 work from DllMain. All non-fixture messages pass unchanged. */
     if (code >= 0 && lp) {
         const CWPSTRUCT *message = (const CWPSTRUCT *)lp;
+        wchar_t name[64];
+        DWORD owner = 0;
         UINT request = RegisterWindowMessageW(L"DiskEd.OwnedPixelFixture/1");
+        if (GetWindowThreadProcessId(message->hwnd, &owner) == GetCurrentThreadId() &&
+            owner == GetCurrentProcessId() && GetClassNameW(message->hwnd, name, 64) &&
+            wcscmp(name, L"DiskEdPixelOriginControl") == 0) {
+            SetPropW(message->hwnd, L"DiskEd.PixelFixture.HookMessage", (HANDLE)(UINT_PTR)message->message);
+            SetPropW(message->hwnd, L"DiskEd.PixelFixture.Request", (HANDLE)(UINT_PTR)request);
+        }
         if (request && message->message == request) render(message);
     }
     return CallNextHookEx(NULL, code, wp, lp);

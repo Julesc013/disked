@@ -53,11 +53,14 @@ def main():
     bind(u,'PostQuitMessage',None,C.c_int)
     bind(u,'SetTimer',C.c_size_t,T.HWND,C.c_size_t,T.UINT,T.LPVOID)
     bind(u,'KillTimer',T.BOOL,T.HWND,C.c_size_t)
+    bind(u,'RegisterWindowMessageW',T.UINT,T.LPCWSTR)
+    bind(u,'SetPropW',T.BOOL,T.HWND,T.LPCWSTR,T.HANDLE)
     bind(u,'SetThreadDpiAwarenessContext',T.HANDLE,T.HANDLE)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId());dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     desktop,full_name=fixture.owned_desktop();checked(u.SetThreadDesktop(desktop))
     phase=0;ready=threading.Event();report=dict(phases=[],paint_calls=[],display_dc_read=False,desktop_switched=False)
     hwnd=None;runner=None;atom=None;instance=k.GetModuleHandleW(None)
+    fixture_message=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture/1'))
 
     def draw(dc,message):
         success=0;errors=[]
@@ -85,6 +88,10 @@ def main():
     def procedure(window,message,wp,lp):
         nonlocal phase
         try:
+            if message==fixture_message:
+                checked(u.SetPropW(window,'DiskEd.PixelFixture.ModuleLoaded',
+                    T.HANDLE(1 if k.GetModuleHandleW('pixel-render.dll') else 2)))
+                return 0
             if message==0x8001:
                 if wp not in (0,1):raise ValueError('Invalid phase')
                 phase=wp;checked(u.RedrawWindow(window,None,None,0x185));ready.set();return 0

@@ -1,0 +1,53 @@
+{
+  "status": "renderer_callback_completion_unobserved",
+  "source_revision": "4c0435ebffe3c2d2a7a20a5c8a50cc1293bb1458",
+  "finding": "The unnamed section,exact-process handle transfer,hook installation and bounded message return succeed,but renderer status/PID/thread remain0 and no paint receipt is observed. This does not establish why the callback did not complete. Add control-only module/callback/mapping diagnostics without weakening pixel or isolation checks.",
+  "fixture": {
+    "source_sha256": "54ad059b8c8747cd38c451c76196dbc8776890745b44f3fcfacb3493b829a92d",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "d2785758dfb3ecb71d215936e6bd5a09d572ff28d7ab29a4fa84909259eb3747",
+    "dll_bytes": 94720,
+    "imports_observation_sha256": "dc0609d1be009359cf42ccd102191a6e6673f25ccf0a09cc9a8b45c870e3b1e4",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1126)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    }
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "7abe86031903ad33ba6a564a57984bcd",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 12991,
+  "compressed_bytes": 3752,
+  "archive_sha256": "0bd47bd150c42215d81dad00cfb9b493b19e4f7a8c2f8001d93c1f3647646125",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-fifth-callback-unobserved.json.xz",
+    "uncompressed_sha256": "e39a31c2bb125616a8e6043500cc01bacfdf115fbaa489f3fa2e1a3a32652f93",
+    "compressed_sha256": "50b0d6d5e0b1f78615b3b34ad2290836ccc3ccac0d7958af18cb9375594dd977"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

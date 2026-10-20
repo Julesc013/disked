@@ -47,6 +47,7 @@ def capture(window,pid,desktop):
     bind(u,'RegisterWindowMessageW',T.UINT,T.LPCWSTR)
     bind(u,'SetWindowsHookExW',T.HANDLE,C.c_int,T.LPVOID,T.HANDLE,T.DWORD)
     bind(u,'UnhookWindowsHookEx',T.BOOL,T.HANDLE)
+    bind(u,'GetPropW',T.HANDLE,T.HWND,T.LPCWSTR)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId())
     dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     target=checked(u.OpenDesktopW(desktop,0,False,0xf01ff))
@@ -93,7 +94,11 @@ def capture(window,pid,desktop):
         if observed[:9]!=frame.unpack(prefix)[:9]:raise ValueError('Render header identity changed')
         status,render_error,renderer_pid,renderer_thread=observed[9:]
         if not printed or status!=2 or render_error or (renderer_pid,renderer_thread)!=(pid,thread):
-            raise RuntimeError('Owned UI-thread render failed: '+repr((printed,error,status,render_error,renderer_pid,renderer_thread)))
+            diagnostic={key:u.GetPropW(window,'DiskEd.PixelFixture.'+key) for key in
+                        ('HookMessage','Request','Stage','MapError','ModuleLoaded')}
+            diagnostic.update(request=request,printed=printed,error=error,status=status,
+                              render_error=render_error,renderer_pid=renderer_pid,renderer_thread=renderer_thread)
+            raise RuntimeError('Owned UI-thread render failed: '+repr(diagnostic))
         body=C.string_at(view+96,92160)
         after=T.RECT();after_pid=T.DWORD()
         checked(u.GetWindowRect(window,C.byref(after)));checked(u.GetWindowThreadProcessId(window,C.byref(after_pid)))
