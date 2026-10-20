@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import struct
 import sys
+import time
 import zlib
 
 HERE=Path(__file__).resolve().parent
@@ -41,9 +42,10 @@ def png(rgb):
 class Broker(boundary.Broker):
     method=METHOD
 
-    def __init__(self,worker,fixtures,image,env,archive,*,expected_sha256):
+    def __init__(self,worker,fixtures,image,env,archive,*,expected_sha256,retire_job,check):
         self.challenge=os.urandom(16);self.expected=[expected_rgb(self.challenge,p) for p in (0,1)]
         self.observations=[];self.archive=archive
+        self.retire_job,self.check=retire_job,check;self.producer_job=None;self.producer_retirements=[]
         if self.expected[0]==self.expected[1] or any(value==bytes(69120) for value in self.expected):
             raise ValueError('Degenerate predeclared challenge')
         env['DISKED_PIXEL_CHALLENGE']=self.challenge.hex()
@@ -67,11 +69,20 @@ class Broker(boundary.Broker):
 
     def _producer(self,value,job):
         if job is None:raise ValueError('Owned job required for producer')
-        child=self.worker.launch([sys.executable,'-B',str(HERE/'pixel-print.py'),str(value['window']),
-                                  str(value['pid']),value['desktop']],self.producer_env,job,variant='basic-stdio')
-        self.last_producer_pid=child.pid;log=self.worker.log_path
-        try:code=child.wait(timeout=10)
-        finally:child.close()
+        self.check();self.producer_job=type(job)();child=None
+        try:
+            child=self.worker.launch([sys.executable,'-B',str(HERE/'pixel-print.py'),str(value['window']),
+                                      str(value['pid']),value['desktop']],self.producer_env,self.producer_job,variant='basic-stdio')
+            self.last_producer_pid=child.pid;log=self.worker.log_path;until=time.monotonic()+10
+            while child.poll() is None:
+                self.check()
+                if time.monotonic()>until:raise TimeoutError('Owned control producer deadline')
+                time.sleep(.2)
+            code=child.wait(timeout=1)
+        finally:
+            try:self._retire_producer()
+            finally:
+                if child:child.close()
         body=self._read_owned(log,98304)
         self.last_producer_log=body
         warning=('Failed to find real location of '+sys.executable).encode()
@@ -83,6 +94,15 @@ class Broker(boundary.Broker):
                 self.archive.writestr('pixel-origin/producer-'+str(len(self.observations))+'-stderr.log',body)
             raise RuntimeError('Ordinary print helper exited '+str(code))
         return body
+
+    def _retire_producer(self):
+        if self.producer_job is not None:
+            self.producer_retirements.append(self.retire_job(self.producer_job))
+            self.producer_job=None
+
+    def finish(self,*,quiescent):
+        self._retire_producer()
+        return super().finish(quiescent=quiescent)
 
     def _read_pixels(self,value,job=None):
         phase=len(self.observations)
@@ -126,5 +146,7 @@ class Broker(boundary.Broker):
                     passed=len(self.observations)==2 and all(r.get('exact_all_pixels') and
                         r.get('execution_succeeded') and r.get('stale_other_phase_rejected') and
                         r.get('zero_surface_rejected') for r in self.observations),
-                    producer_profile='ordinary restricted actor in the same owned job',
+                    producer_profile='Same restricted actor,separate owned producer job in the same campaign',
+                    producer_job_retirements=self.producer_retirements,
+                    producer_jobs_retired=self.producer_job is None,
                     display_dc_read=False,desktop_switched=False,capture_qualified=False)

@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "b489512a2a02caf3680f17111d5678733bf0d662",
+  "base_revision": "8de952f7d1db5565232a7e10cb268b45cac8c1fc",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -197,9 +197,13 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.tar.xz",
-    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json"
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json"
   ],
-  "summary": "DE-W105 active. Run119 atb489512a rejects23040 all-black pixels even though PrintWindow reports success;its8 entry hashes/owned cleanup verify,zero backing growth. The next candidate runs the producer through the same restricted actor/job as the control and verifies its actual token. All209 tooling tests pass(1 skip),including unknown-surface image/log nonretention. The original invalidated capture route remains disabled;no product/full build,main promotion or visual admission is claimed.",
+  "summary": "DE-W105 active. Strict control run119 rejects all-black PrintWindow output;run120 then refuses sibling job assignment before rendering. Both retain verified compact evidence and owned cleanup,zero backing growth. The candidate reuses a fresh explicitly owned producer job under the same restricted actor;all209 tooling tests pass(1 skip). Independent phaseA/B pixels and producer retirement still need native proof. Legacy capture remains disabled;no product/full rebuild,main promotion or visual admission is claimed.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -767,6 +771,13 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json"
     }
   ],
   "artifacts": [
@@ -1348,7 +1359,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:72ea8ad01977190ac425c4efdb1c7363a0e13770b4feb8d425d4fbc137aa495d"
+      "sha256": "sha256:803ebc5c8fda5b58769912f02dddc7292fda6cb4811ddb7871e479d19c7d089b"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1608,7 +1619,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:4835d69b7d369addae23756d4d915d2c420a855b8654da775645af6d343ead3c"
+      "sha256": "sha256:ea74b494675f1e584ea84c1010dac0e756295ccc61ce7ceaab601dc87fc5066c"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-fourteenth-review.json",
@@ -1712,7 +1723,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:18bff726a4852c981ad14c41ef8aedf75ba6fdc35e2d98637f5d491d95c9cef1"
+      "sha256": "sha256:68b705783bc1b78146a99d6d133fc307b6c1901a005e586ed664e0bc362a1a9e"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighteenth-cleanup.json",
@@ -1740,7 +1751,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-      "sha256": "sha256:6564a6acb971720926e6fd7f3b9a2f0b62ad9aa5e28eeff80f1953eeab3520f6"
+      "sha256": "sha256:9eec4fc185409d57236d1ae9f18cc16503b0bad79bad943a8f9f9971445a7792"
     },
     {
       "path": "tests/tools/test_pixel_origin.py",
@@ -1765,12 +1776,28 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-review.json",
       "sha256": "sha256:91d55597480934bf064e79814ed302cb6ab293401bf59b3ed80633a17cc09173"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-cleanup.json",
+      "sha256": "sha256:810af8a097d2c1497d8ece6c62356bb8acd44e4513944d5f93d108346e40bc30"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.json.xz",
+      "sha256": "sha256:36d40b3b520cee6d9d42f6ec6e7619c19a207a91f19abdc7dc92cb40f2da15f3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-producer-launch-failure.tar.xz",
+      "sha256": "sha256:e0cf216ce565b4133f9fe851b24eef07ca529d8c075be7851f3127bec89d670c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twentieth-review.json",
+      "sha256": "sha256:d9e191e87fb734dadc82653e8375916ada761986a1bc60be11fdd473d65cf74a"
     }
   ],
   "blockers": [
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Commit and run the ordinary-actor pixel-origin control candidate through campaign.py --pixel-origin-proof --interactive-ui with a fresh exact context. Run119 atb489512a returned black pixels despite PrintWindow success and was correctly rejected;all8 entry hashes and owned cleanup verify,zero backing growth. The next producer runs in the same restricted actor/job as the target and must report its actual token. Require exact phaseA/B RGB,wrong-surface refusal,actual PNG inspection and cleanup. Unknown pixels are hash-only evidence. Legacy capture remains disabled;no product/full build or admission yet.",
+  "next_safe_step": "Commit and run the fresh-owned-producer-job pixel-origin candidate with a fresh exact W105 context. Run120 at8de952f7 was refused when adding a sibling to the active control job;zero pixel phases ran,all4 entry hashes/owned cleanup verify,zero backing growth,and a post-cleanup guest query finds0 owned control processes. The producer now uses the existing fresh-job/retirement path under the same restricted actor within one bounded campaign;no limits or permissions are raised. Require exact phaseA/B RGB,actual token/retirement receipts,wrong-surface refusal,image review and cleanup. Legacy capture remains disabled;no product/full build or admission yet.",
   "performed_remote_writes": true
 }
