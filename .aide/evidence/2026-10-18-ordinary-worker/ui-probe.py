@@ -240,15 +240,15 @@ for name in ('user32.dll', 'gdi32.dll'):
                     if not button:raise C.WinError(C.get_last_error())
                     row['printing']=printing(own,'same_process')
                 finally:u.DestroyWindow(own)
-                capture_desktop=None;expected_desktop=desktop_name();startup=None
+                capture_desktop=None;expected_desktop=desktop_name()
                 if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
                     sys.path.insert(0,str(Path(__file__).parent/'source/tests/frontend'))
                     sys.path.insert(0,str(Path(__file__).parent/'source/tests'))
                     import gui_fixture
                     capture_desktop,full_name=gui_fixture.owned_desktop()
                     expected_desktop=full_name.split('\\')[-1]
-                    startup=subprocess.STARTUPINFO();startup.lpDesktop=full_name
-                child=subprocess.Popen([sys.executable,'-B',__file__,'--gdi-window-child'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,startupinfo=startup)
+                command=[sys.executable,'-B',__file__,'--gdi-window-child']
+                child=gui_fixture.DesktopProcess(command,os.environ['TEMP'],full_name) if capture_desktop else subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
                 try:
                     line=child.stdout.readline(4097)
                     warning=('Failed to find real location of '+sys.executable).encode()
@@ -277,9 +277,13 @@ for name in ('user32.dll', 'gdi32.dll'):
                     trace=Path(os.environ['TEMP'])/('gdi-print-'+str(child.pid)+'.json')
                     row['owned_print_messages']=json.loads(trace.read_bytes()) if trace.exists() else []
                 finally:
-                    if child.poll() is None:child.terminate()
-                    child.wait(timeout=5);child.stdout.close();child.stderr.close()
-                    if capture_desktop:assert gui_fixture.U.CloseDesktop(capture_desktop)
+                    if capture_desktop:
+                        if child.poll() is None:child.kill()
+                        child.communicate(timeout=5)
+                        assert gui_fixture.U.CloseDesktop(capture_desktop)
+                    else:
+                        if child.poll() is None:child.terminate()
+                        child.wait(timeout=5);child.stdout.close();child.stderr.close()
             finally:
                 if reference:u.ReleaseDC(window,reference)
                 if window:u.DestroyWindow(window)

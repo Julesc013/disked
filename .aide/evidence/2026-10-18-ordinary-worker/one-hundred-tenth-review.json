@@ -1,0 +1,13 @@
+{
+  "status": "preflight_launcher_refused_wrong_desktop",
+  "source_revision": "aa42bccd3324b218e99fbe8cf31f4dfb4ac7aa3f",
+  "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 556, in coordinate\n    _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)\n          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 373, in run\n    if code and not allow_failure:raise RuntimeError(label+' failed: '+raw[-2048:].decode(errors='replace'))\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: ordinary-private-ui-diagnostic failed: Traceback (most recent call last):\r\n  File \"C:\\ProgramData\\DiskEd\\qualification\\ui-probe.py\", line 257, in <module>\r\n    assert owned['desktop']==expected_desktop;row['printing_desktop']=owned['desktop']\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError\r\n\n",
+  "finding": "Python subprocess.STARTUPINFO omits lpDesktop. The diagnostic child stayed on Proof instead of its marked desktop and the check refused it before capture. Use the existing gui_fixture.DesktopProcess native wrapper,which the real product fixture already uses. No descriptor permission relaxation.",
+  "owned_cleanup_verified": true,
+  "archive_entries": 11,
+  "uncompressed_bytes": 3697,
+  "compressed_bytes": 2392,
+  "archive_sha256": "dba19a32f6a3cb9e852af6ea2936f4d8db4fb95e92276e591ea9e2deb8cef8ce",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0
+}
