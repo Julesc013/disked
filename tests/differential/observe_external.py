@@ -59,6 +59,16 @@ def run(argv, cwd, timeout=8, output_limit=1024*1024):
     return result
 
 
+REFERENCE_OPTIONS = {'sfdisk-json': ('--json',), 'sfdisk-verify': ('--verify',),
+                     'sgdisk-print': ('--pretend', '--print', '--verify')}
+
+
+def reference_command(kind, executable, input_argument):
+    if kind not in REFERENCE_OPTIONS:
+        raise ValueError('Unknown reference observation kind')
+    return [str(executable), *REFERENCE_OPTIONS[kind], str(input_argument)]
+
+
 def collect(manifest, root, expected_snapshot, participant, measured_identity, sfdisk, sgdisk, execute):
     """Construct fixed read-only reference commands, never execute manifest argv."""
     from collector import collect as collect_participant
@@ -71,9 +81,9 @@ def collect(manifest, root, expected_snapshot, participant, measured_identity, s
         path = str(Path(root) / row['policy']['input_path'])
         kind = row['kind']
         if kind in ('sfdisk-json', 'sfdisk-verify'):
-            argv = [str(Path(sfdisk).absolute()), '--json' if kind == 'sfdisk-json' else '--verify', path]
+            argv = reference_command(kind, Path(sfdisk).absolute(), path)
         elif kind == 'sgdisk-print' and sgdisk is not None:
-            argv = [str(Path(sgdisk).absolute()), '--pretend', '--print', '--verify', path]
+            argv = reference_command(kind, Path(sgdisk).absolute(), path)
         else:
             raise ValueError('Unknown or unavailable reference observation kind')
         commands[row['name'], kind] = argv

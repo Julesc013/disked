@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 WORK = Path(os.environ['DISKED_WORK_ROOT'])
 DEPS = WORK / 'dependencies'
 ENV = dict(os.environ, PYTHONPATH=str(DEPS), PYTHONDONTWRITEBYTECODE='1')
-PREFIX = 'collector' if '--collectors' in sys.argv else 'bindings'
+PREFIX = 'coordinator' if '--coordinator' in sys.argv else 'collector' if '--collectors' in sys.argv else 'bindings'
 record = dict(status='running', scope=__doc__, suite=PREFIX, commands=[], base_revision=None)
 commands = [
     ['-m', 'pip', 'install', '--disable-pip-version-check', '--no-cache-dir', '--no-deps',

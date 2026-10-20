@@ -18106,6 +18106,50 @@
       "spec_ids": [
         "DE-074"
       ]
+    },
+    {
+      "id": "tests/differential/coordinator.py",
+      "path": "tests/differential/coordinator.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/collector.py",
+        "tests/differential/compare.py",
+        "tests/differential/evidence.py",
+        "tests/differential/observe_external.py",
+        "tests/corpus/partition_images.py",
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/differential/test_coordinator.py",
+      "path": "tests/differential/test_coordinator.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/coordinator.py",
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py",
+        ".aide/evidence/2026-10-20-differential-evidence/coordinator-expected.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/coordinator-expected.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/coordinator-expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
     }
   ]
 }

@@ -99,13 +99,13 @@ Status: DE-W105 remains active. The old window-DC GUI capture claims are retract
 - [ ] DE-W106, after current DE-W105 qualification: reject incomplete, duplicate
   or inconsistently identified differential evidence; migrate the old campaign
   and documentation to bounded managed output with owned cleanup.
-  Independent preparation now checks declared sets, CLI routing and finalized
-  packet bindings. Native/reference APIs emit bounded records through a supplied
-  runner, preserving raw artifacts, identities, inputs and interrupted calls.
-  All61 synthetic/offline tests pass(5 Linux-only skips). Legacy direct CLIs and
-  the obsolete WSL entrypoint remain blocked. Coordinator integration and actual
-  worker/campaign qualification remain open.
-  [Partial review](.aide/evidence/2026-10-20-differential-evidence/collector-review.json).
+  Independent preparation now connects managed packet preparation, bounded
+  collectors and finalized comparison. All 35 recipes are selected by default;
+  caller-frozen identities, tool inputs, commands and fixture facts are checked
+  before dispatch. All 77 synthetic/offline tests pass (five Linux-only skips).
+  Existing output and interrupted calls are preserved. Direct/WSL CLIs remain
+  blocked; real worker/transport, sanitizer and native qualification remain open.
+  [Partial review](.aide/evidence/2026-10-20-differential-evidence/coordinator-review.json).
 - [ ] DE-W107: four generated partition cases with exact Windows API/UI reference
   identities, independent expectations, retained disagreements and cleanup.
   Apply findings to existing provider/integration gates; REA remains optional.

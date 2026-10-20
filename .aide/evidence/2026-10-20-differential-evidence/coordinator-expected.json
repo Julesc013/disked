@@ -1,0 +1,14 @@
+{
+  "work_id": "DE-W106",
+  "base_revision": "9f8a9fba8f17c378517cbcc3865ecadbffd315b3",
+  "scope": "Managed packet preparation and coordinator integration;native/external worker admission and DE-W105 remain open",
+  "requirements": [
+    "Prepare all35 current independently authored corpus recipes by default. A named subset is explicit;unknown,duplicate or empty selections are rejected. Freeze exact case/participant/kind tuples,profiles,identities,tool commands,timeouts,outcome policies,generator and comparison-tool inputs before collection.",
+    "Use an exclusive new packet root beneath DISKED_WORK_ROOT and outside the repository. Bound artifacts and receipts;preserve existing paths and leave interrupted partial data for the owning runner's cleanup. No writes enter .aide-local.",
+    "A coordinator validates the caller-supplied frozen digest and every selected worker's measured identity and fixed commands before dispatching anyone. Missing,extra or mismatched workers fail before dispatch. Manifest data is not an executable worker configuration.",
+    "Read finalized receipts from expected managed paths,with8MiB per receipt and16MiB combined input bounds. Do not trust a worker's returned success flag. Compare complete raw evidence and gate the coordinator result on complete_success plus declared positive projection controls.",
+    "Checkpoint active and completed participants. Exceptions/interruption stop without retry,retain partial evidence and do not invent quiescence or cleanup. A failed final checkpoint cannot yield a complete coordinator receipt.",
+    "Retain valid disagreements and both GPT candidates. Required unavailable/timed-out/crashed/output-limited work never passes. Comparison success is not a sanitizer,native-product,worker,platform,owner or release qualification claim.",
+    "Exercise actual preparation,collector coordination,comparison and owned workspace cleanup using synthetic workers. Keep native tools,physical devices,installation,host elevation and obsolete WSL execution outside this preparation pass."
+  ]
+}

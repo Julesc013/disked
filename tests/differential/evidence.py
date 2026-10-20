@@ -26,6 +26,14 @@ def digest(body):
     return 'sha256:' + hashlib.sha256(body).hexdigest()
 
 
+def comparison_inputs():
+    """Exact local producer/reader inputs for coordinated packets, never paths from data."""
+    here = Path(__file__).resolve().parent
+    names = ('coordinator.py', 'collector.py', 'compare.py', 'evidence.py',
+             'projections.py', 'observe_native.py', 'observe_external.py')
+    return {'tests/differential/' + name: digest((here / name).read_bytes()) for name in names}
+
+
 class EvidenceError(ValueError):
     pass
 
@@ -172,6 +180,8 @@ def declared_inputs(manifest, root, expected_snapshot):
     """Shared declaration checks for collection and finalized packet reading."""
     require(isinstance(expected_snapshot, str) and SHA.fullmatch(expected_snapshot) and
             canonical_digest(manifest) == expected_snapshot, 'manifest_snapshot')
+    if 'comparison_inputs' in manifest:
+        require(manifest['comparison_inputs'] == comparison_inputs(), 'comparison_tool_identity')
     binding = manifest['evidence']
     require(isinstance(binding, dict) and set(binding) == {'schema', 'contract', 'generator', 'fixtures', 'participants'} and
             binding['schema'] == 'org.disked.differential-evidence/1', 'binding_schema')

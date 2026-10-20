@@ -178,8 +178,8 @@ The CLI uses `--expected-manifest-sha256` and optionally `--artifact-root` benea
 the managed workspace. A successful consistency check establishes only that the
 finalized bytes and declarations agree with the caller's snapshot. Plain hashes
 do not authenticate execution, admit the collector/worker, accept this work unit
-or qualify a product, platform, provider or release. Actual collector migration,
-qualified execution and the DE-W105 dependency remain separate gates.
+or qualify a product, platform, provider or release. Actual coordinator/worker
+qualification and the DE-W105 dependency remain separate gates.
 
 ### Coordinated collectors (private, execution qualification pending)
 
@@ -227,6 +227,58 @@ apply across participants. A supplied callback must enforce its output bound
 during execution; checking returned bytes does not establish that property.
 No native/external campaign is admitted until that worker and the coordinator's
 success/cleanup path are exercised. Legacy direct CLIs refuse before effects.
+
+### Packet preparation and comparison coordinator (private)
+
+`coordinator.prepare` writes an exclusive new packet beneath the managed work
+root. It invokes no workers. The default selection contains all 35 current corpus
+recipes. A named subset is explicit; empty, duplicate and unknown selections
+are rejected. Participant definitions supply measured identity data and explicit
+native mbr/gpt or reference sfdisk/optional-sgdisk tool paths. Original Windows
+and POSIX workspace/tool paths remain attached to their own profiles.
+
+The packet freezes each case/participant/kind, exact command, copy path, timeout
+and allowed outcome. Native calls require completion. Common projection controls
+also require completion; diagnostic and noncontrol reference calls may record
+declared refusals. Optional sgdisk selects a print/verify observation for every
+selected GPT case. Canonical fixture bytes, generator, comparison contract and
+participant identities are retained. `comparison_inputs` additionally binds the
+exact fixed local coordinator/collector/reader source set; when present, readers
+verify it against the current tools. Historical receipts remain revision-bound.
+
+The caller retains the returned canonical manifest digest before collection.
+`coordinator.run` requires that separate digest and one trusted collection port
+per declared participant. It checks every supplied identity and fixed command,
+and rechecks the selected case definitions against the current authored corpus.
+A new digest cannot relabel a subset as all cases or silently redefine the
+generator's independent fixture facts. The coordinator
+refuses existing copies/collections/coordinator output, then dispatches in native
+and sorted-reference order. Manifest data does not select executable worker code.
+Each port must return only after owned processes are terminal and its bounded
+artifacts/receipt have been transported into the expected packet-relative paths.
+Transport, current token/profile measurement, confinement and process ownership
+still require actual execution qualification; this API does not supply it.
+
+Returned success flags are ignored. The coordinator reads the expected finalized
+receipt files with 8 MiB per receipt and 16 MiB combined limits, including the
+manifest. Its result consumes the full comparator `complete_success` gate and
+requires a declared positive projection control for each participant. Complete
+disagreements and both GPT candidates remain findings. A diagnostic subset with
+no common positive control cannot qualify coordinator success.
+
+Active/completed participants are checkpointed. Exceptions or interruption stop
+without retry and preserve an unfinished participant rather than asserting
+quiescence. Reports and repeated checkpoints share a 64 MiB coordinator write
+budget, inside the existing aggregate resource limits. Failed finalization
+cannot yield a successful coordinator receipt. The outer managed runner retains
+bounded evidence and performs cleanup; the coordinator reports that cleanup is
+pending until it is actually observed.
+
+`evidence_complete` is comparison-packet consistency, not an admitted full test
+campaign. Sanitizers, native product tests, real positive controls, worker/OS
+qualification, DE-W105, owner acceptance and release gates remain separate.
+Synthetic callback tests qualify none of those environments. The historical WSL
+entrypoint remains suspended and there is no automatic host/VM fallback.
 
 ## Windows reference pilot (DE-W107, planned)
 

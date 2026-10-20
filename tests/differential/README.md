@@ -59,6 +59,22 @@ There is no admitted standalone campaign entrypoint yet. The old direct CLIs
 refuse before output or subprocess creation. The existing Linux `run` helper is
 not by itself proof of process-tree, storage or worker qualification.
 
+`coordinator.prepare` creates a new managed packet and freezes all 35 recipes by
+default, or an explicitly named subset. Supply measured participant identities
+and explicit tool paths; retain its returned manifest digest before collection.
+`coordinator.run` accepts that separate digest and trusted collection ports. It
+checks all participants before dispatch, ignores returned success flags, and
+reads bounded receipts from their expected paths. Final success requires the
+complete comparator gate and declared positive controls. See the
+[coordinator contract](CONTRACT.md#packet-preparation-and-comparison-coordinator-private).
+
+These APIs now connect preparation, collectors and comparison. Synthetic-worker
+tests exercise the complete data path, failures and owned ordinary-file cleanup;
+they do not admit a real native/Linux worker, sanitizer campaign or product.
+The coordinator records qualification as unassessed and outer cleanup as pending.
+Real worker/transport integration and DE-W105 remain open. No old WSL recipe or
+automatic fallback is enabled by this change.
+
 External dependencies are installed `sfdisk`, optionally `sgdisk`, Python, and
 GCC/G++/gcov with AddressSanitizer and UndefinedBehaviorSanitizer. The native
 observation adapter uses the Windows test probes from W021/W022. The GCC campaign
