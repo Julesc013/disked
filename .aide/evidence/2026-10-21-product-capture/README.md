@@ -123,3 +123,11 @@ cleanup backoff when Windows briefly holds a log handle. The outer workspace
 was removed. The test now interrupts the post-launch resource check exactly
 once, keeping child retirement and workspace-removal assertions unchanged.
 Production runner limits, retries and cleanup code are unchanged.
+
+The first background fixture was incomplete: offset0 selected only a120-pixel
+child region. Both its baseline and repair failures are therefore inconclusive
+for isolating renderer origin (`background-controls/fixture-correction.json`).
+The fixture now paints the complete root and self-checks all23040 RGB pixels
+in both phases through WM_ERASEBKGND on a separate client-origin memory DC
+before exercising the capture primitive. The next diagnostic checkpoint uses
+the exact viewport-only `aab8adcc` renderer to re-establish a valid baseline.

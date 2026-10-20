@@ -41,7 +41,7 @@ static void mark(HWND window,std::uint64_t nonce){
 }
 static void draw(State& state,HDC dc,int offset){
     if(state.blank)return;
-    if(state.tree&&offset<0){RECT box{0,0,240,96};if(!FillRect(dc,&box,static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH))))state.error=true;return;}
+    if(state.tree&&offset<0&&!state.background){RECT box{0,0,240,96};if(!FillRect(dc,&box,static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH))))state.error=true;return;}
     for(unsigned i=0;i<16;++i){const auto& rgb=state.colors[state.phase][i];const auto brush=CreateSolidBrush(RGB(rgb[0],rgb[1],rgb[2]));
         if(offset>=0&&(static_cast<int>(i%4*60)<offset||static_cast<int>(i%4*60)>=offset+120)){if(brush)DeleteObject(brush);continue;}
         const auto shift=offset<0?0:offset;
@@ -71,7 +71,7 @@ static LRESULT CALLBACK procedure(HWND window,UINT message,WPARAM wp,LPARAM lp){
             }
             return 0;
         }
-        if(message==WM_ERASEBKGND){if(state->background&&binding->offset<0)draw(*state,reinterpret_cast<HDC>(wp),0);return 1;}
+        if(message==WM_ERASEBKGND){if(state->background&&binding->offset<0)draw(*state,reinterpret_cast<HDC>(wp),-1);return 1;}
     }
     return DefWindowProcW(window,message,wp,lp);
 }
@@ -79,6 +79,20 @@ struct Windows{
     HINSTANCE instance=GetModuleHandleW(nullptr);HWND first=nullptr,other=nullptr;bool registered=false;DPI_AWARENESS_CONTEXT dpi=nullptr;
     ~Windows(){if(other)DestroyWindow(other);if(first){RemovePropW(first,L"DiskEd.Capture.NonceLow");RemovePropW(first,L"DiskEd.Capture.NonceHigh");DestroyWindow(first);}if(registered)UnregisterClassW(L"DiskEdCooperativeCaptureControl",instance);if(dpi)SetThreadDpiAwarenessContext(dpi);}
 };
+static void verify_background_fixture(HWND window,State& state){
+    struct Surface{HDC dc=nullptr;HBITMAP bitmap=nullptr;HGDIOBJ prior=nullptr;void* bits=nullptr;
+        ~Surface(){if(prior&&prior!=HGDI_ERROR)SelectObject(dc,prior);if(bitmap)DeleteObject(bitmap);if(dc)DeleteDC(dc);}} surface;
+    surface.dc=CreateCompatibleDC(nullptr);require(surface.dc!=nullptr);BITMAPINFO info{};info.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth=240;info.bmiHeader.biHeight=-96;info.bmiHeader.biPlanes=1;info.bmiHeader.biBitCount=32;info.bmiHeader.biCompression=BI_RGB;
+    surface.bitmap=CreateDIBSection(surface.dc,&info,DIB_RGB_COLORS,&surface.bits,nullptr,0);require(surface.bitmap&&surface.bits);
+    surface.prior=SelectObject(surface.dc,surface.bitmap);require(surface.prior&&surface.prior!=HGDI_ERROR);
+    for(unsigned phase=0;phase<2;++phase){state.phase=phase;std::memset(surface.bits,0x5a,92160);
+        require(SendMessageW(window,WM_ERASEBKGND,reinterpret_cast<WPARAM>(surface.dc),0)==1&&GdiFlush());
+        const auto* pixels=static_cast<const unsigned char*>(surface.bits);
+        for(unsigned y=0;y<96;++y)for(unsigned x=0;x<240;++x){const auto& rgb=state.colors[phase][y/24*4+x/60];const auto i=(y*240+x)*4;
+            require(pixels[i]==rgb[2]&&pixels[i+1]==rgb[1]&&pixels[i+2]==rgb[0]);}}
+    state.phase=0;require(!state.error);
+}
 struct ThreadCall{const Request* request;Status status=Status::captured;bool empty=false;};
 static DWORD WINAPI foreign_thread(void* raw){auto& value=*static_cast<ThreadCall*>(raw);try{auto result=disked::ui::capture_owned_window_client(*value.request);value.status=result.status;value.empty=result.bgra.empty();}catch(...){value.empty=false;}return 0;}
 struct ForeignChild{HWND parent=nullptr,window=nullptr;Binding binding;HANDLE ready=nullptr,finish=nullptr;DWORD error=0;};
@@ -163,6 +177,7 @@ int main(int argc,char** argv){
         if(framed){RECT extent{0,0,240,96};require(AdjustWindowRectEx(&extent,style,FALSE,0)!=FALSE);state.outer_width=extent.right-extent.left;state.outer_height=extent.bottom-extent.top;}
         windows.first=CreateWindowExW(0,definition.lpszClassName,L"Owned capture control",style,0,0,state.outer_width,state.outer_height,nullptr,nullptr,windows.instance,&root_binding);require(windows.first!=nullptr);mark(windows.first,state.nonce);
         if(framed){RECT client{},frame{};POINT origin{};require(GetClientRect(windows.first,&client)&&GetWindowRect(windows.first,&frame)&&ClientToScreen(windows.first,&origin));require(client.right==240&&client.bottom==96&&origin.x>frame.left&&origin.y>frame.top&&(GetWindowLongW(windows.first,GWL_STYLE)&WS_CAPTION)==WS_CAPTION);}
+        if(state.background){stage="background_fixture";verify_background_fixture(windows.first,state);}
         windows.other=CreateWindowExW(0,definition.lpszClassName,L"Wrong owned control",WS_POPUP,0,0,240,96,nullptr,nullptr,windows.instance,&root_binding);require(windows.other!=nullptr);
         if(state.tree){state.first_child=CreateWindowExW(0,definition.lpszClassName,L"Left tiles",WS_CHILD|WS_VISIBLE,0,0,120,96,windows.first,nullptr,windows.instance,&left_binding);
             require(state.first_child&&CreateWindowExW(0,definition.lpszClassName,L"Right tiles",WS_CHILD|WS_VISIBLE,120,0,120,96,windows.first,nullptr,windows.instance,&right_binding));}
