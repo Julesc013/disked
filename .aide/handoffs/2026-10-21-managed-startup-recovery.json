@@ -1,0 +1,114 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "59a39c93b4f3d8f2edfb915a8e15deb1759af8b1",
+  "spec_manifest_digest": "sha256:11a80f8bceb942a5568246f55a35cf359b574000283ea00ec7bf9b12eb2fa4ba",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/window-station.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
+    ".aide/evidence/2026-10-18-guest-build/guest-source.py",
+    ".aide/evidence/2026-10-18-guest-capacity/guest-proof.ps1"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/live.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/stop-observation.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/inconclusive-build.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-grants.py",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/recovered-grants.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-media.ps1",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-media-before-property-fix.ps1.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/media-recovery-initial-error.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/media-recovery.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/recovered-setup.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/cleanup-context-derivation.json",
+    ".aide/handoffs/2026-10-21-managed-startup-recovery.json"
+  ],
+  "summary": "Corrected focused build is stopped before tests during a low-CPU MSBuild startup wait;cause unestablished,not a product failure.Stop acknowledgement verifies owned job quiescence,but initial PowerShell directory-grant cleanup times out.Separate exact nonce/source/SID/helper-hash/window-station recovery,byte-checked source retirement,UUID/volume-bound media removal and account/bootstrap cleanup are verified.Original raw failed result remains unchanged.A metadata property error after removal is retained and corrected with independent absence checks.No limits increase,no host media,UAC/account/service/VM reconfiguration or unrelated process termination.Local metadata0 bytes,guest C96803733504 free.Native full current180-group gate remains open;do not combine179 f4854bdb results and13-method33c97c13 watch into a fictional current complete pass.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --watch-fixture",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/receipt.json.xz"
+    },
+    {
+      "command": "One-off exact59a39c93/nonce-bound native session3 grant retirement",
+      "cwd": "C:/ProgramData/DiskEd/qualification",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recovered-grants.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --focus-fat-watch --interactive-ui --cleanup-only (derived cleanup-only context)",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/cleanup.json.xz"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/receipt.json.xz",
+      "sha256": "sha256:2b8a7a616b8b6797148a216fa4c94e644547babf013ca36dc138b5427c56d933"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/cleanup.json.xz",
+      "sha256": "sha256:245d4e5605b2cc483c29fb14515bb4d13dd0e970a38b9abdc87550bda507341e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/stop-observation.json",
+      "sha256": "sha256:62f1e4d572b989c50b7164393492fd25c855a83231cab2d1c1f645a265a104fc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/inconclusive-build.tar.xz",
+      "sha256": "sha256:4332aa491d9de6f79a5c75e4017e2abf91d20113e6d2f8f72a546e1b570c0993"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-grants.py",
+      "sha256": "sha256:ea27deab29d7cbf620d8a0bcd4c7742547e7d28c5881920490a8f0063da9c391"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recovered-grants.json",
+      "sha256": "sha256:514aa87acc7a7b2b909fe4a5050eed5b4abaa4578d7280dda098115d17cf1fe3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-media.ps1",
+      "sha256": "sha256:4c9807e8fd058e61c2eb0028e31ce4bcf387b486debb406493ff9820326a904f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recover-media-before-property-fix.ps1.xz",
+      "sha256": "sha256:1cea2f2bcb3a3f1b80b1084c8e6dfea40466a8a8112f2f6dffb447488d1dbedb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/media-recovery-initial-error.json",
+      "sha256": "sha256:b9aad6593173b5e152569fe4508d57b62e9d20ae2a4b6ee7e9aa467be43c063a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/media-recovery.json",
+      "sha256": "sha256:faa96ee152bd66ef677479e8b2899ee906512f7e147eef6d03628998ab8552af"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/recovered-setup.json",
+      "sha256": "sha256:6e0eff3b5f4ecc0eb0255ca62fd6d39d7a6eb439b36f6c6840c05a7b0ce42e01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/cleanup-context-derivation.json",
+      "sha256": "sha256:97b2eebbbbdd74450d13caf15c9c9f27b02117b3dbafdcb779b34680ed18ed2c"
+    }
+  ],
+  "blockers": [
+    "Full current native qualification and same-source Win32/C90/tooling remain pending;SDK startup cause unestablished."
+  ],
+  "next_safe_step": "Commit/push recovery evidence,then strict complete native profile with all180 groups and original limits.Do not interpret stopped focus as a pass or rerun historical unbounded recipes.",
+  "performed_remote_writes": true
+}

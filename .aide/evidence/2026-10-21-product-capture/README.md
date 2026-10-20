@@ -232,3 +232,17 @@ executables.All owned output is removed;the retained archive is34512 bytes.
 compares the selected build targets with the actual CTest command references;
 it first fails on both missing targets and passes after their addition.No
 production source,deadline,storage limit or assertion changes in the target-selection correction.
+
+The corrected `59a39c93` focus is inconclusive:the agent stops a low-CPU
+MSBuild startup wait before any native group runs.The cause is not established.
+The build-job acknowledgement proves quiescence,but a later managed PowerShell
+cleanup child times out.The original failed receipt is unchanged.No budget or
+privilege limit increases.Native windowless Python retires only the recorded
+session3 subject grants;PowerShell Direct session0 retires the byte-verified
+source,UUID-bound image,SID-bound account and exact bootstrap.The initial
+cleanup journal property error is retained and corrected after verifying absent
+media.Account/profile/task/source/media/bootstrap removal and0-byte local
+metadata are independently observed;guest C has96803733504 free bytes.
+`watch-fixture/cleanup.json.xz` is a recovery receipt,not native qualification.
+The next strict full profile includes both affected groups;the stopped focus
+is not a pass.All original180-group/main/owner/release gates remain.
