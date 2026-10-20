@@ -348,10 +348,11 @@ def coordinate(g):
                 if ordinary and fixture_broker:fixture_broker.start_job(env)
                 else:
                     env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
-                if ordinary and label=='test-frontend.gui_capture':
-                    window_broker=capture_setup.Broker(instance,fixture_broker,build/'Release/disked.exe',env)
+                if ordinary and (label=='test-frontend.gui_capture' or label=='ordinary-private-ui-diagnostic'):
+                    window_broker=capture_setup.Broker(instance,fixture_broker,
+                        build/'Release/disked.exe' if label=='test-frontend.gui_capture' else sys.executable,env)
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
-                if window_broker:result['owned_window_scope_controls']=window_broker.prove_refusals(job,child.pid)
+                if window_broker:result['owned_window_scope_controls']=window_broker.prove_refusals(job,child.pid,different_image=label=='test-frontend.gui_capture')
                 process_id=child.pid
                 log_path=instance.log_path if ordinary else instance.work/'worker.log'
                 until=started+timeout

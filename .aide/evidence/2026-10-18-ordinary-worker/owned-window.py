@@ -70,10 +70,11 @@ class Broker:
             self.records.append(observed);self.seen.add(ident)
             request.unlink();marker.unlink();response.with_suffix('.ready').touch(exist_ok=False)
 
-    def prove_refusals(self,job,job_pid):
+    def prove_refusals(self,job,job_pid,*,different_image=True):
         controls={}
-        for name,pid,reason in (('outside_job',os.getpid(),'Capture target outside current job'),
-                                ('different_image',job_pid,'Capture target executable differs')):
+        cases=[('outside_job',os.getpid(),'Capture target outside current job')]
+        if different_image:cases.append(('different_image',job_pid,'Capture target executable differs'))
+        for name,pid,reason in cases:
             try:self._capture(job,dict(pid=pid,window=1,desktop='DiskEdTest-'+'0'*32))
             except ValueError as error:
                 if str(error)!=reason:raise
@@ -98,7 +99,8 @@ class Broker:
             if w.identity(token)!=w.user_sid:raise ValueError('Capture target user differs')
             desktop=b.require(u.OpenDesktopW(value['desktop'],0,False,0x20081))
             expected='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+w.user_sid+')(A;;0xf01ff;;;'+w.coordinator_sid+')S:(ML;;NW;;;ME)'
-            if w.user_object_security(desktop)!=expected:raise ValueError('Capture desktop security differs')
+            actual=w.user_object_security(desktop)
+            if actual!=expected:raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))
             command=[sys.executable,'-B',str(Path(__file__).resolve()),str(value['window']),str(value['pid']),value['desktop'],'--pixels']
             result=subprocess.run(command,capture_output=True,timeout=10)
             if result.returncode or len(result.stderr)>4096 or len(result.stdout)>16777216+4096:

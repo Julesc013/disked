@@ -1,0 +1,19 @@
+{
+  "status": "scope_controls_pass_desktop_descriptor_refused",
+  "source_revision": "75c86eae6b07fcca7f83bfbabb1b2e482cb0821f",
+  "scope_controls": {
+    "outside_job": true,
+    "different_image": true
+  },
+  "product_captures": 0,
+  "qualified_groups": 0,
+  "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 733, in coordinate\n    test_group(test)\n    ~~~~~~~~~~^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 432, in test_group\n    code,_=run('test-'+test,[ctest,'--test-dir',build,'-C','Release','-R','^'+re.escape(test)+'$',\n           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        '--timeout',str(expected['bounds']['group_seconds']),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        '--verbose','--output-on-failure','--output-junit',receipt],command_seconds,allow_failure=True)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 361, in run\n    if window_broker:window_broker.poll(job)\n                     ~~~~~~~~~~~~~~~~~~^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\owned-window.py\", line 65, in poll\n    observed,pixels=self._capture(job,value)\n                    ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\owned-window.py\", line 101, in _capture\n    if w.user_object_security(desktop)!=expected:raise ValueError('Capture desktop security differs')\n                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Capture desktop security differs\n",
+  "finding": "Live outside-job and different-image refusals pass. Positive capture stops at strict desktop SDDL equality before helper/pixel output. No permission relaxation. Move the real fixture desktop/protocol into cheap UI preflight and retain expected/actual descriptor mismatch.",
+  "owned_cleanup_verified": true,
+  "archive_entries": 35,
+  "uncompressed_bytes": 264274,
+  "compressed_bytes": 19804,
+  "archive_sha256": "f4048f0defc4c47e77d9c01bdcc832d11ec9a91a8d68b4751b491392cef90650",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0
+}

@@ -240,16 +240,30 @@ for name in ('user32.dll', 'gdi32.dll'):
                     if not button:raise C.WinError(C.get_last_error())
                     row['printing']=printing(own,'same_process')
                 finally:u.DestroyWindow(own)
-                child=subprocess.Popen([sys.executable,'-B',__file__,'--gdi-window-child'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+                capture_desktop=None;expected_desktop=desktop_name();startup=None
+                if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
+                    sys.path.insert(0,str(Path(__file__).parent/'source/tests/frontend'))
+                    sys.path.insert(0,str(Path(__file__).parent/'source/tests'))
+                    import gui_fixture
+                    capture_desktop,full_name=gui_fixture.owned_desktop()
+                    expected_desktop=full_name.split('\\')[-1]
+                    startup=subprocess.STARTUPINFO();startup.lpDesktop=full_name
+                child=subprocess.Popen([sys.executable,'-B',__file__,'--gdi-window-child'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,startupinfo=startup)
                 try:
                     line=child.stdout.readline(4097)
                     warning=('Failed to find real location of '+sys.executable).encode()
                     if line.strip()==warning:line=child.stdout.readline(4097)
                     owned=json.loads(line);assert owned['pid']==child.pid and child.poll() is None
-                    assert owned['desktop']==desktop_name();row['printing_desktop']=owned['desktop']
+                    assert owned['desktop']==expected_desktop;row['printing_desktop']=owned['desktop']
                     row['printing']+=printing(owned['window'],'owned_child')
                     endpoint=os.environ.get('DISKED_OWNED_PRINT_PROBE')
-                    if endpoint:
+                    if os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
+                        from support.window_capture import capture
+                        pixels=capture(owned['window'],child.pid,owned['desktop'],240,96)
+                        rgb={value[0]&0xffffff for value in struct.iter_unpack('<I',pixels)}
+                        row['coordinator_pixel_control']=dict(bytes=len(pixels),rgb_colors=len(rgb),varied=len(rgb)>1)
+                        if len(rgb)<=1:raise AssertionError('Owned coordinator pixel control is uniform')
+                    elif endpoint:
                         request=Path(endpoint+'.json');response=Path(endpoint+'-response.json')
                         if request.parent.resolve()!=Path(os.environ['TEMP']).resolve():raise ValueError('Owned temp endpoint required')
                         with request.open('x',encoding='utf-8') as stream:json.dump(owned,stream)
@@ -265,6 +279,7 @@ for name in ('user32.dll', 'gdi32.dll'):
                 finally:
                     if child.poll() is None:child.terminate()
                     child.wait(timeout=5);child.stdout.close();child.stderr.close()
+                    if capture_desktop:assert gui_fixture.U.CloseDesktop(capture_desktop)
             finally:
                 if reference:u.ReleaseDC(window,reference)
                 if window:u.DestroyWindow(window)
