@@ -117,7 +117,13 @@ def main():
             raise RuntimeError('Existing source state requires review')
         owner.write_text(json.dumps({'nonce': nonce, 'source': str(SOURCE), 'revision': manifest['revision'],
                                     'phase': 'preparing'})+'\n')
-        result = snapshot.materialize(ROOT / 'source.pack', manifest, SOURCE, 'C:/Program Files/Git/cmd/git.exe')
+        def progress(value):
+            value.update(nonce=nonce,revision=manifest['revision'])
+            body=(json.dumps(value,indent=2)+'\n').encode()
+            if len(body)>8192:raise RuntimeError('Source progress metadata bound')
+            temporary=ROOT/'source-phase.tmp';temporary.write_bytes(body)
+            temporary.replace(ROOT/'source-phase.json')
+        result = snapshot.materialize(ROOT / 'source.pack', manifest, SOURCE, 'C:/Program Files/Git/cmd/git.exe',progress=progress)
         owner.write_text(json.dumps({'nonce': nonce, 'source': str(SOURCE), 'revision': manifest['revision'],
                                     'phase': 'verified'})+'\n')
         (ROOT / 'source-prepared.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8', newline='\n')

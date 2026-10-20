@@ -198,7 +198,13 @@ def coordinate(g):
         if not __debug__:raise RuntimeError('Qualification coordinator requires active assertions')
         data=g.actor();private={k:os.environ.pop(k) for k in list(os.environ) if k.startswith('DISKED_TEST_ACTOR_')}
         state=json.loads((ROOT/'scratch/state.json').read_bytes());assert state['size_mib']==512
-        prepared=subprocess.run([sys.executable,'-B',str(ROOT/'guest-source.py'),'prepare'],capture_output=True,timeout=180)
+        try:
+            prepared=subprocess.run([sys.executable,'-B',str(ROOT/'guest-source.py'),'prepare'],capture_output=True,timeout=180)
+        finally:
+            phase=ROOT/'source-phase.json'
+            if phase.exists():
+                assert phase.stat().st_size<=8192
+                result['source_preparation_progress']=json.loads(phase.read_bytes())
         if prepared.returncode:raise RuntimeError('Source preparation: '+prepared.stderr[-4096:].decode(errors='replace'))
         source_prepared=True
         result['source_prepared']=json.loads((ROOT/'source-prepared.json').read_bytes())

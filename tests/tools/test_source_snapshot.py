@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 definition = importlib.util.spec_from_file_location('snapshot', ROOT / 'tools/source-snapshot.py')
@@ -106,6 +107,42 @@ class SnapshotTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'clean'):
             self.export()
         self.assertFalse((self.case / 'export').exists())
+
+    def test_materialization_ignores_caller_git_routing_and_config(self):
+        manifest=self.export();outside=self.case/'outside';outside.mkdir();config=outside/'config'
+        config.write_bytes(b'[core]\n\tbare = true\n')
+        overrides=dict(GIT_DIR=str(outside/'wrong-repository'),GIT_WORK_TREE=str(outside),
+                       GIT_CONFIG=str(config),GIT_CONFIG_GLOBAL=str(config),GIT_INDEX_FILE=str(outside/'wrong-index'),
+                       GIT_CONFIG_COUNT='1',GIT_CONFIG_KEY_0='core.worktree',GIT_CONFIG_VALUE_0=str(outside),GIT_TRACE=str(outside/'trace'))
+        with mock.patch.dict(os.environ,overrides):
+            S.materialize(self.case/'export/source.pack',manifest,self.case/'checkout')
+            self.assertTrue(all(os.environ[k]==v for k,v in overrides.items()))
+        self.assertEqual(config.read_bytes(),b'[core]\n\tbare = true\n')
+        self.assertEqual({p.name for p in outside.iterdir()},{'config'})
+        self.assertEqual(S.git(self.case/'checkout','status','--porcelain'),b'')
+
+    def test_large_excluded_tree_uses_only_exact_selected_paths(self):
+        special='code/name with space-\u03bb.cpp'
+        (self.source/special).write_bytes(b'int selected_name;\n');self.commit()
+        blob=self.git('rev-parse','HEAD:unselected/bulk.bin')
+        def plumbing(*arguments,data=None):
+            r=subprocess.run(['git','-C',str(self.source),*arguments],input=data,capture_output=True,timeout=30)
+            self.assertEqual(r.returncode,0,r.stderr);return r.stdout.strip()
+        # Tens of thousands of tracked paths, with no corresponding disk files.
+        entries=b''.join(('100644 blob '+blob+'\tunused-'+str(i).zfill(5)+'.bin\n').encode() for i in range(64000))
+        subtree=plumbing('mktree',data=entries)
+        tree=plumbing('mktree',data=plumbing('ls-tree','HEAD')+b'\n040000 tree '+subtree+b'\tarchive\n')
+        revision=plumbing('-c','user.name=DiskEd fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false',
+                          'commit-tree',tree.decode(),'-p',self.git('rev-parse','HEAD'),'-m','virtual excluded paths').decode()
+        manifest=S.export(self.source,['.gitattributes','.gitignore','code/main.cpp',special],self.case/'export',self.work,revision=revision)
+        destination=self.case/'checkout';phases=[]
+        result=S.materialize(self.case/'export/source.pack',manifest,destination,progress=phases.append)
+        self.assertEqual(result['revision'],revision);self.assertEqual((destination/special).read_bytes(),b'int selected_name;\n')
+        self.assertFalse((destination/'archive').exists());self.assertFalse((destination/'unselected').exists())
+        self.assertEqual(S.git(destination,'status','--porcelain'),b'');S.git(destination,'diff','--quiet','HEAD','--')
+        self.assertTrue(S.git(destination,'ls-files','-v','--','archive/unused-00000.bin').startswith(b'S '))
+        self.assertTrue(S.git(destination,'ls-files','-v','--','code/main.cpp').startswith(b'H '))
+        self.assertTrue(phases);self.assertEqual(phases[-1]['state'],'complete')
 
     def test_explicit_revision_uses_exact_blobs_and_preserves_dirty_work(self):
         revision = self.git('rev-parse', 'HEAD')

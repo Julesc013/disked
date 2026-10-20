@@ -94,7 +94,7 @@ def main():
     host = host.replace('retained.zip', 'retained.tar.xz')
     (stage / 'run-proof.ps1').write_text(host, encoding='utf-8', newline='\n')
     cleanup = replace_once((PRIOR / 'clean-proof.ps1').read_text(), root_line, fixed_root)
-    cleanup = replace_once(cleanup, '$paths=@($Expected', "$extra=@(\"$root\\source-owner.json\",\"$root\\source-prepared.json\",\"$root\\source-retired.json\",\"$root\\scoped-directory-access.json\",\"$root\\retained.zip\")\n        $paths=$extra+@($Expected")
+    cleanup = replace_once(cleanup, '$paths=@($Expected', "$extra=@(\"$root\\source-owner.json\",\"$root\\source-prepared.json\",\"$root\\source-retired.json\",\"$root\\source-phase.json\",\"$root\\source-phase.tmp\",\"$root\\scoped-directory-access.json\",\"$root\\retained.zip\")\n        $paths=$extra+@($Expected")
     cleanup = cleanup.replace('retained.zip', 'retained.tar.xz')
     cleanup = replace_once(cleanup, '$items.Count-gt32', '$items.Count-gt40')
     (stage / 'clean-proof.ps1').write_text(cleanup, encoding='utf-8', newline='\n')

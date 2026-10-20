@@ -6,6 +6,7 @@ import os
 import re
 from pathlib import Path, PurePosixPath
 import subprocess
+import time
 
 SOURCE_LIMIT = 32 * 1024 * 1024
 PACK_LIMIT = 32 * 1024 * 1024
@@ -153,7 +154,7 @@ def export(root, names, output, work, *, revision=None):
     return manifest
 
 
-def materialize(pack, manifest, destination, git_exe='git'):
+def materialize(pack, manifest, destination, git_exe='git', *, progress=None):
     pack, destination = Path(pack), Path(destination)
     plain_ancestors(pack)
     plain_ancestors(destination)
@@ -166,11 +167,22 @@ def materialize(pack, manifest, destination, git_exe='git'):
     destination.mkdir()
     template = destination / '.empty-template'
     template.mkdir()
-    env = dict(os.environ, GIT_TERMINAL_PROMPT='0', GIT_OPTIONAL_LOCKS='0')
+    # This new local repository needs no caller Git routing, filters, hooks,
+    # tracing or credentials. Preserve the caller's environment unchanged.
+    env={key:value for key,value in os.environ.items() if not key.startswith('GIT_')}
+    env.update(GIT_TERMINAL_PROMPT='0',GIT_OPTIONAL_LOCKS='0',GIT_CONFIG_NOSYSTEM='1',
+               GIT_CONFIG_GLOBAL=os.devnull,GIT_ATTR_NOSYSTEM='1')
+    phases=[]
 
-    def execute(*arguments, stdin=None):
+    def observe(phase, state):
+        if progress is not None:progress(dict(phase=phase,state=state,completed=list(phases)))
+
+    def execute(*arguments, stdin=None, data=None):
         command = [git_exe, '-C', str(destination), *arguments]
-        result = subprocess.run(command, stdin=stdin, capture_output=True, env=env, timeout=120)
+        observe(arguments[0],'running');started=time.monotonic()
+        result = subprocess.run(command, stdin=stdin, input=data, capture_output=True, env=env, timeout=120)
+        phases.append(dict(command=arguments[0],seconds=time.monotonic()-started,exit_code=result.returncode))
+        observe(arguments[0],'complete')
         if result.returncode:
             raise RuntimeError('Source materialization failed: ' + result.stderr[:8192].decode(errors='replace'))
         return result.stdout
@@ -181,17 +193,23 @@ def materialize(pack, manifest, destination, git_exe='git'):
     # text=auto without an explicit eol attribute otherwise uses Windows native
     # CRLF even with autocrlf=false. Exact blob transport requires LF here.
     execute('config', 'core.eol', 'lf')
-    execute('config', 'core.sparseCheckout', 'true')
-    execute('config', 'core.sparseCheckoutCone', 'false')
+    execute('config', 'core.sparseCheckout', 'false')
     with pack.open('rb') as stream:
         execute('index-pack', '--stdin', stdin=stream)
     (destination / '.git/shallow').write_text(manifest['revision']+'\n', encoding='ascii', newline='\n')
-    (destination / '.git/info').mkdir(exist_ok=True)
-    (destination / '.git/info/sparse-checkout').write_text(
-        '\n'.join('/'+entry['path'] for entry in manifest['files'])+'\n', encoding='utf-8', newline='\n')
     execute('update-ref', 'refs/heads/snapshot', manifest['revision'])
     execute('symbolic-ref', 'HEAD', 'refs/heads/snapshot')
-    execute('read-tree', '-mu', 'HEAD')
+    # A non-cone pattern per selected file makes checkout cost depend on every
+    # historical evidence path. Build the exact HEAD index once, then explicitly
+    # mark excluded entries and check out only the declared NUL-delimited paths.
+    execute('read-tree', 'HEAD')
+    indexed=execute('ls-files','-z')
+    if len(indexed)>PACK_LIMIT:raise ValueError('Snapshot index path bound')
+    selected=b''.join(entry['path'].encode('utf-8')+b'\0' for entry in manifest['files'])
+    execute('update-index','--skip-worktree','-z','--stdin',data=indexed)
+    execute('update-index','--no-skip-worktree','-z','--stdin',data=selected)
+    execute('checkout-index','-u','-z','--stdin',data=selected)
+    observe('verify-blobs','running');started=time.monotonic()
     for entry in manifest['files']:
         path = destination / entry['path']
         if path.is_symlink() or getattr(path.lstat(), 'st_file_attributes', 0) & 0x400:
@@ -199,11 +217,13 @@ def materialize(pack, manifest, destination, git_exe='git'):
         data = path.read_bytes()
         if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
             raise ValueError('Materialized source differs from its exact Git blob: ' + entry['path'])
+    phases.append(dict(command='verify-blobs',seconds=time.monotonic()-started,files=len(manifest['files'])))
+    observe('verify-blobs','complete')
     if execute('rev-parse', 'HEAD').decode().strip() != manifest['revision'] or execute('status', '--porcelain'):
         raise ValueError('Materialized selected source is not the exact clean revision')
     return {'status': 'pass', 'revision': manifest['revision'], 'selected_files_verified': len(manifest['files']),
-            'source_content_bytes': manifest['content_bytes'], 'git_state': 'clean',
-            'scope': 'Shallow sparse checkout of exact selected inputs, without unselected blobs/history'}
+            'source_content_bytes': manifest['content_bytes'], 'git_state': 'clean','phases':phases,
+            'scope': 'Shallow exact selected worktree with explicit skip-worktree index entries;no unselected blobs/history'}
 
 
 if __name__ == '__main__':

@@ -1,0 +1,13 @@
+{
+  "work_id": "DE-W105",
+  "base_revision": "c319466b21a2e9a4022356c2a2fdabd608d030f0",
+  "status_at_creation": "fixed_before_source_import_repair_and_evaluation",
+  "scope": "Bounded source import and existing NUL control before another native build",
+  "source_deadline_seconds": 180,
+  "requirements": [
+    "Materialize only the exact selected Git blobs;verify every length/hash and clean exact shallow HEAD. Do not retrieve missing/unselected blobs,run hooks or change global Git configuration.",
+    "Keep source32MiB/2000-file content,512MiB scratch,1GiB aggregate,20GiB reserves and original180-second source deadline.",
+    "Use explicit selected paths and retain exact phase/timing observations with the nonce-bound source setup. Metadata must remain bounded and survive source preparation failure.",
+    "Retire owned source/jobs/media/account/profile on every outcome. Source-import or NUL success is not a native build/group/full-suite pass."
+  ]
+}

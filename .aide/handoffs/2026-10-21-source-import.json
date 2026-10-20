@@ -1,0 +1,111 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "c319466b21a2e9a4022356c2a2fdabd608d030f0",
+  "spec_manifest_digest": "sha256:01159a4c892e043e23778eefac7f9aa818e24ffbd348f4a459a9dd0490871b42",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "tools/source-snapshot.py",
+    "tests/tools/test_source_snapshot.py",
+    ".aide/evidence/2026-10-18-guest-build/guest-source.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-guest-build/campaign.py",
+    ".aide/evidence/2026-10-18-guest-build/guest-source.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/finalization.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/focused-validation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/connection-failure/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/connection-failure/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/connection-failure/review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/cleanup-error.txt.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/resource-observation.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/source-retirement.json",
+    ".aide/evidence/2026-10-21-product-capture/image-evidence-review.json",
+    ".aide/evidence/2026-10-21-product-capture/launch.py",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/replay.py",
+    ".aide/evidence/2026-10-21-product-capture/review-images.py",
+    ".aide/evidence/2026-10-21-product-capture/source-import-expected.json",
+    ".aide/evidence/2026-10-21-product-capture/source-proof/preparation.json.xz",
+    ".aide/handoffs/2026-10-21-source-import.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/tools/test_source_snapshot.py",
+    "tools/source-snapshot.py"
+  ],
+  "summary": "Full candidate source import timed out before compilation,with all owned cleanup verified. Selected1344 files later match their exact blobs;precise cold phase was not recorded. Replace non-cone checkout patterns with explicit index/path operations,isolate child Git environment,and retain bounded phase timing.15 source tests(including64000 virtual excluded paths) and all240 tooling tests pass,with1328 structural/source-map/manifest checks. Image reader verifies the actual earlier focused PNGs;fresh Win32 reader is syntax-reviewed but not executed. Guest repair proof/full native qualification remain unrun.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\launch.py --full-suite",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\full-native\\source-import-timeout\\receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\validate.py",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\focused-validation.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\validate.py --finalize",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\finalization.json.xz"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/focused-validation.json.xz",
+      "sha256": "sha256:4fc8588a347e9013b3f98af42f7624a8fd074ed91fc1fb1dcfd492ab8005fd41"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/finalization.json.xz",
+      "sha256": "sha256:2472992c158291ef66b37d8a3235b4064fb5f5523fac91b4f1dc2a3fc62a7e0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/image-evidence-review.json",
+      "sha256": "sha256:27976d5d3af8ed4ffcc0f0f3e1a37bc56ad9cb14643e2bce3d2d1d091ec40884"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/source-import-expected.json",
+      "sha256": "sha256:d123635f7f5523fbeea368abc9172f3b69ca97f8ec8fe1936a503e7ef8ac22ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/receipt.json.xz",
+      "sha256": "sha256:1dfac75d046c530cea80d4f5b78619da41bfba44f10b11c27471332788d3360f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/cleanup.json.xz",
+      "sha256": "sha256:92c908fe739bc1777915fad558836316a207dcddbfaab86255a99ff88794e67e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/source-retirement.json",
+      "sha256": "sha256:c8b597f6c629839fe4462390d05afcbc1cd18077d21246f8a6a35d8c0eec887c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/source-import-timeout/cleanup-error.txt.xz",
+      "sha256": "sha256:734f30402f5938f3709fa07cf760620d30dbad2301f73709c66b10da1a07ef99"
+    }
+  ],
+  "blockers": [
+    "Guest source-import/NUL control has not yet evaluated this repair;full current native gates remain open."
+  ],
+  "next_safe_step": "Commit/push this tested tooling repair,then run launch.py --source-proof and inspect its actual phases/cleanup before a full native build.",
+  "performed_remote_writes": true
+}

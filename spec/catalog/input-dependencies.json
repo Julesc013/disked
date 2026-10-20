@@ -18784,7 +18784,9 @@
       "path": ".aide/evidence/2026-10-21-product-capture/validate.py",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "tests/tools/test_source_snapshot.py"
+      ],
       "spec_ids": []
     },
     {
@@ -18803,7 +18805,8 @@
         ".aide/evidence/2026-10-18-ordinary-worker/object-namespace.py",
         ".aide/evidence/2026-10-18-ordinary-worker/retire-temp.py",
         ".aide/evidence/2026-10-18-ordinary-worker/cleanup-probe.py",
-        ".aide/evidence/2026-10-18-ordinary-worker/ui-probe.py"
+        ".aide/evidence/2026-10-18-ordinary-worker/ui-probe.py",
+        ".aide/evidence/2026-10-21-product-capture/source-import-expected.json"
       ],
       "spec_ids": []
     },
@@ -19089,6 +19092,48 @@
       "depends_on": [
         "spec/tools/input_graph.py",
         "tools/build-inputs.json"
+      ],
+      "spec_ids": []
+    },
+    {
+      "id": ".aide/evidence/2026-10-21-product-capture/review-images.py",
+      "path": ".aide/evidence/2026-10-21-product-capture/review-images.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+        "tests/frontend/gui_fixture.py",
+        "tests/frontend/test_gui_capture.py"
+      ],
+      "spec_ids": []
+    },
+    {
+      "id": ".aide/evidence/2026-10-21-product-capture/private-win32/replay.py",
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/replay.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+        "tools/ntfs-win32-fixture.py"
+      ],
+      "spec_ids": []
+    },
+    {
+      "id": ".aide/evidence/2026-10-21-product-capture/source-import-expected.json",
+      "path": ".aide/evidence/2026-10-21-product-capture/source-import-expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": []
+    },
+    {
+      "id": "tests/tools/test_source_snapshot.py",
+      "path": "tests/tools/test_source_snapshot.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/source-snapshot.py",
+        "spec/tools/input_graph.py"
       ],
       "spec_ids": []
     }

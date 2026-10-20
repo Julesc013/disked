@@ -17,10 +17,11 @@ background='--background-proof' in sys.argv
 transport=background or '--transport-proof' in sys.argv
 full='--full-suite' in sys.argv
 win32='--win32-suite' in sys.argv
+source_proof='--source-proof' in sys.argv
 if background and '--transport-proof' in sys.argv:raise ValueError('Select one control profile')
-if sum((full,transport,win32))>1:raise ValueError('Select one native suite or private control profile')
-if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite','--win32-suite') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
-if transport or full or win32:HERE=HERE/('private-win32' if win32 else 'full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
+if sum((full,transport,win32,source_proof))>1:raise ValueError('Select one native suite or private control profile')
+if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite','--win32-suite','--source-proof') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
+if transport or full or win32 or source_proof:HERE=HERE/('source-proof' if source_proof else 'private-win32' if win32 else 'full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
 CAMPAIGN=BUILD if win32 else OLD
 if not prepare and (HERE/'receipt.json.xz').exists():raise ValueError('Review/retain previous product attempt before another run')
 if not prepare:
@@ -45,7 +46,7 @@ try:
         call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W105','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','25165824'],env=env)
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
     definition=importlib.util.spec_from_file_location('product_campaign',CAMPAIGN/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
-    sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
+    sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--null-proof','--interactive-ui'] if source_proof else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
     code=campaign.main();record.update(status='pass' if code==0 else 'fail',exit_code=code)
     if code:raise RuntimeError('Product campaign did not pass; inspect retained exact outcome')
 except BaseException:

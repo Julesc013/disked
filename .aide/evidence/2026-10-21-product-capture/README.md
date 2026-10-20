@@ -5,6 +5,24 @@ product GUI cases. The saved PNGs pass the complete-background checks and
 direct visual review. Full180-group x64 qualification and main admission remain
 open; this is a focused capture result.
 
+The full attempt at `c319466b` stops before compilation when source import
+exceeds its unchanged180-second deadline. No native groups run. Its exact
+failure, source retirement and owned cleanup are in `full-native/source-import-timeout/`;
+the earlier connection-only failure is retained separately. All1344 selected
+source files subsequently match their Git blobs. The cold phase was not recorded,
+so that observation does not diagnose the exact timeout location.
+
+The importer now sets explicit index skip-worktree bits and checks out only
+NUL-delimited declared paths, avoiding a non-cone pattern for every selected
+file across64749 tracked paths. It isolates its child Git environment without
+changing user configuration, and retains bounded nonce-bound phase timings.
+The15 source-transport tests include a64000-path virtual excluded tree and
+caller Git-routing/configuration controls. All240 tooling tests pass afterward.
+See Git's [index semantics](https://git-scm.com/docs/git-update-index#_skip_worktree_bit)
+and [explicit path checkout](https://git-scm.com/docs/git-checkout-index).
+`launch.py --source-proof` selects the existing512MiB source/NUL control;
+it does not compile the product or replace the full native gate.
+
 The expectation in [expected.json](expected.json) was fixed before implementing
 the product coordinator or evaluating product pixels. This is the next bounded
 step after the verified private [transport control](../2026-10-21-capture-transport/REVIEW.md).
