@@ -32,6 +32,8 @@ def capture(window, pid, desktop):
     bind(u,'GetUserObjectInformationW',T.BOOL,T.HANDLE,C.c_int,T.LPVOID,T.DWORD,C.POINTER(T.DWORD))
     bind(u,'GetWindowRect',T.BOOL,T.HWND,C.POINTER(T.RECT))
     bind(u,'PrintWindow',T.BOOL,T.HWND,T.HDC,T.UINT)
+    bind(u,'GetWindowDC',T.HDC,T.HWND)
+    bind(u,'ReleaseDC',C.c_int,T.HWND,T.HDC)
     bind(u,'RedrawWindow',T.BOOL,T.HWND,T.LPVOID,T.HANDLE,T.UINT)
     bind(g,'CreateCompatibleDC',T.HDC,T.HDC)
     bind(g,'CreateDIBSection',T.HBITMAP,T.HDC,T.LPVOID,T.UINT,C.POINTER(T.LPVOID),T.HANDLE,T.DWORD)
@@ -39,6 +41,7 @@ def capture(window, pid, desktop):
     bind(g,'DeleteObject',T.BOOL,T.HANDLE)
     bind(g,'DeleteDC',T.BOOL,T.HDC)
     bind(g,'GdiFlush',T.BOOL)
+    bind(g,'BitBlt',T.BOOL,T.HDC,C.c_int,C.c_int,C.c_int,C.c_int,T.HDC,C.c_int,C.c_int,T.DWORD)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId())
     target=u.OpenDesktopW(desktop,0,False,0xf01ff)
     if not target:raise C.WinError(C.get_last_error())
@@ -67,8 +70,20 @@ def capture(window, pid, desktop):
         printed=u.PrintWindow(window,dc,0)
         g.GdiFlush();body=C.string_at(bits,width*height*4)
         rgb={value[0]&0xffffff for value in struct.iter_unpack('<I',body)}
+        C.memset(bits,0,width*height*4)
+        source=u.GetWindowDC(window)
+        try:
+            C.set_last_error(0)
+            copied=bool(source and g.BitBlt(dc,0,0,width,height,source,0,0,0x40cc0020))
+            error=0 if copied else C.get_last_error()
+            g.GdiFlush();window_body=C.string_at(bits,width*height*4)
+            window_rgb={value[0]&0xffffff for value in struct.iter_unpack('<I',window_body)}
+            window_dc=dict(acquired=bool(source),copied=copied,error=error,rgb_colors=len(window_rgb),
+                           varied=len(window_rgb)>1,first_bgr=window_body[:3].hex())
+        finally:
+            if source:u.ReleaseDC(window,source)
         return dict(window=window,pid=pid,desktop=desktop,width=width,height=height,
-                    printed=bool(printed),rgb_colors=len(rgb),varied=len(rgb)>1,first_bgr=body[:3].hex())
+                    printed=bool(printed),rgb_colors=len(rgb),varied=len(rgb)>1,first_bgr=body[:3].hex(),window_dc=window_dc)
     finally:
         if old not in (None,C.c_void_p(-1).value):g.SelectObject(dc,old)
         if bitmap:g.DeleteObject(bitmap)
