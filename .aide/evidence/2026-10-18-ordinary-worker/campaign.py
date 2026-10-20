@@ -97,6 +97,9 @@ def main():
     focus_current='--focus-current-fixtures' in sys.argv
     focus_gui_watch='--focus-gui-watch' in sys.argv
     focus_gui_waiting='--focus-gui-waiting' in sys.argv
+    focus_fat_watch='--focus-fat-watch' in sys.argv
+    if focus_fat_watch and any(option not in ('--focus-fat-watch','--interactive-ui','--prepare-only','--cleanup-only') for option in sys.argv[1:]):
+        raise ValueError('FAT watch uses only its bounded focused native composition')
     focus_product='--focus-product-captures' in sys.argv
     if focus_product and any(option not in ('--focus-product-captures','--interactive-ui','--prepare-only','--cleanup-only') for option in sys.argv[1:]):
         raise ValueError('Product captures require their bounded interactive512MiB composition')
@@ -122,7 +125,7 @@ def main():
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
-    full_native=full_native or controller_stop_proof or pixel_proof or focus_product
+    full_native=full_native or controller_stop_proof or pixel_proof or focus_product or focus_fat_watch
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
@@ -323,6 +326,11 @@ def main():
         expected['native_x64']['focus_groups']=['resilience.gui_waiting']
         expected['native_x64']['focus_targets']=['disked','disked_worker_delayed','fat_tree_extraction_worker_probe']
         expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+    if focus_fat_watch:
+        expected['native_x64']['focus_groups']=['image.fat_tree_watch','image.fat_tree_reconnect']
+        expected['native_x64']['focus_targets']=['fat_tree_reconnect_probe','fat_tree_controller_probe',
+            'fat_tree_controller_fault','fat_tree_extraction_worker_probe','fat_tree_extraction_worker_fault']
+        expected['native_x64']['focus_executables']=['fat_tree_reconnect_probe','fat_tree_extraction_worker_probe']
     if focus_product:
         expected['native_x64']['focus_groups']=['disked.acceptance','frontend.gui_capture']
         expected['native_x64']['focus_targets']=['disked','fat_tree_extraction_worker_probe']

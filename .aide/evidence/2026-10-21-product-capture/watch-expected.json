@@ -1,0 +1,18 @@
+{
+  "work_id": "DE-W105",
+  "status": "expected_before_watch_fixture_repair_and_native_evaluation",
+  "source_revision": "f4854bdb25bc474f73f2749bf1e331baafc3618c",
+  "contract": "spec/catalog/fat-recursive-command-prototype.json#/watch/following",
+  "failed_archive_sha256": "15f26c28e98b7a6d75c96e74a5d5fb0bbeb02e9e78e42fc483f60a8d4c03531a",
+  "finding": "All180 groups ran;only image.fat_tree_watch failed because a100ms live follow returned a valid following_boundary after one poll. First-observation latency was not measured. The contract sets an upper observation count,not a minimum.",
+  "invariants": [
+    "No production source change or deadline/budget increase.",
+    "Keep the live boundary,cursor,nonempty events,cancellation,resume continuity,source preservation and actual controller-exit assertions.",
+    "For an available nonterminal observation,the100ms follow may perform1..81 polls.",
+    "A private test sink delays its first event by125ms while the original100ms follow budget remains unchanged. Require exactly one poll,one injected delay,and a following_boundary with an intact cursor.",
+    "Retain a separate true multi-poll native live wait/cancel case and all original pure event/reader negatives.",
+    "Run affected native watch/reconnect groups before the complete current native gate."
+  ],
+  "owner_accepted": false,
+  "release_qualified": false
+}

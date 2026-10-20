@@ -1,0 +1,120 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "f4854bdb25bc474f73f2749bf1e331baafc3618c",
+  "spec_manifest_digest": "sha256:11a80f8bceb942a5568246f55a35cf359b574000283ea00ec7bf9b12eb2fa4ba",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "source/platform/windows/storage/fat_tree_reconnect.cpp",
+    "tests/images/fat_tree_reconnect_probe.cpp",
+    "tests/images/test_fat_tree_watch.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/archive-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/launch.py",
+    ".aide/evidence/2026-10-21-product-capture/source-proof/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/source-proof/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/source-proof/review.json",
+    ".aide/evidence/2026-10-21-product-capture/validate.py",
+    ".aide/evidence/2026-10-21-product-capture/watch-expected.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/finalization.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/preparation.json.xz",
+    ".aide/handoffs/2026-10-21-watch-fixture.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_tree_reconnect_probe.cpp",
+    "tests/images/test_fat_tree_watch.py"
+  ],
+  "summary": "Complete f4854bdb x64 qualification runs all180 groups:179 pass;only FAT watch has an unsupported minimum-poll assertion under a100ms budget.69 headers,14 executable observations and owned cleanup complete.Closed4377-entry raw archive and failure accounting verified;914101318 bytes retained in2575124 compressed bytes.Original source import control passes in11.04 recorded phase seconds.Production source is unchanged by the candidate fixture repair.Explicit125ms bounded first-event delay will prove the legal one-poll case while retaining cancellation/resume continuity and actual exit.240 tooling tests(one skip),1328 structural checks,source-map and manifest verification pass with unchanged tested inputs;native candidate remains unrun.Original all-platform/storage0.1.0 and owner/release gates unchanged.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --full-suite",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --source-proof",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/source-proof/review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/validate.py --finalize --receipt-dir .aide/evidence/2026-10-21-product-capture/watch-fixture",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/finalization.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --watch-fixture",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/source-proof/review.json",
+      "sha256": "sha256:c0af49ac7f752dc147bd426758c49b84d3d8a6671815ed979c6f5fbd7f6299af"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/source-proof/receipt.json.xz",
+      "sha256": "sha256:6a1cef257ed0e6b827a5f126e518772b1b85e4202bc302dc169a5233b516c592"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/source-proof/cleanup.json.xz",
+      "sha256": "sha256:36dd11f23d9f9d1fff48d8731d02fed3c14de87a87ed68e61142110656754ddb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/archive-review.json",
+      "sha256": "sha256:f6073989295085c118f7fb4956f2715c1ddbe5e9e79d33eb001918a3a9212a51"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/receipt.json.xz",
+      "sha256": "sha256:be741175a34a89637fcba12f80efe5d0e311f49f8b71ad27769cedad89d3fb43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/cleanup.json.xz",
+      "sha256": "sha256:3e273757cb3e515d9176dbb9a42ccc2bb7f8eb01dbccd136a43b374d12dedb0c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/retained.tar.xz",
+      "sha256": "sha256:15f26c28e98b7a6d75c96e74a5d5fb0bbeb02e9e78e42fc483f60a8d4c03531a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-expected.json",
+      "sha256": "sha256:0de6b83b5db3bf9bb02f28fb317922ad3e095759395bfb43fb5b5cc35fd30343"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/finalization.json.xz",
+      "sha256": "sha256:8f5bf3e0cec343ac680387391420379941ae865d1acdf4d0a763fde340b5a6c0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/preparation.json.xz",
+      "sha256": "sha256:d66eb4d4e04d0d3f44cd927855f80843d43617e4c17ea847ba9c9ad637f43213"
+    }
+  ],
+  "blockers": [
+    "Native watch fixture repair and fresh full native qualification remain unevaluated."
+  ],
+  "next_safe_step": "Commit/push the tested fixture candidate on dev;run the two-group bounded watch/reconnect fixture and review its raw delay/cursor/cancellation/retirement evidence.Then run the current full180 x64 suite and same-source private18 Win32,C90 and final tooling gate before main integration.Continue DE-W106 then DE-W107.",
+  "performed_remote_writes": true
+}

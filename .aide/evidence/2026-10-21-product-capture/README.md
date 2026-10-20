@@ -1,9 +1,26 @@
 # DE-W105 product capture qualification
 
-Current: `3bbf92f2` passes24 independent native controls and all six actual
-product GUI cases. The saved PNGs pass the complete-background checks and
-direct visual review. Full180-group x64 qualification and main admission remain
-open; this is a focused capture result.
+Current: the complete `f4854bdb` x64 campaign runs all180 groups:179 pass;
+`image.fat_tree_watch` fails its minimum-two-polls assertion for a100ms follow.
+All69 header checks,14 executable/import observations and owned cleanup complete.
+The failed gate is retained in `full-native/attempt-f4854bdb/`; its4377-entry
+archive contains914101318 uncompressed bytes in2575124 compressed bytes.
+Peak scratch allocation is459988561 bytes and filesystem use494084096 bytes.
+The VM backing-file logical length is unchanged; this is not an allocation claim.
+
+The watch contract sets at most81 observations, without a minimum count. The
+first observation's latency was not measured, so the exact reason its100ms
+window expired is unknown. The result retains an active boundary and intact
+cursor. `watch-expected.json` fixes a deterministic125ms first-event sink delay
+before its implementation/evaluation. The private probe and tests will check
+the legitimate one-poll boundary, cancellation and contiguous resume under the
+original100ms follow budget. Production source and deadlines are unchanged.
+`launch.py --watch-fixture` selects only watch/reconnect in the existing512MiB
+guest profile. A passing focused run cannot replace fresh full qualification.
+
+The earlier `3bbf92f2` capture result remains valid for its scope:24 independent
+native controls and all six actual product GUI cases, with complete-background
+checks and direct visual review. Current full-suite and main admission stay open.
 
 The full attempt at `c319466b` stops before compilation when source import
 exceeds its unchanged180-second deadline. No native groups run. Its exact

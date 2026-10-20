@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The private receiver is integrated into GUI source/CMake and its actual translation unit compiles. The owned transport control passes 20 refusals and exact cross-process A/B pixels; all 23 native calls retire. Full product linking, the trusted fixture coordinator, native product controls, six product PNGs and current qualification remain open before main. Old desktop-DC evidence stays retracted and hook candidates stay closed. Original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [transport review](.aide/evidence/2026-10-21-capture-transport/REVIEW.md).
+Status: DE-W105 remains active. The complete `f4854bdb` x64 run finishes179 of180 groups successfully,69 headers,14 executable/import observations and owned cleanup. The sole failure is an unsupported minimum-poll assumption in a100ms FAT watch test. A bounded deterministic deadline fixture and fresh affected/full qualification remain pending before main. Focused actual product linking and six visually reviewed GUI captures pass at `3bbf92f2`. Old desktop-DC evidence stays retracted and hooks stay closed. Original all-platform/storage0.1.0, owner and release gates are unchanged. See the [current qualification record](.aide/evidence/2026-10-21-product-capture/README.md).
 
 ## Storage recovery
 
@@ -53,17 +53,20 @@ Status: DE-W105 remains active. The private receiver is integrated into GUI sour
   eleven identity/transition refusals, blank/stale rejection and bounded hung/
   controller-handle-loss retirement. All 16 native calls and owned cleanup pass;
   the verified raw archive is 8 KiB. [Evidence](.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md).
-  Product linkage, product child rendering, six product cases and full qualification remain open.
+  This historical control alone did not qualify product linkage or captures.
 - [x] Qualify bounded cooperative child-tree repaint: two children alone paint
   all expected RGB pixels, four added child-scope/transition refusals pass and
   the native capture-only probe has no USER32/GDI32 imports. All 20 native calls
   and owned cleanup pass. [Evidence](.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md).
-  Actual product controls/transport and full qualification remain open.
+  This historical control alone did not qualify product transport or full qualification.
 - [x] Implement private opt-in receiver and native anonymous-section transport:
   20 packet/scope refusals, two exact cross-process pixel replies and timeout/
   job retirement pass. Actual GUI translation compiles; all 23 native calls retire.
-  [Evidence](.aide/evidence/2026-10-21-capture-transport/REVIEW.md). Full product
-  linking, coordinator/fixture integration and product capture remain open.
+  [Evidence](.aide/evidence/2026-10-21-capture-transport/REVIEW.md).
+- [x] Qualify framed/background controls and actual linked product capture at
+  `3bbf92f2`:24 native control calls and six displayed/reviewed PNGs pass;
+  original identity,caption,client,inert-review and cleanup checks remain.
+  This focused result does not close the full current gate.
 - [ ] Complete the current x64 product/180-group native test gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test

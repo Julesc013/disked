@@ -20,8 +20,12 @@ their applicable checks. A passing compiler probe or private Win32 slice does
 not qualify the full current x64 product.
 
 DE-W105 remains current. Its private Win32 evidence passes all 18 groups at
-`4572aef4`; the full current x64 gate is still open. The programme owns the latest
-work state and exact next action. Continue there rather than repeating DE-W010.
+`4572aef4`;that is historical scope. The complete current `f4854bdb` x64 run
+finishes179 of180 groups successfully,69 headers and14 executable observations.
+Its sole FAT-watch fixture failure is retained with verified owned cleanup.
+The [current qualification record](../.aide/evidence/2026-10-21-product-capture/README.md)
+owns the exact failure and next affected/full checks. The programme routes current
+work;continue there rather than repeating DE-W010.
 
 The ordinary restricted guest profile now has actual 32/512 MiB hard-cap,
 protected-record, outside-write, descendant and interrupted-cleanup evidence,

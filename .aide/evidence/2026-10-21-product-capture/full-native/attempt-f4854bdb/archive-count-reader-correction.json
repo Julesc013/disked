@@ -1,0 +1,11 @@
+{
+  "scope": "Offline receipt-reader correction;not a second native failure",
+  "initial_assertion": "Compared payload-manifest entry count to total archive count",
+  "observed": {
+    "payload_manifest_entries": 4376,
+    "total_archive_entries": 4377,
+    "manifest_entries": 1
+  },
+  "producer": "full-native.py publishes len(archive.entries) after adding entry-manifest.json",
+  "correction": "Require exact closed payload inventory and total=payload+one manifest;all entry hashes and manifest identity verified"
+}

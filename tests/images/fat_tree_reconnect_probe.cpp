@@ -1,6 +1,9 @@
 #include "platform/windows/storage/fat_tree_reconnect.h"
 #include "runtime/acquisition/fat_tree_operation.h"
+#include <chrono>
+#include <cstdint>
 #include <iostream>
+#include <thread>
 
 using V = disked::json::Value;
 static const V &get(const V &v, const char *k) {
@@ -16,10 +19,25 @@ int main() {
         limits.string_bytes = 1048576;
         const std::string raw((std::istreambuf_iterator<char>(std::cin)), {});
         const auto input = disked::json::parse(raw, limits);
+        std::uint64_t sink_delay_ms = 0;
+        unsigned sink_delays = 0;
+        if (const auto *delay = input.find("watch_sink_delay_ms")) {
+            const auto *stream = input.find("stream_watch");
+            if (delay->kind != V::Kind::string || !disked::json::decimal_u64(delay->text) ||
+                std::stoull(delay->text) > 200 || !input.find("watch") || input.find("header") ||
+                !stream || stream->kind != V::Kind::boolean || !stream->boolean)
+                throw std::runtime_error("probe_watch_sink_delay");
+            sink_delay_ms = std::stoull(delay->text);
+        }
         disked::fat_tree_operation::EventSink native_sink;
         if (const auto *stream = input.find("stream_watch"))
             if (stream->boolean)
                 native_sink = [&](const V &event) {
+                    if (sink_delay_ms && !sink_delays) {
+                        ++sink_delays;
+                        std::this_thread::sleep_for(std::chrono::milliseconds(
+                            static_cast<std::chrono::milliseconds::rep>(sink_delay_ms)));
+                    }
                     std::cout << disked::json::dump(event, limits) << '\n' << std::flush;
                     return static_cast<bool>(std::cout);
                 };
@@ -91,6 +109,9 @@ int main() {
             result = disked::nt_inventory::observe_fat_tree_operation(
                 get(input, "operation_id").text, get(input, "store").text,
                 input.find("cancel") && input.find("cancel")->boolean);
+        if (input.find("watch_sink_delay_ms"))
+            result.put("probe_sink_delay_ms", V::string(std::to_string(sink_delay_ms)))
+                .put("probe_sink_delays", V::string(std::to_string(sink_delays)));
         std::cout << disked::json::dump(result, limits) << '\n';
         return 0;
     } catch (const std::exception &e) {

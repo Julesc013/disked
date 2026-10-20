@@ -1,5 +1,6 @@
 """Bounded source-export/contract checks with retained command outcomes."""
 import ast
+import argparse
 import hashlib
 import importlib.util
 import json
@@ -12,10 +13,14 @@ import sys
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 work=Path(os.environ['DISKED_WORK_ROOT'])
-full='--full' in sys.argv
-finalize='--finalize' in sys.argv
-bundle='--bundle' in sys.argv
-review_only='--review-only' in sys.argv
+parser=argparse.ArgumentParser(description=__doc__)
+for flag in ('full','finalize','bundle','review-only'):parser.add_argument('--'+flag,action='store_true')
+parser.add_argument('--receipt-dir',type=Path,default=HERE)
+args=parser.parse_args()
+full,finalize,bundle,review_only=args.full,args.finalize,args.bundle,args.review_only
+receipt_dir=args.receipt_dir.resolve()
+if not receipt_dir.is_relative_to(HERE):raise ValueError('Receipt directory must remain inside owned evidence')
+receipt_dir.mkdir(parents=True,exist_ok=True)
 record=dict(status='running',base_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
 record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
 def inputs():
@@ -51,7 +56,7 @@ def retain():
     body=(json.dumps(record,indent=2)+'\n').encode();assert len(body)<4194304
     encoded=lzma.compress(body,format=lzma.FORMAT_XZ,filters=[dict(id=lzma.FILTER_LZMA2,dict_size=1048576,preset=6)])
     assert lzma.decompress(encoded)==body
-    (HERE/('review-validation.json.xz' if review_only else 'finalization.json.xz' if finalize else 'validation.json.xz' if full else 'focused-validation.json.xz')).write_bytes(encoded)
+    (receipt_dir/('review-validation.json.xz' if review_only else 'finalization.json.xz' if finalize else 'validation.json.xz' if full else 'focused-validation.json.xz')).write_bytes(encoded)
 try:
     if not (full or finalize):record['tested_inputs']=inputs()
     for arguments in commands:

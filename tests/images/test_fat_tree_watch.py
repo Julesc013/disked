@@ -174,6 +174,11 @@ class WatchTests(unittest.TestCase):
         opts=dict(after_sequence='1',after_digest='0'*64,worker_epoch=self.header['process_owner']['worker_epoch'],snapshot=True)
         out=invoke(dict(operation_id=self.header['operation_id'],store='unopened-invalid-store',watch=opts))
         self.assertEqual('fat_tree_watch_cursor_conflict',out['diagnostic'])
+        for delay in ('201','-1','00','18446744073709551616',True):
+            invoke(dict(operation_id=self.header['operation_id'],store='unopened-invalid-store',
+                        watch={},stream_watch=True,watch_sink_delay_ms=delay),'probe_watch_sink_delay')
+        invoke(dict(operation_id=self.header['operation_id'],store='unopened-invalid-store',
+                    watch={},watch_sink_delay_ms='125'),'probe_watch_sink_delay')
 
     def test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor(self):
         for options,error in [(dict(worker_epoch='worker:'+'0'*32),'fat_tree_watch_epoch'),
@@ -242,7 +247,9 @@ class WatchTests(unittest.TestCase):
         controller.wait_history(root,terminal=False)
         out=native(root,dict(follow_ms='100'))
         self.assertEqual('following_boundary',out['status'],out)
-        self.assertGreater(int(out['polls']),1);self.assertLessEqual(int(out['polls']),81)
+        # The follow budget includes native observation and sink time. It does
+        # not promise that a second observation fits inside100ms.
+        self.assertGreaterEqual(int(out['polls']),1);self.assertLessEqual(int(out['polls']),81)
         cursor=out['cursor'];self.assertTrue(out['events'])
         cancelled=controller.inspect(root,cancel=True)
         self.assertEqual('requested',cancelled['cancellation_request'])
@@ -254,6 +261,40 @@ class WatchTests(unittest.TestCase):
         self.assertTrue(resumed['observation']['history']['last_worker']['outcome']['cancellation_observed'])
         self.assertEqual(source,(root/'source.img').read_bytes())
         controller.actual_exit(caller['observation']['controller'])
+
+    def test_follow_budget_can_expire_during_first_event_sink(self):
+        root,inputs,expected,review=controller.prepared(fault=True)
+        source=(root/'source.img').read_bytes()
+        caller=controller.call(dict(review=review,controller_mode='dispatch',fixture=dict(worker_fault='execute_wait_cancel')),fault=True)
+        try:
+            controller.wait_history(root,terminal=False)
+            header=json.loads((root/'store/recursive-request.json').read_bytes())
+            value=dict(operation_id=header['operation_id'],store=str(root/'store'),
+                       watch=dict(follow_ms='100'),stream_watch=True,watch_sink_delay_ms='125')
+            run=subprocess.run([str(PROBE)],input=canonical(value),capture_output=True,timeout=15)
+            self.assertEqual(0,run.returncode);self.assertFalse(run.stderr)
+            rows=[json.loads(line) for line in run.stdout.splitlines()]
+            events,out=rows[:-1],rows[-1]
+            RESULTS.append(dict(input_sha256=sha(canonical(value)),exit_code=run.returncode,
+                                stream_events=events,result=out))
+            self.assertEqual('following_boundary',out['status'],out)
+            self.assertEqual('1',out['polls'])
+            self.assertEqual('125',out['probe_sink_delay_ms']);self.assertEqual('1',out['probe_sink_delays'])
+            self.assertTrue(events);self.assertTrue(all(e['schema']=='org.disked.event/1' for e in events))
+            self.assertEqual(events[-1]['sequence'],out['cursor']['sequence'])
+            cancelled=controller.inspect(root,cancel=True)
+            self.assertEqual('requested',cancelled['cancellation_request'])
+            cursor=out['cursor']
+            resumed=native(root,dict(follow_ms='2000',after_sequence=cursor['sequence'],
+                after_digest=cursor['last_digest'][7:],worker_epoch=cursor['worker_epoch']))
+            self.assertEqual('recorded_terminal',resumed['status'],resumed)
+            self.assertTrue(resumed['events'])
+            self.assertEqual(int(cursor['sequence'])+1,int(resumed['events'][0]['sequence']))
+            self.assertTrue(resumed['observation']['history']['last_worker']['outcome']['cancellation_observed'])
+            self.assertEqual(source,(root/'source.img').read_bytes())
+        finally:
+            controller.inspect(root,cancel=True)
+            controller.actual_exit(caller['observation']['controller'])
 
     def test_actual_wait_follows_live_operation_until_recorded_exit(self):
         root,inputs,expected,review=controller.prepared(fault=True)
