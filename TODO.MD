@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. Full x64 run115 at `e50f57f1` attempts all180 groups:179 pass; only `resilience.gui_waiting` fails during temporary-store cleanup before worker retirement. All4,371 archive entry hashes,six PNG/coordinator receipts,68 headers,14 import observations and owned cleanup verify;VM backing growth is zero. Repair that fixture, replay it, then complete full current qualification and reviewed `dev` integration into `main`. Preserve earlier private Win32/C90 source identities and the original all-platform/storage0.1.0 scope;owner/release gates remain separate. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
+Status: DE-W105 remains active. Full x64 run115 at `e50f57f1` attempts all180 groups:179 pass; only `resilience.gui_waiting` fails during temporary-store cleanup before worker retirement. All4,371 archive entry hashes,six PNG/coordinator receipts,68 headers,14 import observations and owned cleanup verify;VM backing growth is zero. Repair that fixture, replay it, then complete full current qualification and reviewed `dev` integration into `main`. Preserve earlier private Win32/C90 source identities and the original all-platform/storage0.1.0 scope;owner/release gates remain separate. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md). Focused run116 passes the repaired GUI group at `379032ae`;full current qualification is running as session89814.
 
 ## Storage recovery
 
