@@ -105,6 +105,14 @@ class Artifacts:
         body = self.read(descriptor)
         return strict_json(body)
 
+    def capture(self, name):
+        """Observe current ordinary-file bytes without inventing an expected hash."""
+        path = self.path(name)
+        size = path.lstat().st_size
+        require(0 <= size <= 2 * 1024 * 1024, 'artifact_capture_bound')
+        body = self._read(path, size)
+        return dict(path=name, bytes=size, sha256=digest(body)), body
+
     def recheck(self):
         for path, (descriptor, _) in self.files.items():
             require(digest(self._read(path, descriptor['bytes'])) == descriptor['sha256'], 'artifact_changed')
@@ -160,6 +168,46 @@ def _policy(value, participant, profile, reader):
     return argument
 
 
+def declared_inputs(manifest, root, expected_snapshot):
+    """Shared declaration checks for collection and finalized packet reading."""
+    require(isinstance(expected_snapshot, str) and SHA.fullmatch(expected_snapshot) and
+            canonical_digest(manifest) == expected_snapshot, 'manifest_snapshot')
+    binding = manifest['evidence']
+    require(isinstance(binding, dict) and set(binding) == {'schema', 'contract', 'generator', 'fixtures', 'participants'} and
+            binding['schema'] == 'org.disked.differential-evidence/1', 'binding_schema')
+    participants = binding['participants']
+    require(isinstance(participants, dict) and 2 <= len(participants) <= 9 and 'native' in participants, 'participant_set')
+    empty = {name: dict(observations=[]) for name in participants if name != 'native'}
+    inventory = evidence_set(manifest, dict(observations=[]), empty)
+    require(inventory['status'] == 'incomplete' and not inventory['errors'], 'declaration_set')
+    reader = Artifacts(root)
+    require(reader.read(binding['contract']) == Path(__file__).with_name('CONTRACT.md').read_bytes(), 'comparison_contract')
+    reader.read(binding['generator'])
+    require(binding['generator']['sha256'] == manifest['generator_sha256'], 'generator_identity')
+    cases = {v['name']: v for v in manifest['cases']}
+    require(isinstance(binding['fixtures'], dict) and set(binding['fixtures']) == set(cases), 'fixture_set')
+    for name, case in cases.items():
+        descriptor = binding['fixtures'][name]
+        reader.read(descriptor)
+        require(descriptor['sha256'] == case['sha256'] and descriptor['bytes'] == case['bytes'], 'fixture_identity')
+        require(case.get('family') in ('mbr', 'gpt') and 2 <= case['blocks'] <= 4096 and
+                type(case.get('common_projection')) is bool and isinstance(case.get('checks'), dict) and
+                0 < len(case['checks']) <= 256, 'fixture_contract')
+    identities = {name: _identity(reader, name, value) for name, value in participants.items()}
+    tuples = {(v['name'], v['participant'], v['kind']): v for v in manifest['expected_observations']}
+    paths = {}
+    for (name, participant, kind), row in tuples.items():
+        require(participant != 'native' or kind == 'native', 'native_observation_kind')
+        policy = row.get('policy')
+        _policy(policy, participant, identities[participant][0], reader)
+        require(policy['argv'][0] in identities[participant][1], 'executable_not_identified')
+        pair = name, participant
+        require(pair not in paths or paths[pair] == policy['input_path'], 'participant_copy_identity')
+        paths[pair] = policy['input_path']
+    require(len(set(paths.values())) == len(paths), 'participant_copy_identity')
+    return reader, cases, tuples, identities
+
+
 def validate_bindings(manifest, native, external, root, expected_snapshot):
     """Verify consistency, not authenticated execution or capability admission."""
     result = dict(status='unverified', errors=[], execution=[], execution_passed=False,
@@ -174,34 +222,16 @@ def validate_bindings(manifest, native, external, root, expected_snapshot):
             result.update(status='invalid' if inventory['status']=='invalid' else 'incomplete',
                           errors=['observation_set_not_complete'])
             return result
-        require(isinstance(expected_snapshot, str) and SHA.fullmatch(expected_snapshot) and
-                canonical_digest(manifest) == expected_snapshot, 'manifest_snapshot')
+        reader, cases, tuples, identities = declared_inputs(manifest, root, expected_snapshot)
         binding = manifest['evidence']
-        require(isinstance(binding, dict) and set(binding) == {'schema', 'contract', 'generator', 'fixtures', 'participants'} and
-                binding['schema'] == 'org.disked.differential-evidence/1', 'binding_schema')
-        reader = Artifacts(root)
-        require(reader.read(binding['contract']) == Path(__file__).with_name('CONTRACT.md').read_bytes(), 'comparison_contract')
-        reader.read(binding['generator'])
-        require(binding['generator']['sha256'] == manifest['generator_sha256'], 'generator_identity')
-        cases = {v['name']: v for v in manifest['cases']}
-        require(isinstance(binding['fixtures'], dict) and set(binding['fixtures']) == set(cases), 'fixture_set')
-        for name, case in cases.items():
-            descriptor = binding['fixtures'][name]
-            reader.read(descriptor)
-            require(descriptor['sha256'] == case['sha256'] and descriptor['bytes'] == case['bytes'], 'fixture_identity')
-            require(case.get('family') in ('mbr', 'gpt') and 2 <= case['blocks'] <= 4096 and
-                    type(case.get('common_projection')) is bool and isinstance(case.get('checks'), dict) and
-                    0 < len(case['checks']) <= 256, 'fixture_contract')
-        tuples = {(v['name'], v['participant'], v['kind']): v for v in manifest['expected_observations']}
         receipts = dict(external, native=native)
         participants = binding['participants']
-        require(isinstance(participants, dict) and 2 <= len(participants) <= 9 and set(participants) == set(receipts), 'participant_set')
-        profiles = {}
+        require(set(participants) == set(receipts), 'participant_set')
         for participant, receipt in receipts.items():
-            profile, executables = _identity(reader, participant, participants[participant])
-            profiles[participant] = profile
+            profile, executables = identities[participant]
             identity_hash = participants[participant]['identity']['sha256']
             require(receipt.get('participant') == participant and receipt.get('identity_sha256') == identity_hash, 'receipt_identity')
+            require(receipt.get('status', 'collected') == 'collected' and receipt.get('active') is None, 'receipt_not_finalized')
             for row in receipt['observations']:
                 key = row['name'], participant, row['kind']; case = cases[row['name']]
                 policy = tuples[key].get('policy')
@@ -214,14 +244,15 @@ def validate_bindings(manifest, native, external, root, expected_snapshot):
                 require(isinstance(execution, dict) and set(execution) == {'status', 'argv', 'exit_code', 'elapsed_seconds'}, 'execution_shape')
                 status, code, elapsed = (execution[k] for k in ('status', 'exit_code', 'elapsed_seconds'))
                 expected_outcomes = {'completed': 'exited', 'refused': 'exited', 'timed_out': 'timeout',
-                                     'crashed': 'exited', 'unavailable': 'unavailable'}
+                                     'crashed': 'exited', 'unavailable': 'unavailable', 'output_limited': 'output_limit'}
                 require(status in expected_outcomes and row['outcome'] == expected_outcomes[status] and
                         row['exit_code'] == code and type(row['exit_code']) is type(code) and
                         execution['argv'] == policy['argv'] and row['argv'] == policy['argv'], 'execution_binding')
                 require((status == 'completed' and type(code) is int and code == 0) or
                         (status == 'refused' and type(code) is int and 0 < code < 2**31) or
                         (status == 'crashed' and type(code) is int and code != 0) or
-                        (status in ('timed_out', 'unavailable') and (code is None or type(code) is int and code != 0)), 'execution_exit_relationship')
+                        (status in ('timed_out', 'output_limited') and (code is None or type(code) is int)) or
+                        (status == 'unavailable' and code is None), 'execution_exit_relationship')
                 require(type(elapsed) in (int, float) and math.isfinite(elapsed) and
                         0 <= elapsed <= policy['timeout_seconds'] + 2, 'execution_elapsed')
                 result['execution'].append(dict(name=row['name'], participant=participant, kind=row['kind'],

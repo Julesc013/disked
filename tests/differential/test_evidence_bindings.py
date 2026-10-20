@@ -124,6 +124,17 @@ class BindingTests(unittest.TestCase):
         self.assertEqual(result['evidence_status'],'invalid')
         self.assertIn('raw_projection_binding',result['evidence_validation']['errors'])
 
+    def test_extra_native_kind_cannot_avoid_required_comparisons(self):
+        packet=self.packet();manifest,native,external=packet
+        declaration=copy.deepcopy(manifest['expected_observations'][0]);declaration['kind']='another-native-kind'
+        manifest['expected_observations'].append(declaration)
+        row=copy.deepcopy(native['observations'][0]);row['kind']='another-native-kind'
+        native['observations'].append(row)
+        result=self.verify(packet)
+        self.assertFalse(result['complete_success'])
+        self.assertEqual(result['evidence_status'],'invalid')
+        self.assertEqual(len(result['unvalidated_inputs']['native']['observations']),2)
+
     def test_refusal_timeout_crash_and_unavailability_are_distinct_complete_observations(self):
         for status, outcome, code in [('refused','exited',1),('timed_out','timeout',-1),('crashed','exited',-2),('unavailable','unavailable',None)]:
             packet=self.packet();row=packet[2]['reference']['observations'][1]

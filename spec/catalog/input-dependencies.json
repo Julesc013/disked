@@ -3140,7 +3140,8 @@
         "tests/corpus/partition_images.py",
         "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
-        "tests/differential/projections.py"
+        "tests/differential/projections.py",
+        "tests/differential/collector.py"
       ],
       "spec_ids": [
         "DE-074",
@@ -3154,7 +3155,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/differential/observe_native.py",
-        "tests/differential/projections.py"
+        "tests/differential/projections.py",
+        "tests/differential/collector.py"
       ],
       "spec_ids": [
         "DE-074",
@@ -18058,6 +18060,48 @@
       "depends_on": [
         "tests/differential/test_evidence_bindings.py",
         "tools/workspace.py"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/differential/collector.py",
+      "path": "tests/differential/collector.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/evidence.py",
+        "tests/differential/projections.py",
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/differential/test_collectors.py",
+      "path": "tests/differential/test_collectors.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/collector.py",
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py",
+        "tests/differential/test_evidence_bindings.py",
+        ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json",
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/CONTRACT.md"
       ],
       "spec_ids": [
         "DE-074"

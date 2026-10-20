@@ -1,18 +1,13 @@
 """Linux-only bounded observation adapter for installed partition utilities."""
-import argparse
 import hashlib
-import json
 import os
 import re
-import resource
 import selectors
 import signal
 import subprocess
 import time
-import uuid
 from pathlib import Path
 
-from observe_native import load_case
 from projections import external_projection as normalize
 
 
@@ -21,6 +16,7 @@ def digest(path):
 
 
 def child_limits():
+    import resource
     resource.setrlimit(resource.RLIMIT_AS, (512*1024*1024, 512*1024*1024))
     resource.setrlimit(resource.RLIMIT_CPU, (4, 4))
     resource.setrlimit(resource.RLIMIT_FSIZE, (0, 0))
@@ -29,6 +25,7 @@ def child_limits():
 
 
 def run(argv, cwd, timeout=8, output_limit=1024*1024):
+    if os.name != 'posix': raise RuntimeError('Linux process helper requires its qualified Linux worker')
     start = time.monotonic(); buffers = [bytearray(), bytearray()]; outcome = 'exited'
     env = dict(os.environ, LC_ALL='C', LANG='C', HOME=str(cwd), TERM='dumb', NO_COLOR='1')
     with subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
@@ -62,55 +59,30 @@ def run(argv, cwd, timeout=8, output_limit=1024*1024):
     return result
 
 
-def identity(tool):
-    files = {}; resolved = Path(tool).resolve(); files[str(resolved)] = digest(resolved)
-    linked = subprocess.run(['/usr/bin/ldd', tool], capture_output=True, text=True, timeout=15)
-    for match in re.findall(r'(?:=>\s*)?(/[^\s()]+)', linked.stdout):
-        path = Path(match).resolve()
-        if path.is_file(): files[str(path)] = digest(path)
-    package = subprocess.run(['/usr/bin/dpkg-query', '-W', '-f=${binary:Package} ${Version} ${source:Package} ${source:Version}\n',
-                              'fdisk', 'libfdisk1'] if 'sfdisk' in tool else
-                             ['/usr/bin/dpkg-query', '-W', '-f=${binary:Package} ${Version} ${source:Package} ${source:Version}\n', 'gdisk'],
-                             capture_output=True, text=True, timeout=15)
-    version = subprocess.run([tool, '--version'], capture_output=True, text=True, timeout=15)
-    return dict(path=tool, files=files, version=version.stdout, version_exit=version.returncode,
-                package_source_identity=package.stdout, package_exit=package.returncode,
-                linked_libraries=linked.stdout, ldd_exit=linked.returncode,
-                source_bytes_verified=False)
+def collect(manifest, root, expected_snapshot, participant, measured_identity, sfdisk, sgdisk, execute):
+    """Construct fixed read-only reference commands, never execute manifest argv."""
+    from collector import collect as collect_participant
+    if participant == 'native':
+        raise ValueError('Reference adapter cannot use native identity')
+    commands = {}
+    for row in manifest['expected_observations']:
+        if row['participant'] != participant:
+            continue
+        path = str(Path(root) / row['policy']['input_path'])
+        kind = row['kind']
+        if kind in ('sfdisk-json', 'sfdisk-verify'):
+            argv = [str(Path(sfdisk).absolute()), '--json' if kind == 'sfdisk-json' else '--verify', path]
+        elif kind == 'sgdisk-print' and sgdisk is not None:
+            argv = [str(Path(sgdisk).absolute()), '--pretend', '--print', '--verify', path]
+        else:
+            raise ValueError('Unknown or unavailable reference observation kind')
+        commands[row['name'], kind] = argv
+    return collect_participant(manifest, root, expected_snapshot, participant, measured_identity, commands, execute)
 
 
-def observe(corpus, output, sgdisk=False):
-    if os.geteuid() == 0: raise PermissionError('Root execution is outside this campaign')
-    root = Path(corpus).resolve(); output = Path(output).resolve(); output.mkdir(parents=True, exist_ok=False)
-    manifest = json.loads((root/'manifest.json').read_text(encoding='utf-8'))
-    tools = ['/usr/sbin/sfdisk']+(['/usr/sbin/sgdisk'] if sgdisk else [])
-    identities = [identity(tool) for tool in tools]; observations = []
-    for case in manifest['cases']:
-        path = root/case['file']; data = load_case(root, case)
-        commands = [('sfdisk-json', ['/usr/sbin/sfdisk', '--json', str(path)]),
-                    ('sfdisk-verify', ['/usr/sbin/sfdisk', '--verify', str(path)])]
-        if sgdisk and case['family'] == 'gpt':
-            commands.append(('sgdisk-print', ['/usr/sbin/sgdisk', '--pretend', '--print', '--verify', str(path)]))
-        for kind, argv in commands:
-            assert load_case(root, case) == data
-            record = run(argv, output)
-            try: unchanged = load_case(root, case) == data
-            except (OSError, ValueError): unchanged = False
-            record.update(name=case['name'], kind=kind, sha256=case['sha256'], input_unchanged=unchanged)
-            record['projection'] = normalize(record, kind, path)
-            observations.append(record)
-            (output/'observations.json').write_text(json.dumps(observations, indent=2)+'\n', encoding='utf-8')
-            if not unchanged: raise AssertionError('External invocation changed its fixture; observation retained')
-    for tool in identities:
-        for path, expected in tool['files'].items():
-            if digest(Path(path)) != expected: raise AssertionError('External tool closure changed during observation')
-    receipt = dict(uid=os.geteuid(), tools=identities, cases=len(manifest['cases']), observations=observations,
-                   scope='Ordinary synthetic 512-byte-sector files; observations are not correctness votes')
-    (output/'results.json').write_text(json.dumps(receipt, indent=2)+'\n', encoding='utf-8')
-    print('External observations retained:', len(observations))
+def observe(*args, **kwargs):
+    raise RuntimeError('Legacy external collector suspended: use collect with a frozen manifest and qualified runner')
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(); parser.add_argument('--corpus', required=True)
-    parser.add_argument('--output', required=True); parser.add_argument('--sgdisk', action='store_true')
-    args = parser.parse_args(); observe(args.corpus, args.output, args.sgdisk)
+    observe()

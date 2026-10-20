@@ -114,8 +114,9 @@ selecting one duplicate. Historical receipts without a declaration remain
 unverified; their candidate comparisons may still be inspected as diagnostics.
 Set-only receipts remain unverified. The opt-in binding profile below checks
 participant, artifact, preservation and execution relationships before permitting
-a complete evidence-packet result. Existing collectors do not yet emit that
-profile, and no actual campaign or worker is qualified by the offline tests.
+a complete evidence-packet result. Coordinated collector APIs now emit that
+profile; the legacy direct CLIs are suspended. No actual campaign or worker is
+qualified by the offline tests.
 This neither qualifies DE-W106 nor closes its DE-W105 dependency.
 
 ### Provisional finalized-packet bindings
@@ -165,7 +166,10 @@ writer, nor replace OS-enforced worker confinement.
 
 `evidence_status`, per-observation execution outcomes and `comparison_status`
 remain separate. Required timeout, crash or unavailability prevents complete
-success. A declared refusal can be a complete observation, but cannot pass a
+success. Output exhaustion is recorded as `output_limited` with outcome
+`output_limit` and likewise cannot pass execution. A deadline or output failure
+remains a failure even if the eventual process exit is zero. A declared refusal
+can be a complete observation, but cannot pass a
 common control requiring a successful projection. Complete noncontrol
 disagreements remain findings, and selecting one GPT candidate never resolves
 the native conflict.
@@ -176,6 +180,53 @@ finalized bytes and declarations agree with the caller's snapshot. Plain hashes
 do not authenticate execution, admit the collector/worker, accept this work unit
 or qualify a product, platform, provider or release. Actual collector migration,
 qualified execution and the DE-W105 dependency remain separate gates.
+
+### Coordinated collectors (private, execution qualification pending)
+
+`observe_native.collect` and `observe_external.collect` accept a caller-frozen
+manifest, packet root, measured worker identity, explicit tool paths and an
+execution callback. The adapter constructs its fixed native-probe or read-only
+sfdisk/sgdisk command and compares it with the declared command. Manifest data
+never supplies an executable command on its own. The shared declaration resolver
+checks the contract, generator, canonical fixture bytes, identities, policies
+and independent participant paths before any invocation. The measured identity
+must equal the frozen identity; its workspace is the actual packet root beneath
+`DISKED_WORK_ROOT`, outside the repository.
+
+The collector exclusively creates a distinct case/participant copy and its own
+collection directory. Existing copies, reports or collection directories cause
+refusal. Every call retains a separate before snapshot, the native stdin bytes
+where applicable, raw stdout/stderr, actual after-file identity and bytes, and
+executable before/after hashes. Malformed native output and non-UTF-8 data remain
+evidence. Changing an input or executable stops collection after retaining the
+available observations. `collected` means calls were recorded, not that their
+execution, native checks, comparisons or worker qualification passed.
+
+The owning qualified runner implements
+`execute(argv, cwd, payload, timeout, output_limit)`. It must enforce the selected
+process/resource profile and retire its entire process tree before returning
+`{outcome, exit_code, elapsed_seconds, stdout, stderr, terminal:true}`. Streams are
+exact bytes. Outcomes are `exited`, `timeout`, `output_limit` or `unavailable`.
+Positive ordinary tool exits below 256 are recorded as refusals; other nonzero
+exits are crashes. Neither can satisfy a native-success requirement. Missing
+execution is represented by `unavailable` and a null exit, not a fabricated child.
+This port is not an execution-permission flag or a replacement scheduler.
+
+Before dispatch, a bounded receipt records the active call and available
+artifacts. Completed calls are checkpointed individually. A callback exception
+or interruption preserves the unfinished call, records its known terminal
+status and never triggers an automatic retry. The prior receipt and bounded
+partial files survive a failed checkpoint. Explicit failed/interrupted or active
+receipts cannot pass finalized-packet validation. The outer runner owns cleanup
+on success, failure and interruption after compact evidence is collected.
+
+Raw bytes returned by a call are limited to 1 MiB total, artifacts to 2 MiB,
+receipts to 8 MiB and all writes by one collector to 64 MiB. This includes repeated
+receipt checkpoints. The existing aggregate workspace and OS-enforced caps still
+apply across participants. A supplied callback must enforce its output bound
+during execution; checking returned bytes does not establish that property.
+No native/external campaign is admitted until that worker and the coordinator's
+success/cleanup path are exercised. Legacy direct CLIs refuse before effects.
 
 ## Windows reference pilot (DE-W107, planned)
 

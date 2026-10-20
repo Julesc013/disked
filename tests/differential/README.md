@@ -8,7 +8,8 @@ The historical `run_wsl_campaign.py` recipe is suspended. It requires generated
 output in `.aide-local`, which now permits only 32 MiB of context and metadata.
 Do not run it under the current resource policy. DE-W106 must migrate the
 coordinator and prove managed output/confinement/cleanup before reuse. The
-collectors still emit legacy receipts rather than the finalized-packet profile;
+direct collector CLIs are also suspended. The coordinated APIs emit finalized
+packet records through a supplied runner; no actual worker/campaign is admitted.
 `adapter_controls_passed` alone cannot qualify a complete campaign.
 See [the planned correction](CONTRACT.md#planned-evidence-boundary-correction-de-w106).
 
@@ -34,7 +35,11 @@ For a finalized packet, pass its precollection canonical manifest digest with
 `--expected-manifest-sha256` and its managed packet folder with `--artifact-root`.
 See the [private binding profile](CONTRACT.md#provisional-finalized-packet-bindings).
 Old collector output remains unverified; it is not silently upgraded into this
-format. Pure projections run on Windows too, while Linux process tests remain
+format. The new collector APIs use shared declaration validation, fixed adapter
+commands, distinct copies, bounded raw artifacts and per-call checkpoints. Their
+runner must supply a measured identity and terminal process-tree result. An
+exception preserves an unfinished call without retry or a quiescence claim.
+Pure projections run on Windows too, while Linux process tests remain
 explicitly platform-specific. Both GPT candidates and complete disagreements are
 retained independently of the evidence-completeness result.
 
@@ -46,15 +51,13 @@ exception to read-only metadata commands for this explicit Windows-owned checkou
 it does not modify global Git settings. This describes the historical runner,
 not an admitted current execution profile.
 
-Individual adapters can be composed in an unprivileged Linux worker after its
-resource/confinement profile is qualified. These are adapter arguments, not a
-replacement for the mandatory managed campaign runner:
-
-```text
-python tests/corpus/partition_images.py --output /path/to/new/corpus
-python tests/differential/observe_external.py --corpus /path/to/corpus --output /path/to/new/observations --sgdisk
-python tests/fuzz/run_campaign.py --corpus /path/to/corpus --output /path/to/new/faults --iterations 10000
-```
+The campaign owner must freeze a manifest before invoking
+`observe_native.collect` or `observe_external.collect`. Both require explicit
+tool paths, the measured participant identity and the owning qualified runner's
+execution callback. See the [collector contract](CONTRACT.md#coordinated-collectors-private-execution-qualification-pending).
+There is no admitted standalone campaign entrypoint yet. The old direct CLIs
+refuse before output or subprocess creation. The existing Linux `run` helper is
+not by itself proof of process-tree, storage or worker qualification.
 
 External dependencies are installed `sfdisk`, optionally `sgdisk`, Python, and
 GCC/G++/gcov with AddressSanitizer and UndefinedBehaviorSanitizer. The native

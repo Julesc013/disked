@@ -1,0 +1,14 @@
+{
+  "work_id": "DE-W106",
+  "base_revision": "883c60f4f36db94b4dd2da73c131939c44105924",
+  "scope": "Collector implementation and synthetic-runner tests;no native/external campaign or worker admission",
+  "requirements": [
+    "Validate the caller-frozen manifest and all declaration artifacts before any process invocation. Require the runner's measured participant identity to equal the frozen identity and its workspace to be this owned managed packet root.",
+    "Construct native/sfdisk/sgdisk commands in the adapter from explicit tool paths;compare with the frozen argv. Never execute an argv learned from an observation or manifest.",
+    "Create a distinct ordinary fixture copy per case/participant;retain independent before snapshots,actual after bytes,raw stdout/stderr,native request and executable before/after hashes. Do not overwrite old collection output.",
+    "Persist in-progress and completed observations after each call. Runner exceptions/interruption preserve an unfinished active call and do not claim quiescence or retry. Reject changed input/executable bytes while retaining observations.",
+    "Separate completed/refused/crashed/unavailable/timed_out/output_limited outcomes. Deadline/output failure cannot become success even if the process eventually exits zero. Preserve invalid UTF8 and malformed successful output without inventing projections.",
+    "Bound each raw result to1MiB,each artifact to2MiB,each participant receipt to8MiB and all writes by a collector to64MiB. Existing runner/OS resource and cleanup gates remain required.",
+    "Legacy CLI paths refuse before output/process effects. Actual process execution is supplied by the owning qualified runner;offline tests use an explicit synthetic runner and cannot qualify that environment."
+  ]
+}

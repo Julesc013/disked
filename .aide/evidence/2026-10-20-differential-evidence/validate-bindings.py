@@ -14,7 +14,8 @@ HERE = Path(__file__).resolve().parent
 WORK = Path(os.environ['DISKED_WORK_ROOT'])
 DEPS = WORK / 'dependencies'
 ENV = dict(os.environ, PYTHONPATH=str(DEPS), PYTHONDONTWRITEBYTECODE='1')
-record = dict(status='running', scope=__doc__, commands=[], base_revision=None)
+PREFIX = 'collector' if '--collectors' in sys.argv else 'bindings'
+record = dict(status='running', scope=__doc__, suite=PREFIX, commands=[], base_revision=None)
 commands = [
     ['-m', 'pip', 'install', '--disable-pip-version-check', '--no-cache-dir', '--no-deps',
      '--only-binary=:all:', '--target', str(DEPS), 'PyYAML==6.0.3'],
@@ -37,7 +38,7 @@ def retain():
                            filters=[dict(id=lzma.FILTER_LZMA2, dict_size=1024 * 1024, preset=6)])
     if lzma.decompress(packed) != body:
         raise ValueError('Compressed receipt verification')
-    (HERE / 'bindings-validation.json.xz').write_bytes(packed)
+    (HERE / (PREFIX + '-validation.json.xz')).write_bytes(packed)
 
 
 def input_hashes():
@@ -47,7 +48,7 @@ def input_hashes():
     paths.update(p for p in (ROOT / '.aide/evidence/2026-10-18-ordinary-worker').iterdir()
                  if p.is_file() and p.suffix in ('.py', '.ps1', '.cpp', '.h'))
     paths.update((ROOT / 'CMakeLists.txt', ROOT / 'docs/source-map.json', ROOT / 'docs/code-structure.md',
-                  HERE / 'bindings-expected.json', Path(__file__).resolve()))
+                  HERE / (PREFIX + '-expected.json'), Path(__file__).resolve()))
     return {p.relative_to(ROOT).as_posix(): 'sha256:' + hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(paths) if p.is_file()}
 

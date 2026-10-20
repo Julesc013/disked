@@ -1,11 +1,12 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W106",
-  "base_revision": "271ed39ad5de9cffe2480266fc2349f317322d5b",
-  "spec_manifest_digest": "sha256:ff64b05107f4dbf209ec3ccb8e116c0cbe182714fadc62cd8e15baa089ff72d4",
+  "base_revision": "883c60f4f36db94b4dd2da73c131939c44105924",
+  "spec_manifest_digest": "sha256:7be022979a0f10c16a78e7378cd08fe0ebc9eedb4fc10701aea7c1db0016aa24",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-20-differential-evidence/bindings-expected.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json",
     ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
     ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
     ".aide/programmes/disked-0.1.0.json",
@@ -22,6 +23,7 @@
     "tests/corpus/partition_images.py",
     "tests/differential/CONTRACT.md",
     "tests/differential/README.md",
+    "tests/differential/collector.py",
     "tests/differential/compare.py",
     "tests/differential/evidence.py",
     "tests/differential/observe_external.py",
@@ -29,6 +31,7 @@
     "tests/differential/projections.py",
     "tests/differential/run_wsl_campaign.py",
     "tests/differential/test_adapters.py",
+    "tests/differential/test_collectors.py",
     "tests/differential/test_completeness.py",
     "tests/differential/test_evidence_bindings.py",
     "tests/fuzz/run_campaign.py"
@@ -43,6 +46,17 @@
     ".aide/evidence/2026-10-20-differential-evidence/cli-metadata.json",
     ".aide/evidence/2026-10-20-differential-evidence/cli-review.json",
     ".aide/evidence/2026-10-20-differential-evidence/cli-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-context.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-diagnostic-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-final-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-first-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-handoff-validation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-native-kind-red.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-review.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-stat-observation.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-tests.json",
+    ".aide/evidence/2026-10-20-differential-evidence/collector-validation.json.xz",
     ".aide/evidence/2026-10-20-differential-evidence/context.json",
     ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
     ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
@@ -50,6 +64,8 @@
     ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
     ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
     ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz",
+    ".aide/handoffs/2026-10-19-current-checkpoint.json",
+    ".aide/handoffs/2026-10-20-differential-preparation.json",
     ".aide/programmes/disked-0.1.0.json",
     "TODO.MD",
     "spec/catalog/input-dependencies.json",
@@ -57,6 +73,7 @@
     "spec/work/units.json",
     "tests/differential/CONTRACT.md",
     "tests/differential/README.md",
+    "tests/differential/collector.py",
     "tests/differential/compare.py",
     "tests/differential/evidence.py",
     "tests/differential/observe_external.py",
@@ -64,10 +81,11 @@
     "tests/differential/projections.py",
     "tests/differential/run_wsl_campaign.py",
     "tests/differential/test_adapters.py",
+    "tests/differential/test_collectors.py",
     "tests/differential/test_completeness.py",
     "tests/differential/test_evidence_bindings.py"
   ],
-  "summary": "Independent DE-W106 preparation while DE-W105 remains current and unqualified. The opt-in finalized-packet checker binds a caller-frozen manifest to declared participant/source/build/profile identities,actual artifact bytes,distinct preserved fixture copies,raw requests/results,typed execution policy and recomputed projections.42 offline differential tests(5 Linux-only skips),253 specification tests(2 skips) and211 tooling tests(1 skip) pass. Existing collectors remain legacy/unverified. No native/external campaign,worker qualification,dependency acceptance,owner acceptance or main integration is claimed.",
+  "summary": "Independent DE-W106 preparation while DE-W105 remains current. Native/reference collector APIs use shared frozen declarations and fixed adapter commands,measured identities,distinct copies,bounded raw/request/before/after evidence and executable hashes. Interrupted calls and terminal results remain separate;legacy direct CLIs are blocked.61 synthetic/offline tests pass(5 Linux-only skips);the earlier broad pass ran253 specification tests(2 skips),211 tooling tests(1 skip) and60 differential tests(5 skips). Exact before/follow-up input maps remain retained. No real worker/campaign,dependency,owner/release acceptance or main integration is claimed.",
   "tests": [
     {
       "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -p test_completeness.py -v",
@@ -138,12 +156,55 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/bindings-format-tests.json"
+    },
+    {
+      "command": "Initial full differential tests;retained ctime failures",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/collector-first-tests.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-20-differential-evidence/validate-bindings.py --collectors",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/collector-validation.json.xz"
+    },
+    {
+      "command": "Extra native-kind regression against unchanged reader",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/collector-native-kind-red.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/collector-final-tests.json"
+    },
+    {
+      "command": "Final DE-W106 source-bound context generation and verification;see collector-context.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/collector-context.json"
     }
   ],
   "artifacts": [
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
-      "sha256": "sha256:fd73a5d30d48756dd010fb90edb571981040da57038fd35090b8499e13bb2600"
+      "sha256": "sha256:94240a56822a7e50230e00c80bd782ab1b2cdf9933b470a1b3b8fc6a3ca3d0b5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-checkpoint.json",
+      "sha256": "sha256:66541a992829059f4c9f5e27bd3ab000a729f79a411a2120ef72cad8a02fccd7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-corpus-bounds.json",
+      "sha256": "sha256:8b274dee8894906a8c5069a19205d5d1eda031009fd3db67d59b58361d953f59"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-expected.json",
@@ -152,6 +213,14 @@
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-first-test-failure.json",
       "sha256": "sha256:c2bb51a193a19af5d4217a961035f640a76e695e92c899d32580b5bff621a5d3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-format-tests.json",
+      "sha256": "sha256:1ac1adcc2289425720d9a2ed6ab110ee439fb36abfb911a273d201c355138aef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-formatting.json",
+      "sha256": "sha256:96c59a023115007267f91a81aaf6502fb6ce553aede89f26bf06376fd28f6587"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-review.json",
@@ -178,6 +247,46 @@
       "sha256": "sha256:b49b8c16059cfc3397d38d61bc8320a1fbf4fedef573265cbccb66797f07ccba"
     },
     {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-context.json",
+      "sha256": "sha256:538d7ff9654500cadb5bd20696155cf7729a247ed148b3eda8a756f8f9a3feed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-diagnostic-tests.json",
+      "sha256": "sha256:795570d2be564cc7ebbe5982b88fe349b9a1d42484f5a2965a1a1ef62d9708f2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-expected.json",
+      "sha256": "sha256:76f4dde32ded05dbbf7a509adea947dffb09d4acc7a4d99cedf651b09735651a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-final-tests.json",
+      "sha256": "sha256:162475f5afee0ce531d7b826da869d1bf32bbd9c0ed9e6a85e1e85d53b3753df"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-first-tests.json",
+      "sha256": "sha256:815fa00e0b267317a2ec295278af090ca7f2ee2d9596a6f9b0b159e3e3bbacdd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-native-kind-red.json",
+      "sha256": "sha256:e0c68248b88fa15c4ee2f1bc16f1dcf0cfc1fb101b0e0c60faa0254c5d524b47"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-review.json",
+      "sha256": "sha256:665bf38b081cbd72d1ca0c6b5d17768f5250c1afe3a943512f97e517d22b8661"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-stat-observation.json",
+      "sha256": "sha256:c3cac35fb3f5aed5b8e4b5a2bf58954c5eec9ced453b35a5f5bccd1978e7d88f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-tests.json",
+      "sha256": "sha256:2f743c86b692f89ca32bb3b82db8fa66daaf72f4aea1c3f9a38d09bde8f391ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/collector-validation.json.xz",
+      "sha256": "sha256:137293a11c1374265fb90c07da9b05ae38232e1d2fb59c116691f393808c25b4"
+    },
+    {
       "path": ".aide/evidence/2026-10-20-differential-evidence/context.json",
       "sha256": "sha256:a8687ce6e4ca0a135913d3f1dfe3800e9df95be29db3862400cb8defb2b70ef9"
     },
@@ -195,7 +304,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/validate-bindings.py",
-      "sha256": "sha256:f43c4df45fb3d37d243060340559b1dc5fa170ca69a6e26316a7280ae63e5691"
+      "sha256": "sha256:3c399ee05863d848be8c273931b72450a1586aefebe3881bd2bbf54ba9f91bb2"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
@@ -207,31 +316,35 @@
     },
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:58bc5df921af08bb0c6304862102d0067c74f99108d7f123d2529d9c081314c7"
+      "sha256": "sha256:af5da8486f645954712ca431725519b39390536dba21deff3afe3c70db6c76ab"
     },
     {
       "path": "TODO.MD",
-      "sha256": "sha256:bdfedff55dcb675afa14804900527be5155ef09978998bee459890b2cccac69e"
+      "sha256": "sha256:fb560c9f1204cd48a8dcb44cfd354546bd56fab6674e0b2ee4cde3d6747492d6"
     },
     {
       "path": "spec/catalog/input-dependencies.json",
-      "sha256": "sha256:77866b5bc31378ba1f5e6391d761d85b2a5212814d435923a65db96ea0873951"
+      "sha256": "sha256:a1bd2e95fb1e7d91a28e9bb507681746f696cd0e4e330be2cb9d16b47ba83015"
     },
     {
       "path": "spec/manifest.json",
-      "sha256": "sha256:ff64b05107f4dbf209ec3ccb8e116c0cbe182714fadc62cd8e15baa089ff72d4"
+      "sha256": "sha256:7be022979a0f10c16a78e7378cd08fe0ebc9eedb4fc10701aea7c1db0016aa24"
     },
     {
       "path": "spec/work/units.json",
-      "sha256": "sha256:03fbc5fc478cb64517248ad3a7226bdebd8a64d736353e88533f37df15ca0d93"
+      "sha256": "sha256:08d2a790c193cd6e4976d144844d366b5a166e83f798f9f4d1ae95d43f6bec0a"
     },
     {
       "path": "tests/differential/CONTRACT.md",
-      "sha256": "sha256:90d552667ccf4be7ee86b0cff58d05843cdd38ebb509f04c69f44455cf8f35f8"
+      "sha256": "sha256:b61bb4e8f98c5344b28a7740694c7f0dafae8c71f70370dbd7df8b7f06ae575c"
     },
     {
       "path": "tests/differential/README.md",
-      "sha256": "sha256:690bf48315c15d170a4a93cdffdce06ae7e37260b5c3379179406d057e569834"
+      "sha256": "sha256:dad74a571281c6fb23c723ab51e48128775a5fe08efa4572fba31f722ab25e00"
+    },
+    {
+      "path": "tests/differential/collector.py",
+      "sha256": "sha256:3b2aa136ff63d61bb39b1913dd448797aaf64ca70365ce76ea660d097fabb3e9"
     },
     {
       "path": "tests/differential/compare.py",
@@ -239,7 +352,7 @@
     },
     {
       "path": "tests/differential/evidence.py",
-      "sha256": "sha256:cef9fe5f6d9c2a318842e8b37764b67052544919b2ae2edb6b357d31645f6dc9"
+      "sha256": "sha256:5be3e9af82c174f3a5fba86434123861e7457181201b7abb07415dac4852574e"
     },
     {
       "path": "tests/differential/projections.py",
@@ -254,36 +367,24 @@
       "sha256": "sha256:7206976cae0b7e4ddf4634637a3ab866c159a9c001a7a9191a7dc6a6e7cfc9cf"
     },
     {
+      "path": "tests/differential/test_collectors.py",
+      "sha256": "sha256:529d804b1c97e4748bb99e3a5cb8489f3fad90a1b9dbd673bfa07cab5dff6212"
+    },
+    {
       "path": "tests/differential/test_completeness.py",
       "sha256": "sha256:7e9a0b5fbc0f0e891b041a3a6f08c7ae58009c9696029f9a04d9bd192df99a9e"
     },
     {
       "path": "tests/differential/test_evidence_bindings.py",
-      "sha256": "sha256:f450c4bb07dd71852186f9fa31064b49cebfee1a7cf0d51e9f22ff7ee476a8d4"
-    },
-    {
-      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-corpus-bounds.json",
-      "sha256": "sha256:8b274dee8894906a8c5069a19205d5d1eda031009fd3db67d59b58361d953f59"
-    },
-    {
-      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-formatting.json",
-      "sha256": "sha256:96c59a023115007267f91a81aaf6502fb6ce553aede89f26bf06376fd28f6587"
-    },
-    {
-      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-format-tests.json",
-      "sha256": "sha256:1ac1adcc2289425720d9a2ed6ab110ee439fb36abfb911a273d201c355138aef"
-    },
-    {
-      "path": ".aide/evidence/2026-10-20-differential-evidence/bindings-checkpoint.json",
-      "sha256": "sha256:66541a992829059f4c9f5e27bd3ab000a729f79a411a2120ef72cad8a02fccd7"
+      "sha256": "sha256:96747db39455535ec0ea67f727c363bd0462da17a5539bdb252de7d525d41ee4"
     }
   ],
   "blockers": [
-    "Collector/coordinator migration and bounded interrupted/failure output",
-    "Qualified managed native/external workers and real positive controls",
-    "DE-W105 capture/full native qualification and dependency gate",
+    "Frozen manifest/participant preparation and coordinator integration",
+    "Qualified worker process-tree,storage,interruption and cleanup evidence;real controls",
+    "DE-W105 native capture/full qualification dependency and main integration",
     "Owner acceptance and original0.1.0/release scope"
   ],
-  "next_safe_step": "Continue DE-W106 independent preparation: migrate collectors/coordinator to frozen manifests,typed identities,raw request/output and preservation artifacts,bounded failure receipts and managed output. Offline packet consistency checks pass42 tests with5 Linux-only skips;no actual worker or campaign is qualified. DE-W105 remains current:its closed sent/queued/Medium-code capture variants must not be repeated;new pixel-origin proof and full native qualification remain required before main.",
-  "performed_remote_writes": true
+  "next_safe_step": "Continue DE-W106 independent preparation with frozen-manifest/participant preparation and coordinator integration using the new collector APIs. Require measured identities,fixed commands,terminal process-tree ownership,complete comparison gating and bounded success/failure/interruption cleanup.61 synthetic/offline tests pass with5 Linux-only skips;no actual worker/campaign is admitted. DE-W105 remains current:closed capture variants must not be repeated;independent new pixel proof and full native qualification are required before main.",
+  "performed_remote_writes": false
 }
