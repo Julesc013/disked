@@ -236,6 +236,9 @@ for name in ('user32.dll', 'gdi32.dll'):
             k.FreeLibrary(handle)
     report['libraries'].append(row)
 
+if '--printing-only' in sys.argv:
+    print(json.dumps(report))
+    sys.exit(0)
 if '--console-child' in sys.argv:
     k.CreateFileW.argtypes = [T.LPCWSTR, T.DWORD, T.DWORD, T.LPVOID, T.DWORD, T.DWORD, T.HANDLE]
     k.CreateFileW.restype = T.HANDLE

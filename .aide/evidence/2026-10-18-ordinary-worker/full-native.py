@@ -507,6 +507,19 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 if expected.get('ui_proof'):
                     _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
                     result['private_ui_diagnostic']=json_record(raw)
+                    # Compare only owned control windows on an owned station.
+                    # This does not grant READSCREEN on the shared WinSta0.
+                    previous=instance
+                    private_work=g.fresh(work/'owned-station-printing')
+                    try:
+                        instance=g.O.Worker(g.W,private_work,Path(os.environ['DISKED_WORK_ROOT']),
+                            private['DISKED_TEST_ACTOR_NAME'],private['DISKED_TEST_ACTOR_PASS'],
+                            private['DISKED_TEST_ACTOR_SID'],namespace_compat=True,interactive_ui=False)
+                        _,raw=run('ordinary-owned-station-printing',[sys.executable,'-B',ROOT/'ui-probe.py','--printing-only'],30)
+                        result['owned_station_printing']=dict(security=instance.ui_security,observation=json_record(raw))
+                    finally:
+                        if instance is not previous:instance.close()
+                        instance=previous
                     _,raw=run('ordinary-owned-dacl-fixture-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-proof'],30)
                     result['owned_dacl_fixture_proof']=json_record(raw);assert result['owned_dacl_fixture_proof']['passed']
                     code,_=run('ordinary-dacl-interruption-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-interrupt-proof'],30,allow_failure=True)
