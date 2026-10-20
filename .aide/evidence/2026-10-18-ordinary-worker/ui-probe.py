@@ -219,11 +219,11 @@ for name in ('user32.dll', 'gdi32.dll'):
                         old=g.SelectObject(dc,bitmap)
                         if old in (None,C.c_void_p(-1).value):raise C.WinError(C.get_last_error())
                         rows=[]
-                        for method in ('PrintWindow0','PrintWindow2','WM_PRINT'):
+                        for method in ('PrintWindow0','PrintWindow1','PrintWindow2','PrintWindow3','WM_PRINT'):
                             C.memset(bits,0,240*96*4);u.RedrawWindow(hwnd,None,None,0x585);C.set_last_error(0)
                             if method=='WM_PRINT':
                                 answer=C.c_size_t();ok=u.SendMessageTimeoutW(hwnd,0x317,dc,0x1e,2,1000,C.byref(answer))
-                            else:ok=u.PrintWindow(hwnd,dc,0 if method=='PrintWindow0' else 2)
+                            else:ok=u.PrintWindow(hwnd,dc,int(method[-1]))
                             code=0 if ok else C.get_last_error();g.GdiFlush();body=C.string_at(bits,240*96*4)
                             colors=set(struct.iter_unpack('<I',body));rgb={p[0]&0xffffff for p in colors}
                             rows.append(dict(owner=owner,method=method,call_succeeded=bool(ok),error=code,
