@@ -15,6 +15,7 @@ def user_only_dacls(paths):
     a.GetSecurityDescriptorControl.argtypes=[C.c_void_p,C.POINTER(T.WORD),C.POINTER(T.DWORD)]
     a.GetSecurityDescriptorDacl.argtypes=[C.c_void_p,C.POINTER(T.BOOL),C.POINTER(C.c_void_p),C.POINTER(T.BOOL)]
     a.ConvertSidToStringSidW.argtypes=[C.c_void_p,C.POINTER(T.LPWSTR)]
+    a.ConvertSecurityDescriptorToStringSecurityDescriptorW.argtypes=[C.c_void_p,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),C.POINTER(T.DWORD)]
     a.IsValidSid.argtypes=[C.c_void_p]
     def require(ok):
         if not ok:raise C.WinError(C.get_last_error())
@@ -28,6 +29,10 @@ def user_only_dacls(paths):
         if not 0<size.value<=65536:raise ValueError('Token information bound')
         data=C.create_string_buffer(size.value);require(a.GetTokenInformation(token,1,data,size,C.byref(size)))
         current=sid_text(C.cast(data,C.POINTER(C.c_void_p))[0])
+        size=T.DWORD();a.GetTokenInformation(token,25,None,0,C.byref(size))
+        if not 0<size.value<=65536:raise ValueError('Token integrity bound')
+        data=C.create_string_buffer(size.value);require(a.GetTokenInformation(token,25,data,size,C.byref(size)))
+        integrity=sid_text(C.cast(data,C.POINTER(C.c_void_p))[0])
     finally:k.CloseHandle(token)
     files=[]
     for path in map(Path,paths):
@@ -52,8 +57,15 @@ def user_only_dacls(paths):
             rows.append(dict(sid=sid_text(acl.value+at+8),type='Allow' if kind==0 else 'Deny',
                              rights=mask,inherited=bool(flags&0x10)))
             at+=n
-        files.append(dict(name=path.name,protected=bool(control.value&0x1000),aces=rows))
-    return dict(current_sid=current,files=files)
+        label_size=T.DWORD();a.GetFileSecurityW(str(path),0x10,None,0,C.byref(label_size))
+        if not 0<label_size.value<=65536:raise ValueError('File label bound')
+        label_data=C.create_string_buffer(label_size.value)
+        require(a.GetFileSecurityW(str(path),0x10,label_data,label_size,C.byref(label_size)))
+        label=T.LPWSTR();require(a.ConvertSecurityDescriptorToStringSecurityDescriptorW(label_data,1,0x10,C.byref(label),None))
+        try:label_text=label.value
+        finally:k.LocalFree(C.cast(label,C.c_void_p))
+        files.append(dict(name=path.name,protected=bool(control.value&0x1000),aces=rows,label=label_text))
+    return dict(current_sid=current,integrity_sid=integrity,files=files)
 
 
 class DaclFixture:
@@ -126,6 +138,17 @@ class DaclFixture:
             diagnostic=dict(phase=phase,sid=self.sid,path_exists=self.path.exists())
             try:diagnostic['actual_dacl']=user_only_dacls([self.path if self.path.exists() else self.path.parent])
             except OSError as observation_error:diagnostic['observation_error']=str(observation_error)
+            if self.path.exists():
+                # Read-only observations of alternative opens on this single
+                # failed fixture; no permission mutation, fallback or pass.
+                diagnostic['open_observations']=[]
+                for flags in ((0x02200000,) if self.directory else (0,0x00200000,0x02200000)):
+                    for access in (0x20000,0x40000,0x60080,0x80040000):
+                        handle=self.k.CreateFileW(str(self.path),access,7,None,3,flags,None)
+                        opened=handle not in (None,C.c_void_p(-1).value)
+                        code=0 if opened else C.get_last_error()
+                        if opened:self.k.CloseHandle(handle)
+                        diagnostic['open_observations'].append(dict(access=hex(access),flags=hex(flags),opened=opened,code=code))
             raise RuntimeError('Owned DACL fixture setup: '+json.dumps(diagnostic)) from error
 
     def _identity(self,handle):
