@@ -119,5 +119,15 @@ class PixelOriginTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'renderer identity'):
                     broker._read_pixels(dict(pid=456))
 
+    def test_failed_candidate_refuses_before_staging_or_guest_processes(self):
+        definition=importlib.util.spec_from_file_location('closed_pixel_campaign',HERE/'campaign.py')
+        campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            with patch.dict(os.environ,{'DISKED_WORK_ROOT':folder}),patch.object(campaign.sys,'argv',['campaign.py','--pixel-origin-proof','--interactive-ui']),\
+                 patch.object(Path,'read_bytes',return_value=b'{"status":"failed_unqualified"}'),\
+                 patch.object(Path,'mkdir') as mkdir,patch.object(campaign.subprocess,'run') as run:
+                with self.assertRaisesRegex(ValueError,'No current pixel-origin candidate'):campaign.main()
+                mkdir.assert_not_called();run.assert_not_called()
+
 
 if __name__=='__main__':unittest.main()

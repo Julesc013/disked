@@ -91,6 +91,10 @@ def main():
     focus_gui_watch='--focus-gui-watch' in sys.argv
     focus_gui_waiting='--focus-gui-waiting' in sys.argv
     pixel_proof='--pixel-origin-proof' in sys.argv
+    if pixel_proof and not cleanup_only and '--prepare-only' not in sys.argv:
+        plan=json.loads((HERE/'pixel-origin-preflight-plan.json').read_bytes())
+        if not str(plan.get('status','')).startswith('expected_before_'):
+            raise ValueError('No current pixel-origin candidate; previous profile remains unqualified')
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
     station_matrix='--station-bootstrap-matrix' in sys.argv

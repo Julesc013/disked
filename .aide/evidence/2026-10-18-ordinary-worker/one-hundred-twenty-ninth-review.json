@@ -1,0 +1,69 @@
+{
+  "status": "medium_code_handoff_pass_capture_unqualified",
+  "source_revision": "d3c95a58cf741c1ad9db3c5701da47a0b28e93c3",
+  "finding": "The exact DLL is observed Low and handed to Medium NW with identical code bytes,owner,group and DACL. Automatic queued hook loading/callback completion still fails;failure-only direct UI-thread loading succeeds. The Low label alone did not account for the capture failure on this profile. Keep the publishing fix but close this candidate;no further native variants or product/full build is scheduled.",
+  "direct_load": {
+    "pid": 8160,
+    "thread": 5128,
+    "loaded": true,
+    "error": 0
+  },
+  "fixture": {
+    "source_sha256": "b21d17b6adbd4e0ab0f586d0ec0f616a7648dd91be93f1ae4a3b5e7e29744c73",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "a743951e1a0aa259ab6f39979a676f9e412c79a9ad3e7764d974b354fb0e87b7",
+    "dll_bytes": 95744,
+    "imports_observation_sha256": "33244409373e66dbbd294d5cb2c9c8f2d8d2d869a9a2ff3fd7c58a45c7326133",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1130)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    },
+    "integrity_handoff": [
+      {
+        "path": "pixel-render.dll",
+        "sha256": "a743951e1a0aa259ab6f39979a676f9e412c79a9ad3e7764d974b354fb0e87b7",
+        "before_label": "S:AI(ML;ID;NW;;;LW)",
+        "after_label": "S:AI(ML;;NW;;;ME)",
+        "bytes_unchanged": true,
+        "dacl_owner_group_unchanged": true
+      }
+    ]
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-queued-medium-code-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "daa5b2c832d82fa6c86505e7af6e8d27",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 9,
+  "uncompressed_bytes": 13399,
+  "compressed_bytes": 3928,
+  "archive_sha256": "56e77c94e2cba627955da124fcbc967b4030212d531053931709df337ae1be6d",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-ninth-medium-code-hook-failure.json.xz",
+    "uncompressed_sha256": "f65ce454f40d53b58b8efee351371e7dfe121471eafc7f5dda9b1c5b73dde096",
+    "compressed_sha256": "083529c38759a86ab42b80b23c783aab476f8747d5d1611a71beefc41a893b47"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}
