@@ -13,6 +13,7 @@ import uuid
 from pathlib import Path
 
 from observe_native import load_case
+from projections import external_projection as normalize
 
 
 def digest(path):
@@ -59,46 +60,6 @@ def run(argv, cwd, timeout=8, output_limit=1024*1024):
         except UnicodeDecodeError:
             result[name] = raw.decode('utf-8', 'backslashreplace'); result[name+'_bytes_hex'] = raw.hex()
     return result
-
-
-def normalize(record, kind, path):
-    if record['exit_code'] != 0 or record['outcome'] != 'exited': return None
-    if 'stdout_bytes_hex' in record: return None
-    if kind == 'sfdisk-json':
-        try: value = json.loads(record['stdout'])['partitiontable']
-        except (ValueError, KeyError, TypeError): return None
-        if not isinstance(value, dict) or value.get('label') not in ['dos', 'gpt']: return None
-        if value.get('unit') != 'sectors' or value.get('sectorsize') != 512: return None
-        partitions = value.get('partitions', [])
-        if not isinstance(partitions, list) or len(partitions) > 1024: return None
-        rows = []; slots = set()
-        for item in partitions:
-            if not isinstance(item, dict) or not isinstance(item.get('node'), str): return None
-            if any(type(item.get(key)) is not int or not 0 <= item[key] <= 0xffffffffffffffff for key in ['start', 'size']): return None
-            if any(key in item and not isinstance(item[key], str) for key in ['type', 'uuid']): return None
-            node = item.get('node', ''); suffix = node[len(str(path)):] if node.startswith(str(path)) else ''
-            if not re.fullmatch(r'p?[1-9][0-9]*', suffix): return None
-            row = dict(slot=int(suffix.lstrip('p')), start=item['start'], end=item['start']+item['size'])
-            if row['slot'] in slots or row['end'] > 0xffffffffffffffff: return None
-            slots.add(row['slot'])
-            if 'type' in item: row['type'] = item['type'].lower()
-            if 'uuid' in item: row['uuid'] = item['uuid'].lower()
-            rows.append(row)
-        result = dict(label=value['label'], rows=rows, fields=['slot', 'start', 'end', 'type', 'uuid'])
-        if value['label'] == 'gpt' and 'id' in value:
-            try: result['disk_uuid'] = str(uuid.UUID(value['id']))
-            except (ValueError, TypeError, AttributeError): return None
-        return result
-    if kind == 'sgdisk-print':
-        # Ignore names and tool-specific type codes; retain their raw text above.
-        rows = [dict(slot=int(m[0]), start=int(m[1]), end=int(m[2])+1)
-                for m in re.findall(r'^\s*(\d+)\s+(\d+)\s+(\d+)\s+.+$', record['stdout'], re.M)]
-        if 'Number  Start (sector)' not in record['stdout']: return None
-        result = dict(label='gpt', rows=rows, fields=['slot', 'start', 'end'])
-        identity = re.search(r'^Disk identifier \(GUID\): ([0-9A-Fa-f-]{36})$', record['stdout'], re.M)
-        if identity: result['disk_uuid'] = identity[1].lower()
-        return result
-    return None
 
 
 def identity(tool):

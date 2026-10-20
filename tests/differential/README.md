@@ -8,15 +8,16 @@ The historical `run_wsl_campaign.py` recipe is suspended. It requires generated
 output in `.aide-local`, which now permits only 32 MiB of context and metadata.
 Do not run it under the current resource policy. DE-W106 must migrate the
 coordinator and prove managed output/confinement/cleanup before reuse. The
-current comparator also lacks final evidence-set completeness checks; its
-`adapter_controls_passed` flag alone cannot qualify a complete campaign.
+collectors still emit legacy receipts rather than the finalized-packet profile;
+`adapter_controls_passed` alone cannot qualify a complete campaign.
 See [the planned correction](CONTRACT.md#planned-evidence-boundary-correction-de-w106).
 
 The initial DE-W106 preparation now checks an explicitly declared observation
 set and rejects omissions, duplicates, unexpected records and fixture mismatches.
-Set completeness still leaves evidence unverified until participant identities,
-raw artifacts, preservation and execution outcomes are checked. The comparator
-CLI requires `complete_success`; it cannot currently qualify a campaign.
+Set-only receipts still leave evidence unverified. The opt-in finalized-packet
+profile checks participant identities, raw artifacts, preservation and execution
+outcomes against a caller-bound manifest. The CLI requires `complete_success`;
+offline consistency tests do not qualify an actual campaign or worker.
 The Windows-host regression suite exercises pure comparison code only, with
 Linux execution checks explicitly skipped. DE-W105 and external campaign gates
 remain open.
@@ -28,6 +29,14 @@ paths, duplicate JSON fields and oversized receipts are refused. Existing
 reports are preserved. These checks route data; they do not establish an OS
 quota or qualify an external worker. The historical WSL entrypoint now refuses
 before any output creation or subprocess launch.
+
+For a finalized packet, pass its precollection canonical manifest digest with
+`--expected-manifest-sha256` and its managed packet folder with `--artifact-root`.
+See the [private binding profile](CONTRACT.md#provisional-finalized-packet-bindings).
+Old collector output remains unverified; it is not silently upgraded into this
+format. Pure projections run on Windows too, while Linux process tests remain
+explicitly platform-specific. Both GPT candidates and complete disagreements are
+retained independently of the evidence-completeness result.
 
 The coordinator checks every native build input before reusing its probes. It
 requires the already installed `Ubuntu-24.04` and `Debian` WSL profiles, invokes

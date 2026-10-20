@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'corpus'))
 import partition_images as corpus
 import observe_native as native
 from compare import compare
+from projections import external_projection as normalize
 if os.name == 'posix':
     import observe_external as external
 
@@ -77,11 +78,36 @@ class CorpusTests(unittest.TestCase):
         self.assertEqual(result['comparisons'][0]['matching_candidates'], ['primary'])
 
 
-@unittest.skipUnless(os.name == 'posix', 'Installed Linux tool runner')
-class ExternalTests(unittest.TestCase):
+class ProjectionTests(unittest.TestCase):
     def test_exit_zero_with_invalid_json_is_not_a_projection(self):
         for text in ['warning\n{}', '{"name":"\\xed\\xa0\\x80"}', '{}']:
-            self.assertIsNone(external.normalize(dict(exit_code=0, outcome='exited', stdout=text), 'sfdisk-json', Path('/fixture.img')))
+            self.assertIsNone(normalize(dict(exit_code=0, outcome='exited', stdout=text), 'sfdisk-json', Path('/fixture.img')))
+
+
+    def test_nonzero_exit_not_successful_table(self):
+        value = dict(exit_code=1, outcome='exited', stdout=json.dumps(dict(partitiontable=dict(label='gpt', partitions=[]))))
+        self.assertIsNone(normalize(value, 'sfdisk-json', Path('/fixture.img')))
+
+
+    def test_unknown_units_are_not_compared_as_512_byte_sectors(self):
+        for unit, size in [('bytes', 512), ('sectors', 4096), ('sectors', None)]:
+            value = dict(exit_code=0, outcome='exited', stdout=json.dumps(dict(partitiontable=dict(
+                label='gpt', unit=unit, sectorsize=size, partitions=[]))))
+            self.assertIsNone(normalize(value, 'sfdisk-json', Path('/fixture.img')))
+
+
+    def test_malformed_structured_output_is_retained_without_projection(self):
+        values = [None, [], {'label':'gpt','unit':'sectors','sectorsize':512,'partitions':None},
+                  {'label':'gpt','unit':'sectors','sectorsize':512,'partitions':[{'node':'/fixture.img1','start':True,'size':2}]},
+                  {'label':'gpt','unit':'sectors','sectorsize':512,'id':None,'partitions':[]}]
+        for table in values:
+            value = dict(exit_code=0, outcome='exited', stdout=json.dumps(dict(partitiontable=table)))
+            self.assertIsNone(normalize(value, 'sfdisk-json', Path('/fixture.img')))
+
+
+
+@unittest.skipUnless(os.name == 'posix', 'Installed Linux tool runner')
+class ExternalTests(unittest.TestCase):
 
     def test_timeout_is_retained(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -106,23 +132,8 @@ class ExternalTests(unittest.TestCase):
             self.assertEqual(result['stdout_bytes_hex'], 'eda080')
             self.assertEqual(result['stdout_sha256'], corpus.digest(bytes.fromhex('eda080')))
 
-    def test_nonzero_exit_not_successful_table(self):
-        value = dict(exit_code=1, outcome='exited', stdout=json.dumps(dict(partitiontable=dict(label='gpt', partitions=[]))))
-        self.assertIsNone(external.normalize(value, 'sfdisk-json', Path('/fixture.img')))
 
-    def test_unknown_units_are_not_compared_as_512_byte_sectors(self):
-        for unit, size in [('bytes', 512), ('sectors', 4096), ('sectors', None)]:
-            value = dict(exit_code=0, outcome='exited', stdout=json.dumps(dict(partitiontable=dict(
-                label='gpt', unit=unit, sectorsize=size, partitions=[]))))
-            self.assertIsNone(external.normalize(value, 'sfdisk-json', Path('/fixture.img')))
 
-    def test_malformed_structured_output_is_retained_without_projection(self):
-        values = [None, [], {'label':'gpt','unit':'sectors','sectorsize':512,'partitions':None},
-                  {'label':'gpt','unit':'sectors','sectorsize':512,'partitions':[{'node':'/fixture.img1','start':True,'size':2}]},
-                  {'label':'gpt','unit':'sectors','sectorsize':512,'id':None,'partitions':[]}]
-        for table in values:
-            value = dict(exit_code=0, outcome='exited', stdout=json.dumps(dict(partitiontable=table)))
-            self.assertIsNone(external.normalize(value, 'sfdisk-json', Path('/fixture.img')))
 
 
 if __name__ == '__main__': unittest.main()

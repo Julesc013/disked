@@ -1,0 +1,25 @@
+{
+  "work_id": "DE-W106",
+  "base_revision": "271ed39ad5de9cffe2480266fc2349f317322d5b",
+  "status": "expected_before_implementation",
+  "scope": "Offline evidence consistency verification only;DE-W105 and actual worker/native/external qualification remain open.",
+  "format": {
+    "manifest_evidence": "org.disked.differential-evidence/1: contract and generator artifact descriptors,case fixture descriptors,and participant identity/profile descriptors;all known before collection.",
+    "descriptor": "{path,bytes,sha256};relative POSIX path under finalized owned artifact root;ordinary single-link files only;2MiB per artifact,32MiB unique payload cache,2048 files,128MiB reads per pass. Every distinct file is read/hash-checked;identical content may share memory. Recheck at the end.",
+    "snapshot": "Caller supplies SHA256 of canonical sorted compact ASCII JSON of the complete predeclared manifest. Do not learn the expected snapshot from collected output. Hashes establish consistency,not execution authentication.",
+    "policy": "Each expected tuple may carry policy;complete evidence requires it. comparison=native|projection|diagnostic;exact argv,relative participant input_path,allowed_outcomes(completed/refused),timeout_seconds. Derive the original fixture argument from the declared profile workspace and path_style.",
+    "identity": "Bound JSON identity includes participant,role,profile,source(revision,inputs,upstream_source_verified),build(configuration,toolchain,executables). Native source revision is exact40hex;reference upstream source may remain explicitly unverified. Receipt and every row bind the expected identity SHA.",
+    "record": "Raw stdout/stderr descriptors;native request descriptor;before snapshot and actual after/input-path descriptors. Verify exact display/hex/hash values,argv,elapsed time,status/exit relationships and fixture bytes. Recompute native checks/projection and external projections from retained raw bytes.",
+    "outcomes": "Evidence complete/incomplete/invalid/unverified;execution completed/refused/timed_out/crashed/unavailable;agreement/disagreement/not_comparable separately. Required timeout/crash/unavailability never yields complete success. Refusal may be complete evidence but cannot pass a successful-projection control.",
+    "success": "Only complete bindings,allowed required execution and successful common controls enable complete_success. Valid noncontrol disagreements remain retained and never choose a GPT winner. This is not product/OS/hardware qualification."
+  },
+  "regressions": [
+    "One complete synthetic packet passes consistency checks without asserting real tool execution.",
+    "Missing/wrong manifest snapshot,participant/code/profile/contract/generator identity,raw artifacts or changed fixture cannot pass.",
+    "Duplicate/unknown/diagnostic-only observations remain subject to the exact set check.",
+    "Raw bytes and their recorded projections/displays cannot contradict each other.",
+    "Fully identified refusal,timeout,crash,unavailability and valid completed disagreement remain distinct.",
+    "Traversal,links,hard links,excess bytes and artifact changes are refused within managed scratch."
+  ],
+  "forbidden": "No physical media,elevation,new tool install,obsolete WSL runner,native capture retry,owner acceptance or main integration."
+}

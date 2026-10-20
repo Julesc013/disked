@@ -7,6 +7,8 @@ import struct
 import subprocess
 from pathlib import Path
 
+from projections import native_request as request, field, native_projection as projection
+
 
 def sha(data):
     return 'sha256:'+hashlib.sha256(data).hexdigest()
@@ -23,67 +25,6 @@ def load_case(root, case):
     if len(data) != case['bytes'] or sha(data) != case['sha256']:
         raise ValueError('Fixture identity changed')
     return data
-
-
-def request(data, case):
-    unit, blocks = case['unit'], case['blocks']
-    assert unit == 512 and 2 <= blocks <= 4096
-    if case['family'] == 'mbr':
-        return dict(blocks=str(blocks), unit=str(unit), limit='128', heads='0', sectors='0',
-                    image={str(n): data[n*unit:(n+1)*unit].hex()
-                           for n in range(max(1, (len(data)+unit-1)//unit))})
-    out = dict(blocks=str(blocks), unit=str(unit), max_entries='1024',
-               max_entry_size='4096', max_bytes='1048576')
-    for side, lba in [('primary', 1), ('backup', blocks-1)]:
-        header = data[lba*unit:(lba+1)*unit]; out[side] = header.hex()
-        array = b''
-        if len(header) == unit:
-            start, count, width = struct.unpack_from('<QII', header, 72)
-            size = ((count*width+unit-1)//unit)*unit
-            if size <= 1048576:
-                array = data[start*unit:start*unit+size]
-        out[side+'_array'] = array.hex()
-    return out
-
-
-def field(value, path):
-    for part in path.split('.'):
-        value = value[int(part)] if isinstance(value, list) else value[part]
-    return value
-
-
-def projection(value, family):
-    result = dict(label='dos' if family == 'mbr' else 'gpt', candidates=[])
-    if family == 'mbr':
-        rows = []
-        for i, entry in enumerate(value['mbr']['entries']):
-            if entry['active'] and entry['range_valid']:
-                rows.append(dict(slot=i+1, start=int(entry['start']), end=int(entry['end']),
-                                 type=format(bytes.fromhex(entry['raw'])[4], 'x')))
-        logical = 5
-        for walk in value['walks']:
-            for node in walk['nodes']:
-                entry = node['entries'][0]
-                if entry['active'] and entry['range_valid'] and entry['kind'] == 1:
-                    rows.append(dict(slot=logical, start=int(entry['start']), end=int(entry['end']),
-                                     type=format(bytes.fromhex(entry['raw'])[4], 'x')))
-                    logical += 1
-        result['candidates'].append(dict(role='mbr', rows=rows, issues=value['mbr']['issues'],
-                                        walks=[dict(issues=w['issues'], complete=w['complete']) for w in value['walks']]))
-    else:
-        result['comparison'] = value['comparison']
-        for side, copy in enumerate(value['copies']):
-            candidate = copy.get('candidate', {})
-            rows = []
-            for i, entry in enumerate(candidate.get('entries', [])):
-                if entry['active'] and entry['range_valid']:
-                    rows.append(dict(slot=i+1, start=int(entry['first']), end=int(entry['end']),
-                                     type=entry['type_guid'], uuid=entry['unique_guid']))
-            result['candidates'].append(dict(role='primary' if side == 0 else 'backup', rows=rows,
-                disk_uuid=copy['header']['disk_guid'],
-                header_issues=copy['header']['issues'], array_issues=candidate.get('issues'),
-                complete=candidate.get('complete', False), consistent=candidate.get('consistent', False)))
-    return result
 
 
 def observe(corpus, mbr_probe, gpt_probe, output):

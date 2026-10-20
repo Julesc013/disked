@@ -112,11 +112,70 @@ This first slice reports `set_status` separately from `evidence_status` and
 `complete_success`. Invalid sets retain their original inputs rather than
 selecting one duplicate. Historical receipts without a declaration remain
 unverified; their candidate comparisons may still be inspected as diagnostics.
-No current receipt can report complete success until the remaining participant,
-raw-artifact, preservation and execution checks above are implemented. The CLI
-requires complete success and therefore remains unavailable for a successful
-campaign during this preparation. This neither qualifies DE-W106 nor closes
-its DE-W105 dependency.
+Set-only receipts remain unverified. The opt-in binding profile below checks
+participant, artifact, preservation and execution relationships before permitting
+a complete evidence-packet result. Existing collectors do not yet emit that
+profile, and no actual campaign or worker is qualified by the offline tests.
+This neither qualifies DE-W106 nor closes its DE-W105 dependency.
+
+### Provisional finalized-packet bindings
+
+This is private test data, not a public DiskEd protocol or storage ABI. A manifest
+with `evidence.schema = org.disked.differential-evidence/1` declares the following
+before collection. The caller separately supplies its frozen SHA-256 over sorted,
+compact, ASCII JSON; the verifier does not derive the expected snapshot from
+returned observations.
+
+- `contract` and `generator` identify retained bytes. The comparison contract
+  must equal the current reader's owning contract. The generator hash matches
+  the corpus identity. `fixtures` binds every case to its original bytes.
+- `participants` maps each selected participant to its role, exact declared
+  profile and identity artifact. Profiles name OS/build, architecture, runtime,
+  token, original workspace and Windows/POSIX path style. Identity JSON binds
+  participant/profile, source revision and inputs, build configuration,
+  toolchain/component and executable hashes. Native revisions are exact Git
+  identities; unverified upstream reference source remains explicitly unverified.
+- Each expected tuple additionally carries `policy`: comparison role
+  (`native`, `projection`, `diagnostic`), exact `argv`, relative `input_path`,
+  allowed outcomes and timeout. Native probes receive byte views on stdin;
+  reference commands include the fixture argument derived from the original
+  workspace. The verifier never executes these recorded arguments.
+
+Every receipt and observation binds the expected participant identity hash.
+Observations retain executable before/after hashes, `execution` (status, argv,
+exit code, elapsed seconds), `input_before` and `input_after` artifacts,
+`input_unchanged`, and `raw` stdout/stderr artifacts. Native records also retain
+their exact request. UTF-8 display, byte hashes and invalid-byte hex must agree
+with raw bytes. The verifier reconstructs native requests, checks recipe-defined
+native facts and recomputes projections from retained output. Diagnostic roles
+do not invent projections.
+
+Artifact descriptors are `{path, bytes, sha256}`. Paths are relative beneath the
+selected finalized packet root; traversal, links, multiple links, changed files
+and contradictory descriptors are refused. Each artifact is at most 2 MiB, with
+32 MiB of unique payload bytes in memory and 2,048 files in this initial profile.
+Identical copies share cached content, but every file is read and checked. Each
+pass reads at most 128 MiB, allowing the existing corpus's separate participant
+copies without accumulating duplicate payloads in memory. The verifier
+rechecks bytes and identities after reading the packet. Participant copies must
+have distinct file identities, separate from the canonical fixture. Producers
+must retire their jobs and finalize output before verification. These checks do
+not establish an atomic snapshot in the presence of an authorized concurrent
+writer, nor replace OS-enforced worker confinement.
+
+`evidence_status`, per-observation execution outcomes and `comparison_status`
+remain separate. Required timeout, crash or unavailability prevents complete
+success. A declared refusal can be a complete observation, but cannot pass a
+common control requiring a successful projection. Complete noncontrol
+disagreements remain findings, and selecting one GPT candidate never resolves
+the native conflict.
+
+The CLI uses `--expected-manifest-sha256` and optionally `--artifact-root` beneath
+the managed workspace. A successful consistency check establishes only that the
+finalized bytes and declarations agree with the caller's snapshot. Plain hashes
+do not authenticate execution, admit the collector/worker, accept this work unit
+or qualify a product, platform, provider or release. Actual collector migration,
+qualified execution and the DE-W105 dependency remain separate gates.
 
 ## Windows reference pilot (DE-W107, planned)
 
