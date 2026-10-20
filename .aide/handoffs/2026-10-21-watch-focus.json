@@ -1,0 +1,88 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "33c97c13f6d6bb6e89ff735007d1ef17dae344b6",
+  "spec_manifest_digest": "sha256:11a80f8bceb942a5568246f55a35cf359b574000283ea00ec7bf9b12eb2fa4ba",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "CMakeLists.txt",
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    "tests/images/test_fat_tree_reconnect.py",
+    "tests/images/test_fat_tree_watch.py",
+    "tests/tools/test_native_junit.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/watch-expected.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "tests/tools/test_native_junit.py",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/review.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/focus-dependency-red.json",
+    ".aide/evidence/2026-10-21-product-capture/watch-fixture/focus-dependency-green.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/visual-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/gui-receipt-review.json",
+    ".aide/handoffs/2026-10-21-watch-focus.json"
+  ],
+  "summary": "Native watch passes all13 methods and53 observations;forced125ms sink under unchanged100ms follow returns exactly one poll and retains cancellation/resume continuity.Companion reconnect runs0 methods because the focused build omitted both admission executables.Corrected seven-target selection now passes the independent CMake/AST dependency regression after its retained red failure.Production C/C++ is unchanged.All six exact f4854bdb GUI images are displayed and source/product/receipt-bound review passes,but that full campaign remains failed179/180.Owned guest and host cleanup verified.No main/owner/release admission.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --watch-fixture",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/receipt.json.xz"
+    },
+    {
+      "command": "python -B -m unittest discover -s tests/tools -p test_native_junit.py -v (through workspace runner)",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/focus-dependency-green.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/review.json",
+      "sha256": "sha256:ab79a943fd1b2408bf0fde72dffaff9ba9b009c10e59d5fc66971fde8508b543"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/receipt.json.xz",
+      "sha256": "sha256:a6f98ad987e080f37e9399d0edf09bf439f669e0e8c1050ff7b30bcaeb550b1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/cleanup.json.xz",
+      "sha256": "sha256:b62eea15282e9745fe1dfdeaf43a71655913ad97cf6333676b8436763648b588"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/attempt-33c97c13/retained.tar.xz",
+      "sha256": "sha256:8254a041b202caa26bc6736032d16a4d9984714457df3814c86ed271f92c35d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/focus-dependency-red.json",
+      "sha256": "sha256:17cb456b826695efb6baabffbfec6842f34ae358c0d311a065ced2a876eaf6cf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/watch-fixture/focus-dependency-green.json",
+      "sha256": "sha256:93d7382f7dd0c877253750d552e9bf9176bbe64cce08b84bce7e1ba1e8b2bd83"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/visual-review.json",
+      "sha256": "sha256:291a2a275e49e548f01595c70fdfbe7afac05b9cbb8e98afe423fa53c058504e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/attempt-f4854bdb/gui-receipt-review.json",
+      "sha256": "sha256:2ca676b7f6e6eb709b31826e1e26b850d8adf6a8590b422439c85410c8c80c33"
+    }
+  ],
+  "blockers": [
+    "Corrected focused build selection and full current native gate still require native evaluation."
+  ],
+  "next_safe_step": "Push the tested selection fix,rerun both focused groups with all seven targets,then full180 and same-source private18/C90/tooling before main.",
+  "performed_remote_writes": true
+}

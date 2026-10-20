@@ -14,5 +14,15 @@
     "Run affected native watch/reconnect groups before the complete current native gate."
   ],
   "owner_accepted": false,
-  "release_qualified": false
+  "release_qualified": false,
+  "focus_build_selection": [
+    "fat_tree_reconnect_probe",
+    "fat_tree_controller_probe",
+    "fat_tree_controller_fault",
+    "fat_tree_admission_probe",
+    "fat_tree_admission_fault",
+    "fat_tree_extraction_worker_probe",
+    "fat_tree_extraction_worker_fault"
+  ],
+  "focus_selection_basis": "Both registered CTest commands;first attempt omitted two reconnect admission executables.Independent CMake/AST regression fails before this correction."
 }

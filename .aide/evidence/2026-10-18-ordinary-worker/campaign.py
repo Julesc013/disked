@@ -329,7 +329,8 @@ def main():
     if focus_fat_watch:
         expected['native_x64']['focus_groups']=['image.fat_tree_watch','image.fat_tree_reconnect']
         expected['native_x64']['focus_targets']=['fat_tree_reconnect_probe','fat_tree_controller_probe',
-            'fat_tree_controller_fault','fat_tree_extraction_worker_probe','fat_tree_extraction_worker_fault']
+            'fat_tree_controller_fault','fat_tree_admission_probe','fat_tree_admission_fault',
+            'fat_tree_extraction_worker_probe','fat_tree_extraction_worker_fault']
         expected['native_x64']['focus_executables']=['fat_tree_reconnect_probe','fat_tree_extraction_worker_probe']
     if focus_product:
         expected['native_x64']['focus_groups']=['disked.acceptance','frontend.gui_capture']

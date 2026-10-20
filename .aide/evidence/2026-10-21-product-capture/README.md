@@ -222,3 +222,13 @@ because shared memory-budget code and the workspace runner have changed since
 the historical Win32 result. `c90-check.py --evidence-dir PATH` reads the exact
 selected compact receipt; its syntax-only host check runs no product code.
 The focused build's ten NTFS C units and two standalone C headers pass.
+
+At `33c97c13`,the native watch group passes all13 methods and53 observations,
+including one bounded125ms first-sink delay returning exactly one poll under
+the unchanged100ms budget,cancellation and contiguous resume.The companion
+reconnect group runs0 methods:the focus recipe omitted its two admission-probe
+executables.All owned output is removed;the retained archive is34512 bytes.
+`watch-fixture/attempt-33c97c13/` preserves this partial result.A new regression
+compares the selected build targets with the actual CTest command references;
+it first fails on both missing targets and passes after their addition.No
+production source,deadline,storage limit or assertion changes in the target-selection correction.

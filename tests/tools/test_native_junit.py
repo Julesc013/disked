@@ -1,7 +1,9 @@
 """A zero exit cannot authorize missing, stale or contradictory test evidence."""
+import ast
 import importlib.util
 from pathlib import Path
 import tempfile
+import re
 import unittest
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -10,6 +12,22 @@ native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
 
 
 class ReceiptTests(unittest.TestCase):
+    def test_watch_focus_builds_every_registered_command_executable(self):
+        tree=ast.parse((ROOT/'.aide/evidence/2026-10-18-ordinary-worker/campaign.py').read_bytes())
+        selected=next(n for n in ast.walk(tree) if isinstance(n,ast.If) and
+                      isinstance(n.test,ast.Name) and n.test.id=='focus_fat_watch' and
+                      any(isinstance(s,ast.Assign) for s in n.body))
+        choices={s.targets[0].slice.value:ast.literal_eval(s.value) for s in selected.body
+                 if isinstance(s,ast.Assign)}
+        cmake=(ROOT/'CMakeLists.txt').read_text(encoding='utf-8')
+        for group in choices['focus_groups']:
+            command=re.search(r'add_test\(NAME '+re.escape(group)+r' COMMAND (.*?)\)\s*\n',cmake,re.S)
+            self.assertIsNotNone(command,group)
+            needed=set(re.findall(r'\$<TARGET_FILE:([^>]+)>',command.group(1)))
+            self.assertTrue(needed,group)
+            self.assertFalse(needed-set(choices['focus_targets']),
+                             (group,'missing build targets',needed-set(choices['focus_targets'])))
+
     def receipt(self,body,code=0):
         with tempfile.TemporaryDirectory(prefix='disked-junit-') as name:
             path=Path(name)/'case.xml'
