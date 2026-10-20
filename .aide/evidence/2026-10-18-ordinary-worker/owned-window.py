@@ -57,11 +57,30 @@ def desktop_acls(value):
 
 class Broker:
     """Only the exact product in the current job, on a marked private desktop."""
-    def __init__(self,worker,fixtures,image,env):
+    def __init__(self,worker,fixtures,image,env,*,expected_sha256):
         self.worker,self.fixtures,self.temp=worker,fixtures,worker.native_temp
         self.image=Path(image).resolve(strict=True);self.records=[];self.seen=set();self.nonce=uuid.uuid4().hex
-        self.image_sha256=hashlib.sha256(self.image.read_bytes()).hexdigest()
-        self.pin=fixtures._open(self.temp,0x81,share=1)
+        # Keep the verified code object immutable before the actor starts. A
+        # pathname plus an earlier hash cannot bind a replaceable executable.
+        self.image_pin=fixtures._open(self.image,0x80000080,share=1)
+        try:
+            standard,tag=fixtures._form(self.image_pin)
+            if standard.directory or standard.links!=1 or tag.attributes&0x400 or fixtures._final(self.image_pin)!=self.image:
+                raise ValueError('Capture image object form')
+            self.image_identity=fixtures._identity(self.image_pin)
+            self.image_sha256=hashlib.sha256(self.image.read_bytes()).hexdigest()
+            if self.image_sha256!=expected_sha256.removeprefix('sha256:'):raise ValueError('Capture image changed before admission')
+            self.pin_controls={}
+            for name,access in (('image_write_open_refused',0x40000000),('image_delete_open_refused',0x10000)):
+                C.set_last_error(0)
+                handle=fixtures.k.CreateFileW(str(self.image),access,3,None,3,0x00200000,None)
+                if handle not in (None,C.c_void_p(-1).value):
+                    worker.k.CloseHandle(handle);raise AssertionError('Pinned image admits a mutating open')
+                if C.get_last_error()!=32:raise C.WinError(C.get_last_error())
+                self.pin_controls[name]=True
+            self.pin=fixtures._open(self.temp,0x81,share=1)
+        except BaseException:
+            worker.k.CloseHandle(self.image_pin);raise
         env.update(DISKED_WINDOW_CAPTURE_ROOT=str(self.temp),DISKED_WINDOW_CAPTURE_NONCE=self.nonce,
                    DISKED_WINDOW_CAPTURE_COORDINATOR_SID=worker.coordinator_sid)
 
@@ -90,7 +109,8 @@ class Broker:
             validate_request(value,self.nonce)
             if value['id']!=ident:raise ValueError('Capture packet/marker identity')
             observed,pixels=self._capture(job,value)
-            observed.update(nonce=self.nonce,id=ident,image_sha256=self.image_sha256)
+            observed.update(nonce=self.nonce,id=ident,image_sha256=self.image_sha256,image_pin_held=True,
+                            image_file_volume=self.image_identity[0],image_file_id=self.image_identity[1])
             response=self.temp/('window-capture-response-'+ident+'.json')
             with response.with_suffix('.bgra').open('xb') as stream:stream.write(pixels)
             with response.open('x',encoding='utf-8') as stream:json.dump(observed,stream)
@@ -98,7 +118,7 @@ class Broker:
             request.unlink();marker.unlink();response.with_suffix('.ready').touch(exist_ok=False)
 
     def prove_refusals(self,job,job_pid,*,different_image=True):
-        controls={}
+        controls=dict(self.pin_controls)
         cases=[('outside_job',os.getpid(),'Capture target outside current job')]
         if different_image:cases.append(('different_image',job_pid,'Capture target executable differs'))
         for name,pid,reason in cases:
@@ -156,7 +176,9 @@ class Broker:
                         getattr(info,'st_file_attributes',0)&0x400):raise ValueError('Capture cleanup form')
                 path.unlink()
             return self.records
-        finally:self.worker.k.CloseHandle(self.pin)
+        finally:
+            self.worker.k.CloseHandle(self.pin)
+            self.worker.k.CloseHandle(self.image_pin)
 
 
 def capture(window, pid, desktop, *, pixels=False):

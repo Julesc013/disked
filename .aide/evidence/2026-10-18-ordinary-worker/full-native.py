@@ -350,7 +350,8 @@ def coordinate(g):
                     env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
                 if ordinary and (label=='test-frontend.gui_capture' or label=='ordinary-private-ui-diagnostic'):
                     window_broker=capture_setup.Broker(instance,fixture_broker,
-                        build/'Release/disked.exe' if label=='test-frontend.gui_capture' else sys.executable,env)
+                        build/'Release/disked.exe' if label=='test-frontend.gui_capture' else sys.executable,env,
+                        expected_sha256=result['executables']['disked']['sha256'] if label=='test-frontend.gui_capture' else retention.sha(Path(sys.executable)))
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
                 if window_broker:result['owned_window_scope_controls']=window_broker.prove_refusals(job,child.pid,different_image=label=='test-frontend.gui_capture')
                 process_id=child.pid

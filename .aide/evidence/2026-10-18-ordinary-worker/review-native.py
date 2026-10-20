@@ -1,7 +1,8 @@
 """Review retained W105 bytes without extracting a build tree or rerunning tests."""
 import hashlib
 import json
-from pathlib import Path
+import re
+from pathlib import Path, PureWindowsPath
 import subprocess
 import tarfile
 
@@ -19,6 +20,49 @@ def digest(data):
     return 'sha256:' + hashlib.sha256(data).hexdigest()
 
 
+def review_window_captures(proof, summary, inventory):
+    """Bind the six qualified PNGs to independently held coordinator receipts."""
+    require(summary['passed'] is True and not summary['source_dirty'], 'GUI capture summary failed/dirty')
+    require(summary['source_revision']==proof['source_revision'], 'GUI capture source revision')
+    product=proof['executables']['disked']['sha256'].removeprefix('sha256:')
+    require(summary['executable_sha256'].removeprefix('sha256:')==product, 'GUI capture product identity')
+    require(proof['owned_window_scope_controls']==dict(outside_job=True,different_image=True,
+            image_write_open_refused=True,image_delete_open_refused=True), 'GUI capture scope controls')
+    rows=proof['owned_window_captures'];require(6<=len(rows)<=32, 'GUI coordinator capture count')
+    identities=set();nonces=set()
+    for row in rows:
+        require(row['method']=='owned-window-dc' and row['desktop_acl_validated'] is True, 'GUI coordinator method/ACL')
+        require(row['image_sha256']==product, 'GUI coordinator executable differs')
+        require(row['image_pin_held'] is True and re.fullmatch(r'[0-9a-f]{32}',row['image_file_id']) and
+                re.fullmatch(r'[0-9]{1,20}',row['image_file_volume']), 'GUI coordinator executable not pinned')
+        require(re.fullmatch(r'[0-9a-f]{32}',row['id']) and row['id'] not in identities, 'GUI coordinator duplicate/invalid request')
+        require(re.fullmatch(r'[0-9a-f]{32}',row['nonce']), 'GUI coordinator nonce')
+        require(re.fullmatch(r'DiskEdTest-[0-9a-f]{32}',row['desktop']), 'GUI coordinator desktop')
+        require(type(row['pid']) is int and 0<row['pid']<2**32 and type(row['window']) is int and 0<row['window']<2**64, 'GUI coordinator process/window')
+        require(all(type(row[k]) is int and 0<row[k]<=4096 for k in ('width','height')) and
+                row['width']*row['height']<=4194304 and row['bytes']==row['width']*row['height']*4, 'GUI coordinator dimensions')
+        require(re.fullmatch(r'[0-9a-f]{64}',row['sha256']), 'GUI coordinator pixel hash')
+        identities.add(row['id']);nonces.add(row['nonce'])
+    require(len(nonces)==1, 'GUI coordinator job nonce differs')
+    require(len({(row['image_file_volume'],row['image_file_id']) for row in rows})==1, 'GUI coordinator image object differs')
+    wanted={mode+'-'+str(index) for mode in ('inventory','review','minimum') for index in range(2)}
+    captures=summary['captures']
+    require(len(captures)==6 and {row['name'] for row in captures}==wanted, 'GUI capture case inventory')
+    unused=list(rows)
+    for capture in captures:
+        geometry=capture['geometry'];require(geometry['capture_method']=='owned-window-dc', 'GUI capture producer method')
+        matching=next((i for i,row in enumerate(unused) if row['sha256']==geometry['pixels_sha256'] and
+                       (row['width'],row['height'])==(geometry['width'],geometry['height'])),None)
+        require(matching is not None, 'GUI PNG metadata lacks a distinct coordinator receipt')
+        unused.pop(matching)
+        filename=PureWindowsPath(capture['path']).name
+        require(filename==capture['name']+'.png', 'GUI PNG filename differs from its case')
+        name='groups/frontend.gui_capture/'+filename
+        require(name in inventory and inventory[name]['sha256']==capture['sha256'].removeprefix('sha256:'), 'GUI PNG missing/changed')
+    return dict(qualified_captures=6,coordinator_attempts=len(rows),nonqualifying_attempts=len(unused),
+                png_hashes_verified=True,pixel_metadata_bound_to_distinct_coordinator_receipts=True)
+
+
 def main():
     result = json.loads((HERE / 'result.json').read_bytes())
     proof = result['guest']['proof']
@@ -31,6 +75,7 @@ def main():
     needed = {'groups/' + group + '/' + group.replace('image.', '').replace('_', '-') + '-cases.json'
               for group in fixed['fixed_group_cases']}
     needed.update('groups/'+name+'/'+wanted['summary'] for name,wanted in current['invocation_method_coverage'].items())
+    needed.add('groups/frontend.gui_capture/gui-capture-cases.json')
     for group, stem in [('portable.ntfs_upcase', 'ntfs-upcase'),
                         ('image.ntfs_upcase_commands', 'ntfs-upcase-command'),
                         ('image.ntfs_name_order_commands', 'ntfs-name-order-command'),
@@ -91,6 +136,7 @@ def main():
                 if selected:
                     summaries[member.name] = json.loads(value)
     require(manifest == inventory, 'Exact archive membership/hashes')
+    record['gui_capture']=review_window_captures(proof,summaries['groups/frontend.gui_capture/gui-capture-cases.json'],inventory)
     for name,wanted in current['invocation_method_coverage'].items():
         observed=next(t['invocation_methods'] for t in proof['tests'] if t['name']==name)
         require(summaries['groups/'+name+'/'+wanted['summary']]==observed, 'Raw invocation summary differs from campaign receipt')
@@ -188,10 +234,11 @@ def main():
     record['status'] = 'pass'
 
 
-try:
-    main()
-except BaseException as error:
-    record.update(status='fail', error=repr(error))
-    raise
-finally:
-    (HERE / 'native-detail-review.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
+if __name__=='__main__':
+    try:
+        main()
+    except BaseException as error:
+        record.update(status='fail', error=repr(error))
+        raise
+    finally:
+        (HERE / 'native-detail-review.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')

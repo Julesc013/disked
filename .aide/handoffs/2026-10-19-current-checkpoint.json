@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "49af87845b3d7f0dd1e1f7980e3da3b665cfa78d",
-  "spec_manifest_digest": "sha256:23fe7df3624981ea677ca4a5af6a06bfa070c260311d9d5d059352065baef908",
+  "base_revision": "de7c4518c840330751d08f7a25286278cf52890f",
+  "spec_manifest_digest": "sha256:c6448bdbff77ec59fd2b75866da8e103471b5fc06f5e79ebac333816bb70d2c1",
   "status": "partial",
   "files_read": [
     ".aide/evidence/2026-10-18-ordinary-worker/artifact-handoff-review.json",
@@ -39,7 +39,13 @@
     "tests/frontend/test_fat_extraction_commands.py",
     "tests/images/test_fat_capture.py",
     "tools/build-inputs.json",
-    "tools/source-snapshot.py"
+    "tools/source-snapshot.py",
+    "CMakeLists.txt",
+    "spec/interaction/tui-and-gui.md",
+    "docs/native-bootstrap.md",
+    "TODO.MD",
+    ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+    "tests/tools/test_window_capture_review.py"
   ],
   "files_changed": [
     ".aide/evidence/2026-10-18-guest-build/context-5c838dcd.json",
@@ -155,9 +161,11 @@
     "tests/windows/native/inventory_advance_probe.cpp",
     "tools/build-inputs.json",
     "tools/release/artifact_check.py",
-    "tools/workspace.py"
+    "tools/workspace.py",
+    "spec/interaction/tui-and-gui.md",
+    "tests/tools/test_window_capture_review.py"
   ],
-  "summary": "DE-W105 active. Full x64 run89 at4572aef4 completed all180 groups:162 pass,18 fail;all-target build,68 headers and14 executable/import observations pass. Complete4224-entry archive hashes verify(889493058 raw/2442352 compressed bytes). All owned cleanup passes,zero VM backing growth. Same-source privateWin32 passes18 groups/12 headers/9 executable observations with all2956 entry hashes and cleanup verified;strict C90 passes10 units/2 headers. Targeted fixture/export/retirement/GUI/FAT-worker repairs remain required before another full gate and main integration. No owner/release/full0.1 completion. A scoped fixture-repair candidate is prepared with253 spec/165 tooling checks;actual18-group guest replay is pending and GUI capture has diagnostics only. Historical mutable tooling receipts remain in Git;this current handoff projects the latest receipt. Private fixture controls now pass at ac4996c8:4 refusals,source/list denial,metadata access,exact restoration and recovered abandoned narrowing;complete cleanup and zero backing growth. The18 affected groups are in flight;no new product qualification. Run98 completes the18 affected groups with fresh receipts:16 pass,GUI capture and operation.watch fail. All229 entries/hashes and owned cleanup verify;zero backing growth. Two scoped repairs are prepared;no full qualification/main promotion.",
+  "summary": "DE-W105 partial. Source-bound focused repairs pass16 groups at02263da2;actual GUI capture/watch passes2/2 atc1888e4f with six coordinator pixel receipts and live outside-job/different-image refusals. Final host validation passes253 specification tests(2 skips),198 tooling tests(1 skip),structural/source-map/manifest checks. DE-024 now describes the qualified owned-window-DC route;full qualification requests six PNG artifacts and strict case/receipt/hash review. Full current180 native qualification and main integration remain pending. Earlier failures/evidence remain retained;owner acceptance,release and original all-platform/storage0.1 remain separate. The final candidate additionally pins the verified executable object through the owned job;post-change tooling tests pass198 with1 skip. Native pin/protocol preflight and full180 remain pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -475,13 +483,6 @@
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-second-recovery.json"
     },
     {
-      "command": "Focused interactive template/AST/WindowsPowerShell5.1 parser preparation",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json"
-    },
-    {
       "command": "Focused six native groups at7a1a645b:build/UI preflight pass;all groups refuse memory-budget setup(error5)",
       "cwd": "Windows10 guest",
       "status": "fail",
@@ -522,13 +523,6 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/seventy-eighth-named-object-pass.json"
-    },
-    {
-      "command": "Current metadata/AST/source-map/manifest and memory-mode PS5.1 preparation;no native execution",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json"
     },
     {
       "command": "Exact production memory-budget component compile/launch/import/source checks atcdbb355b",
@@ -657,13 +651,6 @@
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-fifth-review.json"
     },
     {
-      "command": "180 tooling tests(one skip),structural/source-map/manifest/template checks;publication probe pending",
-      "cwd": "D:\\Projects\\DiskEd\\disked",
-      "status": "pass",
-      "exit_code": 0,
-      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
-    },
-    {
       "command": "Focused native build passed;recursive frontend command passed15 assertions but JUnit receipt missing;no qualified groups",
       "cwd": "D:\\Projects\\DiskEd\\disked",
       "status": "fail",
@@ -697,6 +684,27 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --focus-gui-watch --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/validate-current.py --full-qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/validate-current.py --tools-only",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
@@ -807,10 +815,6 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-second-full-x64-fat.tar.xz",
       "sha256": "sha256:7f0dc51da61a3a448600d4ebe8d5fe3dc2ae41fefe2cd1811eadedee0a1f68cd"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:7144fe9c82264bd506cc124a836657bb3e39684e1ba869b88969a15d631d9382"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -1003,10 +1007,6 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/interactive-worker-plan.json",
       "sha256": "sha256:b6eff7ba78f5d285903f4f2a96bff7ed76b229718fbed483d1ee75e0efc298d9"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:8dad72816c58e9b8cb2c1ac48d2a755fe2f32dfc6cebc05058c615dea99f55c3"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1206,7 +1206,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
-      "sha256": "sha256:24a0415501ed995467958fbcc5eeaabbebeb8e10b882eb97a4f23917d32757e2"
+      "sha256": "sha256:f9951fcb0d704a6a6d9c970cd41fe291e64b4631725d3a9ba75db4f764e83758"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-fifth-backing-growth-stop.json",
@@ -1235,10 +1235,6 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-sixth-review.json",
       "sha256": "sha256:e5bc56a2b7d213830fc8aaf673e08622a1492d57fc928ccf5fc550f02c365f99"
-    },
-    {
-      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:feb2940db991fe64748025117b0e289adbc928b456d121f4f5c7fae7f3d4e552"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
@@ -1290,7 +1286,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:e432adb10a0f8969a0b078d408194be56bb9fdf2137c212865836dae39abd7f8"
+      "sha256": "sha256:2a5fcda91f95d04ef47bc30899caa285925862085f2ee9fa1ea9a10f1cf30a62"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1490,11 +1486,11 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-first-review.json",
-      "sha256": "sha256:c2bba388779df24cc8c4465cb0bd1aee421194500f8f5db73ec43f6103fcfe26"
+      "sha256": "sha256:5bcb885f3f8de9ebb58e1d7e0955b236633a0d077f22290dc6dd54d6ed914c2f"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-review.json",
-      "sha256": "sha256:5470df4fb94dc5c177ceced4f894da3467ca575fd923023eb16f90adec726e9b"
+      "sha256": "sha256:ad28ff09bc91990b0c9188408613409bae9572356a899cc508fdd00cd9e6e6e0"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-eighth-window-dc-proof.json",
@@ -1510,7 +1506,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-review.json",
-      "sha256": "sha256:26d79d7ab642edc95f91dff3f7c4d38fe3ba1fba06115891da1b4cb86efdfa38"
+      "sha256": "sha256:647e615a12f768ae99293e31da33be623e6b50cbe134901d09e6f2acbd16e17e"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.json",
@@ -1523,12 +1519,40 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twelfth-capture-preflight.tar.xz",
       "sha256": "sha256:9144478285c152cc23582b07a95f9ef48953e1139d01b0d527c0c52dfc48ddfa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json",
+      "sha256": "sha256:de076dd26408ad4bb6f23208d5c7554d3ab64dfb7b70f98b5e3cf2c73f51c3c8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.json",
+      "sha256": "sha256:cbee66023c8e2670f644763335ce87eac7dd4d3f5e7b90a98e40149970b61f29"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-cleanup.json",
+      "sha256": "sha256:9208346deae85dc4224f0df74264b535fb8e8167a9e8c2187b565282f22264f0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-gui-watch-pass.tar.xz",
+      "sha256": "sha256:75288e5bc6b78162e0d04600f87b55d323d1d3e9fab70c608a29028d996667cf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-red.json",
+      "sha256": "sha256:321d92afedabc02d933bcb9919be437dc09e1807fb9f5cc57b5d47db53efc31e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/capture-review-green.json",
+      "sha256": "sha256:3d57089d886946e0d17d95a2e95cde9c7db5383a39cff71136a9272d7de8a565"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
+      "sha256": "sha256:3a917208d58e1174dfcf298bcfafd378b1484731fb0d73f679f7df1407340024"
     }
   ],
   "blockers": [
-    "Run89 full x64 failed18 groups. Targeted run98 repairs16;run99 also passes watch. GUI capture remains unqualified and the full current suite must be rerun. No current missing account,UAC,authentication or confined-worker grant.",
+    "Run89 full x64 failed18 groups. Targeted run98 repairs16;run99 also passes watch. GUI/watch now passes atc1888e4f;the full current suite and retained PNG/receipt review remain pending. No current missing account,UAC,authentication or confined-worker grant.",
     "Owner acceptance,production storage/release gates and original all-platform0.1 remain separate."
   ],
-  "next_safe_step": "Poll running native GUI/watch replay exec session97942;do not start another campaign. Guest source-prepared.json verifies frozen source c1888e4f290cc23e53861b3c38870636f4b2f11e. Exact desktop/hashed-BGRA preflight passes. Require real product client/caption/alpha guards and both live scope controls,verify archive/cleanup,then full180 native qualification before main/W106/W107. Host context must be regenerated after the running campaign before another source-bound campaign because this checkpoint changes metadata only.",
+  "next_safe_step": "Regenerate committed DE-W105 context and run the small --ui-proof --interactive-ui preflight for the added executable pin(write/delete-open refusals,exact image object/hash). Then run the full180 x64 campaign with retained six-PNG/case/coordinator review. Actual GUI/watch atc1888e4f passes2/2;253 specification tests passed after contract clarification and198 tooling tests pass after image-pin hardening. Full native result/review remains required before main,W106/W107;owner/release/all-platform0.1 remain separate.",
   "performed_remote_writes": true
 }

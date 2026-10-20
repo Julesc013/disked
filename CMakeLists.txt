@@ -785,7 +785,8 @@ if(BUILD_TESTING)
     --product "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_report_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}" --joined)
   set_tests_properties(frontend.joined_report PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME frontend.gui_capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_gui_capture.py"
-    --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+    --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+    --evidence "${CMAKE_CURRENT_BINARY_DIR}/gui-capture-cases.json")
   set_tests_properties(frontend.gui_capture PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME evidence.report_process_identity COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_report_process.py")
   set_tests_properties(evidence.report_process_identity PROPERTIES TIMEOUT 30 RESOURCE_LOCK disked_fake_workers)

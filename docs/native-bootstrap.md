@@ -727,6 +727,17 @@ bar pixels and DIB alpha do not qualify client content. Clean evidence binds
 the selected executable and harness separately. This is not complete visual,
 accessibility, DPI or other-platform qualification.
 
+On the exercised confined Windows 10 guest profile, PrintWindow returned uniform
+pixels even for controlled standard windows. The opt-in test coordinator instead
+copies only a verified job-owned DiskEd window DC on its marked private desktop;
+the worker token, shared station and protected product-record ACLs are unchanged.
+The focused `c1888e4f` GUI/watch replay passed, including six actual captures and
+outside-job/different-image refusals. The full current native gate remains open.
+Full qualification now requests six retained PNGs and checks their case names,
+byte hashes and distinct coordinator pixel receipts. The focused replay retained
+the coordinator receipts, not those PNG artifacts; its scope is recorded in
+[the review](../.aide/evidence/2026-10-18-ordinary-worker/one-hundred-thirteenth-review.json).
+
 The private acquired-image verifier adds a read-only current-byte observation
 under DE-W034. It independently checks the explicit original plan, canonical map
 chain/checkpoints/substitutions/seal, current output identities and chunk hashes,

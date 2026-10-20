@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. Full x64 run89 completed all 180 groups: 162 pass and 18 fail; build/header/import phases and owned cleanup pass. Same-source private Win32 and strict C90 pass. Targeted fixture/export/retirement/GUI/FAT-worker repairs are required before full qualification and `dev` integration into `main`. The original all-platform/storage 0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
+Status: DE-W105 remains active. Historical full x64 run89 completed all180 groups with162 passes and18 failures. Focused repair evidence records16 passing groups at `02263da2`, then GUI capture/watch both passing at `c1888e4f`; these are separate revision-bound results, not a full current pass. The current full180 qualification and `dev` integration into `main` remain pending. Preserve the earlier private Win32/C90 source identities. The original all-platform/storage0.1.0 goal and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
 
 ## Storage recovery
 
@@ -53,10 +53,12 @@ Status: DE-W105 remains active. Full x64 run89 completed all 180 groups: 162 pas
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.
-- [ ] Replay the six failed/interrupted groups with the complete validator
-  source closure, byte-exact sparse FAT fixtures, actual private window station
-  and display-bounded console viewport. Keep the 240-column buffer and original
-  product assertions; the measured guest viewport maximum is 128 by 46.
+- [x] Complete focused fixture/export/retirement/FAT/UI repair replays:16 groups
+  pass at `02263da2`, and the two GUI/watch groups pass at `c1888e4f`. Preserve
+  source identities and original product assertions. The guest uses a private
+  hidden desktop and qualified window-DC capture coordinator; its console keeps
+  the 240-column buffer with a display-bounded viewport. Full current qualification
+  remains the separate unchecked gate above.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
   a 3.7 MiB history-free pack and a byte-verified clean sparse checkout. Preserve
   the earlier EOL refusal and passing 113-tool-test receipt. Guest transfer/build

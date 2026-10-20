@@ -1,6 +1,15 @@
 # Ordinary worker and current native qualification
 
-Current private fixture controls: [run95 review](ninety-fifth-review.json) passes at `ac4996c8`,including normal and abandoned restoration,verified archive and complete cleanup. The18 affected native groups are being replayed against that source;full W105 qualification and main promotion remain pending.
+Latest focused result: [run113 review](one-hundred-thirteenth-review.json) passes
+GUI capture and operation.watch at `c1888e4f`, including six actual capture
+receipts and both live coordinator scope refusals. Its38-entry/17972-byte archive
+and owned cleanup verify with zero VM backing growth. The earlier18-group replay
+passed16 groups at `02263da2`; these separate revisions do not constitute a full
+current pass. Full W105 qualification and main promotion remain pending. The next
+full run retains six named PNGs and verifies their case/receipt/hash relationships.
+
+Private fixture controls: [run95 review](ninety-fifth-review.json) passes at
+`ac4996c8`, including normal and abandoned restoration, verified archive and cleanup.
 
 Full run89 at `4572aef4`: **162/180 groups pass; 18 fail**. The all-target build,
 68 headers and 14 executable/import observations pass. All 4,224 archive entry
@@ -9,7 +18,8 @@ passes and VM backing growth is zero. See `eighty-ninth-failure-review.json`
 for actual command diagnostics, including stale/truncated JUnit observations.
 Same-source private Win32 passes 18 groups/12 headers/nine executables, with
 2,956 entry hashes verified; strict C90 passes ten units/two headers. These
-results remain partial: targeted failures must be repaired before main.
+results remain partial; focused repairs have passing evidence above, while the
+full current candidate still requires qualification before main.
 
 Run88 at `8aa0a422` passed schema/source preflight but parallel2 MSBuild stalled
 at Checking Build System. The exact owned root was stopped after PID/creation/
@@ -23,14 +33,14 @@ completed. Backing-file growth was zero. The expected interrupted campaign exit
 remains1; `eighty-seventh-review.json` records the separate control pass and
 verified three-entry archive. No native product qualification follows.
 
-Current full attempt: `e65c5baf` was interrupted during all-target compilation by
+Earlier full attempt: `e65c5baf` was interrupted during all-target compilation by
 the shared VM backing-growth guard. No native groups ran. Exact forced cleanup
 removed owned jobs/grants/source/account/profile aliases/tasks/credential/media.
 The VM backing file grew 1,241,513,984 bytes; it was not compacted.
 See `eighty-fifth-review.json` and its exact receipts. Cooperative stop and
 two-job build candidates require a small interruption proof before another full run.
 
-Latest focused result: `e59eb622` passes all six original repair groups,
+Earlier focused result: `e59eb622` passes all six original repair groups,
 including real GUI/TUI/shell/extraction paths. The 48-entry archive's membership,
 sizes and hashes verify; it retains 665,024 raw bytes in 43,656 compressed bytes.
 All owned resources and temporary grants retire. See `eighty-fourth-focused-pass.json`

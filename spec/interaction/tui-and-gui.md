@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.17-proposed.1
+  version: 0.1.18-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-09T10:10:51.022912+00:00'
-  scope: DE-W015 owned capture redraw and real frame-only regression; visual/platform and owner qualification remain separate
+  at: '2026-10-20T05:23:57.294285+00:00'
+  scope: DE-W105 qualified owned-window capture route and retained case identities; broader visual/platform and owner qualification remain separate
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -179,8 +179,19 @@ separate work. The implementation does not imply those checks have passed.
 
 ### Native capture evidence
 
-The shared Windows test helper redraws only its live owned window before
-PrintWindow and measures that window's client rectangle. Retained captures must
+The shared Windows test helper redraws only its live owned window and measures
+that window's client rectangle. The capture route is recorded and independently
+qualified: a successful PrintWindow call alone does not establish painted output.
+The confined guest lane may use a trusted coordinator to copy the verified owned
+window DC without changing the worker token or shared window-station permissions.
+The coordinator admits only the exact product image in the current owned job,
+under the expected user, on a newly marked private desktop with the exact protected
+DACL and mandatory-label ACL. Equivalent SDDL spelling or auto-inheritance history
+does not change those ACLs. Bind the HWND/PID/desktop and unchanged window bounds;
+bound the dimensions, request count, temporary output and helper lifetime. This
+route grants no authority to capture unrelated windows or a shared desktop.
+
+Retained captures must
 contain nonuniform client RGB content; title-bar/frame colors and unused DIB
 alpha cannot substitute for client paint. Visible declared button-caption
 interiors must also contain RGB content, excluding borders and focus rings.
@@ -195,3 +206,10 @@ inert review data and separately observed caption text/pixels. This guard is not
 text recognition or complete layout, accessibility, contrast, DPI, locale or
 other-platform qualification. Preserve earlier failed evidence and qualify the
 exact harness, executable, host and selected captures independently.
+Full qualification retains the six named repeated inventory/review/minimum PNG
+cases, their byte hashes and case metadata. Each case consumes a distinct
+coordinator request receipt binding the product, job, window, dimensions and
+transport pixel length/hash. Repeated identical pixels retain separate case
+identities; one PNG cannot substitute for several named cases. Missing or failed
+evidence remains unqualified. Retire the owned helper/process handles and
+disposable output after collecting the bounded result.

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Program Files\\Python314\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/tools",
+    "-p",
+    "test_window_capture_review.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "expected_regression_failure_observed": true,
+  "stdout": "",
+  "stderr": "test_changed_or_missing_png (test_window_capture_review.CaptureReview.test_changed_or_missing_png) ... ok\ntest_complete_bound_receipts (test_window_capture_review.CaptureReview.test_complete_bound_receipts) ... ok\ntest_duplicate_coordinator_identity (test_window_capture_review.CaptureReview.test_duplicate_coordinator_identity) ... ok\ntest_missing_or_duplicate_cases (test_window_capture_review.CaptureReview.test_missing_or_duplicate_cases) ... ok\ntest_missing_scope_refusal (test_window_capture_review.CaptureReview.test_missing_scope_refusal) ... ok\ntest_no_reuse_of_one_coordinator_receipt (test_window_capture_review.CaptureReview.test_no_reuse_of_one_coordinator_receipt) ... ok\ntest_one_png_cannot_substitute_for_six_cases (test_window_capture_review.CaptureReview.test_one_png_cannot_substitute_for_six_cases) ... FAIL\ntest_wrong_product_or_acl_or_dimensions (test_window_capture_review.CaptureReview.test_wrong_product_or_acl_or_dimensions) ... ok\n\n======================================================================\nFAIL: test_one_png_cannot_substitute_for_six_cases (test_window_capture_review.CaptureReview.test_one_png_cannot_substitute_for_six_cases)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"D:\\Projects\\DiskEd\\disked\\tests\\tools\\test_window_capture_review.py\", line 62, in test_one_png_cannot_substitute_for_six_cases\n    with self.assertRaises(ValueError):self.verify()\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nFAILED (failures=1)\n"
+}
