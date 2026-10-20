@@ -28,6 +28,33 @@ def validate_request(value,nonce):
         raise ValueError('Capture request identity or scope')
 
 
+def desktop_acls(value):
+    """Compare actual ACLs, not SDDL spelling or auto-inheritance history."""
+    a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True)
+    a.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes=[T.LPCWSTR,T.DWORD,C.POINTER(T.LPVOID),T.LPVOID]
+    a.GetSecurityDescriptorControl.argtypes=[T.LPVOID,C.POINTER(T.WORD),C.POINTER(T.DWORD)]
+    for name in ('GetSecurityDescriptorDacl','GetSecurityDescriptorSacl'):
+        getattr(a,name).argtypes=[T.LPVOID,C.POINTER(T.BOOL),C.POINTER(T.LPVOID),C.POINTER(T.BOOL)]
+    k.LocalFree.argtypes=[T.LPVOID];k.LocalFree.restype=T.LPVOID
+    descriptor=T.LPVOID()
+    if not a.ConvertStringSecurityDescriptorToSecurityDescriptorW(value,1,C.byref(descriptor),None):raise C.WinError(C.get_last_error())
+    try:
+        control=T.WORD();revision=T.DWORD()
+        if not a.GetSecurityDescriptorControl(descriptor,C.byref(control),C.byref(revision)):raise C.WinError(C.get_last_error())
+        if not control.value&0x1000:raise ValueError('Capture desktop DACL must remain protected')
+        result=[]
+        for name in ('GetSecurityDescriptorDacl','GetSecurityDescriptorSacl'):
+            present=T.BOOL();defaulted=T.BOOL();acl=T.LPVOID()
+            if not getattr(a,name)(descriptor,C.byref(present),C.byref(acl),C.byref(defaulted)):raise C.WinError(C.get_last_error())
+            if not present.value or not acl:raise ValueError('Capture desktop ACL missing')
+            size=int.from_bytes(C.string_at(acl.value+2,2),'little')
+            if not 8<=size<=4096:raise ValueError('Capture desktop ACL bound')
+            if not int.from_bytes(C.string_at(acl.value+4,2),'little'):raise ValueError('Capture desktop ACL empty')
+            result.append(C.string_at(acl,size))
+        return tuple(result)
+    finally:k.LocalFree(descriptor)
+
+
 class Broker:
     """Only the exact product in the current job, on a marked private desktop."""
     def __init__(self,worker,fixtures,image,env):
@@ -100,7 +127,8 @@ class Broker:
             desktop=b.require(u.OpenDesktopW(value['desktop'],0,False,0x20081))
             expected='D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;'+w.user_sid+')(A;;0xf01ff;;;'+w.coordinator_sid+')S:(ML;;NW;;;ME)'
             actual=w.user_object_security(desktop)
-            if actual!=expected:raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))
+            if desktop_acls(actual)!=desktop_acls(expected):
+                raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))
             command=[sys.executable,'-B',str(Path(__file__).resolve()),str(value['window']),str(value['pid']),value['desktop'],'--pixels']
             result=subprocess.run(command,capture_output=True,timeout=10)
             if result.returncode or len(result.stderr)>4096 or len(result.stdout)>16777216+4096:
@@ -112,6 +140,7 @@ class Broker:
                     observed['method']!='owned-window-dc' or observed['bytes']!=len(pixels) or
                     len(pixels)!=observed['width']*observed['height']*4 or
                     observed['sha256']!=hashlib.sha256(pixels).hexdigest()):raise ValueError('Capture helper pixels differ')
+            observed.update(desktop_security_sddl=actual,desktop_acl_validated=True)
             return observed,pixels
         finally:
             if desktop:u.CloseDesktop(desktop)

@@ -1,0 +1,13 @@
+{
+  "status": "preflight_reveals_equivalent_sddl_spelling",
+  "source_revision": "0ea7e6b7d239ef6bfda00a8283ac6deca78abfd8",
+  "error": "Traceback (most recent call last):\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 556, in coordinate\n    _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)\n          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\full-native.py\", line 362, in run\n    if window_broker:window_broker.poll(job)\n                     ~~~~~~~~~~~~~~~~~~^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\owned-window.py\", line 65, in poll\n    observed,pixels=self._capture(job,value)\n                    ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"C:\\ProgramData\\DiskEd\\qualification\\owned-window.py\", line 103, in _capture\n    if actual!=expected:raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Capture desktop security differs: {\"expected\": \"D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;S-1-5-21-385394198-2603589104-1765785984-1112)(A;;0xf01ff;;;S-1-5-21-385394198-2603589104-1765785984-1003)S:(ML;;NW;;;ME)\", \"actual\": \"D:P(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1112)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-385394198-2603589104-1765785984-1003)S:AI(ML;;NW;;;ME)\"}\n",
+  "finding": "Correct native desktop launch reaches the descriptor check. Windows serializes0xf01ff as symbolic rights and reports S:AI for auto-inherited SACL. Compare exact binary DACL/mandatory-label ACL while requiring protected nonempty DACL and SACL. Extra principals,changed access/label and missing/unprotected ACLs remain rejected.",
+  "owned_cleanup_verified": true,
+  "archive_entries": 11,
+  "uncompressed_bytes": 3429,
+  "compressed_bytes": 2220,
+  "archive_sha256": "742058c19124b36e566efe05a43306185bb6d8818d960670d17e112645229c02",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0
+}

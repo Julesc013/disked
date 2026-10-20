@@ -1,5 +1,6 @@
 """Reject requests outside the private window-capture coordinator boundary."""
 import importlib.util
+import os
 from pathlib import Path
 import unittest
 
@@ -42,5 +43,27 @@ class CaptureRequests(unittest.TestCase):
         for value in (None,[],True,'request'):
             with self.assertRaises(ValueError):module.validate_request(value,self.nonce)
 
+
+@unittest.skipUnless(os.name=='nt','Windows descriptor parser')
+class DesktopSecurity(unittest.TestCase):
+    expected='D:P(A;;0xf01ff;;;SY)S:(ML;;NW;;;ME)'
+
+    def test_equivalent_aliases_and_auto_inheritance(self):
+        actual='D:P(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)S:AI(ML;;NW;;;ME)'
+        self.assertEqual(module.desktop_acls(actual),module.desktop_acls(self.expected))
+
+    def test_extra_principal_or_changed_rights(self):
+        for actual in ('D:P(A;;0xf01ff;;;SY)(A;;0xf01ff;;;WD)S:(ML;;NW;;;ME)',
+                       'D:P(A;;0x20081;;;SY)S:(ML;;NW;;;ME)'):
+            self.assertNotEqual(module.desktop_acls(actual),module.desktop_acls(self.expected))
+
+    def test_changed_mandatory_label_or_policy(self):
+        for actual in ('D:P(A;;0xf01ff;;;SY)S:(ML;;NW;;;LW)',
+                       'D:P(A;;0xf01ff;;;SY)S:(ML;;NRNW;;;ME)'):
+            self.assertNotEqual(module.desktop_acls(actual),module.desktop_acls(self.expected))
+
+    def test_unprotected_or_missing_acl_refused(self):
+        for actual in ('D:(A;;0xf01ff;;;SY)S:(ML;;NW;;;ME)','D:PS:(ML;;NW;;;ME)','D:P(A;;0xf01ff;;;SY)'):
+            with self.assertRaises(ValueError):module.desktop_acls(actual)
 
 if __name__=='__main__':unittest.main()
