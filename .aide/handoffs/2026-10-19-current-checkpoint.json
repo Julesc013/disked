@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "0abcdda70b7a06f1ccfcec77605af4074b68d999",
+  "base_revision": "306e5f800be098e5f4be6e735fc612c733592c1c",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -114,6 +114,10 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
     ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
     ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
@@ -213,7 +217,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 active. Run122 at0abcdda7 delivers WM_PRINT but its foreign-process DC is invalid(receiver type0,16 ERROR_INVALID_HANDLE6 fills);the strict RGB verifier rejects black output. All9 archive entries and owned cleanup verify,zero backing growth. A test-only exact owned UI-thread renderer candidate now creates and uses its memory DC in that process. Pixel-origin preflight,actual product GUI and full native qualification remain pending. Legacy capture stays disabled;main is unchanged. The current candidate passes210 tooling tests(1 expected skip),structural/source-map/manifest/template checks;its native run remains pending.",
+  "summary": "DE-W105 active. Run123 at306e5f80 compiles/import-inspects the small x64 test renderer,but the restricted producer is denied reading its DLL before capture. All8 archive entry hashes and owned cleanup verify,zero backing growth. Candidate explicitly publishes only the exact fresh fixture DLL read/execute to its actor and preserves its hash;product permissions are unchanged. Metadata/template/source-map/manifest checks pass. Full pixel and product GUI qualification remain pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -809,6 +813,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-review.json"
     }
   ],
   "artifacts": [
@@ -1557,6 +1568,22 @@
       "sha256": "sha256:252d9a82966af6f91f096ca535371d2d19fe8d098762634141b28ecb4fec8686"
     },
     {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-cleanup.json",
+      "sha256": "sha256:9b882b0d5846373b9fb206f696df9d6b9cc16c71c0e5a625bdd608ecbf0db758"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.json.xz",
+      "sha256": "sha256:81d113171c4de0f0ad80a6e12f8dec8d22911d559877e87dd5ca490802cc8677"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.tar.xz",
+      "sha256": "sha256:41423bd0c32908ae663ead7a5149b113b7bea3000e195637daba7c1ed6a13d94"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-review.json",
+      "sha256": "sha256:4df0eb066ef2f3d0f5daa6ae00a2752e81ce022047182c18c320f22c928222ff"
+    },
+    {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundredth-cleanup.json",
       "sha256": "sha256:44d85d746b3295dbbfa215e12e5704e915da5440688cff96a357433d6f5d67c1"
     },
@@ -1865,6 +1892,6 @@
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Validate and run the small exact-source owned UI-thread pixel preflight through --pixel-origin-proof --interactive-ui. Preserve all independently fixed RGB expectations,negative controls,actual image review,restricted producer/renderer identities,code pinning,job retirement and cleanup. No product/full rebuild before preflight passes;no product capture admission from a control-only result.",
+  "next_safe_step": "Run the exact-source UI-thread known-pixel preflight after the single-DLL read/execute handoff. Require unchanged full RGB A/B expectations,wrong-surface controls,actual visual review,restricted identities,pinned fixture code,job retirement and cleanup. No product/full rebuild or main integration until required qualification.",
   "performed_remote_writes": true
 }

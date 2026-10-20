@@ -121,8 +121,13 @@ def coordinate(g):
         if call.returncode:raise RuntimeError('Scoped directory read delta failed: '+call.stderr.decode(errors='replace'))
         entry['phase']='active' if add else 'retired';journal.write_text(json.dumps(entry)+'\n');directory_grant=add
 
-    def directory_acl(path,sddl):
-        g.W.plain_directory(path)
+    def directory_acl(path,sddl,*,fixture_file=False):
+        if fixture_file:
+            assert expected.get('pixel_origin_proof') and path==build/'pixel-render.dll'
+            info=path.lstat()
+            assert stat.S_ISREG(info.st_mode) and info.st_nlink==1 and not getattr(info,'st_file_attributes',0)&0x400
+            g.W.plain_directory(path.parent)
+        else:g.W.plain_directory(path)
         a=C.WinDLL('advapi32',use_last_error=True);k=C.WinDLL('kernel32',use_last_error=True);descriptor=C.c_void_p()
         convert=g.W.bind(a,'ConvertStringSecurityDescriptorToSecurityDescriptorW',T.BOOL,T.LPCWSTR,T.DWORD,C.c_void_p,C.c_void_p)
         dacl=g.W.bind(a,'GetSecurityDescriptorDacl',T.BOOL,C.c_void_p,C.c_void_p,C.c_void_p,C.c_void_p)
@@ -508,6 +513,12 @@ def coordinate(g):
                 imports_observation_sha256=hashlib.sha256(raw).hexdigest(),
                 scope='Test-only x64 UI-thread renderer;not a product component or capture admission')
             env.update(DISKED_PIXEL_RENDER_DLL=str(render_dll),DISKED_PIXEL_RENDER_SHA256=retention.sha(render_dll))
+            # Publish only this freshly compiled test DLL read/execute to the
+            # ordinary actor; its compiler-created DACL denied run123's read.
+            fixture_sddl='D:P(A;;FA;;;SY)(A;;FA;;;'+coordinator_sid+')(A;;0x1200a9;;;'+data['sid']+')(A;;0x1200a9;;;RC)'
+            directory_acl(render_dll,fixture_sddl,fixture_file=True)
+            assert retention.sha(render_dll)==result['pixel_render_fixture']['dll_sha256']
+            result['pixel_render_fixture']['handoff']=dict(dacl=fixture_sddl,actor_access='read/execute only',bytes_unchanged=True,product_permissions_changed=False)
             null_grant.retire(quiescent=True);null_grant.close();null_grant=None
             stop();instance.close();instance=None;shared_read_access(False)
             native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True

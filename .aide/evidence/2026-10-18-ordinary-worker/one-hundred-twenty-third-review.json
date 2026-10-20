@@ -1,0 +1,47 @@
+{
+  "status": "fixture_read_denied_before_capture",
+  "source_revision": "306e5f800be098e5f4be6e735fc612c733592c1c",
+  "finding": "The120832-byte x64 fixture DLL compiles with warnings treated as errors and imports are observed,but the ordinary actor is denied reading the DLL before loading/hooking. No pixels or hook execution is established. The exact single fixture needs an explicit read/execute handoff;product ACLs remain unchanged.",
+  "fixture": {
+    "source_sha256": "c758718f51546942b1aa1f274561e6c414e7f9e78e0bb198a9dd0e2142d79860",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "6928913f22a7996b1db96370a73bcb40fff26d0eb86a7f2b69e56a5f3b3d3fd1",
+    "dll_bytes": 120832,
+    "imports_observation_sha256": "50c2902f7e463303703c3b9203a23e2f2741cfd74f0e6a487e35981ef31c87ba",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission"
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "842938fdbe3c2fe4e7ca2514af05ece4",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 13448,
+  "compressed_bytes": 3876,
+  "archive_sha256": "41423bd0c32908ae663ead7a5149b113b7bea3000e195637daba7c1ed6a13d94",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-third-fixture-read-denial.json.xz",
+    "uncompressed_sha256": "266864df3d6bf8a7fc7b2de204f220b5a426ebcc35457d9f60a0463d1262417a",
+    "compressed_sha256": "81d113171c4de0f0ad80a6e12f8dec8d22911d559877e87dd5ca490802cc8677"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}
