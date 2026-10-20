@@ -1,0 +1,59 @@
+{
+  "status": "queued_hook_unqualified",
+  "source_revision": "54b9f2d8e8f823f6a8112c160562dd75ae630622",
+  "finding": "Queued request reaches the control,but the hook module and callback receipts are absent and renderer status/PID/thread stay0. Failure-only direct UI-thread hash/load again succeeds(error0). This does not establish the reason for automatic-hook failure. Neither sent nor queued method is admitted;do not repeat speculative variants or rebuild the product on this evidence.",
+  "direct_load": {
+    "pid": 7868,
+    "thread": 7692,
+    "loaded": true,
+    "error": 0
+  },
+  "fixture": {
+    "source_sha256": "b21d17b6adbd4e0ab0f586d0ec0f616a7648dd91be93f1ae4a3b5e7e29744c73",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "1d7cbdb13a3410b27d3074624d6abd3e0785f58eb9e14b28a304b598f342558c",
+    "dll_bytes": 95744,
+    "imports_observation_sha256": "062cbf7b414c785ba82ddfc5ab35ae12672e74cc81c7fa3bfa9e90eb98708b28",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1129)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    }
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-queued-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "ee5da3be5d0ccd7b66b2d0c3b40d0799",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 9,
+  "uncompressed_bytes": 13400,
+  "compressed_bytes": 3932,
+  "archive_sha256": "7c54392538cdfe0539ba80b2c3ce158bb4dcdfc51d9d20902f568271a20ba756",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-eighth-queued-hook-failure.json.xz",
+    "uncompressed_sha256": "a2962205d24d6b9807b08c03f5732a570c910aec48018a4ed33dcfff1bbec769",
+    "compressed_sha256": "5d054316ea075a756899c957d48f6c75b8cd709f633a500e24be7dc23aa32cbe"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

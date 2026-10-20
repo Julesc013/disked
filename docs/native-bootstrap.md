@@ -735,6 +735,15 @@ GUI capture pass at `c1888e4f` is retracted; watch and unrelated test outcomes k
 their own scope. Hashes, process/window identities and varied client pixels did
 not prove pixel origin. See the
 [superseding review](../.aide/evidence/2026-10-18-ordinary-worker/capture-qualification-invalidated.json).
+
+The small replacement controls remain unqualified. Run122 proves that a directly
+sent foreign-process DC is invalid in the receiver. Sent and queued fixture-hook
+experiments through run128 produce no renderer completion,although a separate
+failure-only direct DLL load succeeds in the control UI thread. None supplies
+product screenshots or a passing capture claim. Retain these
+[bounded results](../.aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-eighth-review.json);
+do not repeat variants without a specific new testable explanation.
+The DE-W105 GUI/full-suite and main-integration gates remain open.
 The subsequent full campaign was stopped during compilation, before any native
 test ran; owned process/source/media/account cleanup completed. No main promotion
 follows. A replacement needs a small independently specified pixel-origin preflight
@@ -985,7 +994,7 @@ The exact clean DE-W038 source is `57cfd113`, with 62 command cases, 97 native g
 `image.inspect --view fat` accepts `--allocation-window-json` with exactly
 `{"first_cluster":"800000","clusters":"1024"}` for an explicit data-cluster
 interval. Choose values that fit the image's actual geometry; this example
-requires a sufficiently large FAT32 volume. Count is 1Ã¢â‚¬â€œ8192, starting at cluster
+requires a sufficiently large FAT32 volume. Count is 1ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“8192, starting at cluster
 2 or later. The volume byte window remains explicit. The interval conflicts with
 `--allocation-scan yes`; the default global prefix scan keeps its existing meaning
 and limits. GUI/TUI/shell use the same bounded typed field.

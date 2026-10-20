@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. Actual PNG inspection invalidates the owned-window-dc capture route:run115 images show guest desktop/console rather than DiskEd despite passing shape/hash guards. Its GUI pass and the earlier focused GUI capture claim are retracted;raw evidence is retained. The independent GUI-waiting cleanup repair passes run116. Run117 was stopped during compile with zero native groups;all owned cleanup and16 archive entry hashes verify,zero backing growth. Capture now refuses before Windows APIs. Prove bounded independent pixel origin before another product/full campaign,then finish qualification before main. The original all-platform/storage0.1 scope and owner/release gates remain unchanged. See [current evidence](.aide/evidence/2026-10-18-ordinary-worker/README.md).
+Status: DE-W105 remains active. The old window-DC GUI capture claims are retracted. Independent controls reject black pixels and invalid drawing handles. Sent and queued UI-thread hook candidates also remain unqualified, although direct loading in the control succeeds. Run 128 retains nine verified archive entries and owned cleanup with zero backing-file growth. A replacement capture method needs an independently verified pixel-origin proof before another product campaign. DE-W106 comparator preparation may proceed independently; its W105 prerequisite, admission and main integration remain open. The original 0.1.0 scope and owner/release gates are unchanged. See the [latest control review](.aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-eighth-review.json).
 
 ## Storage recovery
 
@@ -53,10 +53,10 @@ Status: DE-W105 remains active. Actual PNG inspection invalidates the owned-wind
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.
-- [x] Complete focused fixture/export/retirement/FAT/UI repair replays:16 groups
-  pass at `02263da2`, and the two GUI/watch groups pass at `c1888e4f`. Preserve
-  source identities and original product assertions. The guest uses a private
-  hidden desktop and qualified window-DC capture coordinator; its console keeps
+- [x] Retain the focused fixture/export/retirement/FAT/UI repair evidence:
+  16 groups pass at `02263da2`; the watch result at `c1888e4f` remains applicable,
+  while its GUI capture claim is retracted. Preserve exact source identities and
+  original assertions. The guest uses a private hidden desktop. Its console keeps
   the 240-column buffer with a display-bounded viewport. Full current qualification
   remains the separate unchecked gate above.
 - [x] Verify bounded exact source transport on the actual repository: 931 inputs,
