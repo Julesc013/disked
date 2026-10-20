@@ -75,8 +75,10 @@ RETIRE_ACTOR=r'''
 
 def main():
     work=Path(os.environ['DISKED_WORK_ROOT'])
-    cooperative='--cooperative-capture-proof' in sys.argv
-    if cooperative and any(option not in ('--cooperative-capture-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+    cooperative_tree='--cooperative-tree-proof' in sys.argv
+    cooperative=cooperative_tree or '--cooperative-capture-proof' in sys.argv
+    cooperative_mode='--cooperative-tree-proof' if cooperative_tree else '--cooperative-capture-proof'
+    if cooperative and any(option not in (cooperative_mode,'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Cooperative capture accepts only its32MiB noninteractive preparation/cleanup controls')
     cleanup_only='--cleanup-only' in sys.argv
     null_proof='--null-proof' in sys.argv
@@ -230,7 +232,7 @@ def main():
     if native_memory:expected['native_memory']=json.loads((HERE/'memory-journey-expectations.json').read_bytes())
     if native_port or native_probe or cooperative:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
-    if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/'2026-10-21-cooperative-capture/expected.json').read_bytes())
+    if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/('2026-10-21-cooperative-tree' if cooperative_tree else '2026-10-21-cooperative-capture')/'expected.json').read_bytes())
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())

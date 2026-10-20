@@ -8,11 +8,13 @@ import lzma
 import os
 from pathlib import Path, PurePosixPath
 import struct
+import sys
 import tarfile
 import zlib
 
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
+if '--tree' in sys.argv:HERE=HERE.parent/'2026-10-21-cooperative-tree'
 
 
 def check(value,reason):
@@ -67,7 +69,8 @@ def audit(files,receipt,expected,verifier):
     check(not receipt['host_test_media_mounted'] and not receipt['native_product_tests_run'] and not report['product_capture_admitted'],'scope')
     check(proof['all_owned_processes_retired'] and proof['crypto_device_retired'] and proof['source_unchanged'] and
           report['source_unchanged'] and proof['stdio_residuals']==0,'retirement')
-    check(len(calls)==16 and len(proof['controls'])==8 and report['port_observations']==calls,'execution_set')
+    count=11+len(expected['control_modes'])+(3 if 'tree_requirements' in expected else 0)
+    check(len(calls)==count and len(proof['controls'])==8 and report['port_observations']==calls,'execution_set')
     for call in calls:
         check(call['terminal'] and call['temporary_files_removed'] and call['job_retirement']['active_processes']==0,'call_retirement')
     for job in proof['job_limits']:
@@ -78,7 +81,7 @@ def audit(files,receipt,expected,verifier):
     check(payload['allocation_error']==112 and payload['failed_write_bytes']==0 and
           payload['space_before']==payload['space_after_removal'] and not payload['canary_inherited'] and
           all(v['denied'] for v in payload['outside']) and payload['descendant']['outside']['denied'],'capacity_and_confinement')
-    check(len(report['query_jobs'])==10,'membership_job_set')
+    check(len(report['query_jobs'])==2*len(expected['control_modes']),'membership_job_set')
     for i,job in enumerate(report['query_jobs']):
         check(job['anonymous'] and job['actor_access']=='JOB_OBJECT_QUERY only' and
               job['job_commit_bytes']==268435456 and job['process_limit']==8,'query_job')
@@ -88,6 +91,14 @@ def audit(files,receipt,expected,verifier):
     challenge=bytes.fromhex(report['challenge']);wanted=[recipe(challenge,p) for p in (0,1)]
     check(len(challenge)==16 and [sha(v) for v in wanted]==report['expected_rgb_sha256'],'fixed_expectations')
     check([v['mode'] for v in report['modes']]==expected['control_modes'],'mode_set')
+    if 'tree_requirements' in expected:
+        lazy=report['lazy_import_control'];check(lazy['status']=='pass' and lazy['user32_gdi32_static_imports'] is False,'lazy_result')
+        check([v['label'] for v in lazy['commands']]==['compile','imports','run'],'lazy_calls')
+        for item in lazy['commands']:
+            call=calls[item['call_index']-1];check(call['outcome']==item['outcome']=='exited' and call['exit_code']==item['exit_code']==0,'lazy_execution')
+            for name in ('stdout','stderr'):check(sha(files[item['raw'][name]['path']])==call['stream_sha256'][name],'lazy_stream_binding')
+            if item['label']=='imports':check(b'user32.dll' not in files[item['raw']['stdout']['path']].lower() and b'gdi32.dll' not in files[item['raw']['stdout']['path']].lower(),'lazy_imports')
+            if item['label']=='run':check(files[item['raw']['stdout']['path']]==b'capture-lazy-startup-ok\r\n' and not files[item['raw']['stderr']['path']],'lazy_no_gui_initialization')
     for item in report['modes']:
         mode=item['mode'];call=calls[item['call_index']-1];request=files[item['request']['path']];value=json.loads(request)
         check(item['outcome']==call['outcome'] and item['exit_code']==call['exit_code'] and
@@ -101,14 +112,14 @@ def audit(files,receipt,expected,verifier):
               call['launch']['pre_resume_hook_completed'] and call['launch']['allowed_inherited_handles']==3,'capability_handoff')
         check(item['owned_job_handles_closed'] is True and call['timeout']==3 and call['output_limit']==262144,'mode_bounds')
         stderr=files[item['stderr']['path']];check(sha(stderr)==call['stream_sha256']['stderr'],'stderr_binding')
-        if mode in ('normal','blank_oracle_rejection'):
+        if mode in ('normal','blank_oracle_rejection','tree'):
             raw=files[item['stdout']['path']];check(sha(raw)==call['stream_sha256']['stdout'] and len(raw)==call['produced_bytes']['stdout'],'stdout_binding')
-            frame,pixels=verifier.parse_frame(raw,process_id=call['process_id'],nonce=int(report['nonce']),actor_sid=primitive['actor']['sid'])
+            frame,pixels=verifier.parse_frame(raw,process_id=call['process_id'],nonce=int(report['nonce']),actor_sid=primitive['actor']['sid'],tree=mode=='tree')
             check(frame==item['frame'] and not stderr and item['pixels_retained'],'frame_binding')
-            if mode=='normal':
+            if mode in ('normal','tree'):
                 observed=verifier.verify_pixels(pixels,wanted)
                 check([sha(v) for v in observed]==item['rgb_sha256'] and item['stale_phase_rejected'],'pixel_binding')
-                for phase in (0,1):check(png_rgb(files['phase-'+str(phase)+'.png'])==observed[phase],'png_raw_binding')
+                for phase in (0,1):check(png_rgb(files[('tree-' if mode=='tree' else '')+'phase-'+str(phase)+'.png'])==observed[phase],'png_raw_binding')
                 try:verifier.verify_pixels([pixels[0],pixels[0]],wanted)
                 except ValueError as error:check(str(error)=='pixel_origin','stale_rejection_reason')
                 else:raise ValueError('stale_accepted')
@@ -123,7 +134,8 @@ def audit(files,receipt,expected,verifier):
             if mode=='hung_paint_timeout':check(call['outcome']=='timeout' and call['elapsed_seconds']>=3,'paint_deadline')
             else:check(call['outcome']=='exited' and call['elapsed_seconds']<3 and item['controller_handle_loss']==dict(ready=ready),'guard_handle_loss')
         else:check(call['outcome']=='exited' and call['exit_code']==2 and call['produced_bytes']['stdout']==0 and stderr==b'invalid_control_mode\r\n','invalid_mode')
-    return dict(modes=5,negative_controls=11,raw_io_controls=8,native_calls=16,archive_entries=len(files),uncompressed_bytes=sum(map(len,files.values())),rgb_pixels_per_phase=23040)
+    return dict(modes=len(expected['control_modes']),negative_controls=11,tree_negative_controls=4 if 'tree_requirements' in expected else 0,
+                raw_io_controls=8,native_calls=len(calls),archive_entries=len(files),uncompressed_bytes=sum(map(len,files.values())),rgb_pixels_per_phase=23040)
 
 
 def main():

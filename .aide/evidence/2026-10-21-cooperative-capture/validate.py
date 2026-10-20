@@ -9,6 +9,9 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
+SCRIPT=HERE
+TREE='--tree' in sys.argv
+if TREE:HERE=HERE.parent/'2026-10-21-cooperative-tree'
 WORK=Path(os.environ['DISKED_WORK_ROOT'])
 DEPS=WORK/'dependencies'
 ENV=dict(os.environ,PYTHONPATH=str(DEPS),PYTHONDONTWRITEBYTECODE='1')
@@ -16,21 +19,22 @@ record=dict(status='running',scope=__doc__,commands=[],base_revision=subprocess.
 commands=[
     ['-m','pip','install','--disable-pip-version-check','--no-cache-dir','--no-deps','--only-binary=:all:','--target',str(DEPS),'PyYAML==6.0.3'],
     ['spec/tools/specctl.py','index'],['spec/tools/specctl.py','manifest'],['spec/tools/specctl.py','check'],
-    ['tools/check-source-map.py'],[str(HERE/'replay.py')],
+    ['tools/check-source-map.py'],[str(SCRIPT/'replay.py'),*(['--tree'] if TREE else [])],
     ['-m','unittest','discover','-s','spec/tools/tests','-v'],
     ['-m','unittest','discover','-s','tests/tools','-v'],
     ['-m','unittest','discover','-s','tests/differential','-v'],
     ['spec/tools/specctl.py','verify-manifest'],
 ]
+if TREE:commands.insert(6,[str(SCRIPT/'replay.py')])
 
 
 def inputs():
     paths=set()
     for directory in ('spec','source','tools','tests/tools','tests/differential','tests/support','tests/corpus'):
         paths.update(p for p in (ROOT/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.ps1','.c','.cpp','.h','.json','.md','.yaml','.yml'))
-    for directory in (HERE,ROOT/'.aide/evidence/2026-10-18-ordinary-worker'):
+    for directory in (HERE,SCRIPT,ROOT/'.aide/evidence/2026-10-18-ordinary-worker'):
         paths.update(p for p in directory.iterdir() if p.is_file() and p.suffix in ('.py','.ps1','.cpp','.h'))
-    paths.update((ROOT/'CMakeLists.txt',ROOT/'docs/source-map.md',ROOT/'tests/frontend/window_capture_probe.cpp',HERE/'expected.json'))
+    paths.update((ROOT/'CMakeLists.txt',ROOT/'docs/source-map.md',ROOT/'tests/frontend/window_capture_probe.cpp',ROOT/'tests/frontend/window_capture_import_probe.cpp',HERE/'expected.json',SCRIPT/'expected.json'))
     return {p.relative_to(ROOT).as_posix():'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 
 

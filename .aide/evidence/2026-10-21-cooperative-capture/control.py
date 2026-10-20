@@ -17,7 +17,8 @@ import traceback
 
 FILES=('source/platform/windows/ui/window_capture.cpp','source/platform/windows/ui/window_capture.h',
        'tests/frontend/window_capture_probe.cpp','source/portable/hash/sha256.cpp','source/portable/hash/sha256.h',
-       'source/runtime/command/json.cpp','source/runtime/command/json.h','tests/support/cooperative_capture.py')
+       'source/runtime/command/json.cpp','source/runtime/command/json.h','tests/support/cooperative_capture.py',
+       'tests/frontend/window_capture_import_probe.cpp')
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -87,7 +88,7 @@ def exercise(g,work,environment,executor,result):
     report['sources']={name:sha(g.ROOT/name) for name in FILES}
     binary=Path(environment['PATH'].split(os.pathsep)[0]);executable=folder/'window-capture-control.exe'
     common=['/nologo','/std:c++14','/W4','/WX','/MT','/O2','/EHsc','/GS','/sdl','/guard:cf','/permissive-','/utf-8','/D_WIN32_WINNT=0x0A00','/I'+str(g.ROOT/'source')]
-    sources=[g.ROOT/name for name in FILES if name.endswith('.cpp')]
+    sources=[g.ROOT/name for name in FILES if name.endswith('.cpp') and not name.endswith('window_capture_import_probe.cpp')]
     argv=[str(binary/'cl.exe'),*common,'/Fo'+str(objects)+'\\','/Fe'+str(executable),*[str(p) for p in sources],
           'kernel32.lib','advapi32.lib','user32.lib','gdi32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf']
     value=executor(argv=argv,cwd=work,payload=b'',timeout=120,output_limit=131072)
@@ -105,6 +106,19 @@ def exercise(g,work,environment,executor,result):
     report['imports']=dict(outcome=value['outcome'],exit_code=value['exit_code'],raw={key:save('imports.'+key,value[key]) for key in ('stdout','stderr')})
     assert value['outcome']=='exited' and value['exit_code']==0
     report['artifact']=dict(bytes=executable.stat().st_size,sha256=sha(executable))
+    if 'tree_requirements' in expected:
+        lazy=folder/'capture-lazy-probe.exe'
+        argv=[str(binary/'cl.exe'),*common,'/Fo'+str(objects)+'\\','/Fe'+str(lazy),str(g.ROOT/'source/platform/windows/ui/window_capture.cpp'),
+              str(g.ROOT/'tests/frontend/window_capture_import_probe.cpp'),'kernel32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf']
+        rows=[];report['lazy_import_control']=dict(commands=rows)
+        for label,args,timeout in [('compile',argv,120),('imports',[str(binary/'dumpbin.exe'),'/imports',str(lazy)],30),('run',[str(lazy)],3)]:
+            value=executor(argv=args,cwd=work,payload=b'',timeout=timeout,output_limit=65536)
+            rows.append(dict(label=label,call_index=executor.calls,outcome=value['outcome'],exit_code=value['exit_code'],raw={key:save('lazy-'+label+'.'+key,value[key]) for key in ('stdout','stderr')}))
+            if value['outcome']!='exited' or value['exit_code']!=0:
+                report.update(status='lazy_control_failed',diagnostic_tail=(value['stdout']+value['stderr'])[-16384:].decode(errors='replace'));raise RuntimeError('Lazy import control failed')
+            if label=='imports':assert b'user32.dll' not in value['stdout'].lower() and b'gdi32.dll' not in value['stdout'].lower()
+            if label=='run':assert value['stdout']==b'capture-lazy-startup-ok\r\n' and not value['stderr']
+        report['lazy_import_control'].update(status='pass',artifact_sha256=sha(lazy),user32_gdi32_static_imports=False)
     pin=executor.worker.k.CreateFileW(str(executable),0x80000080,1,None,3,0x80,None)
     if pin==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
     original_factory=executor.new_job;original_builder=executor.payload_builder
@@ -114,7 +128,9 @@ def exercise(g,work,environment,executor,result):
         nonce=int.from_bytes(os.urandom(8),'little')
         while not(nonce&0xffffffff) or not(nonce>>32):nonce=int.from_bytes(os.urandom(8),'little')
         report.update(challenge=challenge.hex(),nonce=str(nonce),expected_rgb_sha256=[hashlib.sha256(v).hexdigest() for v in rgb_expected])
-        for label,mode in [('normal',None),('blank_oracle_rejection','--blank'),('hung_paint_timeout','--hang'),('controller_handle_loss','--hang'),('invalid_mode','--invalid')]:
+        modes=[('normal',None),('blank_oracle_rejection','--blank'),('hung_paint_timeout','--hang'),('controller_handle_loss','--hang'),('invalid_mode','--invalid')]
+        if 'tree_requirements' in expected:modes.append(('tree','--tree'))
+        for label,mode in modes:
             correct,correct_row=query_job(g,executor.worker,report)
             wrong,wrong_row=query_job(g,executor.worker,report)
             guarded=GuardedJob(g,correct,correct_row);observer=None;fault={};stop=threading.Event();before_launch=getattr(executor.worker,'launch_index',0)
@@ -160,16 +176,16 @@ def exercise(g,work,environment,executor,result):
                 report['modes'].append(row)
                 assert value['terminal'] and executor.observations[-1]['temporary_files_removed']
                 assert transferred['process_id']==executor.observations[-1]['process_id'] and executor.observations[-1]['launch']['pre_resume_hook_completed']
-                if label in ('normal','blank_oracle_rejection'):
+                if label in ('normal','blank_oracle_rejection','tree'):
                     assert value['outcome']=='exited' and value['exit_code']==0 and not value['stderr']
-                    frame,pixels=verifier.parse_frame(value['stdout'],process_id=executor.observations[-1]['process_id'],nonce=nonce,actor_sid=executor.worker.user_sid)
+                    frame,pixels=verifier.parse_frame(value['stdout'],process_id=executor.observations[-1]['process_id'],nonce=nonce,actor_sid=executor.worker.user_sid,tree=label=='tree')
                     row['frame']=frame
                     known=all(oracle.rgb_pixels(v) in (*rgb_expected,bytes(69120)) for v in pixels)
                     if known:row['stdout']=save(label+'.stdout',value['stdout']);row['pixels_retained']=True
-                    if label=='normal':
+                    if label in ('normal','tree'):
                         observed=verifier.verify_pixels(pixels,rgb_expected)
                         row['rgb_sha256']=[hashlib.sha256(v).hexdigest() for v in observed]
-                        for i,rgb in enumerate(observed):save('phase-'+str(i)+'.png',oracle.png(rgb))
+                        for i,rgb in enumerate(observed):save(('tree-' if label=='tree' else '')+'phase-'+str(i)+'.png',oracle.png(rgb))
                         try:verifier.verify_pixels([pixels[0],pixels[0]],rgb_expected)
                         except ValueError as error:assert str(error)=='pixel_origin';row['stale_phase_rejected']=True
                         else:raise ValueError('Stale pixels accepted')

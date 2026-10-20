@@ -466,7 +466,7 @@ target_compile_options(disked_gui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /
 
 add_library(disked_window_capture STATIC source/platform/windows/ui/window_capture.cpp)
 target_compile_definitions(disked_window_capture PRIVATE _WIN32_WINNT=0x0A00)
-target_link_libraries(disked_window_capture PRIVATE user32 gdi32 kernel32)
+target_link_libraries(disked_window_capture PRIVATE kernel32)
 set_target_properties(disked_window_capture PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_window_capture PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 # This private primitive is exercised by the bounded guest control. It is not

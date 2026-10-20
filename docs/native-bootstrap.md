@@ -758,9 +758,16 @@ now passes on that guest: exact two-phase client RGB, eleven identity/geometry
 refusals, blank/stale-frame rejection, a three-second hung-paint deadline and
 supervisor-handle-loss retirement. It uses a memory DC inside the owning UI
 thread, with query-only job handles transferred before launch. Both retained
-PNGs were inspected. The primitive is not linked into DiskEd; child-control
+PNGs were inspected. The primitive is not linked into DiskEd; native product child-control
 rendering, product transport, the six product cases and full qualification remain
 open. This control pass does not reinstate the invalidated desktop-DC evidence.
+
+The subsequent [client-tree control](../.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md)
+passes exact two-phase pixels painted only by two child windows, with foreign-thread,
+count, geometry and visibility refusals. Its capture-only native consumer links
+and runs without USER32/GDI32 imports. The primitive remains unlinked from DiskEd;
+real product controls, per-case transport, six product PNGs and full qualification
+remain open.
 
 The private acquired-image verifier adds a read-only current-byte observation
 under DE-W034. It independently checks the explicit original plan, canonical map

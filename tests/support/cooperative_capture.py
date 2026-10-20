@@ -4,6 +4,8 @@ import re
 import struct
 
 METHOD='owned-ui-thread-cooperative-client-control/1'
+TREE_METHOD='owned-ui-thread-cooperative-client-tree/1'
+TREE_NEGATIVES=('foreign_child_thread','child_count_limit','child_geometry_during_capture','child_visibility_during_capture')
 NEGATIVES=('wrong_process','wrong_thread','wrong_nonce','wrong_desktop','wrong_image',
            'wrong_job','wrong_geometry','wrong_window','foreign_thread',
            'epoch_during_capture','geometry_during_capture')
@@ -13,7 +15,7 @@ def require(value,reason):
     if not value:raise ValueError(reason)
 
 
-def parse_frame(body,*,process_id,nonce,actor_sid):
+def parse_frame(body,*,process_id,nonce,actor_sid,tree=False):
     require(type(body) is bytes and 4<=len(body)<=262144,'frame_bound')
     size=struct.unpack_from('<I',body)[0]
     require(0<size<=16384 and len(body)==4+size+184320,'frame_length')
@@ -24,9 +26,17 @@ def parse_frame(body,*,process_id,nonce,actor_sid):
         return result
     def invalid(value):raise ValueError('nonfinite_json')
     header=json.loads(body[4:4+size],object_pairs_hook=unique,parse_constant=invalid)
-    require(isinstance(header,dict) and set(header)=={'schema','method','pid','thread','window','nonce','identity',
-        'negative_controls','phases','mutating_open_refusals','job_access_refusals','display_dc_read','desktop_switched'},'header_shape')
-    require(header['schema']=='org.disked.cooperative-capture-control/1' and header['method']==METHOD,'method')
+    keys={'schema','method','pid','thread','window','nonce','identity','negative_controls','phases',
+          'mutating_open_refusals','job_access_refusals','display_dc_read','desktop_switched'}
+    if tree:keys|={'tree_controls','descendants'}
+    require(type(tree) is bool and isinstance(header,dict) and set(header)==keys,'header_shape')
+    require(header['schema']==('org.disked.cooperative-tree-control/1' if tree else 'org.disked.cooperative-capture-control/1') and
+            header['method']==(TREE_METHOD if tree else METHOD),'method')
+    if tree:
+        require(header['descendants']=='2' and isinstance(header['tree_controls'],list) and len(header['tree_controls'])==4,'tree_set')
+        for i,(row,name) in enumerate(zip(header['tree_controls'],TREE_NEGATIVES)):
+            require(row==dict(name=name,refused=True,render_called=i>=2) and
+                    type(row.get('refused')) is bool and type(row.get('render_called')) is bool,'tree_result')
     require(type(process_id) is int and process_id>0 and type(nonce) is int and nonce>0 and
             header['pid']==str(process_id) and header['nonce']==str(nonce),'process_nonce')
     require(all(isinstance(header[k],str) and re.fullmatch(r'[1-9][0-9]{0,19}',header[k]) for k in ('thread','window')),'window_thread')

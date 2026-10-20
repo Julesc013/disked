@@ -54,5 +54,19 @@ class CooperativeCaptureTests(unittest.TestCase):
         body=json.dumps(self.header).encode();body=body[:-1]+b',"pid":"1234"}'
         with self.assertRaisesRegex(ValueError,'duplicate_field'):self.parse(struct.pack('<I',len(body))+body+b''.join(self.payloads))
 
+    def test_tree_proof_cannot_substitute_for_parent_only_or_omit_refusals(self):
+        header=dict(self.header,schema='org.disked.cooperative-tree-control/1',method=S.TREE_METHOD,descendants='2',
+                    tree_controls=[dict(name=n,refused=True,render_called=i>=2) for i,n in enumerate(S.TREE_NEGATIVES)])
+        args=dict(process_id=1234,nonce=123456789,actor_sid='actor',tree=True)
+        self.assertEqual(S.parse_frame(self.frame(header),**args)[0],header)
+        with self.assertRaises(ValueError):self.parse(self.frame(header))
+        for change in ('missing','foreign_render','count','swapped'):
+            wrong=copy.deepcopy(header)
+            if change=='missing':wrong['tree_controls'].pop()
+            elif change=='foreign_render':wrong['tree_controls'][0]['render_called']=True
+            elif change=='count':wrong['descendants']='1'
+            else:wrong['tree_controls'].reverse()
+            with self.subTest(change=change),self.assertRaises(ValueError):S.parse_frame(self.frame(wrong),**args)
+
 
 if __name__=='__main__':unittest.main()

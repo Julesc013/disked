@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The new cooperative owning-thread client control passes exact two-phase RGB, eleven scope/transition refusals, blank/stale rejection, hung-paint timeout and supervisor-handle-loss retirement in the capped guest. The primitive is not linked into DiskEd; product transport/child rendering, six product PNGs, full current qualification and main integration remain open. Old window-DC evidence stays retracted and hook candidates stay closed. DE-W106 preparation and the original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [control review](.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md).
+Status: DE-W105 remains active. The cooperative owning-thread client-tree control now passes all original controls, exact two-phase child-painted RGB and four descendant-scope/transition refusals. A separate native probe confirms lazy USER32/GDI32 imports and invalid-request startup. Product transport/native controls, six product PNGs, full current qualification and main integration remain open; the primitive is not linked into DiskEd. Old desktop-DC evidence stays retracted and hook candidates stay closed. Original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [tree control review](.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md).
 
 ## Storage recovery
 
@@ -53,7 +53,12 @@ Status: DE-W105 remains active. The new cooperative owning-thread client control
   eleven identity/transition refusals, blank/stale rejection and bounded hung/
   controller-handle-loss retirement. All 16 native calls and owned cleanup pass;
   the verified raw archive is 8 KiB. [Evidence](.aide/evidence/2026-10-21-cooperative-capture/REVIEW.md).
-  Product linkage, child rendering, six product cases and full qualification remain open.
+  Product linkage, product child rendering, six product cases and full qualification remain open.
+- [x] Qualify bounded cooperative child-tree repaint: two children alone paint
+  all expected RGB pixels, four added child-scope/transition refusals pass and
+  the native capture-only probe has no USER32/GDI32 imports. All 20 native calls
+  and owned cleanup pass. [Evidence](.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md).
+  Actual product controls/transport and full qualification remain open.
 - [ ] Complete the current x64 product/180-group native test gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test

@@ -1,0 +1,91 @@
+{
+  "work_id": "DE-W105",
+  "base_revision": "fe86e9ceec4a1557e3bf23707958c817bb974804",
+  "scope": "Qualify the owning-thread bounded client-tree primitive and lazy UI import boundary before product transport;no product capture/main/release admission",
+  "authority": "Existing local cross-unit implementation/testing grant and guest setup grant;this creates no owner acceptance or general authority.",
+  "design": "Compile a private Windows UI capture primitive and separately compiled challenge renderer. The owning UI thread creates the memory DC/DIB and sends WM_PRINTCLIENT to its own window. No GDI handle crosses process boundaries;no DLL injection or hook/desktop-DC fallback.",
+  "limits": {
+    "scratch_mib": 32,
+    "aggregate_work_bytes": 1073741824,
+    "job_commit_bytes": 268435456,
+    "job_processes": 8,
+    "control_seconds": 3,
+    "stdout_bytes": 262144,
+    "archive_bytes": 1048576
+  },
+  "pixel_recipe": {
+    "version": "org.disked.pixel-origin-control/1",
+    "width": 240,
+    "height": 96,
+    "tile_width": 60,
+    "tile_height": 24,
+    "grid_columns": 4,
+    "grid_rows": 4,
+    "challenge_bytes": 16,
+    "phases": [
+      0,
+      1
+    ],
+    "comparison": "All23040 RGB pixels equal the independently computed fixed recipe per phase;ignore only unused alpha. Same HWND/PID/desktop/nonce in both phases;require different payloads."
+  },
+  "expected_negative_controls": [
+    "wrong_process",
+    "wrong_thread",
+    "wrong_nonce",
+    "wrong_desktop",
+    "wrong_image",
+    "wrong_job",
+    "wrong_geometry",
+    "wrong_window",
+    "foreign_thread",
+    "epoch_during_capture",
+    "geometry_during_capture"
+  ],
+  "requirements": [
+    "Run the current32MiB original capacity/confinement/canary/interruption proof and all8 raw-I/O controls before the capture experiment. Keep old invalidated/closed routes disabled.",
+    "Keep the challenge out of the capture primitive interface. Fix expected full RGB buffers before launching the renderer. Capture is an explicit owned repaint,not proof of an on-screen compositor image.",
+    "Check actual process/UI thread,job membership,private station/desktop,window nonce,held-image file ID and geometry before rendering. Revalidate identity and geometry afterwards;no pixels escape a changed epoch or bounds.",
+    "Create only fresh anonymous owned test jobs. Give the disposable actor JOB_OBJECT_QUERY only via two explicit non-inheritable DuplicateHandle transfers to the suspended, already assigned child. Bind the numeric handles in its bounded stdin before resuming;no job-name lookup. Query the same256MiB/eight-process limits before assignment. Close all owned handles after verified retirement.",
+    "Every queryable membership job has a separate unnamed supervisor job,assigned before resuming the child,whose handle is not inherited or exposed to it. Prove closing the supervisor handle alone kills a hung child that still holds its membership-job query handle;explicit job retirement remains required. This is a controller-handle-loss control,not an actual VM shutdown.",
+    "Hold the actual executable object read-only against writes/deletion. Verify its bytes/file ID before/after;observe refused write/delete opens. No ACL changes to product records/shared binaries or guest/host policy.",
+    "Require exact A/B observed pixels plus rejection of stale-A-as-B and zero surface. An intentionally blank renderer may return capture status but must fail the independent pixel oracle. A hung renderer must be retired by its3-second job deadline;no capture success follows from it.",
+    "Check GDI object counts before/after successful captures;retain distinct per-phase source/producer/frame/pixel identities and show actual retained PNGs for visual review.",
+    "Retain only known challenge pixels or uniform-zero diagnostics;unknown pixels are hashes/metadata only. Verify compact raw archive,owned account/image/source/process cleanup and host reserve before claiming this control pass.",
+    "A passing control does not qualify the product,its six required PNG cases,other platforms,owner acceptance or main promotion. Review the later private product invocation/transport separately before production-image use."
+  ],
+  "primary_references": [
+    "https://learn.microsoft.com/en-us/windows/win32/sysinfo/gdi-objects",
+    "https://learn.microsoft.com/en-us/windows/win32/gdi/wm-printclient",
+    "https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibsection",
+    "https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-gdiflush",
+    "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-createjobobjectw",
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/job-object-security-and-access-rights",
+    "https://learn.microsoft.com/en-us/windows/win32/api/jobapi/nf-jobapi-isprocessinjob",
+    "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle",
+    "https://learn.microsoft.com/en-us/windows/win32/gdi/wm-print"
+  ],
+  "control_modes": [
+    "normal",
+    "blank_oracle_rejection",
+    "hung_paint_timeout",
+    "controller_handle_loss",
+    "invalid_mode",
+    "tree"
+  ],
+  "status_at_creation": "fixed_before_tree_implementation_or_evaluation",
+  "transport_revision": "Named lookup failed withERROR_FILE_NOT_FOUND before rendering in the fourth control attempt. Direct QUERY-only handle transfer is fixed before any successful pixel evaluation;pixel expectations,negative cases and deadlines remain unchanged.",
+  "tree_requirements": [
+    "Keep all5 original modes,11 scope/epoch/geometry refusals,8 raw-I/O controls and32MiB original confinement/capacity/interruption proof.",
+    "Tree mode paints an otherwise black root solely through two visible child windows covering its full240x96 client. Every RGB pixel in phasesA/B must equal the original independently fixed4x4 recipe;no sampled/adaptive expectation.",
+    "Reject a child on another UI thread before rendering,more than64 children before rendering,and a child geometry or visibility transition during rendering without returning pixels. Bound traversal to64 descendants and8 levels. Recheck the exact ordered HWND,parent,thread/process,bounds and visibility snapshot after painting.",
+    "Use only same-process/same-UI-thread WM_PRINT with CLIENT,ERASEBKGND,CHILDREN;no nonclient,owned-popup,screen-DC or foreign-DC rendering.",
+    "Resolve USER32/GDI32 functions lazily from SYSTEM32. Compile/link a capture-only non-GUI smoke consumer without USER32/GDI32 static dependencies;dump imports and actually run its invalid-request guard. Preserve essential product startup semantics.",
+    "Keep every native control at3seconds,256MiB/eight-process jobs,query-only duplicated membership handles,separate unnamed supervisor and pinned images. Retain only known tile/zero pixels and verified compact evidence;clean all owned output."
+  ],
+  "tree_negative_controls": [
+    "foreign_child_thread",
+    "child_count_limit",
+    "child_geometry_during_capture",
+    "child_visibility_during_capture"
+  ]
+}
