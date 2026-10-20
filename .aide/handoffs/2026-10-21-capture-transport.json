@@ -1,0 +1,288 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "2e95adc2f05938c902ade719aea1ed94dd836490",
+  "spec_manifest_digest": "sha256:167f1137efb6bfc596e9f874f9c83b3f427a38e3fabce6c504d004b6d54ca2f4",
+  "status": "partial",
+  "files_read": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/full-native.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/owned-window.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/REVIEW.md",
+    ".aide/evidence/2026-10-21-capture-transport/cleanup.json",
+    ".aide/evidence/2026-10-21-capture-transport/expected.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-cleanup.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-preflight-failure.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/preflight.json",
+    ".aide/evidence/2026-10-21-capture-transport/prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/repair-context.json",
+    ".aide/evidence/2026-10-21-capture-transport/replay.json",
+    ".aide/evidence/2026-10-21-capture-transport/sender.py",
+    ".aide/evidence/2026-10-21-capture-transport/source-bindings.json",
+    ".aide/evidence/2026-10-21-capture-transport/validation-cleanup.json",
+    ".aide/evidence/2026-10-21-cooperative-capture/control.py",
+    ".aide/evidence/2026-10-21-cooperative-capture/replay.py",
+    ".aide/evidence/2026-10-21-cooperative-capture/validate.py",
+    ".aide/evidence/2026-10-21-cooperative-tree/REVIEW.md",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "docs/source-map.md",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/ui/window_capture.cpp",
+    "source/platform/windows/ui/window_capture.h",
+    "spec/START-HERE.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/index.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/differential/test_windows_executor.py",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/test_gui_capture.py",
+    "tests/frontend/window_capture_probe.cpp",
+    "tests/support/capture_transport.py",
+    "tests/support/window_capture.py",
+    "tests/tools/test_capture_transport.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/REVIEW.md",
+    ".aide/evidence/2026-10-21-capture-transport/cleanup.json",
+    ".aide/evidence/2026-10-21-capture-transport/expected.json",
+    ".aide/evidence/2026-10-21-capture-transport/final-context.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-cleanup.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-compile-failure.json.xz",
+    ".aide/evidence/2026-10-21-capture-transport/first-preflight-failure.json",
+    ".aide/evidence/2026-10-21-capture-transport/first-prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/observations.tar.xz",
+    ".aide/evidence/2026-10-21-capture-transport/preflight.json",
+    ".aide/evidence/2026-10-21-capture-transport/prepared.json",
+    ".aide/evidence/2026-10-21-capture-transport/repair-context.json",
+    ".aide/evidence/2026-10-21-capture-transport/replay.json",
+    ".aide/evidence/2026-10-21-capture-transport/result.json.xz",
+    ".aide/evidence/2026-10-21-capture-transport/sender.py",
+    ".aide/evidence/2026-10-21-capture-transport/source-bindings.json",
+    ".aide/evidence/2026-10-21-capture-transport/validation-cleanup.json",
+    ".aide/evidence/2026-10-21-capture-transport/validation.json.xz",
+    ".aide/evidence/2026-10-21-cooperative-capture/control.py",
+    ".aide/evidence/2026-10-21-cooperative-capture/replay.py",
+    ".aide/evidence/2026-10-21-cooperative-capture/validate.py",
+    ".aide/handoffs/2026-10-21-capture-transport.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/ui/window_capture.cpp",
+    "source/platform/windows/ui/window_capture.h",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/differential/test_windows_executor.py",
+    "tests/frontend/window_capture_probe.cpp",
+    "tests/support/capture_transport.py",
+    "tests/tools/test_capture_transport.py"
+  ],
+  "summary": "Private product receiver is integrated into GUI source/CMake and the actual GUI translation unit compiles. Twenty native packet/scope refusals preserve output and borrowed handles. Two actual cross-process requests bind distinct cases,actual producer and exact A/B pixels;sender timeout does not imply retirement,and the owning3-second job retires the hung receiver. All earlier controls pass;23 native calls retire and44 archive entries replay. Actual transported PNGs were visually inspected. Full host validation runs558 tests with eight skips,1327 structural checks and329-source inventory. Owned guest and host cleanup is verified;allocated backing growth was not measured. Full product linking/coordinator/native-control/six-PNG/full-native qualification,main and original all-platform/storage0.1.0/owner/release gates remain open.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --capture-transport-proof",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-capture-transport/first-compile-failure.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --capture-transport-proof",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-capture-transport/result.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-cooperative-capture/replay.py --transport",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-capture-transport/replay.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-cooperative-capture/validate.py --transport",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-capture-transport/validation.json.xz"
+    },
+    {
+      "command": "Full product linking/coordinator integration/six product captures/current full native suite",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+      "sha256": "sha256:e6891b952183114e2a006022346b38bdbb7d853ccbdd420eccefb4fb5463b4c6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+      "sha256": "sha256:d717301c56ef4a815c6585f2855219621c7e97043b009fd518483b565c0d58ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/REVIEW.md",
+      "sha256": "sha256:d93e07dd0bc805d35e8359dd2b0faf4fdee33124d16ed2b9a1c1600d670c9d2d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/cleanup.json",
+      "sha256": "sha256:6226814e364d87b56a1988304ec2e448b57326bd2622cbf30566dd4bcda51328"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/expected.json",
+      "sha256": "sha256:cf56a517a8135d5df4a779c04d4a82c61e001c88898b5ef1dad147aa8d7a4e0d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/final-context.json",
+      "sha256": "sha256:8a623e204b9bf66981dec4378115a50009a2f6e3251fc43b457e1917acf73e00"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/first-cleanup.json",
+      "sha256": "sha256:ae532ae31718f060e0c47e027e4a5e7812767abc2abbf2e6326dfd86c9c51e0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/first-compile-failure.json.xz",
+      "sha256": "sha256:541e9bc6a31ce553e478e77df9989ec7a68d4315e10128bd5c765fc067a5fd15"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/first-preflight-failure.json",
+      "sha256": "sha256:9dc9f88419e86a453976a0661134554ffa9aaea1a6fa43838d7b1f3b039af27b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/first-prepared.json",
+      "sha256": "sha256:93c0f9405ad088ef3874788a1322459fe5c817c44e42b5f9d96e70e1c6417366"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/observations.tar.xz",
+      "sha256": "sha256:678c999e9145ed4411a5fb97b2d890af5efe9733be898d4b822efd6beaa76575"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/preflight.json",
+      "sha256": "sha256:1353a5056db388de9d68348ad210d61f64e485855a809f205bdbc656963cad9f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/prepared.json",
+      "sha256": "sha256:d717301c56ef4a815c6585f2855219621c7e97043b009fd518483b565c0d58ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/repair-context.json",
+      "sha256": "sha256:4d0627bdf303bfeb8340f1caf7e9ee15147db06228b2cdeea5ab0b5da5e643cb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/replay.json",
+      "sha256": "sha256:92eb6f21ab759c7a48a142746efa261ab238287783ee3e72432f6ce9551e5a1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/result.json.xz",
+      "sha256": "sha256:2faebd12daff01fa404c9e638a25af2c9e8b67f0bb71c2fab352da50374bec58"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/sender.py",
+      "sha256": "sha256:817f081a5a2bd309b81b98e15b51bd4d1abb7dd4102fb46b8d75574ef5ae1125"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/source-bindings.json",
+      "sha256": "sha256:fbc20216ef5a6b1b8893b24e7f4db06d406a96715a598c3fd7f95c0c09e07348"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/validation-cleanup.json",
+      "sha256": "sha256:bb491a33e887d2e3a2e2cc87818735057e23ec16f9737c0f079609a62d248e36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-capture-transport/validation.json.xz",
+      "sha256": "sha256:6e09bacd42a49ac1bdcdeaab5ed80dd4df8227a6358aab6b569fe6a8a88a22fc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-cooperative-capture/control.py",
+      "sha256": "sha256:12bdcedca356a833fe90264039595bf7b86239ca331597900c31584fdc4e839b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-cooperative-capture/replay.py",
+      "sha256": "sha256:b2ccbce4b7e8841f0ff191045bf8ba7baf87d59f7a6a27551f2ba0fa94b27945"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-cooperative-capture/validate.py",
+      "sha256": "sha256:5013acfbf4425fb4d7a1ed7991a796386c63d139fc5b9937fc794f2be0caa869"
+    },
+    {
+      "path": ".aide/programmes/disked-0.1.0.json",
+      "sha256": "sha256:ec86c0e1de469b3b5c19885e43e85900565f05a1bf1209f8d7930e3bfafe69cd"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "sha256:235f66da053e15355e2b2276100118fa31217c143160fb7e44e23df02c66f229"
+    },
+    {
+      "path": "TODO.MD",
+      "sha256": "sha256:aaac01aa9b57828302608a3f6e37090daf082bba565d90297a56bcb2d821d8f2"
+    },
+    {
+      "path": "docs/native-bootstrap.md",
+      "sha256": "sha256:2f48d3e08cadafab9ff057a00c0663a7921f0bc696a39ddde20882af8a6b934b"
+    },
+    {
+      "path": "source/platform/windows/ui/gui.cpp",
+      "sha256": "sha256:420a2c39765f25886fbb7702b2253ed7ae3aff4a5ce5622af2a3eea99f9351ab"
+    },
+    {
+      "path": "source/platform/windows/ui/window_capture.cpp",
+      "sha256": "sha256:939491fe1a36e3205e26eeee41fedf729a2030df8e98ff70f12b1087c6a2d6a4"
+    },
+    {
+      "path": "source/platform/windows/ui/window_capture.h",
+      "sha256": "sha256:9ba85d7ab4959f029d5a677190c2caffdb5cca717c4019709841560a06d995eb"
+    },
+    {
+      "path": "spec/catalog/input-dependencies.json",
+      "sha256": "sha256:bb7961493e8d471ea0771806871aacb9e647e555def3f353020b009f67236a81"
+    },
+    {
+      "path": "spec/manifest.json",
+      "sha256": "sha256:167f1137efb6bfc596e9f874f9c83b3f427a38e3fabce6c504d004b6d54ca2f4"
+    },
+    {
+      "path": "spec/work/units.json",
+      "sha256": "sha256:2e0df138d89eeb7e32e113d19e6434918faa3aaa36236c64f0b74a3ecddd06b5"
+    },
+    {
+      "path": "tests/differential/test_windows_executor.py",
+      "sha256": "sha256:d52f54676643bcc5f26c4dd2305b0e48b4630f7837608ec120f827c936af907c"
+    },
+    {
+      "path": "tests/frontend/window_capture_probe.cpp",
+      "sha256": "sha256:60cbbbd8e5f4554086a87afbd19ee12c7436be387f3f1268833b7de600910d24"
+    },
+    {
+      "path": "tests/support/capture_transport.py",
+      "sha256": "sha256:6191f42c6e38bcb278fb03a7ec5bbbe49e27feabab50e8f2c1f64705522bba38"
+    },
+    {
+      "path": "tests/tools/test_capture_transport.py",
+      "sha256": "sha256:c577b8f29b6b6baea98b6aaf42b4d17eeac11d9bdecf55f69d278412f1f65056"
+    }
+  ],
+  "blockers": [
+    "Trusted product coordinator/GUI fixture path remains unimplemented;do not use closed desktop-DC/hook routes.",
+    "Actual full product link/import/startup,six product PNGs and current full native suite remain unqualified before main.",
+    "Original all-platform/storage0.1.0,owner/release/reference/sanitizer/historical-platform gates remain separate and incomplete."
+  ],
+  "next_safe_step": "Continue DE-W105 with the trusted cooperative product coordinator and GUI fixture path. The private receiver is integrated in GUI source/CMake and its actual translation unit compiles;23 native calls pass including20 packet/scope refusals,two exact cross-process A/B publications and sender-timeout/independent-job retirement. Full product linking/capture is untested. Admit the exact pinned DiskEd image only under the expected ordinary user and protected marked desktop;keep the outer supervisor job private when transferring an inner membership-query capability. Preserve client/frame coordinate semantics,all existing caption/client/inert-review assertions and distinct per-case receipts. Qualify six product PNGs and current full native suite before main. Closed DC/hook paths remain closed;the original all-platform/storage0.1.0 and owner/release/reference/sanitizer gates remain open.",
+  "performed_remote_writes": false
+}

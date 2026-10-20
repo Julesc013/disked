@@ -4,6 +4,7 @@
 #include <sddl.h>
 #include <algorithm>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
 
@@ -28,6 +29,8 @@ struct State{
     unsigned phase=0,prints=0,paints=0,transition=0;
     bool blank=false,hang=false,error=false,tree=false;
     HWND first_child=nullptr;
+    bool receiving=false;
+    disked::ui::WindowCaptureReceiver receiver;
 };
 struct Binding{State* state;int offset=-1;};
 static void write(const void* data,std::size_t size);
@@ -49,6 +52,11 @@ static LRESULT CALLBACK procedure(HWND window,UINT message,WPARAM wp,LPARAM lp){
     if(message==WM_NCCREATE){const auto* create=reinterpret_cast<CREATESTRUCTW*>(lp);SetWindowLongPtrW(window,GWLP_USERDATA,reinterpret_cast<LONG_PTR>(create->lpCreateParams));}
     auto* binding=reinterpret_cast<Binding*>(GetWindowLongPtrW(window,GWLP_USERDATA));
     if(binding){auto* state=binding->state;
+        if(message==WM_COPYDATA && state->receiving && binding->offset<0){
+            if(!lp || state->phase>=2)return FALSE;
+            const bool accepted=disked::ui::receive_owned_window_capture(window,*reinterpret_cast<const COPYDATASTRUCT*>(lp),state->receiver,true);
+            if(accepted && ++state->phase==2)PostQuitMessage(0);return accepted?TRUE:FALSE;
+        }
         if(message==WM_PAINT){PAINTSTRUCT paint{};const auto dc=BeginPaint(window,&paint);if(dc){++state->paints;draw(*state,dc,binding->offset);EndPaint(window,&paint);}else state->error=true;return 0;}
         if(message==WM_PRINTCLIENT){++state->prints;if(state->hang){
                 const auto ready=disked::json::dump(V::object().put("schema",V::string("org.disked.cooperative-capture-ready/1")).put("pid",number(GetCurrentProcessId())).put("nonce",number(state->nonce)).put("holding_job_query",V::boolean_value(true)))+"\n";
@@ -95,16 +103,50 @@ static V identity(){
     return out.put("restricted",V::boolean_value(IsTokenRestricted(token.value)!=FALSE));
 }
 static void write(const void* data,std::size_t size){const auto* p=static_cast<const unsigned char*>(data);while(size){DWORD done=0;require(WriteFile(GetStdHandle(STD_OUTPUT_HANDLE),p,static_cast<DWORD>(size),&done,nullptr)&&done);p+=done;size-=done;}}
+static void packet32(unsigned char* p,std::uint32_t n){for(unsigned i=0;i<4;++i)p[i]=static_cast<unsigned char>(n>>(8*i));}
+static void packet64(unsigned char* p,std::uint64_t n){packet32(p,static_cast<std::uint32_t>(n));packet32(p+4,static_cast<std::uint32_t>(n>>32));}
+static V transport_guards(const Request& request,HANDLE wrong,State& render){
+    Handle section;section.value=CreateFileMappingW(INVALID_HANDLE_VALUE,nullptr,PAGE_READWRITE,0,96256,nullptr);require(section.value!=nullptr);
+    auto* view=static_cast<unsigned char*>(MapViewOfFile(section.value,FILE_MAP_WRITE,0,0,96256));require(view!=nullptr);
+    struct Unmap{void* p;~Unmap(){UnmapViewOfFile(p);}}unmap{view};
+    std::array<unsigned char,640> packet{};auto* p=packet.data();std::memcpy(p,"DECAPR1\0",8);
+    packet64(p+8,request.nonce);packet32(p+16,1);packet32(p+20,240);packet32(p+24,96);packet32(p+28,static_cast<std::uint32_t>(request.desktop.size()));
+    packet64(p+32,reinterpret_cast<ULONG_PTR>(request.window));packet32(p+40,request.process);packet32(p+44,request.thread);packet64(p+48,reinterpret_cast<ULONG_PTR>(request.job));packet64(p+56,reinterpret_cast<ULONG_PTR>(section.value));packet64(p+64,request.image_volume);std::copy(request.image_file_id.begin(),request.image_file_id.end(),p+72);
+    for(unsigned i=0;i<16;++i)p[88+i]=static_cast<unsigned char>(i+1);
+    RECT frame{};require(GetWindowRect(request.window,&frame)!=FALSE);const LONG edges[]={frame.left,frame.top,frame.right,frame.bottom};for(unsigned i=0;i<4;++i)packet32(p+104+i*4,static_cast<std::uint32_t>(edges[i]));
+    for(std::size_t i=0;i<request.desktop.size();++i){p[120+i*2]=static_cast<unsigned char>(request.desktop[i]);p[121+i*2]=static_cast<unsigned char>(request.desktop[i]>>8);}
+    V rows=V::array();
+    auto refuse=[&](const char* name,std::array<unsigned char,640> value,disked::ui::WindowCaptureReceiver state={},bool enabled=true,ULONG_PTR tag=disked::ui::window_capture_message,DWORD length=640){
+        std::memset(view,0x5a,96256);const auto before=render.prints;COPYDATASTRUCT message{tag,length,value.data()};
+        require(!disked::ui::receive_owned_window_capture(request.window,message,state,enabled)&&render.prints==before&&std::all_of(view,view+96256,[](unsigned char c){return c==0x5a;}));
+        DWORD flags=0;require(GetHandleInformation(request.job,&flags)&&GetHandleInformation(section.value,&flags));
+        rows.items.push_back(V::object().put("name",V::string(name)).put("refused",V::boolean_value(true)).put("output_unchanged",V::boolean_value(true)).put("render_called",V::boolean_value(false)).put("borrowed_handles_open",V::boolean_value(true)));
+    };
+    refuse("disabled",packet,{},false);refuse("wrong_tag",packet,{},true,1);refuse("short_packet",packet,{},true,disked::ui::window_capture_message,639);
+    auto bad=packet;bad[0]^=1;refuse("bad_magic",bad);bad=packet;bad[639]=1;refuse("reserved_bytes",bad);
+    bad=packet;std::fill(bad.begin()+88,bad.begin()+104,static_cast<unsigned char>(0));refuse("zero_case",bad);
+    bad=packet;bad[8]^=1;refuse("wrong_nonce",bad);bad=packet;packet32(bad.data()+16,2);refuse("wrong_sequence",bad);
+    disked::ui::WindowCaptureReceiver replay;replay.sequence=1;replay.nonce=request.nonce;refuse("replay",packet,replay);
+    bad=packet;bad[32]^=1;refuse("wrong_window",bad);bad=packet;bad[40]^=1;refuse("wrong_process",bad);bad=packet;bad[44]^=1;refuse("wrong_thread",bad);
+    bad=packet;packet64(bad.data()+48,reinterpret_cast<ULONG_PTR>(wrong));refuse("wrong_job",bad);bad=packet;bad[72]^=1;refuse("wrong_image",bad);
+    bad=packet;bad[120]^=1;refuse("wrong_desktop",bad);bad=packet;bad[112]^=1;refuse("wrong_bounds",bad);
+    bad=packet;packet64(bad.data()+56,UINT64_MAX);refuse("invalid_section",bad);
+    Handle small;small.value=CreateFileMappingW(INVALID_HANDLE_VALUE,nullptr,PAGE_READWRITE,0,4096,nullptr);require(small.value!=nullptr);bad=packet;packet64(bad.data()+56,reinterpret_cast<ULONG_PTR>(small.value));refuse("small_section",bad);
+    disked::ui::WindowCaptureReceiver busy;busy.busy=true;refuse("busy",packet,busy);
+    disked::ui::WindowCaptureReceiver full;bad=packet;bad[8]^=1;COPYDATASTRUCT invalid{disked::ui::window_capture_message,640,bad.data()};for(unsigned i=0;i<8;++i)require(!disked::ui::receive_owned_window_capture(request.window,invalid,full,true));require(full.attempts==8);refuse("request_limit",packet,full);
+    return rows;
+}
 int main(int argc,char** argv){
     const char* stage="input";
     try{
         const std::string mode=argc==1?"normal":argc==2?argv[1]:"invalid";
-        if(mode!="normal"&&mode!="--blank"&&mode!="--hang"&&mode!="--tree"){std::fputs("invalid_control_mode\n",stderr);return 2;}
+        const bool receiving=mode=="--receiver"||mode=="--receiver-hang";
+        if(mode!="normal"&&mode!="--blank"&&mode!="--hang"&&mode!="--tree"&&!receiving){std::fputs("invalid_control_mode\n",stderr);return 2;}
         std::string line;require(static_cast<bool>(std::getline(std::cin,line))&&line.size()<=4096);
         disked::json::Limits limits;limits.bytes=4096;limits.values=128;limits.string_bytes=255;const auto input=disked::json::parse(line,limits);require(input.fields.size()==7);
         const auto seed=unhex(text(input,"challenge"));require(seed.size()==16);
         State state;state.nonce=integer(text(input,"nonce"));require(static_cast<std::uint32_t>(state.nonce)&&static_cast<std::uint32_t>(state.nonce>>32));
-        state.blank=mode=="--blank";state.hang=mode=="--hang";state.tree=mode=="--tree";
+        state.blank=mode=="--blank";state.hang=mode=="--hang";state.tree=mode=="--tree"||receiving;
         Binding root_binding{&state,-1},left_binding{&state,0},right_binding{&state,120};
         for(unsigned p=0;p<2;++p)for(unsigned i=0;i<16;++i){std::string bytes("DiskEd pixel-origin/1");bytes.push_back('\0');bytes.append(seed.begin(),seed.end());bytes.push_back(static_cast<char>(p));bytes.push_back(static_cast<char>(i));
             std::array<unsigned char,32> sum{};disked::sha256(reinterpret_cast<const unsigned char*>(bytes.data()),bytes.size(),sum.data());std::copy_n(sum.begin(),3,state.colors[p][i].begin());}
@@ -149,6 +191,16 @@ int main(int argc,char** argv){
             for(unsigned change=3;change<=4;++change){stage=change==3?"child_geometry":"child_visibility";state.transition=change;failed=disked::ui::capture_owned_window_client(request);state.transition=0;
                 require(failed.status==Status::geometry_changed&&failed.bgra.empty());require(SetWindowPos(state.first_child,nullptr,0,0,120,96,SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE)!=FALSE);ShowWindow(state.first_child,SW_SHOWNOACTIVATE);
                 tree_controls.items.push_back(V::object().put("name",V::string(change==3?"child_geometry_during_capture":"child_visibility_during_capture")).put("refused",V::boolean_value(true)).put("render_called",V::boolean_value(true)));}
+        }
+        if(receiving){
+            stage="transport_guards";const auto guards=transport_guards(request,wrong.value,state);RECT frame{};require(GetWindowRect(windows.first,&frame)!=FALSE);
+            V bounds=V::array();for(auto edge:{frame.left,frame.top,frame.right,frame.bottom})bounds.items.push_back(V::string(std::to_string(edge)));
+            const auto ready=disked::json::dump(V::object().put("schema",V::string("org.disked.capture-receiver-ready/1")).put("pid",number(request.process)).put("thread",number(request.thread)).put("window",number(reinterpret_cast<ULONG_PTR>(windows.first))).put("nonce",number(state.nonce)).put("window_rect",bounds).put("identity",identity()).put("guards",guards))+"\n";
+            state.receiving=true;state.hang=mode=="--receiver-hang";write(ready.data(),ready.size());
+            stage="receiver_pump";MSG message{};BOOL received=0;while((received=GetMessageW(&message,nullptr,0,0))>0){TranslateMessage(&message);DispatchMessageW(&message);}
+            require(received==0&&state.phase==2&&state.receiver.sequence==2&&state.receiver.attempts==2&&!state.error);
+            const auto done=disked::json::dump(V::object().put("schema",V::string("org.disked.capture-receiver-done/1")).put("pid",number(request.process)).put("sequence",number(2)).put("attempts",number(2)))+"\n";
+            write(done.data(),done.size());return 0;
         }
         stage="positive_capture";V phases=V::array();std::vector<unsigned char> pixels;
         for(unsigned p=0;p<2;++p){state.phase=p;require(RedrawWindow(windows.first,nullptr,nullptr,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE)!=FALSE);auto captured=disked::ui::capture_owned_window_client(request);

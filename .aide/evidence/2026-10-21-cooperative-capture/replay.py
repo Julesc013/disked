@@ -15,6 +15,8 @@ import zlib
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 if '--tree' in sys.argv:HERE=HERE.parent/'2026-10-21-cooperative-tree'
+TRANSPORT='--transport' in sys.argv
+if TRANSPORT:HERE=Path(__file__).resolve().parent.parent/'2026-10-21-capture-transport'
 
 
 def check(value,reason):
@@ -69,7 +71,7 @@ def audit(files,receipt,expected,verifier):
     check(not receipt['host_test_media_mounted'] and not receipt['native_product_tests_run'] and not report['product_capture_admitted'],'scope')
     check(proof['all_owned_processes_retired'] and proof['crypto_device_retired'] and proof['source_unchanged'] and
           report['source_unchanged'] and proof['stdio_residuals']==0,'retirement')
-    count=11+len(expected['control_modes'])+(3 if 'tree_requirements' in expected else 0)
+    count=11+len(expected['control_modes'])+(3 if 'tree_requirements' in expected else 0)+(1 if 'capture_transport' in expected else 0)
     check(len(calls)==count and len(proof['controls'])==8 and report['port_observations']==calls,'execution_set')
     for call in calls:
         check(call['terminal'] and call['temporary_files_removed'] and call['job_retirement']['active_processes']==0,'call_retirement')
@@ -99,6 +101,10 @@ def audit(files,receipt,expected,verifier):
             for name in ('stdout','stderr'):check(sha(files[item['raw'][name]['path']])==call['stream_sha256'][name],'lazy_stream_binding')
             if item['label']=='imports':check(b'user32.dll' not in files[item['raw']['stdout']['path']].lower() and b'gdi32.dll' not in files[item['raw']['stdout']['path']].lower(),'lazy_imports')
             if item['label']=='run':check(files[item['raw']['stdout']['path']]==b'capture-lazy-startup-ok\r\n' and not files[item['raw']['stderr']['path']],'lazy_no_gui_initialization')
+    if 'capture_transport' in expected:
+        item=report['product_gui_compile'];call=calls[item['call_index']-1]
+        check(item['outcome']==call['outcome']=='exited' and item['exit_code']==call['exit_code']==0 and '/c' in call['argv'],'product_gui_compile')
+        for name in ('stdout','stderr'):check(sha(files[item['raw'][name]['path']])==call['stream_sha256'][name],'gui_compile_stream')
     for item in report['modes']:
         mode=item['mode'];call=calls[item['call_index']-1];request=files[item['request']['path']];value=json.loads(request)
         check(item['outcome']==call['outcome'] and item['exit_code']==call['exit_code'] and
@@ -128,6 +134,38 @@ def audit(files,receipt,expected,verifier):
                 try:verifier.verify_pixels(pixels,wanted)
                 except ValueError as error:check(str(error)=='pixel_origin','blank_rejection_reason')
                 else:raise ValueError('blank_accepted')
+        elif mode in ('receiver','receiver_hang'):
+            protocol_spec=importlib.util.spec_from_file_location('replay_capture_wire',ROOT/'tests/support/capture_transport.py')
+            protocol=importlib.util.module_from_spec(protocol_spec);protocol_spec.loader.exec_module(protocol)
+            ipc=item['transport'];ready=ipc['ready'];facts=expected['capture_transport'];raw=files[item['stdout']['path']]
+            check(sha(raw)==call['stream_sha256']['stdout'] and len(raw)==call['produced_bytes']['stdout'],'receiver_stdout')
+            lines=[json.loads(line) for line in raw.splitlines()];check(len(lines)==2 and lines[0]==ready,'receiver_lines')
+            check(ready['schema']=='org.disked.capture-receiver-ready/1' and ready['pid']==str(call['process_id']) and
+                  ready['nonce']==report['nonce'] and int(ready['thread'])==ipc['actual_thread_id'] and ipc['actual_process_id']==call['process_id'],'receiver_identity')
+            check(ready['guards']==[dict(name=name,refused=True,output_unchanged=True,render_called=False,borrowed_handles_open=True) for name in facts['guard_cases']],'receiver_guards')
+            check(ipc['status']=='pass' and ipc['desktop_acl_validated'] and ipc['image_path_matched'] and ipc['job_membership_verified'] and
+                  ipc['actual_user_sid']==primitive['actor']['sid'] and ipc['local_views_and_handles_retired_after_quiescence'],'receiver_admission')
+            check(not stderr and len(ipc['requests'])==(2 if mode=='receiver' else 1),'receiver_request_set')
+            ids=[]
+            for i,delivery in enumerate(ipc['requests']):
+                packet=bytes.fromhex(delivery['request_hex']);check(len(packet)==640 and sha(packet)==delivery['request_sha256'],'wire_request')
+                check(delivery['sequence']==i+1 and delivery['section_access']==2 and delivery['inheritable'] is False,'wire_capability')
+                ids.append(packet[88:104])
+                check(struct.unpack_from('<Q',packet,8)[0]==int(report['nonce']) and struct.unpack_from('<I',packet,16)[0]==i+1 and
+                      struct.unpack_from('<Q',packet,32)[0]==int(ready['window']) and struct.unpack_from('<II',packet,40)==(call['process_id'],ipc['actual_thread_id']) and
+                      struct.unpack_from('<Q',packet,48)[0]==int(value['job_handle']) and packet[72:88].hex()==value['file_id'],'wire_scope')
+                if mode=='receiver':
+                    check(delivery['send_completed'] and delivery['reply_result']==1,'receiver_ack')
+                    frame=item['transport_frames'][i];metadata,pixels=protocol.decode_reply(files[frame['raw']['path']],packet)
+                    check(metadata==frame['metadata'] and metadata['descendants']==2,'receiver_frame_binding')
+                    rgb=bytearray(69120);rgb[0::3]=pixels[2::4];rgb[1::3]=pixels[1::4];rgb[2::3]=pixels[0::4]
+                    check(bytes(rgb)==wanted[i] and png_rgb(files['receiver-phase-'+str(i)+'.png'])==bytes(rgb),'receiver_pixel_origin')
+                else:check(not delivery['send_completed'] and delivery['reply_result']==0 and ipc['sender_timeout_without_publication'],'receiver_timeout')
+            check(len(set(ids))==len(ids) and all(any(v) for v in ids),'receiver_case_ids')
+            if mode=='receiver':
+                check(call['outcome']=='exited' and call['exit_code']==0 and item['pixels_retained'] and lines[1]==dict(schema='org.disked.capture-receiver-done/1',pid=str(call['process_id']),sequence='2',attempts='2'),'receiver_completion')
+            else:check(call['outcome']=='timeout' and call['elapsed_seconds']>=3 and not item['pixels_retained'] and
+                       lines[1]==dict(schema='org.disked.cooperative-capture-ready/1',pid=str(call['process_id']),nonce=report['nonce'],holding_job_query=True),'receiver_unresolved_retirement')
         elif mode in ('hung_paint_timeout','controller_handle_loss'):
             ready=item['ready'];check(ready==dict(schema='org.disked.cooperative-capture-ready/1',pid=str(call['process_id']),nonce=report['nonce'],holding_job_query=True),'ready_binding')
             check(not stderr and not item['pixels_retained'],'hung_no_pixels')
@@ -150,7 +188,10 @@ def main():
             files[member.name]=stream.extractfile(member).read(262145)
     spec=importlib.util.spec_from_file_location('cooperative_frame_replay',ROOT/'tests/support/cooperative_capture.py')
     verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
-    expected=json.loads((HERE/'expected.json').read_bytes());summary=audit(files,receipt,expected,verifier)
+    expected=json.loads((HERE/'expected.json').read_bytes())
+    if TRANSPORT:
+        transport=expected;expected=json.loads((HERE.parent/'2026-10-21-cooperative-tree/expected.json').read_bytes());expected['capture_transport']=transport;expected['control_modes']+=['receiver','receiver_hang']
+    summary=audit(files,receipt,expected,verifier)
     rejected=[]
     for name in ('altered_raw','missing_frame','false_report'):
         altered=dict(files);other=copy.deepcopy(receipt)
@@ -174,7 +215,7 @@ def main():
         compiler_sha256=proof['compiler_sha256'],linker_sha256=proof['linker_sha256'],owned_cleanup_verified=True,
         host_backing_logical_length_delta_bytes=receipt['host_backing_end_bytes']-receipt['host_backing_start_bytes'],allocated_backing_delta='not_measured',
         guest_free_c_bytes=receipt['guest']['free_c_bytes'],product_capture_admitted=False,full_native_qualification=False)
-    (HERE/'replay.json').write_text(json.dumps(reviewed,indent=2)+'\n',encoding='utf-8',newline='\n')
+    if '--no-write' not in sys.argv:(HERE/'replay.json').write_text(json.dumps(reviewed,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps(reviewed))
 
 

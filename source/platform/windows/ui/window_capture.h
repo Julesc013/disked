@@ -35,4 +35,14 @@ struct WindowCaptureResult {
 // Must run on the window's owning UI thread. GDI objects remain in this process;
 // only pixels leave it. Delivery/paint success is not independent pixel evidence.
 WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& request);
+// Private test transport, not a public message/API contract. Numeric handles
+// are borrowed; the coordinator creates, transfers and retires capabilities.
+constexpr ULONG_PTR window_capture_message=0x44454331;
+struct WindowCaptureReceiver {
+    std::uint32_t attempts=0,sequence=0;
+    std::uint64_t nonce=0;
+    bool busy=false;
+};
+bool receive_owned_window_capture(HWND window,const COPYDATASTRUCT& packet,
+                                  WindowCaptureReceiver& state,bool enabled) noexcept;
 }}

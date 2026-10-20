@@ -18,7 +18,12 @@ import traceback
 FILES=('source/platform/windows/ui/window_capture.cpp','source/platform/windows/ui/window_capture.h',
        'tests/frontend/window_capture_probe.cpp','source/portable/hash/sha256.cpp','source/portable/hash/sha256.h',
        'source/runtime/command/json.cpp','source/runtime/command/json.h','tests/support/cooperative_capture.py',
-       'tests/frontend/window_capture_import_probe.cpp')
+       'tests/frontend/window_capture_import_probe.cpp','tests/support/capture_transport.py',
+       '.aide/evidence/2026-10-21-capture-transport/sender.py',
+       'source/platform/windows/ui/gui.cpp','source/platform/windows/ui/gui.h',
+       'source/apps/disked/gui/gui_model.h','source/runtime/command/command.h',
+       'source/runtime/command/protocol.h','source/runtime/graph/snapshot.h',
+       'source/runtime/presentation/requests.h','source/runtime/presentation/session.h')
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -88,7 +93,7 @@ def exercise(g,work,environment,executor,result):
     report['sources']={name:sha(g.ROOT/name) for name in FILES}
     binary=Path(environment['PATH'].split(os.pathsep)[0]);executable=folder/'window-capture-control.exe'
     common=['/nologo','/std:c++14','/W4','/WX','/MT','/O2','/EHsc','/GS','/sdl','/guard:cf','/permissive-','/utf-8','/D_WIN32_WINNT=0x0A00','/I'+str(g.ROOT/'source')]
-    sources=[g.ROOT/name for name in FILES if name.endswith('.cpp') and not name.endswith('window_capture_import_probe.cpp')]
+    sources=[g.ROOT/name for name in FILES if name.endswith('.cpp') and not name.endswith(('window_capture_import_probe.cpp','/gui.cpp'))]
     argv=[str(binary/'cl.exe'),*common,'/Fo'+str(objects)+'\\','/Fe'+str(executable),*[str(p) for p in sources],
           'kernel32.lib','advapi32.lib','user32.lib','gdi32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf']
     value=executor(argv=argv,cwd=work,payload=b'',timeout=120,output_limit=131072)
@@ -119,6 +124,13 @@ def exercise(g,work,environment,executor,result):
             if label=='imports':assert b'user32.dll' not in value['stdout'].lower() and b'gdi32.dll' not in value['stdout'].lower()
             if label=='run':assert value['stdout']==b'capture-lazy-startup-ok\r\n' and not value['stderr']
         report['lazy_import_control'].update(status='pass',artifact_sha256=sha(lazy),user32_gdi32_static_imports=False)
+    transport=json.loads((g.ROOT/'expected.json').read_bytes()).get('capture_transport')
+    if transport:
+        value=executor(argv=[str(binary/'cl.exe'),*common,'/c','/Fo'+str(objects/'product-gui.obj'),str(g.ROOT/'source/platform/windows/ui/gui.cpp')],cwd=work,payload=b'',timeout=120,output_limit=65536)
+        report['product_gui_compile']=dict(outcome=value['outcome'],exit_code=value['exit_code'],call_index=executor.calls,
+            raw={key:save('product-gui.'+key,value[key]) for key in ('stdout','stderr')})
+        if value['outcome']!='exited' or value['exit_code']!=0:
+            report.update(status='product_gui_compile_failed',diagnostic_tail=(value['stdout']+value['stderr'])[-16384:].decode(errors='replace'));raise RuntimeError('Product GUI compilation failed')
     pin=executor.worker.k.CreateFileW(str(executable),0x80000080,1,None,3,0x80,None)
     if pin==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
     original_factory=executor.new_job;original_builder=executor.payload_builder
@@ -130,6 +142,7 @@ def exercise(g,work,environment,executor,result):
         report.update(challenge=challenge.hex(),nonce=str(nonce),expected_rgb_sha256=[hashlib.sha256(v).hexdigest() for v in rgb_expected])
         modes=[('normal',None),('blank_oracle_rejection','--blank'),('hung_paint_timeout','--hang'),('controller_handle_loss','--hang'),('invalid_mode','--invalid')]
         if 'tree_requirements' in expected:modes.append(('tree','--tree'))
+        if transport:modes.extend([('receiver','--receiver'),('receiver_hang','--receiver-hang')])
         for label,mode in modes:
             correct,correct_row=query_job(g,executor.worker,report)
             wrong,wrong_row=query_job(g,executor.worker,report)
@@ -148,6 +161,10 @@ def exercise(g,work,environment,executor,result):
                 transferred.update(process_id=process.pid,access=4,inheritable=False,count=2,supervisor_exposed=False)
                 return (json.dumps(request,separators=(',',':'))+'\n').encode()
             executor.payload_builder=transfer
+            ipc={}
+            def send_capture():
+                module=g.load('owned_capture_sender',g.ROOT/'.aide/evidence/2026-10-21-capture-transport/sender.py')
+                module.run(g,executor,executable,request,stop,ipc,hang=label=='receiver_hang')
             def remove_guard():
                 try:
                     until=time.monotonic()+2.5
@@ -166,10 +183,13 @@ def exercise(g,work,environment,executor,result):
                 except BaseException:fault['error']=traceback.format_exc()[-4096:]
             try:
                 if label=='controller_handle_loss':observer=threading.Thread(target=remove_guard);observer.start()
+                if label in ('receiver','receiver_hang'):observer=threading.Thread(target=send_capture);observer.start()
                 argv=[str(executable)]+([] if mode is None else [mode])
                 value=executor(argv=argv,cwd=work,payload=b'',timeout=3,output_limit=262144)
                 payload=(json.dumps(request,separators=(',',':'))+'\n').encode()
                 if observer:stop.set();observer.join(timeout=1);assert not observer.is_alive()
+                if label in ('receiver','receiver_hang'):
+                    assert ipc.get('status')=='pass',ipc.get('error','Sender did not qualify')
                 row=dict(mode=label,outcome=value['outcome'],exit_code=value['exit_code'],call_index=executor.calls,
                     elapsed_seconds=value['elapsed_seconds'],stdout_sha256=hashlib.sha256(value['stdout']).hexdigest(),stdout_bytes=len(value['stdout']),
                     stderr=save(label+'.stderr',value['stderr']),request=save(label+'.request',payload),transfer=transferred,pixels_retained=False)
@@ -194,6 +214,21 @@ def exercise(g,work,environment,executor,result):
                         try:verifier.verify_pixels(pixels,rgb_expected)
                         except ValueError as error:assert str(error)=='pixel_origin';row['blank_surface_rejected']=True
                         else:raise ValueError('Blank pixels accepted')
+                elif label in ('receiver','receiver_hang'):
+                    frames=ipc.pop('frames');row['transport']=ipc;lines=[json.loads(line) for line in value['stdout'].splitlines()]
+                    assert lines[0]==ipc['ready'] and not value['stderr'] and ipc['local_views_and_handles_retired_after_quiescence']
+                    row['stdout']=save(label+'.stdout',value['stdout'])
+                    if label=='receiver':
+                        assert value['outcome']=='exited' and value['exit_code']==0 and len(frames)==2
+                        assert lines[1]==dict(schema='org.disked.capture-receiver-done/1',pid=str(ipc['actual_process_id']),sequence='2',attempts='2')
+                        observed=verifier.verify_pixels([item[2] for item in frames],rgb_expected);row['transport_frames']=[]
+                        for i,((metadata,raw,pixels),rgb) in enumerate(zip(frames,observed)):
+                            row['transport_frames'].append(dict(metadata=metadata,raw=save('receiver-phase-'+str(i)+'.frame',raw)))
+                            save('receiver-phase-'+str(i)+'.png',oracle.png(rgb))
+                        row['pixels_retained']=True
+                    else:
+                        assert value['outcome']=='timeout' and not frames and ipc['sender_timeout_without_publication']
+                        assert lines[1]==dict(schema='org.disked.cooperative-capture-ready/1',pid=str(ipc['actual_process_id']),nonce=str(nonce),holding_job_query=True)
                 elif label in ('hung_paint_timeout','controller_handle_loss'):
                     ready=json.loads(value['stdout']);assert ready==dict(schema='org.disked.cooperative-capture-ready/1',pid=str(executor.observations[-1]['process_id']),nonce=str(nonce),holding_job_query=True)
                     row['ready']=ready;assert not value['stderr']
@@ -202,7 +237,7 @@ def exercise(g,work,environment,executor,result):
                 else:assert value['outcome']=='exited' and value['exit_code']==2 and not value['stdout'] and value['stderr']==b'invalid_control_mode\r\n'
                 assert sha(executable)==report['artifact']['sha256'] and executor.worker.file_identity(executable)==identity
             finally:
-                stop.set()
+                if executor.active_job is None:stop.set()
                 if observer:observer.join(timeout=1)
                 executor.new_job=original_factory
                 executor.payload_builder=original_builder

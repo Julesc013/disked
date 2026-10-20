@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The cooperative owning-thread client-tree control now passes all original controls, exact two-phase child-painted RGB and four descendant-scope/transition refusals. A separate native probe confirms lazy USER32/GDI32 imports and invalid-request startup. Product transport/native controls, six product PNGs, full current qualification and main integration remain open; the primitive is not linked into DiskEd. Old desktop-DC evidence stays retracted and hook candidates stay closed. Original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [tree control review](.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md).
+Status: DE-W105 remains active. The private receiver is integrated into GUI source/CMake and its actual translation unit compiles. The owned transport control passes 20 refusals and exact cross-process A/B pixels; all 23 native calls retire. Full product linking, the trusted fixture coordinator, native product controls, six product PNGs and current qualification remain open before main. Old desktop-DC evidence stays retracted and hook candidates stay closed. Original all-platform/storage 0.1.0, owner and release gates are unchanged. See the [transport review](.aide/evidence/2026-10-21-capture-transport/REVIEW.md).
 
 ## Storage recovery
 
@@ -59,6 +59,11 @@ Status: DE-W105 remains active. The cooperative owning-thread client-tree contro
   the native capture-only probe has no USER32/GDI32 imports. All 20 native calls
   and owned cleanup pass. [Evidence](.aide/evidence/2026-10-21-cooperative-tree/REVIEW.md).
   Actual product controls/transport and full qualification remain open.
+- [x] Implement private opt-in receiver and native anonymous-section transport:
+  20 packet/scope refusals, two exact cross-process pixel replies and timeout/
+  job retirement pass. Actual GUI translation compiles; all 23 native calls retire.
+  [Evidence](.aide/evidence/2026-10-21-capture-transport/REVIEW.md). Full product
+  linking, coordinator/fixture integration and product capture remain open.
 - [ ] Complete the current x64 product/180-group native test gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test

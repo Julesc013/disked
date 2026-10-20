@@ -18624,7 +18624,18 @@
         ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
         ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
         ".aide/evidence/2026-10-18-ordinary-worker/owned-window.py",
-        "tests/frontend/window_capture_import_probe.cpp"
+        "tests/frontend/window_capture_import_probe.cpp",
+        "tests/support/capture_transport.py",
+        "tests/tools/test_capture_transport.py",
+        ".aide/evidence/2026-10-21-capture-transport/sender.py",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/ui/gui.h",
+        "source/apps/disked/gui/win32/gui_model.h",
+        "source/runtime/command/command.h",
+        "source/runtime/command/protocol.h",
+        "source/runtime/graph/snapshot.h",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.h"
       ],
       "spec_ids": [
         "DE-024",
@@ -18686,6 +18697,52 @@
         "source/platform/windows/ui/window_capture.h",
         "source/platform/windows/ui/window_capture.cpp"
       ],
+      "spec_ids": [
+        "DE-024",
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-21-capture-transport/expected.json",
+      "path": ".aide/evidence/2026-10-21-capture-transport/expected.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-21-cooperative-tree/expected.json"
+      ],
+      "spec_ids": [
+        "DE-024",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/support/capture_transport.py",
+      "path": "tests/support/capture_transport.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-024",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/tools/test_capture_transport.py",
+      "path": "tests/tools/test_capture_transport.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-024",
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-21-capture-transport/sender.py",
+      "path": ".aide/evidence/2026-10-21-capture-transport/sender.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
       "spec_ids": [
         "DE-024",
         "DE-074"

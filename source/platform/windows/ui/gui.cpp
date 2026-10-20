@@ -2,6 +2,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "gui.h"
+#include "window_capture.h"
 #include <algorithm>
 #include <array>
 #include <cstdio>
@@ -81,11 +82,16 @@ public:
     HWND window=nullptr;HFONT font=nullptr;DPI_AWARENESS_CONTEXT prior_dpi=nullptr;
     std::map<int,HWND> controls;
     bool registered=false,updating=false,failed=false;
+    ui::WindowCaptureReceiver capture_receiver;
+    bool capture_enabled=false;
     bool contrast_known=false,high_contrast=false;
     UINT dpi=96;std::vector<std::string> ids,fields;
     std::size_t field_page=0;
     const wchar_t* class_name=L"DiskEd.Native.Fake.1";
-    Window(Api& a,const std::function<void()>& advance):api(a),advance_observations(advance) {}
+    Window(Api& a,const std::function<void()>& advance):api(a),advance_observations(advance) {
+        wchar_t mode[64]{};const auto n=GetEnvironmentVariableW(L"DISKED_GUI_CAPTURE_TEST",mode,64);
+        capture_enabled=n>0 && n<64 && std::wstring(mode)==L"owned-client-tree/1";
+    }
     ~Window() {
         if(window && api.IsWindow(window))api.DestroyWindow(window);
         if(font)api.DeleteObject(font);
@@ -260,6 +266,8 @@ public:
         auto& self=*current;self.window=hwnd;
         try {
             switch(message) {
+            case WM_COPYDATA:
+                return lp && ui::receive_owned_window_capture(hwnd,*reinterpret_cast<const COPYDATASTRUCT*>(lp),self.capture_receiver,self.capture_enabled)?TRUE:FALSE;
             case WM_CREATE:self.dpi=self.api.GetDpiForWindow?self.api.GetDpiForWindow(hwnd):96;if(!self.dpi)self.dpi=96;self.create_controls();return 0;
             case WM_SIZE:if(wp!=SIZE_MINIMIZED)self.layout();return 0;
             case WM_GETMINMAXINFO: {

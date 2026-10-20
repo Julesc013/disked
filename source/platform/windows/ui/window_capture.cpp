@@ -120,4 +120,50 @@ WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& requ
     }
     result.descendants=initial.size();result.gdi_after=api.GetGuiResources(GetCurrentProcess(),GR_GDIOBJECTS);result.status=WindowCaptureStatus::captured;return result;
 }
+namespace {
+std::uint32_t u32(const unsigned char* p){std::uint32_t n=0;for(unsigned i=0;i<4;++i)n|=static_cast<std::uint32_t>(p[i])<<(i*8);return n;}
+std::uint64_t u64(const unsigned char* p){return u32(p)|(static_cast<std::uint64_t>(u32(p+4))<<32);}
+void put32(unsigned char* p,std::uint32_t n){for(unsigned i=0;i<4;++i)p[i]=static_cast<unsigned char>(n>>(i*8));}
+void put64(unsigned char* p,std::uint64_t n){put32(p,static_cast<std::uint32_t>(n));put32(p+4,static_cast<std::uint32_t>(n>>32));}
+LONG signed32(const unsigned char* p){const auto n=u32(p);return static_cast<LONG>(n<=0x7fffffff?n:static_cast<std::int64_t>(n)-0x100000000LL);}
+struct View{void* value=nullptr;~View(){if(value)UnmapViewOfFile(value);}};
+struct Busy{bool& value;explicit Busy(bool& p):value(p){value=true;}~Busy(){value=false;}};
+}
+bool receive_owned_window_capture(HWND window,const COPYDATASTRUCT& packet,WindowCaptureReceiver& state,bool enabled) noexcept {
+    try {
+        if(!enabled || packet.dwData!=window_capture_message || packet.cbData!=640 || !packet.lpData || state.busy || state.attempts>=8)return false;
+        ++state.attempts;std::array<unsigned char,640> bytes{};std::memcpy(bytes.data(),packet.lpData,bytes.size());const auto* p=bytes.data();
+        if(std::memcmp(p,"DECAPR1\0",8)!=0 || std::any_of(p+632,p+640,[](unsigned char c){return c!=0;}))return false;
+        const auto nonce=u64(p+8);const auto sequence=u32(p+16),width=u32(p+20),height=u32(p+24),units=u32(p+28);
+        if(!static_cast<std::uint32_t>(nonce) || !static_cast<std::uint32_t>(nonce>>32) ||
+           !sequence || sequence!=state.sequence+1 || (state.nonce && state.nonce!=nonce) ||
+           !width || width>4096 || !height || height>2160 || static_cast<std::uint64_t>(width)*height*4>16777216 || !units || units>255 ||
+           u64(p+32)!=reinterpret_cast<ULONG_PTR>(window) || u32(p+40)!=GetCurrentProcessId() || u32(p+44)!=GetCurrentThreadId() ||
+           !u64(p+48) || !u64(p+56) || u64(p+48)>UINTPTR_MAX || u64(p+56)>UINTPTR_MAX ||
+           std::all_of(p+88,p+104,[](unsigned char c){return c==0;}))return false;
+        std::wstring desktop;for(std::uint32_t i=0;i<units;++i){const auto c=static_cast<wchar_t>(p[120+i*2]|(static_cast<unsigned>(p[121+i*2])<<8));if(!c)return false;desktop.push_back(c);}
+        if(std::any_of(p+120+units*2,p+632,[](unsigned char c){return c!=0;}))return false;
+        WindowCaptureRequest request;request.window=window;request.process=u32(p+40);request.thread=u32(p+44);
+        request.job=reinterpret_cast<HANDLE>(static_cast<ULONG_PTR>(u64(p+48)));request.desktop=desktop;request.nonce=nonce;
+        request.image_volume=u64(p+64);std::copy_n(p+72,16,request.image_file_id.begin());request.width=static_cast<int>(width);request.height=static_cast<int>(height);request.child_tree=true;
+        RECT expected{signed32(p+104),signed32(p+108),signed32(p+112),signed32(p+116)},before{};
+        Api api;if(!api.ready || !owner_matches(api,request) || !api.GetWindowRect(window,&before) || std::memcmp(&before,&expected,sizeof(before))!=0)return false;
+        const auto pixel_bytes=width*height*4,total=4096+pixel_bytes;
+        View view;view.value=MapViewOfFile(reinterpret_cast<HANDLE>(static_cast<ULONG_PTR>(u64(p+56))),FILE_MAP_WRITE,0,0,total);
+        if(!view.value)return false;
+        MEMORY_BASIC_INFORMATION memory{};
+        if(VirtualQuery(view.value,&memory,sizeof(memory))!=sizeof(memory) || memory.State!=MEM_COMMIT || memory.Type!=MEM_MAPPED ||
+           memory.Protect!=PAGE_READWRITE || memory.RegionSize<total)return false;
+        Busy busy(state.busy);state.sequence=sequence;state.nonce=nonce;
+        const auto result=capture_owned_window_client(request);RECT after{};
+        if(result.status!=WindowCaptureStatus::captured || result.bgra.size()!=pixel_bytes ||
+           !api.GetWindowRect(window,&after) || std::memcmp(&before,&after,sizeof(before))!=0)return false;
+        auto* out=static_cast<unsigned char*>(view.value);std::memset(out,0,4096);std::memcpy(out,"DECAPS1\0",8);
+        put64(out+8,nonce);put32(out+16,sequence);put32(out+20,width);put32(out+24,height);put32(out+28,pixel_bytes);
+        put64(out+32,reinterpret_cast<ULONG_PTR>(window));put32(out+40,request.process);put32(out+44,request.thread);put64(out+48,request.image_volume);
+        std::memcpy(out+56,p+72,16);std::memcpy(out+72,p+88,16);put32(out+88,static_cast<std::uint32_t>(result.descendants));
+        put32(out+92,result.gdi_before);put32(out+96,result.gdi_after);put32(out+100,1);std::memcpy(out+104,p+104,16);
+        std::memcpy(out+4096,result.bgra.data(),pixel_bytes);MemoryBarrier();InterlockedExchange(reinterpret_cast<volatile LONG*>(out+120),static_cast<LONG>(total));return true;
+    }catch(...){return false;}
+}
 }}
