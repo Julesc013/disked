@@ -1,0 +1,50 @@
+{
+  "status": "source_narrow_restore_passed_python_error_assertion_failed",
+  "source_revision": "fcaa6794695d922e03b978fde1365d5498fb2cf2",
+  "finding": "Marker IPC hold/narrow/restore succeeds and exact restored DACL verifies. Source data read is denied,but the Python CRT raises errno13 without winerror5,so the proof assertion is wrong. Next asserts native CreateFile ERROR_ACCESS_DENIED5 and Python EACCES separately. Metadata-only and abandoned recovery remain pending.",
+  "scope_controls": {
+    "passed": true,
+    "refused": [
+      "outside",
+      "wrong_identity",
+      "unmarked",
+      "hardlink"
+    ],
+    "fixture_bytes_and_dacl_unchanged": true
+  },
+  "fixture_job": {
+    "command": "ordinary-owned-dacl-fixture-proof",
+    "requests": 3,
+    "all_held_fixtures_restored": true,
+    "audit": [
+      {
+        "action": "hold",
+        "fixture_id": "018529c59fd64f1b8647247a7990ce92",
+        "mode": null
+      },
+      {
+        "action": "narrow",
+        "fixture_id": "018529c59fd64f1b8647247a7990ce92",
+        "mode": "denied"
+      },
+      {
+        "action": "restore",
+        "fixture_id": "018529c59fd64f1b8647247a7990ce92",
+        "identity": [
+          "10140605504828399686",
+          "46000000000001000000000000000000"
+        ],
+        "original_dacl_sha256": "9c7d2038dd10ab00f45ad1cd79e65879012f08afbfd65a7e1c61f491202402e3",
+        "abandoned": false
+      }
+    ]
+  },
+  "owned_cleanup_verified": true,
+  "archive_entries": 12,
+  "uncompressed_bytes": 7194,
+  "compressed_bytes": 3052,
+  "archive_sha256": "8ae269a5462eec6e304fddac796856d63c78ea8a0a49dbbdabd17b064dab8a97",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0,
+  "product_permissions_changed": false
+}

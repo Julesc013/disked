@@ -169,8 +169,12 @@ if __name__=='__main__':
             source.write_bytes(b'fixture')
             before=user_only_dacls([source])
             security.restrict()
+            denied=security.k.CreateFileW(str(source),0x80000000,7,None,3,0x00200000,None)
+            assert denied==C.c_void_p(-1).value and C.get_last_error()==5
             try:source.read_bytes()
-            except PermissionError as error:assert error.winerror==5
+            except PermissionError as error:
+                import errno
+                assert error.errno==errno.EACCES
             else:raise AssertionError('Denied source remained readable')
             if sys.argv[1]=='--fixture-interrupt-proof':
                 import os
