@@ -96,17 +96,23 @@ __declspec(dllexport) LRESULT CALLBACK OwnedPixelHook(int code, WPARAM wp, LPARA
 {
     /* No User32 work from DllMain. All non-fixture messages pass unchanged. */
     if (code >= 0 && lp) {
-        const CWPSTRUCT *message = (const CWPSTRUCT *)lp;
+        const MSG *queued = (const MSG *)lp;
+        CWPSTRUCT normalized;
+        const CWPSTRUCT *message = &normalized;
         wchar_t name[64];
         DWORD owner = 0;
         UINT request = RegisterWindowMessageW(L"DiskEd.OwnedPixelFixture/1");
+        normalized.lParam = queued->lParam;
+        normalized.wParam = queued->wParam;
+        normalized.message = queued->message;
+        normalized.hwnd = queued->hwnd;
         if (GetWindowThreadProcessId(message->hwnd, &owner) == GetCurrentThreadId() &&
             owner == GetCurrentProcessId() && GetClassNameW(message->hwnd, name, 64) &&
             wcscmp(name, L"DiskEdPixelOriginControl") == 0) {
             SetPropW(message->hwnd, L"DiskEd.PixelFixture.HookMessage", (HANDLE)(UINT_PTR)message->message);
             SetPropW(message->hwnd, L"DiskEd.PixelFixture.Request", (HANDLE)(UINT_PTR)request);
         }
-        if (request && message->message == request) render(message);
+        if (wp == PM_REMOVE && request && message->message == request) render(message);
     }
     return CallNextHookEx(NULL, code, wp, lp);
 }

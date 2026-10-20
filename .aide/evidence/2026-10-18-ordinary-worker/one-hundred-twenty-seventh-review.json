@@ -1,0 +1,59 @@
+{
+  "status": "direct_control_load_pass_sent_hook_unobserved",
+  "source_revision": "2eea1ff2ab75a846d7012ae5613d6e4ff38b32af",
+  "finding": "Automatic sent-message hook loading remains unobserved. The failure-only actual UI-thread diagnostic hashes and loads the exact fixture DLL successfully(error0),without rendering/retry or a passing preflight. Next test separately identified queued WH_GETMESSAGE delivery;do not infer the cause of the sent-hook failure.",
+  "direct_load": {
+    "pid": 10112,
+    "thread": 10620,
+    "loaded": true,
+    "error": 0
+  },
+  "fixture": {
+    "source_sha256": "e2b56fc667e08942bbf5808fe46f33800b2ec53e44ac185c5cd250bc940299a6",
+    "compiler_sha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "linker_sha256": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "dll_sha256": "c6de83fcd0047ba0d9330f817e973a3b4784b1babdfdd844c06393a82a178bb9",
+    "dll_bytes": 95744,
+    "imports_observation_sha256": "11aefcdfd96294d237b46a9fc1a19935255b0a18d1cf89dffbd354704e50bb51",
+    "scope": "Test-only x64 UI-thread renderer;not a product component or capture admission",
+    "handoff": {
+      "dacl": "D:P(A;;FA;;;SY)(A;;FA;;;S-1-5-21-385394198-2603589104-1765785984-1003)(A;;0x1200a9;;;S-1-5-21-385394198-2603589104-1765785984-1128)(A;;0x1200a9;;;RC)",
+      "actor_access": "read/execute only",
+      "bytes_unchanged": true,
+      "product_permissions_changed": false
+    }
+  },
+  "pixel_preflight": {
+    "method": "owned-ui-thread-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "bb5ff43e39f8c95aabebbd04becc37f9",
+    "phases": [],
+    "passed": false,
+    "producer_profile": "Same restricted actor,separate owned producer job in the same campaign",
+    "producer_job_retirements": [
+      {
+        "active_processes": 0,
+        "total_processes": 2,
+        "terminated_processes": 0
+      }
+    ],
+    "producer_jobs_retired": true,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 9,
+  "uncompressed_bytes": 13402,
+  "compressed_bytes": 3932,
+  "archive_sha256": "fe0555d4ff6e4ed38712714a324938a04533f485c66c62120e02d9f1dca733b5",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-direct-load-diagnostic.json.xz",
+    "uncompressed_sha256": "c6f76623e92d9ad5a22fdf04b3ec0a9bbcf88e29699e3a3a3a28b61806ba46c7",
+    "compressed_sha256": "4166ee039563b047c6e56ce79e25bfc1770bee2c951ea8599d84520c19a75850"
+  },
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

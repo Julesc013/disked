@@ -9,8 +9,9 @@ import re
 import socket
 import struct
 import sys
+import time
 
-METHOD='owned-ui-thread-control/1'
+METHOD='owned-ui-thread-queued-control/1'
 
 
 def capture(window,pid,desktop):
@@ -48,6 +49,7 @@ def capture(window,pid,desktop):
     bind(u,'SetWindowsHookExW',T.HANDLE,C.c_int,T.LPVOID,T.HANDLE,T.DWORD)
     bind(u,'UnhookWindowsHookEx',T.BOOL,T.HANDLE)
     bind(u,'GetPropW',T.HANDLE,T.HWND,T.LPCWSTR)
+    bind(u,'PostMessageW',T.BOOL,T.HWND,T.UINT,C.c_size_t,C.c_ssize_t)
     previous=u.GetThreadDesktop(k.GetCurrentThreadId())
     dpi=checked(u.SetThreadDpiAwarenessContext(T.HANDLE(-4)))
     target=checked(u.OpenDesktopW(desktop,0,False,0xf01ff))
@@ -84,10 +86,14 @@ def capture(window,pid,desktop):
         checked(k.DuplicateHandle(k.GetCurrentProcess(),section,process,C.byref(remote),6,False,0))
         request=checked(u.RegisterWindowMessageW('DiskEd.OwnedPixelFixture/1'))
         # Nonzero,previously validated exact owned UI thread. Never global.
-        hook=checked(u.SetWindowsHookExW(4,C.cast(module.OwnedPixelHook,T.LPVOID),module._handle,thread))
+        hook=checked(u.SetWindowsHookExW(3,C.cast(module.OwnedPixelHook,T.LPVOID),module._handle,thread))
         answer=C.c_size_t();C.set_last_error(0)
-        printed=bool(u.SendMessageTimeoutW(window,request,remote.value,C.c_ssize_t(first).value,2,3000,C.byref(answer)))
+        printed=bool(u.PostMessageW(window,request,remote.value,C.c_ssize_t(first).value))
         error=0 if printed else C.get_last_error()
+        until=time.monotonic()+3
+        while printed and time.monotonic()<until:
+            if struct.unpack('<I',C.string_at(view+48,4))[0] in (2,3):break
+            time.sleep(.01)
         # Even a timeout goes through finally and owned job retirement. Never
         # infer callback quiescence merely from UnhookWindowsHookEx success.
         observed=frame.unpack(C.string_at(view,96))
@@ -111,7 +117,7 @@ def capture(window,pid,desktop):
         producer=identity()
         return dict(window=window,pid=pid,desktop=desktop,width=240,height=96,method=METHOD,
                     bytes=len(body),sha256=hashlib.sha256(body).hexdigest(),api_succeeded=printed,
-                    api_error=error,api_name='Owned UI-thread memory-DIB/WM_PRINT',
+                    api_error=error,api_name='Owned queued UI-thread memory-DIB/WM_PRINT',
                     renderer_pid=renderer_pid,renderer_thread=renderer_thread,
                     fixture_dll_sha256=digest,fixture_hook_scope='exact-owned-ui-thread',
                     display_dc_read=False,desktop_switched=False,

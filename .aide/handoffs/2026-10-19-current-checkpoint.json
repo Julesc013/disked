@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "bbdc958fd41dfb0b85a02cdfc5c6e59cdab832be",
+  "base_revision": "2eea1ff2ab75a846d7012ae5613d6e4ff38b32af",
   "spec_manifest_digest": "sha256:1971004f53f6a94cd864662e40d1dd7334d98279f8ab23066dac0593f355064a",
   "status": "partial",
   "files_read": [
@@ -122,6 +122,10 @@
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-second-wm-print-failure.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-cleanup.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-direct-load-diagnostic.json.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-direct-load-diagnostic.tar.xz",
+    ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-review.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-cleanup.json",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.json.xz",
     ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-hook-module-absent.tar.xz",
@@ -229,7 +233,7 @@
     "tools/release/artifact_check.py",
     "tools/workspace.py"
   ],
-  "summary": "DE-W105 active. Run126 atbbdc958f confirms the hook DLL is absent in the control when its request arrives;no renderer callback or pixels are established. All8 archive entry hashes and owned cleanup verify,zero backing growth. The next failure-only diagnostic directly hashes/loads the fixture in that control UI thread and records its actual loader outcome;it cannot render,retry or grant a pass. Affected pixel tests and metadata checks pass;native qualification remains pending.",
+  "summary": "DE-W105 active. Run127 at2eea1ff2 confirms direct hash/load succeeds in the actual control UI thread(error0),while automatic sent-message hook loading remains unobserved. This diagnostic did not render,retry or pass pixel qualification. All9 archive entries and owned cleanup verify,zero backing growth. Candidate now tests a separately identified queued WH_GETMESSAGE/PM_REMOVE delivery route with the original restricted actor,section/identity guards and exact full RGB expectations. Actual product GUI/full native qualification remain pending.",
   "tests": [
     {
       "command": "Actual original32MiB ordinary worker controls under scoped guest crypto setup",
@@ -859,6 +863,13 @@
       "cwd": "D:\\Projects\\DiskEd\\disked",
       "status": "pass",
       "exit_code": 0
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/campaign.py --pixel-origin-proof --interactive-ui",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-review.json"
     }
   ],
   "artifacts": [
@@ -1639,6 +1650,22 @@
       "sha256": "sha256:252d9a82966af6f91f096ca535371d2d19fe8d098762634141b28ecb4fec8686"
     },
     {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-cleanup.json",
+      "sha256": "sha256:7f8cdaff169da14dd478b89a2510d5baf109a675f883af8697bc39a01e845169"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-direct-load-diagnostic.json.xz",
+      "sha256": "sha256:4166ee039563b047c6e56ce79e25bfc1770bee2c951ea8599d84520c19a75850"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-direct-load-diagnostic.tar.xz",
+      "sha256": "sha256:fe0555d4ff6e4ed38712714a324938a04533f485c66c62120e02d9f1dca733b5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-seventh-review.json",
+      "sha256": "sha256:dccc07290eb5aef3d534d2b473962a98ee4081df709d2d8274f3c25fbce807a4"
+    },
+    {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-twenty-sixth-cleanup.json",
       "sha256": "sha256:844e7824800f1573f93371499248152452fc65f4a764549120fe192004d98a59"
     },
@@ -1688,23 +1715,23 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin-preflight-plan.json",
-      "sha256": "sha256:a896c78036d5a8c20f50881e7cba4e4943ecacc7cc6b1c03fe7fd44b058b878f"
+      "sha256": "sha256:2880ca3449a7ee8a50f93611cf592824829e296bc5e1fe5d82a6899eeea4f792"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-origin.py",
-      "sha256": "sha256:25dcc3a07663a7e55ab7bce1dbb1e9cf41074b0c468f64cdbe9bd89ba96577df"
+      "sha256": "sha256:ca6a611ce6e391a188a6a24a121707a6a3d1b00728bdf4a2df516ff360829046"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-print.py",
-      "sha256": "sha256:3e8a29fc8fe6c577ee16c834c5ed00508b3d8074ad6db69ce96d2c2e3da5186c"
+      "sha256": "sha256:b5ab9e049fd59f1ee2aeccdb068c6633937ae71ece4ca3961decbc87807731b5"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-render.c",
-      "sha256": "sha256:e2b56fc667e08942bbf5808fe46f33800b2ec53e44ac185c5cd250bc940299a6"
+      "sha256": "sha256:b21d17b6adbd4e0ab0f586d0ec0f616a7648dd91be93f1ae4a3b5e7e29744c73"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/pixel-window.py",
-      "sha256": "sha256:7d919e341704bb7a30b768163b19173fc1121dc2020dbda339cbc00608e05b43"
+      "sha256": "sha256:8c2a6a190587d0eb5c1a6f27530207c8f22a6b52529fc40429deaa3f0b0de785"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/profile-matrix-review.json",
@@ -1936,7 +1963,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:4c4dadeb0ab8b45edf895fec8e706f5c53284211686cd3b265040da4bdb3cdfb"
+      "sha256": "sha256:fb08db25e413e599351778ce4373aaf6b91f3283fb7cc4ff4ddd672d05a32c4e"
     },
     {
       "path": "docs/native-bootstrap.md",
@@ -1979,6 +2006,6 @@
     "Guest owned-window-dc capture provenance is invalidated,not a missing account/UAC/grant. Correct and prove the capture route before full current qualification and main.",
     "Exact-source private Win32 and final current evidence review remain required;owner/release/original0.1 scope stay separate."
   ],
-  "next_safe_step": "Run the small exact-source preflight to collect the failure-only control UI-thread loader result. Repair the observed loader boundary without changing product permissions or pixel expectations. Retain full RGB A/B,wrong-surface rejection,actual visual review,pinned identities and owned cleanup as admission gates;main stays unchanged.",
+  "next_safe_step": "Run the exact-source queued UI-thread known-pixel control preflight. Require actual callback completion within3 seconds,both full RGB A/B payloads,wrong-surface refusal,actual visual review,pinned code and owned cleanup. Sent-hook results stay failed;no token or product ACL changes and no product/full rebuild before preflight admission.",
   "performed_remote_writes": true
 }
