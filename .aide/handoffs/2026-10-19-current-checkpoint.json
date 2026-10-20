@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W105",
-  "base_revision": "b869b4815ff32ccbed02ee01c20a87f179a2ed22",
+  "base_revision": "a4b007b50fca1d36a382cb3f83f30c8980d06f37",
   "spec_manifest_digest": "sha256:23fe7df3624981ea677ca4a5af6a06bfa070c260311d9d5d059352065baef908",
   "status": "partial",
   "files_read": [
@@ -49,6 +49,7 @@
     ".aide/evidence/2026-10-18-ordinary-worker/current-validation.json",
     ".aide/evidence/2026-10-18-ordinary-worker/final-validation.json",
     ".aide/evidence/2026-10-18-ordinary-worker/finish-backing-cleanup.ps1",
+    ".aide/evidence/2026-10-18-ordinary-worker/fixture-dacl.py",
     ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-check.py",
     ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
     ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
@@ -142,6 +143,7 @@
     "tests/resilience/test_worker_budget.py",
     "tests/support/file_dacl.py",
     "tests/support/sparse.py",
+    "tests/tools/test_fixture_dacl_control.py",
     "tests/tools/test_native_stop_request.py",
     "tests/tools/test_object_namespace.py",
     "tests/tools/test_source_snapshot.py",
@@ -624,6 +626,20 @@
       "status": "fail",
       "exit_code": 1,
       "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-review.json"
+    },
+    {
+      "command": "Bounded guest12-open permission diagnostic,actual Medium integrity;all WRITE_DAC opens fail;no build",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-review.json"
+    },
+    {
+      "command": "169 tooling tests(one skip),structural/source-map/manifest/template checks;guest fixture controls pending",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json"
     }
   ],
   "artifacts": [
@@ -737,7 +753,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/metadata-refresh.json",
-      "sha256": "sha256:0b37d2c8cd59474c9ea76838c8b298d5b0e8be1d76eff8c12ad64820abaaadca"
+      "sha256": "sha256:233588c04d6d3811ace74f30b3e4fcb0b8d50b8e5c824e4b2c03e3cb51c61294"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fifty-third-cleanup-attribute-diagnostic.json",
@@ -933,7 +949,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
-      "sha256": "sha256:5c7f2b09e8e6f5989afda26b4fd88e2b52a11a766ad4c13d89bdef6082c9711d"
+      "sha256": "sha256:7fed3c39fbcc42dd8869cc85c4fe9c277054773c650f658ce6d8e9d1fa6b0bde"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/sixty-sixth-interactive-access-refusal.json",
@@ -1165,7 +1181,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/tooling-refresh.json",
-      "sha256": "sha256:1eafb0fe5ac563f0549a29fbbd836a5701794f89bdd2dbab2321fb31048b5914"
+      "sha256": "sha256:f365e94c114bde3dca6ae6f28f29692338356b30c8de319346bb1ecd157a22e7"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-stop-proof.json",
@@ -1217,7 +1233,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-review.md",
-      "sha256": "sha256:5461b76b98fdd720543e790ce574f94131e363acba89d1a10d2c7480cb968b66"
+      "sha256": "sha256:96d7e9d93589818a5fdffc9b7f2427e83734962dc8feeff21695a933b4cb5e7f"
     },
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-repair-checks.json",
@@ -1254,12 +1270,32 @@
     {
       "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-first-dacl-reopen-failure.tar.xz",
       "sha256": "sha256:6b544730904343eca83a70354471b4fe7525632bf89cb5903493ed120b8d2c0d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-review.json",
+      "sha256": "sha256:cd39a219738af360051dc77b948ef2bbf1b1aff91eea39bbec57fe52a5d79854"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.json",
+      "sha256": "sha256:c2503bf0fe178f9374e195e5ab2534f63ec416af81cf18c680230d215350eab8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-cleanup.json",
+      "sha256": "sha256:69e0bc87255d2a1193b7ae8eae6f0ed08097f2ec5e0c20a3cd1753f9eb22e9e0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/ninety-second-permission-diagnostic.tar.xz",
+      "sha256": "sha256:5da53265947211fcd511cb57bebacda31e4d755b03d2301815901f4b125e1520"
+    },
+    {
+      "path": ".aide/evidence/2026-10-18-ordinary-worker/fixture-dacl.py",
+      "sha256": "sha256:326c414a52e58855fe4c3a396675615314f95f1eab6935dc400d4420fee70b42"
     }
   ],
   "blockers": [
     "Full x64 qualification fails18 groups;retained diagnostics require targeted repairs and replay. No current missing account,UAC,authentication or confined-worker grant.",
     "Owner acceptance,production storage/release gates and original all-platform0.1 remain separate."
   ],
-  "next_safe_step": "Run the existing guest --ui-proof --interactive-ui diagnostic. Run91 proves separate data creation succeeds but security reopening fails5 despite actor/RC full-control DACL. Observe fixed masks/flags,actual token integrity and file label before selecting a repair. No worker-wide/product permission changes. Once fixture proof passes,replay the18 affected groups;GUI is still diagnostic-only. Full180 qualification gates main;then W106/W107.",
+  "next_safe_step": "Run --ui-proof --interactive-ui against the scoped fixture coordinator candidate. Require actual outside/identity/unmarked/hardlink refusals with unchanged probe,normal source denial and metadata-only/list denial,exact DACL restoration,and recovered abandoned narrowing after exit19. Workers retain the same restricted token and no WRITE_DAC handle. Once controls pass,replay18 affected native groups,resolve GUI diagnostics,then full180 qualification and reviewed main integration;then W106/W107.",
   "performed_remote_writes": true
 }

@@ -105,11 +105,11 @@ def main():
     if size==512 and not ('--crypto-full' in sys.argv or full_native):raise ValueError('512MiB is restricted to its declared complete proof/native composition')
     if (HERE/'result.json').exists() and not cleanup_only:raise ValueError('Review and retain the previous attempt first')
     stage=work/'ordinary-proof';stage.mkdir()
-    helper_files=('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
+    helper_files=('full-native.py','fixture-dacl.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py','build-driver.py','guest-source.py','source-snapshot.py')
     full_files=helper_files+('pwsh7.zip','pwsh7.json','pydeps.zip','pydeps.json','source.pack','source.json')
     if full_native:
         for name in helper_files:
-            origin=HERE/name if name in ('full-native.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
+            origin=HERE/name if name in ('full-native.py','fixture-dacl.py','null-device.py','retire-temp.py','cleanup-probe.py','ui-probe.py') else ROOT/'tools'/name if name=='source-snapshot.py' else HERE.parent/'2026-10-18-guest-build'/name
             data=origin.read_bytes();ast.parse(data);(stage/name).write_bytes(data)
         shell_tool=powershell7_proof or focus_invocations or focus_current or '--native-x64' in sys.argv
         if shell_tool and '--prepare-only' not in sys.argv and not cleanup_only:

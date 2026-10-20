@@ -1,0 +1,129 @@
+{
+  "status": "permission_diagnostic_complete_fixture_not_qualified",
+  "source_revision": "a4b007b50fca1d36a382cb3f83f30c8980d06f37",
+  "finding": "Actual medium token;no explicit file integrity label;READ_CONTROL works under all three flags,all nine WRITE_DAC-containing opens fail5 despite protected actor/RC full control. Do not continue mask/flag guesses or enlarge worker permissions. Use scoped coordinator fixture setup/restoration.",
+  "diagnostic": {
+    "phase": "reopen_security",
+    "sid": "S-1-5-21-385394198-2603589104-1765785984-1093",
+    "path_exists": true,
+    "actual_dacl": {
+      "current_sid": "S-1-5-21-385394198-2603589104-1765785984-1093",
+      "integrity_sid": "S-1-16-8192",
+      "files": [
+        {
+          "name": "source.bin",
+          "protected": true,
+          "aces": [
+            {
+              "sid": "S-1-5-18",
+              "type": "Allow",
+              "rights": 2032127,
+              "inherited": false
+            },
+            {
+              "sid": "S-1-5-32-544",
+              "type": "Allow",
+              "rights": 2032127,
+              "inherited": false
+            },
+            {
+              "sid": "S-1-5-21-385394198-2603589104-1765785984-1093",
+              "type": "Allow",
+              "rights": 2032127,
+              "inherited": false
+            },
+            {
+              "sid": "S-1-5-12",
+              "type": "Allow",
+              "rights": 2032127,
+              "inherited": false
+            }
+          ],
+          "label": ""
+        }
+      ]
+    },
+    "open_observations": [
+      {
+        "access": "0x20000",
+        "flags": "0x0",
+        "opened": true,
+        "code": 0
+      },
+      {
+        "access": "0x40000",
+        "flags": "0x0",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x60080",
+        "flags": "0x0",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x80040000",
+        "flags": "0x0",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x20000",
+        "flags": "0x200000",
+        "opened": true,
+        "code": 0
+      },
+      {
+        "access": "0x40000",
+        "flags": "0x200000",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x60080",
+        "flags": "0x200000",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x80040000",
+        "flags": "0x200000",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x20000",
+        "flags": "0x2200000",
+        "opened": true,
+        "code": 0
+      },
+      {
+        "access": "0x40000",
+        "flags": "0x2200000",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x60080",
+        "flags": "0x2200000",
+        "opened": false,
+        "code": 5
+      },
+      {
+        "access": "0x80040000",
+        "flags": "0x2200000",
+        "opened": false,
+        "code": 5
+      }
+    ]
+  },
+  "owned_cleanup_verified": true,
+  "archive_entries": 12,
+  "uncompressed_bytes": 8690,
+  "compressed_bytes": 3256,
+  "archive_sha256": "5da53265947211fcd511cb57bebacda31e4d755b03d2301815901f4b125e1520",
+  "all_entry_hashes_and_membership_verified": true,
+  "host_backing_growth_bytes": 0,
+  "product_permissions_changed": false
+}

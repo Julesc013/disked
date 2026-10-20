@@ -52,12 +52,13 @@ def coordinate(g):
     null_helper=g.load('full_null',ROOT/'null-device.py')
     retention=g.load('full_retention',ROOT/'build-driver.py')
     source_setup=g.load('full_source',ROOT/'guest-source.py')
+    fixture_setup=g.load('full_fixture_dacl',ROOT/'fixture-dacl.py')
     expected=json.loads((ROOT/'expected.json').read_bytes())['native_x64']
     manifest=json.loads((ROOT/'source.json').read_bytes())
     result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
                 all_owned_processes_retired=False,crypto_device_retired=False,commands=[],tests=[],owner_accepted=False)
     grant,instance,archive,job,child,null_grant=None,None,None,None,None,None
-    source_prepared=False;quiescent=True
+    source_prepared=False;quiescent=True;fixture_broker=None
     ordinary=False;directory_grant=False
     campaign_started=time.monotonic()
 
@@ -279,12 +280,16 @@ def coordinate(g):
             nonlocal job,child,quiescent
             job=g.S.WindowsJob();quiescent=False;started=time.monotonic();saved=False;stop_request=None
             try:
+                if ordinary and fixture_broker:fixture_broker.start_job(env)
+                else:
+                    env.pop('DISKED_DACL_FIXTURE_CONTROL',None);env.pop('DISKED_DACL_FIXTURE_NONCE',None)
                 child=instance.launch(list(map(str,command)),env,job,variant='basic-stdio') if ordinary else instance.launch(list(map(str,command)),env,job)
                 process_id=child.pid
                 log_path=instance.log_path if ordinary else instance.work/'worker.log'
                 until=started+timeout
                 while child.poll() is None:
                     require_uninterrupted(ROOT,state['nonce'],allow_probe=expected.get('controller_stop_proof') is True)
+                    if ordinary and fixture_broker:fixture_broker.poll()
                     drain();budget()
                     if log_path.stat().st_size>524288:raise RuntimeError('Bounded native command log exceeded')
                     if time.monotonic()>until:raise TimeoutError(label+' deadline')
@@ -302,6 +307,9 @@ def coordinate(g):
                 raise
             finally:
                 stop()
+                if ordinary and fixture_broker:
+                    retired=fixture_broker.finish_job(quiescent=quiescent)
+                    if retired['requests']:result.setdefault('fixture_dacl_jobs',[]).append(dict(command=label,**retired))
                 if stop_request:
                     (ROOT/'stop-acknowledged.json').write_text(json.dumps(dict(
                         nonce=state['nonce'],owned_job_processes_retired=True,command=label))+'\n',encoding='utf-8',newline='\n')
@@ -451,12 +459,20 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
                 instance.close();instance=None;shared_read_access(False)
                 native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
                 (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+                fixture_broker=fixture_setup.Broker(native_work,instance.native_temp,instance.user_sid)
+                result['fixture_dacl_scope_controls']=fixture_broker.prove_refusals(SOURCE/'AGENTS.md')
                 grant=helper.Grant();grant.apply();grant.started()
                 if expected.get('ui_proof'):
                     _,raw=run('ordinary-private-ui-diagnostic',[sys.executable,'-B',ROOT/'ui-probe.py'],30)
                     result['private_ui_diagnostic']=json_record(raw)
                     _,raw=run('ordinary-owned-dacl-fixture-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-proof'],30)
                     result['owned_dacl_fixture_proof']=json_record(raw);assert result['owned_dacl_fixture_proof']['passed']
+                    code,_=run('ordinary-dacl-interruption-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-interrupt-proof'],30,allow_failure=True)
+                    assert code==19
+                    restored=result['fixture_dacl_jobs'][-1]
+                    assert restored['command']=='ordinary-dacl-interruption-proof' and restored['all_held_fixtures_restored']
+                    assert sum(row.get('abandoned',False) for row in restored['audit'])==1
+                    result['owned_dacl_interruption_recovered']=True
                 else:
                     _,raw=run('ordinary-cleanup-attribute-diagnostic',[sys.executable,'-B',ROOT/'cleanup-probe.py',instance.native_temp],30)
                     result['cleanup_attribute_diagnostic']=json_record(raw)
@@ -514,6 +530,8 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         artifact_handoff(build)
         native_work=g.fresh(work/'native-x64');instance=g.worker(native_work,private,namespace_compat=True);ordinary=True
         (native_work/'owner.json').write_text(json.dumps(dict(root=str(SOURCE))))
+        fixture_broker=fixture_setup.Broker(native_work,instance.native_temp,instance.user_sid)
+        result['fixture_dacl_scope_controls']=fixture_broker.prove_refusals(SOURCE/'AGENTS.md')
         directory_acl(compile_work,shared_acl)
         grant=helper.Grant();grant.apply();grant.started()
         if expected.get('ui_fixture_preflight'):
@@ -537,6 +555,12 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         assert result['actual_token']['integrity_sid']=='S-1-16-8192'
         _,raw=run('ordinary-owned-dacl-fixture-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-proof'],30)
         result['owned_dacl_fixture_proof']=json_record(raw);assert result['owned_dacl_fixture_proof']['passed']
+        code,_=run('ordinary-dacl-interruption-proof',[sys.executable,'-B',SOURCE/'tests/support/file_dacl.py','--fixture-interrupt-proof'],30,allow_failure=True)
+        assert code==19
+        restored=result['fixture_dacl_jobs'][-1]
+        assert restored['command']=='ordinary-dacl-interruption-proof' and restored['all_held_fixtures_restored']
+        assert sum(row.get('abandoned',False) for row in restored['audit'])==1
+        result['owned_dacl_interruption_recovered']=True
         _,raw=run('native-token-identity',[build/'Release/fat_tree_extraction_worker_probe.exe','--token-identity'],30)
         result['native_token_identity']=json_record(raw)
         assert result['native_token_identity']['integrity_sid']=='S-1-16-8192'
@@ -683,6 +707,11 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
                     result.update(status='fail',temp_cleanup_error=traceback.format_exc()[-8192:])
             if null_grant:
                 null_grant.retire(quiescent=quiescent);result['null_'+null_grant.role]=null_grant.report;null_grant.close()
+            if fixture_broker:
+                try:
+                    fixture_broker.close(quiescent=quiescent);result['fixture_dacl_coordinator_retired']=True
+                except BaseException:
+                    result.update(status='fail',fixture_dacl_cleanup_error=traceback.format_exc()[-8192:])
             if instance:instance.close()
             if directory_grant:shared_read_access(False)
             if grant:grant.retire(quiescent=quiescent);result['crypto_device']=grant.report;grant.close()
