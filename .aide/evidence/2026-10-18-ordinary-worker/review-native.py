@@ -1,6 +1,8 @@
 """Review retained W105 bytes without extracting a build tree or rerunning tests."""
+import argparse
 import hashlib
 import json
+import lzma
 import re
 import struct
 from pathlib import Path, PureWindowsPath
@@ -9,6 +11,7 @@ import tarfile
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
+DATA = HERE
 record = dict(status='running', scope=__doc__, owner_accepted=False, release_qualified=False)
 
 
@@ -19,6 +22,21 @@ def require(value, message):
 
 def digest(data):
     return 'sha256:' + hashlib.sha256(data).hexdigest()
+
+
+def load_receipt(folder, name):
+    """Read compact receipts without accepting trailing streams or expansion."""
+    raw=folder/(name+'.json');packed=folder/(name+'.json.xz')
+    require(not (raw.exists() and packed.exists()), 'Ambiguous receipt: '+name)
+    if packed.exists():
+        require(packed.stat().st_size<=1048576, 'Compressed receipt size: '+name)
+        decoder=lzma.LZMADecompressor(memlimit=8388608)
+        body=decoder.decompress(packed.read_bytes(),max_length=8388609)
+        require(decoder.eof and not decoder.unused_data and len(body)<=8388608, 'Receipt expansion/trailing data: '+name)
+    else:
+        require(raw.stat().st_size<=8388608, 'Receipt size: '+name)
+        body=raw.read_bytes()
+    return json.loads(body)
 
 
 COOPERATIVE='owned-ui-thread-cooperative-client-tree-transport/1'
@@ -114,6 +132,8 @@ def review_window_captures(proof, summary, inventory, *, visual_review=None):
                 case=next(c for c in summary['captures'] if c['name']==mode+'-'+str(index));geometry=case['geometry']
                 row,job,section=packets[geometry['capture_receipt']['id']]
                 require(geometry['client_box']==row['client_box'] and geometry['frame_bounds']==row['frame_bounds'] and row['sequence']==index+1,'Cooperative case coordinates/sequence')
+                require(geometry.get('background_matches') is True and type(geometry.get('background_color')) is int and
+                        0<=geometry['background_color']<=0xffffff,'Cooperative background evidence missing/failed')
                 pair.append((row['pid'],row['window'],row['desktop'],job,section))
             require(pair[0][:4]==pair[1][:4] and pair[0][4]!=pair[1][4],'Cooperative repeated-case lifetime')
             roots.add(pair[0][:3])
@@ -130,9 +150,10 @@ def review_window_captures(proof, summary, inventory, *, visual_review=None):
 
 
 def main():
-    result = json.loads((HERE / 'result.json').read_bytes())
+    result = load_receipt(DATA, 'receipt' if (DATA/'receipt.json.xz').exists() or (DATA/'receipt.json').exists() else 'result')
     proof = result['guest']['proof']
     revision = proof['source_revision']
+    require(isinstance(revision,str) and re.fullmatch('[0-9a-f]{40}',revision), 'Canonical source revision')
     record['source_revision'] = revision
     def git_bytes(path):
         return subprocess.check_output(['git', 'show', revision + ':' + path], cwd=ROOT, timeout=30)
@@ -166,10 +187,11 @@ def main():
         require(row['after_label'] == 'S:AI(ML;;NW;;;ME)', 'Artifact handoff label')
     setup = result['guest']['setup']
     require(setup['image_removed'] and setup['actor_removed'] and setup['actor_profile_absent'], 'Guest cleanup')
-    cleanup = json.loads((HERE / 'cleanup.json').read_bytes())
+    cleanup = load_receipt(DATA, 'cleanup')
     require(len(cleanup) == 1 and cleanup[0]['image_uuid'] == setup['image_uuid'], 'Cleanup identity')
     require(cleanup[0]['cleanup']['qualification_removed'] and cleanup[0]['cleanup']['image_already_removed'], 'Owned output cleanup')
-    archive = HERE / 'retained.tar.xz'
+    archive = DATA / 'retained.tar.xz'
+    require(archive.stat().st_size<=64*1024*1024, 'Compressed archive bound')
     require(hashlib.sha256(archive.read_bytes()).hexdigest() == proof['archive_sha256'], 'Archive hash')
     names, summaries, inventory = set(), {}, {}
     manifest = None
@@ -204,7 +226,7 @@ def main():
                 if selected:
                     summaries[member.name] = json.loads(value)
     require(manifest == inventory, 'Exact archive membership/hashes')
-    visual=json.loads((HERE/'visual-review.json').read_bytes()) if (HERE/'visual-review.json').exists() else None
+    visual=load_receipt(DATA,'visual-review') if (DATA/'visual-review.json').exists() or (DATA/'visual-review.json.xz').exists() else None
     record['gui_capture']=review_window_captures(proof,summaries['groups/frontend.gui_capture/gui-capture-cases.json'],inventory,visual_review=visual)
     require(record['gui_capture']['actual_images_reviewed'],'Actual retained GUI images still require review')
     for name,wanted in current['invocation_method_coverage'].items():
@@ -305,10 +327,13 @@ def main():
 
 
 if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--evidence-dir',type=Path,default=HERE)
+    DATA=parser.parse_args().evidence_dir.resolve()
     try:
         main()
     except BaseException as error:
         record.update(status='fail', error=repr(error))
         raise
     finally:
-        (HERE / 'native-detail-review.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
+        (DATA / 'native-detail-review.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')

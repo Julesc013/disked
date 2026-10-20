@@ -4,9 +4,11 @@ import copy
 import hashlib
 import importlib.util
 import json
+import lzma
 from pathlib import Path
 import struct
 import tarfile
+import tempfile
 from types import SimpleNamespace
 import unittest
 import zlib
@@ -53,7 +55,7 @@ class CaptureReview(unittest.TestCase):
             struct.pack_into('<I',reply,120,4096+row['bytes'])
             row.update(request_hex=packet.hex(),request_sha256=hashlib.sha256(packet).hexdigest(),reply_header_hex=reply.hex())
             supplied=copy.deepcopy(row);supplied.pop('membership_jobs_retired');supplied.pop('output_sections_retired')
-            case['geometry'].update(capture_method=module.COOPERATIVE,client_box=row['client_box'],frame_bounds=frame,capture_receipt=supplied)
+            case['geometry'].update(capture_method=module.COOPERATIVE,client_box=row['client_box'],frame_bounds=frame,capture_receipt=supplied,background_matches=True,background_color=0xf0f0f0)
         return proof,summary
 
     def test_cooperative_complete_bound_receipts(self):
@@ -97,6 +99,11 @@ class CaptureReview(unittest.TestCase):
             changed=dict(visual,**{key:value})
             with self.subTest(key=key),self.assertRaises(ValueError):module.review_window_captures(proof,summary,self.inventory,visual_review=changed)
 
+    def test_cooperative_background_evidence_is_required(self):
+        for field,value in [('background_matches',False),('background_color',True),('background_color',0x1000000)]:
+            proof,summary=self.cooperative();summary['captures'][0]['geometry'][field]=value
+            with self.subTest(field=field,value=value),self.assertRaises(ValueError):module.review_window_captures(proof,summary,self.inventory)
+
     def test_complete_bound_receipts(self):
         self.assertEqual(self.verify()['captures_with_consistent_receipts'],6)
         for capture in self.summary['captures']:capture['path']='R:\\work\\build\\'+capture['name']+'.png'
@@ -139,6 +146,26 @@ class CaptureReview(unittest.TestCase):
             capture.update(path='shared.png',sha256='sha256:'+shared)
         self.inventory={'groups/frontend.gui_capture/shared.png':dict(sha256=shared)}
         with self.assertRaises(ValueError):self.verify()
+
+
+class CompactReceipts(unittest.TestCase):
+    def test_legacy_and_compressed_receipts_preserve_the_same_record(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder=Path(directory);body=b'{"status":"pass","observed":[1,2,3]}\n'
+            (folder/'cleanup.json').write_bytes(body)
+            wanted=module.load_receipt(folder,'cleanup');(folder/'cleanup.json').unlink()
+            (folder/'cleanup.json.xz').write_bytes(lzma.compress(body,preset=0))
+            self.assertEqual(module.load_receipt(folder,'cleanup'),wanted)
+
+    def test_ambiguous_truncated_trailing_and_expanding_receipts_are_refused(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder=Path(directory);raw=folder/'cleanup.json';packed=folder/'cleanup.json.xz'
+            raw.write_bytes(b'{}');packed.write_bytes(lzma.compress(b'{}',preset=0))
+            with self.assertRaisesRegex(ValueError,'Ambiguous'):module.load_receipt(folder,'cleanup')
+            raw.unlink();good=packed.read_bytes()
+            for value in (good[:-1],good+b'extra',good+good,lzma.compress(b' '*8388609,preset=0)):
+                packed.write_bytes(value)
+                with self.subTest(size=len(value)),self.assertRaises(ValueError):module.load_receipt(folder,'cleanup')
 
 
 class BackgroundPixels(unittest.TestCase):

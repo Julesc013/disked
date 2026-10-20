@@ -1,4 +1,5 @@
 """Verify the focused product archive in memory; never extract build/test trees."""
+import ast
 import hashlib
 import importlib.util
 import json
@@ -6,6 +7,8 @@ import lzma
 from pathlib import Path,PurePosixPath
 import struct
 import tarfile
+from types import SimpleNamespace
+import zlib
 
 HERE=Path(__file__).resolve().parent
 def check(value,why):
@@ -41,6 +44,10 @@ product=proof['executables']['disked']['sha256'].removeprefix('sha256:');check(s
 captures=summary['captures'];rows=proof['owned_window_captures']
 check(len(captures)==len(rows)==6 and {r['name'] for r in captures}==set(expected['cases']),'six case set')
 by_id={r['id']:r for r in rows};check(len(by_id)==6,'distinct requests')
+root=HERE.parents[2];pixels_scope=dict(struct=struct,zlib=zlib)
+for path,names in [(root/'tests/frontend/gui_fixture.py',('capture_background_matches',)),(root/'tests/frontend/test_gui_capture.py',('png',))]:
+    tree=ast.parse(path.read_bytes());nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names]
+    check(len(nodes)==len(names),'PNG/background verification source');exec(compile(ast.Module(body=nodes,type_ignores=[]),str(path),'exec'),pixels_scope)
 for case in captures:
     geometry=case['geometry'];record=geometry['capture_receipt'];row=by_id[record['id']]
     check(all(row[k]==v for k,v in record.items()),'case/retired receipt binding')
@@ -53,6 +60,8 @@ for case in captures:
     check(row['client_box']==geometry['client_box']==[0,0,row['width'],row['height']] and row['frame_bounds']==geometry['frame_bounds'] and row['sha256']==geometry['pixels_sha256'],'client coordinates/hash')
     body=files['groups/frontend.gui_capture/'+case['name']+'.png'];check(sha(body)==case['sha256'].removeprefix('sha256:') and body[:8]==b'\x89PNG\r\n\x1a\n','PNG bytes')
     check(struct.unpack('>II',body[16:24])==(row['width'],row['height']),'PNG geometry')
+    width,height,pixels=pixels_scope['png'](SimpleNamespace(read_bytes=lambda:body))
+    check(geometry.get('background_matches') is True and pixels_scope['capture_background_matches'](pixels,width,height,geometry['background_color']),'PNG complete background')
 spec=importlib.util.spec_from_file_location('current_native_capture_review',HERE.parent/'2026-10-18-ordinary-worker/review-native.py');admission=importlib.util.module_from_spec(spec);spec.loader.exec_module(admission)
 visual=json.loads((HERE/'visual-review.json').read_bytes()) if (HERE/'visual-review.json').exists() else None
 review=admission.review_window_captures(proof,summary,manifest,visual_review=visual if visual and visual['status']=='pass' else None)

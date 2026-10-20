@@ -1,8 +1,9 @@
 # DE-W105 product capture qualification
 
-Current: the viewport fix passes23 control calls and all six real GUI runtime
-cases at `aab8adcc`. Visual review rejects residual background gaps. The new
-background-only regression is fixed before evaluation; main admission stays open.
+Current: `3bbf92f2` passes24 independent native controls and all six actual
+product GUI cases. The saved PNGs pass the complete-background checks and
+direct visual review. Full180-group x64 qualification and main admission remain
+open; this is a focused capture result.
 
 The expectation in [expected.json](expected.json) was fixed before implementing
 the product coordinator or evaluating product pixels. This is the next bounded
@@ -145,3 +146,28 @@ campaign remains failed (`background-controls/archive-budget-failure/`).
 The candidate retention repair stores the zero-surface stdout once as bounded
 XZ and validates its decompressed length/hash; no native expectation or budget
 is changed. Old raw records remain readable.
+
+At `3bbf92f2`, the complete repaired control campaign passes all24 calls and
+nine modes, including both full23040-pixel background phases. Replay binds19
+reported source inputs to that exact revision and rejects altered pixels,
+missing frames and false reports. The49-entry archive contains878340
+uncompressed bytes, below the unchanged1MiB limit. Owned cleanup is verified.
+This admits the private control result only; the actual product capture and
+full180-group qualification remain separate gates.
+
+The actual product attempt at that revision applies the original checks and
+the new raw/PNG client-edge invariant to all six cases. Receipt review now
+requires the background observations as well. The post-review reader supports
+bounded compressed receipts directly, rejects ambiguous or trailing records,
+and keeps the explicit actual-image review requirement. `launch.py --full-suite`
+selects the existing180-group,69-header,14-executable x64 contract in the same
+512MiB capped guest; preparation is not execution or qualification.
+
+The real `3bbf92f2` build/import/CLI acceptance and six GUI cases pass. All six
+retained PNGs were displayed and inspected: controls and content align with
+client coordinates, and the prior bottom/right background gaps are absent.
+`visual-review.json` binds that observation to the exact product and six PNG
+hashes. `replay.json` independently checks archive membership, request/receipt
+identities and decoded PNG background edges. The archive is64088 bytes; owned
+guest actor/profile/media, source and host workspace cleanup is verified.
+No full-suite, other-platform, accessibility or owner/release claim follows.

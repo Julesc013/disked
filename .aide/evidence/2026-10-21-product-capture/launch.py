@@ -14,9 +14,11 @@ work=Path(os.environ['DISKED_WORK_ROOT'])
 prepare='--prepare-only' in sys.argv
 background='--background-proof' in sys.argv
 transport=background or '--transport-proof' in sys.argv
+full='--full-suite' in sys.argv
 if background and '--transport-proof' in sys.argv:raise ValueError('Select one control profile')
-if any(a not in ('--prepare-only','--transport-proof','--background-proof') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
-if transport:HERE=HERE/('background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
+if full and transport:raise ValueError('Select the full product suite or private controls')
+if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
+if transport or full:HERE=HERE/('full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
 if not prepare and (HERE/'receipt.json.xz').exists():raise ValueError('Review/retain previous product attempt before another run')
 record=dict(status='running',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),commands=[])
 def call(args,*,env=None,timeout=180):
@@ -37,7 +39,7 @@ try:
         call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W105','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','25165824'],env=env)
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
     definition=importlib.util.spec_from_file_location('product_campaign',OLD/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
-    sys.argv=[str(OLD/'campaign.py'),*(['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
+    sys.argv=[str(OLD/'campaign.py'),*(['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
     code=campaign.main();record.update(status='pass' if code==0 else 'fail',exit_code=code)
     if code:raise RuntimeError('Product campaign did not pass; inspect retained exact outcome')
 except BaseException:

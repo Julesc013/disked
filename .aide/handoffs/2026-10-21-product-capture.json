@@ -1,0 +1,102 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "3bbf92f29068ffa79eff519451a3b69de3e9ccad",
+  "spec_manifest_digest": "sha256:a830aeda808570b39b2904c1f3f3c0fd513846c4e97f4157661c6051b27e0553",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide\\evidence\\2026-10-21-product-capture\\expected.json",
+    ".aide\\evidence\\2026-10-21-product-capture\\product-background-expected.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/background-controls/audit.json",
+    ".aide/evidence/2026-10-21-product-capture/background-controls/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/background-controls/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/background-controls/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/background-controls/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/preparation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/launch.py",
+    ".aide/evidence/2026-10-21-product-capture/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/replay.json",
+    ".aide/evidence/2026-10-21-product-capture/replay.py",
+    ".aide/evidence/2026-10-21-product-capture/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/review-validation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/validation.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/visual-review.json",
+    ".aide/handoffs/2026-10-21-product-capture.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "tests/tools/test_window_capture_review.py"
+  ],
+  "summary": "Actual product capture now passes native build/import/CLI and all six GUI cases;all saved PNGs inspected and source/product/hash-bound replay passes. Independent background/framed/transport controls pass24 native calls. Full180-group qualification remains pending;main unchanged. Private capture evidence is separate from owner and release acceptance. Complete host validation passes575 tests with eight expected skips,1328 structural checks and329 source files;tested input hashes remain unchanged and the workspace is removed.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\launch.py",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide\\evidence\\2026-10-21-product-capture\\validate.py --review-only",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-21-product-capture\\review-validation.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/validate.py --full",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/validation.json.xz"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/retained.tar.xz",
+      "sha256": "sha256:ea17cd59c460c403a9fecb516661b6eece4d774663d31e2bc51b124c52ac8a45"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/receipt.json.xz",
+      "sha256": "sha256:1c5d655b230ccf738bac838fa35044c72a22726264615686068d5397cc0fac76"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/cleanup.json.xz",
+      "sha256": "sha256:2e6da93709b1d49e5aa133721a0e079f46f700ab3c89c5077abec1726a87ed93"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/replay.json",
+      "sha256": "sha256:c1e5205fb4ab85b66dd69e1cab359a260d9cc6b905d2b55f2cbd1571d92831f4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/visual-review.json",
+      "sha256": "sha256:6585b1976cbe5cebce15a16c09ed7611e01cf7c10725a78fc6fc35d6ed5637d8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/background-controls/audit.json",
+      "sha256": "sha256:b2fe9d2a76ec63b54812b233928ff7d662cd33857403524344f9b5adffbd4e00"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/review-validation.json.xz",
+      "sha256": "sha256:2734d2ce18b42d533fa174eadd0bfe263686af7c48e13f3c05c724d80abe50fb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/validation.json.xz",
+      "sha256": "sha256:9c638484f6b9d5bb3afee173f0e72833d90accd7ce72229bdd8275931928b122"
+    }
+  ],
+  "blockers": [
+    "Full current x64 native qualification,private Win32 evidence applicability and strict C90 gate remain open."
+  ],
+  "next_safe_step": "Commit/push the reviewed focused checkpoint on dev;finish bounded current Win32/C90 routing and run/review the existing full180 native x64 and18 private Win32 gates before main promotion.",
+  "performed_remote_writes": false
+}
