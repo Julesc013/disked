@@ -1,13 +1,14 @@
 #include "window_capture.h"
 #include <algorithm>
+#include <climits>
 #include <cstring>
 
 namespace disked { namespace ui {
 namespace {
 #define CAPTURE_USER(X) X(GetWindowThreadProcessId) X(IsWindow) X(GetPropW) X(GetProcessWindowStation) \
     X(GetThreadDesktop) X(GetUserObjectInformationW) X(GetClientRect) X(GetGuiResources) X(SendMessageW) \
-    X(GetWindow) X(GetParent) X(GetWindowRect) X(IsWindowVisible) X(GetClassNameW) X(GetWindowLongW)
-#define CAPTURE_GDI(X) X(CreateCompatibleDC) X(CreateDIBSection) X(SelectObject) X(DeleteObject) X(DeleteDC) X(GdiFlush)
+    X(GetWindow) X(GetParent) X(GetWindowRect) X(IsWindowVisible) X(GetClassNameW) X(GetWindowLongW) X(ClientToScreen)
+#define CAPTURE_GDI(X) X(CreateCompatibleDC) X(CreateDIBSection) X(SelectObject) X(DeleteObject) X(DeleteDC) X(GdiFlush) X(SetViewportOrgEx)
 struct Api {
     HMODULE user=nullptr,gdi=nullptr;
     bool ready=true;
@@ -108,6 +109,14 @@ WindowCaptureResult capture_owned_window_client(const WindowCaptureRequest& requ
         if(!dib.bitmap || !dib.bits)return result;
         dib.prior=api.SelectObject(dib.dc,dib.bitmap);if(!dib.prior || dib.prior==HGDI_ERROR)return result;
         const auto size=static_cast<std::size_t>(request.width)*request.height*4;std::memset(dib.bits,0,size);
+        if(request.child_tree) {
+            RECT frame{};POINT origin{};
+            if(!api.GetWindowRect(request.window,&frame) || !api.ClientToScreen(request.window,&origin))return result;
+            const auto x=static_cast<std::int64_t>(frame.left)-origin.x,y=static_cast<std::int64_t>(frame.top)-origin.y;
+            if(x<INT_MIN || x>INT_MAX || y<INT_MIN || y>INT_MAX){result.status=WindowCaptureStatus::geometry_changed;return result;}
+            // Align WM_PRINT's window origin with the client-only bitmap.
+            if(!api.SetViewportOrgEx(dib.dc,static_cast<int>(x),static_cast<int>(y),nullptr))return result;
+        }
         api.SendMessageW(request.window,request.child_tree?WM_PRINT:WM_PRINTCLIENT,reinterpret_cast<WPARAM>(dib.dc),
                          PRF_CLIENT|PRF_ERASEBKGND|(request.child_tree?PRF_CHILDREN:0));
         RECT after{};if(!api.GdiFlush())return result;

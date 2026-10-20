@@ -77,3 +77,10 @@ client/child dispatch and the application-owned handling of
 [WM_PRINTCLIENT](https://learn.microsoft.com/en-us/windows/win32/gdi/wm-printclient).
 Those contracts informed the experiment; actual retained pixels established
 the observed displacement.
+
+The first framed control at `7ada96f6` fails the independent RGB oracle in
+`tree`, after21 native calls; receiver modes are not reached. Its stdout hash
+and parsed frame remain in `framed-controls/before-fix/`; unknown control pixels
+were not retained. The candidate repair translates the owned memory DC by the
+measured window-to-client offset before WM_PRINT. No display DC is used, and
+the direct WM_PRINTCLIENT path and original guards are unchanged.
