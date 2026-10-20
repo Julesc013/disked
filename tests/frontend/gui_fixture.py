@@ -282,7 +282,7 @@ class Gui:
         cooperative=bool(os.environ.get('DISKED_WINDOW_CAPTURE_ROOT'))
         base_x,base_y=rect.left,rect.top
         if cooperative:w,h=client.right,client.bottom;box=(0,0,w,h);base_x,base_y=origin.x,origin.y
-        captions=[]
+        captions=[];caption_details=[]
         @CALLBACK
         def button(hwnd,_):
             if classname(hwnd)=='Button' and U.IsWindowVisible(hwnd) and caption(hwnd).strip():
@@ -291,7 +291,8 @@ class Gui:
                 # when a declared caption is absent from PrintWindow output.
                 region=(max(box[0],bounds.left-base_x+6),max(box[1],bounds.top-base_y+6),
                     min(box[2],bounds.right-base_x-6),min(box[3],bounds.bottom-base_y-6))
-                if region[0]<region[2] and region[1]<region[3]:captions.append(region)
+                if region[0]<region[2] and region[1]<region[3]:
+                    captions.append(region);caption_details.append(dict(id=U.GetDlgCtrlID(hwnd),text=caption(hwnd),bounds=list(region)))
             return True
         assert U.EnumChildWindows(self.window,button,0)
         if cooperative:
@@ -301,9 +302,16 @@ class Gui:
             assert U.GetUserObjectInformationW(U.GetThreadDesktop(thread),2,name,C.sizeof(name),C.byref(needed))
             assert U.RedrawWindow(self.window,None,None,0x585)
             payload,receipt=capture(self.window,pid.value,name.value,w,h,metadata=True)
-            assert receipt['client_box']==list(box) and receipt['frame_bounds']==[rect.left,rect.top,rect.right,rect.bottom]
-            assert capture_client_content(payload,w,h,box) and all(capture_client_content(payload,w,h,b) for b in captions),'Cooperative client/caption pixels incomplete'
+            # Save the actual observation before evaluating it. The campaign
+            # archives the build output even when a caption assertion fails.
             write_capture(path,payload,w,h)
+            client_painted=capture_client_content(payload,w,h,box)
+            regions=[dict(row,painted=capture_client_content(payload,w,h,b)) for row,b in zip(caption_details,captions)]
+            Path(path).with_suffix('.capture.json').write_text(json.dumps(dict(width=w,height=h,client_box=list(box),
+                client_painted=client_painted,caption_regions=regions,frame_bounds=[rect.left,rect.top,rect.right,rect.bottom],
+                capture_receipt=receipt),indent=2)+'\n',encoding='utf-8',newline='\n')
+            assert receipt['client_box']==list(box) and receipt['frame_bounds']==[rect.left,rect.top,rect.right,rect.bottom]
+            assert client_painted and all(row['painted'] for row in regions),'Cooperative client/caption pixels incomplete'
             import hashlib
             return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions],frame_bounds=receipt['frame_bounds'],
                 capture_method=METHOD,pixels_sha256=hashlib.sha256(payload).hexdigest(),capture_receipt=receipt)

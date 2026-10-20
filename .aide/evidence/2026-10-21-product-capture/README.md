@@ -52,3 +52,10 @@ verification. The final helper registrations received the 222 tooling tests and
 structural/projection checks again. Current full native qualification is still
 required before main promotion. Owner acceptance, release, reference and all
 original platform/storage gates remain separate.
+
+The `f301a9cb` retry (`attempt-002/`) passes build/import/protocol acceptance and
+publishes one authenticated owned-client capture with all20 descendants and
+stable11 GDI objects. The unchanged client/caption assertion rejects it. No PNG
+was saved because the assertion preceded writing; the candidate harness now
+saves PNG and per-region diagnostics in the archived build directory first.
+This is a diagnostic-retention repair, not a relaxed assertion or capture pass.

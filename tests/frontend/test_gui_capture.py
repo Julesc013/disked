@@ -19,7 +19,7 @@ def capture_directory(root):
     assert path.resolve().is_relative_to(root)
     try:yield path
     except BaseException:
-        print('Failed capture fixture retained: '+str(path),file=sys.stderr);raise
+        print('Failed capture temporary directory: '+str(path),file=sys.stderr);raise
     else:
         assert path.resolve().is_relative_to(root)
         shutil.rmtree(path)
@@ -63,7 +63,9 @@ def main():
                 if name=='minimum':assert U.SetWindowPos(ui.window,None,0,0,640,480,0x16)
                 before=ui.details()
                 for index in range(2):
-                    path=output/(name+'-'+str(index)+'.png');geometry=ui.screenshot(path);w,h,body=png(path)
+                    destination=args.evidence.parent if args.evidence else output
+                    destination.mkdir(parents=True,exist_ok=True)
+                    path=destination/(name+'-'+str(index)+'.png');geometry=ui.screenshot(path);w,h,body=png(path)
                     check(name+'-actual-client-'+str(index),(w,h)==(geometry['width'],geometry['height']) and capture_client_content(body,w,h,geometry['client_box']))
                     if name!='inventory':
                         frame=W.RECT();button=W.RECT();assert U.GetWindowRect(ui.window,C.byref(frame)) and U.GetWindowRect(ui.child(110),C.byref(button))
@@ -75,7 +77,7 @@ def main():
                     check(name+'-capture-not-submission-'+str(index),ui.details()==before)
                     record=dict(name=name+'-'+str(index),geometry=geometry,sha256=sha(path.read_bytes()))
                     if args.evidence:
-                        args.evidence.parent.mkdir(parents=True,exist_ok=True);selected=args.evidence.parent/path.name;shutil.copyfile(path,selected);record['path']=str(selected)
+                        record['path']=str(path)
                     captures.append(record)
             finally:ui.close();assert ui.code==0 and not ui.error and not ui.output
     if __import__('os').environ.get('DISKED_WINDOW_CAPTURE_ROOT'):
