@@ -61,18 +61,20 @@ class PixelOriginTests(unittest.TestCase):
     def test_broker_rejects_stale_pixels_despite_correct_transport_hash(self):
         first=module.expected_rgb(self.seed,0);body=bytearray(92160)
         body[0::4]=first[2::3];body[1::4]=first[1::3];body[2::4]=first[0::3];body=bytes(body)
-        header=dict(method=module.METHOD,sha256=hashlib.sha256(body).hexdigest(),api_succeeded=True)
+        header=dict(method=module.METHOD,sha256=hashlib.sha256(body).hexdigest(),api_succeeded=True,
+                    producer_identity=dict(pid=999,user_sid='actor',integrity_sid='S-1-16-8192',
+                        restricted=True,administrator=False,elevated=0,appcontainer=0))
         response=SimpleNamespace(returncode=0,stdout=json.dumps(header).encode()+b'\n'+body,stderr=b'')
         records={};archive=SimpleNamespace(writestr=lambda name,value:records.update({name:value}))
         broker=module.Broker.__new__(module.Broker);broker.expected=[first,module.expected_rgb(self.seed,1)]
-        broker.observations=[];broker.archive=archive
+        broker.observations=[];broker.archive=archive;broker.last_producer_pid=999
+        broker.worker=SimpleNamespace(user_sid='actor')
         with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as directory:
             broker.temp=Path(directory)
             request=dict(window=123,pid=456,desktop='DiskEdTest-'+'a'*32)
-            with patch.dict(os.environ,DISKED_PIXEL_CHALLENGE='not-for-the-producer'):
-                with patch.object(module.subprocess,'run',return_value=response) as run:
+            self.assertNotIn('DISKED_PIXEL_CHALLENGE',module.producer_environment(dict(DISKED_PIXEL_CHALLENGE='not-for-the-producer')))
+            with patch.object(broker,'_producer',return_value=response.stdout):
                     self.assertEqual(broker._read_pixels(request),response.stdout)
-                    self.assertNotIn('DISKED_PIXEL_CHALLENGE',run.call_args.kwargs['env'])
                     with self.assertRaisesRegex(ValueError,'phase1'):broker._read_pixels(request)
             self.assertIn('pixel-origin/phase-1.png',records)
             self.assertTrue(broker.observations[0]['exact_all_pixels'])
@@ -85,6 +87,23 @@ class PixelOriginTests(unittest.TestCase):
             with patch.object(control.C,'WinDLL',create=True) as api:
                 with self.assertRaisesRegex(ValueError,'guest-only'):control.main()
                 api.assert_not_called()
+
+    def test_unknown_surface_is_rejected_without_retaining_pixels_or_binary_log(self):
+        body=bytes([1,2,3,255])*23040
+        header=dict(method=module.METHOD,sha256=hashlib.sha256(body).hexdigest(),api_succeeded=True,
+                    producer_identity=dict(pid=999,user_sid='actor',integrity_sid='S-1-16-8192',
+                        restricted=True,administrator=False,elevated=0,appcontainer=0))
+        raw=json.dumps(header).encode()+b'\n'+body;records={}
+        broker=module.Broker.__new__(module.Broker);broker.expected=[module.expected_rgb(self.seed,p) for p in (0,1)]
+        broker.observations=[];broker.archive=SimpleNamespace(writestr=lambda name,value:records.update({name:value}))
+        broker.worker=SimpleNamespace(user_sid='actor');broker.last_producer_pid=999;broker.last_producer_log=raw
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as directory:
+            broker.temp=Path(directory)
+            with patch.object(broker,'_producer',return_value=raw):
+                with self.assertRaisesRegex(ValueError,'pixel-origin comparison'):
+                    broker._read_pixels(dict(window=123,pid=456,desktop='DiskEdTest-'+'a'*32))
+        self.assertEqual(set(records),{'pixel-origin/phase-0.json'})
+        self.assertFalse(broker.observations[0]['pixels_retained'])
 
 
 if __name__=='__main__':unittest.main()

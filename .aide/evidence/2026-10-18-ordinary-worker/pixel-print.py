@@ -69,9 +69,12 @@ def capture(window,pid,desktop):
         checked(u.GetWindowRect(window,C.byref(after)));checked(u.GetWindowThreadProcessId(window,C.byref(after_pid)))
         rect=lambda value:tuple(getattr(value,key) for key in ('left','top','right','bottom'))
         if rect(before)!=rect(after) or after_pid.value!=pid:raise ValueError('Control changed during printing')
+        from target import identity
+        producer=identity()
         return dict(window=window,pid=pid,desktop=desktop,width=240,height=96,method=METHOD,
                     bytes=len(body),sha256=hashlib.sha256(body).hexdigest(),api_succeeded=printed,
-                    api_error=error,display_dc_read=False,desktop_switched=False),body
+                    api_error=error,display_dc_read=False,desktop_switched=False,
+                    producer_identity=producer),body
     finally:
         if old not in (None,C.c_void_p(-1).value) and dc:g.SelectObject(dc,old)
         if bitmap:g.DeleteObject(bitmap)

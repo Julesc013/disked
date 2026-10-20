@@ -1,0 +1,54 @@
+{
+  "status": "pixel_origin_control_rejected",
+  "source_revision": "b489512a2a02caf3680f17111d5678733bf0d662",
+  "finding": "PrintWindow reports success but all23040 RGB pixels are black;phaseA differs from its predeclared recipe. No WM_PRINT paint receipt was produced. The strict verifier rejects this control;no product build or display-DC capture occurred.",
+  "pixel_preflight": {
+    "method": "owned-print-control/1",
+    "scope": "Control-only preflight;not product capture admission",
+    "challenge": "e50233fc59032c9ad347e4d515a57db0",
+    "phases": [
+      {
+        "phase": 0,
+        "expected_rgb_sha256": "f9debcdd4512ef587da0d8f0343f4b08683565c4b765b4cab8d15b8aa8a9aac6",
+        "actual_rgb_sha256": "a8fd2e78a831e046e548454d1f0863dd7c3f29bc8e5db3cfe1b1d3536a292462",
+        "exact_all_pixels": false,
+        "observation": {
+          "window": 10224596,
+          "pid": 7776,
+          "desktop": "DiskEdTest-9f56a1e2b7f340fbad425925b5d6e1d5",
+          "width": 240,
+          "height": 96,
+          "method": "owned-print-control/1",
+          "bytes": 92160,
+          "sha256": "ba61c36dd3703f9a8cce36675bb7391e9a6b1ab917ea00c4a3ebf2d7c50c4fcb",
+          "api_succeeded": true,
+          "api_error": 0,
+          "display_dc_read": false,
+          "desktop_switched": false
+        },
+        "execution_succeeded": true,
+        "stale_other_phase_rejected": true,
+        "zero_surface_rejected": true
+      }
+    ],
+    "passed": false,
+    "display_dc_read": false,
+    "desktop_switched": false,
+    "capture_qualified": false
+  },
+  "archive_entries": 8,
+  "uncompressed_bytes": 94497,
+  "compressed_bytes": 1512,
+  "archive_sha256": "d8b9f8e72bae94ebb2b964d638b47ea373de076def538c99a422577426413905",
+  "all_entry_hashes_and_membership_verified": true,
+  "owned_cleanup_verified": true,
+  "host_backing_growth_bytes": 0,
+  "raw_campaign_receipt": {
+    "path": ".aide/evidence/2026-10-18-ordinary-worker/one-hundred-nineteenth-pixel-origin-failure.json.xz",
+    "uncompressed_sha256": "d9f7682b2e1fea45a24c97ffb824df4249babbd066f73bbaee0890f029891b1a",
+    "compressed_sha256": "05a7174496010fb908f369601e069af58b1ffc0b64b051d0f9b3053f51e8bd5d"
+  },
+  "next_experiment": "Run the producer through the existing ordinary worker in the same owned job/token as the control;record its actual token. This tests execution-context applicability,not an asserted OS-cause diagnosis.",
+  "capture_qualified": false,
+  "full_native_qualified": false
+}

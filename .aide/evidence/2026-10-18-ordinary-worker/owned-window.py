@@ -158,7 +158,7 @@ class Broker:
             actual=w.user_object_security(desktop)
             if desktop_acls(actual)!=desktop_acls(expected):
                 raise ValueError('Capture desktop security differs: '+json.dumps(dict(expected=expected,actual=actual)))
-            body=self._read_pixels(value)
+            body=self._read_pixels(value,job)
             header,separator,pixels=body.partition(b'\n')
             if not separator or len(header)>4096:raise ValueError('Capture helper envelope')
             observed=json.loads(header)
@@ -173,7 +173,7 @@ class Broker:
             if token:k.CloseHandle(token)
             k.CloseHandle(process)
 
-    def _read_pixels(self,value):
+    def _read_pixels(self,value,job=None):
         command=[sys.executable,'-B',str(Path(__file__).resolve()),str(value['window']),str(value['pid']),value['desktop'],'--pixels']
         result=subprocess.run(command,capture_output=True,timeout=10)
         if result.returncode or len(result.stderr)>4096 or len(result.stdout)>16777216+4096:
