@@ -242,13 +242,19 @@ class Broker:
         for pinned in reversed(entry['pins']):self.k.CloseHandle(pinned)
 
     def poll(self):
-        import msvcrt
-        pending=list(self.root.glob('request-*.json'))
+        pending=list(self.root.glob('request-*.ready'))
         if len(pending)>8:raise ValueError('Fixture request queue bound')
-        for path in pending:
+        for marker in pending:
+            marker_info=marker.lstat()
+            if (not stat.S_ISREG(marker_info.st_mode) or marker_info.st_nlink!=1
+                    or getattr(marker_info,'st_file_attributes',0)&0x400 or marker_info.st_size!=0):
+                raise ValueError('Fixture ready marker form')
+            if not HEX.fullmatch(marker.name[len('request-'):-len('.ready')]):raise ValueError('Fixture marker identity')
+            path=marker.with_suffix('.json')
             info=path.lstat()
             if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or getattr(info,'st_file_attributes',0)&0x400 or info.st_size>4096:
                 raise ValueError('Fixture request file form')
+            import msvcrt
             handle=self._open(path,0x80000080,share=1)
             try:
                 class Standard(C.Structure):
@@ -282,11 +288,10 @@ class Broker:
                 finally:self.k.LocalFree(descriptor)
             if action!='restore':self.audit.append(dict(action=action,fixture_id=value['fixture_id'],mode=value.get('mode')))
             response=self.root/('response-'+ident+'.json')
-            pending=response.with_suffix('.pending')
-            with pending.open('x',encoding='utf-8',newline='\n') as stream:
+            with response.open('x',encoding='utf-8',newline='\n') as stream:
                 stream.write(json.dumps(dict(nonce=self.nonce,request_id=ident,ok=True)))
-            os.replace(pending,response)
-            path.unlink()
+            path.unlink();marker.unlink()
+            response.with_suffix('.ready').open('xb').close()
 
     def finish_job(self,*,quiescent):
         if not quiescent:raise ValueError('Fixture restore requires owned job retirement')

@@ -109,22 +109,21 @@ class DaclFixture:
         return str(value.volume),bytes(value.file).hex()
 
     def _call(self,action,**fields):
-        import os
         import time
         import uuid
         request_id=uuid.uuid4().hex
         value=dict(nonce=self.nonce,request_id=request_id,fixture_id=self.ident,action=action,**fields)
         body=json.dumps(value,separators=(',',':')).encode('utf-8')
         if len(body)>4096:raise ValueError('Fixture packet bound')
-        pending=self.control/('request-'+request_id+'.pending')
-        request=pending.with_suffix('.json');response=self.control/('response-'+request_id+'.json')
-        with pending.open('xb') as stream:stream.write(body)
-        os.replace(pending,request);deadline=time.monotonic()+8
-        while not response.exists():
+        request=self.control/('request-'+request_id+'.json');response=self.control/('response-'+request_id+'.json')
+        with request.open('xb') as stream:stream.write(body)
+        request.with_suffix('.ready').open('xb').close();ready=response.with_suffix('.ready')
+        deadline=time.monotonic()+8
+        while not ready.exists():
             if time.monotonic()>=deadline:raise TimeoutError('Owned fixture coordinator response')
             time.sleep(.02)
         if response.stat().st_size>4096:raise ValueError('Fixture response bound')
-        result=json.loads(response.read_bytes());response.unlink()
+        result=json.loads(response.read_bytes());response.unlink();ready.unlink()
         if result!=dict(nonce=self.nonce,request_id=request_id,ok=True):raise ValueError('Fixture acknowledgement identity')
 
     def __enter__(self):

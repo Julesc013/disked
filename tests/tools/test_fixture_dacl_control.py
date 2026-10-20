@@ -51,5 +51,20 @@ class FixtureControlTests(unittest.TestCase):
         for path in ('\\\\server\\share\\source','\\\\.\\PhysicalDrive0','C:\\outside\\source'):
             with self.subTest(path=path),self.assertRaises(ValueError):control.fixture_path(path,temp)
 
+    def test_partial_packet_without_ready_is_not_consumed(self):
+        with tempfile.TemporaryDirectory(prefix='disked-fixture-packet-') as name:
+            root=Path(name);packet=root/('request-'+'b'*32+'.json');packet.write_bytes(b'{')
+            broker=control.Broker.__new__(control.Broker);broker.root=root
+            broker.poll()
+            self.assertEqual(b'{',packet.read_bytes())
+            self.assertEqual([packet],list(root.iterdir()))
+
+    def test_nonempty_ready_marker_refused_before_native_access(self):
+        with tempfile.TemporaryDirectory(prefix='disked-fixture-marker-') as name:
+            root=Path(name);marker=root/('request-'+'b'*32+'.ready');marker.write_bytes(b'not a signal')
+            broker=control.Broker.__new__(control.Broker);broker.root=root
+            with self.assertRaisesRegex(ValueError,'ready marker form'):broker.poll()
+            self.assertEqual(b'not a signal',marker.read_bytes())
+
 
 if __name__=='__main__':unittest.main()
