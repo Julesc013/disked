@@ -21,6 +21,14 @@ The Windows-host regression suite exercises pure comparison code only, with
 Linux execution checks explicitly skipped. DE-W105 and external campaign gates
 remain open.
 
+Comparator CLI inputs and output must be beneath the runner's
+`DISKED_WORK_ROOT`, outside the repository. Use explicit
+`--external PARTICIPANT=PATH` arguments. Duplicate participant names, linked
+paths, duplicate JSON fields and oversized receipts are refused. Existing
+reports are preserved. These checks route data; they do not establish an OS
+quota or qualify an external worker. The historical WSL entrypoint now refuses
+before any output creation or subprocess launch.
+
 The coordinator checks every native build input before reusing its probes. It
 requires the already installed `Ubuntu-24.04` and `Debian` WSL profiles, invokes
 Python explicitly as UID 65534 (`nobody`), and records failures if tools are absent.

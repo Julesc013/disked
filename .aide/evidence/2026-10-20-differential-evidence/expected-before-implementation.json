@@ -19,5 +19,19 @@
     "Managed output, process ownership and success/failure/interruption cleanup under a qualified worker",
     "DE-W105 dependency, work review and actual external/native qualification"
   ],
-  "forbidden": "No obsolete WSL recipe, physical media, new installation, guest policy change, larger budgets, capture qualification, owner acceptance or main integration."
+  "forbidden": "No obsolete WSL recipe, physical media, new installation, guest policy change, larger budgets, capture qualification, owner acceptance or main integration.",
+  "cli_predeclared_scope": {
+    "external_identity": "Require PARTICIPANT=PATH arguments;reject duplicate participant names before dictionary construction.",
+    "routing": "Require DISKED_WORK_ROOT outside the repository. Manifest,receipts and report must remain beneath it without linked paths. This is a routing check,not an OS quota proof.",
+    "bounds": "At most8 external receipts;8MiB per JSON input and16MiB aggregate accepted JSON;64MiB streamed report maximum. Reject duplicate fields,non-finite numbers and nonordinary/multiple-link files. Small-budget writer controls exercise refusal without producing large output.",
+    "retention": "Create the report exclusively;never overwrite prior evidence. A complete set with unverified artifacts writes its result but returns failure.",
+    "negative_tests": [
+      "missing runner",
+      "outside declared root",
+      "duplicate participant",
+      "existing report"
+    ],
+    "native_execution": "None;pure Python metadata checks only."
+  },
+  "cli_expectation_timing": "The CLI fields were added after its first code draft and before its first evaluation. The initial expected-set contract preceded the initial comparator implementation."
 }

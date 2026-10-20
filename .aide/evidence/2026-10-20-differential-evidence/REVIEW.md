@@ -28,3 +28,12 @@ input-preservation checks, execution outcomes, collector updates and bounded
 managed output. Do not unlock a complete-success claim merely by removing the
 current fail-closed gate. Current work and authority remain in the programme;
 the supplied external status report supplied context rather than authority.
+
+The CLI follow-up passes 29 Windows-host tests with nine Linux-only skips.
+It requires explicit participant IDs and managed paths, preserves prior reports,
+rejects ambiguous/non-finite JSON, and bounds accepted inputs to 8 MiB each and
+16 MiB combined. Reports stream within 64 MiB; a 32-byte test exercises refusal
+without producing a large file. The old WSL entrypoint refuses before effects.
+These are routing/application bounds, not OS confinement or quota qualification.
+The earlier full-suite receipt remains unchanged; see the separate
+[CLI review](cli-review.json) for exact follow-up scope and input hashes.

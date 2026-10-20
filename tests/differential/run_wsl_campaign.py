@@ -1,4 +1,4 @@
-"""Windows coordinator for the explicitly unprivileged installed WSL profiles."""
+"""Suspended historical WSL coordinator; no current execution admission."""
 import argparse
 import hashlib
 import json
@@ -12,6 +12,8 @@ def sha(path): return 'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def main():
+    raise RuntimeError('Historical WSL campaign is suspended: managed output and worker admission are not implemented')
+    # Preserve the old recipe for review,without allowing its .aide-local writes.
     p = argparse.ArgumentParser()
     for key in ['output', 'mbr-probe', 'gpt-probe', 'probe-identity']: p.add_argument('--'+key, required=True)
     p.add_argument('--iterations', type=int, default=10000)

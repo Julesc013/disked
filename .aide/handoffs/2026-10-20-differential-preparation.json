@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W106",
-  "base_revision": "f016dd1fe9a688362e964d3b7392cc26129e8341",
+  "base_revision": "5b736bec0896637b409b1f0f7433e321634d0872",
   "spec_manifest_digest": "sha256:c575ba1d5f9c9440f16ce5e97ee5df55d1f7e885be7f93665dd30d297b1bb8ca",
   "status": "partial",
   "files_read": [
@@ -29,6 +29,9 @@
   ],
   "files_changed": [
     ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
+    ".aide/evidence/2026-10-20-differential-evidence/cli-metadata.json",
+    ".aide/evidence/2026-10-20-differential-evidence/cli-review.json",
+    ".aide/evidence/2026-10-20-differential-evidence/cli-tests.json",
     ".aide/evidence/2026-10-20-differential-evidence/context.json",
     ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
     ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
@@ -36,15 +39,17 @@
     ".aide/evidence/2026-10-20-differential-evidence/validation-review.json",
     ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz",
     ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
     "spec/catalog/input-dependencies.json",
     "spec/manifest.json",
     "spec/work/units.json",
     "tests/differential/CONTRACT.md",
     "tests/differential/README.md",
     "tests/differential/compare.py",
+    "tests/differential/run_wsl_campaign.py",
     "tests/differential/test_completeness.py"
   ],
-  "summary": "Independent DE-W106 preparation while DE-W105 remains current and unqualified. Predeclared observation sets now reject omissions, duplicates, unknown records and fixture hash/geometry mismatch. Invalid inputs remain retained. Complete sets remain unverified; complete_success is deliberately unavailable until remaining evidence checks exist. No native/external campaign, dependency admission, owner acceptance or main integration is claimed.",
+  "summary": "Independent DE-W106 preparation while DE-W105 remains current and unqualified. Explicit sets reject omissions/duplicates/fixture mismatches;the CLI now enforces managed routing,explicit participants,bounded JSON/streamed output and preserved reports. The obsolete WSL runner refuses before effects.29 pure tests run with9 Linux-only skips;metadata checks pass. Participant/artifact/preservation/execution validation is unfinished,so complete_success stays unavailable. No native/external campaign,quota qualification,dependency acceptance or main integration is claimed.",
   "tests": [
     {
       "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -p test_completeness.py -v",
@@ -66,12 +71,38 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/validation.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/cli-tests.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/validate-current.py --metadata-only",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-20-differential-evidence/cli-metadata.json"
     }
   ],
   "artifacts": [
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/REVIEW.md",
-      "sha256": "sha256:17e82aeba8ecb49efcbdaf463b7b3b1b5b5c9c6ba86cb81b09073ba092d5fb63"
+      "sha256": "sha256:937147e5d5b81abc074a3755e82f17659ea2681daae872dd04a48942e0952057"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/cli-metadata.json",
+      "sha256": "sha256:f36cce295837247aadb5bff26db5e9b0465aadaad4e6d01ce622dde0c1ae59d4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/cli-review.json",
+      "sha256": "sha256:f3210ae6c2dc00ff5b6d6254dea428be417f8dc291b98585ebf2e49cd9b6c2d8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-20-differential-evidence/cli-tests.json",
+      "sha256": "sha256:b49b8c16059cfc3397d38d61bc8320a1fbf4fedef573265cbccb66797f07ccba"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/context.json",
@@ -79,7 +110,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/expected-before-implementation.json",
-      "sha256": "sha256:0d97320a465eb646db1f9733a8d295500aee05e42e01220b61018d22048f62dd"
+      "sha256": "sha256:fec51903eaf31e7ce300e8914f123c3ac690170375f846586c130bfa3ae5ae0a"
     },
     {
       "path": ".aide/evidence/2026-10-20-differential-evidence/red-tests.json",
@@ -99,7 +130,11 @@
     },
     {
       "path": ".aide/programmes/disked-0.1.0.json",
-      "sha256": "sha256:bfb2f6f45a925aefbac47d764fc622d167e3996eb8ff65ee1523f8fa592f945e"
+      "sha256": "sha256:0a28883b733671cb2670a1ae54153d4d4bca3863db2403293475a6ca358ee9d6"
+    },
+    {
+      "path": "TODO.MD",
+      "sha256": "sha256:18c8256f87f9ebb2ef970dabe6e113b2ba863b74abe01e1182efa7be214537bc"
     },
     {
       "path": "spec/catalog/input-dependencies.json",
@@ -119,15 +154,19 @@
     },
     {
       "path": "tests/differential/README.md",
-      "sha256": "sha256:98602916cfc9a75cc3fb6c867c594ca5a0c147dfeecc8fc6cbeda6cb89cf6107"
+      "sha256": "sha256:bcc5c5caec73747f8c5d617e9c0d190b66774b9647f5093cc584c00e84a6f14b"
     },
     {
       "path": "tests/differential/compare.py",
-      "sha256": "sha256:a1156921e8d96913283e6028ca0bf5a912321a498893323d6bbf56550049c0f1"
+      "sha256": "sha256:8bbb5e59f774c0cde25387c14f89a8bfbf6e13075e3ad36900efc4f8c67e3ce5"
+    },
+    {
+      "path": "tests/differential/run_wsl_campaign.py",
+      "sha256": "sha256:4c637aa8b1dbaaebb687a8196c179dec83ee89e04245cd9a007301024113d15e"
     },
     {
       "path": "tests/differential/test_completeness.py",
-      "sha256": "sha256:8a0a9d33b6019470d3472325009388035e25e16af447b4bb97494be0d9be3283"
+      "sha256": "sha256:7e9a0b5fbc0f0e891b041a3a6f08c7ae58009c9696029f9a04d9bd192df99a9e"
     }
   ],
   "blockers": [
@@ -138,5 +177,5 @@
     "DE-W105 qualification and dependency gate"
   ],
   "next_safe_step": "Continue independent DE-W106 preparation: implement and test participant/code/profile binding, raw-artifact and input-preservation verification, typed execution/comparison policy, then migrate collectors and managed output. Its explicit-set slice passes pure tests and spec/tooling checks, but complete_success stays unavailable. DE-W105 remains current: capture and exact native qualification are open; do not repeat failed sent/queued hook variants or merge main without evidence.",
-  "performed_remote_writes": false
+  "performed_remote_writes": true
 }

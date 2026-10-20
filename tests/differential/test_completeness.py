@@ -1,8 +1,16 @@
 """Independent counterexamples for the predeclared differential evidence set."""
 import copy
+import json
+import importlib.util
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
-from compare import compare
+from compare import compare,read_receipt,write_report
 
 
 class CompletenessTests(unittest.TestCase):
@@ -82,6 +90,72 @@ class CompletenessTests(unittest.TestCase):
         self.assertEqual(compare(manifest,native,external)['set_status'],'invalid')
         manifest,native,external=self.sample();manifest['cases'].append(copy.deepcopy(manifest['cases'][0]))
         self.assertEqual(compare(manifest,native,external)['set_status'],'invalid')
+
+    def cli(self,root,*extra,output=None,env=None):
+        root=Path(root);manifest,native,external=self.sample()
+        for name,value in [('manifest',manifest),('native',native),('reference',external['reference'])]:
+            (root/(name+'.json')).write_text(json.dumps(value),encoding='utf-8')
+        args=[sys.executable,'-B',str(Path(__file__).with_name('compare.py')),
+              '--manifest',str(root/'manifest.json'),'--native',str(root/'native.json'),
+              '--external','reference='+str(root/'reference.json'),'--output',str(output or root/'result.json'),*extra]
+        return subprocess.run(args,env=env,capture_output=True,timeout=10)
+
+    def test_cli_retains_unverified_result_without_a_success_exit(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            result=self.cli(folder)
+            self.assertNotEqual(result.returncode,0)
+            value=json.loads((Path(folder)/'result.json').read_bytes())
+            self.assertTrue(value['adapter_controls_passed'])
+            self.assertFalse(value['complete_success'])
+
+    def test_cli_rejects_duplicate_participant_and_preserves_prior_report(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            root=Path(folder);report=root/'result.json';report.write_bytes(b'prior evidence')
+            result=self.cli(root)
+            self.assertNotEqual(result.returncode,0);self.assertEqual(report.read_bytes(),b'prior evidence')
+            report.unlink()
+            result=self.cli(root,'--external','reference='+str(root/'reference.json'))
+            self.assertNotEqual(result.returncode,0);self.assertFalse(report.exists())
+
+    def test_cli_refuses_missing_runner_or_output_outside_declared_root(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            root=Path(folder);env=dict(os.environ);env.pop('DISKED_WORK_ROOT',None)
+            self.assertNotEqual(self.cli(root,env=env).returncode,0)
+            self.assertFalse((root/'result.json').exists())
+            inner=root/'inner';inner.mkdir();env['DISKED_WORK_ROOT']=str(inner)
+            outside=root/'forbidden.json';result=self.cli(root,output=outside,env=env)
+            self.assertNotEqual(result.returncode,0);self.assertFalse(outside.exists())
+
+    def test_obsolete_wsl_recipe_refuses_before_files_or_processes(self):
+        path=Path(__file__).with_name('run_wsl_campaign.py')
+        spec=importlib.util.spec_from_file_location('suspended_wsl_recipe',path)
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        output=path.resolve().parents[2]/'.aide-local'/'must-not-create'
+        argv=[str(path),'--output',str(output),'--mbr-probe','missing','--gpt-probe','missing','--probe-identity','missing']
+        with patch.object(sys,'argv',argv),patch.object(Path,'mkdir') as mkdir,patch.object(module.subprocess,'run') as run:
+            with self.assertRaisesRegex(RuntimeError,'suspended'):module.main()
+            mkdir.assert_not_called();run.assert_not_called()
+
+    def test_ambiguous_json_and_actual_file_bound_are_refused(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            path=Path(folder)/'ambiguous.json';path.write_bytes(b'{"name":"first","name":"second"}')
+            with self.assertRaisesRegex(ValueError,'Duplicate JSON'):read_receipt(path)
+            path.write_bytes(b'{}')
+            with self.assertRaises(ValueError):read_receipt(path,remaining=1)
+            for value in (b'NaN',b'Infinity',b'1e999'):
+                path.write_bytes(value)
+                with self.assertRaisesRegex(ValueError,'Non-finite'):read_receipt(path)
+            with path.open('wb') as stream:stream.truncate(8*1024*1024+1)
+            with self.assertRaisesRegex(ValueError,'bounded ordinary'):read_receipt(path)
+
+    def test_streamed_report_limit_refuses_before_excess_bytes_are_written(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('DISKED_WORK_ROOT')) as folder:
+            path=Path(folder)/'report.json'
+            size=write_report(path,dict(ok=True),limit=32)
+            self.assertEqual(size,path.stat().st_size);self.assertEqual(json.loads(path.read_bytes()),dict(ok=True))
+            path.unlink()
+            with self.assertRaisesRegex(ValueError,'exceeded'):write_report(path,dict(value='x'*64),limit=32)
+            self.assertLessEqual(path.stat().st_size,32)
 
 
 if __name__=='__main__':unittest.main()

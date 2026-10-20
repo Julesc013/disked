@@ -1,8 +1,11 @@
 """Retain candidate-relative comparisons without selecting a winner."""
 import argparse
 import json
+import math
+import os
 from pathlib import Path
 import re
+import stat
 
 
 def evidence_set(manifest, native, external):
@@ -114,12 +117,84 @@ def compare(manifest, native, external):
     return result
 
 
-if __name__ == '__main__':
+def managed_path(value,root):
+    """Routing check only; the owning runner supplies resource enforcement."""
+    path=Path(value)
+    if '..' in path.parts:raise ValueError('Parent traversal is outside the campaign route')
+    path=path.absolute()
+    if not path.is_relative_to(root) or path==root:raise ValueError('Path outside managed campaign workspace')
+    for current in (path,*path.parents):
+        if current==root:break
+        try:info=current.lstat()
+        except FileNotFoundError:continue
+        if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            raise ValueError('Linked campaign paths are refused')
+    if not path.resolve().is_relative_to(root):raise ValueError('Resolved campaign path escaped')
+    return path
+
+
+def read_receipt(path,remaining=8*1024*1024):
+    info=path.stat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or not 0<info.st_size<=min(remaining,8*1024*1024):
+        raise ValueError('Receipt must be a bounded ordinary single-link file')
+    with path.open('rb') as stream:body=stream.read(min(remaining,8*1024*1024)+1)
+    if len(body)!=info.st_size:raise ValueError('Receipt changed or exceeded its bound')
+    def unique(pairs):
+        result={}
+        for key,value in pairs:
+            if key in result:raise ValueError('Duplicate JSON field')
+            result[key]=value
+        return result
+    def reject(value):raise ValueError('Non-finite JSON number')
+    def finite(value):
+        number=float(value)
+        if not math.isfinite(number):reject(value)
+        return number
+    return json.loads(body.decode('utf-8'),object_pairs_hook=unique,
+                      parse_constant=reject,parse_float=finite),len(body)
+
+
+def write_report(path,value,limit=64*1024*1024):
+    if type(limit) is not int or not 1<=limit<=64*1024*1024:raise ValueError('Invalid report byte bound')
+    # Stream expansion; failed writes leave only bounded partial scratch output.
+    written=0
+    with path.open('xb') as stream:
+        for text in json.JSONEncoder(indent=2,allow_nan=False).iterencode(value):
+            body=text.encode('utf-8');written+=len(body)
+            if written>limit-1:raise ValueError('Comparison report exceeded its bound')
+            stream.write(body)
+        stream.write(b'\n')
+    return written+1
+
+
+def main():
     p = argparse.ArgumentParser(); p.add_argument('--manifest', required=True); p.add_argument('--native', required=True)
-    p.add_argument('--external', action='append', required=True); p.add_argument('--output', required=True)
+    p.add_argument('--external', action='append', required=True,metavar='PARTICIPANT=PATH'); p.add_argument('--output', required=True)
     a = p.parse_args()
-    def read(path): return json.loads(Path(path).read_text(encoding='utf-8'))
-    result = compare(read(a.manifest), read(a.native), {str(Path(x).parent): read(x) for x in a.external})
-    Path(a.output).write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8', newline='\n')
+    if not os.environ.get('DISKED_WORK_ROOT'):raise ValueError('Managed campaign runner required')
+    root=Path(os.environ['DISKED_WORK_ROOT']).resolve(strict=True)
+    repository=Path(__file__).resolve().parents[2]
+    if root.is_relative_to(repository):raise ValueError('Repository paths are not campaign scratch')
+    output=managed_path(a.output,root)
+    if output.exists():raise ValueError('Preserve existing campaign output')
+    if not 1<=len(a.external)<=8:raise ValueError('External participant count is outside the bounded profile')
+    remaining=16*1024*1024
+    def read(value):
+        nonlocal remaining
+        result,size=read_receipt(managed_path(value,root),remaining)
+        remaining-=size
+        return result
+    external={}
+    for value in a.external:
+        participant,separator,path=value.partition('=')
+        if (not separator or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,128}',participant) or
+                participant=='native' or participant in external):
+            raise ValueError('Unique explicit external participant identity required')
+        external[participant]=read(path)
+    result=compare(read(a.manifest),read(a.native),external)
+    write_report(output,result)
     print('Comparisons:', len(result['comparisons']), 'retained discrepancies:', sum(bool(x['discrepancy']) for x in result['comparisons']))
     if not result['complete_success']: raise SystemExit('Differential evidence is incomplete or unverified; evidence retained')
+
+
+if __name__ == '__main__':main()
