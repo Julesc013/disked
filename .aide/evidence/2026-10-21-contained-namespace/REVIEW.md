@@ -1,7 +1,9 @@
 # Contained native namespace: integration review
 
-Status: focused native and private Win32 evidence pass; the full x64 gate
-**fails at 176/180 groups**. Repository checks are recorded separately. This is a selected DE-W030 slice,
+Status: the full x64 gate **passes all 180 groups** at `c0eab59b`, with
+69 standalone headers, 14 executable/import observations, six actually reviewed
+GUI captures and verified owned cleanup. Repository checks are recorded
+separately. This is a selected DE-W030 slice,
 not full-unit, owner, public-provider, physical-storage or release acceptance.
 
 ## Source and contract review
@@ -49,20 +51,26 @@ deadline before running product groups. Its [failed receipt review](build-timeou
 and cleanup are preserved. A prolonged tracked-linker wait was observed; its cause
 is unresolved. The next clean build uses the [predeclared tracking setting](clean-build-profile.json)
 without changing compiler semantics, test expectations, budgets or deadlines.
-That build completed, but the subsequent current native tests did not all pass.
+That build completed, but source `54bc8cd8` did not pass all native tests.
+The later complete `c0eab59b` run supersedes its qualification result while
+preserving the original failed evidence.
 
-The four unresolved failures are:
+The four historical `54bc8cd8` failures were:
 
 | Group | Actual observed failure |
 |---|---|
-| `frontend.fat_tree_sessions` | JSON text read from a changing GUI control was truncated; source inspection identifies a non-atomic length/read pair as a candidate cause, not a demonstrated repair |
+| `frontend.fat_tree_sessions` | JSON text read from a changing GUI control was truncated; the length/read race is now covered by an independent growing-control regression and a single bounded snapshot read |
 | `frontend.gui_windows` | A window message timed out during oversized/multiline input refusal testing |
 | `image.fat_commands` | FAT32/4096 inspection returned `request_wait_expired`, unknown/exit6 instead of the expected completed result |
 | `image.fat_retention_commands` | Reader startup remained unresolved; the original worker was retired and returned an unknown outcome |
 
-These are symptoms, not established root causes or proof of a new storage defect.
-The assertions, original time limits and failed results remain unchanged. No
-retries, broader permissions or manufactured replacement results hide the failures.
+The GUI text race is repaired without swallowing parse failures. The other
+three timing symptoms did not recur in the complete current run; their causes
+remain unestablished. Assertions, deadlines and resource limits are unchanged.
+The `a8b013b6` focused attempt remains failed because its GUI companion binaries
+were omitted. The corrected dependency selection has an independent CMake-command
+regression. [Repair history](REPAIR.md) and [focused failure audit](repair-focused/review.json)
+retain that setup error; no attempt is relabelled as a pass.
 
 [Fresh cleanup](full-native/cleanup-live.json) finds no owned process, actor,
 profile, hive, qualification root or scratch; owner queries all succeeded. The
@@ -70,8 +78,29 @@ profile, hive, qualification root or scratch; owner queries all succeeded. The
 bytes for 916,433,851 original bytes; it is streamed, not bulk-extracted. The host
 workspace peaked at 87,702,468 bytes and was removed. The shared VM remains intact.
 
-Repository validation is retained separately in `validation.json.xz`; it is not
-native execution evidence. The source-bound context carries actual contracts and
+The complete [current native review](repair-native/native-detail-review.json)
+verifies all 4,374 archive entries and hashes: 913,589,580 original bytes retained
+as one 2,575,132-byte archive. Source `c0eab59b` passes 180/180 groups, 69 headers
+and 14 executable/import observations. The build took 1,232.89 seconds and the
+test commands 4,310.59 seconds under the original limits. All four prior failing
+groups pass in this same build. This is not a combination of separate runs.
+
+[Visual review](repair-native/visual-review.json) records actual inspection of all
+six current PNGs, after pixel/source/receipt checks. It does not establish full
+text recognition, accessibility or other-host qualification. [Fresh retirement](repair-native/cleanup-live.json)
+finds no owned process, actor, profile, hive, qualification root or scratch, with
+zero inaccessible owner queries. Peak allocated scratch is 442,075,523 bytes
+within the 512 MiB cap; host workspace peak is 91,454,011 bytes and it was removed.
+Only six hash-verified PNGs were extracted into a managed host workspace for
+review; that workspace and its small metadata pointer were removed.
+
+Repository validation in `validation.json.xz` passes 253 specification,256
+tooling,13 native-reader and108 differential tests:630 run with eight declared
+skips (2+1+0+5). Structural/source-map checks, all required evidence replays,
+manifest verification and complete work-context generation/verification pass.
+Its host workspace peaked at65,311,755 bytes and was removed. These results bind
+the prepared metadata inputs; final handoff/synchronization bookkeeping receives
+separate finalization checks. They are not replacement native execution evidence. The source-bound context carries actual contracts and
 artifacts, with the existing no-truncation and byte-budget rules.
 
 ## Reproduction and retention

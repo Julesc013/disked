@@ -1,0 +1,106 @@
+{
+  "status": "qualified_awaiting_source_sync",
+  "phase": "source_sync",
+  "observed_at": "2026-10-21T13:34:27.191463+00:00",
+  "source_revision": "c0eab59bb47b1cc4931afb4042a68bb3343afd28",
+  "work_id": "DE-W030",
+  "host_exec_session_id": null,
+  "guest": "Windows 10",
+  "guest_identity": "BLACKGLASS-HYPE\\Agents",
+  "source_materialization_verified": true,
+  "filesystem_cap_mib": 512,
+  "required_groups": 180,
+  "required_standalone_headers": 69,
+  "required_executable_observations": 14,
+  "full_gate_passed": true,
+  "cleanup_verified": true,
+  "owner_accepted": false,
+  "release_authorized": false,
+  "next_action": "Verify final handoff/metadata,commit/push dev,fast-forward/push main,verify remote refs,and pause;no release/tag.",
+  "latest_observations": {
+    "scope": "Current producer summaries only;not the final JUnit/closed-archive/full-gate verdict",
+    "fat_commands": {
+      "passed": true,
+      "cases": 62
+    },
+    "fat_retention_commands": {
+      "passed": true,
+      "cases": 68
+    },
+    "fat_tree_sessions": {
+      "passed": true
+    }
+  },
+  "full_native_groups_passed": 180,
+  "host_workspace_peak_bytes": 91454011,
+  "host_workspace_removed": true,
+  "host_validation": {
+    "status": "pass",
+    "tests_run": 630,
+    "skipped": 8,
+    "suites": [
+      {
+        "command": [
+          "C:\\Program Files\\Python314\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "spec/tools/tests",
+          "-v"
+        ],
+        "run": 253,
+        "skipped": 2
+      },
+      {
+        "command": [
+          "C:\\Program Files\\Python314\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests/tools",
+          "-v"
+        ],
+        "run": 256,
+        "skipped": 1
+      },
+      {
+        "command": [
+          "C:\\Program Files\\Python314\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests/windows",
+          "-p",
+          "test_native*observations.py",
+          "-v"
+        ],
+        "run": 13,
+        "skipped": 0
+      },
+      {
+        "command": [
+          "C:\\Program Files\\Python314\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests/differential",
+          "-v"
+        ],
+        "run": 108,
+        "skipped": 5
+      }
+    ],
+    "full_suite_evidence": ".aide/evidence/2026-10-21-contained-namespace/validation.json.xz",
+    "workspace_peak_bytes": 65311755,
+    "workspace_removed": true,
+    "scope": "Prepared final metadata inputs bound by exact hashes;following handoff/synchronization bookkeeping receives separate finalization checks"
+  }
+}

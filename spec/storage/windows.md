@@ -107,10 +107,12 @@ and mutually checked. This candidate does not add a public provider or startup
 query. Its x64/Win32 native cases, unchanged injected regressions and current
 product qualification must pass before the selected implementation is reviewed.
 
-The 21 October focused x64/Win32 cases pass at `57578ab0`; the full product
-attempt at `54bc8cd8` fails four of 180 groups. The implementation repository's
-current contained-namespace review retains the exact failures and cleanup.
-This is a recorded qualification failure, not public-provider or full-unit admission.
+The 21 October focused x64/Win32 cases pass at `57578ab0`. The complete x64
+composition at `c0eab59b` subsequently passes all 180 groups,69 standalone headers
+and14 executable/import observations,with six actual GUI images reviewed and
+owned cleanup verified. The earlier `54bc8cd8` 176/180 failure remains retained.
+The implementation repository's contained-namespace review owns these exact
+revision-bound claims; this is not public-provider or full-unit admission.
 
 ## Required services and lifecycle observations
 

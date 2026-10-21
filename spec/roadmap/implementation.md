@@ -39,11 +39,13 @@ sources:
 
 # Implementation sequence and first usable release
 
-Current development position, 21 October 2026: the programme records completed
+Current development position, 22 October 2026: the programme records completed
 DE-W105 qualification, DE-W106 evidence-accounting repair and the bounded
 DE-W107 Windows reference pilot. Current DE-W030 work connects actual private
 guest namespace observations to the existing contained reader and immutable
-publication machinery. The implementation repository publication `docs/project-status.md`
+publication machinery. The selected contained-native namespace and current x64
+composition pass all 180 native groups at `c0eab59b`; full-unit and public-provider
+admission remain open. The implementation repository publication `docs/project-status.md`
 distinguishes current evidence, remaining original 0.1 scope and the unbaselined
 1.0 boundary. The programme owns the current slice and exact revision-bound
 qualification; neither this roadmap nor a dev/main merge grants owner, physical

@@ -19,7 +19,13 @@ relocate build and fixture output into the managed guest workspace and retain
 their applicable checks. A passing compiler probe or private Win32 slice does
 not qualify the full current x64 product.
 
-The same-source `5c2f5337` qualification passes all180 x64 groups,69 standalone
+The current x64 `c0eab59b` qualification passes all180 groups,69 standalone
+headers and14 executable/import observations,with six actual GUI captures
+reviewed and owned cleanup verified. The [current review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md)
+retains source identities and earlier failures. This remains a development
+composition with fake inventory and ordinary-image workflows.
+
+The earlier same-source `5c2f5337` qualification passes all180 x64 groups,69 standalone
 headers and14 executable/import observations,plus all18 private Win32 groups,
 12 headers and nine executable observations. Strict C90 and the six actual GUI
 images pass review. The private slice does not qualify the full Win32 product or XP.

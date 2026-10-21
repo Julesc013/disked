@@ -48,8 +48,8 @@ try:
     if not prepare:
         call([sys.executable,'-B','-m','pip','install','--disable-pip-version-check','--no-cache-dir','--no-compile','--no-deps','--only-binary=:all:','--target',work/'dependencies','PyYAML==6.0.3'])
         env=dict(os.environ,PYTHONPATH=str(work/'dependencies'),PYTHONDONTWRITEBYTECODE='1')
-        call([sys.executable,'-B','tools/workspace.py','check','--planned-bytes','29360128'])
-        call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W030','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','25165824'],env=env)
+        call([sys.executable,'-B','tools/workspace.py','check','--planned-bytes','30408704'])
+        call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W030','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','27262976'],env=env)
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
     definition=importlib.util.spec_from_file_location('product_campaign',CAMPAIGN/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
     sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--focus-ui-fat-repair','--interactive-ui'] if repair_focus else ['--focus-fat-watch','--interactive-ui'] if watch else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--null-proof','--interactive-ui'] if source_proof else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]

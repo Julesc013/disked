@@ -65,3 +65,27 @@ companions and advances the required full gate in one clean build. It does not
 relabel the incomplete focused attempt as passed or combine different builds
 into a fictional complete run. The separate FAT timeout causes remain
 unestablished; their non-recurrence in this attempt is recorded as such.
+
+## Complete current evaluation
+
+Source `c0eab59bb47b1cc4931afb4042a68bb3343afd28` passes all 180 original
+groups, 69 standalone headers and 14 executable/import observations. All four
+original failed groups pass in this same complete run. Six current GUI PNGs were
+actually inspected after source/pixel/receipt verification. Closed archive
+verification and a fresh owned cleanup observation pass. The earlier failed
+full and focused attempts remain unchanged as history. The other three original
+timing causes remain unestablished; this result does not claim a runtime timeout
+policy repair. No assertion, production wait or native resource limit changed.
+
+The current task context also binds these compressed receipts. Its explicit
+artifact allowance is 26 MiB, content allowance 2 MiB, and complete reservation
+29 MiB including manifest overhead, within the existing **32 MiB aggregate local
+metadata limit**. The source snapshot remains capped at 32 MiB. No native scratch,
+aggregate disposable, file-count, free-space, memory or execution-time ceiling
+is raised. Final metadata validation and authorized dev/main synchronization
+remain separate from this native result and from owner/release acceptance.
+
+The owner's explicit repair grant includes `tests/frontend/gui_fixture.py`,
+`tests/tools/test_window_capture_review.py` and `tests/tools/test_native_junit.py`.
+These exact paths are now recorded in DE-W030's repair scope; this is bookkeeping
+for work already authorized,not a privilege or storage-authority expansion.

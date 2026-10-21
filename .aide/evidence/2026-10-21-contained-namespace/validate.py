@@ -16,9 +16,10 @@ record=dict(status='running',source_revision=subprocess.check_output(['git','rev
 record['source_worktree_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT))
 record['scope']='Host metadata/tests and retained evidence integrity; not native qualification'
 record['native_gate_passed']=False
-record['native_gate_source']='54bc8cd8a844344336ce8485202a108e5c04d784'
-record['native_groups_passed']=176
-record['native_groups_attempted']=180
+record['native_gate_source']='c0eab59bb47b1cc4931afb4042a68bb3343afd28'
+record['native_gate_replay']='pending'
+native_audit=[str(HERE.parent/'2026-10-18-ordinary-worker/review-native.py'),
+              '--evidence-dir',str(HERE/'repair-native')]
 env=dict(os.environ,PYTHONPATH=str(work/'dependencies'),PYTHONDONTWRITEBYTECODE='1')
 commands=[['-m','pip','install','--disable-pip-version-check','--no-cache-dir','--no-compile','--no-deps','--only-binary=:all:','--target',env['PYTHONPATH'],'PyYAML==6.0.3'],
     ['spec/tools/specctl.py','index'],['spec/tools/specctl.py','manifest'],['spec/tools/specctl.py','check'],['tools/check-source-map.py'],
@@ -32,8 +33,10 @@ if full:
     commands.insert(-1,['-m','unittest','discover','-s','tests/differential','-v'])
     commands.extend([
         [str(HERE/'review-failure.py')],
+        [str(HERE/'review-repair.py')],
+        native_audit,
         ['spec/tools/specctl.py','context','--work','DE-W030','--output',str(work/'context'),
-         '--byte-budget','2097152','--artifact-byte-budget','25165824'],
+         '--byte-budget','2097152','--artifact-byte-budget','27262976'],
         ['spec/tools/specctl.py','verify-context',str(work/'context')],
     ])
 else:
@@ -65,6 +68,16 @@ try:
             stdout=value.stdout.decode(errors='replace'),stderr=value.stderr.decode(errors='replace')));retain()
         print(json.dumps(dict(command=arguments,exit_code=value.returncode)),flush=True)
         if value.returncode:raise RuntimeError('Metadata validation failed: '+str(arguments))
+        if arguments==native_audit:
+            native=json.loads((HERE/'repair-native/native-detail-review.json').read_bytes())
+            cleanup=json.loads((HERE/'repair-native/cleanup-live.json').read_bytes())
+            assert native['status']=='pass' and native['source_revision']==record['native_gate_source']
+            assert native['gui_capture']['actual_images_reviewed']
+            assert not cleanup['owned_processes'] and cleanup['inaccessible_owner_queries']==0
+            assert all(cleanup[k] for k in ('qualification_absent','scratch_absent','actor_absent',
+                'actor_directory_absent','actor_hive_absent','actor_profile_key_absent'))
+            record.update(native_gate_passed=True,native_gate_replay='pass',native_groups_passed=180,
+                native_groups_attempted=180)
     current,size=inputs()
     if current!=record['tested_inputs']:raise ValueError('Validation inputs changed during execution')
     record.update(status='pass',source_files=len(current),source_bytes=size,tested_inputs_unchanged=True)

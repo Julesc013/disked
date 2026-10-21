@@ -1,6 +1,6 @@
 # DiskEd implementation and release status
 
-Reviewed 21 October 2026. This is a status publication, not a new release scope
+Reviewed 22 October 2026 (Australia/Sydney). This is a status publication, not a new release scope
 or an acceptance record. The [programme](../.aide/programmes/disked-0.1.0.json),
 [work definitions](../spec/work/units.json) and linked evidence own the details.
 
@@ -42,7 +42,7 @@ and paths can evolve. Another general directory overhaul is not on the critical 
 
 ## Latest evidence and its limits
 
-The last integrated full product baseline is
+The earlier integrated full product baseline is
 [`5c2f5337`](../.aide/evidence/2026-10-21-product-capture/REVIEW.md): 180 x64 groups,
 69 standalone headers, 14 executable/import observations, the selected 18-group
 private Win32 slice and six actual reviewed GUI captures. Historical results
@@ -54,24 +54,33 @@ pilot. The [combined review](../.aide/evidence/2026-10-21-windows-reference/ui/C
 keeps Windows presentation separate from exact bytes and GPT conflict evidence.
 These cases do not qualify every Windows integration or storage provider.
 
-The new contained native namespace passes all 15 fixed cases on each of x64 and
-Win32 at `57578ab0`, together with the injected adapter/worker/graph regressions.
-Its [focused review](../.aide/evidence/2026-10-21-contained-namespace/FOCUSED-REVIEW.md)
-records exact process, schema, capture and immutable publication bindings.
-The first full x64 attempt at `8bc79471` reached its unchanged 1,800-second build
-deadline before running product test groups. Its failed evidence and cleanup are
-retained. The separate current private Win32 supplement at `8bc79471` passed
-18 groups, 12 headers and nine executable/import observations; its closed archive
-and cleanup pass replay. The clean x64 build at `54bc8cd8` completed under the
-original deadline, with 69 headers and 14 executable/import observations, but
-the full native gate **failed at 176/180 groups**. The four unresolved groups are
-`frontend.fat_tree_sessions`, `frontend.gui_windows`, `image.fat_commands` and
-`image.fat_retention_commands`. Observed symptoms are truncated GUI JSON, a
-window-message timeout, an inspection wait expiry and unresolved reader startup.
-Their root causes are not yet established. The [current review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md)
-retains the exact failures and successful owned cleanup. The documented clean-build
-tracking option is not a repair for these test failures. No current full native
-pass or public provider admission is claimed.
+The contained native namespace passes 15 fixed cases on each of x64 and Win32
+at `57578ab0`, plus the injected adapter/worker/graph regressions. The private
+Win32 supplement at `8bc79471` passes 18 groups, 12 headers and nine executable/
+import observations. These retain their actual revisions and limited scope.
+
+The current full x64 source **`c0eab59b` passes all 180 groups**, 69 standalone
+headers and 14 executable/import observations. All six actual retained product
+GUI images were inspected and pass the closed source/pixel/receipt review. The
+[current review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md) records
+exact evidence and cleanup. Product code and the native tests are frozen at that
+source; following status/evidence changes do not create a fictional newer build.
+
+Earlier failures remain retained: `8bc79471` reached the original build deadline;
+`54bc8cd8` passed only 176/180 groups; the focused `a8b013b6` attempt omitted two
+GUI companions. The GUI length/read race and focused dependency selection are
+repaired with regressions. The three other original timeout symptoms did not
+recur in the current full run; their causes remain unestablished. Assertions,
+production waits, native deadlines and storage ceilings were not weakened.
+
+The latest native archive retains 913,589,580 original bytes in 2,575,132 compressed
+bytes. All 4,374 entries and hashes verify. Fresh guest observation confirms no
+owned processes, account/profile/hive, qualification tree or scratch remain.
+Peak allocated scratch was 442,075,523 bytes (about 422 MiB) within the 512 MiB cap;
+the 91,454,011-byte host workspace was removed. Host validation separately passes253 specification,256 tooling,13 native-reader
+and108 differential tests:630 run with eight declared skips. Complete context,
+manifest,source-map and retained evidence checks pass. Final handoff/sync
+bookkeeping receives its own checks; no newer native binary is claimed.
 
 Native campaigns use the shared Windows 10 guest and the demonstrated 32/512 MiB
 scratch boundaries. Local context is limited to 32 MiB; disposable work to 1 GiB,
@@ -86,32 +95,30 @@ specified at base `40ac8ec`**. It has not been replaced with an inspector releas
 The development version number and completed private slices do not establish
 completion of that programme.
 
-1. Diagnose and repair the four current native failures, then obtain applicable
-   qualification before treating the checkpoint as fully qualified.
-2. Admit a coherent real Windows read-only provider/workflow, with identity,
+1. Admit a coherent real Windows read-only provider/workflow, with identity,
    freshness, aliases, partial observations, removals and permission failures.
-3. Complete the promised filesystem namespace/content/fidelity capabilities and
+2. Complete the promised filesystem namespace/content/fidelity capabilities and
    operation-specific support for additional filesystem families.
-4. Qualify acquisition against real backing dependencies, failing media,
+3. Qualify acquisition against real backing dependencies, failing media,
    consistency boundaries and independently verified destinations.
-5. Settle production plan/journal/durability contracts; qualify image writers,
+4. Settle production plan/journal/durability contracts; qualify image writers,
    then the privileged broker and each separately admitted storage mutation.
-6. Complete resize/move/format/repair/conversion, copy/migration, erase/sanitize,
+5. Complete resize/move/format/repair/conversion, copy/migration, erase/sanitize,
    interruption/recovery and
    independently placed backups for the operations included in the original scope.
-7. Qualify boot/system-disk dependencies, BitLocker, WinRE/offline continuation
+6. Qualify boot/system-disk dependencies, BitLocker, WinRE/offline continuation
    and cross-boot identity before offering those operations.
-8. Build and exercise the named historical Windows, DOS/JC-DOS/Carbon, OS/2,
+7. Build and exercise the named historical Windows, DOS/JC-DOS/Carbon, OS/2,
    ReactOS, Linux, BSD/Unix and classic/modern macOS profiles, including the
    selected ARM, Server Core, recovery and frontend variants. Modern Win32 probes and C90
    syntax checks do not establish those product/platform claims.
-9. Implement and qualify the specified advanced storage/media, tape/optical/flux, arrays/pools,
+8. Implement and qualify the specified advanced storage/media, tape/optical/flux, arrays/pools,
    shared-storage/fencing and enterprise capabilities under their existing gates.
-10. Qualify the selected Explorer/MMC/Computer Management/service integrations,
+9. Qualify the selected Explorer/MMC/Computer Management/service integrations,
     installed Setup lifecycle, carrier/channel ownership and updates/removal.
-11. Complete the supported UI/terminal/accessibility matrix, live AIDE
+10. Complete the supported UI/terminal/accessibility matrix, live AIDE
     interoperability where claimed, reproducible delivery and relevant adverse testing.
-12. Resolve affected owner decisions, licensing, formal acceptance and release
+11. Resolve affected owner decisions, licensing, formal acceptance and release
     governance. A merge is not owner acceptance, release signing or publication.
 
 The current plan permits local implementation across work units after recorded
@@ -196,7 +203,8 @@ shows upstream Setup PR237 merged into `dev`, with seven successful reported che
 failed `publisher-qualification` check. This supersedes the old snapshot saying
 that PR was open with a failing native-Windows job. It does not qualify DiskEd's
 consumer against the newer upstream state.
-Upstream `main` remains `c048f7f1`; its latest listed main-branch CI run succeeded.
+At that read-only observation,upstream `main` was `c048f7f1` and its latest
+listed main-branch CI run had succeeded.
 The main-branch result and the newer dev/PR result are distinct observations.
 
 AIDE was reviewed on 19 October and pinned at `7877e056`; the next recorded
