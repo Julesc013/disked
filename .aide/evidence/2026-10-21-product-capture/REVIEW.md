@@ -57,3 +57,8 @@ changed validation input;[transition checks](qualified-gates/transition-check.js
 verify unchanged authority/scope/storage limits and a complete current DE-W106
 context,structure and manifest. The consumed context is removed;the next actual
 implementation uses a fresh pack at its new Git base.
+
+The qualified checkpoint [`f1f53176`](https://github.com/Julesc013/disked/commit/f1f531763e3ad35b162635ce27b2674a19dcc169)
+was pushed to dev and fast-forwarded/pushed to main.Both remote refs were then
+verified at that revision.[The integration receipt](qualified-gates/integration.json)
+records actual writes and cleanup;the following receipt commit changes metadata only.

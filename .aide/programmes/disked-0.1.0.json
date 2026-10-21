@@ -14,53 +14,52 @@
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
     "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
     "latest_integration": {
-      "work_id": "DE-W104",
-      "checkpoint_revision": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-      "tested_native_source_revision": "c460a35c67878cacda63b10561be9629b7370f1d",
-      "recorded_at": "2026-10-17T00:45:46.726935+00:00",
+      "work_id": "DE-W105",
+      "status": "pass",
+      "recorded_at": "2026-10-21T01:56:36.123346+00:00",
+      "checkpoint_revision": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "tested_native_source_revision": "5c2f5337641ba287bd41c1335d264f3c5a30928c",
       "execution_identity": "BLACKGLASS-WIN1\\Jules",
       "github_account": "Julesc013",
-      "branches": {
-        "dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-        "main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-        "origin/dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-        "origin/main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b"
-      },
+      "authentication": "Existing session verified by gh auth status and gh api user in the real Windows user context;no credential changes",
+      "previous_remote_main": "98b7573935c07d575d9500849662b3cafcfc9ee1",
       "remote_refs": {
-        "refs/heads/dev": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b",
-        "refs/heads/main": "e0e0d54bfe9bb922221ebe9dd6ca82360ed82a2b"
+        "refs/heads/dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+        "refs/heads/main": "f1f531763e3ad35b162635ce27b2674a19dcc169"
       },
-      "source": "Authorized dev push,fast-forward main and main push succeeded; exact local/remote refs verified without force. Following receipt commit is metadata only.",
-      "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-native/qualified-c460a35c/summary.json",
-      "review": ".aide/evidence/2026-10-17-ntfs-name-order-native/REVIEW.md",
-      "native_groups": 177,
-      "registered_native_groups": 177,
+      "branches": {
+        "dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+        "main": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+        "origin/dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+        "origin/main": "f1f531763e3ad35b162635ce27b2674a19dcc169"
+      },
+      "source": "Authorized dev push,fast-forward main and main push succeeded;exact remote refs verified without force.Following integration-receipt commit is metadata only.",
+      "evidence": ".aide/evidence/2026-10-21-product-capture/REVIEW.md",
+      "native_groups": 180,
+      "registered_native_groups": 180,
       "full_native_suite_run": true,
-      "name_order_cases": 172,
-      "upcase_capture_cases": 158,
-      "upcase_command_cases": 119,
-      "held_file_cases": 434,
-      "owned_worker_cases": 274,
+      "standalone_headers": 69,
+      "executable_observations": 14,
       "isolated_win32_groups": 18,
-      "standalone_headers": 68,
       "win32_headers": 12,
-      "tooling_tests_run": 251,
-      "tooling_skipped": 2,
+      "win32_executables": 9,
+      "host_tests_run": 578,
+      "host_tests_skipped": 8,
+      "structural_checks": 1328,
+      "source_files": 329,
       "full_win32_product_qualified": false,
       "owner_accepted": false,
       "full_0_1_0_complete": false,
       "release_published": false,
-      "native_name_order": {
-        "file": {
-          "methods": 9,
-          "calls": 330
-        },
-        "worker": {
-          "methods": 10,
-          "calls": 363
-        }
+      "cleanup": {
+        "local_metadata_bytes": 0,
+        "local_metadata_limit_bytes": 33554432,
+        "guest_qualification_absent": true,
+        "guest_scratch_drive_absent": true,
+        "guest_identity": "BLACKGLASS-HYPE\\Agents",
+        "guest_system_free_bytes": 96796401664
       },
-      "held_file_and_owned_worker_count_scope": "Existing uppercase-table regressions; native_name_order separately records current file/worker methods and calls."
+      "next_work": "DE-W106"
     },
     "latest_execution_preparation": {
       "revision": "de8cd70440fb0d97844feafe1356da9e6d41c7ce",
@@ -160,7 +159,7 @@
     "DE-W105"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Push the qualified checkpoint to dev and merge/push main without force,then continue DE-W106 bounded evidence/coordinator qualification and DE-W107.Windows10/Agents remains the default worker;owner/release/physical/historical-platform gates and original full0.1.0 scope remain separate.",
+  "next_action": "On dev,resolve the actual current Git base and create/verify its DE-W106 context.Qualify the available bounded evidence/coordinator worker path;retain unavailable external profiles honestly,then continue DE-W107.Keep the original full0.1.0 scope and separate owner/release/storage privilege gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1719,43 +1718,52 @@
     "next_action": "Continue current_work and next_action; targeted app/service/test-seam cleanup and upstream Windows qualification remain. Historical delays retain their own failed evidence and unknown original cause."
   },
   "last_integration": {
-    "work_id": "DE-W098",
-    "checkpoint_revision": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
-    "tested_native_source_revision": "01feae81e3b22fdd9147e7f4fa2e53e621a11b9f",
-    "recorded_at": "2026-10-16T14:08:34.195565+00:00",
+    "work_id": "DE-W105",
+    "status": "pass",
+    "recorded_at": "2026-10-21T01:56:36.123346+00:00",
+    "checkpoint_revision": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+    "tested_native_source_revision": "5c2f5337641ba287bd41c1335d264f3c5a30928c",
     "execution_identity": "BLACKGLASS-WIN1\\Jules",
     "github_account": "Julesc013",
-    "branches": {
-      "dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
-      "main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
-      "origin/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
-      "origin/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
-    },
+    "authentication": "Existing session verified by gh auth status and gh api user in the real Windows user context;no credential changes",
+    "previous_remote_main": "98b7573935c07d575d9500849662b3cafcfc9ee1",
     "remote_refs": {
-      "refs/heads/dev": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a",
-      "refs/heads/main": "2ecab6f5534987a5f9f2de1136f284a6c7d4fa8a"
+      "refs/heads/dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "refs/heads/main": "f1f531763e3ad35b162635ce27b2674a19dcc169"
     },
-    "source": "Authorized dev push, fast-forward main and main push succeeded; exact local/remote refs verified without force. Following integration-receipt commit is metadata only.",
-    "evidence": ".aide/evidence/2026-10-16-ntfs-membership-command/qualified-01feae81/summary.json",
-    "review": ".aide/evidence/2026-10-16-ntfs-membership-command/REVIEW.md",
-    "native_groups": 53,
-    "registered_native_groups": 168,
-    "full_native_suite_run": false,
-    "selected_native_suite_complete": true,
-    "membership_command_cases": 126,
-    "source_receipts": 26,
-    "standalone_headers": 67,
-    "unique_x64_executables": 13,
-    "tooling_tests_run": 249,
-    "tooling_skipped": 2,
-    "fresh_win32_campaign_run": false,
+    "branches": {
+      "dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "main": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "origin/dev": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "origin/main": "f1f531763e3ad35b162635ce27b2674a19dcc169"
+    },
+    "source": "Authorized dev push,fast-forward main and main push succeeded;exact remote refs verified without force.Following integration-receipt commit is metadata only.",
+    "evidence": ".aide/evidence/2026-10-21-product-capture/REVIEW.md",
+    "native_groups": 180,
+    "registered_native_groups": 180,
+    "full_native_suite_run": true,
+    "standalone_headers": 69,
+    "executable_observations": 14,
+    "isolated_win32_groups": 18,
+    "win32_headers": 12,
+    "win32_executables": 9,
+    "host_tests_run": 578,
+    "host_tests_skipped": 8,
+    "structural_checks": 1328,
+    "source_files": 329,
     "full_win32_product_qualified": false,
-    "native_unverified": ".aide/evidence/2026-10-16-ntfs-membership-command/native-unverified.json",
-    "prior_failures_retained": true,
-    "earlier_intermittent_failure_causes_established": false,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
-    "release_published": false
+    "release_published": false,
+    "cleanup": {
+      "local_metadata_bytes": 0,
+      "local_metadata_limit_bytes": 33554432,
+      "guest_qualification_absent": true,
+      "guest_scratch_drive_absent": true,
+      "guest_identity": "BLACKGLASS-HYPE\\Agents",
+      "guest_system_free_bytes": 96796401664
+    },
+    "next_work": "DE-W106"
   },
   "in_progress_slice": {
     "work_id": "DE-W106",
@@ -1880,16 +1888,22 @@
       "full_0_1_0_complete": false,
       "release_published": false,
       "original_delay_cause_established": false
+    },
+    {
+      "work_id": "DE-W105",
+      "checkpoint_revision": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+      "tested_native_source_revision": "5c2f5337641ba287bd41c1335d264f3c5a30928c",
+      "evidence": ".aide/evidence/2026-10-21-product-capture/qualified-gates/integration.json",
+      "recorded_at": "2026-10-21T01:56:36.123346+00:00",
+      "owner_accepted": false
     }
   ],
   "latest_development_push": {
+    "revision": "f1f531763e3ad35b162635ce27b2674a19dcc169",
     "branch": "dev",
-    "revision": "fcd7a4a5fdd38d825fc3d7ed17f31744f95f34c8",
-    "observed_at": "2026-10-17T02:12:16.222216+00:00",
-    "verified_remote_write": true,
-    "main_updated": false,
-    "release_published": false,
-    "source": "Earlier authorized dev push succeeded; exact dev/main remote refs now checked read-only. Full native qualification remains running and main remains the earlier qualified checkpoint."
+    "remote": "origin",
+    "verified_remote_revision": "f1f531763e3ad35b162635ce27b2674a19dcc169",
+    "source": "Successful authorized qualified checkpoint push;following receipt commit is metadata only."
   },
   "latest_setup_observation": {
     "evidence": ".aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json",
