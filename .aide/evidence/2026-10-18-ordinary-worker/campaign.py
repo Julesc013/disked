@@ -55,6 +55,7 @@ RETIRE_ACTOR=r'''
             $actorCurrent=Get-Content -LiteralPath $actorJournal -Raw|ConvertFrom-Json
             if($actorCurrent.PSObject.Properties['object_namespace']-and$actorCurrent.object_namespace.phase-ne'retired'){throw 'Preserve actor/journal: object namespace retirement unverified.'}
             if($actorCurrent.PSObject.Properties['window_station']-and$actorCurrent.window_station.phase-ne'retired'){throw 'Preserve actor/journal: window-station exception retirement unverified.'}
+            if($actorCurrent.PSObject.Properties['ui_profile']-and$actorCurrent.ui_profile.phase-ne'retired'){throw 'Preserve actor/journal: UI profile retirement unverified.'}
             if($actorCurrent.PSObject.Properties['crypto_device']-and$actorCurrent.crypto_device.phase-ne'retired'){throw 'Preserve actor/journal: crypto-device exception retirement unverified.'}
             foreach($key in @('null_build','null_user')){if($actorCurrent.PSObject.Properties[$key]-and$actorCurrent.$key.phase-ne'retired'){throw 'Preserve actor/journal: null-sink exception retirement unverified.'}}
             $existing=Get-LocalUser -Name $actorName -ErrorAction SilentlyContinue
@@ -111,11 +112,13 @@ def main():
             raise ValueError('No current pixel-origin candidate; previous profile remains unqualified')
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
-    windows_reference='--windows-reference-api' in sys.argv
+    ui_profile='--windows-ui-profile' in sys.argv
+    windows_reference='--windows-reference-api' in sys.argv or ui_profile
+    reference_mode='--windows-ui-profile' if ui_profile else '--windows-reference-api'
     native_port='--native-port-proof' in sys.argv or windows_reference
     coordinator_control='--coordinator-control-proof' in sys.argv
     native_probe='--native-probe-proof' in sys.argv or coordinator_control
-    if native_port and any(option not in (('--windows-reference-api' if windows_reference else '--native-port-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+    if native_port and any(option not in ((reference_mode if windows_reference else '--native-port-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native port proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
     if native_probe and any(option not in (('--coordinator-control-proof' if coordinator_control else '--native-probe-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native probe proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
@@ -192,10 +195,11 @@ def main():
     probe_files=()
     if windows_reference:
         origin=HERE.parent/'2026-10-21-windows-reference'
-        for source,target in (('control.py','windows-reference.py'),('media.py','windows-reference-media.py')):
+        reference_files=(('ui/profile.py','ui-profile.py'),('ui/profile-probe.py','ui-profile-probe.py')) if ui_profile else (('control.py','windows-reference.py'),('media.py','windows-reference-media.py'))
+        for source,target in reference_files:
             data=(origin/source).read_bytes();ast.parse(data);(stage/target).write_bytes(data)
-        definition=importlib.util.spec_from_file_location('windows_reference_sources',origin/'control.py');control=importlib.util.module_from_spec(definition);definition.loader.exec_module(control)
-        probe_files=('windows-reference.py','windows-reference-media.py',*control.FILES)
+        definition=importlib.util.spec_from_file_location('windows_reference_sources',origin/('ui/profile.py' if ui_profile else 'control.py'));control=importlib.util.module_from_spec(definition);definition.loader.exec_module(control)
+        probe_files=(*(target for _,target in reference_files),*control.FILES)
         for path in control.FILES:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     if native_probe:
@@ -261,7 +265,7 @@ def main():
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
     if coordinator_control:expected['coordinator_controls']=json.loads((HERE.parent/'2026-10-21-differential-qualification/expected.json').read_bytes())
     if windows_reference:
-        expected['windows_reference']=json.loads((HERE.parent/'2026-10-21-windows-reference/api-expected.json').read_bytes())
+        expected['windows_reference']=json.loads((HERE.parent/'2026-10-21-windows-reference'/('ui/profile-expected.json' if ui_profile else 'api-expected.json')).read_bytes())
         expected['windows_reference']['fixtures']=json.loads((HERE.parent/'2026-10-21-windows-reference/fixtures-before-native.json').read_bytes())
     if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/('2026-10-21-cooperative-tree' if cooperative_tree else '2026-10-21-cooperative-capture')/'expected.json').read_bytes())
     if capture_transport:
@@ -381,7 +385,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--windows-reference-api' if windows_reference else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else reference_mode if windows_reference else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -393,6 +397,8 @@ def main():
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
     if windows_reference:
         setup=once(setup,"if(-not$proof.all_owned_processes_retired){throw 'Owned actor process retirement unverified.'}","if(-not$proof.all_owned_processes_retired-or-not$proof.all_owned_media_retired){throw 'Owned actor/media retirement unverified.'}")
+        if ui_profile:
+            setup=once(setup,"if(-not$proof.all_owned_processes_retired-or-not$proof.all_owned_media_retired)","if(-not$proof.all_owned_processes_retired-or-not$proof.all_owned_media_retired-or-not$proof.all_owned_profiles_retired)")
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
     (stage/'guest-proof.ps1').write_text(setup,encoding='utf-8',newline='\n')
     attach=(PRIOR/'attach-image.py').read_text()
@@ -560,7 +566,7 @@ def main():
     if native_memory:result['experiment_kind']='Exact production x64 memory-budget component compile/launch in32MiB;not product qualification'
     if native_port:result['experiment_kind']='Current32MiB baseline and native raw-byte execution-port controls;not product/reference/full-campaign admission'
     if windows_reference:
-        result['experiment_kind']='Four native and delegated read-only Windows API fixture observations in32MiB guest;UI set incomplete,no product/provider/release qualification'
+        result['experiment_kind']='Disposable capped profile proof only;no MMC or UI-reference completion' if ui_profile else 'Four native and delegated read-only Windows API fixture observations in32MiB guest;UI set incomplete,no product/provider/release qualification'
         if (stage/'retained.tar.xz').exists():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
             if digest!=proof.get('archive_sha256'):raise ValueError('Windows reference archive transfer hash mismatch')

@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--windows-ui-profile':
+        load('ui_profile',ROOT/'ui-profile.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--windows-reference-api':
         load('windows_reference',ROOT/'windows-reference.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--coordinator-control-proof':
