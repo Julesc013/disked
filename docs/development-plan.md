@@ -23,6 +23,10 @@ defines separate4MiB images. The [native/API checkpoint](../.aide/evidence/2026-
 now records four native and four real Windows API observations at `6a688b79`,
 25 owned calls,raw replay and cleanup. Four actual Disk Management UI observations
 remain pending;API-only results do not complete DE-W107.
+The [capped disposable profile proof](../.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md)
+passes at `10f4173f`,including actual restricted profile/known-folder/HKCU checks
+and owned cleanup. Administrative MMC/UI execution is the next qualification;
+this prerequisite adds no UI tuple.
 Keep existing storage limits and protected records. No account,UAC,authentication
 or confined-worker setup grant is missing.
 

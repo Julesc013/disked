@@ -1,13 +1,13 @@
 # DiskEd development checklist
 
-Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. The current578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. Continue DE-W107's actual Windows API/UI reference pilot. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
+Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. Its retained578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. Continue DE-W107's actual Windows API/UI reference pilot. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
 
 ## Storage recovery
 
 - [x] Prove the ordinary restricted guest profile at 32/512 MiB, actual x64
   compilation and protected production-record/lease reopening; retain exact
   [receipts and cleanup](.aide/evidence/2026-10-18-ordinary-worker/README.md).
-  Full current native qualification remains open.
+  Broader platform and product qualification remain open.
 
 - [x] Remove `.aide-local` after reviewing the surviving checkouts; retain compact
   [cleanup observations](.aide/evidence/2026-10-17-workspace-cleanup/cleanup-result.json).
@@ -131,7 +131,9 @@ Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers
   Exact `6a688b79` records four native/four real Windows API observations,25 owned
   calls,source/media preservation,raw replay and cleanup. Windows' conflicting-GPT
   projection matches the primary;both native candidates remain unresolved.
-  Four declared Disk Management UI observations and their profile remain pending.
+  Disposable capped profile/known-folder/HKCU proof passes at `10f4173f`,with
+  owned cleanup. Administrative MMC profile and four UI observations remain pending.
+  [Profile review](.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md).
   [Native/API review](.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md).
 
 - [x] DE-W105 public same-capture NTFS name-order view with explicit prefixes and

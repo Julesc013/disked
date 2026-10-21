@@ -1,0 +1,170 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W107",
+  "base_revision": "10f4173f3c99cb6ba220181ac7cc9d9b583f1379",
+  "spec_manifest_digest": "sha256:065b7b4ad771c6f629c7e9a22424eabc9273596cfe4bcabd2f7fbb8e958c4c7f",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "docs/windows-reference.md",
+    ".aide/evidence/2026-10-18-ordinary-worker/ordinary-worker.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+    "tests/differential/windows_executor.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/PROFILE-PLAN.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/README.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/copy-controls-first-failure.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/hive-preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/launch-profile.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/metadata-final.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/post-profile.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile-before.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile-expected.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile-probe.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/cleanup-live.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/profile/replay.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/registration-first-failure.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/review-profile.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/shortcut-selection.json.xz",
+    ".aide/handoffs/2026-10-21-ui-profile-proven.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/windows-reference.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/tools/test_windows_ui_profile.py"
+  ],
+  "summary": "Exact10f4173f passed the32MiB guest disposable-profile proof. Actual restricted Medium/nonadmin profile and known folders resolved within R:,the child nonce was independently verified in the owned hive,and all profiles,keys,actor,processes,exceptions and scratch were removed. Copied content2,716,306 logical bytes;17 reparse points and34 unused shortcuts skipped. Two earlier failures retained and fixed without weakening the nonce or hardlinked-hive tests. Final500 host tests ran with3 skips;structure,source map,manifest,current context,source-bound replay and12 authority/scope fields passed. No MMC/admin reference is qualified and no UI tuple is added;the original campaign remains8/12. Native product source and original0.1.0/owner/release gates unchanged. Development source pushes succeeded;tested checkpoint integration is recorded separately after actual writes.",
+  "tests": [
+    {
+      "command": "Pre-execution full246 tooling tests (1 skip),15 affected bundle tests and structural preparation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/preparation.json.xz"
+    },
+    {
+      "command": "First guest attempt8187b03b refused default hardlinked shortcuts; owned cleanup passed",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/first-default-shortcuts/receipt.json.xz"
+    },
+    {
+      "command": "Second guest attempt9a2dccdf loaded capped profile but nonce write was denied; owned cleanup passed",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/first-hive-acl/receipt.json.xz"
+    },
+    {
+      "command": "Six affected copy controls and owned-hive source preparation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/hive-preparation.json.xz"
+    },
+    {
+      "command": "Actual source10f4173f guest profile proof: original controls,9 port calls,known folders,HKCU and cleanup",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/receipt.json.xz"
+    },
+    {
+      "command": "Full253 specification tests (2 skips),247 tooling tests (1 skip),1328 structural checks,329-source inventory,manifest,context and replay",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/post-profile.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-windows-reference/ui/review-profile.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/replay.json"
+    },
+    {
+      "command": "Administrative MMC profile and four actual Disk Management UI observations",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md",
+      "sha256": "sha256:cc73e3bf4753203c8cb622ce4d74f082da7e04bf44fd155af25d5c93fd053225"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile.py",
+      "sha256": "sha256:9100ca67d8151d75f3cba89b2347602c193b6457467cfd14c56440bd8a629b14"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile-probe.py",
+      "sha256": "sha256:509546f4c70fa2e073b2ccd324c92a6d0295862a7080efbba725d9f2e47d3497"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile-expected.json",
+      "sha256": "sha256:34901447ea615df9156ecfc2b34e727296f2fc07af2573423274a193a5a8439f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/review-profile.py",
+      "sha256": "sha256:e110b0c92ae0819adbe5e25dca6ba1fd84981b6b635cded3cc341ea3d12c0ec2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/receipt.json.xz",
+      "sha256": "sha256:731ef72e090caf5939be7a2bbf9789594203d68207bfe424db1556c71c6eb3a8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/cleanup.json.xz",
+      "sha256": "sha256:6829b54f18e133bdec8999b4855d41897ef87367867517540d5d5bce903a93b8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/cleanup-live.json",
+      "sha256": "sha256:737d567192c77b2d9b33b717c74c8cbe953f7b1ecfaa4c2fa9367e6a9dc2dc23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/profile/replay.json",
+      "sha256": "sha256:8bf7f35ec167fe6ed55b308d199c68fb90849272a3ea556fa3a98fa7f1ad950e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/post-profile.json.xz",
+      "sha256": "sha256:6f246b94af3003fef5e408a64166112c8d23444ca4ad9f79160636d6bc3289be"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Use the retained10f4173f disposable profile proof; do not restart its already-passing bootstrap. Resolve actual HEAD and verify fresh complete DE-W107 context. Extend owned profile lifetime for a separately declared administrative MMC reference and bounded UI Automation observer. Verify actual session/desktop/token; use Agents coordination and a private desktop, never the shared input desktop. Only a fresh owned actor may receive temporary reference membership; retire its processes and remove it. Collect four actual Disk Management UI tuples from independent read-only owned VHD copies bound by UUID/held object and fixture hashes, then replay all12 tuples. Do not substitute API results or a denied nonadmin UI. No shared-account, security-policy, VM-configuration or product-protection changes. Keep original0.1.0, owner and release/storage gates.",
+  "performed_remote_writes": true
+}

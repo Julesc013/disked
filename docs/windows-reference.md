@@ -9,6 +9,11 @@ records four actual Windows layout queries and their independent native results.
 The full campaign remains incomplete until four Disk Management UI observations
 exist. REA has not been installed or qualified.
 
+The [disposable profile preflight](../.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md)
+passed at `10f4173f`: Windows resolved the restricted probe's profile and known
+folders on capped guest storage, its owned hive write was independently verified,
+and cleanup completed. Actual administrative MMC/UI execution remains unqualified.
+
 ## Which Windows component does what?
 
 | Surface | What to study | DiskEd owner and implementation boundary |
