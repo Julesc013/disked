@@ -1,6 +1,7 @@
 // Private reference observer: one parent-bound read-only virtual-disk handle.
 // No path selection, enumeration, attachment, repair or product/provider admission.
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #include <winioctl.h>
 #include <virtdisk.h>
