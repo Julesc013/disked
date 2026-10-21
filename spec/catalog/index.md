@@ -81,6 +81,7 @@
 - [nt-inventory-frontend-prototype.json](nt-inventory-frontend-prototype.json)
 - [nt-inventory-port-prototype.json](nt-inventory-port-prototype.json)
 - [nt-namespace-worker-prototype.json](nt-namespace-worker-prototype.json)
+- [nt-native-namespace-prototype.json](nt-native-namespace-prototype.json)
 - [nt-owned-layout-prototype.json](nt-owned-layout-prototype.json)
 - [nt-raw-layout-prototype.json](nt-raw-layout-prototype.json)
 - [nt-storage-observation-prototype.json](nt-storage-observation-prototype.json)

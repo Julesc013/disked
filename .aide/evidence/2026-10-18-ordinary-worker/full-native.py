@@ -86,7 +86,7 @@ def coordinate(g):
     cooperative_setup=g.load('full_cooperative_window',ROOT/'cooperative-window.py') if expected.get('cooperative_product_capture') else None
     pixel_setup=g.load('full_pixel_origin',ROOT/'pixel-origin.py') if expected.get('pixel_origin_proof') else None
     manifest=json.loads((ROOT/'source.json').read_bytes())
-    result=dict(status='running',source_revision=manifest['revision'],full_x64_product_suite_run=False,
+    result=dict(status='running',work_id=expected.get('work_id','DE-W105'),source_revision=manifest['revision'],full_x64_product_suite_run=False,
                 all_owned_processes_retired=False,crypto_device_retired=False,commands=[],tests=[],owner_accepted=False)
     grant,instance,archive,job,child,null_grant=None,None,None,None,None,None
     source_prepared=False;quiescent=True;fixture_broker=None
@@ -852,7 +852,7 @@ print(json.dumps(dict(scope='Read-only parent-open observations,not qualificatio
         result['full_x64_product_suite_run']=not focused and len(result['tests'])==len(expected['groups'])==180 and all(t['passed'] for t in result['tests'])
         if result.get('failed_native_groups'):raise RuntimeError('Native groups failed: '+','.join(result['failed_native_groups']))
         assert focused or result['full_x64_product_suite_run']
-        result.update(status='pass',qualification='Focused native regression only; full current native inventory remains required' if focused else 'Native groups/build/header/import run only; final W105 expectation/tooling/portability review still required')
+        result.update(status='pass',qualification='Focused native regression only; full current native inventory remains required' if focused else 'Native groups/build/header/import run only; final work-unit expectation/tooling/portability review still required')
     except BaseException:
         result.update(status='fail',error=traceback.format_exc()[-8192:])
         if archive and 'build' in locals() and build.exists():

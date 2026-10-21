@@ -32,6 +32,7 @@ def main():
     snapshot = importlib.util.module_from_spec(definition)
     definition.loader.exec_module(snapshot)
     if prepare_only:
+        selected_work='DE-W105'
         export = work / 'source-export'
         export.mkdir()
         (export / 'source.pack').write_bytes(b'not-an-executable-qualification-pack')
@@ -40,13 +41,16 @@ def main():
     else:
         revision = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
         context = json.loads((ROOT / '.aide-local/context/current/manifest.json').read_bytes())
-        if context['work_id'] != 'DE-W105' or context['git_head'] != revision:
+        selected_work=context['work_id']
+        if selected_work not in ('DE-W105','DE-W030') or context['git_head'] != revision:
             raise ValueError('A verified context for this exact work revision is required')
+        if any(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()!=row['sha256'].removeprefix('sha256:') for row in context['files']):
+            raise ValueError('Qualification context inputs changed')
         bound = {row['path']:row for row in context['files']}
         required = json.loads((HERE / 'expected.json').read_bytes())['required_qualification_inputs']
         if any(name not in bound for name in required):
             raise ValueError('A required qualification input is absent from task context')
-        selected = sorted(set(snapshot.selected_inputs(ROOT, 'DE-W105', revision=revision)) | set(required))
+        selected = sorted(set(snapshot.selected_inputs(ROOT, selected_work, revision=revision)) | set(required))
         # The product snapshot is immutable Git data; the coordinator may retain
         # observations alongside it without falsely calling its checkout clean.
         source = snapshot.export(ROOT, selected,
@@ -61,6 +65,9 @@ def main():
     shutil.copyfile(ROOT / 'tools/source-snapshot.py', stage / 'source-snapshot.py')
     for name in ('guest-source.py', 'expected.json', 'path-api-probe.py', 'worker-object-probe.py'):
         shutil.copyfile(HERE / name, stage / name)
+    expected=json.loads((stage/'expected.json').read_bytes())
+    expected['work_id']=selected_work
+    (stage/'expected.json').write_text(json.dumps(expected,indent=2)+'\n',encoding='utf-8',newline='\n')
     if path_probe or object_probe:
         expected = json.loads((stage/'expected.json').read_bytes())
         expected['execution_kind'] = 'object-probe' if object_probe else 'path-probe'
@@ -118,6 +125,7 @@ def main():
     if not report.exists():
         raise RuntimeError('No campaign receipt; inspect guest before attempting another run')
     result = json.loads(report.read_bytes())
+    result['work_id']=selected_work
     result['template_native_product_tests_run'] = result.get('native_product_tests_run', False)
     commands = (result.get('guest', {}).get('proof') or {}).get('commands', [])
     result['native_product_tests_run'] = any(c['label'].startswith('test-') for c in commands)

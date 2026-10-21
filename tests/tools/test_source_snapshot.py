@@ -35,8 +35,18 @@ class SnapshotTests(unittest.TestCase):
         cmake=(ROOT/'CMakeLists.txt').read_text(encoding='utf-8')
         scripts=set(re.findall(r'\$\{CMAKE_CURRENT_SOURCE_DIR\}/((?:tests|tools)/[A-Za-z0-9_./-]+\.py)',cmake))
         self.assertTrue(scripts)
-        selected=set(S.selected_inputs(ROOT,'DE-W105'))
-        self.assertFalse(scripts-selected,'Native source transport omitted registered Python inputs')
+        for work in ('DE-W105','DE-W030'):
+            with self.subTest(work=work):
+                selected=set(S.selected_inputs(ROOT,work))
+                self.assertFalse(scripts-selected,'Native source transport omitted registered Python inputs')
+
+    def test_native_namespace_work_retains_current_qualification_inputs(self):
+        selected=set(S.selected_inputs(ROOT,'DE-W030'))
+        required=set(json.loads((ROOT/'.aide/evidence/2026-10-18-guest-build/expected.json').read_bytes())['required_qualification_inputs'])
+        required.update(('spec/catalog/nt-native-namespace-prototype.json','source/platform/windows/storage/namespace_worker.cpp',
+            'source/providers/windows/inventory_session.cpp','tests/windows/native/native_namespace_probe.cpp'))
+        self.assertFalse(required-selected,'DE-W030 qualification lost its selected contract or native regressions')
+        self.assertFalse(any(path.startswith('.aide-local/') for path in selected))
 
     def test_semantic_validator_siblings_are_transported(self):
         selected = set(S.selected_inputs(ROOT, 'DE-W105'))

@@ -146,6 +146,7 @@ def main():
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
     full_native=full_native or controller_stop_proof or pixel_proof or focus_product or focus_fat_watch
+    full_work_id='DE-W105'
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv or reference_ui):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
@@ -183,9 +184,11 @@ def main():
         else:
             revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
             context=json.loads((ROOT/'.aide-local/context/current/manifest.json').read_bytes())
-            if context['work_id']!='DE-W105' or context['git_head']!=revision:raise ValueError('Exact work context required')
+            full_work_id=context['work_id']
+            if full_work_id not in ('DE-W105','DE-W030') or context['git_head']!=revision:raise ValueError('Exact supported work context required')
+            if not all(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()==row['sha256'].removeprefix('sha256:') for row in context['files']):raise ValueError('Full qualification context inputs changed')
             definition=importlib.util.spec_from_file_location('full_snapshot',ROOT/'tools/source-snapshot.py');snapshot=importlib.util.module_from_spec(definition);definition.loader.exec_module(snapshot)
-            selected=snapshot.selected_inputs(ROOT,'DE-W105',revision=revision)
+            selected=snapshot.selected_inputs(ROOT,full_work_id,revision=revision)
             source=snapshot.export(ROOT,selected,work/'source-export',work,revision=revision)
             for name in full_files[-2:]:shutil.copyfile(work/'source-export'/name,stage/name)
         definition=importlib.util.spec_from_file_location('coordinator_workspace',ROOT/'tools/workspace.py');storage=importlib.util.module_from_spec(definition);definition.loader.exec_module(storage)
@@ -309,6 +312,7 @@ def main():
         expected['cooperative_capture']['control_modes']+=['receiver','receiver_hang']
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
+        expected['native_x64']['work_id']=full_work_id
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
         expected['native_x64']['cooperative_product_capture']=json.loads((HERE.parent/'2026-10-21-product-capture/expected.json').read_bytes())
     if full_native:
