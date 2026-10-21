@@ -6,6 +6,7 @@ ordinary restricted worker; it does not qualify an administrative UI reference.
 import contextlib
 import ctypes as C
 from ctypes import wintypes as T
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -52,6 +53,38 @@ def key_exists(root,path):
     try:
         with winreg.OpenKey(root,path):return True
     except FileNotFoundError:return False
+
+def initialize_hive(worker,handle):
+    """Assign only this newly copied hive to its disposable user, not a shared hive."""
+    a,k,bind,P=worker.a,worker.k,worker.bind,C.c_void_p
+    bind(a,'GetSecurityInfo',T.DWORD,T.HANDLE,C.c_int,T.DWORD,P,P,P,P,C.POINTER(P))
+    bind(a,'SetSecurityInfo',T.DWORD,T.HANDLE,C.c_int,T.DWORD,P,P,P,P)
+    bind(a,'ConvertSecurityDescriptorToStringSecurityDescriptorW',T.BOOL,P,T.DWORD,T.DWORD,C.POINTER(T.LPWSTR),P)
+    bind(a,'GetSecurityDescriptorDacl',T.BOOL,P,C.POINTER(T.BOOL),C.POINTER(P),C.POINTER(T.BOOL))
+    def observed():
+        descriptor=P();text=T.LPWSTR()
+        code=a.GetSecurityInfo(handle,4,4,None,None,None,None,C.byref(descriptor))
+        if code:raise C.WinError(code)
+        try:
+            worker.require(a.ConvertSecurityDescriptorToStringSecurityDescriptorW(descriptor,1,4,C.byref(text),None))
+            try:return text.value
+            finally:k.LocalFree(C.cast(text,P))
+        finally:k.LocalFree(descriptor)
+    before=observed()
+    descriptor=worker.descriptor('D:P(A;CI;KA;;;SY)(A;CI;KA;;;BA)(A;CI;KA;;;'+worker.user_sid+')')
+    try:
+        present,defaulted,acl=T.BOOL(),T.BOOL(),P()
+        worker.require(a.GetSecurityDescriptorDacl(descriptor,C.byref(present),C.byref(acl),C.byref(defaulted)))
+        if not present.value or not acl.value:raise ValueError('Private hive requires an explicit non-null DACL')
+        # SE_REGISTRY_KEY, DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION.
+        # Windows propagates the inheritable entries to unprotected child keys.
+        code=a.SetSecurityInfo(handle,4,0x80000004,None,None,acl,None)
+        if code:raise C.WinError(code)
+    finally:k.LocalFree(descriptor)
+    after=observed()
+    if worker.user_sid not in after:raise ValueError('Owned actor missing from private hive DACL')
+    return dict(scope='Only newly copied owned actor hive on capped R:',before=before,after=after,
+                actor_sid=worker.user_sid,shared_hives_changed=False,owner_or_sacl_changed=False)
 
 def copy_default(target):
     """Copy regular default-profile content once; never follow compatibility links."""
@@ -106,6 +139,8 @@ def exercise(g,work,environment,executor,result):
     created=False
     try:
         report['default_copy']=copy_default(profile)
+        hive=profile/'NTUSER.DAT'
+        report['copied_hive']=dict(bytes=hive.stat().st_size,sha256=hashlib.sha256(hive.read_bytes()).hexdigest())
         with winreg.CreateKeyEx(winreg.HKEY_LOCAL_MACHINE,key_path,0,winreg.KEY_ALL_ACCESS) as key:
             created=True
             winreg.SetValueEx(key,'ProfileImagePath',0,winreg.REG_EXPAND_SZ,str(profile))
@@ -118,6 +153,7 @@ def exercise(g,work,environment,executor,result):
         worker.require(u.GetUserProfileDirectoryW(worker.original,path,C.byref(size)))
         report['resolved_profile']=path.value
         assert Path(path.value)==profile and key_exists(winreg.HKEY_USERS,sid)
+        report['hive_initialization']=initialize_hive(worker,info.profile)
         nonce=uuid.uuid4().hex
         command=[os.sys.executable,'-B',str(g.ROOT/'ui-profile-probe.py'),str(profile),sid,nonce]
         value=executor(argv=command,cwd=work,payload=b'',timeout=15,output_limit=65536)

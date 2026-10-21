@@ -16,6 +16,13 @@ keep temporary output in managed work, and write a nonce independently read from
 the owned hive. This private fixture arrangement is experimental, not a supported
 profile-relocation feature or administrative UI qualification.
 
+The copied hive needs its disposable user's access initialized. Apply an explicit
+inheritable DACL to that newly loaded hive only (exact actor SID, SYSTEM and
+Administrators), retaining before/after DACLs. Use the held hive handle and
+[SetSecurityInfo](https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setsecurityinfo);
+do not modify shared hives, product records, owners, SACLs or global policies.
+The unmodified probe must still demonstrate its actual restricted write.
+
 Retire the job before unloading the hive; verify its exact SID and profile path
 before deleting that profile. Account/image retirement refuses an unresolved
 profile journal. No shared account, global profile policy, UAC, VM setting,
@@ -33,3 +40,7 @@ first guest attempt at `8187b03b` refused default hardlinked shortcuts before
 creating a profile key or loading a hive; owned account/image cleanup passed.
 The next source explicitly omits those unused assets and adds a corresponding
 selection test; it retains the hive-hardlink rejection control.
+The second attempt at `9a2dccdf` loaded the profile on R: and resolved known
+folders, but the copied template's access rules denied its HKCU write. Unload,
+profile/key/account/image removal passed. The next source initializes the owned
+hive rather than weakening the probe or granting access to shared records.
