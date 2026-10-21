@@ -112,10 +112,11 @@ def main():
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
     native_port='--native-port-proof' in sys.argv
-    native_probe='--native-probe-proof' in sys.argv
+    coordinator_control='--coordinator-control-proof' in sys.argv
+    native_probe='--native-probe-proof' in sys.argv or coordinator_control
     if native_port and any(option not in ('--native-port-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native port proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
-    if native_probe and any(option not in ('--native-probe-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+    if native_probe and any(option not in (('--coordinator-control-proof' if coordinator_control else '--native-probe-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native probe proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
     station_matrix='--station-bootstrap-matrix' in sys.argv
     object_trace='--object-startup-trace' in sys.argv
@@ -195,6 +196,13 @@ def main():
         probe_files=('native-probes.py',)+probes.PROBE_FILES
         for path in probes.PROBE_FILES:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
+    if coordinator_control:
+        source=HERE.parent/'2026-10-21-differential-qualification/control.py'
+        data=source.read_bytes();ast.parse(data);(stage/'coordinator-control.py').write_bytes(data)
+        definition=importlib.util.spec_from_file_location('coordinator_control_sources',source);control=importlib.util.module_from_spec(definition);definition.loader.exec_module(control)
+        probe_files=tuple(dict.fromkeys((*probe_files,'coordinator-control.py',*control.FILES)))
+        for path in control.FILES:
+            target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     capture_files=()
     if cooperative:
         source=HERE.parent/'2026-10-21-cooperative-capture/control.py'
@@ -242,6 +250,7 @@ def main():
     if native_memory:expected['native_memory']=json.loads((HERE/'memory-journey-expectations.json').read_bytes())
     if native_port or native_probe or cooperative:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
+    if coordinator_control:expected['coordinator_controls']=json.loads((HERE.parent/'2026-10-21-differential-qualification/expected.json').read_bytes())
     if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/('2026-10-21-cooperative-tree' if cooperative_tree else '2026-10-21-cooperative-capture')/'expected.json').read_bytes())
     if capture_transport:
         expected['capture_transport']=json.loads((HERE.parent/'2026-10-21-capture-transport/expected.json').read_bytes())
@@ -360,7 +369,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -538,6 +547,7 @@ def main():
     if native_port:result['experiment_kind']='Current32MiB baseline and native raw-byte execution-port controls;not product/reference/full-campaign admission'
     if native_probe:
         result['experiment_kind']='Current32MiB baseline/raw-port controls plus actual private MBR/GPT diagnostic corpus;no reference/finalized-comparison/full-campaign admission'
+        if coordinator_control:result['experiment_kind']='Current32MiB native baseline plus coordinator conformance with explicitly repository-owned protocol fixture;no independent reference/full-campaign admission'
         if (stage/'retained.tar.xz').exists():
             digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
             if digest!=proof.get('archive_sha256'):raise ValueError('Native probe archive transfer hash mismatch')

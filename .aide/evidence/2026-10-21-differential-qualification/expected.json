@@ -1,0 +1,30 @@
+{
+  "work_id": "DE-W106",
+  "base_revision": "c24446d06a4b9309146ed6e996753ecad63a210f",
+  "status": "expected_before_execution",
+  "scope": "Windows coordinator conformance controls with actual native probes and an explicitly repository-owned protocol fixture. No independent external reference, Linux/sanitizer, Windows API/UI, product or release qualification.",
+  "mode": "--coordinator-control-proof",
+  "environment": "Existing Windows 10 guest, Agents coordinator; fresh restricted ordinary Medium worker, no administrator/elevated/AppContainer test token; MSVC 14.44.35207, SDK 10.0.19041.0, static CRT x64.",
+  "limits": {"filesystem_mib": 32, "job_commit_bytes": 268435456, "job_processes": 8, "archive_bytes": 1048576, "archive_entries": 256, "retained_original_bytes": 16777216},
+  "native_baseline": {"port_controls": 8, "recipes": 35, "fixed_checks": 64, "guards": 2, "port_calls": 49},
+  "cases": ["mbr-two", "gpt-valid-disagreement"],
+  "participants": ["native", "repository-protocol-fixture"],
+  "expected_tuples": [
+    ["mbr-two", "native", "native"],
+    ["mbr-two", "repository-protocol-fixture", "sfdisk-json"],
+    ["mbr-two", "repository-protocol-fixture", "sfdisk-verify"],
+    ["gpt-valid-disagreement", "native", "native"],
+    ["gpt-valid-disagreement", "repository-protocol-fixture", "sfdisk-json"],
+    ["gpt-valid-disagreement", "repository-protocol-fixture", "sfdisk-verify"]
+  ],
+  "fixture_policy": "Accept only exact SHA-256-bound 131072-byte mbr-two and gpt-valid-disagreement recipes. Fixed --json/--verify commands. No writes. MBR projection matches. GPT deliberately reports first start 36, matching neither native candidate (34/35); both candidates must remain unresolved. This executable is not util-linux or an independent parser.",
+  "positive": {"evidence_status": "complete", "complete_success": true, "comparison_status": "disagreement", "diagnostics": 2, "actual_calls": 6, "qualification": "not_assessed", "cleanup": "outer_runner_pending"},
+  "negative_replay": ["missing", "duplicate", "wrong_geometry", "altered_raw"],
+  "negative_execution": [
+    {"name": "false_callback_success", "native_calls": 2, "reference_calls": 0, "expected": "Missing required receipt must fail despite passed=true; no complete success."},
+    {"name": "interrupted", "native_calls": 1, "reference_calls": 0, "expected": "Interrupt after actual owned child retirement; collector/coordinator preserve unfinished call and cannot report complete success. Outer runner establishes quiescence separately."}
+  ],
+  "total_port_calls": 60,
+  "cleanup": "Existing capacity, outside-write, abrupt-interruption and owned cleanup controls must pass; all call jobs terminal; temporary stdio absent; actor/profile/source/media removed; guest root and R: absent; host metadata remains <=32MiB.",
+  "unavailable": "Actual installed sfdisk/sgdisk and qualified unprivileged Linux worker remain unverified. No installation, host WSL fallback or synthesized external identity."
+}

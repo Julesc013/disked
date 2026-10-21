@@ -20,8 +20,8 @@ profile checks participant identities, raw artifacts, preservation and execution
 outcomes against a caller-bound manifest. The CLI requires `complete_success`;
 offline consistency tests do not qualify an actual campaign or worker.
 The Windows-host regression suite exercises pure comparison code only, with
-Linux execution checks explicitly skipped. DE-W105 and external campaign gates
-remain open.
+Linux execution checks explicitly skipped. DE-W105's current native gate passed
+at source `5c2f5337`; external campaign gates remain open.
 
 Comparator CLI inputs and output must be beneath the runner's
 `DISKED_WORK_ROOT`, outside the repository. Use explicit
@@ -72,8 +72,17 @@ These APIs now connect preparation, collectors and comparison. Synthetic-worker
 tests exercise the complete data path, failures and owned ordinary-file cleanup;
 they do not admit a real native/Linux worker, sanitizer campaign or product.
 The coordinator records qualification as unassessed and outer cleanup as pending.
-Real worker/transport integration and DE-W105 remain open. No old WSL recipe or
-automatic fallback is enabled by this change.
+The current native gate is recorded in the
+[DE-W105 review](../../.aide/evidence/2026-10-21-product-capture/REVIEW.md).
+No old WSL recipe or automatic fallback is enabled by this change.
+
+The next bounded execution control is defined in the
+[coordinator proof](../../.aide/evidence/2026-10-21-differential-qualification/expected.json).
+It uses actual native probes and `reference_fixture.cpp`, an explicitly labelled
+repository-owned protocol fixture, in the existing 32 MiB confined guest profile.
+The fixture recognizes only two exact recipe hashes and deliberately disagrees
+with both GPT candidates. It is neither util-linux nor an independent parser.
+Passing these controls cannot qualify an unavailable Linux/reference profile.
 
 External dependencies are installed `sfdisk`, optionally `sgdisk`, Python, and
 GCC/G++/gcov with AddressSanitizer and UndefinedBehaviorSanitizer. The native

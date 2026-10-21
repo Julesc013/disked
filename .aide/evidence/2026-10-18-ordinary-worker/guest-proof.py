@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--coordinator-control-proof':
+        load('coordinator_control',ROOT/'coordinator-control.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--cooperative-capture-proof':
         load('cooperative_capture',ROOT/'cooperative-control.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--native-probe-proof':

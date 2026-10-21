@@ -1,0 +1,73 @@
+{
+  "status": "pass",
+  "full_test_inputs_changed": [
+    ".aide/evidence/2026-10-21-differential-qualification/launch.py"
+  ],
+  "rationale": "Only context reservation arguments changed: complete existing closure needs24MiB artifacts;28MiB total planned remains within32MiB metadata ceiling. Actual context generation/verification will exercise these arguments before guest actions.",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-cache-dir",
+        "--no-compile",
+        "--no-deps",
+        "--only-binary=:all:",
+        "--target",
+        "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-2fno4i0b\\dependencies",
+        "PyYAML==6.0.3"
+      ],
+      "exit_code": 0,
+      "stdout": "Collecting PyYAML==6.0.3\r\n  Downloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl.metadata (2.4 kB)\r\nDownloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl (156 kB)\r\nInstalling collected packages: PyYAML\r\nSuccessfully installed PyYAML-6.0.3\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"files\": 25,\r\n  \"changed\": [],\r\n  \"mode\": \"regenerate\"\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"generate\",\r\n  \"files\": 422,\r\n  \"bytes\": 3977401\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"PASS\",\r\n  \"checks\": 1328,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 98,\r\n  \"schemas\": 95,\r\n  \"errors\": [],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"verify\",\r\n  \"files\": 422,\r\n  \"bytes\": 3977401\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}
