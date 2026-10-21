@@ -407,8 +407,8 @@ def main(*,prepare_work_id='DE-W105'):
         expected['native_x64']['ui_fixture_preflight']=True
     if focus_ui_fat_repair:
         expected['native_x64']['focus_groups']=['frontend.fat_tree_sessions','frontend.gui_windows','image.fat_commands','image.fat_retention_commands']
-        expected['native_x64']['focus_targets']=['disked','disked_tree_test','disked_fat_test','fat_tree_extraction_worker_probe']
-        expected['native_x64']['focus_executables']=['disked','disked_tree_test','disked_fat_test','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_targets']=['disked','disked_tree_test','disked_fat_test','disked_provider_guard','disked_gui_unavailable','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_executables']=['disked','disked_tree_test','disked_fat_test','disked_provider_guard','disked_gui_unavailable','fat_tree_extraction_worker_probe']
         expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())

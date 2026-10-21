@@ -49,3 +49,19 @@ wait policy. Preserve any further failure and its original diagnostics.
 Any Win32 claim remains limited to its exact retained revision and private
 slice. These repairs do not confer provider, physical-media, owner or release
 acceptance.
+
+## Focused attempt and next evaluation
+
+At `a8b013b6`, all three FAT groups passed, as did seven of eight GUI methods,
+including the earlier message-timeout case. The last GUI method could not start
+its guard/dependency-unavailable companions: the focused target selection had
+omitted `disked_provider_guard` and `disked_gui_unavailable`. That is a campaign
+setup error, and the focused attempt remains failed. Both companions are now
+explicit in the focused selection. No assertion or deadline has changed.
+
+The next evaluation uses the complete existing 14-executable composition and
+all 180 original groups, including the four repair groups. It supplies both
+companions and advances the required full gate in one clean build. It does not
+relabel the incomplete focused attempt as passed or combine different builds
+into a fictional complete run. The separate FAT timeout causes remain
+unestablished; their non-recurrence in this attempt is recorded as such.

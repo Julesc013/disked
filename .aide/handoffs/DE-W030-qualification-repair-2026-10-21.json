@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.handoff/1",
   "work_id": "DE-W030",
-  "base_revision": "54bc8cd8a844344336ce8485202a108e5c04d784",
-  "spec_manifest_digest": "sha256:32c6b5ef2ad7c110fa7e6de5d004c1d24278e23c6035ed7ba4d962bbd88519d4",
+  "base_revision": "a8b013b615b9a060aa064f7fe00aabcead4e4c0f",
+  "spec_manifest_digest": "sha256:9f91dbda7b44c9edddf88137a1a952790477ea0c0381b1019056f5d8e1df7fb0",
   "status": "partial",
   "files_read": [
     "AGENTS.md",
@@ -15,46 +15,32 @@
     "source/platform/windows/storage/fat_reader.cpp",
     "source/platform/windows/storage/fat_worker.cpp",
     "source/platform/windows/storage/observation_worker.cpp",
-    "source/apps/disked/app.cpp"
+    "source/apps/disked/app.cpp",
+    "CMakeLists.txt",
+    "tests/tools/test_native_junit.py",
+    ".aide/evidence/2026-10-21-contained-namespace/REPAIR.md"
   ],
   "files_changed": [
     ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
     ".aide/evidence/2026-10-21-contained-namespace/REPAIR.md",
-    ".aide/evidence/2026-10-21-contained-namespace/REVIEW.md",
-    ".aide/evidence/2026-10-21-contained-namespace/evidence-storage.json",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/cleanup-live.json",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/cleanup.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/failure-review.json",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/launch.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/live.json",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/prepared.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/receipt.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/full-native/retained.tar.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/input-applicability.json",
-    ".aide/evidence/2026-10-21-contained-namespace/launch-product.py",
-    ".aide/evidence/2026-10-21-contained-namespace/metadata-link-failure.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/pre-repair-validation.json.xz",
-    ".aide/evidence/2026-10-21-contained-namespace/repair-check.json.xz",
     ".aide/evidence/2026-10-21-contained-namespace/repair-check.py",
-    ".aide/evidence/2026-10-21-contained-namespace/review-failure.py",
-    ".aide/evidence/2026-10-21-contained-namespace/validate.py",
-    ".aide/evidence/2026-10-21-contained-namespace/validation.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-dependency-check.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/cleanup-live.json",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/launch.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/prepared.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/receipt.json.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/retained.tar.xz",
+    ".aide/evidence/2026-10-21-contained-namespace/repair-focused/review.json",
+    ".aide/evidence/2026-10-21-contained-namespace/review-repair.py",
+    ".aide/handoffs/DE-W030-qualification-repair-2026-10-21.json",
     ".aide/programmes/disked-0.1.0.json",
-    "TODO.MD",
-    "docs/development-plan.md",
-    "docs/native-bootstrap.md",
-    "docs/project-status.md",
-    "docs/windows-inventory.md",
     "spec/catalog/input-dependencies.json",
-    "spec/generated/index.json",
     "spec/manifest.json",
-    "spec/roadmap/implementation.md",
-    "spec/storage/windows.md",
     "spec/work/units.json",
-    "tests/frontend/gui_fixture.py",
-    "tests/tools/test_window_capture_review.py"
+    "tests/tools/test_native_junit.py"
   ],
-  "summary": "Retained the54bc full x64 failure176/180 and exact owned cleanup. Host625 tests pass with8 declared skips before repair. Replaced racing length/read GUI fixture acquisition with one bounded snapshot;27 capture-review tests including4 new regressions pass. Original limits and native assertions unchanged. Owner expressly requires repairs/full current qualification before main promotion,then pause;no release/tag. Focused/native repair campaigns have not run yet.",
+  "summary": "Retained the54bc full x64 failure176/180 and exact cleanup. Host625 tests pass with8 declared skips before repair. The bounded GUI snapshot fix and4 new regressions pass within27 capture-review tests. Focused a8b013b6 attempt:all3 FAT groups and7/8 GUI methods pass;missing guard/unavailable companions keep the attempt failed. Both dependencies are corrected and11 JUnit/dependency tests pass. The55-entry/77,152-byte focused archive is closed and verified;owned cleanup is verified. Production waits,original assertions and resource caps are unchanged. Next is the complete current14-executable/180-group composition,actual image review and metadata/agent review before main promotion and the requested pause. No owner,provider,physical,other-platform,full0.1 or release admission.",
   "tests": [
     {
       "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-contained-namespace/launch-product.py --full-suite",
@@ -76,6 +62,20 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-21-contained-namespace/repair-check.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-contained-namespace/launch-product.py --repair-focus",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-contained-namespace/repair-focused/launch.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-contained-namespace/repair-check.py --dependencies",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-contained-namespace/repair-dependency-check.json.xz"
     }
   ],
   "artifacts": [
@@ -89,7 +89,7 @@
     },
     {
       "path": ".aide/evidence/2026-10-21-contained-namespace/REPAIR.md",
-      "sha256": "sha256:aae1baff7517a59e68e9de00b82030911433a2bd074a289a2a5677504d6063c5"
+      "sha256": "sha256:bdc17ba0683de052155a0a777afd6609b62f2888a02ebc84160eb7cb8f21901c"
     },
     {
       "path": ".aide/evidence/2026-10-21-contained-namespace/repair-check.json.xz",
@@ -98,12 +98,24 @@
     {
       "path": ".aide/evidence/2026-10-21-contained-namespace/pre-repair-validation.json.xz",
       "sha256": "sha256:c13c85e6095acb4ce57a1aadcb285fbdca48eba87c60030aa89cedd8a4039017"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-contained-namespace/repair-focused/review.json",
+      "sha256": "sha256:f7bb4a427ff0c1e7991659375ffed05b8bd0cbc3063261e0cc7018e3e8412397"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-contained-namespace/repair-focused/retained.tar.xz",
+      "sha256": "sha256:87657cd097491333c9220eae27d2d01bc189d806ed320a483dac0ee824a4256c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-contained-namespace/repair-dependency-check.json.xz",
+      "sha256": "sha256:d544d21d8cf27e74942863f4a8fc5177eff82df6dcef1fff0ef4514f52661def"
     }
   ],
   "blockers": [
-    "Current full native gate fails four GUI/FAT groups;main must not be promoted yet.",
+    "Latest complete current full x64 gate remains failed176/180 at54bc;the incomplete focused repair attempt does not replace it.",
     "Public Windows provider,physical mutation,other platforms,owner/release admission and the original full0.1 scope remain open."
   ],
-  "next_safe_step": "Commit/push the exact dev repair candidate,run the four original affected groups through launch-product.py --repair-focus in the existing bounded guest,diagnose any failures,then require a fresh complete180-group x64 qualification before tested dev/main synchronization and pause.",
-  "performed_remote_writes": false
+  "next_safe_step": "Commit/push the corrected dev candidate,then run launch-product.py --repair-suite for the complete original14-executable/180-group composition. Require actual current GUI review,closed evidence and owned cleanup,metadata checks and agent review before main promotion and pause. Do not release or tag.",
+  "performed_remote_writes": true
 }

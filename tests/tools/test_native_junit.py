@@ -13,9 +13,15 @@ native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
 
 class ReceiptTests(unittest.TestCase):
     def test_watch_focus_builds_every_registered_command_executable(self):
+        self.focus_builds_registered_executables('focus_fat_watch')
+
+    def test_repair_focus_builds_every_registered_command_executable(self):
+        self.focus_builds_registered_executables('focus_ui_fat_repair')
+
+    def focus_builds_registered_executables(self,profile):
         tree=ast.parse((ROOT/'.aide/evidence/2026-10-18-ordinary-worker/campaign.py').read_bytes())
         selected=next(n for n in ast.walk(tree) if isinstance(n,ast.If) and
-                      isinstance(n.test,ast.Name) and n.test.id=='focus_fat_watch' and
+                      isinstance(n.test,ast.Name) and n.test.id==profile and
                       any(isinstance(s,ast.Assign) for s in n.body))
         choices={s.targets[0].slice.value:ast.literal_eval(s.value) for s in selected.body
                  if isinstance(s,ast.Assign)}
