@@ -4,6 +4,13 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
+Current DE-W030 contained native namespace work has a passing focused x64/Win32
+run, but the full `54bc8cd8` product gate fails four of 180 groups. Those failures
+remain open; see [current status](project-status.md) and the
+[review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md). The owner requests
+a source checkpoint and a pause for another machine; no release is authorized.
+The DE-W105/106/107 results below retain their historical revision scope.
+
 DE-W105 passes the full180-group x64 gate,69 standalone headers,14 executable/import
 observations,the same-source18-group private Win32 slice and strict C90 at
 `5c2f5337`. All six actual product GUI images and both closed archives pass review.

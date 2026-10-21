@@ -57,7 +57,10 @@ A distinct compiled native namespace role is now a candidate under the
 native worker/adapter/session entrypoints share the existing process and immutable
 publication machinery; default fixture entrypoints retain their original guards.
 Native schemas, empty provider input and typed graph contexts prevent implicit
-adoption of fixture evidence. This candidate is not yet native-qualified and
+adoption of fixture evidence. Its 15 fixed cases pass on each of x64 and Win32
+at `57578ab0`, but the full current x64 product gate fails four of 180 groups.
+The [current review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md) retains
+those failures; this does not admit a public provider or close DE-W030. It
 adds no public entrypoint. Its selected capability flag does not claim a query
 has completed. The native dispatch checkpoint is not a kernel-query-entry proof.
 

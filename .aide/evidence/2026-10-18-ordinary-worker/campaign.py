@@ -110,6 +110,9 @@ def main(*,prepare_work_id='DE-W105'):
     focus_gui_watch='--focus-gui-watch' in sys.argv
     focus_gui_waiting='--focus-gui-waiting' in sys.argv
     focus_fat_watch='--focus-fat-watch' in sys.argv
+    focus_ui_fat_repair='--focus-ui-fat-repair' in sys.argv
+    if focus_ui_fat_repair and any(option not in ('--focus-ui-fat-repair','--interactive-ui','--prepare-only','--cleanup-only') for option in sys.argv[1:]):
+        raise ValueError('UI/FAT repair uses only its four original bounded native groups')
     if focus_fat_watch and any(option not in ('--focus-fat-watch','--interactive-ui','--prepare-only','--cleanup-only') for option in sys.argv[1:]):
         raise ValueError('FAT watch uses only its bounded focused native composition')
     focus_product='--focus-product-captures' in sys.argv
@@ -146,7 +149,7 @@ def main(*,prepare_work_id='DE-W105'):
         raise ValueError('Station matrix requires declared interactive primitive setup')
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
-    full_native=full_native or controller_stop_proof or pixel_proof or focus_product or focus_fat_watch
+    full_native=full_native or controller_stop_proof or pixel_proof or focus_product or focus_fat_watch or focus_ui_fat_repair
     full_work_id=prepare_work_id
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv or reference_ui):
@@ -401,6 +404,11 @@ def main(*,prepare_work_id='DE-W105'):
         expected['native_x64']['focus_groups']=['disked.acceptance','frontend.gui_capture']
         expected['native_x64']['focus_targets']=['disked','fat_tree_extraction_worker_probe']
         expected['native_x64']['focus_executables']=['disked','fat_tree_extraction_worker_probe']
+        expected['native_x64']['ui_fixture_preflight']=True
+    if focus_ui_fat_repair:
+        expected['native_x64']['focus_groups']=['frontend.fat_tree_sessions','frontend.gui_windows','image.fat_commands','image.fat_retention_commands']
+        expected['native_x64']['focus_targets']=['disked','disked_tree_test','disked_fat_test','fat_tree_extraction_worker_probe']
+        expected['native_x64']['focus_executables']=['disked','disked_tree_test','disked_fat_test','fat_tree_extraction_worker_probe']
         expected['native_x64']['ui_fixture_preflight']=True
     if namespace:expected['namespace_diagnostic']=json.loads((HERE/'namespace-expectations.json').read_bytes())
     if forensic:expected['loader_forensics']=json.loads((HERE/'forensic-expectations.json').read_bytes())

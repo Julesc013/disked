@@ -15,14 +15,17 @@ work=Path(os.environ['DISKED_WORK_ROOT'])
 prepare='--prepare-only' in sys.argv
 background='--background-proof' in sys.argv
 transport=background or '--transport-proof' in sys.argv
-full='--full-suite' in sys.argv
+repair='--repair-suite' in sys.argv
+repair_focus='--repair-focus' in sys.argv
+full='--full-suite' in sys.argv or repair or repair_focus
 win32='--win32-suite' in sys.argv
 source_proof='--source-proof' in sys.argv
 watch='--watch-fixture' in sys.argv
 if background and '--transport-proof' in sys.argv:raise ValueError('Select one control profile')
 if sum((full,transport,win32,source_proof,watch))>1:raise ValueError('Select one native suite or private control profile')
-if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite','--win32-suite','--source-proof','--watch-fixture') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
-if transport or full or win32 or source_proof or watch:HERE=HERE/('watch-fixture' if watch else 'source-proof' if source_proof else 'private-win32' if win32 else 'full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
+if sum(flag in sys.argv for flag in ('--full-suite','--repair-suite','--repair-focus'))>1:raise ValueError('Select one full or focused repair attempt')
+if any(a not in ('--prepare-only','--transport-proof','--background-proof','--full-suite','--repair-suite','--repair-focus','--win32-suite','--source-proof','--watch-fixture') for a in sys.argv[1:]):raise ValueError('Only preparation or a declared product/transport campaign')
+if transport or full or win32 or source_proof or watch:HERE=HERE/('watch-fixture' if watch else 'source-proof' if source_proof else 'private-win32' if win32 else 'repair-focused' if repair_focus else 'repair-native' if repair else 'full-native' if full else 'background-controls' if background else 'framed-controls');HERE.mkdir(exist_ok=True)
 CAMPAIGN=BUILD if win32 else OLD
 prepared_path=CAMPAIGN/('preparation.json' if win32 else 'prepared.json')
 prepared_before=prepared_path.read_bytes() if prepared_path.exists() else None
@@ -49,7 +52,7 @@ try:
         call([sys.executable,'-B','spec/tools/specctl.py','context','--work','DE-W030','--output','.aide-local/context/current','--byte-budget','2097152','--artifact-byte-budget','25165824'],env=env)
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
     definition=importlib.util.spec_from_file_location('product_campaign',CAMPAIGN/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
-    sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--focus-fat-watch','--interactive-ui'] if watch else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--null-proof','--interactive-ui'] if source_proof else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
+    sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--focus-ui-fat-repair','--interactive-ui'] if repair_focus else ['--focus-fat-watch','--interactive-ui'] if watch else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--null-proof','--interactive-ui'] if source_proof else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
     code=campaign.main() if win32 else campaign.main(prepare_work_id='DE-W030')
     record.update(status='pass' if code==0 else 'fail',exit_code=code)
     if code:raise RuntimeError('Product campaign did not pass; inspect retained exact outcome')

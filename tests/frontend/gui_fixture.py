@@ -178,9 +178,14 @@ def send(hwnd,message,wp=0,lp=0):
     if not U.SendMessageTimeoutW(hwnd,message,wp,lp,2,3000,C.byref(result)):raise OSError(C.get_last_error(),'window message')
     return RESULT(result.value).value
 def caption(hwnd):
-    size=send(hwnd,0xE)
-    if size>1048576:raise ValueError('unbounded window text')
-    buffer=C.create_unicode_buffer(size+1);send(hwnd,0xD,size+1,C.addressof(buffer));return buffer.value
+    # A length query and a later read observe different control states. Read
+    # one bounded snapshot, with one extra character to detect truncation at
+    # the existing limit instead of returning incomplete JSON as valid text.
+    limit=1048576
+    buffer=C.create_unicode_buffer(limit+2)
+    copied=send(hwnd,0xD,len(buffer),C.addressof(buffer))
+    if not 0<=copied<=limit:raise ValueError('unbounded window text')
+    return buffer[:copied]
 def classname(hwnd):
     buffer=C.create_unicode_buffer(256);U.GetClassNameW(hwnd,buffer,256);return buffer.value
 def wait(predicate,seconds=8):

@@ -1,0 +1,56 @@
+{
+  "scope": "Input comparison only;not a new test run. Native receipts retain their distinct actual revisions. Coordinator/reviewer and metadata changes are not asserted identical.",
+  "checks": [
+    {
+      "evidence": "focused",
+      "actual_tested_revision": "57578ab08541e22f6cdfadc8c9db43ff182f59bb",
+      "comparison_revision": "54bc8cd8a844344336ce8485202a108e5c04d784",
+      "scopes": [
+        "source",
+        "tests",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "cmake",
+        "tools/ntfs-win32-fixture.py",
+        "tools/build-bootstrap.py",
+        "tools/workspace.cmake"
+      ],
+      "excluded_scope": "tests/tools/ is host tooling,not native test evidence",
+      "host_tooling_differences": [
+        "tests/tools/test_source_snapshot.py"
+      ],
+      "additional_unchanged_inputs": [
+        "tests/windows/native/native_namespace_probe.cpp",
+        ".aide/evidence/2026-10-21-contained-namespace/control.py",
+        ".aide/evidence/2026-10-21-contained-namespace/expected.json"
+      ],
+      "native_product_or_test_differences": [],
+      "source_tree": "b16b9ec6aad3d3937a0701fe014ae547651e424f"
+    },
+    {
+      "evidence": "private_win32",
+      "actual_tested_revision": "8bc7947147c46801687632ae02f40fac4932d47d",
+      "comparison_revision": "54bc8cd8a844344336ce8485202a108e5c04d784",
+      "scopes": [
+        "source",
+        "tests",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "cmake",
+        "tools/ntfs-win32-fixture.py",
+        "tools/build-bootstrap.py",
+        "tools/workspace.cmake"
+      ],
+      "excluded_scope": "tests/tools/ is host tooling,not native test evidence",
+      "host_tooling_differences": [],
+      "additional_unchanged_inputs": [
+        ".aide/evidence/2026-10-18-guest-build/campaign.py"
+      ],
+      "native_product_or_test_differences": [],
+      "source_tree": "b16b9ec6aad3d3937a0701fe014ae547651e424f"
+    }
+  ],
+  "owner_accepted": false,
+  "public_provider_admitted": false,
+  "release_qualified": false
+}

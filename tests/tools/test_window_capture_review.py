@@ -1,6 +1,7 @@
 """Synthetic receipt mismatches must not qualify retained GUI evidence."""
 import ast
 import copy
+import ctypes as C
 import hashlib
 import importlib.util
 import json
@@ -203,6 +204,44 @@ class BackgroundPixels(unittest.TestCase):
     def test_malformed_background_domains_are_rejected(self):
         for width,height,color in [(0,1,0),(True,1,0),(1,-1,0),(1,1,True),(1,1,0x1000000)]:
             with self.subTest(width=width,height=height,color=color),self.assertRaises(ValueError):self.matches(bytes(4),width,height,color)
+
+
+class WindowTextSnapshot(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        tree=ast.parse((ROOT/'tests/frontend/gui_fixture.py').read_bytes())
+        cls.node=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='caption')
+
+    def observe(self,text):
+        messages=[]
+        def changing_control(hwnd,message,wp=0,lp=0):
+            messages.append(message)
+            if message==0xE:return 3  # The previous control state was shorter.
+            self.assertEqual(message,0xD)
+            copied=text[:wp-1];value=C.create_unicode_buffer(copied)
+            C.memmove(lp,value,C.sizeof(value));return len(copied)
+        scope=dict(C=C,send=changing_control)
+        exec(compile(ast.Module(body=[self.node],type_ignores=[]),'gui_fixture.caption','exec'),scope)
+        return scope['caption'](123),messages
+
+    def test_growth_between_observations_returns_complete_json(self):
+        text=json.dumps(dict(status='completed',result='x'*16384))
+        value,messages=self.observe(text)
+        self.assertEqual(json.loads(value),json.loads(text))
+        self.assertEqual(messages,[0xD])
+
+    def test_empty_and_exact_limit_are_preserved(self):
+        for text in ('','x'*1048576):
+            with self.subTest(length=len(text)):
+                self.assertEqual(self.observe(text)[0],text)
+
+    def test_over_limit_is_refused_instead_of_returning_truncated_text(self):
+        with self.assertRaisesRegex(ValueError,'unbounded window text'):
+            self.observe('x'*1048577)
+
+    def test_malformed_json_still_reaches_the_json_validator(self):
+        value,_=self.observe('{"status":"unterminated')
+        with self.assertRaises(json.JSONDecodeError):json.loads(value)
 
 
 if __name__=='__main__':unittest.main()

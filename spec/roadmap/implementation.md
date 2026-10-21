@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-18T10:43:10+00:00'
-  scope: Correct Windows-reference routing and bounded integration gates; current qualification unchanged
+  at: '2026-10-21T09:28:46.350350+00:00'
+  scope: Route current implementation and original release scope without changing acceptance gates
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -39,7 +39,18 @@ sources:
 
 # Implementation sequence and first usable release
 
-Current development position, 17 October 2026: DE-W099 supplied-table mapping
+Current development position, 21 October 2026: the programme records completed
+DE-W105 qualification, DE-W106 evidence-accounting repair and the bounded
+DE-W107 Windows reference pilot. Current DE-W030 work connects actual private
+guest namespace observations to the existing contained reader and immutable
+publication machinery. The implementation repository publication `docs/project-status.md`
+distinguishes current evidence, remaining original 0.1 scope and the unbaselined
+1.0 boundary. The programme owns the current slice and exact revision-bound
+qualification; neither this roadmap nor a dev/main merge grants owner, physical
+storage or release admission. The owner expressly withheld release and tag
+creation for the 21 October synchronization.
+
+Retained prerequisite position, 17 October 2026: DE-W099 supplied-table mapping
 and raw/mapped comparison are qualified at `ff74ccae`; DE-W100 now acquires the
 actual table through the existing supplied-region MFT/list/stream closure.
 See [the capture contract](../catalog/ntfs-upcase-capture-prototype.json) and

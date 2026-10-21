@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. Its retained578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. DE-W107's frozen12-tuple Windows native/API/UI reference set now passes replay and608 host tests(eight skips). Continue bounded actual volume-namespace observation under DE-W030. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
+Status: the DE-W030 contained native namespace passes 15 fixed cases on each of x64 and Win32 at `57578ab0`. The current full x64 build at `54bc8cd8` succeeds (69 headers,14 executable/import observations), but its native gate fails at **176/180 groups**. Four GUI/FAT failures remain unresolved; the separate private Win32 slice passes18 groups. See the [current review](.aide/evidence/2026-10-21-contained-namespace/REVIEW.md) and [full status report](docs/project-status.md). DE-W105/106/107 development checkpoints remain preserved. Owner acceptance, public/live provider admission, the original all-platform/storage0.1 scope and release gates remain open. No release or tag is authorized.
 
 - [x] DE-W030 selected actual guest namespace: six native observer cases and16
   execution-port calls at `34583d15`;five volumes,independently known capped
@@ -74,7 +74,7 @@ Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers
   `3bbf92f2`:24 native control calls and six displayed/reviewed PNGs pass;
   original identity,caption,client,inert-review and cleanup checks remain.
   This focused result does not close the full current gate.
-- [x] Complete the current x64 product/180-group native test gate (the same
+- [x] Complete the DE-W105 baseline at `5c2f5337`, with its 180-group x64 gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.

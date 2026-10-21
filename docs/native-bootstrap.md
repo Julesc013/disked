@@ -23,9 +23,10 @@ The same-source `5c2f5337` qualification passes all180 x64 groups,69 standalone
 headers and14 executable/import observations,plus all18 private Win32 groups,
 12 headers and nine executable observations. Strict C90 and the six actual GUI
 images pass review. The private slice does not qualify the full Win32 product or XP.
-The [current review](../.aide/evidence/2026-10-21-product-capture/REVIEW.md) records
-final tooling and integration;the programme continues DE-W106/107 rather than
-repeating DE-W010. Earlier failures and retracted capture evidence stay retained.
+The [baseline review](../.aide/evidence/2026-10-21-product-capture/REVIEW.md) records
+its tooling and integration. The programme now continues DE-W030 after the
+DE-W106/107 development checkpoints; see [current implementation status](project-status.md)
+for newer evidence. Earlier failures and retracted capture evidence stay retained.
 
 The ordinary restricted guest profile now has actual 32/512 MiB hard-cap,
 protected-record, outside-write, descendant and interrupted-cleanup evidence,

@@ -29,6 +29,11 @@ Calling source inspection read-only does not imply that the whole application
 or host performs no writes. The selected composition does not admit physical
 storage mutation.
 
+The general command catalog has 41 descriptors whose product-wide availability
+remains planned. The native bootstrap catalog separately selects 26 implemented
+development command identities. Those are different claim scopes: implementing
+an image/fake command does not admit every provider or its production equivalent.
+
 The source ownership remains `source/portable`, `source/runtime`,
 `source/providers`, `source/platform` and `source/apps/disked`. Current source-map,
 dependency and standalone-header checks accompany the implementation. Stable
@@ -57,9 +62,16 @@ The first full x64 attempt at `8bc79471` reached its unchanged 1,800-second buil
 deadline before running product test groups. Its failed evidence and cleanup are
 retained. The separate current private Win32 supplement at `8bc79471` passed
 18 groups, 12 headers and nine executable/import observations; its closed archive
-and cleanup pass replay. Full x64 qualification is pending; neither private
-result substitutes for that gate. The next clean build uses the documented
-MSBuild file-tracking option under the original compiler, tests and limits.
+and cleanup pass replay. The clean x64 build at `54bc8cd8` completed under the
+original deadline, with 69 headers and 14 executable/import observations, but
+the full native gate **failed at 176/180 groups**. The four unresolved groups are
+`frontend.fat_tree_sessions`, `frontend.gui_windows`, `image.fat_commands` and
+`image.fat_retention_commands`. Observed symptoms are truncated GUI JSON, a
+window-message timeout, an inspection wait expiry and unresolved reader startup.
+Their root causes are not yet established. The [current review](../.aide/evidence/2026-10-21-contained-namespace/REVIEW.md)
+retains the exact failures and successful owned cleanup. The documented clean-build
+tracking option is not a repair for these test failures. No current full native
+pass or public provider admission is claimed.
 
 Native campaigns use the shared Windows 10 guest and the demonstrated 32/512 MiB
 scratch boundaries. Local context is limited to 32 MiB; disposable work to 1 GiB,
@@ -74,7 +86,8 @@ specified at base `40ac8ec`**. It has not been replaced with an inspector releas
 The development version number and completed private slices do not establish
 completion of that programme.
 
-1. Finish current native qualification and integrate the exact reviewed checkpoint.
+1. Diagnose and repair the four current native failures, then obtain applicable
+   qualification before treating the checkpoint as fully qualified.
 2. Admit a coherent real Windows read-only provider/workflow, with identity,
    freshness, aliases, partial observations, removals and permission failures.
 3. Complete the promised filesystem namespace/content/fidelity capabilities and
@@ -89,7 +102,8 @@ completion of that programme.
 7. Qualify boot/system-disk dependencies, BitLocker, WinRE/offline continuation
    and cross-boot identity before offering those operations.
 8. Build and exercise the named historical Windows, DOS/JC-DOS/Carbon, OS/2,
-   ReactOS and other platform/architecture profiles. Modern Win32 probes and C90
+   ReactOS, Linux, BSD/Unix and classic/modern macOS profiles, including the
+   selected ARM, Server Core, recovery and frontend variants. Modern Win32 probes and C90
    syntax checks do not establish those product/platform claims.
 9. Implement and qualify the specified advanced storage/media, tape/optical/flux, arrays/pools,
    shared-storage/fencing and enterprise capabilities under their existing gates.
@@ -104,6 +118,29 @@ The current plan permits local implementation across work units after recorded
 tests and agent review. It does not repeatedly require restarting DE-W000 or
 DE-W010, and it does not remove the later storage/release gates.
 
+The existing work records route the remaining programmes as follows. An active
+record can contain substantial private implementation while still lacking its
+full acceptance evidence.
+
+| Existing owners | Remaining programme |
+|---|---|
+| DE-W030, DE-W031, DE-W032, DE-W035 | Native Windows inventory, target/frontend qualification, health and optional native integration |
+| DE-W033, DE-W034 | Acquisition consistency, evidence applicability and complete reports |
+| DE-W040, DE-W041, DE-W042, DE-W043 | Production journal, image mutation/formatting, interruption and verified recovery |
+| DE-W050, DE-W051 | Privileged broker and separately authorized physical qualification |
+| DE-W060, DE-W062 | Setup integration, finite carriers and servicing ownership |
+| DE-W061 | Actual round-trip AIDE interoperability |
+| DE-W018, DE-W070, DE-W071 | Constrained platforms, current Carbon/JC-DOS integration and DOS/OS/2 image profiles |
+| DE-W080 | Separately scoped advanced operation/provider admissions |
+| DE-W000, DE-W090 | Genuine baseline/owner acceptance, licensing and release criteria |
+
+The programme lists 55 completed development slices. Several other implemented
+records retain `needs_review`; neither count establishes owner acceptance or
+an overall completion percentage. The outstanding decision register still covers
+licensing, production journal/durability, exact-image elevation, canonical plan
+encoding and profile-specific admission. Their blocking scopes remain attached
+to the affected features rather than every ordinary development task.
+
 ## What 1.0 means at present
 
 There is **no separately baselined DiskEd 1.0 feature list or completion contract**
@@ -117,6 +154,38 @@ recovery obligations, security/servicing policy, operational documentation and
 repeatable independent qualification. Several of those capabilities are already
 required by the original 0.1 scope; 1.0 must not become an excuse to defer them.
 This paragraph is a recommendation, not an accepted scope amendment or date.
+
+## Usability and completion timing
+
+There are already useful development workflows over ordinary image files:
+partition inspection/verification, selected filesystem inspection, FAT file/tree
+extraction, ordinary-file acquisition, verification and evidence/report export.
+They exist in the native development build; they are not a published, generally
+qualified storage product. Fake inventory remains the default product composition.
+
+The next practical threshold for everyday Windows drive inspection is a qualified
+public read-only Windows provider, correct target identity/freshness/topology and
+a coherent interface workflow, with permission/removal/partial-result tests. The
+private namespace observations are progress toward that threshold, not its completion.
+
+Real partitioning, formatting, repair or recovery requires the separately admitted
+writer/journal/broker and operation-specific interruption/recovery evidence. An
+installer or attractive GUI cannot substitute for those capabilities. Broad
+historical/platform support also needs actual builds, launches and supported
+operation tuples on the named profiles.
+
+There is no evidence-based completion date for the entire owner-selected 0.1
+programme. It spans substantially more than the current Windows image workbench,
+and remaining work includes unavailable qualification environments and genuine
+owner/physical/release decisions. No date for an undefined 1.0 scope can be
+substantiated either. Estimate the next bounded implementation and qualification
+slice after resuming, then revise the programme using actual results; do not
+convert work-unit counts or passing test counts into a release forecast.
+
+The target catalog contains the same 41 declared profiles as the programme's
+base revision, including explicitly labelled research entries. Their catalog
+admission remains planned. A tested Windows 10 development composition and private
+Win32 probes do not qualify that whole matrix or every operation on every host.
 
 ## Universal Setup, AIDE and repository governance
 
@@ -139,3 +208,14 @@ GitHub reported `main` unprotected and no DiskEd releases in the same read-only
 observation. Required PR/status-check enforcement remains unfinished governance
 work. The owner has explicitly authorized this turn's dev/main synchronization
 and explicitly withheld release publication. No release or tag is created here.
+
+## Remaining maintenance debt
+
+[Read-only accounting](../.aide/evidence/2026-10-21-contained-namespace/evidence-storage.json)
+found 63,535 tracked historical evidence files with about 1.74 GiB of uncompressed
+logical payloads. That figure excludes Git history and is not an exact measurement
+of filesystem allocation. Legacy raw outputs still need reference-audited
+consolidation while preserving verifiable receipts. Current campaign scratch and
+local context have their separate enforced limits; new native evidence is retained
+as bounded compressed archives. The tracked tree also contains no GitHub Actions
+workflow at this checkpoint; configuring and enforcing CI remains real work.
