@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "source_revision": "34583d15296d388bf4319e1c8e0b575d02db1f23",
+  "scope": "Selected real Windows10 guest volume namespace;not a public provider or full DE-W030",
+  "windows_registry": {
+    "CurrentBuildNumber": "19045",
+    "UBR": 7548,
+    "EditionID": "Enterprise",
+    "BuildLabEx": "19041.1.amd64fre.vb_release.191206-1406"
+  },
+  "cases": [
+    {
+      "mode": "--binding",
+      "result": {
+        "dispatch": false
+      }
+    },
+    {
+      "mode": "--observe",
+      "result": {
+        "known_volume_observed": true,
+        "known_mount_observed": true,
+        "namespace_complete": true,
+        "records": 5,
+        "status": "complete"
+      }
+    },
+    {
+      "mode": "--no-mounts",
+      "result": {
+        "known_volume_observed": true,
+        "known_mount_observed": false,
+        "namespace_complete": true,
+        "records": 5,
+        "status": "complete"
+      }
+    },
+    {
+      "mode": "--limit-one",
+      "result": {
+        "budget_exhausted": true,
+        "unknown_remainder": true
+      }
+    },
+    {
+      "mode": "--cancelled",
+      "result": {
+        "cancelled_before_dispatch": true
+      }
+    },
+    {
+      "mode": "--invalid-policy",
+      "result": {
+        "policy_refused": true
+      }
+    }
+  ],
+  "port_calls": 16,
+  "native_observer_cases": 6,
+  "archive_bytes": 6164,
+  "archive_entries": 17,
+  "original_bytes": 29786,
+  "executable": {
+    "bytes": 236032,
+    "sha256": "80641bb9932a15a7fdfe32af3c6950faaa38e0e5fda9f8761f706e6f5c709e6a"
+  },
+  "import_dlls": [
+    "KERNEL32.dll",
+    "ADVAPI32.dll"
+  ],
+  "pe_operating_system_version": "6.00",
+  "pe_subsystem_version": "6.00",
+  "owned_cleanup_verified": true,
+  "provider_admitted": false,
+  "physical_admitted": false,
+  "xp_qualified": false,
+  "owner_accepted": false,
+  "release_qualified": false,
+  "full_0_1_0_complete": false
+}

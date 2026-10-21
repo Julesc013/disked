@@ -18,16 +18,18 @@ The adapter opens no files/devices and reads no filesystem labels, contents,
 capacity or layout. Its modern-toolchain x64/x86 probe injects exact Win32
 replies; it does not enumerate the live host. Native table binding can be
 inspected without dispatch. A documented API floor does not qualify the selected
-compiler/CRT/PE closure for XP. Actual live namespace, hangs/process containment,
-provider/graph/public-service admission, physical identities and the full
+compiler/CRT/PE closure for XP. A separately source-bound actual guest observation now passes at `34583d15`:five
+volumes and the independently identified capped mount,plus six controls and actual
+job retirement. [Review](../.aide/evidence/2026-10-21-volume-namespace/REVIEW.md).
+Provider/graph/public-service admission,physical identity,other hosts and the full
 Windows/platform matrix remain open.
 
 The next explicitly dispatched guest observation is specified before evaluation in
 [the native execution contract](../.aide/evidence/2026-10-21-volume-namespace/expected.json).
 It checks the known capped volume under the ordinary restricted worker, namespace-only
 selection, a one-volume budget, cancellation before dispatch, invalid policy and
-inert binding. It is not yet native-qualified. No public startup or provider change
-is included.
+inert binding. The selected native guest cases passed;this does not qualify other hosts or
+change public startup/provider behavior.
 
 Use `tools/workspace.py run` and the existing capped guest workflow for builds and
 tests. `.aide-local` is metadata/context only. The following commands describe the

@@ -2,6 +2,13 @@
 
 Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. Its retained578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. DE-W107's frozen12-tuple Windows native/API/UI reference set now passes replay and608 host tests(eight skips). Continue bounded actual volume-namespace observation under DE-W030. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
 
+- [x] DE-W030 selected actual guest namespace: six native observer cases and16
+  execution-port calls at `34583d15`;five volumes,independently known capped
+  volume/mount,inert binding,namespace-only selection,finite-budget partial,
+  pre-dispatch cancellation and invalid-policy refusal. All owned scratch/account
+  retired. [Review](.aide/evidence/2026-10-21-volume-namespace/REVIEW.md).
+  Full provider/graph/public/XP/other-host and whole-unit admission remain open.
+
 ## Storage recovery
 
 - [x] Prove the ordinary restricted guest profile at 32/512 MiB, actual x64

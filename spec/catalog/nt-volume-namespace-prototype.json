@@ -11,7 +11,7 @@
     "GetLastError"
   ],
   "api_reference_floor": "Microsoft documents these volume enumeration/mount APIs for XP desktop applications. Selected modern compiler/CRT/import closure and actual XP launch remain separately unqualified.",
-  "execution": "Construction performs no query. Only explicit collect dispatches enumeration. No application file/device opens, labels, filesystem/capacity reads, raw access, IOCTL, application media reads, deep tests, elevation, network, writes or installer/service actions. Default product startup remains unchanged. Qualification injects exact Win32 API replies; no host namespace is enumerated. Metadata API implementations may themselves access storage; no idle-media/no-spin-up or preservation claim follows.",
+  "execution": "Construction performs no query. Only explicit collect dispatches enumeration. No application file/device opens, labels, filesystem/capacity reads, raw access, IOCTL, application media reads, deep tests, elevation, network, writes or installer/service actions. Default product startup remains unchanged. Initial qualification injects exact Win32 API replies. The separately source-bound DE-W030 guest contract explicitly dispatches actual namespace/mount observations on its named Windows10 profile;it changes no product startup/public provider and opens no disk devices. Metadata API implementations may themselves access storage; no idle-media/no-spin-up or preservation claim follows.",
   "names": "Preserve exact original UTF-16 code units as lowercase little-endian byte hex, separate from ASCII display with every nonprinting/non-ASCII unit escaped as \\uXXXX. Do not normalize, replace invalid surrogate units or execute text. Volume names must have the documented ASCII volume-GUID syntax before mount query. Mounts remain presentation paths, never storage identity or access authority. Even exact/ASCII-case duplicate paths are only observed conflicts; no complete filesystem-alias proof is claimed.",
   "identity": "Each record has a capture/ordinal observation ID, not a disk ordinal or physical-media ID. Retain duplicate volume names and conflicting mount aliases as separate observations. Volume names, serials, GUIDs and path spelling do not authorize mutation; physical identity/capacity/layout/backing layers remain unknown. No cross-capture identity merge.",
   "api_parsing": "Bound every native output buffer. FindFirst/Next success requires a NUL within the fixed 64-unit name buffer. Native last error is captured immediately. Only ERROR_NO_MORE_FILES establishes enumeration exhaustion; denial/removal/failure is explicit. Mount MULTI_SZ uses the API's returned unit count, validates exact termination, each path/count and all budgets. Accept an empty one- or two-NUL list. ERROR_MORE_DATA may trigger one bounded growth when the required count is larger and within remaining budget; inconsistent count or repeated growth refuses the observation. Never publish partial buffer contents as a complete list.",
@@ -49,7 +49,7 @@
     "Compile and execute exact source under selected modern x64 and x86 toolchains, retain imports and distinguish API documentation floor from real XP support."
   ],
   "unqualified": [
-    "live host namespace",
+    "General live namespace and other-host support beyond the separately identified private guest evidence",
     "physical disks/layouts/sector sizes/backing relationships",
     "provider/graph/public-service admission",
     "hang containment",
@@ -62,5 +62,12 @@
     "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew",
     "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextvolumew",
     "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew"
-  ]
+  ],
+  "native_guest_evidence": {
+    "source_revision": "34583d15296d388bf4319e1c8e0b575d02db1f23",
+    "review": ".aide/evidence/2026-10-21-volume-namespace/REVIEW.md",
+    "scope": "Explicit ordinary restricted x64 worker on Windows10 Enterprise19045.7548;known capped volume/mount and six private controls",
+    "provider_admitted": false,
+    "other_hosts_qualified": false
+  }
 }

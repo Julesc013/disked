@@ -46,6 +46,13 @@ optional research tool; it is not installed or a runtime dependency. The broader
 extra prerequisites to unrelated native work and does not qualify those future surfaces. The original all-platform/
 storage objective and release gates remain unchanged.
 
+The next DE-W030 slice has real guest evidence at `34583d15`:five native namespace
+records including the independently known capped volume/mount,and all six selected
+controls. The [review](../.aide/evidence/2026-10-21-volume-namespace/REVIEW.md) keeps
+this exact Windows10/ordinary-worker result separate from public provider admission,
+physical identity and other hosts. Continue the contained typed inventory path and
+coherent read-only workflow after repository checks and stable integration.
+
 ## Bounded implementation sequence
 
 | Work | Concrete result | Boundary |
@@ -113,14 +120,14 @@ The [decision register](../spec/catalog/decisions.json) retains the original-cod
 
 Conflicting attachments remain attributed proposals. The machine-readable [amendment map](../spec/catalog/amendments.json) traces 23 architecture amendments, audit findings and 33 acceptance-test designs to canonical owners and work. Those 33 designs have **not been executed**. The supplied audit's reported ZIP checks cannot certify this repository or an archive that was not supplied.
 
-## Priorities for 19â€“25 October 2026
+## Priorities for 19Ã¢â‚¬â€œ25 October 2026
 
 The supplied status review and Windows integration amendment sharpen the current
 sequence without replacing the original 0.1.0 scope. These are priority slots,
 not guaranteed daily completion dates:
 
 1. Finish DE-W105's ordinary confined-worker and managed-fixture proof, then its
-   current full x64/native/tooling qualification and reviewed `dev` â†’ `main`
+   current full x64/native/tooling qualification and reviewed `dev` Ã¢â€ â€™ `main`
    integration. Preserve protected product ACLs, fixture bytes and resource limits.
 2. Complete DE-W106's expected-evidence accounting and bounded differential
    coordinator before relying on a new reference campaign.

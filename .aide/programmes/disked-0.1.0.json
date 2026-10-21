@@ -184,7 +184,7 @@
     "DE-W107"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Qualify the existing explicitly dispatched native volume-namespace APIs under DE-W030 on the Windows 10 guest ordinary worker,using the independently identified capped scratch volume as the known target. Define expected native observations before execution;retain actual namespace/mount data,finite limits,token/import observations and cleanup. No raw device opens,automatic startup discovery,provider/public/XP admission or writer/broker authority. Do not repeat completed DE-W107 captures. Preserve original all-platform/storage0.1.0 and owner/release gates.",
+  "next_action": "Define and qualify a distinct compiled native namespace mode through the existing contained worker and typed inventory path under DE-W030. Preserve current fixture-only guards and exact source/request/capture/worker bindings;do not merely accept native pointers in the injected role. Reuse the proven ordinary guest and capped profile as needed. Require explicit dispatch,finite observation waits,actual exit/cleanup and exact known-volume evidence before public provider admission. Product startup,raw device/writer/elevation/customer/install/release and XP/other-host gates remain separate. Continue original all-platform/storage0.1.0.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1736,6 +1736,27 @@
       "owner_accepted": false,
       "provider_admitted": false,
       "release_qualified": false
+    },
+    {
+      "work_id": "DE-W030",
+      "scope": "Selected real Windows10 guest native volume namespace only",
+      "source_revision": "34583d15296d388bf4319e1c8e0b575d02db1f23",
+      "native_observer_cases": 6,
+      "port_calls": 16,
+      "known_volume_and_mount_observed": true,
+      "namespace_records": 5,
+      "review": ".aide/evidence/2026-10-21-volume-namespace/REVIEW.md",
+      "replay": ".aide/evidence/2026-10-21-volume-namespace/capture/replay.json",
+      "agent_review": "pass",
+      "full_work_unit_complete": false,
+      "provider_admitted": false,
+      "owner_accepted": false,
+      "release_qualified": false,
+      "host_spec_tests_run": 253,
+      "host_tools_tests_run": 250,
+      "host_native_checker_tests_run": 6,
+      "host_tests_skipped": 3,
+      "validation": ".aide/evidence/2026-10-21-volume-namespace/validation.json.xz"
     }
   ],
   "runner_status_observation": {
@@ -1856,22 +1877,32 @@
   "in_progress_slice": {
     "work_id": "DE-W030",
     "base_revision": "e48766451e808eb28cbb25cce56be8e9a8c2200e",
-    "state": "native_namespace_transport_corrected_unqualified",
-    "qualification_pending": true,
+    "state": "native_volume_namespace_review_boundary",
+    "qualification_pending": false,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "prior_reference_review": ".aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md",
-    "next_action": "Qualify the existing explicitly dispatched native volume-namespace APIs under DE-W030 on the Windows 10 guest ordinary worker,using the independently identified capped scratch volume as the known target. Define expected native observations before execution;retain actual namespace/mount data,finite limits,token/import observations and cleanup. No raw device opens,automatic startup discovery,provider/public/XP admission or writer/broker authority. Do not repeat completed DE-W107 captures. Preserve original all-platform/storage0.1.0 and owner/release gates.",
+    "next_action": "Define and qualify a distinct compiled native namespace mode through the existing contained worker and typed inventory path under DE-W030. Preserve current fixture-only guards and exact source/request/capture/worker bindings;do not merely accept native pointers in the injected role. Reuse the proven ordinary guest and capped profile as needed. Require explicit dispatch,finite observation waits,actual exit/cleanup and exact known-volume evidence before public provider admission. Product startup,raw device/writer/elevation/customer/install/release and XP/other-host gates remain separate. Continue original all-platform/storage0.1.0.",
     "execution_contract": ".aide/evidence/2026-10-21-volume-namespace/expected.json",
     "observer": "tests/windows/native/volume_native_probe.cpp",
-    "native_namespace_run": false,
+    "native_namespace_run": true,
     "prior_attempt": {
       "source_revision": "f46b536cca34774fad5de465f6f1fc28d7ee28fc",
       "status": "failed_before_native_observer",
       "cause": "Locally staged controller/source files were absent from the guest transfer set;dispatch failed before worker/grant setup.",
       "retirement": ".aide/evidence/2026-10-21-volume-namespace/bootstrap-f46b536c/retirement-unstarted.json",
       "all_owned_scratch_removed": true
-    }
+    },
+    "native_qualification_pending": false,
+    "source_revision": "34583d15296d388bf4319e1c8e0b575d02db1f23",
+    "review": ".aide/evidence/2026-10-21-volume-namespace/REVIEW.md",
+    "replay": ".aide/evidence/2026-10-21-volume-namespace/capture/replay.json",
+    "native_observer_cases": 6,
+    "port_calls": 16,
+    "provider_admitted": false,
+    "full_work_unit_complete": false,
+    "repository_validation": ".aide/evidence/2026-10-21-volume-namespace/validation.json.xz",
+    "agent_review": "pass"
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -2237,10 +2268,9 @@
   },
   "next_work_preparation": {
     "work_id": "DE-W030",
-    "candidate_scope": "Actual read-only native volume namespace and mounts on the existing guest;known capped volume and ordinary restricted worker;no device opens",
-    "reference_gate": "DE-W107 complete frozen12-tuple set",
-    "execution_contract_defined": true,
-    "implementation_started": true,
+    "candidate_scope": "Distinct compiled native namespace observer mode through existing contained worker and typed inventory;preserve injected guards and qualification separation",
+    "execution_contract_defined": false,
+    "implementation_started": false,
     "authorizes_effects": false
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
@@ -2514,7 +2544,7 @@
     }
   },
   "execution_environment_gate": {
-    "status": "confined_guest_ready_current_native_qualification_pending",
+    "status": "guest_ready_selected_native_checkpoints_qualified",
     "observed_at": "2026-10-18T10:26:56.8760871Z",
     "previous_wait_resolved_by": ".aide/evidence/2026-10-17-workspace-cleanup/capped-storage-32.json",
     "host_proof_source_revision": "7442a800c9468f24044f44bd50899f63b6758b72",
@@ -2567,7 +2597,10 @@
     "private_win32_groups": 18,
     "controller_stop_proof": ".aide/evidence/2026-10-18-ordinary-worker/eighty-seventh-review.json",
     "native_product_source_revision": "5c2f5337641ba287bd41c1335d264f3c5a30928c",
-    "native_product_build_scope": "Modern Windows x64 development image-workbench composition only;not physical providers,full Win32 or historical Windows"
+    "native_product_build_scope": "Modern Windows x64 development image-workbench composition only;not physical providers,full Win32 or historical Windows",
+    "latest_native_evidence": ".aide/evidence/2026-10-21-volume-namespace/REVIEW.md",
+    "latest_native_source_revision": "34583d15296d388bf4319e1c8e0b575d02db1f23",
+    "latest_scope": "Selected actual ordinary-worker Windows10 x64 namespace;full product and other profiles remain separately scoped"
   },
   "execution_environment": {
     "default": "Hyper-V guest",
