@@ -4,23 +4,22 @@ The amended baseline is **proposed and awaiting owner acceptance**. The native W
 
 ## Windows reference and compatibility plan
 
-DE-W105 closing qualification remains active. The complete x64 run at `f4854bdb`
-runs all180 groups:179 pass;only the FAT watch test's unsupported minimum-poll
-assumption fails. All69 headers,14 executable/import observations and owned
-cleanup complete. The earlier fixture/export,retirement,GUI and FAT-worker
-failures remain retained. The [current record](../.aide/evidence/2026-10-21-product-capture/README.md)
-defines a deterministic deadline fixture before evaluation. Fresh same-source
-private Win32,C90 and the full native/tooling gate remain required.
+DE-W105 passes the full180-group x64 gate,69 standalone headers,14 executable/import
+observations,the same-source18-group private Win32 slice and strict C90 at
+`5c2f5337`. All six actual product GUI images and both closed archives pass review.
+The earlier179/180 watch failure and stopped focused build remain preserved;
+the deterministic125ms sink regression and all reconnect tests now pass.
+The [qualification review](../.aide/evidence/2026-10-21-product-capture/REVIEW.md)
+records final tooling and dev/main integration separately from owner acceptance.
 
-Repair and replay the affected cases before another full qualification. Keep the
-existing storage limits, data/output expectations and protected product records.
-Integrate the tested checkpoint into main after review; no current account/UAC/
-authentication or confined-worker grant is missing.
+Continue DE-W106's bounded evidence/coordinator qualification,then DE-W107.
+Keep existing storage limits and protected records. No account,UAC,authentication
+or confined-worker setup grant is missing.
 
 The [Windows reference plan](windows-reference.md) explains Disk Management,
 MMC/`.msc`, Computer Management, storage APIs, services and Explorer ownership.
-Finish DE-W105's current native gate, then DE-W106 repairs differential evidence
-completeness and old campaign storage routing. DE-W107 observes four generated
+DE-W105's qualified native checkpoint feeds DE-W106's differential evidence
+completeness and bounded campaign routing work. DE-W107 observes four generated
 partition layouts through declared API and UI actions on an exact Windows build.
 Reviewed findings improve existing provider/integration contracts. REA is an
 optional research tool; it is not installed or a runtime dependency. These are
@@ -96,14 +95,14 @@ The [decision register](../spec/catalog/decisions.json) retains the original-cod
 
 Conflicting attachments remain attributed proposals. The machine-readable [amendment map](../spec/catalog/amendments.json) traces 23 architecture amendments, audit findings and 33 acceptance-test designs to canonical owners and work. Those 33 designs have **not been executed**. The supplied audit's reported ZIP checks cannot certify this repository or an archive that was not supplied.
 
-## Priorities for 19–25 October 2026
+## Priorities for 19â€“25 October 2026
 
 The supplied status review and Windows integration amendment sharpen the current
 sequence without replacing the original 0.1.0 scope. These are priority slots,
 not guaranteed daily completion dates:
 
 1. Finish DE-W105's ordinary confined-worker and managed-fixture proof, then its
-   current full x64/native/tooling qualification and reviewed `dev` → `main`
+   current full x64/native/tooling qualification and reviewed `dev` â†’ `main`
    integration. Preserve protected product ACLs, fixture bytes and resource limits.
 2. Complete DE-W106's expected-evidence accounting and bounded differential
    coordinator before relying on a new reference campaign.

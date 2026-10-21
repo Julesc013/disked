@@ -1,12 +1,18 @@
 # DE-W105 product capture qualification
 
-Current: the complete `f4854bdb` x64 campaign runs all180 groups:179 pass;
-`image.fat_tree_watch` fails its minimum-two-polls assertion for a100ms follow.
-All69 header checks,14 executable/import observations and owned cleanup complete.
-The failed gate is retained in `full-native/attempt-f4854bdb/`; its4377-entry
-archive contains914101318 uncompressed bytes in2575124 compressed bytes.
-Peak scratch allocation is459988561 bytes and filesystem use494084096 bytes.
-The VM backing-file logical length is unchanged; this is not an allocation claim.
+Current: source `5c2f5337` passes all180 x64 native groups,69 headers and14
+executable/import observations;all18 same-source private Win32 groups,12 headers
+and nine executable observations;and strict C90 for ten NTFS C units/two headers.
+All six actual GUI PNGs have been displayed and reviewed. The x64 archive verifies
+4374 entries/912951407 original bytes in2631724 compressed bytes;private Win32
+verifies2958 entries/736568046 original bytes in1138340 compressed bytes.
+Owned process,actor,source,media and workspace cleanup pass for both campaigns.
+Final tooling and integration are tracked in [REVIEW.md](REVIEW.md).
+
+The notes below describe historical attempts at their original revisions.
+The failed `f4854bdb`179/180 run remains in `full-native/attempt-f4854bdb/`;
+its only failure was the unsupported minimum-poll assumption. The stopped
+`59a39c93` focus remains inconclusive. Neither is relabelled as a passing run.
 
 The watch contract sets at most81 observations, without a minimum count. The
 first observation's latency was not measured, so the exact reason its100ms

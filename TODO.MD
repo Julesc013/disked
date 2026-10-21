@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 remains active. The complete `f4854bdb` x64 run finishes179 of180 groups successfully,69 headers,14 executable/import observations and owned cleanup. The sole failure is an unsupported minimum-poll assumption in a100ms FAT watch test. A bounded deterministic deadline fixture and fresh affected/full qualification remain pending before main. Focused actual product linking and six visually reviewed GUI captures pass at `3bbf92f2`. Old desktop-DC evidence stays retracted and hooks stay closed. Original all-platform/storage0.1.0, owner and release gates are unchanged. See the [current qualification record](.aide/evidence/2026-10-21-product-capture/README.md).
+Status: DE-W105 native and agent development review pass at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90;578 host tests with eight documented skips. All1328 structural checks,329-file source-map coverage and manifest verification pass. The programme now continues DE-W106 then DE-W107. See the [qualification review](.aide/evidence/2026-10-21-product-capture/REVIEW.md) for evidence and repository synchronization. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
 
 ## Storage recovery
 
@@ -67,7 +67,7 @@ Status: DE-W105 remains active. The complete `f4854bdb` x64 run finishes179 of18
   `3bbf92f2`:24 native control calls and six displayed/reviewed PNGs pass;
   original identity,caption,client,inert-review and cleanup checks remain.
   This focused result does not close the full current gate.
-- [ ] Complete the current x64 product/180-group native test gate (the same
+- [x] Complete the current x64 product/180-group native test gate (the same
   invocation methods now have two separately confined shell groups). Preserve the
   protected user-only product ACLs; qualify the required ordinary confined test
   profile, then exercise the migrated fixtures in the bounded guest campaign.

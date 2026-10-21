@@ -19,20 +19,21 @@ relocate build and fixture output into the managed guest workspace and retain
 their applicable checks. A passing compiler probe or private Win32 slice does
 not qualify the full current x64 product.
 
-DE-W105 remains current. Its private Win32 evidence passes all 18 groups at
-`4572aef4`;that is historical scope. The complete current `f4854bdb` x64 run
-finishes179 of180 groups successfully,69 headers and14 executable observations.
-Its sole FAT-watch fixture failure is retained with verified owned cleanup.
-The [current qualification record](../.aide/evidence/2026-10-21-product-capture/README.md)
-owns the exact failure and next affected/full checks. The programme routes current
-work;continue there rather than repeating DE-W010.
+The same-source `5c2f5337` qualification passes all180 x64 groups,69 standalone
+headers and14 executable/import observations,plus all18 private Win32 groups,
+12 headers and nine executable observations. Strict C90 and the six actual GUI
+images pass review. The private slice does not qualify the full Win32 product or XP.
+The [current review](../.aide/evidence/2026-10-21-product-capture/REVIEW.md) records
+final tooling and integration;the programme continues DE-W106/107 rather than
+repeating DE-W010. Earlier failures and retracted capture evidence stay retained.
 
 The ordinary restricted guest profile now has actual 32/512 MiB hard-cap,
 protected-record, outside-write, descendant and interrupted-cleanup evidence,
 plus a restricted x64 compile and production store-helper journey. The current
 [worker receipts](../.aide/evidence/2026-10-18-ordinary-worker/README.md) bind the
 exact sources and temporary guest crypto-device setup/retirement. These are
-execution-environment results; they do not replace the pending full x64 gate.
+execution-environment results;the same-source product evidence above is separate
+and does not admit physical storage or other target profiles.
 
 The all-target x64 build at `f86f72fa` completed with all 178 groups registered,
 68 standalone headers and 14 executable/import observations. The first native
@@ -1024,7 +1025,7 @@ The exact clean DE-W038 source is `57cfd113`, with 62 command cases, 97 native g
 `image.inspect --view fat` accepts `--allocation-window-json` with exactly
 `{"first_cluster":"800000","clusters":"1024"}` for an explicit data-cluster
 interval. Choose values that fit the image's actual geometry; this example
-requires a sufficiently large FAT32 volume. Count is 1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ8192, starting at cluster
+requires a sufficiently large FAT32 volume. Count is 1ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“8192, starting at cluster
 2 or later. The volume byte window remains explicit. The interval conflicts with
 `--allocation-scan yes`; the default global prefix scan keeps its existing meaning
 and limits. GUI/TUI/shell use the same bounded typed field.

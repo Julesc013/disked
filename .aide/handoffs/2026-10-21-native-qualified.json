@@ -1,0 +1,196 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W105",
+  "base_revision": "5c2f5337641ba287bd41c1335d264f3c5a30928c",
+  "spec_manifest_digest": "sha256:a5ad86107c29cc44a7f2d670cb24d1c7eb18d7c1dbbfda73d12e28374f0cb3c0",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "source/runtime/capture/ntfs_inspection.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/providers/image/local_file.cpp",
+    "tests/images/test_fat_tree_watch.py",
+    "tests/differential/CONTRACT.md",
+    ".aide/evidence/2026-10-18-ordinary-worker/review-native.py",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/replay.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/prepared.json",
+    ".aide/evidence/2026-10-21-product-capture/README.md",
+    ".aide/evidence/2026-10-21-product-capture/REVIEW.md",
+    ".aide/evidence/2026-10-21-product-capture/full-native/c90-result.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/execution-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/image-evidence-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/live.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/native-detail-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/full-native/visual-review.json",
+    ".aide/evidence/2026-10-21-product-capture/full-native/watch-reconnect-review.json",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/launch.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/live.json",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/receipt.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/retained.tar.xz",
+    ".aide/evidence/2026-10-21-product-capture/private-win32/review.json",
+    ".aide/evidence/2026-10-21-product-capture/qualified-gates/applicability.json",
+    ".aide/evidence/2026-10-21-product-capture/qualified-gates/completed-work.json.xz",
+    ".aide/evidence/2026-10-21-product-capture/qualified-gates/review.json",
+    ".aide/evidence/2026-10-21-product-capture/qualified-gates/transition-check.json",
+    ".aide/evidence/2026-10-21-product-capture/qualified-gates/validation.json.xz",
+    ".aide/handoffs/2026-10-21-native-qualified.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "spec/manifest.json",
+    "spec/work/units.json"
+  ],
+  "summary": "Same-source5c2f5337 full180 x64,69 headers,14 executable observations;private18 Win32,12 headers,nine executables;strict C90 ten units/two headers all pass.Closed4374/2958-entry archives and all six actual GUI images pass review.Watch13/53 and reconnect10/38 pass,including deterministic125ms sink/one-poll boundary under original100ms budget.All578 host tests run with eight documented skips,1328 structural checks,329 source files and manifest verification pass;tested inputs unchanged through that run.One programme work-state update follows and passes separate unchanged-authority,current-context,structure and manifest checks.Owned guest/host cleanup verified,no host test media,UAC or VM reconfiguration,budget increase or unrelated process termination.Source integration adds evidence/status metadata only;original failed/retracted attempts,owner/release/physical/historical-platform gates and full0.1.0 scope remain separate.The programme continues DE-W106;repository synchronization is still pending at this handoff creation.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --full-suite",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/full-native/receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/launch.py --win32-suite",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/private-win32/receipt.json.xz"
+    },
+    {
+      "command": "python -B .aide/evidence/2026-10-18-ordinary-worker/review-native.py --evidence-dir .aide/evidence/2026-10-21-product-capture/full-native",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/full-native/native-detail-review.json"
+    },
+    {
+      "command": "python -B .aide/evidence/2026-10-21-product-capture/private-win32/replay.py",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/private-win32/review.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-18-ordinary-worker/c90-check.py --evidence-dir .aide/evidence/2026-10-21-product-capture/full-native",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/full-native/c90-result.json"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-product-capture/validate.py --full --receipt-dir .aide/evidence/2026-10-21-product-capture/qualified-gates",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/validation.json.xz"
+    },
+    {
+      "command": "C:\\Program Files\\Python314\\python.exe -B spec/tools/specctl.py context --work DE-W106 --output .aide-local/context/transition --byte-budget 2097152 --artifact-byte-budget 25165824",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/transition-check.json"
+    },
+    {
+      "command": "C:\\Program Files\\Python314\\python.exe -B spec/tools/specctl.py verify-context .aide-local/context/transition",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/transition-check.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/receipt.json.xz",
+      "sha256": "sha256:7e195a76420517dbcb715c3b73ecb480946f712f854b46276675dc219d73db31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/cleanup.json.xz",
+      "sha256": "sha256:913c19378aa62daf3172155473bc23703f0df9e1da3fad11916fa788a774712b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/retained.tar.xz",
+      "sha256": "sha256:0fcbd26969a35a2995e27932b0d3f9fded9326c2df75b92ee34e8658b95e814a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/execution-review.json",
+      "sha256": "sha256:21a9f5cbf48197e161d3dd9957c2380b9a7b2ee65966809c54ba7e4ee72470b2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/native-detail-review.json",
+      "sha256": "sha256:254685cfc690cb6d582522857cbe3ed9e95f6d1c0d88869e9a8c35c62dc0c436"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/image-evidence-review.json",
+      "sha256": "sha256:6d7fecb804c570bfc867e49c0082dc9ef0defffc2c9ea2d51b56df0624713ea3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/visual-review.json",
+      "sha256": "sha256:9c6451b2af068d38545980524bd73a27c6ce88bf7f1521e6f571c7539dff7076"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/watch-reconnect-review.json",
+      "sha256": "sha256:668b7813ff20a499488431f38b0ce30de546261503d6e2660be36acd6b5f42d0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/full-native/c90-result.json",
+      "sha256": "sha256:a3a290b2ca6ea4c946136aeda121d67bc1184fd2532ece59742a3f2aa01f9212"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/receipt.json.xz",
+      "sha256": "sha256:091c6b86ee22916252a62bd5a77fb8cfbe7408f6c3f3f244c94601ca111ff488"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/cleanup.json.xz",
+      "sha256": "sha256:30652c33998e8340862c91862100627dec7466ca5121b3d32661e28768f70abe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/retained.tar.xz",
+      "sha256": "sha256:7c4127caa65c7229506c6e081aeb9c04166fc02c9f0a1251d1061e7d723b1cfa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/private-win32/review.json",
+      "sha256": "sha256:1d31c2dfa3042a6c0037f031ada24ca44b3de81bca82994ef6cd42aa2d6e88fa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/validation.json.xz",
+      "sha256": "sha256:bf24319eb542752623420580fd44453a2a9da2f1f0845d02de72276e53762ab8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/review.json",
+      "sha256": "sha256:085fcf9e283e8af229ba137754fdf8e7907b84a21fec38b75339079dafa8a62c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/completed-work.json.xz",
+      "sha256": "sha256:6f2f99ee44adcddc154137a755ae95852cdab988ea43fc857f0c923a6cd55681"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/REVIEW.md",
+      "sha256": "sha256:d78fad42e7a28defe5a69ecb515a762c2e66f90266da0a8be92cf31f2e828771"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/transition-check.json",
+      "sha256": "sha256:4bd78bd32994fbee9301a3bbc9fac71584e77a8f5dc2a0974b96f1d18032441c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-product-capture/qualified-gates/applicability.json",
+      "sha256": "sha256:02f41b44b183eaf148e785b25507697dce971b2befe7a0f3955c46140e011707"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit/push the qualified dev checkpoint,fast-forward/merge and push main without force,record actual remote revisions.Then create a source-bound DE-W106 context at the actual base and continue bounded evidence/coordinator work without inventing unavailable reference execution.",
+  "performed_remote_writes": false
+}
