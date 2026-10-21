@@ -152,3 +152,13 @@ Retained Git evidence and generators are sufficient for continuation; disposable
 builds, expanded archives, temporary accounts and context packs are not a transfer
 bundle. The final cleanup receipt, not this requested pause, establishes their
 actual retirement.
+
+## Verified source synchronization and pause
+
+The authorized source checkpoint `6c2a6e3e15cacc23ca107cf95dd7645e8f8a1c32` was pushed to dev,
+fast-forwarded into main and pushed successfully. Both remote refs were verified
+at that revision; [the integration receipt](integration.json) records the actual
+operations. The following receipt commit changes metadata only. Native execution
+remains bound to `c0eab59b`,with the code/test/build applicability check retained.
+The owner-requested pause is recorded for next-machine continuation. No new
+feature,release,tag or owner acceptance is authorized by this integration.

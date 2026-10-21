@@ -1,7 +1,7 @@
 {
-  "status": "qualified_awaiting_source_sync",
-  "phase": "source_sync",
-  "observed_at": "2026-10-21T13:34:27.191463+00:00",
+  "status": "paused_after_verified_source_sync",
+  "phase": "paused",
+  "observed_at": "2026-10-21T13:39:09.922341+00:00",
   "source_revision": "c0eab59bb47b1cc4931afb4042a68bb3343afd28",
   "work_id": "DE-W030",
   "host_exec_session_id": null,
@@ -16,7 +16,7 @@
   "cleanup_verified": true,
   "owner_accepted": false,
   "release_authorized": false,
-  "next_action": "Verify final handoff/metadata,commit/push dev,fast-forward/push main,verify remote refs,and pause;no release/tag.",
+  "next_action": "Paused at the owner request after verified dev/main synchronization;do not start another feature or native campaign. On explicit resume,verify the new machine identity,toolchain,budgets and guest connection,then continue DE-W030 native identity/layout/topology and public read-only-provider admission under existing storage/owner/release gates. Preserve original full0.1 scope;no release/tag.",
   "latest_observations": {
     "scope": "Current producer summaries only;not the final JUnit/closed-archive/full-gate verdict",
     "fat_commands": {
@@ -102,5 +102,6 @@
     "workspace_peak_bytes": 65311755,
     "workspace_removed": true,
     "scope": "Prepared final metadata inputs bound by exact hashes;following handoff/synchronization bookkeeping receives separate finalization checks"
-  }
+  },
+  "integration_checkpoint": "6c2a6e3e15cacc23ca107cf95dd7645e8f8a1c32"
 }
