@@ -141,7 +141,9 @@ int wmain(int argc,wchar_t** argv){
     if(_setmode(_fileno(stdout),_O_BINARY)<0)return 7;
     if(argc!=2)return 2;
     try{
-        const std::wstring raw=argv[1];const std::string name(raw.begin(),raw.end());V result;
+        const std::wstring raw=argv[1];std::string name;
+        for(const auto unit:raw){if(unit<0x20 || unit>0x7e)return 2;name.push_back(static_cast<char>(unit));}
+        V result;
         if(name=="worker.prepare_only" || name=="worker.normal" || name=="worker.no_mounts" || name=="worker.limit" || name=="worker.cancel_before" || name=="worker.gate_wait" || name=="worker.invalid")result=worker_case(name);
         else if(name=="graph.complete" || name=="graph.refresh" || name=="graph.partial")result=graph_case(name);
         else if(name=="inventory.publication")result=inventory_case();

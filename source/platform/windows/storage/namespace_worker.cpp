@@ -66,10 +66,10 @@ void snapshot_shape(const V& s,const V& h) {
 json::Limits namespace_worker_limits() {json::Limits l;l.bytes=reply_bytes;l.values=20000;l.depth=24;return l;}
 void validate_namespace_input(const NamespaceInput& input) {valid(input);}
 namespace {
-void validate_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy,const char* binding) {
+void validate_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy,const char* expected_binding) {
     NamespaceInput input;input.capture_epoch=capture;input.policy=policy;input.provider_input=V::object();valid(input);
     if(text(snapshot,"schema")!="org.disked.nt-volume-namespace-prototype/1" || text(snapshot,"capture_epoch")!=std::to_string(capture) ||
-        text(snapshot,"api_binding")!=binding || text(snapshot,"scope")!="volume-namespace-only" ||
+        text(snapshot,"api_binding")!=expected_binding || text(snapshot,"scope")!="volume-namespace-only" ||
         json::dump(field(snapshot,"policy"))!=json::dump(policy_value(policy)))throw std::invalid_argument("namespace_snapshot_binding");
     const auto binding=V::object().put("capture_epoch",number(capture)).put("policy",policy_value(policy));snapshot_shape(snapshot,binding);
     const auto& claims=field(snapshot,"claims");
