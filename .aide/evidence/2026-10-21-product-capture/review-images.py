@@ -25,7 +25,7 @@ record=dict(status='running',actual_images_reviewed=False,owner_accepted=False,r
             reader_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
 
 try:
-    check(DATA.is_relative_to(HERE) and DATA.is_dir(),'Owned capture evidence directory required')
+    check(DATA.is_relative_to(ROOT/'.aide/evidence') and DATA.is_dir(),'Owned capture evidence directory required')
     result=reviewer.load_receipt(DATA,'receipt');proof=result['guest']['proof']
     check(result['status']==proof['status']=='pass','Native campaign failed')
     revision=proof['source_revision'];check(isinstance(revision,str) and re.fullmatch('[0-9a-f]{40}',revision),'Source revision')

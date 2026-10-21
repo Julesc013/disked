@@ -50,7 +50,8 @@ try:
         call([sys.executable,'-B','spec/tools/specctl.py','verify-context','.aide-local/context/current'],env=env)
     definition=importlib.util.spec_from_file_location('product_campaign',CAMPAIGN/'campaign.py');campaign=importlib.util.module_from_spec(definition);definition.loader.exec_module(campaign)
     sys.argv=[str(CAMPAIGN/'campaign.py'),*([] if win32 else ['--focus-fat-watch','--interactive-ui'] if watch else ['--capture-background-proof'] if background else ['--capture-transport-proof'] if transport else ['--null-proof','--interactive-ui'] if source_proof else ['--native-x64','--interactive-ui'] if full else ['--focus-product-captures','--interactive-ui']),*(['--prepare-only'] if prepare else [])]
-    code=campaign.main();record.update(status='pass' if code==0 else 'fail',exit_code=code)
+    code=campaign.main() if win32 else campaign.main(prepare_work_id='DE-W030')
+    record.update(status='pass' if code==0 else 'fail',exit_code=code)
     if code:raise RuntimeError('Product campaign did not pass; inspect retained exact outcome')
 except BaseException:
     record['status']='fail';raise

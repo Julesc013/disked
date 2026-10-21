@@ -1,4 +1,4 @@
-"""Review retained W105 bytes without extracting a build tree or rerunning tests."""
+"""Review retained native qualification bytes without extracting a build tree or rerunning tests."""
 import argparse
 import hashlib
 import json

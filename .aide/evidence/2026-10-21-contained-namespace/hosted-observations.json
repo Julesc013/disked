@@ -1,0 +1,225 @@
+{
+  "observed_at": "2026-10-21T08:30:50.177527+00:00",
+  "execution_identity": "BLACKGLASS-WIN1\\Jules",
+  "github_account": "Julesc013",
+  "scope": "Read-only hosted status;not a DiskEd Setup lifecycle qualification",
+  "queries": [
+    {
+      "label": "disked_main",
+      "arguments": [
+        "gh",
+        "api",
+        "repos/Julesc013/disked/branches/main"
+      ],
+      "exit_code": 0,
+      "result": {
+        "sha": "1762edb00355fc7181d2e4dba8469d1be5844394",
+        "protected": false
+      }
+    },
+    {
+      "label": "disked_releases",
+      "arguments": [
+        "gh",
+        "release",
+        "list",
+        "--repo",
+        "Julesc013/disked",
+        "--limit",
+        "5",
+        "--json",
+        "tagName,isPrerelease,publishedAt"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "label": "disked_plan_pr1",
+      "arguments": [
+        "gh",
+        "pr",
+        "view",
+        "1",
+        "--repo",
+        "Julesc013/disked",
+        "--json",
+        "state,isDraft,mergedAt,baseRefName,headRefName,title"
+      ],
+      "exit_code": 0,
+      "result": {
+        "baseRefName": "dev",
+        "headRefName": "plan/windows-reference-integrations-20261019",
+        "isDraft": true,
+        "mergedAt": "2026-10-19T07:24:45Z",
+        "state": "MERGED",
+        "title": "Specify Windows integration reference cases and correct work routing"
+      }
+    },
+    {
+      "label": "setup_pr237",
+      "arguments": [
+        "gh",
+        "pr",
+        "view",
+        "237",
+        "--repo",
+        "Julesc013/universal-setup",
+        "--json",
+        "state,isDraft,mergedAt,headRefOid,statusCheckRollup"
+      ],
+      "exit_code": 0,
+      "result": {
+        "headRefOid": "d9e2de7112f4c61217feb484cbc803d2790a2d95",
+        "isDraft": false,
+        "mergedAt": "2026-10-17T07:32:34Z",
+        "state": "MERGED",
+        "statusCheckRollup": [
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:19:17Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339798951",
+            "name": "specification",
+            "startedAt": "2026-10-17T07:18:58Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:31:39Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799123",
+            "name": "native-linux",
+            "startedAt": "2026-10-17T07:18:58Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:26:47Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799165",
+            "name": "native-macos",
+            "startedAt": "2026-10-17T07:19:00Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:28:37Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799169",
+            "name": "native-windows",
+            "startedAt": "2026-10-17T07:18:58Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:26:02Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799086",
+            "name": "native-windows-win32",
+            "startedAt": "2026-10-17T07:18:58Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:22:24Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799087",
+            "name": "sanitizer",
+            "startedAt": "2026-10-17T07:18:58Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:19:16Z",
+            "conclusion": "SUCCESS",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117339799120",
+            "name": "fuzz-smoke",
+            "startedAt": "2026-10-17T07:18:59Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          },
+          {
+            "__typename": "CheckRun",
+            "completedAt": "2026-10-17T07:36:29Z",
+            "conclusion": "FAILURE",
+            "detailsUrl": "https://github.com/Julesc013/universal-setup/actions/runs/39013169720/job/117342098160",
+            "name": "publisher-qualification",
+            "startedAt": "2026-10-17T07:31:42Z",
+            "status": "COMPLETED",
+            "workflowName": "ci"
+          }
+        ]
+      }
+    },
+    {
+      "label": "setup_main",
+      "arguments": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/branches/main",
+        "--jq",
+        "{sha:.commit.sha,protected:.protected}"
+      ],
+      "exit_code": 0,
+      "result": {
+        "protected": true,
+        "sha": "c048f7f1ae2e5922c15a08ee572bdafc29027c63"
+      }
+    },
+    {
+      "label": "setup_main_ci",
+      "arguments": [
+        "gh",
+        "run",
+        "list",
+        "--repo",
+        "Julesc013/universal-setup",
+        "--branch",
+        "main",
+        "--limit",
+        "1",
+        "--json",
+        "headSha,status,conclusion,workflowName,url,createdAt"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-11T15:27:14Z",
+          "headSha": "c048f7f1ae2e5922c15a08ee572bdafc29027c63",
+          "status": "completed",
+          "url": "https://github.com/Julesc013/universal-setup/actions/runs/38151330202",
+          "workflowName": "ci"
+        }
+      ]
+    },
+    {
+      "label": "setup_pr237_destination",
+      "arguments": [
+        "gh",
+        "pr",
+        "view",
+        "237",
+        "--repo",
+        "Julesc013/universal-setup",
+        "--json",
+        "baseRefName,mergedAt,mergeCommit,state"
+      ],
+      "exit_code": 0,
+      "result": {
+        "baseRefName": "dev",
+        "mergeCommit": {
+          "oid": "73ea6303eb8c828bd05e2a43bf2fe8817d926bee"
+        },
+        "mergedAt": "2026-10-17T07:32:34Z",
+        "state": "MERGED"
+      }
+    }
+  ]
+}

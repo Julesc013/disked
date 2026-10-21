@@ -99,6 +99,12 @@
       "main_promoted": true,
       "full_work_unit_complete": false,
       "owner_accepted": false
+    },
+    "release_hold": {
+      "source": "User,2026-10-21 Australia/Sydney: after this turn merge all changes into dev and main;do not yet release;provide a full 0.1/1.0 rundown.",
+      "source_synchronization_authorized": true,
+      "release_publication_authorized": false,
+      "release_tag_creation_authorized": false
     }
   },
   "permitted": [
@@ -182,7 +188,7 @@
     "DE-W107"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Run the current full x64 product/header/import and private Win32 gates against the complete DE-W030 context, then finish repository checks and agent review before main integration. The focused contained namespace cases pass on both architectures; preserve public/provider/other-host/owner/release gates.",
+  "next_action": "Preflight and qualify the current full x64 product using the documented clean-build tracking setting,with unchanged180 groups,69 headers,14 executable observations and original limits/deadlines. Then finish repository checks,dev/main synchronization and the requested 0.1/1.0 rundown without release.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1885,7 +1891,7 @@
     "provider_admitted": false,
     "full_work_unit_complete": false,
     "full_0_1_0_complete": false,
-    "next_action": "Run the current full x64 product/header/import and private Win32 gates against the complete DE-W030 context, then finish repository checks and agent review before main integration. The focused contained namespace cases pass on both architectures; preserve public/provider/other-host/owner/release gates.",
+    "next_action": "Preflight and qualify the current full x64 product using the documented clean-build tracking setting,with unchanged180 groups,69 headers,14 executable observations and original limits/deadlines. Then finish repository checks,dev/main synchronization and the requested 0.1/1.0 rundown without release.",
     "latest_attempt": {
       "source_revision": "57578ab08541e22f6cdfadc8c9db43ff182f59bb",
       "status": "focused_native_pass",
@@ -1895,7 +1901,28 @@
       "all_owned_resources_retired": true,
       "full_product_suite_run": false
     },
-    "focused_review": ".aide/evidence/2026-10-21-contained-namespace/FOCUSED-REVIEW.md"
+    "focused_review": ".aide/evidence/2026-10-21-contained-namespace/FOCUSED-REVIEW.md",
+    "full_x64_attempt": {
+      "source_revision": "8bc7947147c46801687632ae02f40fac4932d47d",
+      "status": "failed_build_deadline",
+      "product_groups_run": 0,
+      "build_seconds": 1800,
+      "evidence": ".aide/evidence/2026-10-21-contained-namespace/build-timeout-8bc79471/failure-review.json",
+      "owned_cleanup_verified": true,
+      "cause": "Unresolved;prolonged tracked linker wait observed and later completed without process control."
+    },
+    "clean_build_experiment": ".aide/evidence/2026-10-21-contained-namespace/clean-build-profile.json",
+    "private_win32": {
+      "status": "pass",
+      "source_revision": "8bc7947147c46801687632ae02f40fac4932d47d",
+      "groups": 18,
+      "headers": 12,
+      "executable_observations": 9,
+      "host_workspace_peak_bytes": 14298738,
+      "host_workspace_removed": true,
+      "scope": "Private NTFS regression fixture;not a full Win32 product or XP qualification",
+      "evidence": ".aide/evidence/2026-10-21-contained-namespace/private-win32/receipt.json.xz"
+    }
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",

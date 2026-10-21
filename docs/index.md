@@ -4,6 +4,7 @@ This is the publication layer for people using and developing DiskEd. The normat
 
 | Guide | Purpose |
 |---|---|
+| [Implementation and release status](project-status.md) | Current capabilities, qualification, original 0.1 scope and the unbaselined 1.0 boundary. |
 | [Native bootstrap](native-bootstrap.md) | Build and test the Windows image/fake prototype. |
 | [Getting started](getting-started.md) | Validate the baseline and choose bounded work. |
 | [Development plan](development-plan.md) | Follow the amended roadmap, review boundaries and AIDE cadence. |

@@ -1,5 +1,6 @@
 """Review the bounded private Win32 run; never extract its sparse/raw payloads."""
 import ast
+import argparse
 import hashlib
 import importlib.util
 import json
@@ -11,6 +12,11 @@ import tarfile
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[3]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--evidence-dir',type=Path,default=HERE)
+HERE=parser.parse_args().evidence_dir.resolve()
+if not HERE.is_relative_to(ROOT/'.aide/evidence') or not HERE.is_dir():
+    raise ValueError('Owned repository evidence directory required')
 definition=importlib.util.spec_from_file_location('win32_receipts',ROOT/'.aide/evidence/2026-10-18-ordinary-worker/review-native.py')
 reviewer=importlib.util.module_from_spec(definition);definition.loader.exec_module(reviewer)
 check=reviewer.require

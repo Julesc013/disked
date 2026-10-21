@@ -1,0 +1,58 @@
+{
+  "ObservedAt": "2026-10-21T08:06:39.3371573Z",
+  "Name": "link.exe",
+  "Id": 12720,
+  "ParentId": 12440,
+  "ParentName": "Tracker.exe",
+  "Created": "2026-10-21T19:00:58.169616+11:00",
+  "User100ns": 156250,
+  "Kernel100ns": 625000,
+  "ExecutableHash": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+  "Arguments": "C:\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE @R:\\work\\compile-x64\\local\\Packages\\org.disked.worker.39ba659ee9f14033850390b745b69f43\\AC\\Temp\\MSBuildTemp\\tmp8e920993694a45d48a0202b2fb319575.rsp",
+  "Threads": [
+    {
+      "WaitReason": "Executive",
+      "CpuMs": 78.125,
+      "Id": 7444,
+      "State": "Wait"
+    },
+    {
+      "WaitReason": "EventPairLow",
+      "CpuMs": 0.0,
+      "Id": 9120,
+      "State": "Wait"
+    },
+    {
+      "WaitReason": "EventPairLow",
+      "CpuMs": 0.0,
+      "Id": 9632,
+      "State": "Wait"
+    }
+  ],
+  "CapFreeBytes": 434368512,
+  "GuestSystemFreeBytes": 95085592576,
+  "Scope": "Read-only observation of this campaign linker; no cause or product outcome established",
+  "wait_chain_observation": {
+    "ok": true,
+    "error": 0,
+    "count": 1,
+    "cycle": false,
+    "nodes": [
+      {
+        "type": 8,
+        "status": 2,
+        "pid": 12720,
+        "tid": 7444
+      }
+    ],
+    "interpretation": "One thread node only;no supported wait dependency identified. This does not prove absence of a hang or deadlock.",
+    "reference": "https://learn.microsoft.com/en-us/windows/win32/api/wct/nf-wct-getthreadwaitchain"
+  },
+  "later_observation": {
+    "observed_at": "2026-10-21T08:10:37.6235287Z",
+    "link_process_absent": true,
+    "build_log_reports_acquisition_command_executable": true,
+    "process_control_or_configuration_change": false,
+    "cause": "unresolved"
+  }
+}

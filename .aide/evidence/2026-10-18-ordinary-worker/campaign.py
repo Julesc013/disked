@@ -84,7 +84,8 @@ RETIRE_ACTOR=r'''
         }
 '''
 
-def main():
+def main(*,prepare_work_id='DE-W105'):
+    if prepare_work_id not in ('DE-W105','DE-W030'):raise ValueError('Unsupported preparation work')
     work=Path(os.environ['DISKED_WORK_ROOT'])
     background_proof='--capture-background-proof' in sys.argv
     capture_transport=background_proof or '--capture-transport-proof' in sys.argv
@@ -146,7 +147,7 @@ def main():
     full_native='--native-x64' in sys.argv or null_proof or powershell_proof or powershell7_proof or cleanup_proof or ui_proof or focus_fat or focus_export or focus_history or focus_invocations or focus_repairs or focus_current or focus_gui_watch or focus_gui_waiting
     controller_stop_proof='--controller-stop-proof' in sys.argv
     full_native=full_native or controller_stop_proof or pixel_proof or focus_product or focus_fat_watch
-    full_work_id='DE-W105'
+    full_work_id=prepare_work_id
     size=512 if '--size-mib=512' in sys.argv or full_native else 32
     if interactive_ui and not (full_native or native_memory or '--crypto-full' in sys.argv or reference_ui):
         raise ValueError('Interactive coordinator is restricted to declared primitive/native proofs')
@@ -313,6 +314,8 @@ def main():
     if full_native:
         expected['native_x64']=json.loads((HERE/'native-x64-expectations.json').read_bytes())
         expected['native_x64']['work_id']=full_work_id
+        if full_work_id=='DE-W030':
+            expected['native_x64']['clean_build_profile']=json.loads((HERE.parent/'2026-10-21-contained-namespace/clean-build-profile.json').read_bytes())
         expected['native_x64']['fixture_io_review']=json.loads((ROOT/expected['native_x64']['fixture_io_profile']).read_bytes())
         expected['native_x64']['cooperative_product_capture']=json.loads((HERE.parent/'2026-10-21-product-capture/expected.json').read_bytes())
     if full_native:

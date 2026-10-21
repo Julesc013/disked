@@ -672,7 +672,20 @@ print(json.dumps(dict(status='pass',sparse=SPARSE_OBSERVATIONS,prepared=PREPARED
         targets=['--target','bootstrap_registry',*expected['focus_targets']] if focused else []
         parallel=expected['bounds'].get('build_parallelism',1)
         assert type(parallel) is int and 1<=parallel<=2
-        run('build',[cmake,'--build',build,'--config','Release','--parallel',str(parallel),*targets],1800)
+        build_arguments=[cmake,'--build',build,'--config','Release','--parallel',str(parallel),*targets]
+        clean_profile=expected.get('clean_build_profile')
+        if clean_profile:
+            assert clean_profile['work_id']==expected['work_id']=='DE-W030'
+            assert clean_profile['msbuild_arguments']==['/p:TrackFileAccess=false']
+            assert clean_profile['required_groups']==len(expected['groups'])==180
+            assert clean_profile['standalone_headers']==expected['standalone_headers']==69
+            assert clean_profile['executable_observations']==14 and clean_profile['build_seconds']==1800
+            # This source and output tree are freshly materialized and empty.
+            # Incremental tracking is not needed for this qualification build.
+            # Compiler switches, targets and all test expectations stay intact.
+            build_arguments+=['--',*clean_profile['msbuild_arguments']]
+            result['clean_build_profile']=clean_profile
+        run('build',build_arguments,1800)
         (build/'qualification-junit').mkdir()
         _,raw=run('registered',[ctest,'--test-dir',build,'-C','Release','--show-only=json-v1'])
         registered=json.loads(raw)['tests'];assert sorted(t['name'] for t in registered)==expected['groups']

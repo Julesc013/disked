@@ -66,7 +66,7 @@ is formatter-clean.
 | SR-05: composition and test seams | Remains a targeted improvement. `app.cpp` still contains command-specific routing, limits and test hooks. Extract a named service binding or test seam with a concrete contract and consumer, preserving one command registry. |
 | SR-06: inventory does not enforce dependencies | Independent CMake-derived build/header checks now accompany source-map coverage. They qualify their tested lane, not every target or public SDK. |
 | SR-07: stale first-task routing | Root guidance routes through the programme. This pass also makes the canonical start page distinguish an active checkout from an initial archive. |
-| SR-08: Setup qualification | Remains open. The latest snapshot records 6/7 successful hosted checks; local Setup lifecycle remains unqualified. See the exact snapshot below. |
+| SR-08: Setup qualification | Remains open. The 21 October observation records upstream PR237 merged, seven successful checks and a failed publisher-qualification check; local Setup lifecycle remains unqualified. See [current status](project-status.md). |
 
 The original 1,043-line follow-up mixed many dated checkpoints with current
 guidance. Its [exact pre-consolidation contents](../.aide/evidence/2026-10-16-structure-status/structure-review-before.md)
@@ -101,7 +101,7 @@ retained-byte parent replay. No production file or directory was added. Public
 admission, full collation/host policy/alias resolution/lookup and the original
 all-platform/storage goal remain unfinished.
 
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json)
+The earlier [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-name-order-native/hosted-observations.json)
 records [PR237](https://github.com/Julesc013/universal-setup/pull/237) at
 `1dd6fb93`, observed `2026-10-17T00:37:44.730544+00:00`: state
 open, draft=True, merged=False.
@@ -110,6 +110,14 @@ Completed non-success checks: native-windows (failure).
 Queried release counts: Setup 0, DiskEd 0.
 Earlier failures remain retained; no upstream writes, installation or local Setup
 lifecycle qualification occurred.
+
+The [21 October observation](../.aide/evidence/2026-10-21-contained-namespace/hosted-observations.json)
+supersedes that PR status: PR237 merged into dev on 17 October, with seven reported checks
+successful and `publisher-qualification` failed. This does not update DiskEd's
+source pin or qualify its actual Setup lifecycle. The [current status](project-status.md)
+separates upstream development, local fixture evidence and release admission.
+The same fresh observation records Setup main at `c048f7f1` with its latest
+listed main-branch CI run successful; the PR check result concerns a different revision.
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

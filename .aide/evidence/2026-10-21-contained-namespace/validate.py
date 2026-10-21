@@ -19,7 +19,11 @@ commands=[['-m','pip','install','--disable-pip-version-check','--no-cache-dir','
     ['-m','unittest','discover','-s','tests/tools','-v'],
     ['-m','unittest','discover','-s','tests/windows','-p','test_native*observations.py','-v'],
     [str(HERE/'replay.py')],['spec/tools/specctl.py','verify-manifest']]
-if full:commands.insert(5,['-m','unittest','discover','-s','spec/tools/tests','-v'])
+if (HERE/'private-win32/receipt.json.xz').exists():
+    commands.insert(-1,[str(HERE.parent/'2026-10-21-product-capture/private-win32/replay.py'),'--evidence-dir',str(HERE/'private-win32')])
+if full:
+    commands.insert(5,['-m','unittest','discover','-s','spec/tools/tests','-v'])
+    commands.insert(-1,['-m','unittest','discover','-s','tests/differential','-v'])
 else:
     commands.extend([[str(HERE/'launch-product.py'),flag,'--prepare-only'] for flag in ('--full-suite','--win32-suite')])
 
