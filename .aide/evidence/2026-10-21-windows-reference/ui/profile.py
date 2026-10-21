@@ -56,7 +56,7 @@ def key_exists(root,path):
 def copy_default(target):
     """Copy regular default-profile content once; never follow compatibility links."""
     pending=[(DEFAULT,target)]
-    count=total=skipped=0
+    count=total=skipped=shortcuts=0
     while pending:
         parent,destination=pending.pop()
         with os.scandir(parent) as entries:
@@ -67,13 +67,16 @@ def copy_default(target):
                 # the path itself rather than weakening the single-link check.
                 path=Path(entry.path);info=path.lstat();out=destination/entry.name
                 if info.st_file_attributes&0x400:skipped+=1;continue
+                # No shell is started by this fixture. Exclude shortcut assets
+                # (including Windows' hardlinked defaults), never execute them.
+                if entry.is_file(follow_symlinks=False) and path.suffix.lower()=='.lnk':shortcuts+=1;continue
                 if entry.is_dir(follow_symlinks=False):out.mkdir();pending.append((path,out))
                 elif entry.is_file(follow_symlinks=False) and info.st_nlink==1:
                     total+=info.st_size
                     if total>8388608:raise ValueError('Default-profile byte bound')
                     shutil.copyfile(path,out)
-                else:raise ValueError('Unexpected default-profile entry')
-    return dict(entries=count,bytes=total,skipped_links=skipped)
+                else:raise ValueError('Unexpected default-profile entry: '+path.relative_to(DEFAULT).as_posix())
+    return dict(entries=count,bytes=total,skipped_links=skipped,skipped_shortcuts=shortcuts)
 
 def exercise(g,work,environment,executor,result):
     worker=executor.worker;expected=json.loads((g.ROOT/'expected.json').read_bytes())['windows_reference']
