@@ -38,5 +38,5 @@ try:
     with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER,r'Software\DiskEdProfileProof',0,winreg.KEY_SET_VALUE) as key:
         winreg.SetValueEx(key,'nonce',0,winreg.REG_SZ,nonce)
     print(json.dumps(dict(profile=buf.value,known_folders=folders,temp=os.environ['TEMP'],nonce=nonce,
-                         expected_actor_sid=sid,desktop=os.environ.get('USERPROFILE'))))
+                         expected_actor_sid=sid,environment_profile=os.environ.get('USERPROFILE'))))
 finally:k.CloseHandle(token)

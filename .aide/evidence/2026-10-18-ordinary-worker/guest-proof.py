@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--windows-reference-ui':
+        load('windows_ui',ROOT/'windows-reference-ui.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--windows-ui-profile':
         load('ui_profile',ROOT/'ui-profile.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--windows-reference-api':
@@ -493,7 +495,7 @@ def dispatch():
 
 if __name__=='__main__':
     mode=sys.argv[1] if len(sys.argv)>1 else ''
-    if mode in ('--crypto-full','--native-x64','--native-memory') and json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui'):
+    if mode in ('--crypto-full','--native-x64','--native-memory','--windows-reference-ui') and json.loads((ROOT/'expected.json').read_bytes()).get('interactive_ui'):
         load('interactive_station',ROOT/'window-station.py').coordinate(sys.modules[__name__],dispatch)
     else:
         dispatch()

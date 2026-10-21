@@ -111,9 +111,10 @@ def copy_default(target):
                 else:raise ValueError('Unexpected default-profile entry: '+path.relative_to(DEFAULT).as_posix())
     return dict(entries=count,bytes=total,skipped_links=skipped,skipped_shortcuts=shortcuts)
 
-def exercise(g,work,environment,executor,result):
+def exercise(g,work,environment,executor,result,*,reference=None):
     worker=executor.worker;expected=json.loads((g.ROOT/'expected.json').read_bytes())['windows_reference']
-    assert expected['mode']=='--windows-ui-profile' and work.drive.upper()=='R:'
+    assert expected['mode'] in ('--windows-ui-profile','--windows-reference-ui') and work.drive.upper()=='R:'
+    assert (expected['mode']=='--windows-reference-ui')==callable(reference)
     assert os.environ['COMPUTERNAME']=='BLACKGLASS-HYPE' and worker.username.startswith('DiskEdTest-')
     profile=worker.work/'profile';g.W.plain_directory(profile)
     assert not list(profile.iterdir())
@@ -168,12 +169,15 @@ def exercise(g,work,environment,executor,result):
             assert winreg.QueryValueEx(key,'nonce')[0]==nonce
         report['owned_hive_write_verified']=True
         assert executor.calls==9
+        if reference is not None:reference(g,work,environment,executor,result,report)
         report['status']='pass'
     except BaseException:
         report.update(status='fail',error=traceback.format_exc()[-16384:]);raise
     finally:
         if executor.active_job is not None or executor.poisoned:
             raise RuntimeError('Preserve profile until owned worker retirement is proven')
+        if reference is not None and not result.get('all_owned_reference_jobs_retired',False):
+            raise RuntimeError('Preserve profile until reference jobs retire')
         if report['loaded']:
             with privilege(worker,'SeBackupPrivilege'),privilege(worker,'SeRestorePrivilege'):
                 worker.require(u.UnloadUserProfile(worker.original,info.profile))

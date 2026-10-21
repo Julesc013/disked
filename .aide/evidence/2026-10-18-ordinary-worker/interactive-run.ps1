@@ -38,8 +38,8 @@ if($Child){
 if((Test-Path -LiteralPath $inputPath)-or(Test-Path -LiteralPath $outputPath)){throw 'Existing interactive run; no adoption.'}
 $actor=Get-Content -LiteralPath (Join-Path $root 'scratch\ordinary-actor.json') -Raw|ConvertFrom-Json
 if($env:DISKED_TEST_ACTOR_NAME-ne$actor.name-or$env:DISKED_TEST_ACTOR_SID-ne$actor.sid){throw 'Actor environment changed.'}
-$mode=if($expected.native_x64){'--native-x64'}elseif($expected.native_memory){'--native-memory'}elseif($expected.crypto_full){'--crypto-full'}else{throw 'Undeclared interactive mode.'}
-$limit=if($expected.native_x64){7200}else{300}
+$mode=if($expected.native_x64){'--native-x64'}elseif($expected.native_memory){'--native-memory'}elseif($expected.windows_reference.mode-eq'--windows-reference-ui'){'--windows-reference-ui'}elseif($expected.crypto_full){'--crypto-full'}else{throw 'Undeclared interactive mode.'}
+$limit=if($expected.native_x64){7200}elseif($mode-eq'--windows-reference-ui'){450}else{300}
 $secure=ConvertTo-SecureString $env:DISKED_TEST_ACTOR_PASS -AsPlainText -Force
 $runInput=@{nonce=$state.nonce;user_sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value;actor_sid=$actor.sid;mode=$mode;credential=[Management.Automation.PSCredential]::new($actor.name,$secure)}
 $runInput|Export-Clixml -LiteralPath $inputPath

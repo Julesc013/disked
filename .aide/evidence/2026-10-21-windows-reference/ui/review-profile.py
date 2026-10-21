@@ -8,7 +8,7 @@ import subprocess
 
 ROOT=Path(__file__).resolve().parents[4]
 HERE=Path(__file__).resolve().parent
-REVISION='10f4173f'
+REVISION='10f4173f3c99cb6ba220181ac7cc9d9b583f1379'
 
 def packed(name):
     data=(HERE/'profile'/name).read_bytes()
@@ -47,13 +47,13 @@ aliases={'ui-profile.py':HERE/'profile.py','ui-profile-probe.py':HERE/'profile-p
          'ordinary-worker.py':HERE.parent.parent/'2026-10-18-ordinary-worker/ordinary-worker.py',
          'guest-proof.py':HERE.parent.parent/'2026-10-18-ordinary-worker/guest-proof.py',
          'windows_executor.py':ROOT/'tests/differential/windows_executor.py'}
-inputs={}
+inputs={};current_matches={}
 for alias,path in aliases.items():
-    actual=hashlib.sha256(path.read_bytes()).hexdigest()
-    assert actual==proof['source_inputs'][alias]==receipt['generated_sha256'][alias]
     original=subprocess.check_output(['git','show',revision+':'+path.relative_to(ROOT).as_posix()],cwd=ROOT)
-    assert hashlib.sha256(original).hexdigest()==actual
+    actual=hashlib.sha256(original).hexdigest()
+    assert actual==proof['source_inputs'][alias]==receipt['generated_sha256'][alias]
     inputs[path.relative_to(ROOT).as_posix()]='sha256:'+actual
+    current_matches[path.relative_to(ROOT).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()==actual
 before=json.loads((HERE/'profile-before.json').read_bytes());after=json.loads((HERE/'profile/cleanup-live.json').read_bytes())
 assert before['shared_accounts']==after['shared_accounts']
 assert after['identity']==r'BLACKGLASS-HYPE\Agents' and after['owned_processes']==0
@@ -61,10 +61,10 @@ assert all(after[k] for k in ('qualification_absent','scratch_absent','actor_abs
     'actor_hive_absent','actor_profile_key_absent','actor_backup_profile_key_absent'))
 assert receipt['host_backing_start_bytes']==receipt['host_backing_end_bytes']
 assert proof['ui_observations']==0 and not proof['campaign_complete'] and not profile['mmc_started'] and not profile['ui_reference_qualified']
-result=dict(status='pass',source_revision=revision,source_inputs=inputs,port_calls=9,
+result=dict(status='pass',scope='Historical10f4173f receipt replay; applicability to current files is separate',source_revision=revision,source_inputs=inputs,current_input_matches=current_matches,port_calls=9,
     profile_copied_bytes=profile['default_copy']['bytes'],profile_removed=True,owned_cleanup_verified=True,
     shared_account_identity_and_enabled_state_unchanged=True,host_backing_logical_bytes=receipt['host_backing_end_bytes'],
     host_backing_allocated_growth='not_measured',ui_observations=0,campaign_complete=False,
     limitation='probe.desktop is a historical misnamed USERPROFILE value, not a desktop observation. Private desktop is the launcher startup assignment; MMC/interactive station/admin reference remain unqualified.')
-(HERE/'profile/replay.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+(HERE/'profile/historical-replay.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 print(json.dumps(result))
