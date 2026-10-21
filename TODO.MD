@@ -128,10 +128,11 @@ Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers
 - [ ] DE-W107: four generated partition cases with exact Windows API/UI reference
   identities, independent expectations, retained disagreements and cleanup.
   Apply findings to existing provider/integration gates; REA remains optional.
-  Separate4MiB fixture geometry,hashes and twelve native/API/UI tuples are prepared;
-  all89 differential tests pass with five platform skips. Native and Windows API/UI
-  evaluation,execution-profile admission and remaining gates are pending.
-  [Preparation](.aide/evidence/2026-10-21-windows-reference/README.md).
+  Exact `6a688b79` records four native/four real Windows API observations,25 owned
+  calls,source/media preservation,raw replay and cleanup. Windows' conflicting-GPT
+  projection matches the primary;both native candidates remain unresolved.
+  Four declared Disk Management UI observations and their profile remain pending.
+  [Native/API review](.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md).
 
 - [x] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
   complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);

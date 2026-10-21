@@ -19,8 +19,10 @@ receipt/interruption controls,replay and cleanup. The
 the labelled repository protocol fixture from unavailable independent reference
 tools. Continue DE-W107's actual four-case Windows API/UI campaign.
 Its [fixture preparation](../.aide/evidence/2026-10-21-windows-reference/README.md)
-defines separate4MiB images and passes89 differential tests with five skips;
-these bytes have not yet been evaluated by native or Windows API/UI participants.
+defines separate4MiB images. The [native/API checkpoint](../.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md)
+now records four native and four real Windows API observations at `6a688b79`,
+25 owned calls,raw replay and cleanup. Four actual Disk Management UI observations
+remain pending;API-only results do not complete DE-W107.
 Keep existing storage limits and protected records. No account,UAC,authentication
 or confined-worker setup grant is missing.
 

@@ -1,0 +1,175 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W107",
+  "base_revision": "6a688b79ba3639ff5b65582617c3ea676674254c",
+  "spec_manifest_digest": "sha256:dada91e9da6e8f74a6eb3d372183b4925c294f3d7583e4922b7626b4ddbfecaf",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "tests/differential/CONTRACT.md",
+    "docs/windows-reference.md",
+    "spec/storage/windows.md",
+    "spec/interaction/native-integration.md",
+    ".aide/evidence/2026-10-20-differential-evidence/native-port.py",
+    ".aide/evidence/2026-10-21-windows-reference/control.py",
+    ".aide/evidence/2026-10-21-windows-reference/media.py",
+    "tests/differential/windows_api_probe.cpp",
+    "tests/differential/windows_observations.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-18-ordinary-worker/campaign.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/guest-proof.py",
+    ".aide/evidence/2026-10-21-windows-reference/README.md",
+    ".aide/evidence/2026-10-21-windows-reference/api-expected.json",
+    ".aide/evidence/2026-10-21-windows-reference/api/REVIEW.md",
+    ".aide/evidence/2026-10-21-windows-reference/api/cleanup-live.json",
+    ".aide/evidence/2026-10-21-windows-reference/api/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/preparation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/retained.tar.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/review.json",
+    ".aide/evidence/2026-10-21-windows-reference/api/inventory.json",
+    ".aide/evidence/2026-10-21-windows-reference/api/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/post-native.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/preflight.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/replay.json",
+    ".aide/evidence/2026-10-21-windows-reference/api/retained.tar.xz",
+    ".aide/evidence/2026-10-21-windows-reference/api/validation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/context-current.json",
+    ".aide/evidence/2026-10-21-windows-reference/control.py",
+    ".aide/evidence/2026-10-21-windows-reference/launch.py",
+    ".aide/evidence/2026-10-21-windows-reference/media.py",
+    ".aide/evidence/2026-10-21-windows-reference/replay.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/README.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/inventory.json",
+    ".aide/evidence/2026-10-21-windows-reference/validate.py",
+    ".aide/handoffs/2026-10-21-windows-api-observed.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/windows-reference.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/differential/test_windows_observations.py",
+    "tests/differential/windows_api_probe.cpp",
+    "tests/differential/windows_observations.py"
+  ],
+  "summary": "Actual source6a688b79 collects all four native and four Windows API observations in the existing32MiB guest cap:25 owned calls,SDK ABI/guard checks,delegated read-only capability denial,raw field replay and complete owned cleanup. All payload/full VHD hashes unchanged;10,376-byte archive/43 entries. Windows projection matches primary on conflicting copies while native retains both;damaged-primary projection matches backup but its internal selection mechanism is unproven. Full591 host tests ran with8 skips before review/macro corrections;related99 differential tests (5 skips),actual native compile/queries and37 post-metadata tests (1 skip) qualify the changes separately. API-only evidence remains incomplete:8/12 tuples,4 UI not_run. Original0.1.0,owner,provider and release scope/gates unchanged. Dev source pushes succeeded;the reviewed available checkpoint is ready for normal main integration,recorded separately after actual writes.",
+  "tests": [
+    {
+      "command": "Managed full specification/tooling/differential validation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/validation.json.xz"
+    },
+    {
+      "command": "Pre-execution review and99 differential tests",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/preflight.json.xz"
+    },
+    {
+      "command": "First guest attempt90aedee2: observer compilation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/compile-failure-90aedee2/receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-windows-reference/launch.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/receipt.json.xz"
+    },
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-windows-reference/replay.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/replay.json"
+    },
+    {
+      "command": "37 affected metadata tests,structure,manifest and complete current context",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/api/post-native.json.xz"
+    },
+    {
+      "command": "Four actual Disk Management UI observations",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/REVIEW.md",
+      "sha256": "sha256:5d8619bdf2a0ba8efe359d9135da648a5c4a15672efdfd2572a6ea0f173709e7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/receipt.json.xz",
+      "sha256": "sha256:e334498387576c979d4ca91204db0c8214f11bedfb2a34a736df50c21331ce5f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/retained.tar.xz",
+      "sha256": "sha256:f1b904a21d6ebf3b6752729196928ac8adc0f10a215fa59fb19496e9d6f5a4bc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/replay.json",
+      "sha256": "sha256:a440edf5be2125c1075bf2131b58e4005e770d6e7dc19f5aa1001a1b31eddd22"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/cleanup.json.xz",
+      "sha256": "sha256:a4807df5d4db66e4e9a0b0df38df6d44b76bc38b364d701638201dd94e6fbdf8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/cleanup-live.json",
+      "sha256": "sha256:6fad84bbd96f349572f3bc097823fdefa5a29a388f059dfe9719101b41904a5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/validation.json.xz",
+      "sha256": "sha256:74c7da295e405c32a24897ff7cedc5a7f7c05b0d9498c3154a726343726bbcaa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/preflight.json.xz",
+      "sha256": "sha256:a061b25d739bc6abc9b868a75b65b34718d6d16d22598ad2047baf7d88ffc6ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/post-native.json.xz",
+      "sha256": "sha256:0207b605d927f1cd412b837430e9da3795a70f7a08f20b899adaa37954f70211"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api/launch.json.xz",
+      "sha256": "sha256:dd59e2f7e96e0bcba4060800d5964a3d6bb5cd989dd4c94d2a668e6e3f9c8e52"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/api-expected.json",
+      "sha256": "sha256:1f5871d933438ee591b313c886df8c380c357a22f2265448c23151216f8c56b8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/fixtures-before-native.json",
+      "sha256": "sha256:359dd204b3b254d84d26aa09b17b096b25724cd36bd920a34a741eaabaed874a"
+    },
+    {
+      "path": "tests/differential/windows_api_probe.cpp",
+      "sha256": "sha256:ab74ab2feaff9dd38f480dee3cb4be6ea8daa0da348c4a80decbf3d1ec286137"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Integrate this tested,agent-reviewed available native/API checkpoint under existing authorization,then continue DE-W107. Resolve actual HEAD and generate/verify fresh complete context. Implement/demonstrate bounded disposable UI profile/output and isolated or leased desktop before operational MMC observations. Read ui/inventory.json:installed components present,default-profile measurement2,756,221 logical bytes,session query exit1 despiteAgents/session3 active line;verify runtime session viaWindows APIs without account/UAC changes. Use Agents for coordination,never Jules;preserve Codex emergency account. Collect four actual UI tuples from fresh owned virtual-media copies;API-only or denied nonadmin preflight does not substitute. Keep originalall-platform/storage0.1.0 and owner/release gates.",
+  "performed_remote_writes": true
+}

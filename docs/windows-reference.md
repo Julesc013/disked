@@ -3,8 +3,11 @@
 DiskEd will use documented Windows interfaces, controlled reference experiments
 and independent regressions to settle specific compatibility questions. This
 extends the existing differential tests. It preserves the current source owners,
-native implementation direction and original 0.1.0 scope. The work below is
-planned; no Windows reference campaign or REA installation has been qualified.
+native implementation direction and original 0.1.0 scope. DE-W107's
+[native/API checkpoint](../.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md)
+records four actual Windows layout queries and their independent native results.
+The full campaign remains incomplete until four Disk Management UI observations
+exist. REA has not been installed or qualified.
 
 ## Which Windows component does what?
 

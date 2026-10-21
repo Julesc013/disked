@@ -1,10 +1,13 @@
 # DE-W107 fixture preparation
 
-This is working preparation, not a completed Windows reference campaign.
+The [native/API checkpoint](api/REVIEW.md) passes at exact source `6a688b79`:
+four native and four actual Windows layout-query observations, 25 owned calls,
+raw replay and verified cleanup. Four Disk Management UI observations remain
+not_run; this is **not a completed Windows reference campaign**.
 The [frozen byte facts](fixtures-before-native.json) define four separate 4 MiB,
 512-byte-sector fixtures and twelve required native/API/UI observation tuples.
-No native probe, virtual-media attachment, Windows API query or Disk Management
-observation has yet evaluated these fixtures.
+Those facts were frozen before native/Windows evaluation. Current results live
+in the checkpoint; the pre-evaluation file remains unchanged as historical input.
 
 The generator uses only Python's byte, integer, UUID and CRC facilities; it imports
 no product implementation. MBR has two bounded nonoverlapping extents. GPT copies
@@ -26,7 +29,8 @@ recalculation; the remaining suite preserves the existing completeness and worke
 controls. These are ordinary host byte/metadata tests with no native product or
 storage API execution. Managed temporary output was removed.
 
-Next, finish the exact guest execution contract and implementation together:
+The API execution contract and controller are implemented and tested. Next,
+finish the independent UI execution contract and implementation together:
 
 1. Bind the existing guest build, code/tool/component identities and fixed API/UI
    commands before evaluation. Query only an owned virtual disk resolved from its
@@ -44,6 +48,7 @@ Next, finish the exact guest execution contract and implementation together:
 The documented API question is
 [IOCTL_DISK_GET_DRIVE_LAYOUT_EX](https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_drive_layout_ex).
 Its result, the independently decoded bytes and UI display remain separate.
-The full specification/native/Windows execution gates for this new slice are
-pending. DE-W106's integrated review is retained separately; original 0.1.0 scope,
+The API checkpoint records full specification/tooling checks and actual native/API
+evidence; UI-profile and full twelve-observation gates remain pending.
+DE-W106's integrated review is retained separately; original 0.1.0 scope,
 owner acceptance, provider admission and release gates remain unchanged.

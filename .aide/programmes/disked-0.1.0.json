@@ -162,7 +162,7 @@
     "DE-W106"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Validate and freeze the available native/API candidate,create/verify current DE-W107 context,then run the25-call32MiB guest slice. Retain all four UI tuples as not_run until their exact shared-desktop/output profile and observations are implemented. Preserve owner/release gates and existing guest administration authority.",
+  "next_action": "Resolve actual HEAD and generate/verify a fresh DE-W107 context. Implement and demonstrate a bounded MMC/UI observation profile with owned output/profile paths and isolated or explicitly leased desktop,using Agents for routine coordination. Do not change shared users,security policy or VM configuration. Collect four actual Disk Management UI observations from separate known-byte virtual-media copies;do not substitute the completed API set. Keep original0.1.0 and owner/release/storage gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1775,26 +1775,30 @@
   },
   "in_progress_slice": {
     "work_id": "DE-W107",
-    "base_revision": "c19a33106c0eb7a13d3cb1759ba6a22ee19f2ae5",
+    "base_revision": "6a688b79ba3639ff5b65582617c3ea676674254c",
     "contract": "tests/differential/CONTRACT.md",
-    "state": "windows_reference_native_api_candidate",
+    "state": "windows_reference_native_api_observed_ui_pending",
     "qualification_pending": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "dependency_review": ".aide/evidence/2026-10-21-differential-qualification/REVIEW.md",
-    "next_action": "Validate and freeze the available native/API candidate,create/verify current DE-W107 context,then run the25-call32MiB guest slice. Retain all four UI tuples as not_run until their exact shared-desktop/output profile and observations are implemented. Preserve owner/release gates and existing guest administration authority.",
+    "next_action": "Resolve actual HEAD and generate/verify a fresh DE-W107 context. Implement and demonstrate a bounded MMC/UI observation profile with owned output/profile paths and isolated or explicitly leased desktop,using Agents for routine coordination. Do not change shared users,security policy or VM configuration. Collect four actual Disk Management UI observations from separate known-byte virtual-media copies;do not substitute the completed API set. Keep original0.1.0 and owner/release/storage gates.",
     "fixture_inputs": ".aide/evidence/2026-10-21-windows-reference/fixtures-before-native.json",
     "fixture_validation": ".aide/evidence/2026-10-21-windows-reference/fixture-validation.json.xz",
     "fixture_cases": 4,
     "required_observation_tuples": 12,
     "host_differential_tests_run": 89,
     "host_differential_tests_skipped": 5,
-    "native_fixture_evaluation_run": false,
-    "windows_api_observations": 0,
+    "native_fixture_evaluation_run": true,
+    "windows_api_observations": 4,
     "disk_management_ui_observations": 0,
     "api_execution_contract": ".aide/evidence/2026-10-21-windows-reference/api-expected.json",
     "api_observer": "tests/differential/windows_api_probe.cpp",
-    "api_media_controller": ".aide/evidence/2026-10-21-windows-reference/media.py"
+    "api_media_controller": ".aide/evidence/2026-10-21-windows-reference/media.py",
+    "api_review": ".aide/evidence/2026-10-21-windows-reference/api/REVIEW.md",
+    "api_replay": ".aide/evidence/2026-10-21-windows-reference/api/replay.json",
+    "api_calls": 25,
+    "evidence_status": "incomplete"
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -2536,6 +2540,30 @@
     "archive_entries": 224,
     "owned_cleanup_passed": true,
     "owner_accepted": false,
+    "release_qualified": false
+  },
+  "windows_reference_api_checkpoint": {
+    "work_id": "DE-W107",
+    "status": "available_native_api_review_pass_ui_incomplete",
+    "source_revision": "6a688b79ba3639ff5b65582617c3ea676674254c",
+    "guest_build": "19045.7548",
+    "architecture": "x64",
+    "review": ".aide/evidence/2026-10-21-windows-reference/api/REVIEW.md",
+    "receipt": ".aide/evidence/2026-10-21-windows-reference/api/receipt.json.xz",
+    "replay": ".aide/evidence/2026-10-21-windows-reference/api/replay.json",
+    "calls": 25,
+    "native_observations": 4,
+    "windows_api_observations": 4,
+    "ui_observations": 0,
+    "required_observations": 12,
+    "completed_observations": 8,
+    "campaign_complete": false,
+    "archive_bytes": 10376,
+    "archive_entries": 43,
+    "payload_and_vhd_hashes_unchanged": true,
+    "owned_cleanup_verified": true,
+    "owner_accepted": false,
+    "provider_admitted": false,
     "release_qualified": false
   }
 }

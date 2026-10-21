@@ -1,0 +1,136 @@
+{
+  "status": "available_native_api_slice_pass",
+  "evidence_status": "incomplete",
+  "campaign_complete": false,
+  "source_revision": "6a688b79ba3639ff5b65582617c3ea676674254c",
+  "port_calls": 25,
+  "observations": 8,
+  "missing_observations": [
+    {
+      "name": "mbr-valid",
+      "participant": "disk-management",
+      "kind": "ui-layout"
+    },
+    {
+      "name": "gpt-valid",
+      "participant": "disk-management",
+      "kind": "ui-layout"
+    },
+    {
+      "name": "gpt-primary-damaged",
+      "participant": "disk-management",
+      "kind": "ui-layout"
+    },
+    {
+      "name": "gpt-conflicting",
+      "participant": "disk-management",
+      "kind": "ui-layout"
+    }
+  ],
+  "findings": [
+    {
+      "name": "mbr-valid",
+      "operation_status": "completed",
+      "winerror": 0,
+      "windows_projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "83"
+          }
+        ]
+      },
+      "matching_candidates": [
+        "mbr"
+      ],
+      "ui": "not_run"
+    },
+    {
+      "name": "gpt-valid",
+      "operation_status": "completed",
+      "winerror": 0,
+      "windows_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_candidates": [
+        "primary",
+        "backup"
+      ],
+      "ui": "not_run"
+    },
+    {
+      "name": "gpt-primary-damaged",
+      "operation_status": "completed",
+      "winerror": 0,
+      "windows_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_candidates": [
+        "backup"
+      ],
+      "ui": "not_run"
+    },
+    {
+      "name": "gpt-conflicting",
+      "operation_status": "completed",
+      "winerror": 0,
+      "windows_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_candidates": [
+        "primary"
+      ],
+      "ui": "not_run"
+    }
+  ],
+  "archive_bytes": 10376,
+  "archive_entries": 43,
+  "original_bytes": 679866,
+  "all_owned_media_retired": true,
+  "all_owned_processes_retired": true,
+  "owner_accepted": false,
+  "release_qualified": false
+}
