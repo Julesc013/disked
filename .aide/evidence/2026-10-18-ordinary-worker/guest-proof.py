@@ -464,6 +464,8 @@ def loader_diagnose():
         (ROOT/'proof-result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
 
 def dispatch():
+    if len(sys.argv)>1 and sys.argv[1]=='--windows-contained-namespace':
+        load('contained_namespace',ROOT/'contained-namespace.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--windows-volume-namespace':
         load('volume_namespace',ROOT/'volume-namespace.py').coordinate(sys.modules[__name__]);return
     if len(sys.argv)>1 and sys.argv[1]=='--windows-reference-ui':

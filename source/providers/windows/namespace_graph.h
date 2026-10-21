@@ -7,11 +7,13 @@ struct NamespaceGraphBinding {
     CaptureKey key;
     json::Value worker_context;
     InventoryPolicy policy;
+    NamespaceBackend backend=NamespaceBackend::Injected;
 };
 // Pure projection of conforming data. This function authenticates no producer
 // and observes no process. The owned adapter supplies those separate bindings.
 GraphInput project_namespace_snapshot(const json::Value&,const NamespaceGraphBinding&);
 json::Value namespace_graph_context(const json::Value& worker_observation);
+json::Value native_namespace_graph_context(const json::Value& worker_observation);
 class NamespaceFrameSnapshot final {
     const json::Value value_,context_;
     const CaptureKey key_;
@@ -38,14 +40,17 @@ public:
 
 class NamespaceGraphAdapter final {
     ObservationCapture& capture_;std::string source_;
+    const NamespaceBackend backend_;
     CaptureKey key_;std::unique_ptr<NamespaceWorker> session_;
     json::Value context_;InventoryPolicy policy_;
     GraphInput previous_complete_;bool have_previous_complete_=false;
     std::shared_ptr<const NamespaceGraphEvidence> frames_;
     void consume(const json::Value&);
+    void begin(const InventoryPolicy&,const json::Value&);
 public:
-    NamespaceGraphAdapter(ObservationCapture&,std::string source);
+    NamespaceGraphAdapter(ObservationCapture&,std::string source,NamespaceBackend=NamespaceBackend::Injected);
     void start(const InventoryPolicy&,const json::Value& fixture);
+    void start_native(const InventoryPolicy&);
     void release();void cancel();bool timeout();bool wait_entered(DWORD);
     json::Value poll(DWORD wait_ms=0);
     json::Value retire(DWORD wait_ms=2000);

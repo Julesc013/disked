@@ -19,6 +19,8 @@ struct ObservationWorkerProfile {
     std::size_t payload_bytes=0;
     // Capability of the compiled provider; this host still grants no effects.
     bool compiled_effects_capable=false;
+    // Native namespace capability of the compiled profile, never input-selected.
+    bool compiled_native_namespace=false;
 };
 using ObservationCollector=std::function<json::Value(const std::function<bool()>&)>;
 using ObservationFactory=std::function<ObservationCollector(const json::Value&,const std::function<void()>&)>;

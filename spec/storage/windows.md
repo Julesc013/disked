@@ -96,6 +96,17 @@ integration surfaces under [DE-025](../interaction/native-integration.md), not
 alternate engines. Study service lifecycle only where a concrete DiskEd
 operation needs it; no general replacement of Windows services is added.
 
+## Contained native namespace candidate
+
+The [separate private native profile](../catalog/nt-native-namespace-prototype.json)
+selects a compiled native role explicitly. It preserves the injected reader's
+native/mixed-table refusal, uses distinct schema/attempt bindings and requires
+empty native provider input. The existing owned process lifecycle and immutable
+inventory publication are shared; native and fixture graph contexts remain typed
+and mutually checked. This candidate does not add a public provider or startup
+query. Its x64/Win32 native cases, unchanged injected regressions and current
+product qualification must pass before the selected implementation is reviewed.
+
 ## Required services and lifecycle observations
 
 For a named provider profile, record any required service or activation-capable

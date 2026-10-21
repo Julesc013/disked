@@ -1,0 +1,65 @@
+{
+  "work_id": "DE-W030",
+  "mode": "--windows-contained-namespace",
+  "status": "expected-before-native-evaluation",
+  "base_revision": "1762edb00355fc7181d2e4dba8469d1be5844394",
+  "profile": "spec/catalog/nt-native-namespace-prototype.json",
+  "arches": [
+    {
+      "name": "x64",
+      "pointer_bytes": 8,
+      "tool_subdir": "x64",
+      "machine": "X64"
+    },
+    {
+      "name": "Win32",
+      "pointer_bytes": 4,
+      "tool_subdir": "x86",
+      "machine": "X86"
+    }
+  ],
+  "cases": [
+    "worker.prepare_only",
+    "worker.normal",
+    "worker.no_mounts",
+    "worker.limit",
+    "worker.cancel_before",
+    "worker.gate_wait",
+    "worker.invalid",
+    "native.child_unknown_input",
+    "native.child_fixture_header",
+    "validation.cross_binding",
+    "graph.complete",
+    "graph.refresh",
+    "graph.partial",
+    "inventory.publication",
+    "fixture.native_table_guard"
+  ],
+  "legacy_regressions": [
+    {
+      "name": "adapter",
+      "script": "test_volume_namespace.py",
+      "probe": "volume_namespace_probe",
+      "minimum_controllers": 49,
+      "minimum_assertions": 258
+    },
+    {
+      "name": "worker",
+      "script": "test_namespace_worker.py",
+      "probe": "namespace_worker_probe",
+      "minimum_controllers": 24,
+      "minimum_assertions": 116
+    },
+    {
+      "name": "graph",
+      "script": "test_namespace_graph.py",
+      "probe": "namespace_graph_probe",
+      "minimum_controllers": 30,
+      "minimum_assertions": 1103
+    }
+  ],
+  "retention": "Retain all new native case streams. For unchanged legacy drivers,retain results,all artifact hashes and selected native/mixed refusal streams;regenerate other successful payloads rather than retaining them.",
+  "port_calls": 60,
+  "filesystem_mib": 32,
+  "full_product_gate": "Current full x64 product,standalone-header/import and applicable Win32 regression evidence required before main integration of shared changes."
+}

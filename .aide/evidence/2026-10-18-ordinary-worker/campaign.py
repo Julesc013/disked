@@ -127,11 +127,13 @@ def main():
     windows_reference='--windows-reference-api' in sys.argv or ui_profile or reference_ui
     reference_mode='--windows-reference-ui' if reference_ui else '--windows-ui-profile' if ui_profile else '--windows-reference-api'
     if reference_ui and not interactive_ui:raise ValueError('Windows UI reference requires its declared private session3 desktop')
-    volume_namespace='--windows-volume-namespace' in sys.argv
+    contained_namespace='--windows-contained-namespace' in sys.argv
+    volume_namespace='--windows-volume-namespace' in sys.argv or contained_namespace
+    volume_mode='--windows-contained-namespace' if contained_namespace else '--windows-volume-namespace'
     native_port='--native-port-proof' in sys.argv or windows_reference or volume_namespace
     coordinator_control='--coordinator-control-proof' in sys.argv
     native_probe='--native-probe-proof' in sys.argv or coordinator_control
-    if native_port and any(option not in ((reference_mode if windows_reference else '--windows-volume-namespace' if volume_namespace else '--native-port-proof'),'--prepare-only','--cleanup-only','--size-mib=32',*(['--interactive-ui'] if reference_ui else [])) for option in sys.argv[1:]):
+    if native_port and any(option not in ((reference_mode if windows_reference else volume_mode if volume_namespace else '--native-port-proof'),'--prepare-only','--cleanup-only','--size-mib=32',*(['--interactive-ui'] if reference_ui else [])) for option in sys.argv[1:]):
         raise ValueError('Native port proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
     if native_probe and any(option not in (('--coordinator-control-proof' if coordinator_control else '--native-probe-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native probe proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
@@ -207,10 +209,12 @@ def main():
             (stage/name).write_bytes(data)
     probe_files=()
     if volume_namespace:
-        source=HERE.parent/'2026-10-21-volume-namespace/control.py'
-        data=source.read_bytes();ast.parse(data);(stage/'volume-namespace.py').write_bytes(data)
+        origin=HERE.parent/('2026-10-21-contained-namespace' if contained_namespace else '2026-10-21-volume-namespace')
+        source=origin/'control.py'
+        target_name='contained-namespace.py' if contained_namespace else 'volume-namespace.py'
+        data=source.read_bytes();ast.parse(data);(stage/target_name).write_bytes(data)
         definition=importlib.util.spec_from_file_location('volume_namespace_sources',source);control=importlib.util.module_from_spec(definition);definition.loader.exec_module(control)
-        probe_files=('volume-namespace.py',*control.FILES)
+        probe_files=(target_name,*control.FILES)
         for path in control.FILES:
             target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     if windows_reference:
@@ -286,7 +290,9 @@ def main():
     if native_port or native_probe or cooperative:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
     if coordinator_control:expected['coordinator_controls']=json.loads((HERE.parent/'2026-10-21-differential-qualification/expected.json').read_bytes())
-    if volume_namespace:expected['volume_namespace']=json.loads((HERE.parent/'2026-10-21-volume-namespace/expected.json').read_bytes())
+    if volume_namespace:
+        key='contained_namespace' if contained_namespace else 'volume_namespace'
+        expected[key]=json.loads((origin/'expected.json').read_bytes())
     if windows_reference:
         expected['windows_reference']=json.loads((HERE.parent/'2026-10-21-windows-reference'/('ui/expected.json' if reference_ui else 'ui/profile-expected.json' if ui_profile else 'api-expected.json')).read_bytes())
         expected['windows_reference']['fixtures']=json.loads((HERE.parent/'2026-10-21-windows-reference/fixtures-before-native.json').read_bytes())
@@ -412,7 +418,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--windows-volume-namespace' if volume_namespace else reference_mode if windows_reference else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else volume_mode if volume_namespace else reference_mode if windows_reference else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',

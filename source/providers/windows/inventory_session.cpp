@@ -48,8 +48,8 @@ std::shared_ptr<const InventoryPublication> InventoryPort::publication()const{re
 std::shared_ptr<const GraphInput> InventoryPort::graph()const{
     const auto owner=state_->publication;return std::shared_ptr<const GraphInput>(owner,&owner->view()->graph);
 }
-InventorySession::InventorySession(StorageFrameProfile profile,StorageGraphProjection projection):
-    capture_({"namespace","storage"},GraphProfile::Observations),namespace_(capture_,"namespace"),storage_(capture_,"storage",profile,projection),
+InventorySession::InventorySession(StorageFrameProfile profile,StorageGraphProjection projection,NamespaceBackend backend):
+    capture_({"namespace","storage"},GraphProfile::Observations),namespace_(capture_,"namespace",backend),storage_(capture_,"storage",profile,projection),
     state_(std::make_shared<InventoryPortState>()){publish();}
 void InventorySession::release(InventorySource source){if(storage_source(source))storage_.release();else namespace_.release();}
 void InventorySession::cancel(InventorySource source){if(storage_source(source))storage_.cancel();else namespace_.cancel();}

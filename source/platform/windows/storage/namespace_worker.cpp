@@ -24,6 +24,11 @@ NamespaceInput request(const V& h) {
     r.policy.volumes=static_cast<std::uint32_t>(v);r.policy.mounts=static_cast<std::uint32_t>(m);r.policy.mount_units=static_cast<std::uint32_t>(u);r.policy.include_mounts=field(p,"include_mounts").boolean;
     r.provider_input=field(h,"provider_input");valid(r);return r;
 }
+NamespaceInput native_request(const V& h) {
+    auto r=request(h);
+    if(!r.provider_input.fields.empty())throw std::invalid_argument("namespace_native_input");
+    return r;
+}
 void snapshot_shape(const V& s,const V& h) {
     exact(s,{"schema","provider","capture_epoch","status","scope","api_binding","policy","enumeration","close","records","claims"});
     if(text(s,"provider")!="windows.volume-namespace.prototype" || !std::set<std::string>{"complete","partial","cancelled","denied","unavailable"}.count(text(s,"status")))throw std::invalid_argument("namespace_snapshot_shape");
@@ -60,10 +65,11 @@ void snapshot_shape(const V& s,const V& h) {
 }
 json::Limits namespace_worker_limits() {json::Limits l;l.bytes=reply_bytes;l.values=20000;l.depth=24;return l;}
 void validate_namespace_input(const NamespaceInput& input) {valid(input);}
-void validate_namespace_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy) {
+namespace {
+void validate_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy,const char* binding) {
     NamespaceInput input;input.capture_epoch=capture;input.policy=policy;input.provider_input=V::object();valid(input);
     if(text(snapshot,"schema")!="org.disked.nt-volume-namespace-prototype/1" || text(snapshot,"capture_epoch")!=std::to_string(capture) ||
-        text(snapshot,"api_binding")!="injected-win32-table" || text(snapshot,"scope")!="volume-namespace-only" ||
+        text(snapshot,"api_binding")!=binding || text(snapshot,"scope")!="volume-namespace-only" ||
         json::dump(field(snapshot,"policy"))!=json::dump(policy_value(policy)))throw std::invalid_argument("namespace_snapshot_binding");
     const auto binding=V::object().put("capture_epoch",number(capture)).put("policy",policy_value(policy));snapshot_shape(snapshot,binding);
     const auto& claims=field(snapshot,"claims");
@@ -79,15 +85,35 @@ void validate_namespace_snapshot(const V& snapshot,std::uint64_t capture,const I
     if(units>policy.mount_units)throw std::invalid_argument("namespace_snapshot_units");
     json::dump(snapshot,volume_inventory_limits());
 }
+}
+void validate_namespace_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy) {
+    validate_snapshot(snapshot,capture,policy,"injected-win32-table");
+}
+void validate_native_namespace_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy) {
+    validate_snapshot(snapshot,capture,policy,"native-win32-table");
+}
 namespace {
-ObservationWorkerProfile profile() {
+ObservationWorkerProfile profile(NamespaceBackend backend=NamespaceBackend::Injected) {
+    if(backend!=NamespaceBackend::Injected && backend!=NamespaceBackend::Native)throw std::invalid_argument("namespace_backend");
+    const bool native=backend==NamespaceBackend::Native;
     ObservationWorkerProfile p;p.prefix="namespace";p.scope="injected-volume-namespace";p.input_schema="org.disked.nt-namespace-worker-input/1";
     p.reply_schema="org.disked.nt-namespace-worker-reply/1";p.observation_schema="org.disked.nt-namespace-worker-observation/1";
     p.role=L"__disked_nt_namespace_fixture_worker";p.attempt_prefix="namespace-attempt:";p.records_field="records";
     p.input_mapping_bytes=98304;p.input_limits=namespace_worker_limits();p.input_limits.bytes=98300;p.input_limits.values=18000;
     p.provider_limits=p.input_limits;p.provider_limits.bytes=65535;p.provider_limits.values=16384;p.reply_limits=namespace_worker_limits();
     p.validate_request=[](const V& v){request(v);};
-    p.validate_result=[](const V& snapshot,const V& h){const auto r=request(h);validate_namespace_snapshot(snapshot,r.capture_epoch,r.policy);};return p;
+    p.validate_result=[](const V& snapshot,const V& h){const auto r=request(h);validate_namespace_snapshot(snapshot,r.capture_epoch,r.policy);};
+    if(native) {
+        p.prefix="namespace-native";p.scope="native-volume-namespace";
+        p.input_schema="org.disked.nt-native-namespace-worker-input/1";
+        p.reply_schema="org.disked.nt-native-namespace-worker-reply/1";
+        p.observation_schema="org.disked.nt-native-namespace-worker-observation/1";
+        p.role=L"__disked_nt_native_namespace_worker";p.attempt_prefix="namespace-native-attempt:";
+        p.compiled_native_namespace=true;
+        p.validate_request=[](const V& v){native_request(v);};
+        p.validate_result=[](const V& snapshot,const V& h){const auto r=native_request(h);validate_native_namespace_snapshot(snapshot,r.capture_epoch,r.policy);};
+    }
+    return p;
 }
 }
 struct NamespaceWorker::Impl {std::unique_ptr<ObservationWorker> worker;};
@@ -98,6 +124,13 @@ std::unique_ptr<NamespaceWorker> NamespaceWorker::prepare(const NamespaceInput& 
     std::unique_ptr<Impl> p(new Impl());p->worker=ObservationWorker::prepare(v,profile());return std::unique_ptr<NamespaceWorker>(new NamespaceWorker(std::move(p)));
 }
 std::unique_ptr<NamespaceWorker> NamespaceWorker::start(const NamespaceInput& r){auto p=prepare(r);p->launch();return p;}
+std::unique_ptr<NamespaceWorker> NamespaceWorker::prepare_native(std::uint64_t capture,const InventoryPolicy& policy){
+    NamespaceInput r;r.capture_epoch=capture;r.policy=policy;r.provider_input=V::object();valid(r);
+    auto value=V::object().put("capture_epoch",number(capture)).put("policy",policy_value(policy)).put("provider_input",V::object());
+    std::unique_ptr<Impl> p(new Impl());p->worker=ObservationWorker::prepare(value,profile(NamespaceBackend::Native));
+    return std::unique_ptr<NamespaceWorker>(new NamespaceWorker(std::move(p)));
+}
+std::unique_ptr<NamespaceWorker> NamespaceWorker::start_native(std::uint64_t capture,const InventoryPolicy& policy){auto p=prepare_native(capture,policy);p->launch();return p;}
 void NamespaceWorker::launch(){impl_->worker->launch();}
 bool NamespaceWorker::never_launched() const{return impl_->worker->never_launched();}
 void NamespaceWorker::release(){impl_->worker->release();}
@@ -110,6 +143,16 @@ int namespace_worker_role(int argc,wchar_t** argv,const VolumeFactory& factory){
         const auto r=request(h);auto api=factory(field(h,"provider_input"),notify);const auto native=native_volume_api();
         if(api.first==native.first || api.next==native.next || api.close==native.close || api.mounts==native.mounts || api.error==native.error)throw std::invalid_argument("namespace_native_port_not_admitted");
         auto cursor=std::make_shared<VolumeCursor>(api);return [cursor,r](const std::function<bool()>& cancelled){return collect_volume_namespace(*cursor,r.capture_epoch,r.policy,cancelled);};
+    });
+}
+int native_namespace_worker_role(int argc,wchar_t** argv){
+    return observation_worker_role(argc,argv,profile(NamespaceBackend::Native),[](const V& h,const std::function<void()>& notify)->ObservationCollector{
+        const auto r=native_request(h);auto cursor=std::make_shared<VolumeCursor>(native_volume_api());
+        return [cursor,r,notify](const std::function<bool()>& cancelled){
+            // This marks collector dispatch, not kernel-query entry or completion.
+            if(!cancelled || !cancelled())notify();
+            return collect_volume_namespace(*cursor,r.capture_epoch,r.policy,cancelled);
+        };
     });
 }
 }}

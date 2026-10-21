@@ -32,7 +32,7 @@ void header(const V& h,const ObservationWorkerProfile& p){
 Handle section(const Security& s,std::size_t bytes){auto a=s.attributes;Handle h(CreateFileMappingW(INVALID_HANDLE_VALUE,&a,PAGE_READWRITE,0,static_cast<DWORD>(bytes),nullptr));if(!h.valid())fail("observation_mapping_create");return h;}
 Handle event(const Security& s){auto a=s.attributes;Handle h(CreateEventW(&a,TRUE,FALSE,nullptr));if(!h.valid())fail("observation_event_create");return h;}
 void signal(HANDLE h){if(!SetEvent(h))fail("observation_event_signal");}
-V permissions(const ObservationWorkerProfile& profile){auto out=V::object().put("live_namespace",V::boolean_value(false)).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false)).put("durable_reconnect",V::boolean_value(false));if(profile.compiled_effects_capable)out.put("compiled_effects_capable",V::boolean_value(true));return out;}
+V permissions(const ObservationWorkerProfile& profile){auto out=V::object().put("live_namespace",V::boolean_value(profile.compiled_native_namespace)).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false)).put("durable_reconnect",V::boolean_value(false));if(profile.compiled_effects_capable)out.put("compiled_effects_capable",V::boolean_value(true));return out;}
 }
 struct ObservationWorker::Impl {
     Security security;Image image;Directory code_parent;WorkerBudget aggregate;
@@ -44,6 +44,7 @@ ObservationWorker::ObservationWorker(std::unique_ptr<Impl> p):impl_(std::move(p)
 ObservationWorker::~ObservationWorker()=default;
 const V& ObservationWorker::binding() const{return impl_->binding;}
 std::unique_ptr<ObservationWorker> ObservationWorker::prepare(const V& r,const ObservationWorkerProfile& profile,HANDLE payload){
+    if(profile.compiled_native_namespace && (profile.payload_bytes || profile.compiled_effects_capable))invalid(profile,"native_namespace_effects_profile");
     request(r,profile);if(profile.input_mapping_bytes<sizeof(Input) || profile.input_mapping_bytes>278528 || profile.input_limits.bytes>profile.input_mapping_bytes-sizeof(Input) || profile.reply_limits.bytes>786432)invalid(profile,"profile");
     if(profile.payload_bytes>16U*1024U*1024U || ((payload && payload!=INVALID_HANDLE_VALUE)!=bool(profile.payload_bytes)))invalid(profile,"payload_profile");
     std::unique_ptr<Impl> p(new Impl(profile));p->binding=r;

@@ -52,6 +52,15 @@ Microsoft documents the APIs and their returned buffers/order independently:
 [GetVolumePathNamesForVolumeNameW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew).
 
 
+A distinct compiled native namespace role is now a candidate under the
+[native profile](../spec/catalog/nt-native-namespace-prototype.json). Explicit
+native worker/adapter/session entrypoints share the existing process and immutable
+publication machinery; default fixture entrypoints retain their original guards.
+Native schemas, empty provider input and typed graph contexts prevent implicit
+adoption of fixture evidence. This candidate is not yet native-qualified and
+adds no public entrypoint. Its selected capability flag does not claim a query
+has completed. The native dispatch checkpoint is not a kernel-query-entry proof.
+
 A private same-file contained observer is implemented under the
 [namespace worker profile](../spec/catalog/nt-namespace-worker-prototype.json).
 It reuses existing native worker code pins, ACLs, job limits and restricted

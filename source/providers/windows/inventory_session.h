@@ -36,11 +36,12 @@ class InventorySession final {
     StorageGraphAdapter storage_;
     std::shared_ptr<InventoryPortState> state_;
 public:
-    explicit InventorySession(StorageFrameProfile profile=StorageFrameProfile::Metadata,StorageGraphProjection projection=StorageGraphProjection::Frame);
+    explicit InventorySession(StorageFrameProfile profile=StorageFrameProfile::Metadata,StorageGraphProjection projection=StorageGraphProjection::Frame,NamespaceBackend backend=NamespaceBackend::Injected);
     InventorySession(const InventorySession&)=delete;
     InventorySession& operator=(const InventorySession&)=delete;
     void next_capture(){capture_.next_capture();}
     void start_namespace(const InventoryPolicy& policy,const json::Value& fixture){namespace_.start(policy,fixture);}
+    void start_native_namespace(const InventoryPolicy& policy){namespace_.start_native(policy);}
     void start_storage(const StorageQueryPolicy& policy,const json::Value& fixture,const std::vector<StorageComparisonSelection>& selections={}){storage_.start(policy,fixture,selections);}
     void release(InventorySource);void cancel(InventorySource);bool timeout(InventorySource);bool wait_entered(InventorySource,DWORD);
     json::Value poll(InventorySource,DWORD wait_ms=0);json::Value retire(InventorySource,DWORD wait_ms=2000);

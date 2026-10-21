@@ -219,6 +219,18 @@ target_compile_definitions(nt_inventory_port_probe PRIVATE _WIN32_WINNT=0x0A00 W
 target_compile_options(nt_inventory_port_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_inventory_port_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
 
+# Separate compiled native namespace role. The existing injected roles retain
+# their original native/mixed-table refusals; no shipped product entrypoint.
+get_target_property(native_namespace_sources nt_storage_worker_probe SOURCES)
+list(FILTER native_namespace_sources EXCLUDE REGEX "(storage_worker_probe|storage_fixture|volume_fixture)[.]cpp$")
+add_executable(nt_native_namespace_probe ${native_namespace_sources}
+  "${DISKED_ROOT}/source/providers/windows/inventory_session.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/native_namespace_probe.cpp")
+target_include_directories(nt_native_namespace_probe PRIVATE "${DISKED_ROOT}/source")
+target_compile_definitions(nt_native_namespace_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00)
+target_compile_options(nt_native_namespace_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_native_namespace_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
 # Actual renderer composition remains separate from the shipped fake product.
 set(inventory_frontend_sources ${identity_frontend_sources})
 list(FILTER inventory_frontend_sources EXCLUDE REGEX "observation_frontend_probe[.]cpp$")
