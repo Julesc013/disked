@@ -134,6 +134,7 @@ def collect(g,work,environment,executor,result,profile,private):
                 mmc=Path(os.environ['WINDIR'])/'System32/mmc.exe'
                 child,mmc_launch=role.launch([str(mmc),str(mmc.with_name('diskmgmt.msc'))],environment,case_job,name+'-mmc');children.append(child)
                 report['mmc_started']=True;profile['mmc_started']=True
+                mmc_launch['leader_exit_before_observer_launch']=child.poll()
                 observer_child,ui_launch=role.launch([str(observer),str(child.pid),media.nonce,'Disk '+str(disk_number)],environment,case_job,name+'-uia');children.append(observer_child)
                 outcome=wait(observer_child,ui_launch,35);mmc_launch['leader_exit_before_retirement']=child.poll()
                 retire();row['ui']['observer_execution']=ui_launch;row['ui']['mmc_execution']=mmc_launch

@@ -39,6 +39,8 @@ class Reference:
         b(self.k,'CreateFileW',T.HANDLE,T.LPCWSTR,T.DWORD,T.DWORD,C.POINTER(g.W.SecurityAttributes),T.DWORD,T.DWORD,T.HANDLE)
         b(self.k,'ResumeThread',T.DWORD,T.HANDLE);b(self.k,'TerminateProcess',T.BOOL,T.HANDLE,T.UINT)
         b(self.k,'WaitForSingleObject',T.DWORD,T.HANDLE,T.DWORD)
+        b(self.k,'IsProcessInJob',T.BOOL,T.HANDLE,T.HANDLE,C.POINTER(T.BOOL))
+        b(self.k,'GetExitCodeProcess',T.BOOL,T.HANDLE,C.POINTER(T.DWORD))
         b(self.k,'ProcessIdToSessionId',T.BOOL,T.DWORD,C.POINTER(T.DWORD))
         worker.require(self.a.ConvertStringSidToSidW(worker.user_sid,C.byref(self.actor)))
         worker.require(self.a.ConvertStringSidToSidW('S-1-5-32-544',C.byref(self.admin)))
@@ -115,7 +117,25 @@ class Reference:
             block=C.create_unicode_buffer('\0'.join(key+'='+value for key,value in sorted(env.items(),key=lambda pair:pair[0].upper()))+'\0\0')
             line=subprocess.list2cmdline(argv);assert len(line)<1024 and '\0' not in line
             w.require(self.a.CreateProcessWithTokenW(self.token,0,argv[0],C.create_unicode_buffer(line),0x08000404,block,str(w.work),C.byref(startup),C.byref(process)))
-            w.require(job.api.AssignProcessToJobObject(job.handle,process.process));self.quiescent=False
+            row['created_pid']=process.pid
+            def job_state():
+                any_job,specific,exit_code=T.BOOL(),T.BOOL(),T.DWORD()
+                w.require(self.k.IsProcessInJob(process.process,None,C.byref(any_job)))
+                w.require(self.k.IsProcessInJob(process.process,job.handle,C.byref(specific)))
+                w.require(self.k.GetExitCodeProcess(process.process,C.byref(exit_code)))
+                query=self.g.W.bind(job.api,'QueryInformationJobObject',T.BOOL,T.HANDLE,C.c_int,P,T.DWORD,P)
+                limits=job.limit_info_type();w.require(query(job.handle,9,C.byref(limits),C.sizeof(limits),None))
+                ui=T.DWORD();w.require(query(job.handle,4,C.byref(ui),C.sizeof(ui),None))
+                return dict(in_any_job=bool(any_job.value),in_owned_job=bool(specific.value),exit_code=exit_code.value,
+                    flags=hex(limits.basic.flags),process_limit=limits.basic.active,memory_limit=limits.job_memory,
+                    peak_job_memory=limits.peak_job,ui_limits=ui.value)
+            row['job_before_assignment']=job_state()
+            if not row['job_before_assignment']['in_owned_job']:
+                if not job.api.AssignProcessToJobObject(job.handle,process.process):
+                    error=C.get_last_error();row['assignment_error']=error;row['job_after_assignment_error']=job_state();raise C.WinError(error)
+            row['job_after_assignment']=job_state()
+            assert row['job_after_assignment']['in_owned_job']
+            self.quiescent=False
             token=T.HANDLE();w.require(self.a.OpenProcessToken(process.process,0xe,C.byref(token)))
             try:actual=self.identity(token)
             finally:self.k.CloseHandle(token)
