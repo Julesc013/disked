@@ -1,0 +1,290 @@
+{
+  "status": "pass",
+  "campaign_complete": true,
+  "observations": 12,
+  "expected_observations": 12,
+  "single_run_all_participants": false,
+  "native_api_source_revision": "6a688b79ba3639ff5b65582617c3ea676674254c",
+  "ui_source_revision": "68989ab2269fe58cbec83d4119bbe6bf47ebd608",
+  "windows_registry": {
+    "CurrentBuildNumber": "19045",
+    "UBR": 7548,
+    "EditionID": "Enterprise",
+    "BuildLabEx": "19041.1.amd64fre.vb_release.191206-1406"
+  },
+  "findings": [
+    {
+      "name": "mbr-valid",
+      "fixture_sha256": "sha256:b091a320ca351c88e79a457edbd5fc8857eb0bf44d1330d96975e6b3d8009eca",
+      "windows_api_projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "83"
+          }
+        ]
+      },
+      "matching_native_candidates": [
+        "mbr"
+      ],
+      "ui_projection": {
+        "surface": "Disk Management UI Automation volume list/graphical accessibility",
+        "display_locator": "Disk 2",
+        "rows": [
+          {
+            "Volume": "(Disk 2 partition 1)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Primary Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 1,
+            "uia_offscreen": false
+          },
+          {
+            "Volume": "(Disk 2 partition 2)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "",
+            "Status": "Healthy (Primary Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 2,
+            "uia_offscreen": false
+          }
+        ],
+        "graphical_nameplate": null,
+        "graphical_regions": [],
+        "byte_extents": null,
+        "filesystem_integrity": null,
+        "gpt_winner": null,
+        "pixels_captured": false,
+        "interpretation": "Rounded capacities,free-space and Healthy labels are presentation observations,not byte geometry or storage verification."
+      },
+      "extent_comparison": "not_comparable: UI capacities are display text;no exact LBA/byte projection",
+      "native_conflict_retained": false
+    },
+    {
+      "name": "gpt-valid",
+      "fixture_sha256": "sha256:4be082774fa0574df5d645e83ca1fbcbf346eb66218b9eb8dca5f4a7d8966c96",
+      "windows_api_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_native_candidates": [
+        "primary",
+        "backup"
+      ],
+      "ui_projection": {
+        "surface": "Disk Management UI Automation volume list/graphical accessibility",
+        "display_locator": "Disk 2",
+        "rows": [
+          {
+            "Volume": "(Disk 2 partition 1)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 1,
+            "uia_offscreen": false
+          },
+          {
+            "Volume": "(Disk 2 partition 2)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 2,
+            "uia_offscreen": false
+          }
+        ],
+        "graphical_nameplate": null,
+        "graphical_regions": [],
+        "byte_extents": null,
+        "filesystem_integrity": null,
+        "gpt_winner": null,
+        "pixels_captured": false,
+        "interpretation": "Rounded capacities,free-space and Healthy labels are presentation observations,not byte geometry or storage verification."
+      },
+      "extent_comparison": "not_comparable: UI capacities are display text;no exact LBA/byte projection",
+      "native_conflict_retained": false
+    },
+    {
+      "name": "gpt-primary-damaged",
+      "fixture_sha256": "sha256:076f7995ee965a6f76227de20989d5e01e3172b9152388599d116105e7b4929e",
+      "windows_api_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_native_candidates": [
+        "backup"
+      ],
+      "ui_projection": {
+        "surface": "Disk Management UI Automation volume list/graphical accessibility",
+        "display_locator": "Disk 2",
+        "rows": [
+          {
+            "Volume": "(Disk 2 partition 1)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 1,
+            "uia_offscreen": false
+          },
+          {
+            "Volume": "(Disk 2 partition 2)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 2,
+            "uia_offscreen": false
+          }
+        ],
+        "graphical_nameplate": null,
+        "graphical_regions": [],
+        "byte_extents": null,
+        "filesystem_integrity": null,
+        "gpt_winner": null,
+        "pixels_captured": false,
+        "interpretation": "Rounded capacities,free-space and Healthy labels are presentation observations,not byte geometry or storage verification."
+      },
+      "extent_comparison": "not_comparable: UI capacities are display text;no exact LBA/byte projection",
+      "native_conflict_retained": false
+    },
+    {
+      "name": "gpt-conflicting",
+      "fixture_sha256": "sha256:357ac8b91918ed6f523dd24667eef63491ed7c199707350ad9ab97b3cf7aee9d",
+      "windows_api_projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "start": 2048,
+            "end": 3072,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          },
+          {
+            "start": 4096,
+            "end": 5120,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7"
+          }
+        ]
+      },
+      "matching_native_candidates": [
+        "primary"
+      ],
+      "ui_projection": {
+        "surface": "Disk Management UI Automation volume list/graphical accessibility",
+        "display_locator": "Disk 2",
+        "rows": [
+          {
+            "Volume": "(Disk 2 partition 1)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 1,
+            "uia_offscreen": false
+          },
+          {
+            "Volume": "(Disk 2 partition 2)",
+            "Layout": "Simple",
+            "Type": "Basic",
+            "File System": "RAW",
+            "Status": "Healthy (Basic Data Partition)",
+            "Capacity": "1 MB",
+            "Free Space": "1 MB",
+            "% Free": "100 %",
+            "partition_number": 2,
+            "uia_offscreen": false
+          }
+        ],
+        "graphical_nameplate": null,
+        "graphical_regions": [],
+        "byte_extents": null,
+        "filesystem_integrity": null,
+        "gpt_winner": null,
+        "pixels_captured": false,
+        "interpretation": "Rounded capacities,free-space and Healthy labels are presentation observations,not byte geometry or storage verification."
+      },
+      "extent_comparison": "not_comparable: UI capacities are display text;no exact LBA/byte projection",
+      "native_conflict_retained": true
+    }
+  ],
+  "ui_archive_bytes": 8956,
+  "ui_archive_entries": 21,
+  "ui_original_bytes": 311898,
+  "all_owned_media_retired": true,
+  "all_owned_processes_retired": true,
+  "profile_and_membership_retired": true,
+  "service_before": {
+    "name": "vds",
+    "winerror": 0,
+    "type": 16,
+    "state": 4,
+    "controls": 1,
+    "service_exit": 0,
+    "pid": 8572
+  },
+  "service_after": {
+    "name": "vds",
+    "winerror": 0,
+    "type": 16,
+    "state": 4,
+    "controls": 1,
+    "service_exit": 0,
+    "pid": 8572
+  },
+  "storage_provider_admitted": false,
+  "owner_accepted": false,
+  "release_qualified": false,
+  "full_0_1_0_complete": false
+}

@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. Its retained578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. Continue DE-W107's actual Windows API/UI reference pilot. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
+Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. Its retained578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. DE-W107's frozen12-tuple Windows native/API/UI reference set now passes replay and608 host tests(eight skips). Continue bounded actual volume-namespace observation under DE-W030. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
 
 ## Storage recovery
 
@@ -125,15 +125,18 @@ Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers
   Current253/241/84 host tests pass with eight skips;owned guest/host scratch is removed.
   Independent external reference,Linux and sanitizer qualification remain unverified.
   [Review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md).
-- [ ] DE-W107: four generated partition cases with exact Windows API/UI reference
+- [x] DE-W107: four generated partition cases with exact Windows API/UI reference
   identities, independent expectations, retained disagreements and cleanup.
   Apply findings to existing provider/integration gates; REA remains optional.
   Exact `6a688b79` records four native/four real Windows API observations,25 owned
   calls,source/media preservation,raw replay and cleanup. Windows' conflicting-GPT
   projection matches the primary;both native candidates remain unresolved.
-  Disposable capped profile/known-folder/HKCU proof passes at `10f4173f`,with
-  owned cleanup. Administrative MMC profile and four UI observations remain pending.
-  [Profile review](.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md).
+  Four actual Disk Management UI Automation captures at `68989ab2` now complete
+  the frozen12-tuple set. Exact source/media/role identities and cleanup replay;
+  displayed1MB/Healthy values do not resolve the independent GPT conflict.
+  Full253 specification,247 tooling and108 differential tests pass(eight skips).
+  Agent review permits local DE-W030 continuation;owner/provider/release gates stay separate.
+  [Combined review](.aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md).
   [Native/API review](.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md).
 
 - [x] DE-W105 public same-capture NTFS name-order view with explicit prefixes and

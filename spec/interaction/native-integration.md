@@ -68,6 +68,12 @@ Follow [DE-074](../development/testing-and-ci.md) for exact evidence and the
 Windows reference plan (`docs/windows-reference.md` in the implementation repository) for staged work.
 An adapter's registration remains separate managed lifecycle work.
 
+DE-W107's retained Disk Management UI Automation observations qualify only the
+selected Microsoft console's accessible partition presentation on its recorded
+Windows build. They do not qualify a DiskEd adapter, registration, target-change
+or callback-lifetime behavior. DE-W035 still selects and tests its own surface;
+rounded capacities and status labels cannot become storage authority.
+
 Select one integration surface and exact host/build/ABI/bitness profile for each
 bounded prototype. Qualify activation, typed dispatch, multiple instances and
 callback lifetime separately from storage-provider capability. Unsupported hosts,

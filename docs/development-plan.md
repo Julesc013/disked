@@ -17,16 +17,21 @@ execution-port calls,six positive observations,retained disagreement,negative
 receipt/interruption controls,replay and cleanup. The
 [review](../.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) distinguishes
 the labelled repository protocol fixture from unavailable independent reference
-tools. Continue DE-W107's actual four-case Windows API/UI campaign.
+tools. DE-W107's actual four-case Windows API/UI campaign now passes combined replay.
 Its [fixture preparation](../.aide/evidence/2026-10-21-windows-reference/README.md)
 defines separate4MiB images. The [native/API checkpoint](../.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md)
 now records four native and four real Windows API observations at `6a688b79`,
-25 owned calls,raw replay and cleanup. Four actual Disk Management UI observations
-remain pending;API-only results do not complete DE-W107.
+25 owned calls,raw replay and cleanup. Four actual Disk Management UI Automation
+captures at `68989ab2` now complete the frozen 12-observation set with independently
+verified media/source identities and cleanup. The
+[combined review](../.aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md)
+keeps rounded display values separate from exact geometry and conflict evidence.
 The [capped disposable profile proof](../.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md)
 passes at `10f4173f`,including actual restricted profile/known-folder/HKCU checks
-and owned cleanup. Administrative MMC/UI execution is the next qualification;
-this prerequisite adds no UI tuple.
+and owned cleanup. It was subsequently exercised by the separate administrative
+reference role; the actual later captures add the four UI tuples. Full253 specification,
+247 tooling and108 differential tests pass with eight skips. Agent review permits
+the next bounded DE-W030 native volume-namespace slice after stable integration.
 Keep existing storage limits and protected records. No account,UAC,authentication
 or confined-worker setup grant is missing.
 
@@ -36,10 +41,9 @@ DE-W105's qualified native checkpoint feeds DE-W106's differential evidence
 completeness and bounded campaign routing work. DE-W107 observes four generated
 partition layouts through declared API and UI actions on an exact Windows build.
 Reviewed findings improve existing provider/integration contracts. REA is an
-optional research tool; it is not installed or a runtime dependency. These are
-planned tasks with explicit inputs and completion criteria in
-[work definitions](../spec/work/units.json), not completed experiments or extra
-prerequisites for the already-running native work. The original all-platform/
+optional research tool; it is not installed or a runtime dependency. The broader integration tasks retain explicit inputs and completion criteria in
+[work definitions](../spec/work/units.json). The completed partition pilot adds no
+extra prerequisites to unrelated native work and does not qualify those future surfaces. The original all-platform/
 storage objective and release gates remain unchanged.
 
 ## Bounded implementation sequence

@@ -6,13 +6,23 @@ extends the existing differential tests. It preserves the current source owners,
 native implementation direction and original 0.1.0 scope. DE-W107's
 [native/API checkpoint](../.aide/evidence/2026-10-21-windows-reference/api/REVIEW.md)
 records four actual Windows layout queries and their independent native results.
-The full campaign remains incomplete until four Disk Management UI observations
-exist. REA has not been installed or qualified.
+The [combined reference review](../.aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md)
+now verifies the complete frozen 12-tuple set, including four actual Disk
+Management UI Automation captures at `68989ab2`. The runs and participant copies
+are identified separately. REA has not been installed or qualified.
 
 The [disposable profile preflight](../.aide/evidence/2026-10-21-windows-reference/ui/REVIEW.md)
 passed at `10f4173f`: Windows resolved the restricted probe's profile and known
 folders on capped guest storage, its owned hive write was independently verified,
-and cleanup completed. Actual administrative MMC/UI execution remains unqualified.
+and cleanup completed. The later campaign qualified its exact guest reference
+role and private desktop for these observations. DiskEd's own MMC integration,
+other hosts and production providers remain unqualified by this experiment.
+
+The accessible volume list displayed two `1 MB` partitions in each case, with
+primary-partition status for MBR and basic-data status for GPT. Those strings do
+not determine exact byte extents, filesystem integrity or a GPT winner. The
+conflicting copies remain independent native evidence despite the UI's `Healthy`
+labels. No screenshots or unobserved property pages are claimed.
 
 ## Which Windows component does what?
 
@@ -67,7 +77,7 @@ erase conflicting GPT candidates or prove physical persistence.
 |---|---|---|
 | DE-W105, native gate passed | Same-source native qualification at `5c2f5337` | 180 x64 groups and 18 private Win32 groups; retained failures and separate owner/release gates. |
 | DE-W106, development review passed | Complete evidence validation and bounded coordinator controls at `cfbde97b` | Sixty owned calls and replay/cleanup pass. A labelled repository protocol fixture does not qualify unavailable independent reference tools. |
-| DE-W107, current | One small Windows partition-inventory experiment | Four recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies. Bind API and Disk Management UI observations to the same recipes and explicit participant copies. |
+| DE-W107, bounded campaign verified | One small Windows partition-inventory experiment | Four recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies. Bind API and Disk Management UI observations to the same recipes and explicit participant copies. |
 | DE-W030 | Settle a named read-only API/provider or required-service ambiguity | Existing inventory, capability, source identity and provider admission gates remain. Reviewed reference findings enter the relevant follow-on slice without blocking unrelated current inventory work. |
 | DE-W035 | Qualify one selected MMC or shell adapter profile | Thin read-only dispatch, exact host/selection/callback lifetime, standalone-service parity and owned fixture registration/teardown. Subsequent surfaces are separately bounded selections. |
 | DE-W050 / DE-W060 | Apply relevant findings to execution and deployment | DE-W050 owns the local privileged broker boundary. DE-W060 owns Setup integration; optional service/adapter installation follows DE-061/DE-063 lifecycle and account ownership. Research does not select a persistent service. |

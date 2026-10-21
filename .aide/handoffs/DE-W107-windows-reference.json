@@ -1,0 +1,112 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W107",
+  "base_revision": "68989ab2269fe58cbec83d4119bbe6bf47ebd608",
+  "spec_manifest_digest": "sha256:b820393b7635356a25840accc9db0e86baaa6848ff1af64b9f553204af89eb37",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/storage/windows.md",
+    "spec/interaction/native-integration.md",
+    "docs/windows-reference.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/expected.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/control.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/reference.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/replay.py",
+    "tests/differential/windows_ui_observations.py",
+    "tests/differential/test_windows_ui_observations.py"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/windows-reference.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/interaction/native-integration.md",
+    "spec/manifest.json",
+    "spec/storage/windows.md",
+    "spec/work/units.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/cleanup-live.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/cleanup.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/combined-replay.json",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/launch.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/prepared.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/receipt.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/capture/retained.tar.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/post-ui.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/replay.py",
+    ".aide/evidence/2026-10-21-windows-reference/ui/ui-replay-tests.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/ui/ui-validation.json.xz",
+    "tests/differential/test_windows_ui_observations.py",
+    "tests/differential/windows_ui_observations.py"
+  ],
+  "summary": "Agent-reviewed complete frozen12-tuple Windows partition reference set:four native/four API observations at6a688b79 andfour actual Disk Management UI Automation captures at68989ab2. Exact source,owned media,role,job,component and raw entry hashes replay;all owned profiles,membership,processes and media retired. Preserve independent GPT conflict and rounded UI text as distinct evidence. Full608 host tests pass with8 skips;post metadata/context checks pass. Local next work DE-W030;owner,provider,full0.1.0 and release remain unaccepted. Earlier actual helper dev pushes succeeded;this handoff does not claim its forthcoming integration.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B .aide/evidence/2026-10-21-windows-reference/ui/launch.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/capture/launch.json.xz"
+    },
+    {
+      "command": "Managed full253-specification/247-tools/108-differential suites;8 documented skips",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/ui-validation.json.xz"
+    },
+    {
+      "command": "Managed affected bundle/context/manifest/handoff checks after metadata routing",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/ui/post-ui.json.xz"
+    },
+    {
+      "command": "Complete native DiskEd product suite at current metadata checkpoint",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md",
+      "sha256": "sha256:2e28a715d57d5e580ad30005a346562fc720966ac83b88e64ff507eec9adbf06"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/ui-validation.json.xz",
+      "sha256": "sha256:cb808b61bd6a203cbf60c33cb3a6a197293ec24ff4de650b68aa438f0c673314"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/post-ui.json.xz",
+      "sha256": "sha256:be47613929dbb65be857551ed4852d5cbc7fe1184fa9f77cb5aecb3afeed8e45"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/capture/combined-replay.json",
+      "sha256": "sha256:356953c581f3d1aaed2af6f32e2f05194ea4f119730f400d5b92dc706e4cf714"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/capture/receipt.json.xz",
+      "sha256": "sha256:8154d735b73a2bde94e712bfaeda2d6caa61d027d032c899fbb54ad95184e509"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/capture/retained.tar.xz",
+      "sha256": "sha256:5f36ea1ea541685f37529628763468e768af61bce07ff9bedb48450e11f010b4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/ui/capture/cleanup-live.json",
+      "sha256": "sha256:5be0545ddf13633ceb8c1200b0230453496b4d351132e88560fca2bd06357181"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Qualify the existing explicitly dispatched native volume-namespace APIs under DE-W030 on the Windows 10 guest ordinary worker,using the independently identified capped scratch volume as the known target. Define expected native observations before execution;retain actual namespace/mount data,finite limits,token/import observations and cleanup. No raw device opens,automatic startup discovery,provider/public/XP admission or writer/broker authority. Do not repeat completed DE-W107 captures. Preserve original all-platform/storage0.1.0 and owner/release gates.",
+  "performed_remote_writes": true
+}

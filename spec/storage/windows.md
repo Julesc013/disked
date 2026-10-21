@@ -82,6 +82,15 @@ remain capability-selected providers; do not infer Disk Management's backend
 from its appearance. The [testing policy](../development/testing-and-ci.md) and
 differential contract (`tests/differential/CONTRACT.md` in the implementation repository) govern observations.
 
+The retained DE-W107 partition pilot on Windows 10 build 19045.7548 illustrates
+this distinction: a primary-matching API projection did not resolve conflicting
+valid GPT copies; accessible `1 MB` and `Healthy` UI labels did not establish
+exact extents, filesystem integrity or recovery eligibility. Preserve those
+independent observations in DE-W030. This is a bounded reference result, not a
+claim about Windows' general copy-selection algorithm or DiskEd provider admission.
+The implementation repository retains its reviewed cases under
+`.aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md`.
+
 MMC consoles/snap-ins, Computer Management and Explorer are presentation and
 integration surfaces under [DE-025](../interaction/native-integration.md), not
 alternate engines. Study service lifecycle only where a concrete DiskEd
