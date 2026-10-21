@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: DE-W105 native and agent development review pass at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90;578 host tests with eight documented skips. All1328 structural checks,329-file source-map coverage and manifest verification pass. The programme now continues DE-W106 then DE-W107. See the [qualification review](.aide/evidence/2026-10-21-product-capture/REVIEW.md) for evidence and repository synchronization. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
+Status: DE-W105 native review passes at `5c2f5337`:180/180 x64 groups,69 headers,14 executable observations;18/18 private Win32 groups;strict C90. DE-W106's available coordinator controls pass at `cfbde97b`:60 owned calls,six positive observations,retained disagreement,replay and cleanup. The current578-test host pass has eight documented skips;all1328 structural checks,329-file source-map coverage and manifest verification pass. Continue DE-W107's actual Windows API/UI reference pilot. See the [DE-W106 review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) for exact evidence and unavailable reference profiles. Original all-platform/storage0.1.0,owner and release gates remain unchanged.
 
 ## Storage recovery
 
@@ -114,28 +114,27 @@ Status: DE-W105 native and agent development review pass at `5c2f5337`:180/180 x
 - [x] Incorporate the supplied Windows reference-method review into the
   [plan](docs/windows-reference.md), canonical testing policy and work definitions.
   This records planned work; no Windows reference campaign or REA install is claimed.
-- [ ] DE-W106, after current DE-W105 qualification: reject incomplete, duplicate
+- [x] DE-W106 development deliverable: reject incomplete, duplicate
   or inconsistently identified differential evidence; migrate the old campaign
   and documentation to bounded managed output with owned cleanup.
-  Independent preparation connects managed packet preparation, collectors and
-  comparison. Actual private MBR/GPT probes now pass all 35 authored recipes and 64
-  fixed checks, both protected-memory guards, eight byte-I/O controls and the original
-  32 MiB confinement/capacity/interruption proof. All 153 archived entries replay;
-  changed bytes, missing entries and a rehashed false projection are rejected.
-  The full 253/213/82-test pass has eight skips. Owned guest account/image/source and
-  host work are removed. External worker availability, full collector/reference
-  and sanitizer qualification remain open; native-only diagnostics are separate.
-  [Partial review](.aide/evidence/2026-10-20-differential-evidence/native-probes-review.json).
+  Exact `cfbde97b` passes all35 native recipes/64 fixed checks,two guards,eight
+  byte-I/O controls and original32MiB confinement/capacity/interruption proof.
+  The real coordinator runs six observations with a labelled repository protocol
+  fixture,preserves both GPT candidates/disagreement,and rejects false callback
+  success and interruption. All224 retained entries replay;the archive is57,744 bytes.
+  Current253/241/84 host tests pass with eight skips;owned guest/host scratch is removed.
+  Independent external reference,Linux and sanitizer qualification remain unverified.
+  [Review](.aide/evidence/2026-10-21-differential-qualification/REVIEW.md).
 - [ ] DE-W107: four generated partition cases with exact Windows API/UI reference
   identities, independent expectations, retained disagreements and cleanup.
   Apply findings to existing provider/integration gates; REA remains optional.
 
-- [ ] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
+- [x] DE-W105 public same-capture NTFS name-order view with explicit prefixes and
   complete-finding/partial/source-change outcomes. [Contract](spec/catalog/ntfs-name-order-command-prototype.json);
-  Implementation at `fcd7a4a5` passed 178 x64 groups and 253 specification-tool
-  tests (two skips); [retained observations](.aide/evidence/2026-10-17-workspace-cleanup/retained-result.json).
-  Private Win32 and native qualification of the amended build gate remain unrun;
-  no main promotion or work-unit completion is claimed.
+  Current exact `5c2f5337` passes180/180 x64 groups,69 headers,14 imports,strict C90
+  and18/18 private Win32 groups. The qualified checkpoint is integrated into main.
+  [Review](.aide/evidence/2026-10-21-product-capture/REVIEW.md);owner acceptance,
+  complete Win32 product/historical-platform qualification and release remain separate.
 - [x] DE-W104 native name-order binding: exact `c460a35c` passes all 177 x64 groups,
   9 file/10 worker methods, 68 headers/C90/14 imports and 251 tooling tests (two skips).
   Private Win32 eighteen groups/twelve headers/nine imports pass.

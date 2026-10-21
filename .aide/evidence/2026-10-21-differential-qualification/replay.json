@@ -1,0 +1,108 @@
+{
+  "status": "pass",
+  "scope": "Replay the coordinator conformance packet; never execute retained commands.",
+  "native_baseline": {
+    "cases": 35,
+    "checks": 64,
+    "guards": 2,
+    "native_calls": 49,
+    "archive_entries": 224,
+    "uncompressed_bytes": 16596531
+  },
+  "port_calls": 60,
+  "evidence_status": "complete",
+  "comparison_status": "disagreement",
+  "complete_success": true,
+  "negative_replay": [
+    {
+      "name": "missing",
+      "evidence_status": "incomplete",
+      "complete_success": false
+    },
+    {
+      "name": "duplicate",
+      "evidence_status": "invalid",
+      "complete_success": false
+    },
+    {
+      "name": "wrong_geometry",
+      "evidence_status": "invalid",
+      "complete_success": false
+    },
+    {
+      "name": "altered_raw",
+      "evidence_status": "invalid",
+      "complete_success": false
+    }
+  ],
+  "negative_execution": [
+    {
+      "name": "false_callback_success",
+      "receipt": {
+        "status": "failed",
+        "manifest_sha256": "sha256:f80c1fca911b456c4679bda078e79e4de94ea1bfc57a19bcd1ff2b5e2b84b801",
+        "active_participant": "repository-protocol-fixture",
+        "participants": [
+          {
+            "participant": "native",
+            "path": "collections/bef32d2c315a2895/results.json",
+            "bytes": 175066,
+            "canonical_sha256": "sha256:3660be8ed3f52cf4bea94e14a3c7d6694dd15a1dca58c9b475b557dbd6602805"
+          }
+        ],
+        "complete_success": false,
+        "comparison": null,
+        "qualification": "not_assessed",
+        "cleanup": "outer_runner_pending",
+        "scope": "Comparison evidence only;no sanitizer,native-product,worker,platform,owner or release qualification",
+        "error": "FileNotFoundError",
+        "error_code": "FileNotFoundError",
+        "quiescence_unknown": true
+      },
+      "calls": [
+        58,
+        59
+      ],
+      "outer_jobs_retired": true
+    },
+    {
+      "name": "interrupted",
+      "receipt": {
+        "status": "interrupted",
+        "manifest_sha256": "sha256:27fb542369f54b5c5ab27abbdff0e161c4c92dfe9e64d502895685c5a5fb758b",
+        "active_participant": "native",
+        "participants": [],
+        "complete_success": false,
+        "comparison": null,
+        "qualification": "not_assessed",
+        "cleanup": "outer_runner_pending",
+        "scope": "Comparison evidence only;no sanitizer,native-product,worker,platform,owner or release qualification",
+        "error": "KeyboardInterrupt",
+        "error_code": "KeyboardInterrupt",
+        "quiescence_unknown": true
+      },
+      "calls": [
+        60
+      ],
+      "outer_jobs_retired": true
+    }
+  ],
+  "archive_bytes": 57744,
+  "archive_entries": 224,
+  "original_bytes": 16596531,
+  "independent_reference_run": false,
+  "full_campaign_qualified": false,
+  "cleanup": [
+    {
+      "cleanup": {
+        "source_and_report_bytes_removed": 884117,
+        "image_already_removed": true,
+        "qualification_removed": true,
+        "unrelated_processes_killed": false
+      },
+      "observed_at": "2026-10-21T02:39:10.8167106Z",
+      "image_uuid": "DA9CCB3F76588842A0F2A9EE07D44BC5"
+    }
+  ],
+  "source_revision": "cfbde97ba65103bd0d11535c43ca257d10e73b23"
+}

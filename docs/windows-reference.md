@@ -57,20 +57,21 @@ erase conflicting GPT candidates or prove physical persistence.
 
 | Work | Deliverable | Completion boundary |
 |---|---|---|
-| DE-W105, current | Finish the existing same-source native qualification | Preserve failures and all original Win32/x64 checks; reference research does not replace them. |
-| DE-W106 | Validate complete differential evidence and migrate the old runner | Reject missing, duplicate, mismatched or unidentified evidence; run only in managed bounded workspace; prove owned cleanup. |
-| DE-W107 | One small Windows partition-inventory experiment | Four recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies. Bind API and Disk Management UI observations to the same recipes and explicit participant copies. |
+| DE-W105, native gate passed | Same-source native qualification at `5c2f5337` | 180 x64 groups and 18 private Win32 groups; retained failures and separate owner/release gates. |
+| DE-W106, development review passed | Complete evidence validation and bounded coordinator controls at `cfbde97b` | Sixty owned calls and replay/cleanup pass. A labelled repository protocol fixture does not qualify unavailable independent reference tools. |
+| DE-W107, current | One small Windows partition-inventory experiment | Four recipe-defined cases: valid MBR, valid GPT, damaged primary GPT and conflicting valid GPT copies. Bind API and Disk Management UI observations to the same recipes and explicit participant copies. |
 | DE-W030 | Settle a named read-only API/provider or required-service ambiguity | Existing inventory, capability, source identity and provider admission gates remain. Reviewed reference findings enter the relevant follow-on slice without blocking unrelated current inventory work. |
 | DE-W035 | Qualify one selected MMC or shell adapter profile | Thin read-only dispatch, exact host/selection/callback lifetime, standalone-service parity and owned fixture registration/teardown. Subsequent surfaces are separately bounded selections. |
 | DE-W050 / DE-W060 | Apply relevant findings to execution and deployment | DE-W050 owns the local privileged broker boundary. DE-W060 owns Setup integration; optional service/adapter installation follows DE-061/DE-063 lifecycle and account ownership. Research does not select a persistent service. |
 | DE-W018 with DE-050 / DE-051 / DE-052 | Repeat relevant contracts on selected historical/other targets | Record actual compile/import/launch/operation evidence per target. DE-W070 applies to JC-DOS/Carbon integration where selected. New target profiles require an explicit scope decision. |
 | DE-W042 / DE-W080 and the selected operation owner | Investigate later mutation, interruption and recovery behavior | DE-W042 owns recovery/cancellation experiments; DE-W080 owns advanced operation/provider admission, not historical-host qualification. Existing writer and recovery gates remain. |
 
-DE-W106 records a current comparator gap, not a finding that the historical
-campaign was invalid. Its current function can report passing adapter controls
-when no external observations exist, when fixture hashes disagree, or when a
-record is duplicated. The old WSL coordinator also requires bulk output under
-`.aide-local`; do not run that recipe. Repair and validate it before reuse.
+DE-W106 corrects the comparator gap recorded by the earlier review; that finding
+did not establish that the historical campaign was invalid. The current comparator
+rejects missing, duplicate, mismatched and unidentified evidence, and its coordinator
+consumes that complete gate. The [review](../.aide/evidence/2026-10-21-differential-qualification/REVIEW.md)
+records the available confined Windows controls and their limits. The obsolete WSL
+recipe stays suspended until its actual execution profile is qualified.
 
 The first Windows campaign records observations rather than selecting a winning
 parser. An unavailable API or inaccessible UI remains explicit. A reference

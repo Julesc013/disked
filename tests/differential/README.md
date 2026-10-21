@@ -76,13 +76,18 @@ The current native gate is recorded in the
 [DE-W105 review](../../.aide/evidence/2026-10-21-product-capture/REVIEW.md).
 No old WSL recipe or automatic fallback is enabled by this change.
 
-The next bounded execution control is defined in the
+The bounded execution control is defined in the
 [coordinator proof](../../.aide/evidence/2026-10-21-differential-qualification/expected.json).
 It uses actual native probes and `reference_fixture.cpp`, an explicitly labelled
 repository-owned protocol fixture, in the existing 32 MiB confined guest profile.
 The fixture recognizes only two exact recipe hashes and deliberately disagrees
 with both GPT candidates. It is neither util-linux nor an independent parser.
 Passing these controls cannot qualify an unavailable Linux/reference profile.
+The [DE-W106 review](../../.aide/evidence/2026-10-21-differential-qualification/REVIEW.md)
+records the passing exact-source guest run: 60 owned execution-port calls,
+six required positive observations, preserved disagreement, failed missing-receipt
+and interruption controls, replay and cleanup. The obsolete WSL entrypoint remains
+suspended. DE-W107's actual Windows API/UI reference evidence is still pending.
 
 External dependencies are installed `sfdisk`, optionally `sgdisk`, Python, and
 GCC/G++/gcov with AddressSanitizer and UndefinedBehaviorSanitizer. The native

@@ -1,0 +1,165 @@
+{
+  "status": "pass",
+  "scope": "DE-W106 review to DE-W107 transition; metadata/context applicability only",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-cache-dir",
+        "--no-compile",
+        "--no-deps",
+        "--only-binary=:all:",
+        "--target",
+        "C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-work-c67b6e647315cc13-b3ccsca3\\dependencies",
+        "PyYAML==6.0.3"
+      ],
+      "exit_code": 0,
+      "stdout": "Collecting PyYAML==6.0.3\r\n  Downloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl.metadata (2.4 kB)\r\nDownloading pyyaml-6.0.3-cp314-cp314-win_amd64.whl (156 kB)\r\nInstalling collected packages: PyYAML\r\nSuccessfully installed PyYAML-6.0.3\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"files\": 25,\r\n  \"changed\": [],\r\n  \"mode\": \"regenerate\"\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"generate\",\r\n  \"files\": 422,\r\n  \"bytes\": 3978928\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"schema\": \"org.disked.spec-check/1\",\r\n  \"status\": \"PASS\",\r\n  \"checks\": 1328,\r\n  \"concepts\": 72,\r\n  \"requirements\": 150,\r\n  \"work_units\": 98,\r\n  \"schemas\": 95,\r\n  \"errors\": [],\r\n  \"scope\": \"Specification structure, local contracts, fixtures and tool projections only.\",\r\n  \"not_validated\": [\r\n    \"DiskEd runtime\",\r\n    \"Windows binaries/GUI\",\r\n    \"physical storage\",\r\n    \"power-loss recovery\",\r\n    \"live AIDE CLI\",\r\n    \"Universal Setup integration\",\r\n    \"owner acceptance\"\r\n  ]\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-p",
+        "test_specctl.py",
+        "-k",
+        "BundleTests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_all_target_claims_remain_unqualified (test_specctl.BundleTests.test_all_target_claims_remain_unqualified) ... ok\r\ntest_cli_doctor_reports_actual_environment (test_specctl.BundleTests.test_cli_doctor_reports_actual_environment) ... ok\r\ntest_cli_error_is_structured_and_nonzero (test_specctl.BundleTests.test_cli_error_is_structured_and_nonzero) ... ok\r\ntest_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check) ... ok\r\ntest_generation_is_deterministic (test_specctl.BundleTests.test_generation_is_deterministic) ... ok\r\ntest_impact_is_conservative_and_named (test_specctl.BundleTests.test_impact_is_conservative_and_named) ... ok\r\ntest_no_acceptance_is_manufactured (test_specctl.BundleTests.test_no_acceptance_is_manufactured) ... ok\r\ntest_only_first_review_is_dependency_ready (test_specctl.BundleTests.test_only_first_review_is_dependency_ready) ... ok\r\ntest_readiness_never_runs_commands (test_specctl.BundleTests.test_readiness_never_runs_commands) ... ok\r\ntest_real_requirements_have_test_specifications (test_specctl.BundleTests.test_real_requirements_have_test_specifications) ... ok\r\ntest_schema_registry_is_offline (test_specctl.BundleTests.test_schema_registry_is_offline) ... ok\r\ntest_show_unknown_concept_is_refused (test_specctl.BundleTests.test_show_unknown_concept_is_refused) ... ok\r\ntest_transitive_context_is_dependency_ordered (test_specctl.BundleTests.test_transitive_context_is_dependency_ordered) ... ok\r\ntest_unknown_context_seed_is_refused (test_specctl.BundleTests.test_unknown_context_seed_is_refused) ... ok\r\ntest_unknown_impact_is_not_no_impact (test_specctl.BundleTests.test_unknown_impact_is_not_no_impact) ... ok\r\ntest_aide_export_refuses_overwrite (test_specctl.TemporaryBundleTests.test_aide_export_refuses_overwrite) ... ok\r\ntest_aide_exports_all_planned_non_authorizing (test_specctl.TemporaryBundleTests.test_aide_exports_all_planned_non_authorizing) ... ok\r\ntest_bootstrap_applies_exact_template_bytes (test_specctl.TemporaryBundleTests.test_bootstrap_applies_exact_template_bytes) ... ok\r\ntest_bootstrap_preview_has_no_write (test_specctl.TemporaryBundleTests.test_bootstrap_preview_has_no_write) ... ok\r\ntest_bootstrap_refuses_any_existing_file_before_writing (test_specctl.TemporaryBundleTests.test_bootstrap_refuses_any_existing_file_before_writing) ... ok\r\ntest_bootstrap_refuses_symlink_root (test_specctl.TemporaryBundleTests.test_bootstrap_refuses_symlink_root) ... skipped 'symlinks unavailable'\r\ntest_bootstrap_relative_root (test_specctl.TemporaryBundleTests.test_bootstrap_relative_root) ... ok\r\ntest_broken_link_is_reported (test_specctl.TemporaryBundleTests.test_broken_link_is_reported) ... ok\r\ntest_composition_rejects_component_cycle (test_specctl.TemporaryBundleTests.test_composition_rejects_component_cycle) ... ok\r\ntest_composition_rejects_multiple_gui_adapters (test_specctl.TemporaryBundleTests.test_composition_rejects_multiple_gui_adapters) ... ok\r\ntest_composition_rejects_physical_provider_in_fake_scope (test_specctl.TemporaryBundleTests.test_composition_rejects_physical_provider_in_fake_scope) ... ok\r\ntest_context_detects_payload_change (test_specctl.TemporaryBundleTests.test_context_detects_payload_change) ... ok\r\ntest_context_detects_source_change (test_specctl.TemporaryBundleTests.test_context_detects_source_change) ... ok\r\ntest_context_is_deterministic_without_git (test_specctl.TemporaryBundleTests.test_context_is_deterministic_without_git) ... ok\r\ntest_context_refuses_populated_destination (test_specctl.TemporaryBundleTests.test_context_refuses_populated_destination) ... ok\r\ntest_context_will_not_truncate_to_budget (test_specctl.TemporaryBundleTests.test_context_will_not_truncate_to_budget) ... ok\r\ntest_generated_index_drift_fails (test_specctl.TemporaryBundleTests.test_generated_index_drift_fails) ... ok\r\ntest_integrity_manifest_detects_edit (test_specctl.TemporaryBundleTests.test_integrity_manifest_detects_edit) ... ok\r\ntest_integrity_manifest_detects_extra_file (test_specctl.TemporaryBundleTests.test_integrity_manifest_detects_extra_file) ... ok\r\ntest_legacy_acceptance_is_retained_but_cannot_authorize (test_specctl.TemporaryBundleTests.test_legacy_acceptance_is_retained_but_cannot_authorize) ... ok\r\ntest_legacy_claim_with_unverifiable_digest_cannot_authorize (test_specctl.TemporaryBundleTests.test_legacy_claim_with_unverifiable_digest_cannot_authorize) ... ok\r\ntest_manifest_order_uses_serialized_paths_on_every_platform (test_specctl.TemporaryBundleTests.test_manifest_order_uses_serialized_paths_on_every_platform) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 37 tests in 202.218s\r\n\r\nOK (skipped=1)\r\n"
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"mode\": \"verify\",\r\n  \"files\": 422,\r\n  \"bytes\": 3978928\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "tools/workspace.py",
+        "check",
+        "--planned-bytes",
+        "29360128"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"status\": \"pass\", \"local_bytes\": 0, \"local_limit_bytes\": 33554432, \"planned_bytes\": 29360128, \"work_limit_bytes\": 1073741824, \"work_file_limit\": 20000, \"minimum_free_bytes\": 21474836480}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W107",
+        "--output",
+        ".aide-local/context/transition",
+        "--byte-budget",
+        "2097152",
+        "--artifact-byte-budget",
+        "25165824"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"output\": \".aide-local\\\\context\\\\transition\",\r\n  \"bytes\": 630292,\r\n  \"concepts\": [\r\n    \"DE-001\",\r\n    \"DE-002\",\r\n    \"DE-005\",\r\n    \"DE-010\",\r\n    \"DE-030\",\r\n    \"DE-020\",\r\n    \"DE-021\",\r\n    \"DE-022\",\r\n    \"DE-033\",\r\n    \"DE-040\",\r\n    \"DE-003\",\r\n    \"DE-004\",\r\n    \"DE-070\",\r\n    \"DE-041\",\r\n    \"DE-042\",\r\n    \"DE-043\",\r\n    \"DE-044\",\r\n    \"DE-074\",\r\n    \"DE-075\",\r\n    \"DE-031\",\r\n    \"DE-032\",\r\n    \"DE-034\",\r\n    \"DE-023\",\r\n    \"DE-013\",\r\n    \"DE-011\",\r\n    \"DE-012\",\r\n    \"DE-050\",\r\n    \"DE-060\",\r\n    \"DE-061\",\r\n    \"DE-025\",\r\n    \"DE-063\"\r\n  ],\r\n  \"execution_authorized\": false\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/transition"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"PASS\",\r\n  \"work_id\": \"DE-W107\",\r\n  \"scope\": \"Declared task-input closure and included artifact freshness, not execution approval.\"\r\n}\r\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "pwsh",
+        "-NoProfile",
+        "-File",
+        "tools/clean-scratch.ps1",
+        "-Delete",
+        "-WorkersStopped"
+      ],
+      "exit_code": 0,
+      "stdout": "{\r\n  \"Mode\": \"delete\",\r\n  \"Target\": \"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\",\r\n  \"EligibleFiles\": 1230,\r\n  \"LogicalBytes\": 18923369,\r\n  \"RemovedDirectories\": 215,\r\n  \"SkippedEntries\": 0,\r\n  \"VolumeFreeBefore\": 299610009600,\r\n  \"VolumeFreeAfter\": 299631378432,\r\n  \"Skipped\": []\r\n}\r\n",
+      "stderr": ""
+    }
+  ],
+  "unchanged_authority_scope_fields": [
+    "product_version",
+    "base_revision",
+    "scope",
+    "scope_source",
+    "review_policy",
+    "review_policy_source",
+    "development_branch",
+    "permitted",
+    "separate_authority",
+    "baseline_owner_accepted",
+    "implementation_owner_accepted"
+  ],
+  "full_test_inputs_changed": [
+    "spec/catalog/input-dependencies.json",
+    "spec/work/units.json",
+    "tests/differential/README.md",
+    ".aide/evidence/2026-10-21-differential-qualification/launch.py"
+  ]
+}

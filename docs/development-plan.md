@@ -12,7 +12,12 @@ the deterministic125ms sink regression and all reconnect tests now pass.
 The [qualification review](../.aide/evidence/2026-10-21-product-capture/REVIEW.md)
 records final tooling and dev/main integration separately from owner acceptance.
 
-Continue DE-W106's bounded evidence/coordinator qualification,then DE-W107.
+DE-W106's available Windows coordinator controls pass at `cfbde97b`:60 owned
+execution-port calls,six positive observations,retained disagreement,negative
+receipt/interruption controls,replay and cleanup. The
+[review](../.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) distinguishes
+the labelled repository protocol fixture from unavailable independent reference
+tools. Continue DE-W107's actual four-case Windows API/UI campaign.
 Keep existing storage limits and protected records. No account,UAC,authentication
 or confined-worker setup grant is missing.
 
