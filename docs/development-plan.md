@@ -18,6 +18,9 @@ receipt/interruption controls,replay and cleanup. The
 [review](../.aide/evidence/2026-10-21-differential-qualification/REVIEW.md) distinguishes
 the labelled repository protocol fixture from unavailable independent reference
 tools. Continue DE-W107's actual four-case Windows API/UI campaign.
+Its [fixture preparation](../.aide/evidence/2026-10-21-windows-reference/README.md)
+defines separate4MiB images and passes89 differential tests with five skips;
+these bytes have not yet been evaluated by native or Windows API/UI participants.
 Keep existing storage limits and protected records. No account,UAC,authentication
 or confined-worker setup grant is missing.
 
