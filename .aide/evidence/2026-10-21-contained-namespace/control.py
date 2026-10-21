@@ -130,7 +130,7 @@ def exercise(g,work,environment,executor,result):
             sources=[str(g.ROOT/('tests/windows/native/'+regression['probe']+'.cpp'))]
             if kind=='adapter':sources.insert(0,str(g.ROOT/'tests/windows/native/volume_fixture.cpp'))
             else:sources.append(str(obj/'volume_fixture.obj'))
-            compile_call('legacy-'+kind,[*common,'/DDISKED_NT_NAMESPACE_WORKER_TESTING=1','/Fo'+str(obj)+'\\','/Fe'+str(probe),*sources,*map(str,objects),str(fixture_obj),'kernel32.lib','advapi32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf'])
+            compile_call('build-'+kind,[*common,'/DDISKED_NT_NAMESPACE_WORKER_TESTING=1','/Fo'+str(obj)+'\\','/Fe'+str(probe),*sources,*map(str,objects),str(fixture_obj),'kernel32.lib','advapi32.lib','/link','/DYNAMICBASE','/NXCOMPAT','/guard:cf'])
             output=work/('legacy-'+arch+'-'+kind)
             entry,value=call(arch+'-legacy-'+kind,[sys.executable,'-B',g.ROOT/('tests/windows/'+regression['script']),'--probe',probe,'--output',output,'--pointer-bytes',pointer],timeout=180)
             row['regressions'].append(entry)
