@@ -111,10 +111,11 @@ def main():
             raise ValueError('No current pixel-origin candidate; previous profile remains unqualified')
     interactive_ui='--interactive-ui' in sys.argv
     native_memory='--native-memory' in sys.argv
-    native_port='--native-port-proof' in sys.argv
+    windows_reference='--windows-reference-api' in sys.argv
+    native_port='--native-port-proof' in sys.argv or windows_reference
     coordinator_control='--coordinator-control-proof' in sys.argv
     native_probe='--native-probe-proof' in sys.argv or coordinator_control
-    if native_port and any(option not in ('--native-port-proof','--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
+    if native_port and any(option not in (('--windows-reference-api' if windows_reference else '--native-port-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native port proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
     if native_probe and any(option not in (('--coordinator-control-proof' if coordinator_control else '--native-probe-proof'),'--prepare-only','--cleanup-only','--size-mib=32') for option in sys.argv[1:]):
         raise ValueError('Native probe proof accepts only its32MiB noninteractive mode and preparation/cleanup controls')
@@ -135,7 +136,7 @@ def main():
     if (native_port or native_probe or cooperative) and '--prepare-only' not in sys.argv and not cleanup_only:
         context=json.loads((ROOT/'.aide-local/context/current/manifest.json').read_bytes())
         revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-        required='DE-W105' if cooperative else 'DE-W106'
+        required='DE-W107' if windows_reference else 'DE-W105' if cooperative else 'DE-W106'
         if context['work_id']!=required or context['git_head']!=revision:raise ValueError('Exact '+required+' context required for native proof')
         if not all(hashlib.sha256((ROOT/row['path']).read_bytes()).hexdigest()==row['sha256'].removeprefix('sha256:') for row in context['files']):
             raise ValueError('Native port context inputs changed')
@@ -189,6 +190,14 @@ def main():
             if name.endswith('.py'):ast.parse(data)
             (stage/name).write_bytes(data)
     probe_files=()
+    if windows_reference:
+        origin=HERE.parent/'2026-10-21-windows-reference'
+        for source,target in (('control.py','windows-reference.py'),('media.py','windows-reference-media.py')):
+            data=(origin/source).read_bytes();ast.parse(data);(stage/target).write_bytes(data)
+        definition=importlib.util.spec_from_file_location('windows_reference_sources',origin/'control.py');control=importlib.util.module_from_spec(definition);definition.loader.exec_module(control)
+        probe_files=('windows-reference.py','windows-reference-media.py',*control.FILES)
+        for path in control.FILES:
+            target=stage/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/path).read_bytes())
     if native_probe:
         source=HERE.parent/'2026-10-20-differential-evidence/native-probes.py'
         data=source.read_bytes();ast.parse(data);(stage/'native-probes.py').write_bytes(data)
@@ -251,6 +260,9 @@ def main():
     if native_port or native_probe or cooperative:expected['native_port']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-port-expected.json').read_bytes())
     if native_probe:expected['native_probes']=json.loads((HERE.parent/'2026-10-20-differential-evidence/native-probes-expected.json').read_bytes())
     if coordinator_control:expected['coordinator_controls']=json.loads((HERE.parent/'2026-10-21-differential-qualification/expected.json').read_bytes())
+    if windows_reference:
+        expected['windows_reference']=json.loads((HERE.parent/'2026-10-21-windows-reference/api-expected.json').read_bytes())
+        expected['windows_reference']['fixtures']=json.loads((HERE.parent/'2026-10-21-windows-reference/fixtures-before-native.json').read_bytes())
     if cooperative:expected['cooperative_capture']=json.loads((HERE.parent/('2026-10-21-cooperative-tree' if cooperative_tree else '2026-10-21-cooperative-capture')/'expected.json').read_bytes())
     if capture_transport:
         expected['capture_transport']=json.loads((HERE.parent/'2026-10-21-capture-transport/expected.json').read_bytes())
@@ -369,7 +381,7 @@ def main():
     if loader_diagnostic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-diagnostic 2>&1)")
     if forensic:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --loader-forensics 2>&1)")
     if namespace:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') --namespace-diagnostic 2>&1)")
-    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
+    if crypto:setup=once(setup,"(Join-Path $root 'guest-proof.py') 2>&1)","(Join-Path $root 'guest-proof.py') "+('--native-x64' if full_native else '--cooperative-capture-proof' if cooperative else '--windows-reference-api' if windows_reference else '--coordinator-control-proof' if coordinator_control else '--native-probe-proof' if native_probe else '--native-port-proof' if native_port else '--native-memory' if native_memory else '--native-journey' if native else '--crypto-full' if crypto_full else '--crypto-device')+" 2>&1)")
     if interactive_ui:
         line=next(line for line in setup.splitlines() if '$log=@(& $python -B' in line)
         setup=once(setup,line+'\n        $code=$LASTEXITCODE',
@@ -379,6 +391,8 @@ def main():
         setup=once(setup,'$acl.AddAccessRule($readRule);Set-Acl -LiteralPath $volumeRoot -AclObject $acl',
             "$acl.AddAccessRule($readRule)\n    $packageRead=[Security.AccessControl.FileSystemAccessRule]::new([Security.Principal.SecurityIdentifier]::new($attach.profiles[0].sid),[Security.AccessControl.FileSystemRights]::ReadAndExecute,[Security.AccessControl.InheritanceFlags]'ContainerInherit,ObjectInherit',[Security.AccessControl.PropagationFlags]::None,[Security.AccessControl.AccessControlType]::Allow)\n    $acl.AddAccessRule($packageRead);Set-Acl -LiteralPath $volumeRoot -AclObject $acl")
     setup=once(setup,'        if($attached){',RETIRE_ACTOR+'\n        if($attached){')
+    if windows_reference:
+        setup=once(setup,"if(-not$proof.all_owned_processes_retired){throw 'Owned actor process retirement unverified.'}","if(-not$proof.all_owned_processes_retired-or-not$proof.all_owned_media_retired){throw 'Owned actor/media retirement unverified.'}")
     setup=once(setup,"    $result.finished_at=[DateTime]::UtcNow.ToString('o')", "    $env:DISKED_TEST_ACTOR_NAME=$null;$env:DISKED_TEST_ACTOR_PASS=$null;$env:DISKED_TEST_ACTOR_SID=$null\n    $actorSecret=$null;$actorSecure=$null\n    $result.finished_at=[DateTime]::UtcNow.ToString('o')")
     (stage/'guest-proof.ps1').write_text(setup,encoding='utf-8',newline='\n')
     attach=(PRIOR/'attach-image.py').read_text()
@@ -414,7 +428,7 @@ def main():
     if native_port or native_probe or cooperative:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'}," for name in port_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
-    if native_probe:
+    if native_probe or windows_reference:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in probe_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
@@ -491,8 +505,8 @@ def main():
     else:
         host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
-    if full_native or native_probe or cooperative:
-        archive_limit='1MB' if native_probe or cooperative else '32MB'
+    if full_native or native_probe or cooperative or windows_reference:
+        archive_limit='1MB' if native_probe or cooperative or windows_reference else '32MB'
         host=once(host,"    $result.host_backing_end_bytes=", "    $retained=Invoke-Command -Session $session -ScriptBlock { $p='C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz';if(Test-Path -LiteralPath $p){$f=Get-Item -LiteralPath $p;if($f.Length-gt"+archive_limit+"-or($f.Attributes-band[IO.FileAttributes]::ReparsePoint)){throw 'Invalid retained archive.'};$true}else{$false}}\n    if($retained){Copy-Item -FromSession $session -LiteralPath 'C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz' -Destination (Join-Path $PSScriptRoot 'retained.tar.xz')}\n    $result.host_backing_end_bytes=")
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
@@ -509,7 +523,7 @@ def main():
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
     if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\stop-ready.json","$root\stop-request.json","$root\stop-acknowledged.json","$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\source-phase.json","$root\source-phase.tmp","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
-    if native_probe or cooperative:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
+    if native_probe or cooperative or windows_reference:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
     if interactive_ui:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\interactive-input.xml","$root\interactive-result.json",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
@@ -545,6 +559,12 @@ def main():
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if native_memory:result['experiment_kind']='Exact production x64 memory-budget component compile/launch in32MiB;not product qualification'
     if native_port:result['experiment_kind']='Current32MiB baseline and native raw-byte execution-port controls;not product/reference/full-campaign admission'
+    if windows_reference:
+        result['experiment_kind']='Four native and delegated read-only Windows API fixture observations in32MiB guest;UI set incomplete,no product/provider/release qualification'
+        if (stage/'retained.tar.xz').exists():
+            digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
+            if digest!=proof.get('archive_sha256'):raise ValueError('Windows reference archive transfer hash mismatch')
+            shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
     if native_probe:
         result['experiment_kind']='Current32MiB baseline/raw-port controls plus actual private MBR/GPT diagnostic corpus;no reference/finalized-comparison/full-campaign admission'
         if coordinator_control:result['experiment_kind']='Current32MiB native baseline plus coordinator conformance with explicitly repository-owned protocol fixture;no independent reference/full-campaign admission'
