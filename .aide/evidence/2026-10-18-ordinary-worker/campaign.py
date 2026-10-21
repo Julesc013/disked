@@ -5,6 +5,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -17,6 +18,14 @@ PRIOR=HERE.parent/'2026-10-18-guest-capacity'
 def once(text, before, after):
     if text.count(before)!=1:raise ValueError('Template identity changed: '+before[:90])
     return text.replace(before,after,1)
+
+
+def assert_staged_delivery(script, required):
+    """A locally staged helper is useless unless the guest transfer names it."""
+    selected=re.findall(r"relative='([^']+)'",script)
+    if len(selected)!=len(set(selected)):raise ValueError('Duplicate guest transfer path')
+    missing=set(required)-set(selected)
+    if missing:raise ValueError('Guest transfer omits staged input: '+','.join(sorted(missing)))
 
 CREATE_ACTOR=r'''
     $actorName='DiskEdTest-'+$nonce.Substring(0,8)
@@ -452,7 +461,7 @@ def main():
     if native_port or native_probe or cooperative:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+name+"');relative='"+name+"'}," for name in port_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
-    if native_probe or windows_reference:
+    if native_probe or windows_reference or volume_namespace:
         rows='\n'.join("        @{host=(Join-Path $PSScriptRoot '"+path+"');relative='"+path+"'}," for path in probe_files)
         host=once(host,'    $selected=@(','    $selected=@(\n'+rows)
         host=once(host,'Copy-VMFile -VM $vm -FileSource Host -SourcePath $file.host','Copy-VMFile -VM $vm -FileSource Host -CreateFullPath -SourcePath $file.host')
@@ -529,9 +538,11 @@ def main():
     else:
         host=once(host,'        Start-Sleep -Seconds 1',"        if(((Get-Item -LiteralPath $backingPath).Length-$result.host_backing_start_bytes)-gt1GB){Stop-Job -Job $job;throw 'Shared backing growth reached campaign ceiling.'}\n        Start-Sleep -Seconds 1")
     host=once(host,"    if($result.guest.setup.status-ne'pass'", "    $result.host_backing_end_bytes=(Get-Item -LiteralPath $backingPath).Length\n    if(-not$result.guest.setup.actor_removed-or-not$result.guest.setup.actor_profile_absent){throw 'Actor/account cleanup unverified.'}\n    if($result.guest.setup.status-ne'pass'")
-    if full_native or native_probe or cooperative or windows_reference:
-        archive_limit='1MB' if native_probe or cooperative or windows_reference else '32MB'
+    if full_native or native_probe or cooperative or windows_reference or volume_namespace:
+        archive_limit='1MB' if native_probe or cooperative or windows_reference or volume_namespace else '32MB'
         host=once(host,"    $result.host_backing_end_bytes=", "    $retained=Invoke-Command -Session $session -ScriptBlock { $p='C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz';if(Test-Path -LiteralPath $p){$f=Get-Item -LiteralPath $p;if($f.Length-gt"+archive_limit+"-or($f.Attributes-band[IO.FileAttributes]::ReparsePoint)){throw 'Invalid retained archive.'};$true}else{$false}}\n    if($retained){Copy-Item -FromSession $session -LiteralPath 'C:\\ProgramData\\DiskEd\\qualification\\retained.tar.xz' -Destination (Join-Path $PSScriptRoot 'retained.tar.xz')}\n    $result.host_backing_end_bytes=")
+    if native_port or native_probe or cooperative:
+        assert_staged_delivery(host,(*port_files,*probe_files))
     (stage/'run-proof.ps1').write_text(host,encoding='utf-8',newline='\n')
     cleanup=once((PRIOR/'clean-proof.ps1').read_text(),root_line,fixed_root)
     cleanup=once(cleanup,'$paths=@($Expected',"$extra=@(\"$root\\scratch\\ordinary-actor.json\",\"$root\\scratch\\outside\\baseline\",\"$root\\scratch\\outside\\forbidden\",\"$root\\scratch\\outside\\descendant-forbidden\",\"$root\\scratch\\outside\\inheritance-canary.bin\")\n        $paths=$extra+@($Expected")
@@ -547,7 +558,7 @@ def main():
         $items=@();''')
     cleanup=once(cleanup,'foreach($path in @("$root\\scratch\\outside","$root\\scratch","$root\\tools",$root))','foreach($path in @($dirs|Sort-Object Length -Descending)+@($root))')
     if full_native:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\stop-ready.json","$root\stop-request.json","$root\stop-acknowledged.json","$root\source-owner.json","$root\source-prepared.json","$root\source-retired.json","$root\source-phase.json","$root\source-phase.tmp","$root\scoped-directory-access.json","$root\retained.tar.xz",''')
-    if native_probe or cooperative or windows_reference:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
+    if native_probe or cooperative or windows_reference or volume_namespace:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\retained.tar.xz",''')
     if interactive_ui:cleanup=once(cleanup,'$extra=@(',r'''$extra=@("$root\interactive-input.xml","$root\interactive-result.json",''')
     (stage/'clean-proof.ps1').write_text(cleanup,encoding='utf-8',newline='\n')
     # Parse in Windows PowerShell 5.1 before any guest action.
@@ -583,6 +594,12 @@ def main():
     if native:result['experiment_kind']='representative32MiB restricted x64 compiler/store-helper journey; no full composition/product qualification'
     if native_memory:result['experiment_kind']='Exact production x64 memory-budget component compile/launch in32MiB;not product qualification'
     if native_port:result['experiment_kind']='Current32MiB baseline and native raw-byte execution-port controls;not product/reference/full-campaign admission'
+    if volume_namespace:
+        result['experiment_kind']='Explicit actual guest volume namespace under ordinary restricted worker;no public/physical/provider admission'
+        if (stage/'retained.tar.xz').exists():
+            digest=hashlib.sha256((stage/'retained.tar.xz').read_bytes()).hexdigest()
+            if digest!=proof.get('archive_sha256'):raise ValueError('Volume namespace archive transfer hash mismatch')
+            shutil.copyfile(stage/'retained.tar.xz',HERE/'retained.tar.xz')
     if windows_reference:
         result['experiment_kind']='Actual owned administrative MMC/UI reference observations;combined12-tuple review remains separate' if reference_ui else 'Disposable capped profile proof only;no MMC or UI-reference completion' if ui_profile else 'Four native and delegated read-only Windows API fixture observations in32MiB guest;UI set incomplete,no product/provider/release qualification'
         if (stage/'retained.tar.xz').exists():
