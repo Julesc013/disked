@@ -74,17 +74,20 @@ def collect(g,work,environment,executor,result,profile,private):
     media_module=g.load('windows_ui_media',g.ROOT/'windows-reference-media.py')
     recipes=g.load('windows_ui_recipes',g.ROOT/'tests/corpus/windows_partitions.py')
     assert [recipes.describe(name) for name in recipes.CASES]==expected['fixtures']['cases']
-    role=None;job=None;children=[];media=None;job_index=0
-    def new_job():
-        nonlocal job,job_index
-        assert job is None
-        job=g.S.WindowsJob(memory_bytes=268435456,process_limit=8);job_index+=1
+    role=None;jobs=[];children=[];media=None;job_index=0
+    report['reference_job_limits']=[]
+    def new_job(*,paired=False):
+        nonlocal job_index
+        assert len(jobs)<(2 if paired else 1)
+        memory,processes=(134217728,4) if paired else (268435456,8)
+        job=g.S.WindowsJob(memory_bytes=memory,process_limit=processes);jobs.append(job);job_index+=1
+        report['reference_job_limits'].append(dict(index=job_index,commit_bytes=memory,processes=processes,paired=paired))
         result['all_owned_reference_jobs_retired']=False
         return job
     def retire():
-        nonlocal job,children
-        if job:
-            observation=g.retire_job(job);job=None
+        nonlocal children
+        while jobs:
+            observation=g.retire_job(jobs[-1]);jobs.pop()
             assert observation['active_processes']==0
             report['retirements'].append(observation)
         for child in children:child.close()
@@ -130,12 +133,12 @@ def collect(g,work,environment,executor,result,profile,private):
             try:
                 media.start();physical=row['media']['physical_path'];disk_number=int(re.search(r'([0-9]+)$',physical)[1])
                 row['binding']=dict(attachment_uuid=str(media.identifier),nonce=media.nonce,physical_path=physical,display_locator='Disk '+str(disk_number),authority='Held verified virtual-disk object and immutable fixture bytes;display number is only a current UI locator')
-                case_job=new_job()
+                mmc_job=new_job(paired=True)
                 mmc=Path(os.environ['WINDIR'])/'System32/mmc.exe'
-                child,mmc_launch=role.launch([str(mmc),str(mmc.with_name('diskmgmt.msc'))],environment,case_job,name+'-mmc');children.append(child)
+                child,mmc_launch=role.launch([str(mmc),str(mmc.with_name('diskmgmt.msc'))],environment,mmc_job,name+'-mmc');children.append(child)
                 report['mmc_started']=True;profile['mmc_started']=True
                 mmc_launch['leader_exit_before_observer_launch']=child.poll()
-                observer_child,ui_launch=role.launch([str(observer),str(child.pid),media.nonce,'Disk '+str(disk_number)],environment,case_job,name+'-uia');children.append(observer_child)
+                observer_child,ui_launch=role.launch([str(observer),str(child.pid),media.nonce,'Disk '+str(disk_number)],environment,new_job(paired=True),name+'-uia');children.append(observer_child)
                 outcome=wait(observer_child,ui_launch,35);mmc_launch['leader_exit_before_retirement']=child.poll()
                 retire();row['ui']['observer_execution']=ui_launch;row['ui']['mmc_execution']=mmc_launch
                 raw=read(ui_launch,'cases/'+name+'.uia');read(mmc_launch,'cases/'+name+'.mmc')
@@ -153,13 +156,13 @@ def collect(g,work,environment,executor,result,profile,private):
                 row['ui']['status']='captured_pending_semantic_review'
                 report['actual_observation_tuples'].append(dict(name=name,participant='disk-management-ui',kind='partition-presentation'))
             finally:
-                if job:retire()
+                if jobs:retire()
                 media.quiescent=result['all_owned_reference_jobs_retired'];media.close();media=None
                 result['all_owned_media_retired']=True
-        assert len(report['actual_observation_tuples'])==4 and job_index==5
+        assert len(report['actual_observation_tuples'])==4 and job_index==9
         report.update(status='captured_pending_semantic_review',ui_observations=4,reference_jobs=job_index)
     finally:
-        if job:retire()
+        if jobs:retire()
         if media:
             media.quiescent=result['all_owned_reference_jobs_retired'];media.close();result['all_owned_media_retired']=True
         if role:role.close()

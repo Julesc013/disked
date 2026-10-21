@@ -19,7 +19,10 @@
     "snapshot_interval_milliseconds": 500,
     "archive_bytes": 1048576,
     "archive_entries": 128,
-    "archive_original_bytes": 8388608
+    "archive_original_bytes": 8388608,
+    "concurrent_reference_jobs": 2,
+    "paired_job_commit_bytes": 134217728,
+    "paired_job_processes": 4
   },
   "components": [
     {
@@ -87,9 +90,9 @@
     "Build the private read-only UIA observer using staticCRT;record exact source,tool,executable and installed component identities.",
     "Verify fresh reference SID,administrator/restriction/elevation,session3,private station/desktop,actual profile/known folders/temp and UI Automation creation before attaching media.",
     "For each frozen case,create fresh4MiB/512-sector fixed VHD;verify UUID,held-object physical mapping,file identity,payload/footer and attach read-only without drive letters or permanent lifetime.",
-    "Launch one owned mmc.exe diskmgmt.msc and observer in a bounded job assigned while suspended. Do not inject input or invoke any UI action. The view may activate VDS;query and retain SCM states before/after without stopping a shared service.",
+    "Launch one owned mmc.exe diskmgmt.msc and observer in separate owned jobs assigned while suspended;each128MiB/four processes,combined256MiB/eight processes. Do not inject input or invoke any UI action. The view may activate VDS;query and retain SCM states before/after without stopping a shared service.",
     "Capture raw UIA/LegacyIAccessible text from only the owned MMC PID,with the target display locator derived from its held current attachment. Require two matching target snapshots,nontruncation and bounded raw evidence. Missing display data remains incomplete;do not replace it with API results or prescribe a Windows GPT winner.",
-    "Retire the complete owned MMC/observer job before detach;record actual payload/full-container before/after hashes and footer. Remove media before next case.",
+    "Retire both complete owned MMC/observer jobs before detach;record actual payload/full-container before/after hashes and footer. Remove media before next case.",
     "Remove temporary reference membership before unloading/deleting the owned profile and account. Retain one compact hashed raw archive and cleanup receipts;no images,profiles,build trees or shared VM maintenance."
   ],
   "expected_ui_tuples": 4,
@@ -98,6 +101,8 @@
   "references": [
     "https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-treeoverview",
     "https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netlocalgroupaddmembers",
-    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"
-  ]
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw",
+    "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-assignprocesstojobobject"
+  ],
+  "job_revision_reason": "The1ee2d04f trace shows both suspended processes already in inherited jobs;after MMC enters a nonempty leaf,adding the observer returns5 with no UI limits and peak commit643072 bytes. Separate empty leaf jobs accommodate inherited hierarchies without breakaway or budget increases;the precise inherited-job owner is not established."
 }
