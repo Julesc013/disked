@@ -127,7 +127,7 @@ def collect(g,work,environment,executor,result,profile,private):
         report['administrative_mmc_role_verified']=True
         media_root=g.fresh(work/'ui-media')
         for fact in expected['fixtures']['cases']:
-            name=fact['name'];row=dict(fixture=fact,participant='disk-management-ui',kind='partition-presentation',media={},ui={});report['cases'].append(row)
+            name=fact['name'];row=dict(fixture=fact,participant='disk-management',kind='ui-layout',media={},ui={});report['cases'].append(row)
             media=media_module.Media(g,media_root,name,recipes.generate(name),fact['sha256'],expected['sdk_abi'],row['media'])
             result['all_owned_media_retired']=False
             try:
@@ -154,7 +154,7 @@ def collect(g,work,environment,executor,result,profile,private):
                     target_label=view['target_label'],target_label_seen=True,stable_snapshots=view['stable_snapshots'],
                     truncated=False,nodes=len(view['nodes']),frames=view['frames'])
                 row['ui']['status']='captured_pending_semantic_review'
-                report['actual_observation_tuples'].append(dict(name=name,participant='disk-management-ui',kind='partition-presentation'))
+                report['actual_observation_tuples'].append(dict(name=name,participant='disk-management',kind='ui-layout'))
             finally:
                 if jobs:retire()
                 media.quiescent=result['all_owned_reference_jobs_retired'];media.close();media=None
