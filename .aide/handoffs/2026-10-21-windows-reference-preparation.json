@@ -1,0 +1,92 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W107",
+  "base_revision": "624f311a0d366670c61edb6c4e7cf63994327da6",
+  "spec_manifest_digest": "sha256:d2ba29eef419125f0bb71e7fd4a6228673760bbe9d3d82deed81de86f4a744ab",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "tests/differential/CONTRACT.md",
+    "docs/windows-reference.md",
+    "docs/development-storage.md",
+    "spec/storage/windows.md",
+    "spec/interaction/native-integration.md",
+    ".aide/evidence/2026-10-18-guest-capacity/attach-image.py",
+    ".aide/evidence/2026-10-18-ordinary-worker/interactive-run.ps1"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-21-windows-reference/README.md",
+    ".aide/evidence/2026-10-21-windows-reference/context.json",
+    ".aide/evidence/2026-10-21-windows-reference/fixture-validation.json.xz",
+    ".aide/evidence/2026-10-21-windows-reference/fixtures-before-native.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/references/sources.json",
+    "spec/work/units.json",
+    "tests/corpus/windows_partitions.py",
+    "tests/differential/test_windows_fixtures.py",
+    ".aide/handoffs/2026-10-21-windows-reference-preparation.json"
+  ],
+  "summary": "Fixture checkpoint c19a3310 is committed/pushed to dev. Four separate4MiB/512-byte-sector fixtures and twelve native/API/UI tuples are frozen before product/reference evaluation. Independent offset/CRC/extent/hash tests pass:89 differential tests,5 platform skips,zero failures;1328 structural checks and manifest verification pass. The original128KiB corpus is unchanged. Supplied bytes are generated only in memory;no product/native probe,API/UI,attachment or customer/host-media operation ran. Temporary validation output and consumed18.9MB context are removed;metadata is empty. Main remains the qualified W106 checkpoint624f311a. Original all-platform/storage0.1.0 and owner/release gates remain unchanged.",
+  "tests": [
+    {
+      "command": "python -B tools/workspace.py run -- python -B -m unittest discover -s tests/differential -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/fixture-validation.json.xz"
+    },
+    {
+      "command": "specctl index/check/manifest/verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-21-windows-reference/fixture-validation.json.xz"
+    },
+    {
+      "command": "Full current specification suite for this new fixture/input declaration",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "Native fixture evaluation and four-case Windows API plus Disk Management UI reference campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/corpus/windows_partitions.py",
+      "sha256": "sha256:8f1a06f9da22ddd39dd650db30787ddda329d69747e5a4fa5a95c4a3f986ee34"
+    },
+    {
+      "path": "tests/differential/test_windows_fixtures.py",
+      "sha256": "sha256:4b0e59af1ea655ac45c9475deb1b3cf2198176330c9c05d8ff65a1bc6818f8f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/fixtures-before-native.json",
+      "sha256": "sha256:359dd204b3b254d84d26aa09b17b096b25724cd36bd920a34a741eaabaed874a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/fixture-validation.json.xz",
+      "sha256": "sha256:e0c0e4963fc4ef7a59b37276a4e16fb242eae3b3deb95925d1e45dbe994a93ac"
+    },
+    {
+      "path": ".aide/evidence/2026-10-21-windows-reference/README.md",
+      "sha256": "sha256:57711582d447062d03de3b45512d805016ebbc184d084e3f07f1112a29dcd160"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Resolve actual HEAD and generate/verify a fresh complete DE-W107 context. Complete exact documented read-only API/owned-virtual-media and UI observation execution contracts while implementing them. Establish bounded profile/output and shared-desktop ownership before real MMC observation;bind exact component/guest/tool identities and preserve API/UI completeness separately. Run required full spec/native/profile checks before admitting this new slice or merging it to main. Existing guest administration/testing authority is available;do not repeat account/UAC setup prompts or change shared users/configuration.",
+  "performed_remote_writes": true
+}
