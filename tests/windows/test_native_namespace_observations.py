@@ -1,5 +1,7 @@
 import unittest
-from native_namespace_observations import frame,observation,uint,validate
+import hashlib
+import json
+from native_namespace_observations import frame,graph,observation,uint,validate
 
 
 def name(value):return dict(original_encoding='utf16le-code-units',original_hex=value.encode('utf-16-le').hex(),display=value)
@@ -20,6 +22,17 @@ def observed():
 
 
 class NativeContainmentObservations(unittest.TestCase):
+    def test_graph_label_uses_the_established_properties_object(self):
+        def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
+        payload=dict(name=dict(display='safe'))
+        binding=dict(source='namespace')
+        props=dict(label='safe',physical_identity='unknown',physical_admission=False,mutation_authority=False,
+            identity=None,media_generation=None,capacity_bytes=None,state='unknown',observation_binding=binding,observation=payload)
+        row=dict(kind='namespace-volume-observation',properties=props)
+        row['id']='observation:'+digest(dict(binding=binding,kind=row['kind'],label='safe',payload=payload))
+        value=dict(nodes=[row],edges=[]);value['revision']='sha256:'+digest(value)
+        graph(value)
+
     def test_real_name_and_mount_required(self):
         value=snapshot();frame(value,9,'volume','R:\\')
         value['records'][0]['volume_path']=dict(name('foreign'),display='volume')

@@ -57,7 +57,7 @@ def graph(value,*,stale=False):
         require(p['state'] in ('unknown','stale'),'graph_state');seen=seen or p['state']=='stale'
         expected=hashlib.sha256(canonical(dict(binding=p['observation_binding'],kind=row['kind'],label=p['label'],payload=p['observation']))).hexdigest()
         require(row['id']=='observation:'+expected,'observation_id')
-        require(row['label']==p['observation']['name']['display'] and all(32<=ord(c)<=126 for c in row['label']),'inert_display')
+        require(p['label']==p['observation']['name']['display'] and all(32<=ord(c)<=126 for c in p['label']),'inert_display')
     require(seen==stale,'stale_background')
 
 
