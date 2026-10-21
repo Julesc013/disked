@@ -22,7 +22,18 @@ compiler/CRT/PE closure for XP. Actual live namespace, hangs/process containment
 provider/graph/public-service admission, physical identities and the full
 Windows/platform matrix remain open.
 
-Build the standalone private project and run a new fixture output directory:
+The next explicitly dispatched guest observation is specified before evaluation in
+[the native execution contract](../.aide/evidence/2026-10-21-volume-namespace/expected.json).
+It checks the known capped volume under the ordinary restricted worker, namespace-only
+selection, a one-volume budget, cancellation before dispatch, invalid policy and
+inert binding. It is not yet native-qualified. No public startup or provider change
+is included.
+
+Use `tools/workspace.py run` and the existing capped guest workflow for builds and
+tests. `.aide-local` is metadata/context only. The following commands describe the
+private compiler project inside an already managed guest workspace; do not create
+unmanaged host build trees or use them as an alternative to the capped runner:
+
 
 ```text
 cmake -S tests/windows/native -B PRIVATE_BUILD -G "Visual Studio 17 2022" -A "x64,version=10.0.19041.0" -T "v143,version=14.44.35207,host=x64" -DCMAKE_SYSTEM_VERSION=10.0.19041.0

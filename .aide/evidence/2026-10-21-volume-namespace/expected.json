@@ -1,0 +1,65 @@
+{
+  "work_id": "DE-W030",
+  "base_revision": "e48766451e808eb28cbb25cce56be8e9a8c2200e",
+  "status": "expected_before_native_evaluation",
+  "mode": "--windows-volume-namespace",
+  "scope": "Explicit actual volume namespace/mount APIs in the existing Windows10 guest ordinary restricted worker.No disk/file/device open by the inventory adapter,no physical identity,public provider or startup discovery admission.",
+  "environment": "Existing Windows10 Enterprise19045.7548 guest,Agents coordinator,MSVC14.44.35207/SDK19041 staticCRT x64.Fresh nonadministrator restricted Medium worker;existing32MiB cap and original byte-port controls.No profile/UAC/shared account or VM changes.",
+  "known_target": "Setup records the exact capped filesystem volume GUID and mount.The coordinator independently resolves that mount before and after the six observer launches.Observed original UTF16 volume/mount code units must match those witnesses;display text cannot substitute.",
+  "cases": [
+    {
+      "mode": "--binding",
+      "exit_code": 0
+    },
+    {
+      "mode": "--observe",
+      "exit_code": 0
+    },
+    {
+      "mode": "--no-mounts",
+      "exit_code": 0
+    },
+    {
+      "mode": "--limit-one",
+      "exit_code": 0
+    },
+    {
+      "mode": "--cancelled",
+      "exit_code": 0
+    },
+    {
+      "mode": "--invalid-policy",
+      "exit_code": 3
+    }
+  ],
+  "expectations": [
+    "Binding constructs/closes without collect dispatch;invalid policy is refused before first native namespace query.",
+    "Explicit observe exhausts the bounded enumeration and includes the known cap volume with its actual mount.Other mount refusals remain recorded partial outcomes,not fabricated full namespace success.",
+    "No-mount mode includes the known volume but leaves every mount state not_selected.",
+    "One-volume limit retains one row,partial/budget_exhausted and unknown remainder,even if it might be the only actual volume.",
+    "Pre-dispatch cancellation returns no records and no opened search handle;repeat-close is inert and reuse refused.",
+    "Every actual observer reports exact actor SID/PID,restricted/non-elevated/non-AppContainer token and job membership;exit and owned job retirement are independently observed.",
+    "Retain modern x64 PE headers/imports,source/toolchain/executable/raw record hashes and explicit unsupported XP/public/physical claims.",
+    "Original32MiB capacity/outside-write/inheritance/interruption and8 native byte-port controls remain unchanged;all owned workspace and actor cleanup required."
+  ],
+  "limits": {
+    "filesystem_mib": 32,
+    "job_commit_bytes": 268435456,
+    "job_processes": 8,
+    "child_timeout_seconds": 15,
+    "compiler_timeout_seconds": 120,
+    "output_bytes": 524288,
+    "archive_bytes": 1048576,
+    "archive_entries": 32,
+    "archive_original_bytes": 4194304
+  },
+  "port_calls": 16,
+  "unqualified": [
+    "Complete live Windows provider/graph/command admission",
+    "DiskEd MMC/Explorer integration",
+    "Disk device/physical identity/layout or contents",
+    "Real XP/7/11/ARM64 qualification",
+    "Filesystem integrity/media preservation/idle behavior",
+    "Full DE-W030,owner acceptance and all-platform/storage0.1.0 release"
+  ]
+}

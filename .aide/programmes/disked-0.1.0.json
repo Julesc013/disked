@@ -1855,13 +1855,16 @@
   },
   "in_progress_slice": {
     "work_id": "DE-W030",
-    "base_revision": "68989ab2269fe58cbec83d4119bbe6bf47ebd608",
-    "state": "native_volume_namespace_contract_preparation",
+    "base_revision": "e48766451e808eb28cbb25cce56be8e9a8c2200e",
+    "state": "native_volume_namespace_candidate_unqualified",
     "qualification_pending": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "prior_reference_review": ".aide/evidence/2026-10-21-windows-reference/ui/COMBINED-REVIEW.md",
-    "next_action": "Qualify the existing explicitly dispatched native volume-namespace APIs under DE-W030 on the Windows 10 guest ordinary worker,using the independently identified capped scratch volume as the known target. Define expected native observations before execution;retain actual namespace/mount data,finite limits,token/import observations and cleanup. No raw device opens,automatic startup discovery,provider/public/XP admission or writer/broker authority. Do not repeat completed DE-W107 captures. Preserve original all-platform/storage0.1.0 and owner/release gates."
+    "next_action": "Qualify the existing explicitly dispatched native volume-namespace APIs under DE-W030 on the Windows 10 guest ordinary worker,using the independently identified capped scratch volume as the known target. Define expected native observations before execution;retain actual namespace/mount data,finite limits,token/import observations and cleanup. No raw device opens,automatic startup discovery,provider/public/XP admission or writer/broker authority. Do not repeat completed DE-W107 captures. Preserve original all-platform/storage0.1.0 and owner/release gates.",
+    "execution_contract": ".aide/evidence/2026-10-21-volume-namespace/expected.json",
+    "observer": "tests/windows/native/volume_native_probe.cpp",
+    "native_namespace_run": false
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -2229,8 +2232,8 @@
     "work_id": "DE-W030",
     "candidate_scope": "Actual read-only native volume namespace and mounts on the existing guest;known capped volume and ordinary restricted worker;no device opens",
     "reference_gate": "DE-W107 complete frozen12-tuple set",
-    "execution_contract_defined": false,
-    "implementation_started": false,
+    "execution_contract_defined": true,
+    "implementation_started": true,
     "authorizes_effects": false
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
